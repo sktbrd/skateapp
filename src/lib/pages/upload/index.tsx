@@ -207,12 +207,12 @@ const handleUploadFromURL = async () => {
           ["comment",
             {
               "parent_author": "", // only for comments 
-              "parent_permlink": "skatehive", 
+              "parent_permlink": "hive-173115", 
               "author": username,
               "permlink": permlink, 
               "title": title, 
               "body": completePostBody, 
-              "json_metadata": JSON.stringify({ tags: ["test"],
+              "json_metadata": JSON.stringify({ tags: ["skateboard"],
                                                 app: "pepeskate", 
                                                 image: thumbnail ? [thumbnail] : [] // This will be an array with the thumbnail URL as the first item
               })
@@ -222,7 +222,7 @@ const handleUploadFromURL = async () => {
         console.log("OPERATIONS: ", operations)
         window.hive_keychain.requestBroadcast(username, operations, "posting", (response: any) => {
           if (response.success) {
-            console.log("Post successfully published!");
+            window.alert("Post successfully published!");
             // Here, you might want to redirect users to their post or show a success notification
           } else {
             console.error("Error publishing post:", response.message);

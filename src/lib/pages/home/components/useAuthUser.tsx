@@ -66,9 +66,15 @@ export default function useAuthUser(): AuthUser {
               const key = dhive.PublicKey.fromString(publicKey);
               if (key.verify(dhive.cryptoUtils.sha256(memo), sig) === true) {
                 const val2 = await dhiveClient.database.getAccounts([accountName]);
-
-                setUser(val2[0]);
-                sessionStorage.setItem("user", JSON.stringify(val2[0]));
+            
+                const userAccount: Account = {
+                    ...val2[0],
+                };
+            
+                setUser(userAccount);
+                sessionStorage.setItem("user", JSON.stringify(userAccount));
+                window.location.reload(); // Refresh the page after login
+                        
               }
             }
           } catch (error) {

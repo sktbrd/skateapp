@@ -1,13 +1,39 @@
-import React from "react";
-import { Box, Flex, HStack, Text, Spacer, Tabs, TabList, Tab, TabProps, useBreakpointValue, Image } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Flex,
+  HStack,
+  Text,
+  Spacer,
+  Tabs,
+  TabList,
+  Tab,
+  TabProps,
+  useBreakpointValue,
+  Image,
+  Avatar,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+} from "@chakra-ui/react";
 //@ts-ignore
 import { Pioneer } from "pioneer-react";
 import { Link, LinkProps as RouterLinkProps } from "react-router-dom";
+import useAuthUser from "lib/pages/home/components/useAuthUser";
+import HiveLogin from "lib/pages/home/components/HiveLoginModal";
 
 const PROJECT_NAME = "Skate App";
 
 // Custom LinkTab component
 type LinkTabProps = TabProps & RouterLinkProps;
+
+interface User {
+  name?: string;
+  avatar?: string;
+}
 
 const LinkTab: React.FC<LinkTabProps> = ({ to, children, ...tabProps }) => (
   <Link to={to}>
@@ -19,6 +45,26 @@ const HeaderNew = () => {
   const fontSize = useBreakpointValue({ base: "2xl", md: "3xl" });
   const tabSize = useBreakpointValue({ base: "sm", md: "md" });
   const flexDirection = useBreakpointValue<"row" | "column">({ base: "column", md: "column" });
+  const DEFAULT_AVATAR_URL = "https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif";
+
+  const { user, loginWithHive, logout, isLoggedIn } = useAuthUser();
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(isLoggedIn());
+
+  useEffect(() => {
+    setLoggedIn(isLoggedIn());
+  }, [user]);
+
+  const handleConnectHive = () => {
+    if (loggedIn) {
+      logout();
+    } else {
+      setModalOpen(true);
+    }
+};
+
+
+  const avatarUrl = user ? `https://images.hive.blog/u/${user.name}/avatar` : DEFAULT_AVATAR_URL;
 
   return (
     <Flex
@@ -33,13 +79,13 @@ const HeaderNew = () => {
       borderRadius="10px"
     >
       <Flex width="100%" justifyContent="center" alignItems="center" mb={{ base: 2, md: 0 }}>
-      <Image 
-    src="https://png.pngtree.com/element_our/png/20181129/green-marijuana-leaf-png_252592.jpg" 
-    alt="Placeholder Image" 
-    mr={2} 
-    boxSize="32px"  // This sets both width and height to 32px
-    borderRadius="50%"  // Optional: to make the image circular
-/>
+        <Image 
+          src="https://png.pngtree.com/element_our/png/20181129/green-marijuana-leaf-png_252592.jpg" 
+          alt="Placeholder Image" 
+          mr={1} 
+          boxSize="32px"
+          borderRadius="50%"
+        />
         <Text fontSize={fontSize} color="white">
           {PROJECT_NAME}
         </Text>
@@ -67,8 +113,28 @@ const HeaderNew = () => {
           <LinkTab to="/">Home</LinkTab>
           <LinkTab to="/upload">Upload</LinkTab>
           <LinkTab to="/wallet">Wallet</LinkTab>
+          <Tab onClick={handleConnectHive}>
+            {loggedIn ? (
+              <>
+<Avatar 
+    src={avatarUrl} 
+    size="sm" 
+    mr={2} 
+    w="24px"  // Set a fixed width
+    h="24px"  // Set a fixed height
+/>                {user?.name}
+              </>
+            ) : (
+              "Connect Hive"
+            )}
+          </Tab>
         </TabList>
       </Tabs>
+
+      {/* Hive Login Modal */}
+      <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+        <HiveLogin isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
+      </Modal>
     </Flex>
   );
 };

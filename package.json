@@ -36,6 +36,7 @@
     "framer-motion": "^10.12.4",
     "keychain-sdk": "^0.4.0",
     "pioneer-react": "latest",
+    "pnpm": "^8.6.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",

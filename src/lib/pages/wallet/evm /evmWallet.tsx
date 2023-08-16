@@ -4,7 +4,7 @@
 
 import React, { useEffect, useState } from "react";
 //@ts-ignore
-import { usePioneer } from "pioneer-react";
+import { usePioneer } from "pioneer-react"
 import {
   Box,
   Table,
@@ -18,6 +18,8 @@ import {
   Flex,
   Button,
   Text,
+  useDisclosure,
+  Stack
 } from "@chakra-ui/react";
 import EvmSendModal from "./evmSendModal";
 
@@ -70,50 +72,89 @@ interface EvmBalanceItem {
   pubkey: string;
 }
 
-const EvmBalance: React.FC = (): JSX.Element => {
+const EvmBalance: React.FC = () => {
   const { state, dispatch } = usePioneer();
-  const { app , status } = state;
-
-
+  const { api, app, context, assetContext, blockchainContext, pubkeyContext } = state;
+  const [address, setAddress] = useState("");
+  
   const headers = ["Asset", "Balance", "Balance USD"];
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [tableData, setTableData] = useState<EvmBalanceItem[]>(app?.balances || []);
+  //const [tableData, setTableData] = useState<EvmBalanceItem[]>(user?.balances || []);
   const [selectedBlockchain, setSelectedBlockchain] = useState<string>("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTokenInfo, setSelectedTokenInfo] = useState<TokenInfo | null>(null);
+  const [userPortifolio, setUserPortifolio] = useState<any>([]); // Added default value as an empty array
+
+  const onStart = async () => {
+    console.log("onStart called"); // Check if the function is called
+  
+    try {
+      console.log("API:", api); // Check the value of api
+      console.log("APP:", app); // Check the value of app
+  
+      if (api && app) {
+        const currentAddress = pubkeyContext.master || pubkeyContext.pubkey ;
+        console.log("Current Address:", currentAddress); // Check the address value
+  
+        const portfolio = await api.GetPortfolio({ address: currentAddress });
+        console.log("After API call"); // Check if the code reaches here after the API call
+        
+        setUserPortifolio(portfolio);
+        console.log("PORTIFOLIO: ", portfolio);
+      } else {
+        console.log("API or APP is not available");
+      }
+    } catch (e) {
+      console.error("Error in onStart:", e);
+    }
+  };
+  
+  
 
   useEffect(() => {
-    console.log("Balances: ", app?.balances)
+    onStart();
+}, [api, app, pubkeyContext]);
 
-    if (app?.balances) {
-      let sortedBalances: EvmBalanceItem[] = [];
-      if (selectedBlockchain === "all") {
-        sortedBalances = app.balances.slice();
-      } else {
-        sortedBalances = app.balances.filter(
-          (balance: EvmBalanceItem) => balance.network === selectedBlockchain
-        );
-      }
+console.log("userPortifolio.tokens:", userPortifolio.tokens); // Log the tokens array
 
-      // Sort the balances array in descending order based on balanceUSD
-      sortedBalances.sort((a: EvmBalanceItem, b: EvmBalanceItem) =>
-        parseFloat(b.balanceUSD) - parseFloat(a.balanceUSD)
-      );
+// ... rest of the component
 
-      setTableData(sortedBalances);
-      console.log("STATUS: ",status)
-    }
-  }, [selectedBlockchain, app?.balances , status]);
+  
+
+
+
+  // useEffect(() => {
+  //   if (user?.balances) {
+  //     let sortedBalances: EvmBalanceItem[] = [];
+  //     if (selectedBlockchain === "all") {
+  //       sortedBalances = user.balances.slice();
+  //     } else {
+  //       sortedBalances = user.balances.filter(
+  //         (balance: EvmBalanceItem) => balance.network === selectedBlockchain
+  //       );
+  //     }
+
+  //     // Sort the balances array in descending order based on balanceUSD
+  //     sortedBalances.sort((a: EvmBalanceItem, b: EvmBalanceItem) =>
+  //       parseFloat(b.balanceUSD) - parseFloat(a.balanceUSD)
+  //     );
+
+  //     setTableData(sortedBalances);
+  //   }
+  // }, [selectedBlockchain, user?.balances]);
 
   const blockchains: string[] = Array.from(
-    new Set(app?.balances?.map((balance: EvmBalanceItem) => balance.network))
+    new Set(userPortifolio.tokens?.map((token: any) => token.network))
   ) || [];
   blockchains.unshift("all");
 
-  const totalBalanceUSD = tableData.reduce(
-    (total, balance) => total + parseFloat(balance.balanceUSD || "0"),
-    0
-  );
+  const totalBalanceUSD = userPortifolio.totalBalanceUSDApp || 0;
+  const totalBalanceUSDApp = userPortifolio.totalBalanceUSDApp || 0;
+  const totalBalanceUsdTokens = userPortifolio.totalBalanceUsdTokens || 0;
+  const totalNetWorth = userPortifolio.totalNetWorth || 0;
+
+
 
   const copyToClipboard = (address: string): void => {
     const textarea = document.createElement("textarea");
@@ -150,11 +191,22 @@ const EvmBalance: React.FC = (): JSX.Element => {
         EVM Balance
       </Text>
 
-      <Flex align="center">
+      <Stack spacing={3}>
         <Box>
-          <h2>Total Estimated Balance of EVMs</h2>
-          <p>{totalBalanceUSD.toFixed(2)} USD</p>
+          <h2>Total Balance (App):</h2>
+          <p>{userPortifolio?.totalBalanceUSDApp?.toFixed(2) || "0.00"} USD</p>
         </Box>
+        <Box>
+          <h2>Total Balance (Tokens):</h2>
+          <p>{userPortifolio?.totalBalanceUsdTokens?.toFixed(2) || "0.00"} USD</p>
+        </Box>
+        <Box>
+          <h2>Total Net Worth:</h2>
+          <p>{userPortifolio?.totalNetWorth?.toFixed(2) || "0.00"} USD</p>
+        </Box>
+      </Stack>
+
+      <Flex align="center">
         <Select
           value={selectedBlockchain}
           onChange={(e) => setSelectedBlockchain(e.target.value)}
@@ -162,13 +214,13 @@ const EvmBalance: React.FC = (): JSX.Element => {
           w="150px"
         >
           {blockchains.map((blockchain) => (
-            <option key={blockchain} value={blockchain as string}>
+            <option key={blockchain} value={blockchain}>
               {blockchain === "all" ? "All Blockchains" : blockchain}
             </option>
           ))}
         </Select>
       </Flex>
-      {tableData.length === 0 ? (
+      {userPortifolio.tokens && userPortifolio.tokens.length === 0 ? (
         <p>No balances found for the selected blockchain. Try to connect wallet again</p>
       ) : (
         <Table variant="simple" size="sm">
@@ -182,19 +234,19 @@ const EvmBalance: React.FC = (): JSX.Element => {
             </Tr>
           </Thead>
           <Tbody>
-            {tableData.map((balance) => (
-              <Tr key={balance.id}>
+            {userPortifolio.data?.tokens?.map((token: any) => (
+              <Tr key={token.key}>
                 <Td>
-                  <Image src={balance.image} alt={balance.name} boxSize="20px" mr="2" />
-                  {balance.name}
+                  <Image src={token.token.image} alt={token.token.name} boxSize="20px" mr="2" />
+                  {token.token.name}
                 </Td>
-                <Td>{parseFloat(balance.balance).toFixed(3)}</Td>
-                <Td>{parseFloat(balance.balanceUSD).toFixed(2)}</Td>
+                <Td>{parseFloat(token.token.balance).toFixed(3)}</Td>
+                <Td>{parseFloat(token.token.balanceUSD).toFixed(2)}</Td>
                 <Td>
-                  <Button border="1px solid limegreen" onClick={() => copyToClipboard(balance.pubkey)}>Receive</Button>
+                  <Button border="1px solid limegreen" onClick={() => copyToClipboard(token.address)}>Receive</Button>
                 </Td>
                 <Td>
-                  <Button border="1px solid limegreen" onClick={() => handleSendButtonClick(balance as TokenInfo)}>
+                  <Button border="1px solid limegreen" onClick={() => handleSendButtonClick(token.token)}>
                     Send
                   </Button>
                 </Td>
@@ -206,7 +258,9 @@ const EvmBalance: React.FC = (): JSX.Element => {
 
       <EvmSendModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} tokenInfo={selectedTokenInfo} />
     </Box>
-  );
+);
+
+
 };
 
 export default EvmBalance;

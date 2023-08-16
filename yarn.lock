@@ -9003,6 +9003,11 @@ pioneer-react@latest:
     swagger-client "^3.19.8"
     uuid "^9.0.0"
 
+pnpm@^8.6.12:
+  version "8.6.12"
+  resolved "https://registry.yarnpkg.com/pnpm/-/pnpm-8.6.12.tgz#a2f983fbf8f2531dc85db2a5d7f398063d51a6f3"
+  integrity sha512-Eza4C5SO/Xl5IYozupbZ5NOA5leBRPYxmXmXfe7G4/4uCkRLhks84rB33aitxNZU/uMrnDGGjwrLktoKvPjqHA==
+
 postcss@^8.4.26:
   version "8.4.27"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.27.tgz#234d7e4b72e34ba5a92c29636734349e0d9c3057"

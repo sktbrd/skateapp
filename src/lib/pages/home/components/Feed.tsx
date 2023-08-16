@@ -162,22 +162,12 @@
 
     const navigate = useNavigate();
 
-    const handleUploadClick = () => {
-      navigate("/upload"); // Navigate to the upload page
-    };
+
     return (
       
       <Box>
                 <Flex justifyContent="center">
-      <Button
-        border={"1px solid limegreen"}
-        padding="20px"
-        alignSelf={"center"}
-        marginBottom="20px" // Add space to the bottom
-        onClick={handleUploadClick} // Handle the button click to navigate
-      >
-        Upload Something, lazy ass
-      </Button>         
+      
        </Flex>
         <Modal isOpen={isOpen} onClose={onClose} size="xl">
           <ModalOverlay />

@@ -30,6 +30,7 @@
     "@fontsource/plus-jakarta-sans": "^4.5.11",
     "@hiveio/dhive": "^1.2.7",
     "@pioneer-platform/pioneer-client": "^9.0.6",
+    "axios": "^1.4.0",
     "dotenv": "^16.3.1",
     "events": "^3.3.0",
     "framer-motion": "^10.12.4",

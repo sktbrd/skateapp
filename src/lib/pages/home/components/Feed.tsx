@@ -219,6 +219,7 @@
                     <Flex flex="1" gap="3" alignItems="center">
                       <Avatar
                         name={post.author}
+                        border="1px solid limegreen"
                         src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
                       />
                       <Box>

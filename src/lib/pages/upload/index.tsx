@@ -6,7 +6,7 @@ import useAuthUser from '../home/components/useAuthUser';
 import { KeychainSDK } from 'keychain-sdk';
 import { defaultFooter } from './defaultFooter'; // Import the defaultFooter constant
 
-import axios from 'axios'; 
+import axios, { AxiosResponse, AxiosError, AxiosProgressEvent } from 'axios';
 
 
 import {
@@ -78,16 +78,19 @@ const UploadPage: React.FC<UploadPageProps> = () => {
         }));
 
         try {
-            const response = await axios.post('https://api.pinata.cloud/pinning/pinFileToIPFS', formData, {
+            const response: AxiosResponse<any> = await axios.post('https://api.pinata.cloud/pinning/pinFileToIPFS', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     pinata_api_key: PINATA_API_KEY,
                     pinata_secret_api_key: PINATA_API_SECRET
                 },
-                onUploadProgress: (progressEvent) => {
-                  const percentCompleted = Math.round((progressEvent.loaded * 100) / (progressEvent.total || 1));
+                onUploadProgress: (progressEvent: AxiosProgressEvent) => {
+                  const total = progressEvent.total || 1; // Fallback to 1 if undefined
+                  const percentCompleted = Math.round((progressEvent.loaded * 100) / total);
                   setUploadProgress(percentCompleted);
-                }
+              }
+              
+              
             });
 
             const ipfsHash = response.data.IpfsHash;
@@ -104,14 +107,22 @@ const UploadPage: React.FC<UploadPageProps> = () => {
                 }
             }
             setUploadProgress(0);  
-        } catch (error) {
+        } catch (error: any) {
+            if (axios.isAxiosError(error)) {
+                const serverError: AxiosError = error;
+                console.error("Axios error:", serverError.message);
+            } else {
+                console.error("An error occurred:", error.message);
+            }
             setUploadProgress(0);  
-            alert("Error uploading file to IPFS:");
+            alert("Error uploading file to IPFS.");
         } finally {
             setIsUploading(false);
         }
     }
 };
+
+
 
 
 const handleUploadFromURL = async () => {

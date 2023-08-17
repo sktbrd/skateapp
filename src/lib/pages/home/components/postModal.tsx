@@ -35,7 +35,7 @@ interface PostModalProps {
 }
 
 
-const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, author, user, permlink, weight, comments }) => {
+const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, author, user, permlink, weight,comments = [] }) => {
   const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
 
   const modalContainerRef = useRef<HTMLDivElement>(null);
@@ -96,7 +96,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, 
               ol: ({node, children, ...props}) => <ol {...props} style={{ paddingLeft: '20px' }}>{children}</ol>,
               ul: ({node, children, ...props}) => <ul {...props} style={{ paddingLeft: '20px' }}>{children}</ul>,
               hr: ({node, children, ...props}) => <hr {...props} style={{ paddingBottom: '20px' }}>{children}</hr>,
-              br: ({node, children, ...props}) => <br {...props} style={{ paddingBottom: '10px' }}>{children}</br>,
+              br: ({node, children, ...props}) => <br {...props} style={{ paddingBottom: '20px' }}>{children}</br>,
               iframe: ({ node, ...props }) =>(
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <iframe {...props} style={{ border: '1px solid limegreen', borderRadius:'10px', maxWidth: '100%', height: '280px' }} /> 

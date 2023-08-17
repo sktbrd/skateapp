@@ -136,6 +136,7 @@
         try {
           const comments = await client.database.call('get_content_replies', [author, permlink]);
           return comments;
+          console.log("COMMENTS: ", comments)
         } catch (error) {
           // If a request fails, switch to the next node
           const newIndex = (nodeIndex + 1) % nodes.length;

@@ -14,6 +14,7 @@ export interface CommentProps {
 const Comment: React.FC<CommentProps> = ({ author, body, created, net_votes }) => {
   const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
 
+
   return (
     <Box border="1px solid limegreen" borderRadius="5px" padding="15px" margin="10px">
       <Flex padding="5px" alignItems="center">
@@ -40,8 +41,10 @@ const Comment: React.FC<CommentProps> = ({ author, body, created, net_votes }) =
           ul: ({node, children, ...props}) => <ul {...props} style={{ paddingLeft: '20px' }}>{children}</ul>,
         }}
       />
+    <Flex justifyContent="space-between" alignItems="center">
       <Text fontSize="sm">{new Date(created).toLocaleString()}</Text>
       <Text fontSize="sm">Votes: {net_votes}</Text>
+    </Flex>
     </Box>
   );
 };

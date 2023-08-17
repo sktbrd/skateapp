@@ -22,6 +22,8 @@ import {
   import { useEffect, useState } from "react";
   
   import PostModal from "./postModal";
+import { compileFunction } from "vm";
+import Comments from "./comments";
   
   
   const nodes = [
@@ -46,6 +48,25 @@ import {
     );
   };
 
+  export interface CommentProps {
+    author: string;
+    body: string;
+    created: string;
+    net_votes: number;
+  }
+  
+  interface PostModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    title: string;
+    content: string;
+    author: string;
+    user: any;
+    permlink: string;
+    weight: number;
+    comments: CommentProps[];  // <-- Add this line
+  }
+
   type GnarsBlogProps = {
     tags: string[]; // Change tag prop to tags array
   };
@@ -67,6 +88,8 @@ import {
     const [selectedPost, setSelectedPost] = useState<Post | null>(null);
     const [client, setClient] = useState(new Client(nodes[0]));
     const [nodeIndex, setNodeIndex] = useState(0);
+    const [comments, setComments] = useState<CommentProps[]>([]);
+
   
     const fetchPostEarnings = async (
       author: string,
@@ -181,6 +204,7 @@ import {
                 weight={selectedPost.weight}
                 onClose={onClose}
                 isOpen={isOpen}
+                comments={comments}
               />
             )}
           </ModalContent>

@@ -12,6 +12,15 @@ import remarkGfm from 'remark-gfm';
 
 import PostHeader from './postHeader';
 import PostFooter from './modalFooter';
+import Comments from './comments';
+
+
+export interface CommentProps {
+  author: string;
+  body: string;
+  created: string;
+  net_votes: number;
+}
 
 interface PostModalProps {
   isOpen: boolean;
@@ -21,10 +30,12 @@ interface PostModalProps {
   author: string;
   user: any;
   permlink: string;
-  weight: number; // Change this to allow any number value
+  weight: number;
+  comments: CommentProps[];  // <-- Add this line
 }
 
-const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, author, user, permlink, weight }) => {
+
+const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, author, user, permlink, weight, comments }) => {
   const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
 
   const modalContainerRef = useRef<HTMLDivElement>(null);
@@ -78,12 +89,14 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, 
                 </div>
               ),
               a: ({node, children, ...props}) => <a {...props} style={{ color: 'yellow' }}>{children}</a>,
-              h1: ({node, children, ...props}) => <h1 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '24px' }}>{children}</h1>,
-              h2: ({node, children, ...props}) => <h2 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '20px' }}>{children}</h2>,
-              h3: ({node, children, ...props}) => <h3 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '18px' }}>{children}</h3>,
+              h1: ({node, children, ...props}) => <h1 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '26px', paddingBottom: '10px' }}>{children}</h1>,
+              h2: ({node, children, ...props}) => <h2 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '20px', paddingBottom: '8px' }}>{children}</h2>,
+              h3: ({node, children, ...props}) => <h3 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '18px', paddingBottom: '6px' }}>{children}</h3>,
               blockquote: ({node, children, ...props}) => <blockquote {...props} style={{ borderLeft: '3px solid limegreen', paddingLeft: '10px', fontStyle: 'italic' }}>{children}</blockquote>,            
               ol: ({node, children, ...props}) => <ol {...props} style={{ paddingLeft: '20px' }}>{children}</ol>,
               ul: ({node, children, ...props}) => <ul {...props} style={{ paddingLeft: '20px' }}>{children}</ul>,
+              hr: ({node, children, ...props}) => <hr {...props} style={{ paddingBottom: '20px' }}>{children}</hr>,
+              br: ({node, children, ...props}) => <br {...props} style={{ paddingBottom: '10px' }}>{children}</br>,
               iframe: ({ node, ...props }) =>(
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <iframe {...props} style={{ border: '1px solid limegreen', borderRadius:'10px', maxWidth: '100%', height: '280px' }} /> 
@@ -95,6 +108,8 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, 
             }}
           />
         </ModalBody>
+              <Comments comments={comments} />
+
         <PostFooter onClose={onClose} user={user} author={author} permlink={permlink} weight={weight} /> 
       </ModalContent>
     </Modal>

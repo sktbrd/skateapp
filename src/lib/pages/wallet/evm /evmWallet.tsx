@@ -175,7 +175,7 @@ console.log("userPortifolio.tokens:", userPortifolio.tokens); // Log the tokens 
     <Box
       className="hive_box"
       borderRadius="12px"
-      border="1px solid limegreen"
+      border="1px solid blue"
       padding="10px"
       overflow="auto"
       fontFamily="'Courier New', monospace"

@@ -312,7 +312,7 @@ const handleUploadFromURL = async () => {
             marginBottom="10px"
             onChange={(e) => setVideoLink(e.target.value)}
           />
-          <Button onClick={handleAddVideo}>Add Video</Button>
+          <Button border="1px solid limegreen" onClick={handleAddVideo}>Add Video</Button>
         </Flex>
         <Text>3. Add Images</Text>
         <Flex>
@@ -324,13 +324,13 @@ const handleUploadFromURL = async () => {
                 marginBottom="10px"
                 onChange={(e) => setImage(e.target.value)}
               />
-              <Button onClick={handleUploadFromURL}>Add</Button>
+              <Button border="1px solid limegreen" onClick={handleUploadFromURL}>Insert</Button>
             </>
           ) : (
             <>
 
             <input type="file" accept="image/*" onChange={handleFileChange} />
-            <Button onClick={handleIPFSUpload}>Upload</Button>
+            <Button onClick={handleIPFSUpload} isDisabled={!selectedFile}>Upload</Button>
             </>
           )}
           <Flex>

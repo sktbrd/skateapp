@@ -66,15 +66,6 @@ const Wallet = () => {
 
   return (
     <div>
-      <Text
-        textAlign="center"
-        fontWeight="700"
-        fontSize="22px"
-        color="limegreen"
-        padding="10px"
-      >
-        Assets Page
-      </Text>
       <Flex direction={isSmallerThan768 ? "column" : "row"}>
         <Box flex="1" mr={isSmallerThan768 ? "0" : "10px"} mb={isSmallerThan768 ? "10px" : "0"}>
           <Box>

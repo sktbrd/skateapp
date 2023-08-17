@@ -220,7 +220,7 @@ export default function HiveBalanceDisplay() {
                 <Text padding={"10px"}>Manage HIVE</Text>
               </Button>
             </Td>
-            <Td>{hiveBalance || "Try Connect your wallet and refresh the page"} HIVE</Td>
+            <Td>{hiveBalance || "Try Connect your wallet and refresh the page"} </Td>
           </Tr>
           <Tr>
             <Td>
@@ -238,7 +238,7 @@ export default function HiveBalanceDisplay() {
                 <Text padding={"10px"}>Manage HBD</Text>
               </Button>
             </Td>
-            <Td>{hbdBalance || "Try Connect your wallet and refresh the page"} HBD</Td>
+            <Td>{hbdBalance || "Try Connect your wallet and refresh the page"} </Td>
           </Tr>
           <Tr>
             <Td>

@@ -22,6 +22,9 @@ import {
   Stack
 } from "@chakra-ui/react";
 import EvmSendModal from "./evmSendModal";
+//@ts-ignore
+import { Pioneer } from "pioneer-react";
+
 
 interface TokenInfo {
   id: string;
@@ -82,6 +85,8 @@ const EvmBalance: React.FC = () => {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [tokenLogos, setTokenLogos] = useState({});
+  const COINGECKO_API_KEY = 'CG-we5Z4KbdYMCgMUVAqDjQMWfc'; 
 
  
 
@@ -176,13 +181,21 @@ if (userPortifolio && userPortifolio.data) {
 
   const fetchTokenLogo = async (coinId: string) => {
     try {
-      const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}`);
+      const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}`, {
+  mode: 'no-cors', // Add this line
+  headers: {
+    'Authorization': `Bearer ${COINGECKO_API_KEY}`,
+    'Content-Type': 'application/json'
+  }
+});
+
       const data = await response.json();
       return data.image.small; // or data.image.large based on your preference
     } catch (error) {
       console.error("Error fetching token logo:", error);
     }
   };
+  
   
 
   return (
@@ -194,6 +207,8 @@ if (userPortifolio && userPortifolio.data) {
       overflow="auto"
       fontFamily="'Courier New', monospace"
     >
+
+        
       <Text
         textAlign="center"
         borderRadius="12px"
@@ -202,9 +217,9 @@ if (userPortifolio && userPortifolio.data) {
         color="limegreen"
         padding="10px"
       >
-        EVM Balance
+        Multichain Balance
       </Text>
-
+      <Flex justifyContent={"space-between"}>
       <Stack spacing={3}>
         <Box>
           <h2>Total Balance (App):</h2>
@@ -219,6 +234,8 @@ if (userPortifolio && userPortifolio.data) {
           <p>{(userPortifolio?.data.totalNetWorth ?? 0).toFixed(2)} USD</p>
         </Box>
       </Stack>
+      <Pioneer></Pioneer>
+      </Flex>
 
       <Flex align="center">
         <Select

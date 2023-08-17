@@ -26,10 +26,9 @@ import {
   Select
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { useMenu } from "@chakra-ui/menu";
 
 //@ts-ignore
-import { Pioneer } from "pioneer-react";
+//import { Pioneer } from "pioneer-react";
 import { Link, LinkProps as RouterLinkProps } from "react-router-dom";
 import useAuthUser from "lib/pages/home/components/useAuthUser";
 import HiveLogin from "lib/pages/home/components/HiveLoginModal";
@@ -91,7 +90,7 @@ const HeaderNew = () => {
       direction={flexDirection}
       alignItems="center"
       justifyContent="space-between"
-      p={4}
+      p={6}
       bg="black"
       border="1px solid limegreen"
       position="relative"
@@ -109,7 +108,7 @@ const HeaderNew = () => {
           {PROJECT_NAME}
         </Text>
         <Spacer />
-        <Pioneer />
+        {/* <Pioneer /> */}
        </Flex>
 
       {/* Tabs centered horizontally */}

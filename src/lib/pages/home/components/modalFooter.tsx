@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Flex } from '@chakra-ui/react';
+import { Button, Flex, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box, Text } from '@chakra-ui/react';
 import voteOnContent from './voting'; // Import the voting function
+import { useState } from 'react';
 
 interface PostFooterProps {
   onClose: () => void;
@@ -11,7 +12,17 @@ interface PostFooterProps {
 }
 
 const PostFooter: React.FC<PostFooterProps> = ({ onClose, user, author, permlink, weight = 10000 }) => {
+  const [sliderValue, setSliderValue] = useState(0);
+  const getFeedbackText = (value: number) => {
+    if (value === -10000) return "I hate it";
+    if (value === -5000) return "I don't care for it";
+    if (value === 0) return "Skaters can do better";
+    if (value === 5000) return "That's kind of cool";
+    if (value === 10000) return "That's fucking awesome";
+    return "";
+  };
   
+
   const handleVote = async () => {
     if (!user || !user.name) {
       console.error("User not logged in or missing username");
@@ -19,7 +30,7 @@ const PostFooter: React.FC<PostFooterProps> = ({ onClose, user, author, permlink
     }
   
     try {
-      await voteOnContent(user.name, permlink, author, weight);
+      await voteOnContent(user.name, permlink, author, sliderValue);
       console.log("Voting successful!");
       // handle the vote result here
     } catch (error) {
@@ -29,7 +40,9 @@ const PostFooter: React.FC<PostFooterProps> = ({ onClose, user, author, permlink
   };
   
   return (
-    <Flex padding="20px" justify="space-between" align="center">
+    <Flex border="1px limegreen solid" padding="20px" justify="space-between" align="center">
+      <hr color='white'></hr>
+
       <Button
         bg="#121212"
         color="#fff"
@@ -41,6 +54,25 @@ const PostFooter: React.FC<PostFooterProps> = ({ onClose, user, author, permlink
       >
         Close
       </Button>
+      <Box width="60%">
+        <Text textAlign="center"> Your opinion on this post</Text>
+        <Slider 
+          min={-10000} 
+          max={10000} 
+          step={5000} 
+          value={sliderValue} 
+          onChange={(value) => setSliderValue(value)}
+        >
+          <SliderTrack bg="limegreen">
+            <SliderFilledTrack bg="yellow" />
+          </SliderTrack>
+          <SliderThumb boxSize={6}>
+          </SliderThumb>
+        </Slider>
+        <Text color="yellow" mt={2} textAlign="center">
+          {getFeedbackText(sliderValue)}
+        </Text>
+      </Box>
       <Button
         bg="limegreen"
         color="#020202"

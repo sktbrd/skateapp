@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Text, Image, Flex, Button, Tooltip } from '@chakra-ui/react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
@@ -12,35 +12,38 @@ export interface CommentProps {
     body: string;
     created: string;
     net_votes: number;
-    permlink: string;  // <-- Add this line
+    permlink: string;
 }
 
+interface CommentsProps {
+    comments: CommentProps[];
+    commentPosted: boolean;
+}
 
 const Comment: React.FC<CommentProps> = ({ author, body, created, net_votes, permlink }) => {
     const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
     const { user } = useAuthUser();
+
     const handleVote = async () => {
-        if (!user || !user.name) {  // Use user.name to get the username
+        if (!user || !user.name) {
             console.error("Username is missing");
             return;
         }
 
         try {
-            await voteOnContent(user.name, permlink, author, 10000); // Use user.name as the username
-            // Optionally, update the UI to reflect the new vote count or state
+            await voteOnContent(user.name, permlink, author, 10000);
         } catch (error) {
             console.error("Error voting:", error);
-            // Optionally, show an error message to the user
         }
     };
 
-  return (
-    <Box border="1px solid limegreen" borderRadius="5px" padding="15px" margin="10px">
-      <Flex padding="5px" alignItems="center">
-        <Image src={avatarUrl} borderRadius="full" boxSize="40px" mr="3" />
-        <Text fontWeight="bold">@{author}</Text>
-      </Flex>
-      <ReactMarkdown 
+    return (
+        <Box border="1px solid limegreen" borderRadius="5px" padding="15px" margin="10px">
+            <Flex padding="5px" alignItems="center">
+                <Image src={avatarUrl} borderRadius="full" boxSize="40px" mr="3" />
+                <Text fontWeight="bold">@{author}</Text>
+            </Flex>
+            <ReactMarkdown 
         children={body}
         rehypePlugins={[rehypeRaw]}
         remarkPlugins={[remarkGfm]}
@@ -60,32 +63,35 @@ const Comment: React.FC<CommentProps> = ({ author, body, created, net_votes, per
           ul: ({node, children, ...props}) => <ul {...props} style={{ paddingLeft: '20px' }}>{children}</ul>,
         }}
       />
-      <Flex justifyContent="space-between" alignItems="center">
-        <Text fontSize="sm">{new Date(created).toLocaleString()}</Text>
-        <Button leftIcon={<span>🛹</span>} variant="outline" size="sm" onClick={() => handleVote()}>
-    {net_votes}
-</Button>
-
-
-
-
-      </Flex>
-    </Box>
-  );
+            <Flex justifyContent="space-between" alignItems="center">
+                <Text fontSize="sm">{new Date(created).toLocaleString()}</Text>
+                <Button leftIcon={<span>🛹</span>} variant="outline" size="sm" onClick={handleVote}>
+                    {net_votes}
+                </Button>
+            </Flex>
+        </Box>
+    );
 };
 
-interface CommentsProps {
-  comments: CommentProps[];
-}
+const Comments: React.FC<CommentsProps> = ({ comments, commentPosted }) => {
+    const [localComments, setLocalComments] = useState<CommentProps[]>(comments);
 
-const Comments: React.FC<CommentsProps> = ({ comments }) => {
-  return (
-    <Box>
-      {comments.map((comment, index) => (
-        <Comment key={index} {...comment} />
-      ))}
-    </Box>
-  );
+    useEffect(() => {
+        if (commentPosted) {
+            // Logic to re-fetch comments when a new one is posted
+            // For now, I'm just simulating a re-fetch by setting the local state
+            // Replace this with your actual fetch logic
+            setLocalComments(comments);
+        }
+    }, [commentPosted, comments]);
+
+    return (
+        <Box>
+            {localComments.map((comment, index) => (
+                <Comment key={index} {...comment} />
+            ))}
+        </Box>
+    );
 };
 
 export default Comments;

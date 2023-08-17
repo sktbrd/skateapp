@@ -4,8 +4,9 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalBody,
+  ModalBody
 } from '@chakra-ui/react';
+
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
@@ -15,6 +16,7 @@ import PostFooter from './modalFooter';
 import Comments from './comments';
 import voteOnContent from './voting';
 import useAuthUser from './useAuthUser';
+import CommentBox from './commentBox';
 
 export interface CommentProps {
   author: string;
@@ -45,6 +47,15 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, 
   const modalContainerRef = useRef<HTMLDivElement>(null);
   const [charactersToShow, setCharactersToShow] = useState(0);
   const [userScrolled, setUserScrolled] = useState(false);
+  const [sliderValue, setSliderValue] = useState(0);
+  const [commentPosted, setCommentPosted] = useState(false);
+
+
+  const handleSliderChange = (value: number) => {
+    setSliderValue(value);
+};
+
+
 
   const handleScroll = () => {
     const isAtBottom =
@@ -81,8 +92,8 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, 
     }
 
     try {
-        await voteOnContent(user.name, permlink, author, 10000); // Use user.name as the username
-        // Optionally, update the UI to reflect the new vote count or state
+      await voteOnContent(user.name, permlink, author, sliderValue);
+      // Optionally, update the UI to reflect the new vote count or state
     } catch (error) {
         console.error("Error voting:", error);
         // Optionally, show an error message to the user
@@ -90,6 +101,11 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, 
 };
 
 
+  const [commentsKey, setCommentsKey] = useState<number>(Date.now());
+  const handleNewComment = () => {
+    setCommentsKey(Date.now());
+  };
+  
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl" >
@@ -129,7 +145,16 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, 
             }}
           />
         </ModalBody>
-              <Comments comments={comments} />
+        <Comments comments={comments} commentPosted={commentPosted} />
+
+        <CommentBox 
+    user={user} 
+    parentAuthor={author} 
+    parentPermlink={permlink} 
+    onCommentPosted={() => setCommentPosted(!commentPosted)}
+/>
+
+
 
         <PostFooter onClose={onClose} user={user} author={author} permlink={permlink} weight={weight} /> 
       </ModalContent>

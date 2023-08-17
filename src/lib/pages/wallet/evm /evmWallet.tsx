@@ -74,9 +74,22 @@ interface EvmBalanceItem {
 
 const EvmBalance: React.FC = () => {
   const { state, dispatch } = usePioneer();
-  const { api, app, context, assetContext, blockchainContext, pubkeyContext } = state;
   const [address, setAddress] = useState("");
-  
+  const { api, app, context, assetContext, blockchainContext, pubkeyContext } = state;
+  const [totalWorth, setTotalWorth] = useState<number>(0);
+
+
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+ 
+
+  useEffect(() => {
+    console.log("pubkeyContext: ", pubkeyContext);
+    setAddress(pubkeyContext.master || pubkeyContext.pubkey);
+  }, [pubkeyContext]);
+
   const headers = ["Asset", "Balance", "Balance USD"];
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -84,45 +97,34 @@ const EvmBalance: React.FC = () => {
   const [selectedBlockchain, setSelectedBlockchain] = useState<string>("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTokenInfo, setSelectedTokenInfo] = useState<TokenInfo | null>(null);
-  const [userPortifolio, setUserPortifolio] = useState<any>([]); // Added default value as an empty array
+  const [userPortifolio, setUserPortifolio] = useState<any>(null);
 
   const onStart = async () => {
-    console.log("onStart called"); // Check if the function is called
-  
     try {
-      console.log("API:", api); // Check the value of api
-      console.log("APP:", app); // Check the value of app
-  
-      if (api && app) {
-        const currentAddress = pubkeyContext.master || pubkeyContext.pubkey ;
-        console.log("Current Address:", currentAddress); // Check the address value
-  
+      if (api && app && address) {
+        const currentAddress = pubkeyContext.master || pubkeyContext;
         const portfolio = await api.GetPortfolio({ address: currentAddress });
-        console.log("After API call"); // Check if the code reaches here after the API call
-        
+        for (let token of portfolio.data.tokens) {
+          token.token.image = await fetchTokenLogo(token.token.coingeckoId);
+        }
         setUserPortifolio(portfolio);
-        console.log("PORTIFOLIO: ", portfolio);
-      } else {
-        console.log("API or APP is not available");
       }
     } catch (e) {
       console.error("Error in onStart:", e);
     }
   };
   
-  
-
   useEffect(() => {
     onStart();
-}, [api, app, pubkeyContext]);
-
-console.log("userPortifolio.tokens:", userPortifolio.tokens); // Log the tokens array
-
-// ... rest of the component
-
+  }, [api, app, pubkeyContext, status, address]);
+  
   
 
 
+if (userPortifolio && userPortifolio.data) {
+  console.log("userPortifolio.tokens:", userPortifolio);
+}
+// ... rest of the component
 
   // useEffect(() => {
   //   if (user?.balances) {
@@ -144,15 +146,16 @@ console.log("userPortifolio.tokens:", userPortifolio.tokens); // Log the tokens 
   //   }
   // }, [selectedBlockchain, user?.balances]);
 
-  const blockchains: string[] = Array.from(
-    new Set(userPortifolio.tokens?.map((token: any) => token.network))
-  ) || [];
-  blockchains.unshift("all");
+  const blockchains: string[] = userPortifolio?.data?.tokens 
+    ? Array.from(new Set(userPortifolio.data.tokens.map((token: any) => token.network))) 
+    : [];
 
-  const totalBalanceUSD = userPortifolio.totalBalanceUSDApp || 0;
-  const totalBalanceUSDApp = userPortifolio.totalBalanceUSDApp || 0;
-  const totalBalanceUsdTokens = userPortifolio.totalBalanceUsdTokens || 0;
-  const totalNetWorth = userPortifolio.totalNetWorth || 0;
+
+    const totalBalanceUSD = userPortifolio?.data?.totalBalanceUSDApp || 0;
+    const totalBalanceUSDApp = userPortifolio?.data?.totalBalanceUSDApp || 0;
+    const totalBalanceUsdTokens = userPortifolio?.data?.totalBalanceUsdTokens || 0;
+    const totalNetWorth = userPortifolio?.data?.totalNetWorth || 0;
+    
 
 
 
@@ -170,6 +173,17 @@ console.log("userPortifolio.tokens:", userPortifolio.tokens); // Log the tokens 
     setSelectedTokenInfo(tokenInfo);
     setIsModalOpen(true);
   };
+
+  const fetchTokenLogo = async (coinId: string) => {
+    try {
+      const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}`);
+      const data = await response.json();
+      return data.image.small; // or data.image.large based on your preference
+    } catch (error) {
+      console.error("Error fetching token logo:", error);
+    }
+  };
+  
 
   return (
     <Box
@@ -194,15 +208,15 @@ console.log("userPortifolio.tokens:", userPortifolio.tokens); // Log the tokens 
       <Stack spacing={3}>
         <Box>
           <h2>Total Balance (App):</h2>
-          <p>{userPortifolio?.totalBalanceUSDApp?.toFixed(2) || "0.00"} USD</p>
+          <p>{(userPortifolio?.data.totalBalanceUSDApp ?? 0).toFixed(2)} USD</p>
         </Box>
         <Box>
           <h2>Total Balance (Tokens):</h2>
-          <p>{userPortifolio?.totalBalanceUsdTokens?.toFixed(2) || "0.00"} USD</p>
+          <p>{(userPortifolio?.data.totalBalanceUsdTokens ?? 0).toFixed(2)} USD</p>
         </Box>
         <Box>
           <h2>Total Net Worth:</h2>
-          <p>{userPortifolio?.totalNetWorth?.toFixed(2) || "0.00"} USD</p>
+          <p>{(userPortifolio?.data.totalNetWorth ?? 0).toFixed(2)} USD</p>
         </Box>
       </Stack>
 
@@ -220,7 +234,7 @@ console.log("userPortifolio.tokens:", userPortifolio.tokens); // Log the tokens 
           ))}
         </Select>
       </Flex>
-      {userPortifolio.tokens && userPortifolio.tokens.length === 0 ? (
+      {userPortifolio?.data?.tokens && userPortifolio.data.tokens.length === 0 ? (
         <p>No balances found for the selected blockchain. Try to connect wallet again</p>
       ) : (
         <Table variant="simple" size="sm">
@@ -234,10 +248,10 @@ console.log("userPortifolio.tokens:", userPortifolio.tokens); // Log the tokens 
             </Tr>
           </Thead>
           <Tbody>
-            {userPortifolio.data?.tokens?.map((token: any) => (
+          {userPortifolio?.data?.tokens?.map((token: any) => ( 
               <Tr key={token.key}>
                 <Td>
-                  <Image src={token.token.image} alt={token.token.name} boxSize="20px" mr="2" />
+                <Image src={token.token.image} alt={token.token.name} boxSize="20px" mr="2" />
                   {token.token.name}
                 </Td>
                 <Td>{parseFloat(token.token.balance).toFixed(3)}</Td>

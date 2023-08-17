@@ -167,7 +167,7 @@ export default function HiveBalanceDisplay() {
       overflow="auto"
       fontFamily="'Courier New', monospace"
     >
-      <FiatBalance totalWorth={totalWorth} />
+      {/* <FiatBalance totalWorth={totalWorth} /> */}
 
       <Text
         textAlign="center"

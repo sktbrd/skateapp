@@ -34,7 +34,7 @@ import { Link, LinkProps as RouterLinkProps } from "react-router-dom";
 import useAuthUser from "lib/pages/home/components/useAuthUser";
 import HiveLogin from "lib/pages/home/components/HiveLoginModal";
 
-const PROJECT_NAME = "Skate App";
+const PROJECT_NAME = "Skatehive";
 
 // Custom LinkTab component
 type LinkTabProps = TabProps & RouterLinkProps;
@@ -99,7 +99,7 @@ const HeaderNew = () => {
     >
       <Flex width="100%" justifyContent="center" alignItems="center" mb={{ base: 2, md: 0 }}>
         <Image 
-          src="https://png.pngtree.com/element_our/png/20181129/green-marijuana-leaf-png_252592.jpg" 
+          src="https://images.hive.blog/u/hive-173115/avatar" 
           alt="Placeholder Image" 
           mr={1} 
           boxSize="32px"
@@ -109,8 +109,8 @@ const HeaderNew = () => {
           {PROJECT_NAME}
         </Text>
         <Spacer />
-        <Pioneer w="24px" h="24px" />
-      </Flex>
+        <Pioneer />
+       </Flex>
 
       {/* Tabs centered horizontally */}
       <Tabs

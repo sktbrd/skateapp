@@ -42,7 +42,7 @@ export default function ProfilePage() {
     >
       <Image src={coverImageUrl} alt="Cover Image" w="100%" h="auto" position="relative" zIndex="-1" />
 
-      <Flex alignItems="center" justifyContent="left" padding="10px" position="relative" zIndex="1">
+      <Flex alignItems="center" justifyContent="center" padding="10px" position="relative" zIndex="1">
         <Box
           position="absolute"
           left="50%"   // Center horizontally

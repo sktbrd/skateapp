@@ -18,7 +18,16 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button,
+  Select
 } from "@chakra-ui/react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import { useMenu } from "@chakra-ui/menu";
+
 //@ts-ignore
 import { Pioneer } from "pioneer-react";
 import { Link, LinkProps as RouterLinkProps } from "react-router-dom";
@@ -50,6 +59,8 @@ const HeaderNew = () => {
   const { user, loginWithHive, logout, isLoggedIn } = useAuthUser();
   const [isModalOpen, setModalOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(isLoggedIn());
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     setLoggedIn(isLoggedIn());
@@ -65,7 +76,15 @@ const HeaderNew = () => {
 
 
   const avatarUrl = user ? `https://images.hive.blog/u/${user.name}/avatar` : DEFAULT_AVATAR_URL;
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
 
+    if (selectedValue === "profile") {
+      window.location.href = "/profile"; // Navigate to profile page
+    } else if (selectedValue === "logout") {
+      logout();
+    }
+  };
   return (
     <Flex
       as="header"
@@ -90,7 +109,7 @@ const HeaderNew = () => {
           {PROJECT_NAME}
         </Text>
         <Spacer />
-        <Pioneer />
+        <Pioneer w="24px" h="24px" />
       </Flex>
 
       {/* Tabs centered horizontally */}
@@ -102,33 +121,50 @@ const HeaderNew = () => {
         bottom={0}
         transform="translateX(-50%)"
         size={tabSize}
-        mb={4}
+        mb={6}
         css={{
           border: "2px solid limegreen",
           borderRadius: "10px",
           overflow: "hidden",
         }}
       >
-        <TabList>
-          <LinkTab to="/">Home</LinkTab>
-          <LinkTab to="/upload">Upload</LinkTab>
-          <LinkTab to="/wallet">Wallet</LinkTab>
-          <Tab onClick={handleConnectHive}>
-            {loggedIn ? (
-              <>
-<Avatar 
-    src={avatarUrl} 
-    size="sm" 
-    mr={2} 
-    w="24px"  // Set a fixed width
-    h="24px"  // Set a fixed height
-/>                {user?.name}
-              </>
-            ) : (
-              "Connect Hive"
-            )}
-          </Tab>
-        </TabList>
+        <TabList display="flex" alignItems="center">
+    <LinkTab to="/">Home</LinkTab>
+    <LinkTab to="/upload">Upload</LinkTab>
+    <LinkTab to="/wallet">Wallet</LinkTab>
+    {loggedIn ? (
+        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+        <Avatar 
+          src={avatarUrl} 
+          size="sm" 
+          mr={2} 
+          w="24px"
+          h="24px"
+        />
+        <Select 
+          value="" 
+          onChange={handleSelectChange}
+          style={{
+            backgroundColor: 'black',
+            color: 'white',
+            border: 'none',  // This will make the border invisible
+            cursor: 'pointer'
+          }}
+        >
+          <option value="" disabled selected>
+            {user?.name}
+          </option>
+          <option value="profile">Profile</option>
+          <option value="logout">Log out</option>
+        </Select>
+      </div>
+
+    ) : (
+      <Tab onClick={() => setModalOpen(true)}>
+        Connect Hive
+      </Tab>
+    )}
+  </TabList>
       </Tabs>
 
       {/* Hive Login Modal */}

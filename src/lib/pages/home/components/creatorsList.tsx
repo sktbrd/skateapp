@@ -53,6 +53,8 @@ import Comments from "./comments";
     body: string;
     created: string;
     net_votes: number;
+    permlink: string;  // <-- Add this line
+
   }
   
   interface PostModalProps {

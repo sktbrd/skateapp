@@ -1,19 +1,38 @@
 import React from 'react';
-import { Box, Text, Image, Flex } from '@chakra-ui/react';
+import { Box, Text, Image, Flex, Button, Tooltip } from '@chakra-ui/react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
+
+import useAuthUser from './useAuthUser';
+import voteOnContent from './voting';
 
 export interface CommentProps {
     author: string;
     body: string;
     created: string;
     net_votes: number;
+    permlink: string;  // <-- Add this line
 }
 
-const Comment: React.FC<CommentProps> = ({ author, body, created, net_votes }) => {
-  const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
 
+const Comment: React.FC<CommentProps> = ({ author, body, created, net_votes, permlink }) => {
+    const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
+    const { user } = useAuthUser();
+    const handleVote = async () => {
+        if (!user || !user.name) {  // Use user.name to get the username
+            console.error("Username is missing");
+            return;
+        }
+
+        try {
+            await voteOnContent(user.name, permlink, author, 10000); // Use user.name as the username
+            // Optionally, update the UI to reflect the new vote count or state
+        } catch (error) {
+            console.error("Error voting:", error);
+            // Optionally, show an error message to the user
+        }
+    };
 
   return (
     <Box border="1px solid limegreen" borderRadius="5px" padding="15px" margin="10px">
@@ -41,10 +60,16 @@ const Comment: React.FC<CommentProps> = ({ author, body, created, net_votes }) =
           ul: ({node, children, ...props}) => <ul {...props} style={{ paddingLeft: '20px' }}>{children}</ul>,
         }}
       />
-    <Flex justifyContent="space-between" alignItems="center">
-      <Text fontSize="sm">{new Date(created).toLocaleString()}</Text>
-      <Text fontSize="sm">Votes: {net_votes}</Text>
-    </Flex>
+      <Flex justifyContent="space-between" alignItems="center">
+        <Text fontSize="sm">{new Date(created).toLocaleString()}</Text>
+        <Button leftIcon={<span>🛹</span>} variant="outline" size="sm" onClick={() => handleVote()}>
+    {net_votes}
+</Button>
+
+
+
+
+      </Flex>
     </Box>
   );
 };

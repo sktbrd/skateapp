@@ -13,13 +13,16 @@ import remarkGfm from 'remark-gfm';
 import PostHeader from './postHeader';
 import PostFooter from './modalFooter';
 import Comments from './comments';
-
+import voteOnContent from './voting';
+import useAuthUser from './useAuthUser';
 
 export interface CommentProps {
   author: string;
   body: string;
   created: string;
   net_votes: number;
+  permlink: string;  // <-- Add this line
+
 }
 
 interface PostModalProps {
@@ -35,9 +38,10 @@ interface PostModalProps {
 }
 
 
-const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, author, user, permlink, weight,comments = [] }) => {
-  const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
 
+const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, author, permlink, weight,comments = [] }) => {
+  const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
+  const { user } = useAuthUser();
   const modalContainerRef = useRef<HTMLDivElement>(null);
   const [charactersToShow, setCharactersToShow] = useState(0);
   const [userScrolled, setUserScrolled] = useState(false);
@@ -69,6 +73,23 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, 
       modalContainerRef.current.scrollTop = modalContainerRef.current.scrollHeight;
     }
   }, [charactersToShow, userScrolled]);
+
+  const handleVote = async () => {
+    if (!user || !user.name) {  // Use user.name to get the username
+        console.error("Username is missing");
+        return;
+    }
+
+    try {
+        await voteOnContent(user.name, permlink, author, 10000); // Use user.name as the username
+        // Optionally, update the UI to reflect the new vote count or state
+    } catch (error) {
+        console.error("Error voting:", error);
+        // Optionally, show an error message to the user
+    }
+};
+
+
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl" >

@@ -12,7 +12,7 @@ export const defaultFooter : string= `
 - Follow our [curation trail](https://hive.vote/dash.php?i=1&trail=steemskate)
 - Buy a Skatehive OG NFT : [Buy here](https://zora.co/collect/eth:0x3ded025e441730e26ab28803353e4471669a3065/1/mint)
 
-**Join Skatehive Discord and connect with the community 👇**
+**Join Skatehive Discord and connect with the community**
 
 [![](https://i.imgur.com/GmPCq0F.png)](https://discord.gg/skatehive)
 

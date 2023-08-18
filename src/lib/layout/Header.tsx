@@ -119,26 +119,26 @@ const HeaderNew = () => {
 
       {/* Tabs centered horizontally */}
       <Tabs
-        variant="soft-rounded"
-        colorScheme="whiteAlpha"
-        position={{ base: "relative", md: "absolute" }}
-        left="50%"
-        bottom={0}
-        transform="translateX(-50%)"
-        size={tabSize}
-        mb={6}
-        css={{
-          border: "2px solid limegreen",
-          borderRadius: "10px",
-          overflow: "hidden",
-        }}
-      >
-        <TabList display="flex" alignItems="center">
+  variant="soft-rounded"
+  colorScheme="whiteAlpha"
+  position={{ base: "relative", md: "absolute" }}
+  left="50%"
+  bottom={0}
+  transform="translateX(-50%)"
+  size={tabSize}
+  mb={6}
+  css={{
+    border: "2px solid limegreen",
+    borderRadius: "10px",
+    overflow: "hidden",
+  }}
+>
+  <TabList display="flex" alignItems="center">
     <LinkTab to="/">Home</LinkTab>
-    <LinkTab to="/upload">Upload</LinkTab>
-    <LinkTab to="/wallet">Wallet</LinkTab>
+    {loggedIn && <LinkTab to="/upload">Upload</LinkTab>} {/* Conditionally render Upload tab */}
+    {loggedIn && <LinkTab to="/wallet">Wallet</LinkTab>} {/* Conditionally render Wallet tab */}
     {loggedIn ? (
-        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+      <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
         <Avatar 
           src={avatarUrl} 
           size="sm" 
@@ -163,18 +163,17 @@ const HeaderNew = () => {
           <option value="logout">Log out</option>
         </Select>
       </div>
-
     ) : (
       <Tab onClick={() => setModalOpen(true)}>
         Connect Hive
       </Tab>
     )}
   </TabList>
-      </Tabs>
-
+</Tabs>
       {/* Hive Login Modal */}
+      <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
         <HiveLogin isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
-    </Flex>
+      </Modal>    </Flex>
   );
 };
 

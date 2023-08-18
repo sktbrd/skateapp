@@ -27,6 +27,7 @@ import { useNavigate } from "react-router-dom";
 
 import * as Types from './types';
 
+import EarningsModal from "./postModal/earningsModal"; // Replace with the correct path to EarningsModal
 
   const nodes = [
     "https://rpc.ecency.com",
@@ -59,6 +60,8 @@ import * as Types from './types';
     const [client, setClient] = useState(new Client(nodes[0]));
     const [nodeIndex, setNodeIndex] = useState(0);
     const [comments, setComments] = useState<Types.CommentProps[]>([]);
+    const [isVotersModalOpen, setVotersModalOpen] = useState(false);
+    const [selectedPostForModal, setSelectedPostForModal] = useState<any | null>(null);
 
 
     const fetchPostEarnings = async (author: string, permlink: string): Promise<number> => {
@@ -143,15 +146,7 @@ import * as Types from './types';
     };
     
 
-    const handlePostClick = async (post: any) => {
-      setSelectedPost(post);
-      const comments = await fetchComments(post.author, post.permlink);
-      console.log(post)
-      setComments(comments);  // <-- You'll need a state variable for this
-      onOpen(); // Open the modal
-    };
     
-
 
     const calculateGridColumns = () => {
       const screenWidth = window.innerWidth;
@@ -179,27 +174,20 @@ import * as Types from './types';
 
     const navigate = useNavigate();
 
+    const handleVotersModalOpen = (post: any) => {
+      setSelectedPostForModal(post);
+      setVotersModalOpen(true);
+    };
+    const handleCardClick = async (post: any) => {
+      setSelectedPost(post);
+      const comments = await fetchComments(post.author, post.permlink);
+      setComments(comments);
+      onOpen(); // Open the post modal
+      console.log(post)
+    };
 
     return (
-      
       <Box>
-        <Modal isOpen={isOpen} onClose={onClose} size="xl">
-          <ModalOverlay />
-          <ModalContent>
-          <PostModal
-            title={selectedPost?.title}
-            content={selectedPost?.body}
-            author={selectedPost?.author}
-            user={selectedPost?.user} // replace with actual value
-            permlink={selectedPost?.permlink} // replace with actual value
-            weight={selectedPost?.weight} // replace with actual value
-            onClose={onClose}
-            isOpen={isOpen}
-            comments={comments}
-          />
-          </ModalContent>
-        </Modal>
-
         {isLoading ? (
           <PlaceholderLoadingBar />
         ) : (
@@ -216,7 +204,7 @@ import * as Types from './types';
                 key={post.permlink}
                 maxW="md"
                 mb={4}
-                onClick={() => handlePostClick(post)}
+                onClick={() => handleCardClick(post)}
                 cursor="pointer"
               >
                 <CardHeader>
@@ -231,49 +219,73 @@ import * as Types from './types';
                         <Heading size="sm">{post.author}</Heading>
                       </Box>
                     </Flex>
-                    <IconButton
-                      variant="ghost"
-                      colorScheme="gray"
-                      aria-label="See menu"
-                    />
+                    <IconButton variant="ghost" colorScheme="gray" aria-label="See menu" />
                   </Flex>
                 </CardHeader>
                 <Box padding="10px" height="200px">
-                  {/* Set the fixed height for thumbnails */}
-                  
                   <Image
                     objectFit="cover"
                     border="1px solid limegreen"
                     borderRadius="10px"
                     src={post.thumbnail}
                     alt="Post Thumbnail"
-                    height="100%" // Make the image fill the container height
-                    width="100%" // Ensure the image maintains its aspect ratio
+                    height="100%"
+                    width="100%"
                   />
                 </Box>
                 <CardBody>
                   <Text>{post.title}</Text>
                 </CardBody>
-                <CardFooter
-                  flexWrap="wrap"
-                  sx={{
-                    "& > button": {
-                      minW: "136px",
-                    },
-                  }}
-                >
-<Text color="white" style={{ display: 'flex', alignItems: 'center' }}>
-  Earning: {post.earnings.toFixed(2)}
-  <img src="https://files.peakd.com/file/peakd-hive/stoken/AJehXHi6rLgTvubC9DeyhGAHePWx9xYJw3dvgbjzfTdDSuQ7zxS5gyK4Q62iTMi.gif" alt="Earning" style={{ width: '18px', height: '18px', marginLeft: '5px', marginBottom: '3px' }} />
-
-</Text>
-
+                <CardFooter>
+                  <Text color="white" style={{ display: "flex", alignItems: "center" }}>
+                    <Button
+                      onClick={() => handleVotersModalOpen(post)}
+                      variant="ghost"
+                      colorScheme="gray"
+                      size="xs"
+                      ml={2}
+                    >
+                      Earning: {post.earnings.toFixed(2)}
+                      <img
+                        src="https://files.peakd.com/file/peakd-hive/stoken/AJehXHi6rLgTvubC9DeyhGAHePWx9xYJw3dvgbjzfTdDSuQ7zxS5gyK4Q62iTMi.gif"
+                        alt="Earning"
+                        style={{ width: "18px", height: "18px", marginBottom: "3px" }}
+                      />
+                    </Button>
+                  </Text>
                 </CardFooter>
-
               </Card>
             ))}
           </Box>
         )}
+  
+        <Modal isOpen={isOpen} onClose={onClose} size="xl">
+          <ModalOverlay />
+          <ModalContent>
+            <PostModal
+              title={selectedPost?.title}
+              content={selectedPost?.body}
+              author={selectedPost?.author}
+              user={selectedPost?.user}
+              permlink={selectedPost?.permlink}
+              weight={selectedPost?.weight}
+              onClose={onClose}
+              isOpen={isOpen}
+              comments={comments}
+            />
+          </ModalContent>
+        </Modal>
+  
+        <Modal isOpen={isVotersModalOpen} onClose={() => setVotersModalOpen(false)} size="xl">
+          <ModalOverlay />
+          <ModalContent>
+            <EarningsModal
+              isOpen={isVotersModalOpen}
+              onClose={() => setVotersModalOpen(false)}
+              post={selectedPostForModal}
+            />
+          </ModalContent>
+        </Modal>
       </Box>
     );
 

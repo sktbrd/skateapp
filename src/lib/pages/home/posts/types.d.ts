@@ -83,3 +83,8 @@ permlink: string;
 weight?: number; 
 }
 
+export interface EarningsModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    post: any; // Pass the selected post data here
+  }

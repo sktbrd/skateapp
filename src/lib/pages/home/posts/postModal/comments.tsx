@@ -4,8 +4,8 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 
-import useAuthUser from './useAuthUser';
-import voteOnContent from './voting';
+import useAuthUser from '../../api/useAuthUser';
+import voteOnContent from '../../api/voting';
 
 export interface CommentProps {
     author: string;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Flex, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box, Text } from '@chakra-ui/react';
-import voteOnContent from './voting'; // Import the voting function
+import voteOnContent from '../../api/voting';
 import { useState } from 'react';
 
 interface PostFooterProps {

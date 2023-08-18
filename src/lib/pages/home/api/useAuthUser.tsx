@@ -5,13 +5,11 @@ interface HiveKeychainResponse {
   success: boolean;
   publicKey: string;
   result: string;
-  // Add other properties if needed
 }
 
 // Define the Account type
 interface Account {
   name: string;
-  // Add other properties as needed
 }
 
 export type AuthUser = {
@@ -48,7 +46,7 @@ export default function useAuthUser(): AuthUser {
       return;
     }
 
-    const memo = username + Date.now();
+    const memo = username + " signed up with skatehive app at " + Date.now();
 
     (window as any).hive_keychain.requestSignBuffer(
       username,
@@ -66,9 +64,15 @@ export default function useAuthUser(): AuthUser {
               const key = dhive.PublicKey.fromString(publicKey);
               if (key.verify(dhive.cryptoUtils.sha256(memo), sig) === true) {
                 const val2 = await dhiveClient.database.getAccounts([accountName]);
-
-                setUser(val2[0]);
-                sessionStorage.setItem("user", JSON.stringify(val2[0]));
+            
+                const userAccount: Account = {
+                    ...val2[0],
+                };
+            
+                setUser(userAccount);
+                sessionStorage.setItem("user", JSON.stringify(userAccount));
+                window.location.reload(); // Refresh the page after login
+                        
               }
             }
           } catch (error) {

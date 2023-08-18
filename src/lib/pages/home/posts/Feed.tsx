@@ -21,11 +21,11 @@
 
     import { useEffect, useState } from "react";
 
-    import PostModal from "./postModal";
+    import PostModal from "./postModal/postModal";
 
     import { useNavigate } from "react-router-dom";
 
-    import { CommentProps } from './postModal';
+    import { CommentProps } from './postModal/postModal';
 
 
 

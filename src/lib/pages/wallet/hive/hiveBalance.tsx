@@ -1,7 +1,7 @@
 import { Image, Box, Table, Thead, Tbody, Tr, Th, Td, Text, Flex, Button } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import SendHiveModal from "./sendHiveModal";
-import useAuthUser from "./useAuthUser";
+import useAuthUser from "lib/pages/home/api/useAuthUser";
 import * as dhive from "@hiveio/dhive";
 
 import FiatBalance from "../fiat/fiat";

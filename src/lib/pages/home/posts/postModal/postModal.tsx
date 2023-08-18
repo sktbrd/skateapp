@@ -14,8 +14,8 @@ import remarkGfm from 'remark-gfm';
 import PostHeader from './postHeader';
 import PostFooter from './modalFooter';
 import Comments from './comments';
-import voteOnContent from './voting';
-import useAuthUser from './useAuthUser';
+import voteOnContent from '../../api/voting';
+import useAuthUser from '../../api/useAuthUser';
 import CommentBox from './commentBox';
 
 export interface CommentProps {

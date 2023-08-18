@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import HiveBlog from "./components/Feed";
+import HiveBlog from "./posts/Feed";
 
 
 const Home = () => {

@@ -30,8 +30,8 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 //@ts-ignore
 //import { Pioneer } from "pioneer-react";
 import { Link, LinkProps as RouterLinkProps } from "react-router-dom";
-import useAuthUser from "lib/pages/home/components/useAuthUser";
-import HiveLogin from "lib/pages/home/components/HiveLoginModal";
+import useAuthUser from "lib/pages/home/api/useAuthUser";
+import HiveLogin from "lib/pages/home/api/HiveLoginModal";
 
 const PROJECT_NAME = "Skatehive";
 

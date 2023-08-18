@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 // Hive Imports 
-import useAuthUser from '../home/components/useAuthUser';
+import useAuthUser from '../home/api/useAuthUser';
 import { KeychainSDK } from 'keychain-sdk';
 import { defaultFooter } from './defaultFooter'; // Import the defaultFooter constant
 

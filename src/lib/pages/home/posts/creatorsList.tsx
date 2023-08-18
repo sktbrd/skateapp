@@ -21,9 +21,9 @@ import {
   
   import { useEffect, useState } from "react";
   
-  import PostModal from "./postModal";
+  import PostModal from "./postModal/postModal";
 import { compileFunction } from "vm";
-import Comments from "./comments";
+import Comments from "./postModal/comments";
   
   
   const nodes = [

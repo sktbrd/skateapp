@@ -22,7 +22,7 @@ const ForceDarkMode = ({ children }) => {
 
 const App = () => {
   return (
-    <PioneerProvider>
+   <PioneerProvider>
       <ChakraProvider theme={theme}>
         <ForceDarkMode>
           <Router>
@@ -32,7 +32,7 @@ const App = () => {
           </Router>
         </ForceDarkMode>
       </ChakraProvider>
-    </PioneerProvider>
+   </PioneerProvider>
   );
 };
 

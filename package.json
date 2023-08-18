@@ -1,8 +1,8 @@
 {
-  "name": "pioneer-template",
-  "version": "0.1.0",
+  "name": "skatehive",
+  "version": "0.1.1",
   "private": true,
-  "author": "highlander",
+  "author": "skatehacker",
   "scripts": {
     "dev": "vite",
     "build": "pnpm type-check && vite build",

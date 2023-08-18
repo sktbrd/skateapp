@@ -129,16 +129,34 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, 
               h1: ({node, children, ...props}) => <h1 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '26px', paddingBottom: '10px' }}>{children}</h1>,
               h2: ({node, children, ...props}) => <h2 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '20px', paddingBottom: '8px' }}>{children}</h2>,
               h3: ({node, children, ...props}) => <h3 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '18px', paddingBottom: '6px' }}>{children}</h3>,
-              blockquote: ({node, children, ...props}) => <blockquote {...props} style={{ borderLeft: '3px solid limegreen', paddingLeft: '10px', fontStyle: 'italic' }}>{children}</blockquote>,            
-              ol: ({node, children, ...props}) => <ol {...props} style={{ paddingLeft: '20px' }}>{children}</ol>,
-              ul: ({node, children, ...props}) => <ul {...props} style={{ paddingLeft: '20px' }}>{children}</ul>,
+              blockquote: ({node, children, ...props}) => <blockquote {...props} style={{ borderLeft: '3px solid red', paddingLeft: '10px', fontStyle: 'italic' }}>{children}</blockquote>,            
+              ol: ({ node, ordered, children, ...props }) => {
+                // Handle the ordered attribute properly
+                const listType = ordered ? "1" : "decimal";
+                return <ol {...props} style={{ listStyleType: listType, paddingLeft: '20px' }}>{children}</ol>;
+              },              
+              ul: ({ node, ordered, children, ...props }) => {
+                if (ordered === false) {
+                  return null; // Omit the entire <ul> element if ordered is false
+                }
+                return <ul {...props} style={{ paddingLeft: '20px' }}>{children}</ul>;
+              },
               hr: ({node, children, ...props}) => <hr {...props} style={{ paddingBottom: '20px' }}>{children}</hr>,
               br: ({node, children, ...props}) => <br {...props} style={{ paddingBottom: '20px' }}>{children}</br>,
-              iframe: ({ node, ...props }) =>(
+              iframe: ({ node, ...props }) => (
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <iframe {...props} style={{ border: '1px solid limegreen', borderRadius:'10px', maxWidth: '100%', height: '280px' }} /> 
+                  <iframe 
+                    {...props} 
+                    style={{ 
+                      border: '1px solid limegreen', 
+                      borderRadius: '10px', 
+                      width: '560px', // This is a common width for landscape videos
+                      height: '315px', // This height maintains a 16:9 aspect ratio with the width
+                    }} 
+                  /> 
                 </div>
-               ),
+              ),
+              
               
               
 

@@ -167,12 +167,24 @@ const handleUploadFromURL = async () => {
   };
 
   const handleAddVideo = () => {
-    const embedURL = getYouTubeEmbedURL(videoLink);
+    let embedURL = '';
+  
+    if (videoLink.includes("youtube.com")) {
+      embedURL = getYouTubeEmbedURL(videoLink);
+    } else if (videoLink.includes("odysee.com")) {
+      embedURL = videoLink.replace("odysee.com/", "odysee.com/$/embed/");
+    } else {
+      alert("Invalid video link. Please enter a valid YouTube or Odysee video link.");
+      return;
+    }
+  
     setMarkdownContent(
-      `${markdownContent}\n\n<iframe src="${embedURL}"></iframe>`
+      `${markdownContent}\n\n<iframe src="${embedURL}" allowfullscreen></iframe>`
     );
     setVideoLink('');
   };
+  
+  
 
   
   const [selectedOption, setSelectedOption] = useState<'url' | 'file'>('url'); // Add this state
@@ -308,7 +320,7 @@ const handleUploadFromURL = async () => {
         <Flex>
           <Input
             value={videoLink}
-            placeholder="YouTube Video URL"
+            placeholder="YouTube/Odysee Video URL"
             marginBottom="10px"
             onChange={(e) => setVideoLink(e.target.value)}
           />

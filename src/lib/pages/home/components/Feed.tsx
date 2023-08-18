@@ -152,7 +152,7 @@
       const handlePostClick = async (post: any) => {
         setSelectedPost(post);
         const comments = await fetchComments(post.author, post.permlink);
-        console.log("Comments fetched for post:", comments);  // Log the fetched comments
+        console.log(post)
         setComments(comments);  // <-- You'll need a state variable for this
         onOpen(); // Open the modal
       };
@@ -189,9 +189,6 @@
       return (
         
         <Box>
-                  <Flex justifyContent="center">
-        
-        </Flex>
           <Modal isOpen={isOpen} onClose={onClose} size="xl">
             <ModalOverlay />
             <ModalContent>

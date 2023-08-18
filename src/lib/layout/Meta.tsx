@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet";
 
-const APP_NAME = "Skate App";
+const APP_NAME = "SkateHive App";
 
 const Meta = () => {
   return (
@@ -16,7 +16,7 @@ const Meta = () => {
       <meta name="mobile-web-app-capable" content="yes" />
       <meta name="theme-color" content="#228B22" />
 
-      <link rel="shortcut icon" href="/assets/favicon.svg" />
+      <link rel="shortcut icon" href="https://images.hive.blog/u/hive-173115/avatar" />
       <link rel="manifest" href="/manifest.json" />
     </Helmet>
   );

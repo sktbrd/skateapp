@@ -40,7 +40,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({ isOpen, onClose, title, con
       (modalContainerRef.current!.scrollHeight || 0) - (modalContainerRef.current!.offsetHeight || 0);
     setUserScrolled(!isAtBottom);
   };
-  const [charactersToShow, setCharactersToShow] = useState(0);
+  const [charactersToShow, setCharactersToShow] = useState(0); // Start from 0
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -48,14 +48,19 @@ const PostModal: React.FC<Types.PostModalProps> = ({ isOpen, onClose, title, con
         if (prevChars >= content.length) {
           clearInterval(timer);
           return prevChars;
-        } else {
+        } else if (prevChars < 400) { // Scroll effect for the first 300 characters
           return prevChars + 1;
+        } else { // Display the entire content after the scroll effect
+          clearInterval(timer);
+          return content.length;
         }
       });
     }, 5);
-
+  
     return () => clearInterval(timer);
   }, [content]);
+  
+  
 
   useEffect(() => {
     if (modalContainerRef.current && !userScrolled) {
@@ -105,8 +110,8 @@ const PostModal: React.FC<Types.PostModalProps> = ({ isOpen, onClose, title, con
           <PostHeader title={title} author={author} avatarUrl={avatarUrl} onClose={onClose} /> 
         </ModalHeader>
         <ModalBody ref={modalContainerRef} onScroll={handleScroll}>
-          <ReactMarkdown
-            children={content.slice(0, charactersToShow)}
+        <ReactMarkdown
+            children={charactersToShow >= content.length ? content : content.slice(0, charactersToShow)}
             rehypePlugins={[rehypeRaw]}
             remarkPlugins={[remarkGfm]}
             components={{

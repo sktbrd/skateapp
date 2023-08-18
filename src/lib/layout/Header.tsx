@@ -109,7 +109,7 @@ const HeaderNew = () => {
         fontSize={fontSize} 
         fontWeight="medium" 
         color="#f0c33f" 
-        style={{ marginTop: '2px' }} // Add this line
+        style={{ marginTop: '2px' }}
       >
         {PROJECT_NAME}
       </Text>
@@ -152,7 +152,7 @@ const HeaderNew = () => {
           style={{
             backgroundColor: 'black',
             color: 'white',
-            border: 'none',  // This will make the border invisible
+            border: 'none',  
             cursor: 'pointer'
           }}
         >
@@ -173,9 +173,7 @@ const HeaderNew = () => {
       </Tabs>
 
       {/* Hive Login Modal */}
-      <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
         <HiveLogin isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
-      </Modal>
     </Flex>
   );
 };

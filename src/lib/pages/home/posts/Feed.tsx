@@ -25,7 +25,7 @@ import PostModal from "./postModal/postModal";
 
 import { useNavigate } from "react-router-dom";
 
-import { PostProps , Post, CommentProps } from './types';
+import * as Types from './types';
 
 
   const nodes = [
@@ -49,19 +49,16 @@ import { PostProps , Post, CommentProps } from './types';
       </center>;
   };
 
-  interface HiveBlogProps {
-    tag?: string;
-    queryType?: any;
-  }
 
-  const HiveBlog: React.FC<HiveBlogProps> = ({ queryType = "created", tag = "hive-173115" }) => {
+
+  const HiveBlog: React.FC<Types.HiveBlogProps> = ({ queryType = "created", tag = "hive-173115" }) => {
     const [posts, setPosts] = useState<any[]>([]);
     const [currentTag, setTag] = useState(tag);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedPost, setSelectedPost] = useState<any | null>(null);
     const [client, setClient] = useState(new Client(nodes[0]));
     const [nodeIndex, setNodeIndex] = useState(0);
-    const [comments, setComments] = useState<CommentProps[]>([]);
+    const [comments, setComments] = useState<Types.CommentProps[]>([]);
 
 
     const fetchPostEarnings = async (author: string, permlink: string): Promise<number> => {
@@ -265,7 +262,12 @@ import { PostProps , Post, CommentProps } from './types';
                     },
                   }}
                 >
-                  <Text color="white">Earning: ${post.earnings.toFixed(2)}</Text>
+<Text color="white" style={{ display: 'flex', alignItems: 'center' }}>
+  Earning: {post.earnings.toFixed(2)}
+  <img src="https://files.peakd.com/file/peakd-hive/stoken/AJehXHi6rLgTvubC9DeyhGAHePWx9xYJw3dvgbjzfTdDSuQ7zxS5gyK4Q62iTMi.gif" alt="Earning" style={{ width: '18px', height: '18px', marginLeft: '5px', marginBottom: '3px' }} />
+
+</Text>
+
                 </CardFooter>
 
               </Card>

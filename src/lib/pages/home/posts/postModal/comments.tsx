@@ -7,20 +7,12 @@ import remarkGfm from 'remark-gfm';
 import useAuthUser from '../../api/useAuthUser';
 import voteOnContent from '../../api/voting';
 
-export interface CommentProps {
-    author: string;
-    body: string;
-    created: string;
-    net_votes: number;
-    permlink: string;
-}
+import * as Types from '../types'; 
 
-interface CommentsProps {
-    comments: CommentProps[];
-    commentPosted: boolean;
-}
 
-const Comment: React.FC<CommentProps> = ({ author, body, created, net_votes, permlink }) => {
+
+
+const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_votes, permlink }) => {
     const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
     const { user } = useAuthUser();
 
@@ -73,8 +65,8 @@ const Comment: React.FC<CommentProps> = ({ author, body, created, net_votes, per
     );
 };
 
-const Comments: React.FC<CommentsProps> = ({ comments, commentPosted }) => {
-    const [localComments, setLocalComments] = useState<CommentProps[]>(comments);
+const Comments: React.FC<Types.CommentsProps> = ({ comments, commentPosted }) => {
+    const [localComments, setLocalComments] = useState<Types.CommentProps[]>(comments);
 
     useEffect(() => {
         if (commentPosted) {

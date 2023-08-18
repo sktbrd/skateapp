@@ -3,15 +3,9 @@ import { Button, Flex, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box,
 import voteOnContent from '../../api/voting';
 import { useState } from 'react';
 
-interface PostFooterProps {
-  onClose: () => void;
-  user: any;  // assuming user data is available
-  author: string; // assuming author data is available
-  permlink: string; // assuming permlink data is available
-  weight?: number; // assuming weight data is available
-}
+import * as Types from '../types'
 
-const PostFooter: React.FC<PostFooterProps> = ({ onClose, user, author, permlink, weight = 10000 }) => {
+const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, permlink, weight = 10000 }) => {
   const [sliderValue, setSliderValue] = useState(0);
   const getFeedbackText = (value: number) => {
     if (value === -10000) return "I hate it";

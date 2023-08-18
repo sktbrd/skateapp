@@ -23,7 +23,8 @@ import {
   MenuList,
   MenuItem,
   Button,
-  Select
+  Select,
+  Divider
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
@@ -97,17 +98,22 @@ const HeaderNew = () => {
       borderRadius="10px"
     >
       <Flex width="100%" justifyContent="center" alignItems="center" mb={{ base: 2, md: 0 }}>
-        <Image 
-          src="https://images.hive.blog/u/hive-173115/avatar" 
-          alt="Placeholder Image" 
-          mr={1} 
-          boxSize="32px"
-          borderRadius="50%"
-        />
-        <Text fontSize={fontSize} color="white">
-          {PROJECT_NAME}
-        </Text>
-        <Spacer />
+      <Image 
+        src="https://images.hive.blog/u/hive-173115/avatar" 
+        alt="Placeholder Image" 
+        mr={2} 
+        boxSize="32px"
+        borderRadius="50%"
+      />
+      <Text 
+        fontSize={fontSize} 
+        fontWeight="medium" 
+        color="#f0c33f" 
+        style={{ marginTop: '2px' }} // Add this line
+      >
+        {PROJECT_NAME}
+      </Text>
+      <Spacer />
         {/* <Pioneer /> */}
        </Flex>
 

@@ -18,44 +18,21 @@ import voteOnContent from '../../api/voting';
 import useAuthUser from '../../api/useAuthUser';
 import CommentBox from './commentBox';
 
-export interface CommentProps {
-  author: string;
-  body: string;
-  created: string;
-  net_votes: number;
-  permlink: string;  // <-- Add this line
-
-}
-
-interface PostModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  title: string;
-  content: string;
-  author: string;
-  user: any;
-  permlink: string;
-  weight: number;
-  comments: CommentProps[];  // <-- Add this line
-}
+import * as Types from '../types'
 
 
 
-const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, author, permlink, weight,comments = [] }) => {
+const PostModal: React.FC<Types.PostModalProps> = ({ isOpen, onClose, title, content, author, permlink, weight,comments = [] }) => {
+  
   const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
   const { user } = useAuthUser();
   const modalContainerRef = useRef<HTMLDivElement>(null);
-  const [charactersToShow, setCharactersToShow] = useState(0);
+
+
+
+
+//  ---------------------------------------Scroll Effect -------------------------------
   const [userScrolled, setUserScrolled] = useState(false);
-  const [sliderValue, setSliderValue] = useState(0);
-  const [commentPosted, setCommentPosted] = useState(false);
-
-
-  const handleSliderChange = (value: number) => {
-    setSliderValue(value);
-};
-
-
 
   const handleScroll = () => {
     const isAtBottom =
@@ -63,6 +40,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, 
       (modalContainerRef.current!.scrollHeight || 0) - (modalContainerRef.current!.offsetHeight || 0);
     setUserScrolled(!isAtBottom);
   };
+  const [charactersToShow, setCharactersToShow] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -85,6 +63,14 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, 
     }
   }, [charactersToShow, userScrolled]);
 
+//  ---------------------------------------Scroll Effect -------------------------------
+
+//  ---------------------------------------Voting Button -------------------------------
+
+  const [sliderValue, setSliderValue] = useState(0);
+  const handleSliderChange = (value: number) => {
+    setSliderValue(value);
+};
   const handleVote = async () => {
     if (!user || !user.name) {  // Use user.name to get the username
         console.error("Username is missing");
@@ -100,12 +86,16 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, 
     }
 };
 
-
+//  ---------------------------------------Voting Button -------------------------------
+//  ---------------------------------------Comment Button -------------------------------
+  const [commentPosted, setCommentPosted] = useState(false);
   const [commentsKey, setCommentsKey] = useState<number>(Date.now());
   const handleNewComment = () => {
     setCommentsKey(Date.now());
   };
-  
+
+//  ---------------------------------------Comment Button -------------------------------
+
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl" >
@@ -156,24 +146,16 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose, title, content, 
                   /> 
                 </div>
               ),
-              
-              
-              
-
             }}
           />
         </ModalBody>
         <Comments comments={comments} commentPosted={commentPosted} />
-
         <CommentBox 
-    user={user} 
-    parentAuthor={author} 
-    parentPermlink={permlink} 
-    onCommentPosted={() => setCommentPosted(!commentPosted)}
-/>
-
-
-
+            user={user} 
+            parentAuthor={author} 
+            parentPermlink={permlink} 
+            onCommentPosted={() => setCommentPosted(!commentPosted)}
+        />
         <PostFooter onClose={onClose} user={user} author={author} permlink={permlink} weight={weight} /> 
       </ModalContent>
     </Modal>

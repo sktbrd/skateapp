@@ -129,39 +129,21 @@ const EvmBalance: React.FC = () => {
 if (userPortifolio && userPortifolio.data) {
   console.log("userPortifolio.tokens:", userPortifolio);
 }
-// ... rest of the component
 
-  // useEffect(() => {
-  //   if (user?.balances) {
-  //     let sortedBalances: EvmBalanceItem[] = [];
-  //     if (selectedBlockchain === "all") {
-  //       sortedBalances = user.balances.slice();
-  //     } else {
-  //       sortedBalances = user.balances.filter(
-  //         (balance: EvmBalanceItem) => balance.network === selectedBlockchain
-  //       );
-  //     }
-
-  //     // Sort the balances array in descending order based on balanceUSD
-  //     sortedBalances.sort((a: EvmBalanceItem, b: EvmBalanceItem) =>
-  //       parseFloat(b.balanceUSD) - parseFloat(a.balanceUSD)
-  //     );
-
-  //     setTableData(sortedBalances);
-  //   }
-  // }, [selectedBlockchain, user?.balances]);
-
-  const blockchains: string[] = userPortifolio?.data?.tokens 
-    ? Array.from(new Set(userPortifolio.data.tokens.map((token: any) => token.network))) 
-    : [];
+  const blockchains: string[] = ["all"].concat(
+    Array.from(new Set(userPortifolio?.data?.tokens.map((token: any) => token.network)))
+  );
 
 
-    const totalBalanceUSD = userPortifolio?.data?.totalBalanceUSDApp || 0;
-    const totalBalanceUSDApp = userPortifolio?.data?.totalBalanceUSDApp || 0;
-    const totalBalanceUsdTokens = userPortifolio?.data?.totalBalanceUsdTokens || 0;
-    const totalNetWorth = userPortifolio?.data?.totalNetWorth || 0;
-    
+  const totalBalanceUSD = userPortifolio?.data?.totalBalanceUSDApp || 0;
+  const totalBalanceUSDApp = userPortifolio?.data?.totalBalanceUSDApp || 0;
+  const totalBalanceUsdTokens = userPortifolio?.data?.totalBalanceUsdTokens || 0;
+  const totalNetWorth = userPortifolio?.data?.totalNetWorth || 0;
+  
 
+  const filteredTokens = selectedBlockchain === "all"
+  ? userPortifolio?.data?.tokens
+  : userPortifolio?.data?.tokens.filter((token: any) => token.network === selectedBlockchain);
 
 
   const copyToClipboard = (address: string): void => {
@@ -182,12 +164,12 @@ if (userPortifolio && userPortifolio.data) {
   const fetchTokenLogo = async (coinId: string) => {
     try {
       const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}`, {
-  mode: 'no-cors', // Add this line
-  headers: {
-    'Authorization': `Bearer ${COINGECKO_API_KEY}`,
-    'Content-Type': 'application/json'
-  }
-});
+        mode: 'no-cors', // Add this line
+        headers: {
+          'Authorization': `Bearer ${COINGECKO_API_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      });
 
       const data = await response.json();
       return data.image.small; // or data.image.large based on your preference
@@ -207,8 +189,6 @@ if (userPortifolio && userPortifolio.data) {
       overflow="auto"
       fontFamily="'Courier New', monospace"
     >
-
-        
       <Text
         textAlign="center"
         borderRadius="12px"
@@ -220,21 +200,21 @@ if (userPortifolio && userPortifolio.data) {
         Multichain Balance
       </Text>
       <Flex justifyContent={"space-between"}>
-      <Stack spacing={3}>
-        <Box>
-          <h2>Total Balance (App):</h2>
-          <p>{(userPortifolio?.data.totalBalanceUSDApp ?? 0).toFixed(2)} USD</p>
-        </Box>
-        <Box>
-          <h2>Total Balance (Tokens):</h2>
-          <p>{(userPortifolio?.data.totalBalanceUsdTokens ?? 0).toFixed(2)} USD</p>
-        </Box>
-        <Box>
-          <h2>Total Net Worth:</h2>
-          <p>{(userPortifolio?.data.totalNetWorth ?? 0).toFixed(2)} USD</p>
-        </Box>
-      </Stack>
-      <Pioneer></Pioneer>
+        <Stack spacing={3}>
+          <Box>
+            <h2>Total Balance (App):</h2>
+            <p>{(userPortifolio?.data.totalBalanceUSDApp ?? 0).toFixed(2)} USD</p>
+          </Box>
+          <Box>
+            <h2>Total Balance (Tokens):</h2>
+            <p>{(userPortifolio?.data.totalBalanceUsdTokens ?? 0).toFixed(2)} USD</p>
+          </Box>
+          <Box>
+            <h2>Total Net Worth:</h2>
+            <p>{(userPortifolio?.data.totalNetWorth ?? 0).toFixed(2)} USD</p>
+          </Box>
+        </Stack>
+        <Pioneer></Pioneer>
       </Flex>
 
       <Flex align="center">
@@ -251,7 +231,7 @@ if (userPortifolio && userPortifolio.data) {
           ))}
         </Select>
       </Flex>
-      {userPortifolio?.data?.tokens && userPortifolio.data.tokens.length === 0 ? (
+      {filteredTokens && filteredTokens.length === 0 ? (
         <p>No balances found for the selected blockchain. Try to connect wallet again</p>
       ) : (
         <Table variant="simple" size="sm">
@@ -265,10 +245,10 @@ if (userPortifolio && userPortifolio.data) {
             </Tr>
           </Thead>
           <Tbody>
-          {userPortifolio?.data?.tokens?.map((token: any) => ( 
+            {filteredTokens?.map((token: any) => ( 
               <Tr key={token.key}>
                 <Td>
-                <Image src={token.token.image} alt={token.token.name} boxSize="20px" mr="2" />
+                  <Image src={token.token.image} alt={token.token.name} boxSize="20px" mr="2" />
                   {token.token.name}
                 </Td>
                 <Td>{parseFloat(token.token.balance).toFixed(3)}</Td>
@@ -290,6 +270,7 @@ if (userPortifolio && userPortifolio.data) {
       <EvmSendModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} tokenInfo={selectedTokenInfo} />
     </Box>
 );
+
 
 
 };

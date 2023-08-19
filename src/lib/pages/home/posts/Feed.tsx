@@ -238,27 +238,25 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
                 <CardFooter>
                   <Text color="white" style={{ display: "flex", alignItems: "center" }}>
                   <Button
-  position="absolute" // Keep this
-  bottom="10px" // Change from top to bottom
-  right="10px" // Keep this
-  onClick={(e) => {
-    e.stopPropagation(); // Prevent event from bubbling up
-    handleVotersModalOpen(post);
-  }}
-  variant="ghost"
-  colorScheme="gray"
-  size="xs"
-  ml={2}
->
-  Earning: {post.earnings.toFixed(2)}
-  <img
-    src="https://files.peakd.com/file/peakd-hive/stoken/AJehXHi6rLgTvubC9DeyhGAHePWx9xYJw3dvgbjzfTdDSuQ7zxS5gyK4Q62iTMi.gif"
-    alt="Earning"
-    style={{ width: "18px", height: "18px", marginBottom: "3px" }}
-  />
-</Button>
-
-
+                    position="absolute" // Keep this
+                    bottom="10px" // Change from top to bottom
+                    right="10px" // Keep this
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent event from bubbling up
+                      handleVotersModalOpen(post);
+                    }}
+                    variant="ghost"
+                    colorScheme="gray"
+                    size="xs"
+                    ml={2}
+                  >
+                    Earning: {post.earnings.toFixed(2)}
+                    <img
+                      src="https://files.peakd.com/file/peakd-hive/stoken/AJehXHi6rLgTvubC9DeyhGAHePWx9xYJw3dvgbjzfTdDSuQ7zxS5gyK4Q62iTMi.gif"
+                      alt="Earning"
+                      style={{ width: "18px", height: "18px", marginBottom: "3px" }}
+                    />
+                  </Button>
                   </Text>
                 </CardFooter>
               </Card>

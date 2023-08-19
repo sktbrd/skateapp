@@ -10,7 +10,7 @@ interface User {
 }
 
 const DEFAULT_AVATAR_URL = "https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif";
-const DEFAULT_COVER_IMAGE_URL = 'path/to/your/default/cover/image.jpg';
+const DEFAULT_COVER_IMAGE_URL = 'https://i.ibb.co/r20bWsF/You-forgot-to-add-a-cover.gif';
 
 export default function ProfilePage() {
   const { user } = useAuthUser() as { user: User | null };

@@ -16,7 +16,7 @@ interface Author {
 }
 
 const DEFAULT_AVATAR_URL = "https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif";
-const DEFAULT_COVER_IMAGE_URL = 'path/to/your/default/cover/image.jpg';
+const DEFAULT_COVER_IMAGE_URL = 'https://i.ibb.co/r20bWsF/You-forgot-to-add-a-cover.gif';
 
 export default function AuthorProfilePage() {
   const { username } = useParams<{ username: string }>();
@@ -54,8 +54,9 @@ export default function AuthorProfilePage() {
   };
 
   return (
+    
     <Box
-      borderRadius="12px"
+      borderRadius="10px"
       border="1px solid red"
       fontFamily="'Courier New', monospace"
       position="relative"
@@ -69,7 +70,7 @@ export default function AuthorProfilePage() {
           left="50%"
           top="50%"
           transform="translate(-50%, -50%)"
-          borderRadius="50%"
+          borderRadius="20%"
           border="2px solid limegreen"
           boxSize="100px"
           bg="white"
@@ -78,7 +79,7 @@ export default function AuthorProfilePage() {
           <Image
             src={`https://images.hive.blog/u/${username}/avatar`}
             alt="profile avatar"
-            borderRadius="50%"
+            borderRadius="20%"
             boxSize="96px"
           />
         </Box>

@@ -6,7 +6,7 @@ import type { PathRouteProps } from "react-router-dom";
 const Home = React.lazy(() => import("lib/pages/home"));
 const Wallet = React.lazy(() => import("lib/pages/wallet"));
 const Profile = React.lazy(() => import("lib/pages/profile"));
-
+const AuthorProfilePage = React.lazy(() => import("lib/pages/profile/authorProfile")); // Update the path accordingly
 
 export const routes: Array<PathRouteProps> = [
   {
@@ -28,6 +28,10 @@ export const routes: Array<PathRouteProps> = [
   {
     path: "/upload",
     element: <UploadPage title="" content="" author="" user="" permlink="" weight={0} />,
+  },
+  {
+    path: "/:username",
+    element: <AuthorProfilePage />,
   },
 ];
 

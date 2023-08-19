@@ -20,10 +20,9 @@
 import { Client } from "@hiveio/dhive";
 
 import { useEffect, useState } from "react";
-
 import PostModal from "./postModal/postModal";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import * as Types from './types';
 
@@ -207,11 +206,14 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
                 <CardHeader>
                   <Flex>
                     <Flex flex="1" gap="3" alignItems="center">
-                      <Avatar
-                        name={post.author}
-                        border="1px solid limegreen"
-                        src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
-                      />
+                    <Link to={`/${post.author}`}>
+                        <Avatar
+                          name={post.author}
+                          border="1px solid limegreen"
+                          src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
+                        />
+                      </Link>
+
                       <Box>
                         <Heading size="sm">{post.author}</Heading>
                       </Box>

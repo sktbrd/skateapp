@@ -60,6 +60,8 @@ const UploadPage: React.FC<UploadPageProps> = () => {
   const [selectedThumbnail, setSelectedThumbnail] = useState<string | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0); // Initial value
   const [isUploading, setIsUploading] = useState(false);
+  const [tags, setTags] = useState<string[]>(Array(5).fill('')); // Initialize with an array of 5 empty strings
+
 
 
 
@@ -224,8 +226,8 @@ const handleUploadFromURL = async () => {
               "permlink": permlink, 
               "title": title, 
               "body": completePostBody, 
-              "json_metadata": JSON.stringify({ tags: ["skateboard"],
-                                                app: "pepeskate", 
+              "json_metadata": JSON.stringify({ tags:allTags,
+                                                app: "skatehive", 
                                                 image: thumbnail ? [thumbnail] : [] // This will be an array with the thumbnail URL as the first item
               })
             }
@@ -287,6 +289,14 @@ const handleUploadFromURL = async () => {
     alignItems: 'center',
   };
   
+  const handleTagChange = (index: number, value: string) => {
+    const newTags = [...tags];
+    newTags[index] = value;
+    setTags(newTags);
+  };
+
+  const allTags = ["skateboard", ...tags.filter(tag => tag.trim() !== '')]; // This will combine the default tag with the user-added tags and filter out any empty tags
+
   
   return (
       <>
@@ -372,6 +382,20 @@ const handleUploadFromURL = async () => {
         </Checkbox>
         <Text>5. Add Thumbnail</Text>
           <ImageGallery />
+          <Text>6. Add Tags</Text>
+<Flex marginBottom="10px">
+  {tags.map((tag, index) => (
+    <Input
+      key={index}
+      value={tag}
+      placeholder={`Tag ${index + 1}`}
+      onChange={(e) => handleTagChange(index, e.target.value)}
+      marginRight="10px"
+      width="20%" // Distribute the width equally for 5 tags
+    />
+  ))}
+</Flex>
+
        <Box borderRadius="10px"border="1px solid limegreen" width="100%">
           <Button onClick={handlePublish} width="100%">
             Publish

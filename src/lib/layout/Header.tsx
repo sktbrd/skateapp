@@ -24,9 +24,11 @@ import {
   MenuItem,
   Button,
   Select,
-  Divider
+  Divider,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import { keyframes } from "@emotion/react";
+
 
 //@ts-ignore
 //import { Pioneer } from "pioneer-react";
@@ -85,6 +87,37 @@ const HeaderNew = () => {
       logout();
     }
   };
+
+
+
+const glow = keyframes`
+  0% {
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.8);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 255, 0, 2);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(0, 255, 0, 0.8);
+  }
+`;
+const enlargeOnHover = keyframes`
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.1);
+    }
+  `;
+  const moveUpAndDown = keyframes`
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  `;
+
   return (
     <Flex
       as="header"
@@ -98,24 +131,59 @@ const HeaderNew = () => {
       borderRadius="10px"
     >
       <Flex width="100%" justifyContent="center" alignItems="center" mb={{ base: 2, md: 0 }}>
-      <Image 
-        src="https://images.hive.blog/u/hive-173115/avatar" 
-        alt="Placeholder Image" 
-        mr={2} 
-        boxSize="32px"
-        borderRadius="50%"
-      />
+      <Menu>
+      <MenuButton
+  as={Button}
+  backgroundColor="black"
+  border="limegreen 1px solid"
+  color="limegreen"
+  size="l"
+  css={{
+    animation: `${glow} 2s infinite alternate , ${moveUpAndDown} 3s infinite` ,
+    "&:hover": {
+      animation: `${enlargeOnHover} 0.2s forwards, ${glow} 2s infinite alternate,${moveUpAndDown} 0s infinite`,
+    },
+  }}
+>
+  <Image
+    src="https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75"
+    alt="Dropdown Image"
+    boxSize="48px" // Adjust the size as needed
+    borderRadius="10px"
+  />
+</MenuButton>
+
+          <MenuList border="1px solid limegreen" backgroundColor="black" color="white">
+            <Link to="https://snapshot.org/#/skatehive.eth" style={{ textDecoration: 'none' }}>
+              <MenuItem backgroundColor="black">Governance</MenuItem>
+            </Link>
+            <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" style={{ textDecoration: 'none' }}>
+              <MenuItem backgroundColor="black">Curation Trail</MenuItem>
+            </Link>
+            <Link to="https://www.stoken.quest/" style={{ textDecoration: 'none' }}>
+              <MenuItem backgroundColor="black">Quest For Stoken</MenuItem>
+            </Link>
+            <Link to="https://docs.skatehive.app" style={{ textDecoration: 'none' }}>
+              <MenuItem backgroundColor="black">Docs</MenuItem>
+            </Link>
+            <Link to="/becool" style={{ textDecoration: 'none' }}>
+              <MenuItem backgroundColor="black">How to be Cool</MenuItem>
+            </Link>
+            {/* Add more external links as needed */}
+          </MenuList>
+        </Menu>
       <Text 
         fontSize={fontSize} 
         fontWeight="medium" 
         color="#f0c33f" 
         style={{ marginTop: '2px' }}
       >
-        {PROJECT_NAME}
       </Text>
       <Spacer />
-        {/* <Pioneer /> */}
-       </Flex>
+      {/* Dropdown button */}
+
+    
+  </Flex>
 
       {/* Tabs centered horizontally */}
       <Tabs

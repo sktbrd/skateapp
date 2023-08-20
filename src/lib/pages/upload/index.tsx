@@ -316,9 +316,8 @@ const handleUploadFromURL = async () => {
       justifyContent="center"
       alignItems="flex-start"
       flexDirection={{ base: 'column-reverse', md: 'row' }} // Stack vertically on mobile, side-by-side on desktop
-      padding="20px"
     >
-      <Box width="100%" marginBottom={{ base: '20px', md: '0' }}>
+      <Box width="100%" marginBottom={{ base: '10px', md: '0' }}>
         <Text>1. Add Title</Text>
         <Input
           value={title}

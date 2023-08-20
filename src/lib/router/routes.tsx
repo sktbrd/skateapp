@@ -34,8 +34,14 @@ export const routes: Array<PathRouteProps> = [
   },
   {
     path: "/becool",
-    element: <BeCool />,
-},
+    element: <BeCool  />
+
+  },
+  {
+    path: "/:username",
+    element: <AuthorProfilePage />,
+  },
+
 ];
 
 export const privateRoutes: Array<PathRouteProps> = [];

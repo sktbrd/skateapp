@@ -54,7 +54,6 @@ export default function AuthorProfilePage() {
   };
 
   return (
-    
     <Box
       borderRadius="10px"
       border="1px solid red"

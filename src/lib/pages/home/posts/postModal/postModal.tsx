@@ -28,8 +28,21 @@ const PostModal: React.FC<Types.PostModalProps> = ({ isOpen, onClose, title, con
   const { user } = useAuthUser();
   const modalContainerRef = useRef<HTMLDivElement>(null);
 
+ // Transform the content for 3speak videos
+ content = transform3SpeakContent(content);
+ function transform3SpeakContent(content:any) {
+  const regex = /\[!\[\]\((https:\/\/ipfs-3speak\.b-cdn\.net\/ipfs\/[a-zA-Z0-9]+\/)\)\]\((https:\/\/3speak\.tv\/watch\?v=([a-zA-Z0-9]+\/[a-zA-Z0-9]+))\)/;
 
+  const match = content.match(regex);
+  if (match) {
+    const videoURL = match[2];
+    const videoID = match[3];
+    const iframe = `<iframe width="560" height="315" src="https://3speak.tv/embed?v=${videoID}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    content = content.replace(regex, iframe);
+  }
 
+  return content;
+}
 
 //  ---------------------------------------Scroll Effect -------------------------------
   const [userScrolled, setUserScrolled] = useState(false);

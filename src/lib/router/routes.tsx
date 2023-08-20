@@ -10,6 +10,7 @@ const AuthorProfilePage = React.lazy(() => import("lib/pages/profile/authorProfi
 const BeCool = React.lazy(() => import("lib/pages/profile/beCool")); // Update the path accordingly
 
 
+
 export const routes: Array<PathRouteProps> = [
   {
     path: "/",
@@ -32,13 +33,11 @@ export const routes: Array<PathRouteProps> = [
     element: <UploadPage title="" content="" author="" user="" permlink="" weight={0} />,
   },
   {
-    path: "/:username",
-    element: <AuthorProfilePage />,
-  },
-  {
     path: "/becool",
-    element: <AuthorProfilePage />,
-  },
+    element: <BeCool />,
+},
 ];
 
 export const privateRoutes: Array<PathRouteProps> = [];
+
+

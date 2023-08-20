@@ -105,7 +105,7 @@ const NFTWallet: React.FC<Types.NFTWalletProps> = ({ nftList = [] }) => {
           </option>
         ))}
       </Select>
-      <Grid templateColumns="repeat(auto-fit, minmax(200px, 1fr))" gap={4}>
+      <Grid templateColumns="repeat(auto-fit, minmax(400px, 1fr))" gap={2}>
         {filteredNftList.map((nft) => (
           <NFTCard
             key={`${nft.token.collection.tokenId}-${nft.token.collection.address}`}  // Combination of tokenId and collectionAddress

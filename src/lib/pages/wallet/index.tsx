@@ -36,7 +36,7 @@ const Wallet = () => {
 
   return (
     <Tabs variant="enclosed">
-      <TabList>
+      <TabList justifyContent="center">
         <Tab>Tokens</Tab>
         <Tab>NFTs</Tab>
       </TabList>

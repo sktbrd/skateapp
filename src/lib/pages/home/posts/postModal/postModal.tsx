@@ -18,19 +18,20 @@ import voteOnContent from '../../api/voting';
 import useAuthUser from '../../api/useAuthUser';
 import CommentBox from './commentBox';
 
+import * as Types from '../types'
 
-import * as Types from '../types';
 
-const PostModal: React.FC<Types.PostModalProps> = ({ isOpen, onClose, title, content, author, permlink, weight, comments = [] }) => {
+
+const PostModal: React.FC<Types.PostModalProps> = ({ isOpen, onClose, title, content, author, permlink, weight,comments = [] }) => {
   
   const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
   const { user } = useAuthUser();
   const modalContainerRef = useRef<HTMLDivElement>(null);
 
-  // Transform the content for 3speak videos
-  content = transform3SpeakContent(content);
 
-  //  ---------------------------------------Scroll Effect -------------------------------
+
+
+//  ---------------------------------------Scroll Effect -------------------------------
   const [userScrolled, setUserScrolled] = useState(false);
 
   const handleScroll = () => {
@@ -59,20 +60,22 @@ const PostModal: React.FC<Types.PostModalProps> = ({ isOpen, onClose, title, con
     return () => clearInterval(timer);
   }, [content]);
   
+  
+
   useEffect(() => {
     if (modalContainerRef.current && !userScrolled) {
       modalContainerRef.current.scrollTop = modalContainerRef.current.scrollHeight;
     }
   }, [charactersToShow, userScrolled]);
 
-  //  ---------------------------------------Scroll Effect -------------------------------
+//  ---------------------------------------Scroll Effect -------------------------------
 
-  //  ---------------------------------------Voting Button -------------------------------
+//  ---------------------------------------Voting Button -------------------------------
 
   const [sliderValue, setSliderValue] = useState(0);
   const handleSliderChange = (value: number) => {
     setSliderValue(value);
-  };
+};
   const handleVote = async () => {
     if (!user || !user.name) {  // Use user.name to get the username
         console.error("Username is missing");
@@ -86,17 +89,18 @@ const PostModal: React.FC<Types.PostModalProps> = ({ isOpen, onClose, title, con
         console.error("Error voting:", error);
         // Optionally, show an error message to the user
     }
-  };
+};
 
-  //  ---------------------------------------Voting Button -------------------------------
-  //  ---------------------------------------Comment Button -------------------------------
+//  ---------------------------------------Voting Button -------------------------------
+//  ---------------------------------------Comment Button -------------------------------
   const [commentPosted, setCommentPosted] = useState(false);
   const [commentsKey, setCommentsKey] = useState<number>(Date.now());
   const handleNewComment = () => {
     setCommentsKey(Date.now());
   };
 
-  //  ---------------------------------------Comment Button -------------------------------
+//  ---------------------------------------Comment Button -------------------------------
+
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl" >
@@ -127,9 +131,6 @@ const PostModal: React.FC<Types.PostModalProps> = ({ isOpen, onClose, title, con
                 return <ol {...props} style={{ listStyleType: listType, paddingLeft: '20px' }}>{children}</ol>;
               },              
               ul: ({ node, ordered, children, ...props }) => {
-                if (ordered === false) {
-                  return null; // Omit the entire <ul> element if ordered is false
-                }
                 return <ul {...props} style={{ paddingLeft: '20px' }}>{children}</ul>;
               },
               hr: ({node, children, ...props}) => <hr {...props} style={{ paddingBottom: '20px' }}>{children}</hr>,
@@ -162,19 +163,5 @@ const PostModal: React.FC<Types.PostModalProps> = ({ isOpen, onClose, title, con
     </Modal>
   );
 };
-
-function transform3SpeakContent(content:any) {
-  const regex = /\[!\[\]\((https:\/\/ipfs-3speak\.b-cdn\.net\/ipfs\/[a-zA-Z0-9]+\/)\)\]\((https:\/\/3speak\.tv\/watch\?v=([a-zA-Z0-9]+\/[a-zA-Z0-9]+))\)/;
-
-  const match = content.match(regex);
-  if (match) {
-    const videoURL = match[2];
-    const videoID = match[3];
-    const iframe = `<iframe width="560" height="315" src="https://3speak.tv/embed?v=${videoID}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-    content = content.replace(regex, iframe);
-  }
-
-  return content;
-}
 
 export default PostModal;

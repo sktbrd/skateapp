@@ -28,10 +28,11 @@ const NFTWallet: React.FC<Types.NFTWalletProps> = ({ nftList = [] }) => {
         const currentAddress = pubkeyContext.master || pubkeyContext;
         const portfolio = await api.GetPortfolio({ address: currentAddress });
         const nftList = portfolio.data.nfts;
-        console.clear();
-        console.log("NFTs: ", nftList);
+
+        // Filter out the "POAP" NFTs
+        const nonPoapNfts = nftList.filter((nft: Types.NFT) => nft.token.collection.name.toLowerCase() !== "poap");
         
-        setUserNftPortifolio(nftList);
+        setUserNftPortifolio(nonPoapNfts);
       }
     } catch (e) {
       console.error("Error in onStart:", e);
@@ -106,7 +107,7 @@ const NFTWallet: React.FC<Types.NFTWalletProps> = ({ nftList = [] }) => {
         ))}
       </Select>
       <Grid templateColumns="repeat(auto-fit, minmax(400px, 1fr))" gap={2}>
-        {filteredNftList.map((nft) => (
+        {filteredNftList.map((nft, index) => (
           <NFTCard
             key={`${nft.token.collection.tokenId}-${nft.token.collection.address}`}  // Combination of tokenId and collectionAddress
             imageUrl={nft.token.medias[0]?.originalUrl}

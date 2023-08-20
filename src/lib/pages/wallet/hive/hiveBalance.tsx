@@ -205,7 +205,7 @@ export default function HiveBalanceDisplay() {
         )}
       </Flex>
       <Text>Total Worth in USD: ${totalWorth.toFixed(2)}</Text>
-      <Table variant="simple">
+            <Table variant="simple">
         <Thead>
           <Tr>
             <Th></Th>
@@ -215,7 +215,7 @@ export default function HiveBalanceDisplay() {
         <Tbody>
           <Tr>
             <Td>
-              <Button border={"1px solid red"} onClick={() => handleOpenModal("Hive")}>
+              <Button width="200px" border={"1px solid red"} onClick={() => handleOpenModal("Hive")}>
                 <Image src={HIVE_LOGO_URL} alt="Hive Logo" boxSize="40px" />
                 <Text padding={"10px"}>Manage HIVE</Text>
               </Button>
@@ -224,7 +224,7 @@ export default function HiveBalanceDisplay() {
           </Tr>
           <Tr>
             <Td>
-              <Button border={"1px solid red"} onClick={() => handleOpenModal("Hive Power")}>
+              <Button width="200px" border={"1px solid red"} onClick={() => handleOpenModal("Hive Power")}>
                 <Image src={HIVE_POWER_LOGO_URL} alt="Hive Power Logo" boxSize="40px" />
                 <Text padding={"10px"}>Manage HP</Text>
               </Button>
@@ -233,7 +233,7 @@ export default function HiveBalanceDisplay() {
           </Tr>
           <Tr>
             <Td>
-              <Button border={"1px solid red"} onClick={() => handleOpenModal("HBD")}>
+              <Button width="200px" border={"1px solid red"} onClick={() => handleOpenModal("HBD")}>
                 <Image src={HBD_LOGO_URL} alt="HBD Logo" boxSize="40px" />
                 <Text padding={"10px"}>Manage HBD</Text>
               </Button>
@@ -242,7 +242,7 @@ export default function HiveBalanceDisplay() {
           </Tr>
           <Tr>
             <Td>
-              <Button border={"1px solid red"} onClick={() => handleOpenModal("Savings")}>
+              <Button width="200px" border={"1px solid red"} onClick={() => handleOpenModal("Savings")}>
                 <Image src={SAVINGS_LOGO_URL} alt="Savings Logo" boxSize="40px" />
                 <Text padding={"10px"}>Manage Sav.</Text>
               </Button>

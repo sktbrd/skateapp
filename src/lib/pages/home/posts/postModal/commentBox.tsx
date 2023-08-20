@@ -5,14 +5,11 @@ import {
   Button
 } from '@chakra-ui/react';
 
-interface CommentBoxProps {
-    user: any;
-    parentAuthor: string;
-    parentPermlink: string;
-    onCommentPosted: () => void;
-}
+import * as Types from '../types'
 
-const CommentBox: React.FC<CommentBoxProps> = ({ user, parentAuthor, parentPermlink, onCommentPosted }) => {
+
+
+const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, parentPermlink, onCommentPosted }) => {
   const [commentContent, setCommentContent] = useState('');
 
   const handleCommentSubmit = () => {

@@ -25,6 +25,8 @@ import EvmSendModal from "./evmSendModal";
 //@ts-ignore
 import { Pioneer } from "pioneer-react";
 
+import { Spinner } from "@chakra-ui/react"; // Import Spinner
+
 
 interface TokenInfo {
   id: string;
@@ -113,6 +115,7 @@ const EvmBalance: React.FC = () => {
           token.token.image = await fetchTokenLogo(token.token.coingeckoId);
         }
         setUserPortifolio(portfolio);
+        setLoading(false)
       }
     } catch (e) {
       console.error("Error in onStart:", e);
@@ -189,87 +192,98 @@ if (userPortifolio && userPortifolio.data) {
       overflow="auto"
       fontFamily="'Courier New', monospace"
     >
-      <Text
-        textAlign="center"
-        borderRadius="12px"
-        fontWeight="700"
-        fontSize="18px"
-        color="limegreen"
-        padding="10px"
-      >
-        Multichain Balance
-      </Text>
-      <Flex justifyContent={"space-between"}>
-        <Stack spacing={3}>
-          <Box>
-            <h2>Total Balance (App):</h2>
-            <p>{(userPortifolio?.data.totalBalanceUSDApp ?? 0).toFixed(2)} USD</p>
-          </Box>
-          <Box>
-            <h2>Total Balance (Tokens):</h2>
-            <p>{(userPortifolio?.data.totalBalanceUsdTokens ?? 0).toFixed(2)} USD</p>
-          </Box>
-          <Box>
-            <h2>Total Net Worth:</h2>
-            <p>{(userPortifolio?.data.totalNetWorth ?? 0).toFixed(2)} USD</p>
-          </Box>
-        </Stack>
-        <Pioneer></Pioneer>
-      </Flex>
-
-      <Flex align="center">
-        <Select
-          value={selectedBlockchain}
-          onChange={(e) => setSelectedBlockchain(e.target.value)}
-          ml="auto"
-          w="150px"
-        >
-          {blockchains.map((blockchain) => (
-            <option key={blockchain} value={blockchain}>
-              {blockchain === "all" ? "All Blockchains" : blockchain}
-            </option>
-          ))}
-        </Select>
-      </Flex>
-      {filteredTokens && filteredTokens.length === 0 ? (
-        <p>No balances found for the selected blockchain. Try to connect wallet again</p>
+      {pubkeyContext && loading ? (
+        <Flex flexDirection="column" alignItems="center" justifyContent="center" height="200px">
+          <Spinner size="xl" color="limegreen" />
+          <Text mt={4}>Loading balances... So many tokens uaau !</Text>
+        </Flex>
       ) : (
-        <Table variant="simple" size="sm">
-          <Thead>
-            <Tr>
-              {headers.map((header, index) => (
-                <Th key={index}>{header}</Th>
-              ))}
-              <Th>Receive</Th>
-              <Th>Send</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {filteredTokens?.map((token: any) => ( 
-              <Tr key={token.key}>
-                <Td>
-                  <Image src={token.token.image} alt={token.token.name} boxSize="20px" mr="2" />
-                  {token.token.name}
-                </Td>
-                <Td>{parseFloat(token.token.balance).toFixed(3)}</Td>
-                <Td>{parseFloat(token.token.balanceUSD).toFixed(2)}</Td>
-                <Td>
-                  <Button border="1px solid limegreen" onClick={() => copyToClipboard(token.address)}>Receive</Button>
-                </Td>
-                <Td>
-                  <Button border="1px solid limegreen" onClick={() => handleSendButtonClick(token.token)}>
-                    Send
-                  </Button>
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      )}
+        <>
+          <Text
+            textAlign="center"
+            borderRadius="12px"
+            fontWeight="700"
+            fontSize="18px"
+            color="limegreen"
+            padding="10px"
+          >
+            Multichain Balance
+          </Text>
+          <Flex justifyContent={"space-between"}>
+            <Stack spacing={3}>
+              <Box>
+                <h2>Total Balance (App):</h2>
+                <p>{(userPortifolio?.data.totalBalanceUSDApp ?? 0).toFixed(2)} USD</p>
+              </Box>
+              <Box>
+                <h2>Total Balance (Tokens):</h2>
+                <p>{(userPortifolio?.data.totalBalanceUsdTokens ?? 0).toFixed(2)} USD</p>
+              </Box>
+              <Box>
+                <h2>Total Net Worth:</h2>
+                <p>{(userPortifolio?.data.totalNetWorth ?? 0).toFixed(2)} USD</p>
+              </Box>
+            </Stack>
+            <Pioneer></Pioneer>
+          </Flex>
 
-      <EvmSendModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} tokenInfo={selectedTokenInfo} />
+          <Flex align="center">
+            <Select
+              value={selectedBlockchain}
+              onChange={(e) => setSelectedBlockchain(e.target.value)}
+              ml="auto"
+              w="150px"
+            >
+              {blockchains.map((blockchain) => (
+                <option key={blockchain} value={blockchain}>
+                  {blockchain === "all" ? "All Blockchains" : blockchain}
+                </option>
+              ))}
+            </Select>
+          </Flex>
+          {filteredTokens && filteredTokens.length === 0 ? (
+            <p>No balances found for the selected blockchain. Try to connect wallet again</p>
+          ) : (
+            <Table variant="simple" size="sm">
+              <Thead>
+                <Tr>
+                  {headers.map((header, index) => (
+                    <Th key={index}>{header}</Th>
+                  ))}
+                  <Th>Receive</Th>
+                  <Th>Send</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {filteredTokens?.map((token: any) => ( 
+                  <Tr key={token.key}>
+                    <Td>
+                      <Image src={token.token.image} alt={token.token.name} boxSize="20px" mr="2" />
+                      {token.token.name}
+                    </Td>
+                    <Td>{parseFloat(token.token.balance).toFixed(3)}</Td>
+                    <Td>{parseFloat(token.token.balanceUSD).toFixed(2)}</Td>
+                    <Td>
+                      <Button border="1px solid limegreen" onClick={() => copyToClipboard(token.address)}>Receive</Button>
+                    </Td>
+                    <Td>
+                      <Button border="1px solid limegreen" onClick={() => handleSendButtonClick(token.token)}>
+                        Send
+                      </Button>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          )}
+
+          <EvmSendModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} tokenInfo={selectedTokenInfo} />
+        </>
+      )}
     </Box>
 );
+
+
 
 
 

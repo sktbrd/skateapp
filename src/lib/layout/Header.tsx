@@ -173,7 +173,8 @@ const HeaderNew = () => {
       {/* Hive Login Modal */}
       <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
         <HiveLogin isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
-      </Modal>    </Flex>
+      </Modal>   
+   </Flex>
   );
 };
 

@@ -259,7 +259,7 @@ const enlargeOnHover = keyframes`
       </div>
     ) : (
       <Tab onClick={() => setModalOpen(true)}>
-        Connect Hive
+        Log in 
       </Tab>
     )}
   </TabList>

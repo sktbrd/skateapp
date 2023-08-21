@@ -38,7 +38,6 @@ export default function useAuthUser(): AuthUser {
   const loginWithHive = async (username: string) => {
     if (typeof window === "undefined" || !(window as any).hive_keychain) {
       alert("Please install Hive Keychain first");
-      window.open('https://hive-keychain.com/', '_blank');
       window.location.href = "/tutorial";
       return;
     }

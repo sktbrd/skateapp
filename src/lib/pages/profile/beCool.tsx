@@ -34,6 +34,8 @@ export default function HiveBalanceDisplay() {
   const [conversionRate, setConversionRate] = useState<number>(0);
   const [totalWorth, setTotalWorth] = useState<number>(0);
 
+
+    
   const isUserCool = () => {
     return totalWorth > 1000;
   };

@@ -1,26 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState , useRef, useEffect } from 'react';
+import { RefObject } from 'react';
+
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 // Hive Imports 
 import useAuthUser from '../home/api/useAuthUser';
 import { KeychainSDK } from 'keychain-sdk';
 import { defaultFooter } from './defaultFooter'; // Import the defaultFooter constant
-
+import AuthorSearchBar from './searchBar';
 import axios, { AxiosResponse, AxiosError, AxiosProgressEvent } from 'axios';
+import { FaBold, FaItalic } from 'react-icons/fa'; // Import font awesome icons
 
-
-import {
-  Box,
-  Flex,
-  Textarea,
-  Divider,
-  Button,
-  Input,
-  Checkbox,
-  Select,
-  Text
-} from '@chakra-ui/react';
-
+import MarkdownComponents, { MarkdownBlockquote, MarkdownAnchor, MarkdownH1, MarkdownH2, MarkdownH3, MarkdownUl, MarkdownOl, MarkdownIframe } from './MarkdownComponents';
+import { Box, Flex, Textarea, Divider, Button, Input, Checkbox, Select, Text, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
 
 interface UploadPageProps {
   title: string;
@@ -28,50 +20,74 @@ interface UploadPageProps {
   author: string;
   user: any;
   permlink: string;
-  weight: number; // Change this to allow any number value
+  weight: number; 
 }
-
 interface User {
   name?: string;
 }
-
 declare global {
   interface Window {
     hive_keychain: any;
   }
 }
+interface Beneficiary {
+  name: string;
+  percentage: number;
+}
+interface BeneficiaryForBroadcast {
+  account: string;
+  weight: string;
+}
 
 const keychain = new KeychainSDK(window);
-
-
 
 const UploadPage: React.FC<UploadPageProps> = () => {
   // User 
   const { user } = useAuthUser() as { user: User | null };
   // Post 
+
+  // ---------------------------Title ------------------------------
   const [title, setTitle] = useState('');
-  const [markdownContent, setMarkdownContent] = useState('');
-  const [showFooter, setShowFooter] = useState(false);
+
+
+  // ---------------------------Add Video ------------------------------
   const [videoLink, setVideoLink] = useState('');
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [image, setImage] = useState(''); // Add this line
-  const [thumbnail, setThumbnail] = useState<string | null>(null);
-  const [addedImages, setAddedImages] = useState<string[]>([]);
-  const [selectedThumbnail, setSelectedThumbnail] = useState<string | null>(null);
-  const [uploadProgress, setUploadProgress] = useState(0); // Initial value
-  const [isUploading, setIsUploading] = useState(false);
-  const [tags, setTags] = useState<string[]>(Array(5).fill('')); // Initialize with an array of 5 empty strings
 
-
-
-
+  const getYouTubeEmbedURL = (url: string) => {
+    const videoId = url.split('v=')[1];
+    if (videoId) {
+      return `https://www.youtube.com/embed/${videoId}`;
+    }
+    return url;
+  };
+  const handleAddVideo = () => {
+    let embedURL = '';
   
+    if (videoLink.includes("youtube.com")) {
+      embedURL = getYouTubeEmbedURL(videoLink);
+    } else if (videoLink.includes("odysee.com")) {
+      embedURL = videoLink.replace("odysee.com/", "odysee.com/$/embed/");
+    } else {
+      alert("Invalid video link. Please enter a valid YouTube or Odysee video link.");
+      return;
+    }
+  
+    setMarkdownContent(
+      `${markdownContent}\n\n<iframe src="${embedURL}" allowfullscreen></iframe>`
+    );
+    setVideoLink('');
+  };
+  // ---------------------------Add Images ------------------------------
+  const [image, setImage] = useState(''); // Add this line
+  const [uploadProgress, setUploadProgress] = useState(0); // Initial value
+  const [addedImages, setAddedImages] = useState<string[]>([]);
+  const [thumbnail, setThumbnail] = useState<string | null>(null);
   const PINATA_API_KEY = 'de64c0e69ab6e9098424';
   const PINATA_API_SECRET = 'bbab398cbebee9138a0f6c9008f75e973221e4a195d7dcafe755355be824cbd7';
-  
+  const [selectedOption, setSelectedOption] = useState<'url' | 'file'>('url'); 
+
   const handleIPFSUpload = async () => {
     setIsUploading(true); // Set to true at the beginning
-
     if (selectedFile) {
         const formData = new FormData();
         formData.append('file', selectedFile);
@@ -122,36 +138,32 @@ const UploadPage: React.FC<UploadPageProps> = () => {
             setIsUploading(false);
         }
     }
-};
+  };
 
+  const handleUploadFromURL = async () => {
+    if (!image) {
+        alert("Please enter a valid image URL.");
+        return;
+    }
 
+    try {
+        // Verify the image URL by fetching the image
+        const response = await fetch(image);
+        setMarkdownContent(`${markdownContent}\n\n![Uploaded image should load here](${image})`);
 
+        if (!response.ok) {
+            throw new Error("Failed to verify the image.");
+        }
 
-const handleUploadFromURL = async () => {
-  if (!image) {
-      alert("Please enter a valid image URL.");
-      return;
-  }
+        // If the fetch was successful, we assume the image URL is valid
+        setThumbnail(image); // set the image URL as thumbnail
+        setAddedImages(prev => [...prev, image]); // add the image URL to the added images list
 
-  try {
-      // Verify the image URL by fetching the image
-      const response = await fetch(image);
-      setMarkdownContent(`${markdownContent}\n\n![Uploaded image should load here](${image})`);
-
-      if (!response.ok) {
-          throw new Error("Failed to verify the image.");
-      }
-
-      // If the fetch was successful, we assume the image URL is valid
-      setThumbnail(image); // set the image URL as thumbnail
-      setAddedImages(prev => [...prev, image]); // add the image URL to the added images list
-
-  } catch (error) {
-      console.error("Error verifying the image:", error);
-      alert("Failed to verify the image. Please check the URL.");
-  }
-};
-
+    } catch (error) {
+        console.error("Error verifying the image:", error);
+        alert("Failed to verify the image. Please check the URL.");
+    }
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -160,110 +172,56 @@ const handleUploadFromURL = async () => {
   };
 
 
-  const getYouTubeEmbedURL = (url: string) => {
-    const videoId = url.split('v=')[1];
-    if (videoId) {
-      return `https://www.youtube.com/embed/${videoId}`;
-    }
-    return url;
-  };
+  // ---------------------------Add Body------------------------------
 
-  const handleAddVideo = () => {
-    let embedURL = '';
-  
-    if (videoLink.includes("youtube.com")) {
-      embedURL = getYouTubeEmbedURL(videoLink);
-    } else if (videoLink.includes("odysee.com")) {
-      embedURL = videoLink.replace("odysee.com/", "odysee.com/$/embed/");
-    } else {
-      alert("Invalid video link. Please enter a valid YouTube or Odysee video link.");
-      return;
-    }
-  
-    setMarkdownContent(
-      `${markdownContent}\n\n<iframe src="${embedURL}" allowfullscreen></iframe>`
-    );
-    setVideoLink('');
-  };
-  
-  
+  const [markdownContent, setMarkdownContent] = useState('');
+  const [showFooter, setShowFooter] = useState(false);
+  const [selectedHeadingLevel, setSelectedHeadingLevel] = useState<number>(1);
 
-  
-  const [selectedOption, setSelectedOption] = useState<'url' | 'file'>('url'); // Add this state
-  function slugify(text: string) {
-    return text
-        .toString()
-        .toLowerCase()
-        .replace(/\s+/g, '-')           // Replace spaces with -
-        .replace(/[^\w\-]+/g, '')       // Remove all non-word characters
-        .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-        .replace(/^-+/, '')             // Trim - from start of text
-        .replace(/-+$/, '');            // Trim - from end of text
-}
-
-  const handlePublish = () => {
-    // Construct the complete post body
-    
-    const completePostBody = `${markdownContent}
-      ${showFooter ? defaultFooter : ''}`;
-    
-    // Log the complete post body
-    console.log('Title: ' ,title)
-    console.log('Complete Post Body:', completePostBody);
-
-    const permlink = slugify(title.toLowerCase());
-    if (window.hive_keychain) { 
-      // Check if the Hive Keychain extension is available
-      const username = user?.name; // Assuming you get the logged-in user's name from the useAuthUser hook or similar
-  
-      if (username) {
-        const operations = [
-          ["comment",
-            {
-              "parent_author": "", // only for comments 
-              "parent_permlink": "hive-173115", 
-              "author": username,
-              "permlink": permlink, 
-              "title": title, 
-              "body": completePostBody, 
-              "json_metadata": JSON.stringify({ tags:allTags,
-                                                app: "skatehive", 
-                                                image: thumbnail ? [thumbnail] : [] // This will be an array with the thumbnail URL as the first item
-              })
-            }
-          ]
-        ];
-        console.log("OPERATIONS: ", operations)
-        window.hive_keychain.requestBroadcast(username, operations, "posting", (response: any) => {
-          if (response.success) {
-            window.alert("Post successfully published!");
-            // Here, you might want to redirect users to their post or show a success notification
-          } else {
-            console.error("Error publishing post:", response.message);
-            // Handle the error, e.g., by showing an error notification to the user
-          }
-        });
-      } else {
-        alert("You have to login with Hive Keychain to use this feature, if you are on desktop simply connect in the right top navigation bar, in mobile access this website in Hive Keychain native browser");
-        // Prompt user to login or show an appropriate message
-      }
-    } else {
-      console.error("Hive Keychain extension not found!");
-      // Inform the user to install the Hive Keychain extension
+  const handleBoldText = () => {
+    const selectedText = window.getSelection()?.toString();
+    if (selectedText) {
+      const beforeSelectedText = markdownContent.substring(0, markdownContent.indexOf(selectedText));
+      const afterSelectedText = markdownContent.substring(markdownContent.indexOf(selectedText) + selectedText.length);
+      setMarkdownContent(`${beforeSelectedText} **${selectedText}** ${afterSelectedText}`);
     }
   };
   
-  const handleImageSelection = (imageUrl: string) => {
-    setSelectedThumbnail(imageUrl);
+  const handleItalicText = () => {
+    const selectedText = window.getSelection()?.toString();
+    if (selectedText) {
+      const beforeSelectedText = markdownContent.substring(0, markdownContent.indexOf(selectedText));
+      const afterSelectedText = markdownContent.substring(markdownContent.indexOf(selectedText) + selectedText.length);
+      setMarkdownContent(`${beforeSelectedText} *${selectedText}* ${afterSelectedText}`);
+    }
   };
-  
+
+  const handleHeadingText = (level: number) => {
+    const selectedText = window.getSelection()?.toString();
+    if (selectedText) {
+      const beforeSelectedText = markdownContent.substring(0, markdownContent.indexOf(selectedText));
+      const afterSelectedText = markdownContent.substring(markdownContent.indexOf(selectedText) + selectedText.length);
+      const headingText = `${"#".repeat(level)} ${selectedText}`; // Add '#' symbols based on heading level
+      setMarkdownContent(`${beforeSelectedText}${headingText} ${afterSelectedText}`);
+    }
+  };
+
+  // ---------------------------Add Thumbnail----------------------------
+
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedThumbnail, setSelectedThumbnail] = useState<string | null>(null);
+
+
+  const [isUploading, setIsUploading] = useState(false);
   const ImageGallery = () => {
     const galleryStyles = {
       display: 'grid',
       gridTemplateColumns: 'repeat(3, 1fr)', // Three columns
       gap: '10px', // Gap between items
     };
-  
+
+    
+
     return (
       <Box style={galleryStyles}>
         {addedImages.map((img, idx) => (
@@ -274,8 +232,9 @@ const handleUploadFromURL = async () => {
       </Box>
     );
   };
-  
-
+  const handleImageSelection = (imageUrl: string) => {
+    setSelectedThumbnail(imageUrl);
+  };
   const overlayStyle: React.CSSProperties = {
     position: 'fixed',
     top: '0',
@@ -288,16 +247,148 @@ const handleUploadFromURL = async () => {
     justifyContent: 'center',
     alignItems: 'center',
   };
-  
+  // ---------------------------Add Tags-------------------------------
+
+  const [tags, setTags] = useState<string[]>(Array(5).fill('')); // Initialize with an array of 5 empty strings
+
+
+  const searchBarRef: RefObject<HTMLDivElement> = useRef(null);
+
+  const allTags = ["skateboard", ...tags.filter(tag => tag.trim() !== '')]; // This will combine the default tag with the user-added tags and filter out any empty tags
+
+
+  // ---------------------------Add Tags-------------------------------
   const handleTagChange = (index: number, value: string) => {
     const newTags = [...tags];
     newTags[index] = value;
     setTags(newTags);
   };
-
-  const allTags = ["skateboard", ...tags.filter(tag => tag.trim() !== '')]; // This will combine the default tag with the user-added tags and filter out any empty tags
-
   
+  // -------------------------Add Beneficiaries--------------------------
+
+  const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
+  const handleAuthorSearch = (searchUsername: string) => {
+    const percentage = 10;
+
+    // Check if the beneficiary already exists
+    const beneficiaryExists = beneficiaries.some(b => b.name === searchUsername);
+
+    if (!beneficiaryExists && percentage > 0) {
+        const newBeneficiary = { name: searchUsername, percentage };
+        setBeneficiaries(prevBeneficiaries => [...prevBeneficiaries, newBeneficiary]);
+        alert(`Beneficiary ${searchUsername} added! Please set the percentage using the sliders below.`);
+    } else {
+        alert(`Beneficiary ${searchUsername} already exists or percentage is zero.`);
+    }
+
+    console.log("Search username:", searchUsername);
+    console.log(beneficiariesArray)
+};
+
+  const handleBeneficiaryPercentageChange = (index: number, newPercentage: number) => {
+    const updatedBeneficiaries = [...beneficiaries];
+    updatedBeneficiaries[index].percentage = newPercentage;
+    setBeneficiaries(updatedBeneficiaries);
+  };
+
+  const beneficiariesArray: BeneficiaryForBroadcast[] = beneficiaries
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map(beneficiary => ({
+        account: beneficiary.name,
+        weight: (beneficiary.percentage * 100).toFixed(0),  // Convert the weight to an integer
+    }));
+
+    const handleClickOutside = (event:any) => {
+      if (searchBarRef.current && !searchBarRef.current.contains(event.target)) {
+          // Close the search results here
+      }
+    };
+      useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }, []);
+
+  // ----------------------------PUBLISH-----------------------------
+
+
+  function slugify(text: string) {
+    return text
+        .toString()
+        .toLowerCase()
+        .replace(/\s+/g, '-')           // Replace spaces with -
+        .replace(/[^\w\-]+/g, '')       // Remove all non-word characters
+        .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+        .replace(/^-+/, '')             // Trim - from start of text
+        .replace(/-+$/, '');            // Trim - from end of text
+  };
+
+  const handlePublish = () => {
+  // Construct the complete post body
+  const completePostBody = `${markdownContent}${showFooter ? defaultFooter : ''}`;
+
+  // Log the complete post body
+  console.log('Title: ' ,title);
+  console.log('Complete Post Body:', completePostBody);
+
+  const permlink = slugify(title.toLowerCase());
+  if (window.hive_keychain) {
+      const username = user?.name;
+      if (username) {
+          const commentOptions = {
+              author: username,
+              permlink: permlink,
+              max_accepted_payout: '10000.000 HBD',
+              percent_hbd: 10000,
+              allow_votes: true,
+              allow_curation_rewards: true,
+              extensions: [
+                [0, {
+                    beneficiaries: beneficiariesArray.map(b => ({
+                        account: b.account,
+                        weight: parseInt(b.weight, 10) // Convert the weight string to an integer
+                    }))
+                }]
+            ]
+          };
+
+          const operations = [
+              ["comment",
+                  {
+                      "parent_author": "",
+                      "parent_permlink": "666",
+                      "author": username,
+                      "permlink": permlink,
+                      "title": title,
+                      "body": completePostBody,
+                      "json_metadata": JSON.stringify({
+                          tags: allTags,
+                          app: "skatehive",
+                          image: thumbnail ? [thumbnail] : []
+                      })
+                  }
+              ],
+              ["comment_options", commentOptions]
+          ];
+
+          console.log("OPERATIONS: ", operations);
+          window.hive_keychain.requestBroadcast(username, operations, "posting", (response: any) => {
+              if (response.success) {
+                  window.alert("Post successfully published!");
+              } else {
+                  console.error("Error publishing post:", response.message);
+              }
+          });
+      } else {
+          alert("You have to login with Hive Keychain to use this feature...");
+      }
+  } else {
+      console.error("Hive Keychain extension not found!");
+  }
+  };
+
+
   return (
       <>
         {isUploading && (
@@ -367,12 +458,34 @@ const handleUploadFromURL = async () => {
           </Flex>
         </Flex>
         <Text>4. Your Blog</Text>
-        <Textarea
-          value={markdownContent}
-          onChange={(e) => setMarkdownContent(e.target.value)}
-          placeholder="Write your markdown content here..."
-          height="300px"
-        />
+        <Flex alignItems="center" marginBottom="10px">
+  <Button border="1px solid limegreen" onClick={handleBoldText}>
+    <FaBold />
+  </Button>
+  <Button border="1px solid limegreen" onClick={handleItalicText}>
+    <FaItalic />
+  </Button>
+  {/* <Select
+    value={selectedHeadingLevel}
+    onChange={(e) => setSelectedHeadingLevel(Number(e.target.value))}
+  >
+    <option value={1}>H1</option>
+    <option value={2}>H2</option>
+    <option value={3}>H3</option>
+  </Select> */}
+  {/* <Button
+    border="1px solid limegreen"
+    onClick={() => handleHeadingText(selectedHeadingLevel)}
+  >
+    Heading
+  </Button> */}
+      </Flex>
+      <Textarea
+        value={markdownContent}
+        onChange={(e) => setMarkdownContent(e.target.value)}
+        placeholder="Write your markdown content here..."
+        height="300px"
+      />
         <Checkbox
           isChecked={showFooter}
           onChange={() => setShowFooter(!showFooter)}
@@ -393,6 +506,27 @@ const handleUploadFromURL = async () => {
       width="20%" // Distribute the width equally for 5 tags
     />
   ))}
+</Flex>
+<Text>7. Split with your Fotografer/VideoMaker</Text>
+<Flex marginBottom="10px">
+  
+<div ref={searchBarRef}>
+
+<AuthorSearchBar onSearch={handleAuthorSearch} />
+          {beneficiaries.map((beneficiary, index) => (
+            <div key={index}>
+              <p>{beneficiary.name} - {beneficiary.percentage}%</p>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={beneficiary.percentage}
+                onChange={(e) => handleBeneficiaryPercentageChange(index, parseFloat(e.target.value))}
+              />
+            </div>
+          ))}
+
+</div> 
 </Flex>
 
        <Box borderRadius="10px"border="1px solid limegreen" width="100%">
@@ -417,92 +551,16 @@ const handleUploadFromURL = async () => {
           children={markdownContent}
           remarkPlugins={[remarkGfm]}
           components={{
-            img: ({ node, alt, src, title, ...props }) => (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <img
-                  {...props}
-                  alt={alt}
-                  src={src}
-                  title={title}
-                  style={{
-                    maxWidth: '100%',
-                    height: 'auto',
-                    borderRadius: '10px',
-                    border: '1px solid limegreen',
-                  }}
-                />
-              </div>
-            ),
-            a: ({ node, children, ...props }) => (
-              <a {...props} style={{ color: 'yellow' }}>
-                {children}
-              </a>
-            ),
-            h1: ({ node, children, ...props }) => (
-              <h1
-                {...props}
-                style={{ fontWeight: 'bold', color: 'yellow', fontSize: '24px' }}
-              >
-                {children}
-              </h1>
-            ),
-            h2: ({ node, children, ...props }) => (
-              <h2
-                {...props}
-                style={{ fontWeight: 'bold', color: 'yellow', fontSize: '20px' }}
-              >
-                {children}
-              </h2>
-            ),
-            h3: ({ node, children, ...props }) => (
-              <h3
-                {...props}
-                style={{ fontWeight: 'bold', color: 'yellow', fontSize: '18px' }}
-              >
-                {children}
-              </h3>
-            ),
-            blockquote: ({ node, children, ...props }) => (
-              <blockquote
-                {...props}
-                style={{
-                  borderLeft: '3px solid limegreen',
-                  paddingLeft: '10px',
-                  fontStyle: 'italic',
-                }}
-              >
-                {children}
-              </blockquote>
-            ),
-            ul: ({ node, children, ...props }) => (
-              <ul style={{ paddingLeft: '20px' }} {...props}>
-                {children}
-              </ul>
-            ),
-            ol: ({ node, children, ...props }) => (
-              <ol style={{ paddingLeft: '20px' }} {...props} >
-                {children}
-              </ol>
-            ),
-            iframe: ({ node, ...props }) => (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <iframe {...props} />
-              </div>
-            ),
-          }}
-          
+            ...MarkdownComponents,
+            blockquote: MarkdownBlockquote,
+            a: MarkdownAnchor,
+            h1: MarkdownH1,
+            h2: MarkdownH2,
+            h3: MarkdownH3,
+            ul: MarkdownUl,
+            ol: MarkdownOl,
+            iframe: MarkdownIframe,
+          }}          
         />
         {showFooter && (
           
@@ -510,92 +568,16 @@ const handleUploadFromURL = async () => {
             children={defaultFooter}
             remarkPlugins={[remarkGfm]}
             components={{
-              img: ({ node, alt, src, title, ...props }) => (
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <img
-                    {...props}
-                    alt={alt}
-                    src={src}
-                    title={title}
-                    style={{
-                      maxWidth: '100%',
-                      height: 'auto',
-                      borderRadius: '10px',
-                      border: '1px solid limegreen',
-                    }}
-                  />
-                </div>
-              ),
-              a: ({ node, children, ...props }) => (
-                <a {...props} style={{ color: 'yellow' }}>
-                  {children}
-                </a>
-              ),
-              h1: ({ node, children, ...props }) => (
-                <h1
-                  {...props}
-                  style={{ fontWeight: 'bold', color: 'yellow', fontSize: '24px' }}
-                >
-                  {children}
-                </h1>
-              ),
-              h2: ({ node, children, ...props }) => (
-                <h2
-                  {...props}
-                  style={{ fontWeight: 'bold', color: 'yellow', fontSize: '20px' }}
-                >
-                  {children}
-                </h2>
-              ),
-              h3: ({ node, children, ...props }) => (
-                <h3
-                  {...props}
-                  style={{ fontWeight: 'bold', color: 'yellow', fontSize: '18px' }}
-                >
-                  {children}
-                </h3>
-              ),
-              blockquote: ({ node, children, ...props }) => (
-                <blockquote
-                  {...props}
-                  style={{
-                    borderLeft: '3px solid limegreen',
-                    paddingLeft: '10px',
-                    fontStyle: 'italic',
-                  }}
-                >
-                  {children}
-                </blockquote>
-              ),
-              ul: ({ node, children, ...props }) => (
-                <ul style={{ paddingLeft: '20px' }} {...props}>
-                  {children}
-                </ul>
-              ),
-              ol: ({ node, children, ...props }) => (
-                <ol style={{ paddingLeft: '20px' }} {...props}>
-                  {children}
-                </ol>
-              ),
-              iframe: ({ node, ...props }) => (
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <iframe {...props} />
-                </div>
-              ),
+              ...MarkdownComponents,
+              blockquote: MarkdownBlockquote,
+              a: MarkdownAnchor,
+              h1: MarkdownH1,
+              h2: MarkdownH2,
+              h3: MarkdownH3,
+              ul: MarkdownUl,
+              ol: MarkdownOl,
+              iframe: MarkdownIframe,
             }}
-            
           />
           
         )}
@@ -603,9 +585,6 @@ const handleUploadFromURL = async () => {
     </Flex>
       </>
   );
-  
-  
-  
 };
 
 export default UploadPage;

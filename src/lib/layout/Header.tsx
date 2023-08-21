@@ -153,24 +153,50 @@ const enlargeOnHover = keyframes`
   />
 </MenuButton>
 
-          <MenuList border="1px solid limegreen" backgroundColor="black" color="white">
-            <Link to="https://snapshot.org/#/skatehive.eth" style={{ textDecoration: 'none' }}>
-              <MenuItem backgroundColor="black">Governance</MenuItem>
-            </Link>
-            <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" style={{ textDecoration: 'none' }}>
-              <MenuItem backgroundColor="black">Curation Trail</MenuItem>
-            </Link>
-            <Link to="https://www.stoken.quest/" style={{ textDecoration: 'none' }}>
-              <MenuItem backgroundColor="black">Quest For Stoken</MenuItem>
-            </Link>
-            <Link to="https://docs.skatehive.app" style={{ textDecoration: 'none' }}>
-              <MenuItem backgroundColor="black">Docs</MenuItem>
-            </Link>
-            <Link to="/becool" style={{ textDecoration: 'none' }}>
-              <MenuItem backgroundColor="black">How to be Cool</MenuItem>
-            </Link>
-            {/* Add more external links as needed */}
-          </MenuList>
+<MenuList border="1px solid limegreen" backgroundColor="black" color="white">
+  <Link to="https://snapshot.org/#/skatehive.eth" style={{ textDecoration: 'none' }}>
+    <MenuItem
+      _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+      backgroundColor="black"
+    >
+      Governance
+    </MenuItem>
+  </Link>
+  <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" style={{ textDecoration: 'none' }}>
+    <MenuItem
+      _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+      backgroundColor="black"
+    >
+      Curation Trail
+    </MenuItem>
+  </Link>
+  <Link to="https://www.stoken.quest/" style={{ textDecoration: 'none' }}>
+    <MenuItem
+      _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+      backgroundColor="black"
+    >
+      Quest For Stoken
+    </MenuItem>
+  </Link>
+  <Link to="https://docs.skatehive.app" style={{ textDecoration: 'none' }}>
+    <MenuItem
+      _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+      backgroundColor="black"
+    >
+      Docs
+    </MenuItem>
+  </Link>
+  <Link to="/becool" style={{ textDecoration: 'none' }}>
+    <MenuItem
+      _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+      backgroundColor="black"
+    >
+      How to be Cool
+    </MenuItem>
+  </Link>
+  {/* Add more external links as needed */}
+</MenuList>
+
         </Menu>
       <Text 
         fontSize={fontSize} 

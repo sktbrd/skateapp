@@ -181,9 +181,12 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
       onOpen(); // Open the post modal
       console.log(post)
     };
+    
 
     return (
+
       <Box>
+
         {isLoading ? (
           <PlaceholderLoadingBar />
         ) : (
@@ -250,11 +253,11 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
                     size="xs"
                     ml={2}
                   >
-                    Earning: {post.earnings.toFixed(2)}
+                    Earnings: {post.earnings.toFixed(2)}
                     <img
-                      src="https://files.peakd.com/file/peakd-hive/stoken/AJehXHi6rLgTvubC9DeyhGAHePWx9xYJw3dvgbjzfTdDSuQ7zxS5gyK4Q62iTMi.gif"
+                      src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
                       alt="Earning"
-                      style={{ width: "18px", height: "18px", marginBottom: "3px" }}
+                      style={{ width: "18px", height: "18px", marginLeft:"7px", marginBottom: "2px" }}
                     />
                   </Button>
                   </Text>

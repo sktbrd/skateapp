@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import HiveBlog from "../home/posts/Feed";
 import HiveBalanceDisplay from "../wallet/hive/hiveBalance";
 import { useParams } from 'react-router-dom';
+import { Client } from "@hiveio/dhive";
 
 interface AuthorProfile {
   cover_image?: string;
@@ -15,7 +16,6 @@ interface Author {
   profile?: AuthorProfile;
 }
 
-const DEFAULT_AVATAR_URL = "https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif";
 const DEFAULT_COVER_IMAGE_URL = 'https://i.ibb.co/r20bWsF/You-forgot-to-add-a-cover.gif';
 
 export default function AuthorProfilePage() {
@@ -26,8 +26,9 @@ export default function AuthorProfilePage() {
     const fetchCoverImage = async () => {
       if (username) {
         try {
-          // Fetch the author's metadata using the username from the URL
-          const metadata: Author = await fetchAuthorMetadata(username); // Type the metadata as Author
+          const client = new Client('https://api.hive.blog'); // Set the appropriate Hive node URL
+          const account = await client.database.getAccounts([username]);
+          const metadata = JSON.parse(account[0].posting_json_metadata) as Author;
           const coverImage = metadata.profile?.cover_image || DEFAULT_COVER_IMAGE_URL;
           setCoverImageUrl(coverImage);
         } catch (error) {
@@ -39,30 +40,17 @@ export default function AuthorProfilePage() {
     fetchCoverImage();
   }, [username]);
 
-  // Mock function to fetch author metadata
-  // Replace this with your actual method to fetch user data
-  const fetchAuthorMetadata = async (username: string): Promise<Author> => {
-    // Mock response
-    return {
-      name: username,
-      posting_json_metadata: JSON.stringify({
-        profile: {
-          cover_image: DEFAULT_COVER_IMAGE_URL
-        }
-      })
-    };
-  };
-
   return (
-    <Box
-      borderRadius="10px"
-      border="1px solid red"
-      fontFamily="'Courier New', monospace"
-      position="relative"
-      overflow="hidden"
-    >
-      <Image src={coverImageUrl} alt="Cover Image" w="100%" h="auto" position="relative" zIndex="-1" />
-
+      <Box
+        borderRadius="10px"
+        border="1px solid red"
+        fontFamily="'Courier New', monospace"
+        position="relative"
+        overflow="hidden"
+        maxWidth="1920px"  // Set a max width for the image container
+        margin="0 auto"     // Center align the image container
+      >
+        <Image src={coverImageUrl} alt="Cover Image" maxH="240px" width="100%" objectFit="cover" />
       <Flex alignItems="center" justifyContent="center" padding="10px" position="relative" zIndex="1">
         <Box
           position="absolute"

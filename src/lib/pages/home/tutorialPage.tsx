@@ -70,7 +70,10 @@ const DesktopTutorial: React.FC = () => {
   return (
     <VStack spacing={4} justifyContent="center" alignItems="center" width="100%">
       <Image borderRadius="10px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdsr0CBSW8SIppxzyJMCoqvAfjRI0HUjBKDw&usqp=CAU" />
-      <Text fontSize="22px" >1st Step) Download Hive Keychain for your Browser</Text>
+      <HStack spacing={4}>
+        <Box padding="10px" color="white" fontWeight="bold" fontSize="22px">1st Step)</Box>
+        <Text fontSize="22px">Download Hive Keychain for your Browser</Text>
+      </HStack>
       <HStack spacing={4}>
         <Link href="https://chrome.google.com/webstore/detail/hive-keychain/jcacnejopjdphbnjgfaaobbfafkihpep?hl=en" isExternal>
           <Image src="https://hive-keychain.com/img/browsers/chrome.svg" alt="Chrome" boxSize="70px" />
@@ -91,26 +94,26 @@ const MobileTutorial: React.FC = () => {
     <VStack spacing={4} alignItems="center" width="100%">
       <Image src="https://gifdb.com/images/high/pepe-frog-using-phone-in-bed-cyn9sh5ok3f1lb21.gif" boxSize="200px" />
       <HStack spacing={4}>
-        <Box padding="10px" color="white" fontWeight="bold" fontSize="22px">1st Step)</Box>
-        <Text fontSize="22px">Download Keychain in your Mobile app Store</Text>
+        <Box  color="white" fontWeight="bold" fontSize="22px">1st Step)</Box>
+        <Text fontSize="xl">Download Keychain in your Mobile app Store</Text>
       </HStack>
-      <HStack justifyContent="space-between" width="100%" padding="20px">
+      <HStack justifyContent="space-between" width="80%" padding="20px">
         <VStack>
-          <Text fontSize="22px">Android</Text>
+          <Text fontSize="xl">Android</Text>
           <Link href="https://play.google.com/store/apps/details?id=com.mobilekeychain" isExternal>
             <Image src="https://hive-keychain.com/img/browsers/android.svg" alt="Android" />
           </Link>
         </VStack>
         <VStack>
-          <Text fontSize="22px">iOS</Text>
+          <Text fontSize="xl">iOS</Text>
           <Link href="https://apps.apple.com/us/app/hive-keychain/id1552190010" isExternal>
             <Image src="https://hive-keychain.com/img/browsers/ios.svg" alt="iOS" />
           </Link>
         </VStack>
       </HStack>
       <HStack spacing={4}>
-        <Box padding="10px" color="white" fontWeight="bold" fontSize="22px">2nd Step)</Box>
-        <Text fontSize="22px">Get Hive Keys in Skatehive Discord Server</Text>
+        <Box  color="white" fontWeight="bold" fontSize="22px">2nd Step)</Box>
+        <Text fontSize="xl">Get Hive Keys in Skatehive Discord Server</Text>
       </HStack>
       <Button
         bg="black"
@@ -139,14 +142,15 @@ const MobileTutorial: React.FC = () => {
         Join Discord
       </Button>
       <HStack spacing={4}>
-        <Box padding="10px" color="white" fontWeight="bold" fontSize="22px">3rd Step)</Box>
+        <Box  color="white" fontWeight="bold" fontSize="22px">3rd Step)</Box>
         <Text fontSize="22px">Insert your BACKUP key in Hive Keychain App</Text>
       </HStack>
       <Image width="auto" height="450px" src="https://i.ibb.co/HVYRn10/ezgif-com-gif-maker.gif" borderRadius="20px" />
       <HStack spacing={4}>
-        <Box padding="10px" color="white" fontWeight="bold" fontSize="22px">4th Step)</Box>
-        <Text fontSize="22px">Enter in HiveKeychain Browser</Text>
+        <Box  color="white" fontWeight="bold" fontSize="22px">4th Step)</Box>
+        <Text fontSize="22px">Enter in Hive Keychain in Browser Mode</Text>
       </HStack>
+      <Image width="auto" height="450px" src="https://i.ibb.co/3zBtmPk/browser.gif" borderRadius="20px" />
     </VStack>
   )
 }
@@ -159,7 +163,7 @@ const TutorialPage: React.FC = () => {
       <VStack>
         <TerminalEffectComponent />
         {/* Tabs */}
-        <Tabs variant="soft-rounded" maxW="80%">
+        <Tabs variant="soft-rounded" maxW="100%">
           <TabList justifyContent="center">
             <Tab _selected={{ border: '1px limegreen solid', color: 'white', bg: 'black' }}>Mobile</Tab>
             <Tab _selected={{ border: '1px limegreen solid', color: 'white', bg: 'black' }}>Desktop</Tab>

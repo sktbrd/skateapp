@@ -253,7 +253,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
                     size="xs"
                     ml={2}
                   >
-                    Earnings: {post.earnings.toFixed(2)}
+                    Stokens: {post.earnings.toFixed(2)}
                     <img
                       src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
                       alt="Earning"

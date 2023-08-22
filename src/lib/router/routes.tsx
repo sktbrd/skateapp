@@ -11,7 +11,6 @@ const BeCool = React.lazy(() => import("lib/pages/profile/beCool")); // Update t
 const TutorialPage = React.lazy(() => import("lib/pages/home/tutorialPage")); // Update the path accordingly
 
 
-
 export const routes: Array<PathRouteProps> = [
   {
     path: "/",

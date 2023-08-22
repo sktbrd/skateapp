@@ -77,7 +77,7 @@ const DesktopTutorial: React.FC = () => {
         <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
             <HStack spacing={2}>
                 <Text fontSize="22px" fontWeight="bold" color="white">1st Step)</Text>
-                <Text fontSize="22px">Download Hive Keychain for your Browser</Text>
+                <Text fontSize="22px">Download Hive Keychain for your Browser and pin it 📌</Text>
             </HStack>
             <HStack spacing={4} justifyContent="center">
                 <VStack padding="20px" alignItems="center" spacing={2}>
@@ -147,16 +147,20 @@ const DesktopTutorial: React.FC = () => {
         <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
             <HStack spacing={2}>
                 <Text fontSize="22px" fontWeight="bold" color="white">3rd Step)</Text>
-                <Text fontSize="xl">[Content for the 3rd step goes here]</Text>
+                <Text fontSize="xl">Set up your Keychain Browser Extension adding your BACKUP key to it</Text>
             </HStack>
+            <VStack alignItems="center" spacing={4}>
+          <Image width="auto" height="450px" src="https://hackmd.io/_uploads/ByROGywjh.png" borderRadius="20px" border="1px solid limegreen" borderWidth="2px" />
+        </VStack>
         </Box>
 
         {/* 4th Step */}
         <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
             <HStack spacing={2}>
                 <Text fontSize="22px" fontWeight="bold" color="white">4th Step)</Text>
-                <Text fontSize="xl">[Content for the 4th step goes here]</Text>
+                <Text fontSize="xl">Connect your wallet in Skatehive.App and Keep it Gnarly ⌐◨-◨ </Text>
             </HStack>
+
         </Box>
       </VStack>
     </Box>

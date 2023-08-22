@@ -42,7 +42,7 @@ const TerminalEffectComponent: React.FC = () => {
         'First, where are you going to use Skatehive?'
       ],
       typeSpeed: 50,
-      backSpeed: 50,
+      backSpeed: 10,
       backDelay: 1000,
       startDelay: 500,
       showCursor: true,

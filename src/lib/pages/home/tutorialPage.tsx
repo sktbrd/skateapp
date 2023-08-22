@@ -76,8 +76,8 @@ const DesktopTutorial: React.FC = () => {
         
         <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
             <HStack spacing={2}>
-                <Text fontSize="22px" fontWeight="bold" color="white">1st Step)</Text>
-                <Text fontSize="22px">Download Hive Keychain for your Browser and pin it 📌</Text>
+                <Text padding="5px"borderRadius="10px"border="1px solid white" fontSize="22px" fontWeight="bold" color="white">1st Step)</Text>
+                <Text  fontSize="22px">Download Hive Keychain for your Browser and pin it 📌</Text>
             </HStack>
             <HStack spacing={4} justifyContent="center">
                 <VStack padding="20px" alignItems="center" spacing={2}>
@@ -104,8 +104,8 @@ const DesktopTutorial: React.FC = () => {
         {/* 2nd Step */}
         <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
             <HStack spacing={2}>
-                <Text fontSize="22px" fontWeight="bold" color="white">2nd Step)</Text>
-                <Text fontSize="xl">
+                <Text padding="5px"borderRadius="10px"border="1px solid white" fontSize="22px" fontWeight="bold" color="white">2nd Step)</Text>
+                <Text  fontSize="xl">
                     Get Hive Keys in Skatehive Discord Server or 
                     {' '}
                     <Link href='https://docs.skatehive.app/docs/Create-Wallets/hive-wallet' isExternal color="yellow">
@@ -146,7 +146,7 @@ const DesktopTutorial: React.FC = () => {
         {/* 3rd Step */}
         <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
             <HStack spacing={2}>
-                <Text fontSize="22px" fontWeight="bold" color="white">3rd Step)</Text>
+                <Text padding="5px"borderRadius="10px"border="1px solid white" fontSize="22px" fontWeight="bold" color="white">3rd Step)</Text>
                 <Text fontSize="xl">Set up your Keychain Browser Extension adding your BACKUP key to it</Text>
             </HStack>
             <VStack alignItems="center" spacing={4}>
@@ -157,8 +157,8 @@ const DesktopTutorial: React.FC = () => {
         {/* 4th Step */}
         <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
             <HStack spacing={2}>
-                <Text fontSize="22px" fontWeight="bold" color="white">4th Step)</Text>
-                <Text fontSize="xl">Connect your wallet in Skatehive.App and Keep it Gnarly ⌐◨-◨ </Text>
+                <Text padding="5px"borderRadius="10px"border="1px solid white" fontSize="22px" fontWeight="bold" color="white">4th Step)</Text>
+                <Text  fontSize="xl">Connect your wallet in Skatehive.App and Keep it Gnarly ⌐◨-◨ </Text>
             </HStack>
 
         </Box>
@@ -178,7 +178,7 @@ const MobileTutorial: React.FC = () => {
 
       <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
         <HStack spacing={2}>
-          <Text fontSize="22px" fontWeight="bold" color="white">1st Step)</Text>
+          <Text padding="5px"borderRadius="10px"border="1px solid white" fontSize="22px" fontWeight="bold" color="white">1st Step)</Text>
           <Text fontSize="xl">Download Keychain in your Mobile app Store</Text>
         </HStack>
         <VStack alignItems="center" spacing={4}>
@@ -201,7 +201,7 @@ const MobileTutorial: React.FC = () => {
 
       <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
         <HStack spacing={2}>
-          <Text fontSize="22px" fontWeight="bold" color="white">2nd Step)</Text>
+          <Text padding="5px"borderRadius="10px"border="1px solid white" fontSize="22px" fontWeight="bold" color="white">2nd Step)</Text>
           <Text fontSize="xl">
             Get Hive Keys in Skatehive Discord Server or 
             {' '}
@@ -242,8 +242,8 @@ const MobileTutorial: React.FC = () => {
 
       <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
         <HStack spacing={2}>
-          <Text fontSize="22px" fontWeight="bold" color="white">3rd Step)</Text>
-          <Text fontSize="xl">Insert your BACKUP key in Hive Keychain App</Text>
+          <Text padding="5px"borderRadius="10px"border="1px solid white" fontSize="22px" fontWeight="bold" color="white">3rd Step)</Text>
+          <Text  fontSize="xl">Insert your BACKUP key in Hive Keychain App</Text>
         </HStack>
         <VStack alignItems="center" spacing={4}>
           <Image width="auto" height="450px" src="https://i.ibb.co/HVYRn10/ezgif-com-gif-maker.gif" borderRadius="20px" border="1px solid limegreen" borderWidth="2px" />
@@ -252,8 +252,8 @@ const MobileTutorial: React.FC = () => {
 
       <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
         <HStack spacing={2}>
-          <Text fontSize="22px" fontWeight="bold" color="white">4th Step)</Text>
-          <Text fontSize="xl">Enter in Hive Keychain in Browser Mode and be free</Text>
+          <Text padding="5px"borderRadius="10px"border="1px solid white" fontSize="22px" fontWeight="bold" color="white">4th Step)</Text>
+          <Text  fontSize="xl">Enter in Hive Keychain in Browser Mode and be free</Text>
         </HStack>
         <VStack alignItems="center" spacing={4}>
           <Image width="auto" height="450px" src="https://i.ibb.co/3zBtmPk/browser.gif" borderRadius="20px" border="1px solid limegreen" borderWidth="2px" />

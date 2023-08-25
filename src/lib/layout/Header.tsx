@@ -146,19 +146,19 @@ const enlargeOnHover = keyframes`
   }}
 >
   <Image
-    src="https://i.ibb.co/4mnD3LP/image.png"
+    src="https://i.ibb.co/HVvp05K/image.png"
     alt="Dropdown Image"
     boxSize="48px" // Adjust the size as needed
-    borderRadius="10px"
+    borderRadius="0px"
   />
 </MenuButton>
-<MenuList border="1px solid red" backgroundColor="black" color="white">
-  <Link to="https://snapshot.org/#/skatehive.eth" style={{ textDecoration: 'none' }}>
+<MenuList border="1px solid white" backgroundColor="black" color="white">
+  <Link to="https://somaskatearte.com/" style={{ textDecoration: 'none' }}>
     <MenuItem
       _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
       backgroundColor="black"
     >
-      Comprar Meias
+      Loja
     </MenuItem>
   </Link>
   <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" style={{ textDecoration: 'none' }}>
@@ -169,7 +169,7 @@ const enlargeOnHover = keyframes`
       Instagram
     </MenuItem>
   </Link>
-  <Link to="https://www.stoken.quest/" style={{ textDecoration: 'none' }}>
+  <Link to="https://www.instagram.com/somaskateshop/" style={{ textDecoration: 'none' }}>
     <MenuItem
       _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
       backgroundColor="black"
@@ -200,7 +200,7 @@ const enlargeOnHover = keyframes`
       <Text 
         fontSize={fontSize} 
         fontWeight="medium" 
-        color="#f0c33f" 
+        color="white" 
         style={{ marginTop: '2px' }}
       >
       </Text>

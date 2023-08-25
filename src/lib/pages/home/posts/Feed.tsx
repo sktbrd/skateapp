@@ -44,8 +44,8 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
 
   const PlaceholderLoadingBar = () => {
     return <center>
-        <Image src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTZrYmdtbGpjaXg4NzVheDNzOTY0aTZ0NjhvMDkwcnFpdmFnazhrNyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/H39AnU3gTYgPm/giphy.gif"></Image>
-      <Text>VocE Vai MorRer...</Text>
+      <Image  src="https://media1.giphy.com/media/dyAf7IKSw1IMXd0gSj/giphy.gif"></Image>
+      <Text>Faça um KickFlip...</Text>
       </center>;
   };
 

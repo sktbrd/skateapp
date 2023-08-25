@@ -21,7 +21,7 @@ export const theme = extendTheme({
         color: props.colorMode === "dark" ? "white" : "black",
       },
       p: {
-        color: "limegreen",
+        color: "white",
       },
     }),
   },

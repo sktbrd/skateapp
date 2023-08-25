@@ -1,12 +1,12 @@
 import { Helmet } from "react-helmet";
 
-const APP_NAME = "SkateHive App";
+const APP_NAME = "Crows Night";
 
 const Meta = () => {
   return (
     <Helmet>
       <title>{APP_NAME}</title>
-      <meta name="description" content="Skateboarders App" />
+      <meta name="description" content="The Death of Skateboarding" />
 
       <meta name="application-name" content={APP_NAME} />
       <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -16,7 +16,7 @@ const Meta = () => {
       <meta name="mobile-web-app-capable" content="yes" />
       <meta name="theme-color" content="#228B22" />
 
-      <link rel="shortcut icon" href="https://images.hive.blog/u/hive-173115/avatar" />
+      <link rel="shortcut icon" href="https://i.ibb.co/4mnD3LP/image.png" />
       <link rel="manifest" href="/manifest.json" />
     </Helmet>
   );

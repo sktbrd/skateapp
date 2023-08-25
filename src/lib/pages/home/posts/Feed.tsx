@@ -44,7 +44,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
 
   const PlaceholderLoadingBar = () => {
     return <center>
-        <Image src="https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif"></Image>
+        <Image src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTZrYmdtbGpjaXg4NzVheDNzOTY0aTZ0NjhvMDkwcnFpdmFnazhrNyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/H39AnU3gTYgPm/giphy.gif"></Image>
       <Text>Roll a Joint...</Text>
       </center>;
   };
@@ -198,7 +198,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
             {posts.map((post) => (
               <Card
                 border="1px"
-                borderColor="limegreen"
+                borderColor="whiten"
                 bg="black"
                 key={post.permlink}
                 maxW="md"
@@ -212,7 +212,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
                     <Link to={`/${post.author}`}>
                         <Avatar
                           name={post.author}
-                          border="1px solid limegreen"
+                          border="1px solid whiten"
                           src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
                         />
                       </Link>
@@ -227,7 +227,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
                 <Box padding="10px" height="200px">
                   <Image
                     objectFit="cover"
-                    border="1px solid limegreen"
+                    border="1px solid whiten"
                     borderRadius="10px"
                     src={post.thumbnail}
                     alt="Post Thumbnail"

@@ -56,7 +56,7 @@ const HeaderNew = () => {
   const fontSize = useBreakpointValue({ base: "2xl", md: "3xl" });
   const tabSize = useBreakpointValue({ base: "sm", md: "md" });
   const flexDirection = useBreakpointValue<"row" | "column">({ base: "column", md: "column" });
-  const DEFAULT_AVATAR_URL = "https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif";
+  const DEFAULT_AVATAR_URL = "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTZrYmdtbGpjaXg4NzVheDNzOTY0aTZ0NjhvMDkwcnFpdmFnazhrNyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/H39AnU3gTYgPm/giphy.gif";
 
   const { user, loginWithHive, logout, isLoggedIn } = useAuthUser();
   const [isModalOpen, setModalOpen] = useState(false);
@@ -126,7 +126,7 @@ const enlargeOnHover = keyframes`
       justifyContent="space-between"
       p={6}
       bg="black"
-      border="1px solid limegreen"
+      border="1px solid white"
       position="relative"
       borderRadius="10px"
     >
@@ -135,8 +135,8 @@ const enlargeOnHover = keyframes`
       <MenuButton
   as={Button}
   backgroundColor="black"
-  border="limegreen 1px solid"
-  color="limegreen"
+  border="white 1px solid"
+  color="white"
   size="l"
   css={{
     animation: `${glow} 2s infinite alternate , ${moveUpAndDown} 3s infinite` ,
@@ -146,20 +146,19 @@ const enlargeOnHover = keyframes`
   }}
 >
   <Image
-    src="https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75"
+    src="https://i.ibb.co/4mnD3LP/image.png"
     alt="Dropdown Image"
     boxSize="48px" // Adjust the size as needed
     borderRadius="10px"
   />
 </MenuButton>
-<Text>DEV </Text>
-<MenuList border="1px solid limegreen" backgroundColor="black" color="white">
+<MenuList border="1px solid red" backgroundColor="black" color="white">
   <Link to="https://snapshot.org/#/skatehive.eth" style={{ textDecoration: 'none' }}>
     <MenuItem
       _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
       backgroundColor="black"
     >
-      GovernanceZZZZ
+      Comprar Meias
     </MenuItem>
   </Link>
   <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" style={{ textDecoration: 'none' }}>
@@ -167,7 +166,7 @@ const enlargeOnHover = keyframes`
       _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
       backgroundColor="black"
     >
-      Curation Trail
+      Instagram
     </MenuItem>
   </Link>
   <Link to="https://www.stoken.quest/" style={{ textDecoration: 'none' }}>
@@ -222,7 +221,7 @@ const enlargeOnHover = keyframes`
   size={tabSize}
   mb={6}
   css={{
-    border: "2px solid limegreen",
+    border: "2px solid white",
     borderRadius: "10px",
     overflow: "hidden",
   }}

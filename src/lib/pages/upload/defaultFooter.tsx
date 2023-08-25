@@ -20,4 +20,7 @@ export const defaultFooter : string= `
 
 - Hive : https://skatehive.app/@skatehive
 - Instagram : https://www.instagram.com/skatehive/
-- Twitter : https://twitter.com/Skate_Hive`;
+- Twitter : https://twitter.com/Skate_Hive
+
+> This post was made with https://skatehive.app `;
+

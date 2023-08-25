@@ -88,3 +88,15 @@ export interface EarningsModalProps {
     onClose: () => void;
     post: any; // Pass the selected post data here
   }
+
+
+export interface PostModalProps {
+    title: string;
+    content: string;
+    author: string;
+    user: any;
+    permlink: string;
+    weight: number;
+    post?: any; // Add the post prop here, you can replace 'any' with the specific type of the post object if known
+  }
+  

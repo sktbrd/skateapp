@@ -48,6 +48,7 @@
     "react-router-dom": "^6.10.0",
     "rehype-raw": "^6.1.1",
     "remark-gfm": "^3.0.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
     "typed.js": "^2.0.16",
     "web3": "^4.1.0"
   },

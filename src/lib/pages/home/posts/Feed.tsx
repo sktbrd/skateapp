@@ -38,7 +38,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
     "https://api.pharesim.me",
   ];
 
-  const defaultThumbnail ="https://images.ecency.com/u/hive-173115/avatar/large";
+  const defaultThumbnail ="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTZrYmdtbGpjaXg4NzVheDNzOTY0aTZ0NjhvMDkwcnFpdmFnazhrNyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/H39AnU3gTYgPm/giphy.gif";
   const placeholderEarnings = 69.42; 
 
 
@@ -51,7 +51,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
 
 
 
-  const HiveBlog: React.FC<Types.HiveBlogProps> = ({ queryType = "created", tag = "hive-173115" }) => {
+  const HiveBlog: React.FC<Types.HiveBlogProps> = ({ queryType = "created", tag = "misfits" }) => {
     const [posts, setPosts] = useState<any[]>([]);
     const [currentTag, setTag] = useState(tag);
     const [isLoading, setIsLoading] = useState(false);

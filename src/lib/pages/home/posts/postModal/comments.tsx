@@ -30,7 +30,7 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
     };
 
     return (
-        <Box border="1px solid limegreen" borderRadius="5px" padding="15px" margin="10px">
+        <Box border="1px solid white" borderRadius="5px" padding="15px" margin="10px">
             <Flex padding="5px" alignItems="center">
                 <Image src={avatarUrl} borderRadius="full" boxSize="40px" mr="3" />
                 <Text fontWeight="bold">@{author}</Text>
@@ -42,7 +42,7 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
         components={{
           img: ({ node, alt, src, title, ...props }) => (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <img {...props} alt={alt} src={src} title={title} style={{ maxWidth: '100%', height: 'auto', borderRadius:"10px", border:'1px solid limegreen' }} />
+              <img {...props} alt={alt} src={src} title={title} style={{ maxWidth: '100%', height: 'auto', borderRadius:"10px", border:'1px solid white' }} />
             </div>
           ),
           a: ({node, children, ...props}) => <a {...props} style={{ color: 'yellow' }}>{children}</a>,
@@ -50,7 +50,7 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
           h1: ({node, children, ...props}) => <h1 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '24px' }}>{children}</h1>,
           h2: ({node, children, ...props}) => <h2 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '20px' }}>{children}</h2>,
           h3: ({node, children, ...props}) => <h3 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '18px' }}>{children}</h3>,
-          blockquote: ({node, children, ...props}) => <blockquote {...props} style={{ borderLeft: '3px solid limegreen', paddingLeft: '10px', fontStyle: 'italic' }}>{children}</blockquote>,
+          blockquote: ({node, children, ...props}) => <blockquote {...props} style={{ borderLeft: '3px solid white', paddingLeft: '10px', fontStyle: 'italic' }}>{children}</blockquote>,
           ol: ({node, children, ...props}) => <ol {...props} style={{ paddingLeft: '20px' }}>{children}</ol>,
           ul: ({node, children, ...props}) => <ul {...props} style={{ paddingLeft: '20px' }}>{children}</ul>,
         }}

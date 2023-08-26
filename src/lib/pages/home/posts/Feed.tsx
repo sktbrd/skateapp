@@ -51,7 +51,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
 
 
 
-  const HiveBlog: React.FC<Types.HiveBlogProps> = ({ queryType = "created", tag = "hive-173115" }) => {
+  const HiveBlog: React.FC<Types.HiveBlogProps> = ({ queryType = "created", tag =  "somaskate" }) => {
     const [posts, setPosts] = useState<any[]>([]);
     const [currentTag, setTag] = useState(tag);
     const [isLoading, setIsLoading] = useState(false);

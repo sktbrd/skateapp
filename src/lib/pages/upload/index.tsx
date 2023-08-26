@@ -254,7 +254,7 @@ const UploadPage: React.FC<UploadPageProps> = () => {
 
   const searchBarRef: RefObject<HTMLDivElement> = useRef(null);
 
-  const allTags = ["skateboard", ...tags.filter(tag => tag.trim() !== '')]; // This will combine the default tag with the user-added tags and filter out any empty tags
+  const allTags = ["somaskate", ...tags.filter(tag => tag.trim() !== '')]; // This will combine the default tag with the user-added tags and filter out any empty tags
 
 
   // ---------------------------Add Tags-------------------------------

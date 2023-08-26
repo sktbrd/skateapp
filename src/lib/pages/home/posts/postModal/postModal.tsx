@@ -252,7 +252,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
 return (
   <Modal isOpen={isOpen} onClose={onClose} size="xl">
     <ModalOverlay />
-    <ModalContent backgroundColor={'black'} border={'1px solid limegreen'}>
+    <ModalContent backgroundColor={'black'} border={'1px solid white'}>
       <ModalHeader>
         <PostHeader title={title} author={author} avatarUrl={avatarUrl} onClose={onClose} />
         {user?.name === author && !isEditing && (

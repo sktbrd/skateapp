@@ -58,6 +58,7 @@ const GnarsBlog = ({ tags }: Types.GnarsBlogProps) => {
   const [client, setClient] = useState(new Client(nodes[0]));
   const [nodeIndex, setNodeIndex] = useState(0);
   const [comments, setComments] = useState<Types.CommentProps[]>([]);
+  const [url, setUrl] = useState<string>("");
 
 
   const fetchPostEarnings = async (
@@ -174,6 +175,7 @@ const GnarsBlog = ({ tags }: Types.GnarsBlogProps) => {
               onClose={onClose}
               isOpen={isOpen}
               comments={comments}
+              url={selectedPost.url}
             />
           )}
         </ModalContent>

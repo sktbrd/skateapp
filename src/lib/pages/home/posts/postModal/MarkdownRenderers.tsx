@@ -15,10 +15,10 @@ type MarkdownProps = {
   
 export const MarkdownRenderers = {
 img: ({ alt, src, title, ...props }: RendererProps) => (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-    <img {...props} alt={alt} src={src} title={title} style={{ maxWidth: '100%', height: 'auto', borderRadius: "10px", border: '1px solid limegreen' }} />
-    </div>
-),
+    <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <img {...props} alt={alt} src={src} title={title} style={{ maxWidth: '100%', height: 'auto', borderRadius: "10px", border: '1px solid limegreen' }} />
+    </span>
+    ),
 a: ({ children, ...props }: RendererProps) => <a {...props} style={{ color: 'yellow' }}>{children}</a>,
 h1: ({ children, ...props }: RendererProps) => <h1 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '26px', paddingBottom: '10px' }}>{children}</h1>,
 h2: ({ children, ...props }: RendererProps) => <h2 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '20px', paddingBottom: '8px' }}>{children}</h2>,

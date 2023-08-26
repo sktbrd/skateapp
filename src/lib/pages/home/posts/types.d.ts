@@ -38,6 +38,8 @@ export interface PostHeaderProps {
 title: string;
 author: string;
 avatarUrl: string;
+permlink: string;
+url: string;
 onClose: () => void;
 }
 
@@ -52,6 +54,7 @@ user: any;
 permlink: string;
 weight: number;
 comments: CommentProps[];
+url: string;
 }
 export interface PostProps {
 author: string;
@@ -62,6 +65,7 @@ body: string;
 user: string;
 weight: number;
 earnings: number;
+url: string;
 }
 
 export type Post = {
@@ -73,6 +77,7 @@ body: string;
 user: string;
 weight: number;
 earnings: number;
+url: string;
 }
 
 export interface PostFooterProps {

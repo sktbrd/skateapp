@@ -3,7 +3,21 @@ import { Box, Image, Text, Flex, Heading, ModalCloseButton, Divider } from "@cha
 import * as Types from '../types';
 import { Link } from 'react-router-dom';
 
-const PostHeader: React.FC<Types.PostHeaderProps> = ({ title, author, avatarUrl, onClose }) => { 
+function slugify(text: string) {
+  return text
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, '-')           // Replace spaces with -
+      .replace(/[^\w\-]+/g, '')       // Remove all non-word characters
+      .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+      .replace(/^-+/, '')             // Trim - from start of text
+      .replace(/-+$/, '');            // Trim - from end of text
+}
+
+const PostHeader: React.FC<Types.PostHeaderProps> = ({ title, author, avatarUrl, permlink,url, onClose }) => {
+
+  const peakdUrl = `https://peakd.com${url}`;
+
   return (
     <Flex justifyContent="center" alignItems="center">
       <Box display="flex" alignItems="center">
@@ -19,6 +33,9 @@ const PostHeader: React.FC<Types.PostHeaderProps> = ({ title, author, avatarUrl,
           {title}
         </Heading>
       </Box>
+      <a href={peakdUrl} target="_blank" rel="noopener noreferrer">
+        <Image src="https://i.ibb.co/VpC46P5/image.png" boxSize="1.5rem" ml="4" />
+      </a>
       <ModalCloseButton onClick={onClose} />
     </Flex>  
   );

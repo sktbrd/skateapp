@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Client, Discussion } from '@hiveio/dhive';
 import ReactHtmlParser from 'react-html-parser';
-import { Text as ChakraText } from '@chakra-ui/react';
+import { Text as ChakraText, Modal, ModalOverlay, ModalContent, useDisclosure } from '@chakra-ui/react';
 import { Avatar, Button, Box, SimpleGrid } from '@chakra-ui/react';
+import PostModal from './postModal/postModal';
 
 const nodes = [
   "https://rpc.ecency.com",
@@ -36,6 +37,7 @@ const HiveVideos: React.FC = () => {
   const [posts, setPosts] = useState<Discussion[]>([]);
   const [client, setClient] = useState(new Client(nodes[0]));
   const [selectedPost, setSelectedPost] = useState<Discussion | null>(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -61,7 +63,7 @@ const HiveVideos: React.FC = () => {
 
   const openPostModal = (post: Discussion) => {
     setSelectedPost(post);
-    // Open your modal here with the selected post
+    onOpen();
   };
 
   return (
@@ -91,6 +93,25 @@ const HiveVideos: React.FC = () => {
           ) : null;
         })}
       </SimpleGrid>
+      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+        <ModalOverlay />
+        <ModalContent>
+          {selectedPost && (
+            <PostModal
+              title={selectedPost.title}
+              content={selectedPost.body}
+              author={selectedPost.author}
+              user={selectedPost.author} // Replace with the actual user if needed
+              permlink={selectedPost.permlink}
+              weight={0} // Replace with the actual weight if needed
+              onClose={onClose}
+              isOpen={isOpen}
+              comments={[]} // Replace with the actual comments if needed
+              url={selectedPost.url}
+            />
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   );
 };

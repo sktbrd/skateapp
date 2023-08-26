@@ -95,6 +95,7 @@ export interface EarningsModalProps {
     post: any; // Pass the selected post data here
   }
 
-
-
- 
+  export interface HiveVideosPostModalProps extends PostModalProps {
+    post: Discussion;
+  }
+  

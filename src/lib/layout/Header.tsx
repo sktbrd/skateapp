@@ -158,7 +158,7 @@ const enlargeOnHover = keyframes`
       _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
       backgroundColor="black"
     >
-      GovernanceZZZZ
+      Governance
     </MenuItem>
   </Link>
   <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" style={{ textDecoration: 'none' }}>

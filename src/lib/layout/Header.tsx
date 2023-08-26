@@ -152,14 +152,14 @@ const enlargeOnHover = keyframes`
     borderRadius="10px"
   />
 </MenuButton>
-
+<Text>DEV </Text>
 <MenuList border="1px solid limegreen" backgroundColor="black" color="white">
   <Link to="https://snapshot.org/#/skatehive.eth" style={{ textDecoration: 'none' }}>
     <MenuItem
       _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
       backgroundColor="black"
     >
-      Governance
+      GovernanceZZZZ
     </MenuItem>
   </Link>
   <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" style={{ textDecoration: 'none' }}>

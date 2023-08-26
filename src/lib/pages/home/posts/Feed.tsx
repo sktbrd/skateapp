@@ -61,6 +61,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
     const [comments, setComments] = useState<Types.CommentProps[]>([]);
     const [isVotersModalOpen, setVotersModalOpen] = useState(false);
     const [selectedPostForModal, setSelectedPostForModal] = useState<any | null>(null);
+    const [url, setUrl] = useState<string | null>(null);
 
 
     const fetchPostEarnings = async (author: string, permlink: string): Promise<number> => {
@@ -178,6 +179,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
       setSelectedPost(post);
       const comments = await fetchComments(post.author, post.permlink);
       setComments(comments);
+      setUrl(post.url);
       onOpen(); // Open the post modal
       console.log(post)
     };
@@ -280,6 +282,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
               onClose={onClose}
               isOpen={isOpen}
               comments={comments}
+              url={selectedPost?.url}
             />
           </ModalContent>
         </Modal>

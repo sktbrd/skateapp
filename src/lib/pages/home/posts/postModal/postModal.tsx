@@ -43,6 +43,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   author,
   permlink,
   weight,
+  url,
   comments = []
 }) => {
   
@@ -254,7 +255,7 @@ return (
     <ModalOverlay />
     <ModalContent backgroundColor={'black'} border={'1px solid limegreen'}>
       <ModalHeader>
-        <PostHeader title={title} author={author} avatarUrl={avatarUrl} onClose={onClose} />
+        <PostHeader title={title} author={author} avatarUrl={avatarUrl} permlink={permlink} url={url} onClose={onClose} />
         {user?.name === author && !isEditing && (
           <Button onClick={handleEditClick}>Edit</Button>
         )}

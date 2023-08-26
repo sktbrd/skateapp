@@ -152,7 +152,6 @@ const enlargeOnHover = keyframes`
     borderRadius="10px"
   />
 </MenuButton>
-<Text>DEV </Text>
 <MenuList border="1px solid limegreen" backgroundColor="black" color="white">
   <Link to="https://snapshot.org/#/skatehive.eth" style={{ textDecoration: 'none' }}>
     <MenuItem

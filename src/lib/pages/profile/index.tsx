@@ -1,7 +1,7 @@
 import { Image, Box, Text, Flex, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import useAuthUser from "../home/api/useAuthUser";
 import React, { useEffect, useState } from 'react';
-import HiveBlog from "../home/posts/Feed";
+import HiveBlog from "../home/posts/Feed2";
 import HiveBalanceDisplay from "../wallet/hive/hiveBalance";
 
 interface User {

@@ -1,4 +1,4 @@
-import {
+  import {
     Avatar,
     Box,
     Button,
@@ -16,6 +16,9 @@ import {
     ModalContent,
     useDisclosure,
   } from "@chakra-ui/react";
+  import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
 
 import { Client } from "@hiveio/dhive";
 
@@ -27,6 +30,17 @@ import { useNavigate, Link } from "react-router-dom";
 import * as Types from './types';
 
 import EarningsModal from "./postModal/earningsModal"; // Replace with the correct path to EarningsModal
+
+import {
+  MarkdownBlockquote,
+  MarkdownAnchor,
+  MarkdownH1,
+  MarkdownH2,
+  MarkdownH3,
+  MarkdownUl,
+  MarkdownOl,
+  MarkdownIframe
+} from 'lib/pages/upload/MarkdownComponents';
 
   const nodes = [
     "https://rpc.ecency.com",
@@ -51,7 +65,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
 
 
 
-  const HiveBlog: React.FC<Types.HiveBlogProps> = ({ queryType = "created", tag = "misfits" }) => {
+  const HiveBlogHover: React.FC<Types.HiveBlogProps> = ({ queryType = "created", tag = "hive-173115" }) => {
     const [posts, setPosts] = useState<any[]>([]);
     const [currentTag, setTag] = useState(tag);
     const [isLoading, setIsLoading] = useState(false);
@@ -174,78 +188,130 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
       setSelectedPostForModal(post);
       setVotersModalOpen(true);
     };
-    const handleCardClick = async (post: any) => {
-      setSelectedPost(post);
-      const comments = await fetchComments(post.author, post.permlink);
-      setComments(comments);
-      onOpen(); // Open the post modal
-      console.log(post)
+    const [expandedPost, setExpandedPost] = useState<string | null>(null);
+
+    const handleCardClick = (post: any) => {
+      if (expandedPost === post.permlink) {
+        setExpandedPost(null);
+      } else {
+        setExpandedPost(post.permlink);
+      }
     };
-    
+    const [hoveredPost, setHoveredPost] = useState<string | null>(null);
 
-    return (
+const handleCardHover = (post: any) => {
+  setHoveredPost(post.permlink);
+};
 
-      <Box>
+const handleCardUnhover = () => {
+  setHoveredPost(null);
+};
 
-        {isLoading ? (
-          <PlaceholderLoadingBar />
-        ) : (
+function transform3SpeakContent(content: any) {
+  const regex = /\[!\[\]\((https:\/\/ipfs-3speak\.b-cdn\.net\/ipfs\/[a-zA-Z0-9]+\/)\)\]\((https:\/\/3speak\.tv\/watch\?v=([a-zA-Z0-9]+\/[a-zA-Z0-9]+))\)/;
+  const match = content.match(regex);
+  if (match) {
+    const videoURL = match[2];
+    const videoID = match[3];
+    const iframe = `<iframe width="560" height="315" src="https://3speak.tv/embed?v=${videoID}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    content = content.replace(regex, iframe);
+  }
+  return content;
+}
+
+return (
+  <Box>
+    {isLoading ? (
+      <PlaceholderLoadingBar />
+    ) : (
+      <Box
+        display="grid"
+        gridTemplateColumns={`repeat(${gridColumns}, minmax(280px, 1fr))`}
+        gridGap={1}
+        position="relative"
+      >
+        {posts.map((post, index) => (
           <Box
-            display="grid"
-            gridTemplateColumns={`repeat(${gridColumns}, minmax(280px, 1fr))`}
-            gridGap={1}
+            position="relative"
+            key={post.permlink}
+            width="280px"
+            border="1px"
+            borderColor="whiten"
           >
-            {posts.map((post) => (
-              <Card
-                border="1px"
-                borderColor="whiten"
-                bg="black"
-                key={post.permlink}
-                maxW="md"
-                mb={4}
-                onClick={() => handleCardClick(post)}
-                cursor="pointer"
-              >
-                <CardHeader>
-                  <Flex>
-                    <Flex flex="1" gap="3" alignItems="center">
+            <Card
+              bg="black"
+              maxW="md"
+              mb={4}
+              cursor="pointer"
+              style={{
+                transition: 'all 0.3s ease',
+                position: hoveredPost === post.permlink ? 'absolute' : 'static',
+                zIndex: hoveredPost === post.permlink ? '1' : '0',
+                width: hoveredPost === post.permlink ? 'calc(280px * 2)' : '100%',
+                border:"1px",
+                borderColor:"white"
+              }}
+              onMouseEnter={() => handleCardHover(post)}
+              onMouseLeave={() => handleCardUnhover()}
+            >
+              <CardHeader>
+                <Flex>
+                  <Flex flex="1" gap="3" alignItems="center">
                     <Link to={`/${post.author}`}>
-                        <Avatar
-                          name={post.author}
-                          border="1px solid whiten"
-                          src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
-                        />
-                      </Link>
-
-                      <Box>
-                        <Heading size="sm">{post.author}</Heading>
-                      </Box>
-                    </Flex>
-                    <IconButton variant="ghost" colorScheme="gray" aria-label="See menu" />
+                      <Avatar
+                        name={post.author}
+                        border="1px solid whiten"
+                        src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
+                      />
+                    </Link>
+                    <Box>
+                      <Heading size="sm">{post.author}</Heading>
+                    </Box>
                   </Flex>
-                </CardHeader>
-                <Box padding="10px" height="200px">
-                  <Image
-                    objectFit="cover"
-                    border="1px solid whiten"
-                    borderRadius="10px"
-                    src={post.thumbnail}
-                    alt="Post Thumbnail"
-                    height="100%"
-                    width="100%"
-                  />
-                </Box>
-                <CardBody>
-                  <Text>{post.title}</Text>
-                </CardBody>
-                <CardFooter>
-                  <Text color="white" style={{ display: "flex", alignItems: "center" }}>
+                  <IconButton variant="ghost" colorScheme="gray" aria-label="See menu" />
+                </Flex>
+              </CardHeader>
+              <Box padding="10px" height="200px">
+                <Image
+                  objectFit="cover"
+                  border="1px solid whiten"
+                  borderRadius="10px"
+                  src={post.thumbnail}
+                  alt="Post Thumbnail"
+                  height="100%"
+                  width="100%"
+                />
+              </Box>
+              <CardBody>
+                <Text>{post.title}</Text>
+                {hoveredPost === post.permlink && (
+                  <Box>
+                    <ReactMarkdown
+                      children={post.body}
+                      rehypePlugins={[rehypeRaw]}
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        blockquote: MarkdownBlockquote,
+                        a: MarkdownAnchor,
+                        h1: MarkdownH1,
+                        h2: MarkdownH2,
+                        h3: MarkdownH3,
+                        ul: MarkdownUl,
+                        ol: MarkdownOl,
+                        iframe: MarkdownIframe
+                      }}
+                    />
+                  </Box>
+                )}
+              </CardBody>
+              <CardFooter style={{ position: 'absolute', bottom: '0', width: '100%' }}>
+                <Text color="white" style={{ display: "flex", alignItems: "center" }}>
                   <Button
-                    position="absolute" // Keep this
-                    bottom="10px" // Change from top to bottom
-                    right="10px" // Keep this
+                    position="absolute"
+                    bottom="10px"
+                    right="10px"
                     onClick={(e) => {
-                      e.stopPropagation(); // Prevent event from bubbling up
+                      e.stopPropagation();
                       handleVotersModalOpen(post);
                     }}
                     variant="ghost"
@@ -260,43 +326,42 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
                       style={{ width: "18px", height: "18px", marginLeft:"7px", marginBottom: "2px" }}
                     />
                   </Button>
-                  </Text>
-                </CardFooter>
-              </Card>
-            ))}
+                </Text>
+              </CardFooter>
+            </Card>
           </Box>
-        )}
-  
-        <Modal isOpen={isOpen} onClose={onClose} size="xl">
-          <ModalOverlay />
-          <ModalContent>
-            <PostModal
-              title={selectedPost?.title}
-              content={selectedPost?.body}
-              author={selectedPost?.author}
-              user={selectedPost?.user}
-              permlink={selectedPost?.permlink}
-              weight={selectedPost?.weight}
-              onClose={onClose}
-              isOpen={isOpen}
-              comments={comments}
-            />
-          </ModalContent>
-        </Modal>
-  
-        <Modal isOpen={isVotersModalOpen} onClose={() => setVotersModalOpen(false)} size="xl">
-          <ModalOverlay />
-          <ModalContent>
-            <EarningsModal
-              isOpen={isVotersModalOpen}
-              onClose={() => setVotersModalOpen(false)}
-              post={selectedPostForModal}
-            />
-          </ModalContent>
-        </Modal>
+        ))}
       </Box>
-    );
+    )}
+    <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <ModalOverlay />
+      <ModalContent>
+        <PostModal
+          title={selectedPost?.title}
+          content={selectedPost?.body}
+          author={selectedPost?.author}
+          user={selectedPost?.user}
+          permlink={selectedPost?.permlink}
+          weight={selectedPost?.weight}
+          onClose={onClose}
+          isOpen={isOpen}
+          comments={comments}
+        />
+      </ModalContent>
+    </Modal>
+    <Modal isOpen={isVotersModalOpen} onClose={() => setVotersModalOpen(false)} size="xl">
+      <ModalOverlay />
+      <ModalContent>
+        <EarningsModal
+          isOpen={isVotersModalOpen}
+          onClose={() => setVotersModalOpen(false)}
+          post={selectedPostForModal}
+        />
+      </ModalContent>
+    </Modal>
+  </Box>
+);
+};
 
-  };
+export default HiveBlogHover;
 
-  export default HiveBlog;

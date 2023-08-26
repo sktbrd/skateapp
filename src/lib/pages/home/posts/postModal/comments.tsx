@@ -67,7 +67,7 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
 
 const Comments: React.FC<Types.CommentsProps> = ({ comments, commentPosted }) => {
     const [localComments, setLocalComments] = useState<Types.CommentProps[]>(comments);
-
+    console.log(comments);
     useEffect(() => {
         if (commentPosted) {
             // Logic to re-fetch comments when a new one is posted

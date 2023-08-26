@@ -1,6 +1,6 @@
 import { Image, Box, Flex, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import React, { useEffect, useState } from 'react';
-import HiveBlog from "../home/posts/Feed";
+import HiveBlog from "../home/posts/Feed2";
 import HiveBalanceDisplay from "../wallet/hive/hiveBalance";
 import { useParams } from 'react-router-dom';
 import { Client } from "@hiveio/dhive";

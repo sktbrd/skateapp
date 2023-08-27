@@ -23,7 +23,7 @@ interface Proposal {
 
 const SnapShot: React.FC = () => {
   const [proposals, setProposals] = useState<Proposal[]>([]);
-  const placeholderImage = 'https://via.placeholder.com/150';
+  const placeholderImage = 'https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75';
 
   const query = `
   {
@@ -75,12 +75,17 @@ const SnapShot: React.FC = () => {
     fetchProposals();
   }, []);
 
+
+  const transformIpfsUrl = (ipfsUrl: string) => {
+    return ipfsUrl.replace('ipfs://', 'https://snapshot.4everland.link/ipfs/');
+  };
+  
   const findImage = (body: string) => {
     const imgRegex = /!\[.*?\]\((.*?)\)/;
     const match = body.match(imgRegex);
-    return match ? match[1] : placeholderImage;
+    const imageUrl = match ? match[1] : placeholderImage;
+    return imageUrl.startsWith('ipfs://') ? transformIpfsUrl(imageUrl) : imageUrl;
   };
-
   return (
     <Box p={4} backgroundColor={'black'} border={'1px solid limegreen'}>
       <Text fontSize="2xl" color="limegreen">Governance</Text>
@@ -88,9 +93,16 @@ const SnapShot: React.FC = () => {
         {proposals.map((proposal) => (
           <ListItem key={proposal.id}>
             <Flex borderWidth={1} borderRadius="md" p={4} flexDirection="column" backgroundColor={'black'} border={'1px solid limegreen'}>
-              <ReactMarkdown children={proposal.title} rehypePlugins={[rehypeRaw]} remarkPlugins={[remarkGfm]} />
-              <Image src={findImage(proposal.body)} alt="Thumbnail" boxSize="150px" />
-              <ReactMarkdown children={proposal.body.length > 100 ? proposal.body.substring(0, 100) + '...' : proposal.body} rehypePlugins={[rehypeRaw]} remarkPlugins={[remarkGfm]} />
+                <Flex>
+                <Image 
+  src={findImage(proposal.body)} 
+  alt="Thumbnail" 
+  boxSize="150px" 
+  onError={(e) => { e.currentTarget.src = placeholderImage; }}
+/>                <ReactMarkdown children={proposal.title} rehypePlugins={[rehypeRaw]} remarkPlugins={[remarkGfm]} />
+
+                </Flex>
+              
               <Flex align="center" mt={2}>
                 {proposal.choices.sort().map((choice, index) => (
                     <Button key={index} colorScheme="green" mr={2}>{choice}</Button>

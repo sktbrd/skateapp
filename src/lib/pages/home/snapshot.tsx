@@ -29,7 +29,7 @@ const SnapShot: React.FC = () => {
 
   const openai = new OpenAI({
     // Please dont steal my keys, thanks  :)
-    apiKey: "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",
+    apiKey: "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",
     dangerouslyAllowBrowser: true
   });
 

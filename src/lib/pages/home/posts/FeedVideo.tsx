@@ -5,6 +5,8 @@ import { Text as ChakraText, Modal, ModalOverlay, ModalContent, useDisclosure } 
 import { Avatar, Button, Box, SimpleGrid } from '@chakra-ui/react';
 import PostModal from './postModal/postModal';
 
+
+
 const nodes = [
   "https://rpc.ecency.com",
   "https://api.deathwing.me",
@@ -41,6 +43,7 @@ const HiveVideos: React.FC = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
+      console.clear()
       try {
         const query = {
           tag: 'hive-173115',

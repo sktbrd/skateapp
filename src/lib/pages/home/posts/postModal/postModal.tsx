@@ -75,7 +75,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   const handleEditClick = () => {
     setIsEditing(true);
   };
-
+  
   // Save edited content handler
   const handleSaveClick = () => {
     // TODO: Implement the logic to save the edited content to Hive

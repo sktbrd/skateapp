@@ -30,7 +30,7 @@ export const MarkdownBlockquote: React.FC<MarkdownComponentsProps> = ({ children
       }}
     >
       {children}
-    </blockquote>
+    </blockquote> 
   );
 };
 

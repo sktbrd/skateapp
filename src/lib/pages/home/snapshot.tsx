@@ -5,6 +5,8 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import OpenAI from "openai";
+import dotenv from 'dotenv';
+dotenv.config();
 
 interface Proposal {
   id: string;
@@ -29,7 +31,7 @@ const SnapShot: React.FC = () => {
 
   const openai = new OpenAI({
     // Please dont steal my keys, thanks  :)
-    apiKey: "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",
+    apiKey: process.env.OPENAI_API_KEY || '',
     dangerouslyAllowBrowser: true
   });
 
@@ -72,12 +74,16 @@ const SnapShot: React.FC = () => {
 
   useEffect(() => {
     const fetchProposals = async () => {
-      try {
-        const response = await fetch('https://hub.snapshot.org/graphql', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query }),
-        });
+        try {
+          const response = await fetch('https://hub.snapshot.org/graphql', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+            },
+            body: JSON.stringify({ query }),
+          });
+      
 
         if (response.ok) {
           const data = await response.json();

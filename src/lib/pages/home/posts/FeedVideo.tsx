@@ -43,7 +43,6 @@ const HiveVideos: React.FC = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      console.clear()
       try {
         const query = {
           tag: 'hive-173115',

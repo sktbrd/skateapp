@@ -5,6 +5,9 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 
+
+
+
 interface Proposal {
   id: string;
   title: string;
@@ -92,23 +95,33 @@ const SnapShot: React.FC = () => {
       <List mt={4} spacing={4}>
         {proposals.map((proposal) => (
           <ListItem key={proposal.id}>
-            <Flex borderWidth={1} borderRadius="md" p={4} flexDirection="column" backgroundColor={'black'} border={'1px solid limegreen'}>
-                <Flex>
+            <Flex 
+              borderWidth={1} 
+              borderRadius="md" 
+              p={4} 
+              flexDirection="column" 
+              backgroundColor={'black'} 
+              border={'1px solid limegreen'}
+              boxShadow="md"
+            >
+              <Flex>
                 <Image 
-  src={findImage(proposal.body)} 
-  alt="Thumbnail" 
-  boxSize="150px" 
-  onError={(e) => { e.currentTarget.src = placeholderImage; }}
-/>                <ReactMarkdown children={proposal.title} rehypePlugins={[rehypeRaw]} remarkPlugins={[remarkGfm]} />
-
-                </Flex>
-              
-              <Flex align="center" mt={2}>
+                  src={findImage(proposal.body)} 
+                  alt="Thumbnail" 
+                  boxSize="150px" 
+                  border={'1px solid limegreen'}
+                  borderRadius={'md'}
+                  onError={(e) => { e.currentTarget.src = placeholderImage; }}
+                  mr={4}
+                />
+                <ReactMarkdown children={proposal.title} rehypePlugins={[rehypeRaw]} remarkPlugins={[remarkGfm]} />
+              </Flex>
+              <Flex align="center" mt={2} wrap="wrap">
                 {proposal.choices.sort().map((choice, index) => (
-                    <Button key={index} colorScheme="green" mr={2}>{choice}</Button>
+                  <Button key={index} backgroundColor="black" border="1px solid orange" mr={2} mb={2} borderRadius="md">{choice}</Button>
                 ))}
-                </Flex>
-              <Text mt={2} fontStyle="italic" color="limegreen">
+              </Flex>
+              <Text color="white" mt={2} fontStyle="italic">
                 Author: {proposal.author}
               </Text>
             </Flex>
@@ -117,6 +130,6 @@ const SnapShot: React.FC = () => {
       </List>
     </Box>
   );
-};
+  };
 
 export default SnapShot;

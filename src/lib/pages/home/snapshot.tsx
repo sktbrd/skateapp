@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import OpenAI from "openai";
-import dotenv from 'dotenv';
 import { Box, Text, List, ListItem, Flex, VStack, Image, Button, Skeleton } from '@chakra-ui/react';
 
-dotenv.config();
+
 
 interface Proposal {
   id: string;
@@ -28,12 +27,11 @@ const SnapShot: React.FC = () => {
   const placeholderImage = 'https://i.ibb.co/X7q7xtm/image.png';
   const [loadingProposals, setLoadingProposals] = useState<boolean>(true);
   const [loadingSummaries, setLoadingSummaries] = useState<boolean>(true);
-
+  console.log("YO:", process.env.OPENAI_API_KEY)
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY || '',
     dangerouslyAllowBrowser: true
   });
-
   const getSummary = async (body: string) => {
     const response = await openai.chat.completions.create({
       messages: [{ role: "user", content: `Summarize the following in 1 paragraph in 5 lines at max: ${body}` }],

@@ -17,7 +17,7 @@ export default defineConfig(({}) => {
   return {
     // vite config
     define: {
-      'process.env': {},
+      'process.env.OPENAI_API_KEY': JSON.stringify(process.env.OPENAI_API_KEY),
     },
     plugins: [react()],
     resolve: {

@@ -7,7 +7,7 @@ const Home = () => {
 
   return (
     <Flex direction="column" alignItems="center" justifyContent="center" >
-      <HiveBlog /> {/* Including the HiveBlog component */}
+      <HiveBlog /> 
     </Flex>
   );
 };

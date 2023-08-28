@@ -10,7 +10,7 @@ const Home = () => {
         <TabList  mb="1em" width="100%">
           <Tab border="1px limegreen solid">Magazine</Tab>
           <Tab border="1px limegreen solid">Videos</Tab>
-          <Tab border="1px limegreen solid">Governance</Tab>
+          <Tab border="1px limegreen solid">DAO</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>

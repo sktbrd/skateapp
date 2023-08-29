@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import OpenAI from "openai";
-import { Box, Text, List, ListItem, Flex, VStack, Image, Button, Skeleton } from '@chakra-ui/react';
-
-
+import OpenAI from 'openai';
+import { Box, Text, List, ListItem, Flex, VStack, Image, Button, Skeleton, Badge, HStack, useBreakpointValue, useMediaQuery   } from '@chakra-ui/react';
+import DaoStatus from './DaoStatus';
 
 interface Proposal {
   id: string;
@@ -20,6 +19,10 @@ interface Proposal {
     name: string;
   };
   summary?: string;
+  votes?: {
+    id: string;
+    votes: number;
+  }[];
 }
 
 const SnapShot: React.FC = () => {
@@ -27,17 +30,29 @@ const SnapShot: React.FC = () => {
   const placeholderImage = 'https://i.ibb.co/X7q7xtm/image.png';
   const [loadingProposals, setLoadingProposals] = useState<boolean>(true);
   const [loadingSummaries, setLoadingSummaries] = useState<boolean>(true);
-  console.log("YO:", process.env.OPENAI_API_KEY)
+
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY || '',
-    dangerouslyAllowBrowser: true
+    dangerouslyAllowBrowser: true,
   });
+
   const getSummary = async (body: string) => {
     const response = await openai.chat.completions.create({
-      messages: [{ role: "user", content: `Summarize the following in 1 paragraph in 5 lines at max: ${body}` }],
-      model: "gpt-3.5-turbo",
+      messages: [{ role: 'user', content: `Summarize the following in 1 paragraph in 5 lines at max: ${body}` }],
+      model: 'gpt-3.5-turbo',
     });
-    return response.choices[0]?.message?.content || "No summary available.";
+    return response.choices[0]?.message?.content || 'No summary available.';
+  };
+
+  const transformIpfsUrl = (ipfsUrl: string) => {
+    return ipfsUrl.replace('ipfs://', 'https://snapshot.4everland.link/ipfs/');
+  };
+
+  const findImage = (body: string) => {
+    const imgRegex = /!\[.*?\]\((.*?)\)/;
+    const match = body.match(imgRegex);
+    const imageUrl = match ? match[1] : placeholderImage;
+    return imageUrl.startsWith('ipfs://') ? transformIpfsUrl(imageUrl) : imageUrl;
   };
 
   const fetchProposals = async () => {
@@ -59,6 +74,36 @@ const SnapShot: React.FC = () => {
         for (let proposal of fetchedProposals) {
           proposal.summary = await getSummary(proposal.body);
         }
+
+        // Fetch votes for all proposals
+        const votesResponse = await fetch('https://hub.snapshot.org/graphql', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            query: `
+              query {
+                votes(
+                  first: 1000
+                  skip: 0
+                  where: {
+                    proposal_in: [${proposals.map((p) => `"${p.id}"`).join(', ')}]
+                  }
+                ) {
+                  proposal
+                  id
+                }
+              }
+            `,
+          }),
+        });
+
+        if (votesResponse.ok) {
+          const votesData = await votesResponse.json();
+          for (let proposal of proposals) {
+            proposal.votes = votesData.data.votes.filter((vote: { proposal: string }) => vote.proposal === proposal.id);
+          }
+        }
+
         setLoadingSummaries(false);
       }
     } catch (error) {
@@ -74,7 +119,6 @@ const SnapShot: React.FC = () => {
         skip: 0,
         where: {
           space_in: ["skatehive.eth"],
-          state: "closed"
         },
         orderBy: "created",
         orderDirection: desc
@@ -99,75 +143,136 @@ const SnapShot: React.FC = () => {
   useEffect(() => {
     fetchProposals();
   }, []);
-
-  const transformIpfsUrl = (ipfsUrl: string) => {
-    return ipfsUrl.replace('ipfs://', 'https://snapshot.4everland.link/ipfs/');
-  };
-
-  const findImage = (body: string) => {
-    const imgRegex = /!\[.*?\]\((.*?)\)/;
-    const match = body.match(imgRegex);
-    const imageUrl = match ? match[1] : placeholderImage;
-    return imageUrl.startsWith('ipfs://') ? transformIpfsUrl(imageUrl) : imageUrl;
-  };
+  const [isMobile] = useMediaQuery("(max-width: 768px)");
 
   return (
-    <Box p={4} backgroundColor={'black'} border={'1px solid limegreen'}>
-      <Text fontSize="2xl" color="limegreen">Governance</Text>
-      <List mt={4} spacing={4}>
-        {loadingProposals ? (
-          Array.from({ length: 10 }).map((_, index) => (
-            <ListItem key={index}>
-              {/* ... (loading placeholders for proposals) */}
-            </ListItem>
-          ))
-        ) : (
-          proposals.map((proposal) => (
-            <ListItem key={proposal.id}>
-              <Flex 
-                borderWidth={1} 
-                borderRadius="md" 
-                p={4} 
-                flexDirection="column" 
-                backgroundColor={'black'} 
-                border={'1px solid limegreen'}
-                boxShadow="md"
-              >
-                <Flex>
-                  <Image 
-                    src={findImage(proposal.body)} 
-                    alt="Thumbnail" 
-                    boxSize="150px" 
-                    border={'1px solid limegreen'}
-                    borderRadius={'md'}
-                    onError={(e) => { e.currentTarget.src = placeholderImage; }}
-                    mr={4}
-                  />
-                  <VStack align="start">
-                    <Text border="1px solid limegreen" children={proposal.title} fontSize="xl"  />
-                    {loadingSummaries ? (
-                      <Skeleton height="20px" width="100%" mt={2} />
-                    ) : (
-                      <Text border="1px solid limegreen" color="white" mt={2}>	🤖: {proposal.summary}</Text>
+    <Flex flexDirection="column">
+      <DaoStatus />
+      <Box p={4} backgroundColor="black" borderRadius="10px" border="1px solid limegreen">
+        <Text fontSize="2xl" color="limegreen">
+          Governance
+        </Text>
+        <List mt={4} spacing={4}>
+          {loadingProposals ? (
+            Array.from({ length: 10 }).map((_, index) => (
+              <ListItem key={index}>
+                {/* ... (loading placeholders for proposals) */}
+              </ListItem>
+            ))
+          ) : (
+            proposals.map((proposal) => (
+              <ListItem key={proposal.id}>
+                <Flex
+                  borderWidth={1}
+                  borderRadius="md"
+                  p={4}
+                  flexDirection="column"
+                  backgroundColor="black"
+                  border="1px solid limegreen"
+                  boxShadow="md"
+                  opacity={proposal.state === 'closed' ? 0.7 : 1}
+                >
+                  <Flex padding="10px" flexDirection="column">
+                    {isMobile && (
+                      <Image
+                        src={findImage(proposal.body)}
+                        alt="Thumbnail"
+                        boxSize="150px"
+                        border="1px solid limegreen"
+                        borderRadius="md"
+                        onError={(e) => {
+                          e.currentTarget.src = placeholderImage;
+                        }}
+                        mb={4}
+                      />
                     )}
-                  </VStack>
+                    <Flex flexDirection={isMobile ? "column" : "row"}>
+                      {!isMobile && (
+                        <Image
+                          src={findImage(proposal.body)}
+                          alt="Thumbnail"
+                          boxSize="150px"
+                          border="1px solid limegreen"
+                          borderRadius="md"
+                          onError={(e) => {
+                            e.currentTarget.src = placeholderImage;
+                          }}
+                          mr={4}
+                        />
+                      )}
+                      <VStack align="start" flex="1">
+                        <Text 
+                          border="1px solid limegreen" 
+                          padding="10px" 
+                          color="white" 
+                          borderRadius="10px" 
+                          fontSize="xl"
+                        >
+                          {proposal.title}
+                        </Text>
+                        <HStack>
+                          <Badge 
+                            variant="solid" 
+                            colorScheme={proposal.state === 'closed' ? 'red' : 'green'} 
+                            mb={2}
+                          >
+                            {proposal.state === 'closed' ? 'Closed' : 'Open'}
+                          </Badge>
+                        </HStack>
+                        {loadingSummaries ? (
+                          <Skeleton height="20px" width="100%" mt={2} />
+                        ) : (
+                          <Text 
+                            padding="5px" 
+                            color="yellow" 
+                            borderRadius="10px" 
+                            border="1px solid limegreen" 
+                            mt={2}
+                          >
+                            🤖: {proposal.summary}
+                          </Text>
+                        )}
+                      </VStack>
+                    </Flex>
+                  </Flex>
+  
+                  <Flex borderRadius="10px" flexDirection="row" justifyContent="space-between">
+                    <Flex flexDirection="row">
+                      {proposal.choices.sort().reverse().map((choice, index) => (
+                        <Button
+                          key={index}
+                          backgroundColor="black"
+                          border="1px solid orange"
+                          mr={2}
+                          mb={2}
+                          borderRadius="md"
+                          onClick={() => {
+                            if (proposal.state === 'closed') {
+                              alert("Voting is closed. You're late to vote! Lazy Ass...");
+                            } else {
+                              window.open(
+                                `https://snapshot.org/#/your-snapshot-space/vote/${proposal.id}`, // Replace with the actual snapshot URL
+                                '_blank'
+                              );
+                            }
+                          }}
+                        >
+                          {choice}
+                        </Button>
+                      ))}
+                    </Flex>
+                    <Text color="white" mt={2} fontStyle="italic">
+                      Author: {proposal.author}
+                    </Text>
+                  </Flex>
                 </Flex>
-                <Flex flexDirection="column">
-                  {proposal.choices.sort().map((choice, index) => (
-                    <Button key={index} backgroundColor="black" border="1px solid orange" mr={2} mb={2} borderRadius="md">{choice}</Button>
-                  ))}
-           
-                <Text color="white" mt={2} fontStyle="italic">
-                  Author: {proposal.author}
-                </Text>
-                </Flex>
-              </Flex>
-            </ListItem>
-          ))
-        )}
-      </List>
-    </Box>
+              </ListItem>
+            ))
+          )}
+        </List>
+      </Box>
+    </Flex>
   );
-};
-
-export default SnapShot;
+  
+  };
+  export default SnapShot;

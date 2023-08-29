@@ -18,6 +18,7 @@ export default defineConfig(({}) => {
     // vite config
     define: {
       'process.env.OPENAI_API_KEY': JSON.stringify(process.env.OPENAI_API_KEY),
+      'process.env.COINGECKO_API_KEY': JSON.stringify(process.env.COINGECKO_API_KEY),
     },
     plugins: [react()],
     resolve: {

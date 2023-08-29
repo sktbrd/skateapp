@@ -3,7 +3,7 @@ import { Client, Discussion } from '@hiveio/dhive';
 import ReactHtmlParser from 'react-html-parser';
 import { Text as ChakraText, Modal, ModalOverlay, ModalContent, useDisclosure } from '@chakra-ui/react';
 import { Avatar, Button, Box, SimpleGrid } from '@chakra-ui/react';
-import PostModal from './postModal/postModal';
+import PostModal from '../magazine/postModal/postModal';
 
 
 

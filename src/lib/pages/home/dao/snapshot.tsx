@@ -3,27 +3,10 @@ import { useEffect, useState } from 'react';
 import OpenAI from 'openai';
 import { Box, Text, List, ListItem, Flex, VStack, Image, Button, Skeleton, Badge, HStack, useBreakpointValue, useMediaQuery   } from '@chakra-ui/react';
 import DaoStatus from './DaoStatus';
+import { proposalsQuery, votesQuery } from './queries';
 
-interface Proposal {
-  id: string;
-  title: string;
-  body: string;
-  choices: string[];
-  start: number;
-  end: number;
-  snapshot: string;
-  state: string;
-  author: string;
-  space: {
-    id: string;
-    name: string;
-  };
-  summary?: string;
-  votes?: {
-    id: string;
-    votes: number;
-  }[];
-}
+import { Proposal } from './types';
+
 
 const SnapShot: React.FC = () => {
   const [proposals, setProposals] = useState<Proposal[]>([]);
@@ -37,12 +20,26 @@ const SnapShot: React.FC = () => {
   });
 
   const getSummary = async (body: string) => {
+    // Check if the summary is cached in local storage
+    const cachedSummary = localStorage.getItem(body);
+    if (cachedSummary) {
+      return cachedSummary;
+    }
+  
+    // If not cached, make the API call
     const response = await openai.chat.completions.create({
       messages: [{ role: 'user', content: `Summarize the following in 1 paragraph in 5 lines at max: ${body}` }],
       model: 'gpt-3.5-turbo',
     });
-    return response.choices[0]?.message?.content || 'No summary available.';
+    
+    const summary = response.choices[0]?.message?.content || 'No summary available.';
+  
+    // Cache the summary in local storage
+    localStorage.setItem(body, summary);
+  
+    return summary;
   };
+  
 
   const transformIpfsUrl = (ipfsUrl: string) => {
     return ipfsUrl.replace('ipfs://', 'https://snapshot.4everland.link/ipfs/');
@@ -60,7 +57,7 @@ const SnapShot: React.FC = () => {
       const response = await fetch('https://hub.snapshot.org/graphql', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ query: proposalsQuery }),
       });
 
       if (response.ok) {
@@ -80,22 +77,9 @@ const SnapShot: React.FC = () => {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            query: `
-              query {
-                votes(
-                  first: 1000
-                  skip: 0
-                  where: {
-                    proposal_in: [${proposals.map((p) => `"${p.id}"`).join(', ')}]
-                  }
-                ) {
-                  proposal
-                  id
-                }
-              }
-            `,
-          }),
-        });
+              query: votesQuery(proposals.map(p => p.id)),
+            }),
+          });
 
         if (votesResponse.ok) {
           const votesData = await votesResponse.json();
@@ -112,33 +96,7 @@ const SnapShot: React.FC = () => {
     }
   };
 
-  const query = `
-    {
-      proposals (
-        first: 10,
-        skip: 0,
-        where: {
-          space_in: ["skatehive.eth"],
-        },
-        orderBy: "created",
-        orderDirection: desc
-      ) {
-        id
-        title
-        body
-        choices
-        start
-        end
-        snapshot
-        state
-        author
-        space {
-          id
-          name
-        }
-      }
-    }
-  `;
+  const query = proposalsQuery;
 
   useEffect(() => {
     fetchProposals();

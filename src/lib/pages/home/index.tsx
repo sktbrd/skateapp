@@ -1,7 +1,7 @@
 import { Flex, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
-import HiveBlog from "./posts/Feed";
-import HiveVideos from "./posts/FeedVideo";
-import SnapShot from "./snapshot";
+import HiveBlog from "./magazine/Feed";
+import HiveVideos from "./videos/FeedVideo";
+import SnapShot from "./dao/snapshot";
 
 const Home = () => {
   return (

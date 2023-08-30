@@ -46,7 +46,7 @@ const HiveVideos: React.FC = () => {
       try {
         const query = {
           tag: 'hive-173115',
-          limit: 10,
+          limit: 40,
         };
         const result: Discussion[] = await client.database.getDiscussions('created', query);
         setPosts(result);

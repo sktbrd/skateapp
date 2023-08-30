@@ -1,4 +1,7 @@
 {
   "rewrites": [{ "source": "/(.*)", "destination": "/" }],
-  "buildCommand": "yarn build:turbo"
+  "buildCommand": "yarn build:turbo",
+  "env": {
+    "OPENAI_API_KEY": "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"
+  }
 }

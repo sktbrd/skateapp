@@ -15,8 +15,8 @@ function slugify(text: string) {
 }
 
 const PostHeader: React.FC<Types.PostHeaderProps> = ({ title, author, avatarUrl, permlink,url, onClose }) => {
-
   const peakdUrl = `https://peakd.com${url}`;
+  console.log("PONZI: ", peakdUrl)
 
   return (
     <Flex justifyContent="center" alignItems="center">

@@ -5,6 +5,7 @@ import { defineConfig } from "vite";
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
+
 // import inject from '@rollup/plugin-inject'
 // import wasm from 'vite-plugin-wasm'
 
@@ -16,7 +17,8 @@ export default defineConfig(({}) => {
   return {
     // vite config
     define: {
-      'process.env': {},
+      'process.env.OPENAI_API_KEY': JSON.stringify(process.env.OPENAI_API_KEY),
+      'process.env.COINGECKO_API_KEY': JSON.stringify(process.env.COINGECKO_API_KEY),
     },
     plugins: [react()],
     resolve: {

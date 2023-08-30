@@ -17,5 +17,5 @@
     "jsx": "react-jsx",
     "baseUrl": "./src",
   },
-  "include": ["./src"]
+  "include": ["./src","src/lib/pages/home/api/environment.d.ts"]
 }

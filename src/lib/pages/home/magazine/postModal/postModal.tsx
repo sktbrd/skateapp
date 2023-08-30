@@ -43,8 +43,8 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   author,
   permlink,
   weight,
-  url,
-  comments = []
+  comments = [],
+  url:string
 }) => {
   
   const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
@@ -55,6 +55,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   const [editedContent, setEditedContent] = useState(content);
   const [client, setClient] = useState(new Client(nodes[0]));
   const [nodeIndex, setNodeIndex] = useState(0);
+  const [ url, setUrl ] = useState<string>("");
   // Transform the content for 3speak videos
   content = transform3SpeakContent(content);
 
@@ -74,7 +75,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   const handleEditClick = () => {
     setIsEditing(true);
   };
-
+  
   // Save edited content handler
   const handleSaveClick = () => {
     // TODO: Implement the logic to save the edited content to Hive
@@ -255,7 +256,7 @@ return (
     <ModalOverlay />
     <ModalContent backgroundColor={'black'} border={'1px solid limegreen'}>
       <ModalHeader>
-        <PostHeader title={title} author={author} avatarUrl={avatarUrl} permlink={permlink} url={url} onClose={onClose} />
+        <PostHeader title={title} author={author} avatarUrl={avatarUrl} url={url} permlink={permlink} onClose={onClose} />
         {user?.name === author && !isEditing && (
           <Button onClick={handleEditClick}>Edit</Button>
         )}

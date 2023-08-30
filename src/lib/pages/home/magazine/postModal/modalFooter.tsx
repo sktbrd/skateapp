@@ -34,7 +34,7 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
   };
   
   return (
-    <Flex border="1px limegreen solid" padding="20px" justify="space-between" align="center">
+    <Flex border="1px white solid" padding="20px" justify="space-between" align="center">
       <hr color='white'></hr>
 
       <Button
@@ -43,8 +43,8 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
         borderRadius="4px"
         p={2}
         onClick={onClose}
-        _hover={{ bg: 'limegreen', color: '#020202' }}
-        border={"1px solid limegreen"}
+        _hover={{ bg: 'white', color: '#020202' }}
+        border={"1px solid white"}
       >
         Close
       </Button>
@@ -57,7 +57,7 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
           value={sliderValue} 
           onChange={(value) => setSliderValue(value)}
         >
-          <SliderTrack bg="limegreen">
+          <SliderTrack bg="white">
             <SliderFilledTrack bg="yellow" />
           </SliderTrack>
           <SliderThumb boxSize={6}>
@@ -68,12 +68,13 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
         </Text>
       </Box>
       <Button
-        bg="limegreen"
+        bg="white"
         color="#020202"
         borderRadius="4px"
+        border="1px solid limgreen"
         p={2}
         onClick={handleVote} // Call the handleVote function when the "Vote" button is clicked
-        _hover={{ bg: '#020202', color: 'limegreen' }}
+        _hover={{ bg: '#020202', color: 'white' }}
       >
         Vote
       </Button>

@@ -9,6 +9,8 @@ import Layout from "lib/layout";
 import Routings from "lib/router/Routings";
 import { theme } from "lib/styles/theme";
 
+
+
 // @ts-ignore
 const ForceDarkMode = ({ children }) => {
   const { setColorMode } = useColorMode();

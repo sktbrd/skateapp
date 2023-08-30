@@ -54,13 +54,13 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
   };
 
   return (
-    <Box border="1px solid limegreen" padding="10px" mt="20px">
+    <Box border="1px solid white" padding="10px" mt="20px">
       <Textarea
         value={commentContent}
         onChange={(e) => setCommentContent(e.target.value)}
         placeholder="Write your comment here..."
       />
-      <Button border="1px solid limegreen" mt="10px" onClick={handleCommentSubmit}>
+      <Button border="1px solid white" mt="10px" onClick={handleCommentSubmit}>
         Submit Comment
       </Button>
     </Box>

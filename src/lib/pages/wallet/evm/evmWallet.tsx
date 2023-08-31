@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useEffect, useState } from "react";
 //@ts-ignore
 import { usePioneer } from "pioneer-react"
@@ -82,8 +78,6 @@ const EvmBalance: React.FC = () => {
   const [address, setAddress] = useState("");
   const { api, app, context, assetContext, blockchainContext, pubkeyContext } = state;
   const [totalWorth, setTotalWorth] = useState<number>(0);
-
-
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

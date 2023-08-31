@@ -95,7 +95,7 @@ const GnarsBlog = ({ tags }: Types.GnarsBlogProps) => {
       };
       const result = await client.database.getDiscussions("created", query);
 
-      const postsWithThumbnails: Types.Post[] = result.map((post) => {
+      const postsWithThumbnails: any[] = result.map((post) => {
         const metadata = JSON.parse(post.json_metadata);
         const thumbnail =
           Array.isArray(metadata?.image) && metadata.image.length > 0
@@ -175,7 +175,7 @@ const GnarsBlog = ({ tags }: Types.GnarsBlogProps) => {
               onClose={onClose}
               isOpen={isOpen}
               comments={comments}
-              url={selectedPost.url}
+              postUrl={selectedPost.url}
             />
           )}
         </ModalContent>

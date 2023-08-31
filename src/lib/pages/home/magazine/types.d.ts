@@ -39,11 +39,10 @@ export interface PostHeaderProps {
 title: string;
 author: string;
 avatarUrl: string;
-url: string;
+postUrl: string;
 permlink: string;
 onClose: () => void;
 }
-
 
 export interface PostModalProps {
 isOpen: boolean;
@@ -55,8 +54,9 @@ user: any;
 permlink: string;
 weight: number;
 comments: CommentProps[];
-url: string;
+postUrl: string;
 }
+
 export interface PostProps {
 author: string;
 permlink: string;
@@ -66,7 +66,7 @@ body: string;
 user: string;
 weight: number;
 earnings: number;
-url: string;
+postUrl: string;
 }
 
 export type Post = {
@@ -78,6 +78,7 @@ body: string;
 user: string;
 weight: number;
 earnings: number;
+postUrl: string;
 url: string;
 }
 

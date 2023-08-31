@@ -9,7 +9,7 @@ type MarkdownProps = {
   
   type RendererProps = MarkdownProps & {
     children?: React.ReactNode;
-    ordered?: boolean;
+    ordered?: any;
   };
   
   
@@ -28,6 +28,7 @@ ol: ({ ordered, children, ...props }: RendererProps) => {
     const listType = ordered ? "1" : "decimal";
     return <ol {...props} style={{ listStyleType: listType, paddingLeft: '20px' }}>{children}</ol>;
 },
+
 ul: ({ children, ...props }: RendererProps) => {
     return <ul {...props} style={{ paddingLeft: '20px' }}>{children}</ul>;
 },

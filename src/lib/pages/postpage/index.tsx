@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { HStack, Flex, Box, VStack } from '@chakra-ui/react';
+import { Flex, Box, VStack, Image, useMediaQuery } from '@chakra-ui/react';
 import { Client } from '@hiveio/dhive';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
-import { MarkdownRenderers } from '../home/magazine/postModal/MarkdownRenderers';
+import { MarkdownRenderers } from './MarkdownRenderers';
+import { MarkdownRenderersComments } from './MarkdownRenderersComments';
 import CommentBox from '../home/magazine/postModal/commentBox';
 import { CommentProps } from '../home/magazine/types';
 
@@ -39,23 +40,36 @@ const PostPage: React.FC = () => {
                 console.error('Error fetching comments:', error);
             }
         };
-
+        
         fetchPostData();
         fetchComments();
     }, [URLAuthor, URLPermlink, commentsUpdated]);
 
+    const containerStyle = {
+        width: '100%', // Occupy the full available width
+        margin: 0, 
+        padding: '20px',
+    };
+    
     const boxStyle = {
-        border: '1px solid limegreen',
+        border: '2px solid orange',
         padding: '10px',
-        marginBottom: '20px',
         borderRadius: '10px',
+        width: '100%', // Occupy the full available width
+    };
+    const boxStyleMobile = {
+        border: '1px solid orange',
+        borderRadius: '10px',
+        width: '100%', // Occupy the full available width
     };
 
     const titleStyle = {
         fontWeight: 'bold',
         color: 'yellow',
         fontSize: '26px',
-        paddingBottom: '10px',
+        padding: '10px',
+        border: '1px solid limegreen',
+        borderRadius: '10px',
     };
 
     const commentTitleStyle = {
@@ -65,42 +79,55 @@ const PostPage: React.FC = () => {
         paddingBottom: '8px',
     };
 
+    // Use Chakra-UI's useMediaQuery hook to detect screen size
+    const [isDesktop] = useMediaQuery("(min-width: 768px)");
+
     return (
-      <div>
-        <h1 style={titleStyle}>{post?.title}</h1>
-        <Flex>
-            <HStack>
-                <VStack>
-                <Box style={boxStyle}>
+        <div style={containerStyle}>
+            <h1 style={titleStyle}>{post?.title}</h1>
+            <br></br>
+            <Flex direction={isDesktop ? "row" : "column"}>
+                <Box style={{ ...boxStyle, margin: isDesktop ? '20px' : '0' }}>
                     <ReactMarkdown
                         children={post?.body}
                         rehypePlugins={[rehypeRaw]}
                         remarkPlugins={[remarkGfm]}
                         components={MarkdownRenderers}
                     />
-                                    </Box>
-                </VStack>
-                <VStack>
-                <Box style={boxStyle}>
-                    <h2 style={commentTitleStyle}>Comments</h2>
-                    {comments.map((comment, index) => (
-                        <div key={index} style={boxStyle}>
-                            <p>{comment.author}</p>
-                            <p>{comment.body}</p>
-                            {/* Add more fields from the CommentProps interface */}
-                        </div>
-                    ))}
                 </Box>
-                <CommentBox 
-                    user=""
-                    parentAuthor={URLAuthor}
-                    parentPermlink={URLPermlink}
-                    onCommentPosted={() => setCommentsUpdated(true)}
-                />
-                </VStack>
-            </HStack>
-        </Flex>
-      </div>
+                <Box style={boxStyle}>
+                    <VStack>
+                        <h2 style={commentTitleStyle}>Comments</h2>
+                        {comments.map((comment, index) => (
+                            <div key={index} style={boxStyle}>
+                                <Flex alignItems="center">
+                                    <Image
+                                        src={`https://images.ecency.com/webp/u/${comment.author}/avatar/small`}
+                                        alt={`${comment.author}'s avatar`}
+                                        boxSize="40px"
+                                        borderRadius="50%"
+                                        marginRight="8px"
+                                    />
+                                    <h1>{comment.author}</h1>
+                                </Flex>
+                                <ReactMarkdown
+                                    children={comment.body}
+                                    rehypePlugins={[rehypeRaw]}
+                                    remarkPlugins={[remarkGfm]}
+                                    components={MarkdownRenderersComments}
+                                />
+                            </div>
+                        ))}
+                    </VStack>
+                    <CommentBox 
+                        user=""
+                        parentAuthor={URLAuthor}
+                        parentPermlink={URLPermlink}
+                        onCommentPosted={() => setCommentsUpdated(true)}
+                    />
+                </Box>
+            </Flex>
+        </div>
     );
 };
 

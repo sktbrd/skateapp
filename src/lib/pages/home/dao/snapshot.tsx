@@ -187,7 +187,7 @@ const SnapShot: React.FC = () => {
                             border="1px solid limegreen" 
                             mt={2}
                           >
-                            🤖: {proposal.summary}
+                            🤖 GPT-Summary: {proposal.summary}
                           </Text>
                         )}
                       </VStack>

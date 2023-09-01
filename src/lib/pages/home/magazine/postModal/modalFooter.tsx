@@ -35,8 +35,6 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
   
   return (
     <Flex border="1px white solid" padding="20px" justify="space-between" align="center">
-      <hr color='white'></hr>
-
       <Button
         bg="#121212"
         color="#fff"
@@ -48,7 +46,7 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
       >
         Close
       </Button>
-      <Box width="60%">
+      <Box width="40%">
         <Text textAlign="center"> Your opinion on this post</Text>
         <Slider 
           min={-10000} 
@@ -71,15 +69,16 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
         bg="white"
         color="#020202"
         borderRadius="4px"
-        border="1px solid limgreen"
+        border="1px solid limegreen"
         p={2}
-        onClick={handleVote} // Call the handleVote function when the "Vote" button is clicked
-        _hover={{ bg: '#020202', color: 'white' }}
+        onClick={handleVote}
+        _hover={{ bg: 'yellow', color: 'black' }}
       >
         Vote
       </Button>
     </Flex>
   );
+  
 }
 
 export default PostFooter;

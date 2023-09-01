@@ -10,6 +10,7 @@ import {
   ModalFooter,
   Button,
   Textarea,
+  HStack,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
@@ -179,7 +180,10 @@ const PostModal: React.FC<Types.PostModalProps> = ({
     }
   };
   
-
+  const generatePostUrl = () => {
+    return `${window.location.origin}/post${postUrl}`;
+  };
+  
   
 
  
@@ -266,17 +270,34 @@ const postData = {
   // ... any other post properties you need
 };    
 const handleViewFullPost = (event:any) => {
-  event.stopPropagation(); // Prevent event from bubbling up
-
+  event.stopPropagation(); // Prevent event from bubbling up to the parent
   // Gather all the post data you want to pass
-
-
   // Navigate to the PostPage and pass the post data via state
   console.log(window.location.protocol + '//' + postUrl);
   console.log("Post data before navigation:", postData);
 
 };
 const cleanUrl = 'post' + postData.postUrl;
+
+const postLink = window.location.protocol + '//' + postUrl;
+
+const [postLinkCopied, setPostLinkCopied] = useState(false);
+
+const handleCopyPostLink = () => {
+  try {
+    const postPageUrl = generatePostUrl();
+    console.log(postPageUrl)
+    navigator.clipboard.writeText(postPageUrl);
+    setPostLinkCopied(true);
+    //wait 3 seconds
+    setTimeout(() => {
+      setPostLinkCopied(false);
+    }, 3000);
+  } catch (error) {
+    console.error('Failed to copy the link:', error);
+  }
+};
+
 
 return (
   <Modal isOpen={isOpen} onClose={onClose} size="3xl">
@@ -314,11 +335,15 @@ return (
         onCommentPosted={() => setCommentPosted(!commentPosted)}
       />
       <PostFooter onClose={onClose} user={user} author={author} permlink={permlink} weight={weight} />
+      <HStack justifyContent="space-between">
       <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
-    View Full Post
-</Link>
-
-
+          <Button margin="5px" border="1px solid orange" onClick={handleViewFullPost}>View Full Post</Button>
+      </Link>
+      <Button border="1px solid orange" onClick={handleCopyPostLink}>
+            {postLinkCopied ? 'Link Copied!' : 'Share Post'}
+      </Button>
+      </HStack>
+      
     </ModalContent>
   </Modal>
 );

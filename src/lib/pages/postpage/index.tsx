@@ -48,7 +48,7 @@ const PostPage: React.FC = () => {
     const containerStyle = {
         width: '100%', // Occupy the full available width
         margin: 0, 
-        padding: '20px',
+        padding: '10px',
     };
     
     const boxStyle = {
@@ -86,8 +86,11 @@ const PostPage: React.FC = () => {
         <div style={containerStyle}>
             <h1 style={titleStyle}>{post?.title}</h1>
             <br></br>
-            <Flex direction={isDesktop ? "row" : "column"}>
-                <Box style={{ ...boxStyle, margin: isDesktop ? '20px' : '0' }}>
+            <Flex
+                direction={isDesktop ? "row" : "column"}
+                style={{ margin: 0 }} // Set margin to 0
+            >
+                <Box style={{ ...boxStyle, margin: isDesktop ? '0px' : '0' }}>
                     <ReactMarkdown
                         children={post?.body}
                         rehypePlugins={[rehypeRaw]}
@@ -95,7 +98,12 @@ const PostPage: React.FC = () => {
                         components={MarkdownRenderers}
                     />
                 </Box>
-                <Box style={boxStyle}>
+                <Box
+                    style={{
+                        ...boxStyle,
+                        ...(!isDesktop && boxStyleMobile), // Apply mobile style conditionally
+                    }}
+                >
                     <VStack>
                         <h2 style={commentTitleStyle}>Comments</h2>
                         {comments.map((comment, index) => (

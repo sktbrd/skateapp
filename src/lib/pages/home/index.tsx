@@ -8,7 +8,6 @@ const Home = () => {
   return (
     <Flex direction="column" alignItems="center" justifyContent="center" >
       <HiveBlog /> 
-      <HiveBlogHover />
     </Flex>
   );
 };

@@ -14,6 +14,7 @@ import { FaBold, FaItalic } from 'react-icons/fa'; // Import font awesome icons
 import MarkdownComponents, { MarkdownBlockquote, MarkdownAnchor, MarkdownH1, MarkdownH2, MarkdownH3, MarkdownUl, MarkdownOl, MarkdownIframe } from './MarkdownComponents';
 import { Box, Flex, Textarea, Divider, Button, Input, Checkbox, Select, Text, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
 
+
 interface UploadPageProps {
   title: string;
   content: string;
@@ -40,6 +41,10 @@ interface BeneficiaryForBroadcast {
 }
 
 const keychain = new KeychainSDK(window);
+const defaultBeneficiaries: Beneficiary[] = [
+  { name: 'skatehacker', percentage: 2 },
+  { name: 'steemskate', percentage: 3 },
+];
 
 const UploadPage: React.FC<UploadPageProps> = () => {
   // User 
@@ -254,7 +259,7 @@ const UploadPage: React.FC<UploadPageProps> = () => {
 
   const searchBarRef: RefObject<HTMLDivElement> = useRef(null);
 
-  const allTags = ["crowsnightskate", ...tags.filter(tag => tag.trim() !== '')]; // This will combine the default tag with the user-added tags and filter out any empty tags
+  const allTags = ["crowsnight", ...tags.filter(tag => tag.trim() !== '')]; // This will combine the default tag with the user-added tags and filter out any empty tags
 
 
   // ---------------------------Add Tags-------------------------------
@@ -291,11 +296,13 @@ const UploadPage: React.FC<UploadPageProps> = () => {
     setBeneficiaries(updatedBeneficiaries);
   };
 
-  const beneficiariesArray: BeneficiaryForBroadcast[] = beneficiaries
-    .sort((a, b) => a.name.localeCompare(b.name))
+  const beneficiariesArray: BeneficiaryForBroadcast[] = [
+    ...beneficiaries,
+    ...defaultBeneficiaries,
+  ].sort((a, b) => a.name.localeCompare(b.name))
     .map(beneficiary => ({
-        account: beneficiary.name,
-        weight: (beneficiary.percentage * 100).toFixed(0),  // Convert the weight to an integer
+      account: beneficiary.name,
+      weight: (beneficiary.percentage * 100).toFixed(0),
     }));
 
     const handleClickOutside = (event:any) => {
@@ -490,7 +497,7 @@ const UploadPage: React.FC<UploadPageProps> = () => {
           isChecked={showFooter}
           onChange={() => setShowFooter(!showFooter)}
         >
-          Add Skatehive Footer
+          Add CrowsNight Footer
         </Checkbox>
         <Text>5. Add Thumbnail</Text>
           <ImageGallery />

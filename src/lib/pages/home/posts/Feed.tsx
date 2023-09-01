@@ -51,7 +51,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
 
 
 
-  const HiveBlog: React.FC<Types.HiveBlogProps> = ({ queryType = "created", tag = "misfits" }) => {
+  const HiveBlog: React.FC<Types.HiveBlogProps> = ({ queryType = "created", tag = "rockandroll" }) => {
     const [posts, setPosts] = useState<any[]>([]);
     const [currentTag, setTag] = useState(tag);
     const [isLoading, setIsLoading] = useState(false);
@@ -186,56 +186,65 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
     return (
 
       <Box>
+  {isLoading ? (
+    <PlaceholderLoadingBar />
+  ) : (
+    <Box
+      display="grid"
+      gridTemplateColumns={`repeat(${gridColumns}, minmax(280px, 1fr))`}
+      gridGap={1}
+    >
+      {posts.map((post) => (
+        <Card
+          key={post.permlink}
+          maxW="md"
+          mb={4}
+          onClick={() => handleCardClick(post)}
+          cursor="pointer"
+          position="relative"
+          overflow="hidden"
+          border = "1px solid white"
+          borderRadius="40% 40% 3% 3%" // Semi-circular curved top
+          color="white"
+          backgroundImage={`linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.5)), url('https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fimg03.deviantart.net%2F6979%2Fi%2F2014%2F268%2Fd%2F5%2Fgrave_stone_texture_by_timyouster-d80g5gk.jpg&f=1&nofb=1&ipt=ac41425d7743105e5e8d4bd06fd297eb58a9580c2b16d481676aedc44afc891b&ipo=images')`}
 
-        {isLoading ? (
-          <PlaceholderLoadingBar />
-        ) : (
-          <Box
-            display="grid"
-            gridTemplateColumns={`repeat(${gridColumns}, minmax(280px, 1fr))`}
-            gridGap={1}
-          >
-            {posts.map((post) => (
-              <Card
-                border="1px"
-                borderColor="whiten"
-                bg="black"
-                key={post.permlink}
-                maxW="md"
-                mb={4}
-                onClick={() => handleCardClick(post)}
-                cursor="pointer"
-              >
-                <CardHeader>
-                  <Flex>
-                    <Flex flex="1" gap="3" alignItems="center">
-                    <Link to={`/${post.author}`}>
-                        <Avatar
-                          name={post.author}
-                          border="1px solid whiten"
-                          src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
-                        />
-                      </Link>
+        >
+<CardHeader>
+  <Flex flexDirection="column" alignItems="center">
+    <Box position="relative" marginBottom="2pc"> {/* Create a container for the avatar */}
+      <Avatar
+        name={post.author}
+        border="1px solid white"
+        src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
+        position="absolute" // Position the avatar absolutely
+        top="-10px" // Adjust the top value to center the avatar
+        left="50%" // Move the avatar to the center horizontally
+        transform="translateX(-50%)" // Center the avatar precisely
+      />
+    </Box>
+    <Link to={`/${post.author}`}>
+      <Box justifyContent="center" textAlign="center"> {/* Center the author title */}
+        <Box>
+          <Heading size="sm">{post.author}</Heading>
+        </Box>
+      </Box>
+    </Link>
+    <IconButton variant="ghost" colorScheme="gray" aria-label="See menu" />
+  </Flex>
+</CardHeader>
 
-                      <Box>
-                        <Heading size="sm">{post.author}</Heading>
-                      </Box>
-                    </Flex>
-                    <IconButton variant="ghost" colorScheme="gray" aria-label="See menu" />
-                  </Flex>
-                </CardHeader>
-                <Box padding="10px" height="200px">
+                <Box padding="10px" height="200px" >
                   <Image
                     objectFit="cover"
-                    border="1px solid whiten"
-                    borderRadius="10px"
+                    border="1px solid white"
+                    borderRadius="50px"
                     src={post.thumbnail}
                     alt="Post Thumbnail"
                     height="100%"
                     width="100%"
                   />
                 </Box>
-                <CardBody>
+                <CardBody padding="5px">
                   <Text>{post.title}</Text>
                 </CardBody>
                 <CardFooter>

@@ -13,10 +13,10 @@ type MarkdownProps = {
   };
   
   
-export const MarkdownRenderers = {
+export const MarkdownRenderersComments = {
 img: ({ alt, src, title, ...props }: RendererProps) => (
     <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <img {...props} alt={alt} src={src} title={title} style={{ maxWidth: '100%', height: 'auto', borderRadius: "10px", border: '1px solid limegreen' }} />
+        <img {...props} alt={alt} src={src} title={title} style={{ maxWidth: '80%', height: 'auto', borderRadius: "10px", border: '1px solid limegreen' }} />
     </span>
     ),
 a: ({ children, ...props }: RendererProps) => <a {...props} style={{ color: 'yellow' }}>{children}</a>,

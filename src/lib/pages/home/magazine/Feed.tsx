@@ -61,7 +61,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
     const [comments, setComments] = useState<Types.CommentProps[]>([]);
     const [isVotersModalOpen, setVotersModalOpen] = useState(false);
     const [selectedPostForModal, setSelectedPostForModal] = useState<any | null>(null);
-    const [url, setUrl] = useState<string | null>(null);
+    const [postUrl, setPostUrl] = useState<string | null>(null);
 
 
     const fetchPostEarnings = async (author: string, permlink: string): Promise<number> => {
@@ -91,7 +91,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
       try {
         const query = {
           tag: tag,
-          limit: 100,
+          limit: 50,
         };
         const result = await client.database.getDiscussions(queryType, query);
 
@@ -128,6 +128,9 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
     useEffect(() => {
       fetchPosts();
     }, [tag]);
+
+    
+
 
     const fetchComments = async (author: string, permlink: string): Promise<any[]> => {
       try {
@@ -179,9 +182,8 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
       setSelectedPost(post);
       const comments = await fetchComments(post.author, post.permlink);
       setComments(comments);
-      setUrl(post.url);
-      onOpen(); // Open the post modal
-      console.log(post)
+      setPostUrl(post.url);  // Move this line here
+      onOpen();
     };
     
 
@@ -211,7 +213,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
                 <CardHeader>
                   <Flex>
                     <Flex flex="1" gap="3" alignItems="center">
-                    <Link to={`/${post.author}`}>
+                    <Link to={`profile/${post.author}`}>
                         <Avatar
                           name={post.author}
                           border="1px solid limegreen"
@@ -282,7 +284,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
               onClose={onClose}
               isOpen={isOpen}
               comments={comments}
-              url={selectedPost?.url}
+              postUrl={selectedPost?.url}
             />
           </ModalContent>
         </Modal>

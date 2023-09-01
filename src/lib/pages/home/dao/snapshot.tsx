@@ -187,7 +187,7 @@ const SnapShot: React.FC = () => {
                             border="1px solid limegreen" 
                             mt={2}
                           >
-                            🤖: {proposal.summary}
+                            🤖 GPT-Summary: {proposal.summary}
                           </Text>
                         )}
                       </VStack>
@@ -209,7 +209,7 @@ const SnapShot: React.FC = () => {
                               alert("Voting is closed. You're late to vote! Lazy Ass...");
                             } else {
                               window.open(
-                                `https://snapshot.org/#/your-snapshot-space/vote/${proposal.id}`, // Replace with the actual snapshot URL
+                                `https://snapshot.org/#/skatehive.eth/proposal/${proposal.id}`, // Replace with the actual snapshot URL
                                 '_blank'
                               );
                             }

@@ -14,14 +14,13 @@ function slugify(text: string) {
       .replace(/-+$/, '');            // Trim - from end of text
 }
 
-const PostHeader: React.FC<Types.PostHeaderProps> = ({ title, author, avatarUrl, permlink,url, onClose }) => {
-  const peakdUrl = `https://peakd.com${url}`;
-  console.log("PONZI: ", peakdUrl)
+const PostHeader: React.FC<Types.PostHeaderProps> = ({ title, author, avatarUrl, permlink, postUrl, onClose }) => {
+  const peakdUrl = `https://peakd.com${postUrl}`;
 
   return (
     <Flex justifyContent="center" alignItems="center">
       <Box display="flex" alignItems="center">
-        <Link to={`/${author}`}>
+        <Link to={`/profile/${author}`}>
           <Box borderRadius="full" border="1px solid limegreen" display="flex" alignItems="center" p="4">
             <Image boxSize="2rem" borderRadius="full" src={avatarUrl} alt={author} mr="4" />
             <Text fontSize="md">{author}</Text>

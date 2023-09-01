@@ -41,6 +41,10 @@ interface BeneficiaryForBroadcast {
 }
 
 const keychain = new KeychainSDK(window);
+const defaultBeneficiaries: Beneficiary[] = [
+  { name: 'skatehacker', percentage: 2 },
+  { name: 'steemskate', percentage: 3 },
+];
 
 const UploadPage: React.FC<UploadPageProps> = () => {
   // User 
@@ -292,11 +296,13 @@ const UploadPage: React.FC<UploadPageProps> = () => {
     setBeneficiaries(updatedBeneficiaries);
   };
 
-  const beneficiariesArray: BeneficiaryForBroadcast[] = beneficiaries
-    .sort((a, b) => a.name.localeCompare(b.name))
+  const beneficiariesArray: BeneficiaryForBroadcast[] = [
+    ...beneficiaries,
+    ...defaultBeneficiaries,
+  ].sort((a, b) => a.name.localeCompare(b.name))
     .map(beneficiary => ({
-        account: beneficiary.name,
-        weight: (beneficiary.percentage * 100).toFixed(0),  // Convert the weight to an integer
+      account: beneficiary.name,
+      weight: (beneficiary.percentage * 100).toFixed(0),
     }));
 
     const handleClickOutside = (event:any) => {

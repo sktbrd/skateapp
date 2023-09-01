@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 import {
   Modal,
   ModalOverlay,
@@ -7,8 +9,10 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  Textarea
+  Textarea,
+  HStack,
 } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
@@ -44,7 +48,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   permlink,
   weight,
   comments = [],
-  url:string
+  postUrl
 }) => {
   
   const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
@@ -55,7 +59,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   const [editedContent, setEditedContent] = useState(content);
   const [client, setClient] = useState(new Client(nodes[0]));
   const [nodeIndex, setNodeIndex] = useState(0);
-  const [ url, setUrl ] = useState<string>("");
+  console.log(postUrl)
   // Transform the content for 3speak videos
   content = transform3SpeakContent(content);
 
@@ -176,7 +180,10 @@ const PostModal: React.FC<Types.PostModalProps> = ({
     }
   };
   
-
+  const generatePostUrl = () => {
+    return `${window.location.origin}/post${postUrl}`;
+  };
+  
   
 
  
@@ -250,18 +257,59 @@ const PostModal: React.FC<Types.PostModalProps> = ({
 
 //  ---------------------------------------Comment Button -------------------------------
 
+const navigate = useNavigate();
+
+const postData = {
+  title,
+  content,
+  author,
+  permlink,
+  weight,
+  comments,
+  postUrl,
+  // ... any other post properties you need
+};    
+const handleViewFullPost = (event:any) => {
+  event.stopPropagation(); // Prevent event from bubbling up to the parent
+  // Gather all the post data you want to pass
+  // Navigate to the PostPage and pass the post data via state
+  console.log(window.location.protocol + '//' + postUrl);
+  console.log("Post data before navigation:", postData);
+
+};
+const cleanUrl = 'post' + postData.postUrl;
+
+const postLink = window.location.protocol + '//' + postUrl;
+
+const [postLinkCopied, setPostLinkCopied] = useState(false);
+
+const handleCopyPostLink = () => {
+  try {
+    const postPageUrl = generatePostUrl();
+    console.log(postPageUrl)
+    navigator.clipboard.writeText(postPageUrl);
+    setPostLinkCopied(true);
+    //wait 3 seconds
+    setTimeout(() => {
+      setPostLinkCopied(false);
+    }, 3000);
+  } catch (error) {
+    console.error('Failed to copy the link:', error);
+  }
+};
+
 
 return (
-  <Modal isOpen={isOpen} onClose={onClose} size="xl">
+  <Modal isOpen={isOpen} onClose={onClose} size="3xl">
     <ModalOverlay />
     <ModalContent backgroundColor={'black'} border={'1px solid limegreen'}>
       <ModalHeader>
-        <PostHeader title={title} author={author} avatarUrl={avatarUrl} url={url} permlink={permlink} onClose={onClose} />
+        <PostHeader title={title} author={author} avatarUrl={avatarUrl} postUrl={postUrl} permlink={permlink} onClose={onClose} />
         {user?.name === author && !isEditing && (
-          <Button onClick={handleEditClick}>Edit</Button>
+          <Button id="editButton" onClick={handleEditClick}>Edit</Button>
         )}
         {isEditing && (
-          <Button onClick={handleSaveClick}>Save</Button>
+          <Button id="saveButton" onClick={handleSaveClick}>Save</Button>
         )}
       </ModalHeader>
       <ModalBody ref={modalContainerRef} onScroll={handleScroll}>
@@ -287,9 +335,19 @@ return (
         onCommentPosted={() => setCommentPosted(!commentPosted)}
       />
       <PostFooter onClose={onClose} user={user} author={author} permlink={permlink} weight={weight} />
+      <HStack justifyContent="space-between">
+      <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
+          <Button margin="5px" border="1px solid orange" onClick={handleViewFullPost}>View Full Post</Button>
+      </Link>
+      <Button border="1px solid orange" onClick={handleCopyPostLink}>
+            {postLinkCopied ? 'Link Copied!' : 'Share Post'}
+      </Button>
+      </HStack>
+      
     </ModalContent>
   </Modal>
 );
+
 };
 
 export default PostModal;

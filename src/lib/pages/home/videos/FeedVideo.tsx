@@ -109,7 +109,7 @@ const HiveVideos: React.FC = () => {
               onClose={onClose}
               isOpen={isOpen}
               comments={[]} // Replace with the actual comments if needed
-              url={selectedPost.url}
+              postUrl={selectedPost.url}
             />
           )}
         </ModalContent>

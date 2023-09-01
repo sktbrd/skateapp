@@ -1,6 +1,5 @@
 import { Flex } from "@chakra-ui/react";
 import HiveBlog from "./posts/Feed";
-import HiveBlogHover from "./posts/Feed2";
 
 const Home = () => {
 

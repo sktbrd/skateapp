@@ -196,19 +196,21 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
     >
       {posts.map((post) => (
         <Card
-          key={post.permlink}
-          maxW="md"
-          mb={4}
-          onClick={() => handleCardClick(post)}
-          cursor="pointer"
-          position="relative"
-          overflow="hidden"
-          border = "1px solid white"
-          borderRadius="40% 40% 3% 3%" // Semi-circular curved top
-          color="white"
-          backgroundImage={`linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.5)), url('https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fimg03.deviantart.net%2F6979%2Fi%2F2014%2F268%2Fd%2F5%2Fgrave_stone_texture_by_timyouster-d80g5gk.jpg&f=1&nofb=1&ipt=ac41425d7743105e5e8d4bd06fd297eb58a9580c2b16d481676aedc44afc891b&ipo=images')`}
-
-        >
+  key={post.permlink}
+  maxW="md"
+  mb={4}
+  onClick={() => handleCardClick(post)}
+  cursor="pointer"
+  position="relative"
+  overflow="hidden"
+  border="2px solid white"
+  borderRadius="50% 50% 0 0" // Semi-circular curved top
+  backgroundImage={`linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fimg03.deviantart.net%2F6979%2Fi%2F2014%2F268%2Fd%2F5%2Fgrave_stone_texture_by_timyouster-d80g5gk.jpg&f=1&nofb=1&ipt=ac41425d7743105e5e8d4bd06fd297eb58a9580c2b16d481676aedc44afc891b&ipo=images')`}
+  backgroundSize="cover"
+  color="white"
+  transform="perspective(1000px) rotateX(10deg)" // Add 3D perspective and rotation
+  boxShadow="0px 10px 30px rgba(0, 0, 0, 0.3)" // Add a shadow for depth
+>
 <CardHeader>
   <Flex flexDirection="column" alignItems="center">
     <Box position="relative" marginBottom="2pc"> {/* Create a container for the avatar */}

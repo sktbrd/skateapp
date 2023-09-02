@@ -31,7 +31,28 @@ const MarkdownInHtmlRenderer: React.FC<{ content?: string }> = ({ content = '' }
       const endIndex = content.indexOf('>', index);
       if (endIndex !== -1) {
         const htmlTag = content.slice(index, endIndex + 1);
-        elements.push(<span key={elements.length} dangerouslySetInnerHTML={{ __html: htmlTag }} />);
+
+        // Check if the tag is an iframe
+        if (htmlTag.startsWith('<iframe')) {
+          elements.push(
+<div
+  key={elements.length}
+  style={{
+    display: 'flex',
+    justifyContent: 'center',
+    border: '1px solid limegreen',
+    borderRadius: '3px',
+    maxWidth: '80%', // Set the maximum width for the iframe
+    margin: '0 auto', // Center horizontally
+  }}
+  dangerouslySetInnerHTML={{ __html: htmlTag }}
+/>
+
+          );
+        } else {
+          elements.push(<span key={elements.length} dangerouslySetInnerHTML={{ __html: htmlTag }} />);
+        }
+
         index = endIndex + 1;
       } else {
         break;

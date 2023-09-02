@@ -138,16 +138,7 @@ const PostPage: React.FC = () => {
 
     return (
         <div style={containerStyle}>
-            <Link to="/">
-                <Button
-                    variant="outline"
-                    colorScheme="blue"
-                    size="sm"
-                    marginBottom="10px"
-                >
-                    Go Home
-                </Button>
-            </Link>
+
             <h1 style={titleStyle}>{post?.title}</h1>
             <Flex direction={isDesktop ? "row" : "column"} style={{ margin: 0 }}>
                 <Box border="2px solid limegreen" borderRadius="10px" margin="10px" padding="10px">
@@ -158,6 +149,16 @@ const PostPage: React.FC = () => {
                         components={MarkdownRenderers}
                     />
                 </Box>
+                <Link to="/">
+                <Button
+                    variant="outline"
+                    colorScheme="blue"
+                    size="sm"
+                    marginBottom="10px"
+                >
+                    Go Home
+                </Button>
+            </Link>
                 <VStack>
             <h2 style={commentTitleStyle}>Comments</h2>
             {comments.map((comment, index) => (

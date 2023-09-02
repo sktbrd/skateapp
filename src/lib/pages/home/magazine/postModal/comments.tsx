@@ -37,6 +37,7 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
             </Flex>
             <ReactMarkdown 
         children={body}
+        rehypePlugins={[rehypeRaw]}
         remarkPlugins={[remarkGfm]}
         components={{
           img: ({ node, alt, src, title, ...props }) => (

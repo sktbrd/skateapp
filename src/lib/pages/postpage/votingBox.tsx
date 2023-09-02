@@ -1,11 +1,12 @@
 import React from 'react';
 import { Button, Flex, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box, Text } from '@chakra-ui/react';
-import voteOnContent from '../../api/voting';
+import voteOnContent from '../home/api/voting';
 import { useState } from 'react';
 
-import * as Types from '../types'
 
-const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, permlink, weight = 10000 }) => {
+import * as Types from '../home/magazine/types'
+
+const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, user, author, permlink, weight = 10000 }) => {
   const [sliderValue, setSliderValue] = useState(0);
   const getFeedbackText = (value: number) => {
     if (value === -10000) return "I hate it";
@@ -34,20 +35,28 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
     }
   };
   
+  
+   
+  const emojiByAmount: { [key: string]: string } = {
+    "-10000": "💩",
+    "-5000": "💀",
+    "0": "😐",
+    "5000": "🙂",
+    "10000": "🛹",
+  };
+  
+  const skateEmojiStyle = {
+    fontSize: '2em',
+    position: 'absolute',
+    top: '50%',
+    left: `${(sliderValue + 10000) / 20000 * 100}%`,
+    transform: 'translate(-50%, -50%)',
+    cursor: 'grab',
+  } as React.CSSProperties; // Type assertion
+  
   return (
-    <Flex border="1px white solid" padding="20px" justify="space-between" >
-      <Button
-        bg="#121212"
-        color="#fff"
-        borderRadius="4px"
-        p={2}
-        onClick={onClose}
-        _hover={{ bg: 'white', color: '#020202' }}
-        border={"1px solid white"}
-      >
-        Close
-      </Button>
-      <Box width="40%">
+    <Flex flexDirection="column" alignItems="center" minWidth="100%" borderRadius="10px" border="1px white solid" padding="20px">
+      <Box width="100%" marginBottom="20px" position="relative">
         <Text textAlign="center"> Your opinion on this post</Text>
         <Slider 
           min={-10000} 
@@ -59,27 +68,27 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
           <SliderTrack bg="white">
             <SliderFilledTrack bg="yellow" />
           </SliderTrack>
-          <SliderThumb boxSize={6}>
-          </SliderThumb>
+          <span role="img" aria-label="Skateboard" style={skateEmojiStyle}>{emojiByAmount[sliderValue.toString()]}</span>
         </Slider>
         <Text color="yellow" mt={2} textAlign="center">
           {getFeedbackText(sliderValue)}
         </Text>
       </Box>
-      <Button
-        bg="white"
-        color="#020202"
-        borderRadius="4px"
-        border="1px solid limegreen"
-        p={2}
-        onClick={handleVote}
-        _hover={{ bg: 'yellow', color: 'black' }}
-      >
-        Vote
-      </Button>
+      <Flex justifyContent="flex-end" width="100%" alignItems="flex-end">
+        <Button
+          bg="white"
+          color="#020202"
+          borderRadius="4px"
+          border="1px solid limegreen"
+          p={2}
+          onClick={handleVote}
+          _hover={{ bg: 'yellow', color: 'black' }}
+        >
+          Vote
+        </Button>
+      </Flex>
     </Flex>
   );
-  
 }
 
-export default PostFooter;
+export default VotingBox;

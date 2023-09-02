@@ -181,7 +181,6 @@ const PostPage: React.FC = () => {
         >
           <ReactMarkdown
             children={post?.body}
-            rehypePlugins={[rehypeRaw]}
             remarkPlugins={[remarkGfm]}
             components={MarkdownRenderers}
           />
@@ -241,7 +240,6 @@ const PostPage: React.FC = () => {
                   </Flex>
                   <ReactMarkdown
                     children={comment.body}
-                    rehypePlugins={[rehypeRaw]}
                     remarkPlugins={[remarkGfm]}
                     components={MarkdownRenderersComments}
                   />

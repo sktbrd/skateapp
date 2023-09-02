@@ -321,7 +321,6 @@ return (
         ) : (
           <ReactMarkdown
             children={charactersToShow >= content.length ? content : content.slice(0, charactersToShow)}
-            rehypePlugins={[rehypeRaw]}
             remarkPlugins={[remarkGfm]}
             components={MarkdownRenderers}
           />

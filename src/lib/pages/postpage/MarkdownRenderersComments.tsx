@@ -5,6 +5,7 @@ type MarkdownProps = {
     alt?: any;
     src?: any;
     title?: any;
+    value?: any; // Add this line to include the 'value' property
   };
   
   type RendererProps = MarkdownProps & {
@@ -12,8 +13,18 @@ type MarkdownProps = {
     ordered?: any;
   };
   
-  
-export const MarkdownRenderersComments = {
+  const transformCommentImageUrls = (content: string) => {
+    // Regular expression to match image URLs
+    const imageUrlRegex = /(https?:\/\/[^\s"<>]+?\.(?:jpg|jpeg|gif|png))(?![^<]*>|[^<>]*<\/)/gi;
+    
+    // Replace image URLs with markdown image syntax
+    const transformedContent = content.replace(imageUrlRegex, "![]($1)");
+    
+    return transformedContent;
+};
+
+
+export const MarkdownRenderersComments:any = {
 img: ({ alt, src, title, ...props }: RendererProps) => (
     <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <img {...props} alt={alt} src={src} title={title} style={{ maxWidth: '80%', height: 'auto', borderRadius: "10px", border: '1px solid limegreen' }} />

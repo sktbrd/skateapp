@@ -5,6 +5,7 @@ type MarkdownProps = {
     alt?: any;
     src?: any;
     title?: any;
+    value?: any; // Add this line to include the 'value' property
   };
   
   type RendererProps = MarkdownProps & {
@@ -86,6 +87,7 @@ table: ({ children, ...props }: RendererProps) => (
       {children}
     </th>
   ),
+  
 
   td: ({ children, ...props }: RendererProps) => (
     <td
@@ -98,6 +100,8 @@ table: ({ children, ...props }: RendererProps) => (
     >
       {children}
     </td>
+    
   ),
+
 };
 

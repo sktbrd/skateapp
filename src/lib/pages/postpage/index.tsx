@@ -85,6 +85,7 @@ const PostPage: React.FC = () => {
         paddingBottom: '8px',
     };
 
+
     const handlePostComment = () => {
         if (!window.hive_keychain) {
             console.error("Hive Keychain extension not found!");
@@ -141,77 +142,102 @@ const PostPage: React.FC = () => {
         borderRadius: '10px',
         padding: '10px',
         margin: '3px',
-        width: '100%', // Set a default width for the comment cards
+        maxWidth: '100%', // Set a default width for the comment cards
     
         // Media queries for responsiveness
         '@media (min-width: 768px)': {
-            width: '500px', // Adjust the width as needed for larger screens
+            width: '100px', // Adjust the width as needed for larger screens
         },
     };
+    const contentBoxStyle = {
+        maxWidth: isDesktop ? '50%' : '100%',
+        margin: '0 auto', // Center the content box horizontally
+        padding: '10px',
+        border: '1px solid limegreen',
+        borderRadius: '10px',
+    };
+    
     
     return (
         <div style={containerStyle}>
-
-            <h1 style={titleStyle}>{post?.title}</h1>
-            <Flex direction={isDesktop ? "row" : "column"} style={{ margin: 0 }}>
-                <Box border="2px solid limegreen" borderRadius="10px" margin="10px" padding="10px">
-                    <ReactMarkdown
-                        children={post?.body}
-                        rehypePlugins={[rehypeRaw]}
-                        remarkPlugins={[remarkGfm]}
-                        components={MarkdownRenderers}
-                    />
-                </Box>
-                <VStack>
-            <h2 style={commentTitleStyle}>Comments</h2>
-            {comments.map((comment, index) => (
-                <div key={index}>
-                    <Box style={commentCardStyle}> {/* Apply the style here */}
-                        <Flex alignItems="center">
-                            <Image
-                                src={`https://images.ecency.com/webp/u/${comment.author}/avatar/small`}
-                                alt={`${comment.author}'s avatar`}
-                                boxSize="40px"
-                                borderRadius="50%"
-                                marginRight="8px"
-                            />
-                            <h1>{comment.author}</h1>
-                        </Flex>
-                        <ReactMarkdown
-                            children={comment.body}
-                            rehypePlugins={[rehypeRaw]}
-                            remarkPlugins={[remarkGfm]}
-                            components={MarkdownRenderersComments}
-                        />
-                    </Box>
-                        </div>
-                    ))}
-            <Box border="1px solid white" borderRadius="10px" padding="10px" margin="3px">
+          <h1 style={titleStyle}>{post?.title}</h1>
+          <Flex direction={isDesktop ? "row" : "column"} style={{ marginTop: 10 }}>
+            <Box
+              style={{
+                ...contentBoxStyle,
+                maxWidth: isDesktop ? '50%' : '100%',
+              }}
+            >
+              <ReactMarkdown
+                children={post?.body}
+                rehypePlugins={[rehypeRaw]}
+                remarkPlugins={[remarkGfm]}
+                components={MarkdownRenderers}
+              />
+            </Box>
+            <VStack
+              style={{
+                maxWidth: isDesktop ? '50%' : '100%',
+                margin: '0 auto',
+                padding: '10px',
+                border: '1px solid limegreen',
+                borderRadius: '10px',
+              }}
+            >
+              <Box border="1px solid white" borderRadius="10px" padding="10px" margin="3px">
                 <Textarea
-                    border="1px solid white"
-
-                    value={commentContent}
-                    onChange={(e) => setCommentContent(e.target.value)}
-                    placeholder="Write the first thing that comes to your wasted head..."
+                  border="1px solid white"
+                  value={commentContent}
+                  onChange={(e) => setCommentContent(e.target.value)}
+                  placeholder="Write the first thing that comes to your wasted head..."
                 />
                 <Button border="1px solid white" mt="10px" onClick={handlePostComment}>
-                    Submit Comment
+                  Submit Comment
                 </Button>
-            </Box>
-                </VStack>
-            </Flex>
-                                <Link to="/">
-                <Button
-                    variant="outline"
-                    colorScheme="blue"
-                    size="sm"
-                    marginBottom="10px"
-                >
-                    Go Home
-                </Button>
-            </Link> 
+              </Box>
+              <Flex direction="column" style={{ width: '100%' }}>
+                <h2 style={commentTitleStyle}>Comments</h2>
+                {comments.map((comment, index) => (
+                  <div key={index}>
+                    <Box style={{
+                      ...commentCardStyle,
+                      width: '100%',
+                    }}>
+                      <Flex alignItems="center">
+                        <Image
+                          src={`https://images.ecency.com/webp/u/${comment.author}/avatar/small`}
+                          alt={`${comment.author}'s avatar`}
+                          boxSize="40px"
+                          borderRadius="50%"
+                          marginRight="8px"
+                        />
+                        <h1>{comment.author}</h1>
+                      </Flex>
+                      <ReactMarkdown
+                        children={comment.body}
+                        rehypePlugins={[rehypeRaw]}
+                        remarkPlugins={[remarkGfm]}
+                        components={MarkdownRenderersComments}
+                      />
+                    </Box>
+                  </div>
+                ))}
+              </Flex>
+            </VStack>
+          </Flex>
+          <Flex>
+
+          <Link to="/">
+            <Button variant="outline" colorScheme="blue" size="sm" marginBottom="10px">
+              Go Back
+            </Button>
+          </Link>
+          </Flex>
         </div>
-    );
-};
+      );
+      
+      
+    };
+    
 
 export default PostPage;

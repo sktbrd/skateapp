@@ -12,6 +12,18 @@ import { CommentProps } from '../home/magazine/types';
 
 import { transform3SpeakContent } from '../utils/transform3speakvideo';
 
+const transformImageUrls = (content: string) => {
+    // Regular expression to match image URLs
+    const imageUrlRegex = /(https?:\/\/[^\s"<>]+?\.(?:jpg|jpeg|gif|png))(?![^<]*>|[^<>]*<\/)/gi;
+    
+    // Replace image URLs with markdown image syntax
+    const transformedContent = content.replace(imageUrlRegex, "![]($1)");
+    
+    return transformedContent;
+  };
+  
+  
+
 const PostPage: React.FC = () => {
     const pathname = window.location.pathname;
     const parts = pathname.split('/');
@@ -30,14 +42,14 @@ const PostPage: React.FC = () => {
 
         const fetchPostData = async () => {
             try {
-                const postData = await client.database.call("get_content", [URLAuthor, URLPermlink]);
-                const transformedBody = await transform3SpeakContent(postData.body);
-                setPost({ ...postData, body: transformedBody });
+              const postData = await client.database.call("get_content", [URLAuthor, URLPermlink]);
+              const transformedBody = await transform3SpeakContent(postData.body);
+              const markdownBody = transformImageUrls(transformedBody); // Transform image URLs
+              setPost({ ...postData, body: markdownBody });
             } catch (error) {
-                console.error('Error fetching post data:', error);
+              console.error('Error fetching post data:', error);
             }
-        };
-
+          };
         const fetchComments = async () => {
             try {
                 const commentsData: CommentProps[] = await client.database.call("get_content_replies", [URLAuthor, URLPermlink]);
@@ -120,6 +132,7 @@ const PostPage: React.FC = () => {
             const username = userObject.name;
             setUsername(username);
             console.log('username:', username);
+            console.log(post);
         }
     }, []);
 
@@ -135,7 +148,7 @@ const PostPage: React.FC = () => {
             width: '500px', // Adjust the width as needed for larger screens
         },
     };
-
+    
     return (
         <div style={containerStyle}>
 
@@ -149,16 +162,6 @@ const PostPage: React.FC = () => {
                         components={MarkdownRenderers}
                     />
                 </Box>
-                <Link to="/">
-                <Button
-                    variant="outline"
-                    colorScheme="blue"
-                    size="sm"
-                    marginBottom="10px"
-                >
-                    Go Home
-                </Button>
-            </Link>
                 <VStack>
             <h2 style={commentTitleStyle}>Comments</h2>
             {comments.map((comment, index) => (
@@ -197,7 +200,16 @@ const PostPage: React.FC = () => {
             </Box>
                 </VStack>
             </Flex>
-
+                                <Link to="/">
+                <Button
+                    variant="outline"
+                    colorScheme="blue"
+                    size="sm"
+                    marginBottom="10px"
+                >
+                    Go Home
+                </Button>
+            </Link> 
         </div>
     );
 };

@@ -57,5 +57,47 @@ iframe: ({ ...props }: RendererProps) => (
     /> 
     </div>
 ),
+table: ({ children, ...props }: RendererProps) => (
+    <div style={{ overflowX: 'auto' }}>
+      <table {...props} style={{ borderCollapse: 'collapse', width: '100%' }}>
+        {children}
+      </table>
+    </div>
+  ),
+
+  tbody: ({ children, ...props }: RendererProps) => (
+    <tbody {...props}>{children}</tbody>
+  ),
+
+  tr: ({ children, ...props }: RendererProps) => (
+    <tr {...props}>{children}</tr>
+  ),
+
+  th: ({ children, ...props }: RendererProps) => (
+    <th
+      {...props}
+      style={{
+        border: '1px solid black',
+        padding: '8px',
+        fontWeight: 'bold',
+        textAlign: 'left',
+      }}
+    >
+      {children}
+    </th>
+  ),
+
+  td: ({ children, ...props }: RendererProps) => (
+    <td
+      {...props}
+      style={{
+        border: '1px solid black',
+        padding: '8px',
+        textAlign: 'left',
+      }}
+    >
+      {children}
+    </td>
+  ),
 };
 

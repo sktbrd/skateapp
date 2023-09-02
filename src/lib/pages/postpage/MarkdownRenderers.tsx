@@ -24,6 +24,11 @@ a: ({ children, ...props }: RendererProps) => <a {...props} style={{ color: 'yel
 h1: ({ children, ...props }: RendererProps) => <h1 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '26px', paddingBottom: '10px' }}>{children}</h1>,
 h2: ({ children, ...props }: RendererProps) => <h2 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '22px', paddingBottom: '8px' , paddingTop: '8px' }}>{children}</h2>,
 h3: ({ children, ...props }: RendererProps) => <h3 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '20px', paddingBottom: '6px' , paddingTop: '8px'}}>{children}</h3>,
+h4: ({ children, ...props }: RendererProps) => (
+  <h4 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '16px', paddingBottom: '4px', paddingTop: '4px' }}>
+    {children}
+  </h4>
+),
 blockquote: ({ children, ...props }: RendererProps) => <blockquote {...props} style={{ borderLeft: '3px solid red', paddingLeft: '10px', fontStyle: 'italic' }}>{children}</blockquote>,
 ol: ({ ordered, children, ...props }: RendererProps) => {
     const listType = ordered ? "1" : "decimal";

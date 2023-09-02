@@ -19,16 +19,12 @@ import CommentBox from '../home/magazine/postModal/commentBox';
 import { CommentProps } from '../home/magazine/types';
 import { transform3SpeakContent } from '../utils/transform3speakvideo';
 import VotingBox from './votingBox';
+import ContentRenderer from './CustomRenderers';
 type User = {
   name: string;
   // ... other properties ...
 } | null;
 
-const transformImageUrls = (content: string) => {
-  const imageUrlRegex = /(https?:\/\/[^\s"<>]+?\.(?:jpg|jpeg|gif|png))(?![^<]*>|[^<>]*<\/)/gi;
-  const transformedContent = content.replace(imageUrlRegex, "![]($1)");
-  return transformedContent;
-};
 
 const PostPage: React.FC = () => {
   const pathname = window.location.pathname;
@@ -51,8 +47,7 @@ const PostPage: React.FC = () => {
       try {
         const postData = await client.database.call("get_content", [URLAuthor, URLPermlink]);
         const transformedBody = await transform3SpeakContent(postData.body);
-        const markdownBody = transformImageUrls(transformedBody);
-        setPost({ ...postData, body: markdownBody });
+        setPost({ ...postData, body: transformedBody});
       } catch (error) {
         console.error('Error fetching post data:', error);
       }
@@ -173,17 +168,13 @@ const PostPage: React.FC = () => {
     <div style={containerStyle}>
       <h1 style={titleStyle}>{post?.title}</h1>
       <Flex direction={isDesktop ? "row" : "column"} style={{ marginTop: 10 }}>
-        <Box
+      <Box
           style={{
             ...contentBoxStyle,
             maxWidth: isDesktop ? '50%' : '100%',
           }}
         >
-          <ReactMarkdown
-            children={post?.body}
-            remarkPlugins={[remarkGfm]}
-            components={MarkdownRenderers}
-          />
+          <ContentRenderer content={post?.body} />
         </Box>
         <VStack
           style={{

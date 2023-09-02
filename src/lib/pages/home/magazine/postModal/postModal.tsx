@@ -28,7 +28,7 @@ import useAuthUser from '../../api/useAuthUser';
 import CommentBox from './commentBox';
 import { MarkdownRenderers } from './MarkdownRenderers';
 import * as Types from '../types';
-
+import MarkdownInHtmlRenderer from './CustomRenderers';
 const nodes = [
   "https://rpc.ecency.com",
   "https://api.deathwing.me",
@@ -313,19 +313,16 @@ return (
         )}
       </ModalHeader>
       <ModalBody ref={modalContainerRef} onScroll={handleScroll}>
-        {isEditing ? (
-          <Textarea
-            value={editedContent}
-            onChange={(e) => setEditedContent(e.target.value)}
-          />
-        ) : (
-          <ReactMarkdown
-            children={charactersToShow >= content.length ? content : content.slice(0, charactersToShow)}
-            remarkPlugins={[remarkGfm]}
-            components={MarkdownRenderers}
-          />
-        )}
-      </ModalBody>
+  {isEditing ? (
+    <Textarea
+      value={editedContent}
+      onChange={(e) => setEditedContent(e.target.value)}
+    />
+  ) : (
+    <MarkdownInHtmlRenderer content={charactersToShow >= content.length ? content : content.slice(0, charactersToShow)} />
+  )}
+</ModalBody>
+
       <Comments comments={comments} commentPosted={commentPosted} />
       <CommentBox
         user={user}

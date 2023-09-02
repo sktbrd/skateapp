@@ -67,6 +67,8 @@ const PostPage: React.FC = () => {
         width: '100%',
         margin: 0,
         padding: '10px',
+        marginTop: '-30px', // Adjust the value as needed
+
     };
     
     const titleStyle = {
@@ -118,6 +120,8 @@ const PostPage: React.FC = () => {
                 alert("Comment successfully posted!");
                 setCommentContent(''); // Clear the comment box
                 setCommentsUpdated(true); // Force re-render of Comments component
+                window.location.reload();
+
             } else {
                 console.error("Error posting comment:", response.message);
             }
@@ -138,7 +142,7 @@ const PostPage: React.FC = () => {
     }, []);
 
     const commentCardStyle = {
-        border: '1px solid blue',
+        border: '1px solid teal',
         borderRadius: '10px',
         padding: '10px',
         margin: '3px',
@@ -153,15 +157,16 @@ const PostPage: React.FC = () => {
         maxWidth: isDesktop ? '50%' : '100%',
         margin: '0 auto', // Center the content box horizontally
         padding: '10px',
-        border: '1px solid limegreen',
+        border: '2px solid orange',
         borderRadius: '10px',
     };
+    
     
     
     return (
         <div style={containerStyle}>
           <h1 style={titleStyle}>{post?.title}</h1>
-          <Flex direction={isDesktop ? "row" : "column"} style={{ marginTop: 10 }}>
+          <Flex direction={isDesktop ? "row" : "column"}  style={{ marginTop: 10 }}>
             <Box
               style={{
                 ...contentBoxStyle,
@@ -180,10 +185,13 @@ const PostPage: React.FC = () => {
                 maxWidth: isDesktop ? '50%' : '100%',
                 margin: '0 auto',
                 padding: '10px',
-                border: '1px solid limegreen',
+                border: '1px solid orange',
                 borderRadius: '10px',
               }}
             >
+                <center>
+                    <h1 style={commentTitleStyle}>You should say something</h1>
+                </center>
               <Box border="1px solid white" borderRadius="10px" padding="10px" margin="3px">
                 <Textarea
                   border="1px solid white"
@@ -196,7 +204,9 @@ const PostPage: React.FC = () => {
                 </Button>
               </Box>
               <Flex direction="column" style={{ width: '100%' }}>
-                <h2 style={commentTitleStyle}>Comments</h2>
+                <center>
+                    <h1 style={commentTitleStyle}>Comments</h1>
+                </center>
                 {comments.map((comment, index) => (
                   <div key={index}>
                     <Box style={{

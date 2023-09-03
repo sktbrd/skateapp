@@ -5,6 +5,7 @@ import { defineConfig } from "vite";
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
+import cors from 'cors'; // Import the 'cors' package
 
 // import inject from '@rollup/plugin-inject'
 // import wasm from 'vite-plugin-wasm'
@@ -16,6 +17,13 @@ export default defineConfig(({}) => {
   // const env = loadEnv(mode, process.cwd(), '')
   return {
     // vite config
+    server: {
+      middleware: [
+        cors({
+          origin: 'https://www.skatehive.app', // Allow requests from your domain
+        }),
+      ],
+    },
     define: {
       'process.env.OPENAI_API_KEY': JSON.stringify(process.env.OPENAI_API_KEY),
       'process.env.COINGECKO_API_KEY': JSON.stringify(process.env.COINGECKO_API_KEY),

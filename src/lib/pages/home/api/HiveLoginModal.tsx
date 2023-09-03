@@ -9,6 +9,7 @@ import {
   ModalFooter,
   Button,
   Input,
+  Flex,
 } from "@chakra-ui/react";
 
 import useAuthUser from "./useAuthUser.js";
@@ -56,16 +57,21 @@ const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose }) => {
                 type="text"
                 name="username"
                 placeholder="Username"
-                backgroundColor="blacl"
-                border="1px solid limegreen"
+                backgroundColor="black"
+                border="3px solid teal"
                 value={username}
                 onChange={handleInputChange}
                 required
               />
-              <Button border="1px solid limegreen" type="submit">Login</Button>
-              <Button border="1px solid limegreen" type="button" onClick={handleSignUp}>
-                Sign Up
+              <Flex paddingTop="20px" justifyContent={"space-between"}>
+              <Button border="1px solid orange" type="button" onClick={handleSignUp}>
+                Create Account
               </Button>
+              <Button border="1px solid red" type="submit">Login</Button>
+
+
+              </Flex>
+              
             </>
           )}
         </ModalBody>
@@ -78,8 +84,7 @@ const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose }) => {
             <>
             </>
           )}
-          <Button border="1px solid limegreen"onClick={onClose}>Close</Button>
-        </ModalFooter>
+          </ModalFooter>
       </ModalContent>
     </Modal>
   );

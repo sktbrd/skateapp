@@ -212,11 +212,12 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
               >
                 <CardHeader>
                   <Flex>
-                    <Flex flex="1" gap="3" alignItems="center">
+                    <Flex flex="1" gap="3" borderRadius="10px" border="1px solid limegreen" alignItems="center">
                     <Link to={`profile/${post.author}`}>
                         <Avatar
                           name={post.author}
                           border="1px solid limegreen"
+                          borderRadius="10px"
                           src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
                         />
                       </Link>

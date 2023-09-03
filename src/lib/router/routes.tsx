@@ -43,7 +43,7 @@ export const routes: Array<PathRouteProps> = [
     
   },
 {
-    path: "/post/:postUrl*",
+    path: "/post/:postUrl/*",
     element: <PostPage />,
 },
 

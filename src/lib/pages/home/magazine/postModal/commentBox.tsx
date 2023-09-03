@@ -6,11 +6,12 @@ import {
 } from '@chakra-ui/react';
 
 import * as Types from '../types'
-
+import HiveLogin from '../../api/HiveLoginModal';
 
 
 const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, parentPermlink, onCommentPosted }) => {
   const [commentContent, setCommentContent] = useState('');
+  const [isHiveLoginModalOpen, setHiveLoginModalOpen] = useState(false); // State to control HiveLoginModal
 
   const handleCommentSubmit = () => {
     if (!window.hive_keychain) {
@@ -63,6 +64,9 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
       <Button border="1px solid white" mt="10px" onClick={handleCommentSubmit}>
         Submit Comment
       </Button>
+      {isHiveLoginModalOpen && (
+        <HiveLogin isOpen={true} onClose={() => setHiveLoginModalOpen(false)} />
+      )}
     </Box>
   );
 };

@@ -27,7 +27,11 @@ export default defineConfig(({}) => {
     define: {
       'process.env.OPENAI_API_KEY': JSON.stringify(process.env.OPENAI_API_KEY),
       'process.env.COINGECKO_API_KEY': JSON.stringify(process.env.COINGECKO_API_KEY),
+      'process.env.VITE_RECAPTCHA_SITE_KEY': JSON.stringify(process.env.VITE_RECAPTCHA_SITE_KEY),
+      'process.env.PINATA_API_KEY': JSON.stringify(process.env.PINATA_API_KEY),
+      'process.env.PINATA_SECRET_API_KEY': JSON.stringify(process.env.PINATA_SECRET_API_KEY),
     },
+    
     plugins: [react()],
     resolve: {
       alias: {

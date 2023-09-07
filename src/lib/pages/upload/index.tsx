@@ -87,8 +87,8 @@ const UploadPage: React.FC<UploadPageProps> = () => {
   const [uploadProgress, setUploadProgress] = useState(0); // Initial value
   const [addedImages, setAddedImages] = useState<string[]>([]);
   const [thumbnail, setThumbnail] = useState<string | null>(null);
-  const PINATA_API_KEY = 'de64c0e69ab6e9098424';
-  const PINATA_API_SECRET = 'bbab398cbebee9138a0f6c9008f75e973221e4a195d7dcafe755355be824cbd7';
+  const PINATA_API_KEY = '231d0e8f17911189d9d5';
+  const PINATA_API_SECRET = '8248018ee1b93d54b2e48bc98dedbdc3998212f083e891febcd4481956f2bb25';
   const [selectedOption, setSelectedOption] = useState<'url' | 'file'>('url'); 
 
   const handleIPFSUpload = async () => {
@@ -472,20 +472,6 @@ const UploadPage: React.FC<UploadPageProps> = () => {
   <Button border="1px solid limegreen" onClick={handleItalicText}>
     <FaItalic />
   </Button>
-  {/* <Select
-    value={selectedHeadingLevel}
-    onChange={(e) => setSelectedHeadingLevel(Number(e.target.value))}
-  >
-    <option value={1}>H1</option>
-    <option value={2}>H2</option>
-    <option value={3}>H3</option>
-  </Select> */}
-  {/* <Button
-    border="1px solid limegreen"
-    onClick={() => handleHeadingText(selectedHeadingLevel)}
-  >
-    Heading
-  </Button> */}
       </Flex>
       <Textarea
         value={markdownContent}

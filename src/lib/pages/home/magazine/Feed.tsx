@@ -91,7 +91,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
       try {
         const query = {
           tag: tag,
-          limit: 50,
+          limit: 10,
         };
         const result = await client.database.getDiscussions(queryType, query);
 

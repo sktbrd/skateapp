@@ -364,7 +364,7 @@ const AdvancedUpload: React.FC<UploadPageProps> = () => {
               ["comment",
                   {
                       "parent_author": "",
-                      "parent_permlink": "test",
+                      "parent_permlink": "hive-173115",
                       "author": username,
                       "permlink": permlink,
                       "title": title,

@@ -303,6 +303,8 @@ const handleVideoThumbnailConfirm = async () => {
       videoRef.current.pause(); 
     }
   };
+
+  
   
   const handleIPFSUpload = async (file: File) => {
     setIsUploading(true);

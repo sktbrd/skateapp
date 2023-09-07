@@ -31,7 +31,7 @@ export const routes: Array<PathRouteProps> = [
   },
   {
     path: "/upload",
-    element: <UploadPage title="" content="" author="" user="" permlink="" weight={0} />,
+    element: <UploadPage/>,
   },
   {
     path: "/becool",

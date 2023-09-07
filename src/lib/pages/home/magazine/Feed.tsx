@@ -184,6 +184,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
       setComments(comments);
       setPostUrl(post.url);  // Move this line here
       onOpen();
+      console.log(post);
     };
     
 

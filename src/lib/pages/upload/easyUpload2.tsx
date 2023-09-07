@@ -150,7 +150,6 @@ const MediaUpload: React.FC = () => {
     console.log(thumbnailIpfsURL)
   };
 
-  const permlink = slugify(title.toLowerCase());
 
 
   
@@ -229,9 +228,19 @@ const MediaUpload: React.FC = () => {
 
 
   const [showFooter, setShowFooter] = useState(false);
-  const handleAssembleBody = async () => {
-    console.log('User:', user);
 
+  
+  const handlePublish = () => {
+    function slugify(text: string) {
+      return text
+        .toString()
+        .toLowerCase()
+        .replace(/\s+/g, '-')           // Replace spaces with -
+        .replace(/[^\w\-]+/g, '')       // Remove all non-word characters
+        .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+        .replace(/^-+/, '')             // Trim - from start of text
+        .replace(/-+$/, '');            // Trim - from end of text
+    }
     if (ipfsLink) {
       let updatedBody = body;
       const permlink = slugify(title.toLowerCase());
@@ -247,92 +256,75 @@ const MediaUpload: React.FC = () => {
       }
   
       console.log('Assembled Body:', updatedBody);
+
+
+    console.log('Assembled Body:', updatedBody);
+
+    // Construct the complete post body
+    const completePostBody = `${updatedBody}${showFooter ? defaultFooter : ''}`;
   
-      // Construct the complete post body
-      const completePostBody = `${updatedBody}${showFooter ? defaultFooter : ''}`;
+    // Log the complete post body
+    console.log('Title: ' ,title);
+    console.log('Complete Post Body:', completePostBody);
   
-      // Construct the tags array (hardcoded for now)
-      const tags = ['skateboard'];
+    if (window.hive_keychain) {
+        const username = user?.name;
+        if (username) {
+            const commentOptions = {
+                author: username,
+                permlink: permlink,
+                max_accepted_payout: '10000.000 HBD',
+                percent_hbd: 10000,
+                allow_votes: true,
+                allow_curation_rewards: true,
+                extensions: [
+                  [0, {
+                      beneficiaries: [{
+                          account: "xvlad",
+                          weight: 1000  // This represents 10%, and it should be an integer
+                      }]
+                  }]
+              ]
+            };
   
-      // Construct the beneficiaries array (hardcoded for now)
-      const beneficiaries: BeneficiaryForBroadcast[] = [
-        { account: 'xvlad', weight: '1000' },
-      ];
+            const operations = [
+                ["comment",
+                    {
+                        "parent_author": "",
+                        "parent_permlink": "666",
+                        "author": username,
+                        "permlink": permlink,
+                        "title": title,
+                        "body": completePostBody,
+                        "json_metadata": JSON.stringify({
+                            tags: ["skateboard"],
+                            app: "skatehive",
+                            image: thumbnailIpfsURL ? [thumbnailIpfsURL] : []
+                        })
+                    }
+                ],
+                ["comment_options", commentOptions]
+            ];
   
-      // Use the IPFS link of the thumbnail for the 'image' field in JSON metadata
-      const metadataImage = thumbnail ? [thumbnail] : [];
-      console.log('metadataImage:', metadataImage);
-      // Define the Post interface
-      interface Post {
-        username: string;
-        title: string;
-        body: string;
-        parent_perm: string;
-        json_metadata: string;
-        permlink: string;
-        comment_options: string;
-        // You can add more properties as needed based on the actual structure of your Post object.
-      }
-  
-      try {
-        const keychain = new KeychainSDK(window, { rpc: 'https://api.hive.blog' });
-        console.log('Keychain:', keychain);
-        const jsonMetadata = JSON.stringify({
-          format: 'markdown',
-          description: 'A video post made in skatehive.app',
-          tags: tags,
-          thumbnailIpfsURL: thumbnailIpfsURL, // Include thumbnailIpfsURL
-          beneficiaries: beneficiaries, // Include beneficiaries
-        });
-        console.log('JSON Metadata:', jsonMetadata);
-        // Define commentOptions directly within the function
-        const commentOptions = {
-          author: user?.name,
-          permlink: permlink,
-          max_accepted_payout: '1000000.000 HBD',
-          percent_hbd: 10000,
-          allow_votes: true,
-          allow_curation_rewards: true,
-          extensions: [
-            [0, { beneficiaries: beneficiaries }],
-            [1, { percent_hbd: 10000 }],
-          ],
-        };
-        console.log('Comment Options:', commentOptions);
-        const formParamsAsObject: { data: Post } = {
-          data: {
-            username: user?.name || '',
-            title: title,
-            body: completePostBody,
-            parent_perm: 'blog',
-            json_metadata: jsonMetadata, // Use the updated JSON metadata
-            permlink: permlink,
-            comment_options: JSON.stringify(commentOptions), // Use the updated commentOptions
-          },
-        };
-        console.log('Form Params as Object:', formParamsAsObject);
-        const post = await keychain.post(formParamsAsObject.data);
-        console.log({ post });
-      } catch (error) {
-        console.log({ error });
-      }
+            console.log("OPERATIONS: ", operations);
+            window.hive_keychain.requestBroadcast(username, operations, "posting", (response: any) => {
+                if (response.success) {
+                    window.alert("Post successfully published!");
+                } else {
+                    console.error("Error publishing post:", response.message);
+                }
+            });
+        } else {
+            alert("You have to login with Hive Keychain to use this feature...");
+        }
+    } else {
+        console.error("Hive Keychain extension not found!");
     }
+    };
   };
-  
-  
-
 
   
-  function slugify(text: string) {
-    return text
-      .toString()
-      .toLowerCase()
-      .replace(/\s+/g, '-')           // Replace spaces with -
-      .replace(/[^\w\-]+/g, '')       // Remove all non-word characters
-      .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-      .replace(/^-+/, '')             // Trim - from start of text
-      .replace(/-+$/, '');            // Trim - from end of text
-  }
+
   return (
     <Flex
       p={6}
@@ -359,7 +351,7 @@ const MediaUpload: React.FC = () => {
             onChange={(e) => setDescription(e.target.value)}
           />
   
-          <Button onClick={handleAssembleBody}>Assemble Body</Button>
+          <Button onClick={handlePublish}>Assemble Body</Button>
         </VStack>
       </Box>
   

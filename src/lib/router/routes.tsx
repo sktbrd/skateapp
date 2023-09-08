@@ -4,6 +4,8 @@ import React from "react";
 import type { PathRouteProps } from "react-router-dom";
 import SimpleUploadPage from "lib/pages/upload/easyUpload"; // Import the UploadPage component
 
+
+const Chat = React.lazy(() => import("lib/pages/home/chat"));
 const Home = React.lazy(() => import("lib/pages/home"));
 const Wallet = React.lazy(() => import("lib/pages/wallet"));
 const Profile = React.lazy(() => import("lib/pages/profile"));
@@ -59,6 +61,10 @@ export const routes: Array<PathRouteProps> = [
 {
   path: "/easy-upload2",
   element: <MediaUpload />,
+},
+{
+  path: "/chat",
+  element: <Chat/>,
 },
 
 ];

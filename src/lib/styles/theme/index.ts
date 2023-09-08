@@ -23,6 +23,20 @@ export const theme = extendTheme({
       p: {
         color: "limegreen",
       },
+      // Style for Webkit scrollbars
+      "::-webkit-scrollbar": {
+        width: "4px",
+      },
+      "::-webkit-scrollbar-track": {
+        backgroundColor: "black",
+      },
+      "::-webkit-scrollbar-thumb": {
+        backgroundColor: "limegreen",
+        borderRadius: "0px",
+      },
+      // Style for Firefox scrollbars
+      scrollbarWidth: "thin",
+      scrollbarColor: "limegreen black",
     }),
   },
 });

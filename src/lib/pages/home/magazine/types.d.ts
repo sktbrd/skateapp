@@ -18,6 +18,8 @@ created: string;
 net_votes: number;
 permlink: string;
 url: string;
+parentId: string; // Add this field to store the parent ID
+
 
 }
 export interface CommentsProps {

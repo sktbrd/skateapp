@@ -3,7 +3,7 @@
 export const proposalsQuery = `
   {
     proposals (
-      first: 10,
+      first: 5,
       skip: 0,
       where: {
         space_in: ["skatehive.eth"],

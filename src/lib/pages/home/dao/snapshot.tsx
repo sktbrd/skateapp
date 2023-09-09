@@ -23,6 +23,7 @@ const SnapShot: React.FC = () => {
   const getSummary = async (body: string) => {
     // Check if the summary is cached in local storage
     const cachedSummary = localStorage.getItem(body);
+    console.log('cachedSummary', cachedSummary);
     if (cachedSummary) {
       return cachedSummary;
     }
@@ -32,12 +33,12 @@ const SnapShot: React.FC = () => {
       messages: [{ role: 'user', content: `Summarize the following in 1 paragraph in 5 lines at max: ${body}` }],
       model: 'gpt-3.5-turbo',
     });
-    
+    console.log('response', response);
     const summary = response.choices[0]?.message?.content || 'No summary available.';
   
     // Cache the summary in local storage
     localStorage.setItem(body, summary);
-  
+    console.log('summary', summary);
     return summary;
   };
   
@@ -60,16 +61,16 @@ const SnapShot: React.FC = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: proposalsQuery }),
       });
-  
+      console.log('response2', response);
       if (response.ok) {
         const data = await response.json();
         if (data.errors) {
           console.error('GraphQL Proposals Error:', data.errors);
           return;
         }
-  
+        
         const fetchedProposals = data.data.proposals;
-  
+        console.log('fetchedProposals', fetchedProposals);
         setProposals(fetchedProposals);
         setLoadingProposals(false);
   
@@ -83,8 +84,9 @@ const SnapShot: React.FC = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ query: votesQuery(proposals.map(p => p.id)) }),
         });
-  
+        
         if (votesResponse.ok) {
+          console.log('votesResponse', votesResponse);
           const votesData = await votesResponse.json();
           if (votesData.errors) {
             console.error('GraphQL Votes Error:', votesData.errors);
@@ -112,8 +114,26 @@ const SnapShot: React.FC = () => {
   const query = proposalsQuery;
 
   useEffect(() => {
-    fetchProposals();
+    const cachedProposals = localStorage.getItem('proposals');
+  
+    if (cachedProposals) {
+      setProposals(JSON.parse(cachedProposals));
+      setLoadingProposals(false);
+      setLoadingSummaries(true);
+  
+      // Fetch summaries for cached proposals
+      (async () => {
+        for (let proposal of JSON.parse(cachedProposals)) {
+          proposal.summary = await getSummary(proposal.body);
+        }
+        setLoadingSummaries(false);
+      })();
+    } else {
+      // Fetch fresh proposals
+      fetchProposals();
+    }
   }, []);
+  
   const [isMobile] = useMediaQuery("(max-width: 768px)");
 
   return (

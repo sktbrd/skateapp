@@ -8,9 +8,10 @@ import { proposalsQuery, votesQuery } from './queries';
 import { Proposal } from './types';
 
 
+
 const SnapShot: React.FC = () => {
   const [proposals, setProposals] = useState<Proposal[]>([]);
-  const placeholderImage = 'public/assets/skatehive-logo.png';
+  const placeholderImage = '/assets/skatehive-logo.png';
   const [loadingProposals, setLoadingProposals] = useState<boolean>(true);
   const [loadingSummaries, setLoadingSummaries] = useState<boolean>(true);
 

@@ -37,8 +37,12 @@ export const votesQuery = (proposalIds: string[]) => `
         proposal_in: [${proposalIds.map(id => `"${id}"`).join(', ')}]
       }
     ) {
-      proposal
+      proposal {
+        id
+        title
+      }
       id
     }
   }
 `;
+

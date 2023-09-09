@@ -28,12 +28,22 @@ function transform3SpeakContent(content: string): string {
   return content;
 }
 
-function adjustVideoSize(iframe: string): string {
-  if (iframe.includes("youtube.com") || iframe.includes("odysee.com")) {
-    return iframe.replace(/width="\d+"/, '').replace(/height="\d+"/, '').replace('<iframe', '<iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"');
+const adjustVideoSize = (iframe: string): string => {
+  console.log("Before adjustment:", iframe);  // Log the iframe before adjustments
+  
+  const odyseeDomains = ["odysee.com", "lbry.tv"]; // You can add more domains to this list in the future if needed
+  
+  if (iframe.includes("youtube.com") || odyseeDomains.some(domain => iframe.includes(domain))) {
+    iframe = iframe.replace(/width\s*=\s*"\d+"/, '').replace(/height\s*=\s*"\d+"/, '').replace('<iframe', '<iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"');
+    console.log("After adjustment:", iframe);  // Log the iframe after adjustments
+    return iframe;
   }
+
   return iframe;
-}
+};
+
+
+
 
 const HiveVideos: React.FC = () => {
   const [posts, setPosts] = useState<Discussion[]>([]);
@@ -46,7 +56,7 @@ const HiveVideos: React.FC = () => {
       try {
         const query = {
           tag: 'hive-173115',
-          limit: 40,
+          limit: 30,
         };
         const result: Discussion[] = await client.database.getDiscussions('created', query);
         setPosts(result);
@@ -65,6 +75,7 @@ const HiveVideos: React.FC = () => {
 
   const openPostModal = (post: Discussion) => {
     setSelectedPost(post);
+    console.log("Selected post:", post);
     onOpen();
   };
 

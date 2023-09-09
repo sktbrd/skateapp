@@ -45,18 +45,6 @@ ul: ({ children, ...props }: RendererProps) => {
 },
 hr: ({ children, ...props }: RendererProps) => <hr {...props} style={{ paddingBottom: '20px' }}>{children}</hr>,
 br: ({ children, ...props }: RendererProps) => <br {...props} style={{ paddingBottom: '20px' }}>{children}</br>,
-iframe: ({ ...props }: RendererProps) => (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-    <iframe 
-        {...props} 
-        style={{ 
-        border: '1px solid limegreen', 
-        borderRadius: '10px', 
-        width: '560px',
-        height: '315px',
-        }} 
-    /> 
-    </div>
-),
+
 };
 

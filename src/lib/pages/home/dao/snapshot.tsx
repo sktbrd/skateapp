@@ -10,7 +10,7 @@ import { Proposal } from './types';
 
 const SnapShot: React.FC = () => {
   const [proposals, setProposals] = useState<Proposal[]>([]);
-  const placeholderImage = 'https://i.ibb.co/X7q7xtm/image.png';
+  const placeholderImage = 'public/assets/skatehive-logo.png';
   const [loadingProposals, setLoadingProposals] = useState<boolean>(true);
   const [loadingSummaries, setLoadingSummaries] = useState<boolean>(true);
 
@@ -18,7 +18,7 @@ const SnapShot: React.FC = () => {
     apiKey: process.env.OPENAI_API_KEY || '',
     dangerouslyAllowBrowser: true,
   });
-
+  
   const getSummary = async (body: string) => {
     // Check if the summary is cached in local storage
     const cachedSummary = localStorage.getItem(body);
@@ -59,42 +59,54 @@ const SnapShot: React.FC = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: proposalsQuery }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
+        if (data.errors) {
+          console.error('GraphQL Proposals Error:', data.errors);
+          return;
+        }
+  
         const fetchedProposals = data.data.proposals;
-
+  
         setProposals(fetchedProposals);
         setLoadingProposals(false);
-
+  
         setLoadingSummaries(true);
         for (let proposal of fetchedProposals) {
           proposal.summary = await getSummary(proposal.body);
         }
-
-        // Fetch votes for all proposals
+  
         const votesResponse = await fetch('https://hub.snapshot.org/graphql', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-              query: votesQuery(proposals.map(p => p.id)),
-            }),
-          });
-
+          body: JSON.stringify({ query: votesQuery(proposals.map(p => p.id)) }),
+        });
+  
         if (votesResponse.ok) {
           const votesData = await votesResponse.json();
+          if (votesData.errors) {
+            console.error('GraphQL Votes Error:', votesData.errors);
+            return;
+          }
+  
           for (let proposal of proposals) {
-            proposal.votes = votesData.data.votes.filter((vote: { proposal: string }) => vote.proposal === proposal.id);
+            proposal.votes = votesData.data.votes.filter(
+              (vote: { proposal: string }) => vote.proposal === proposal.id
+            );
           }
         }
-
+  
         setLoadingSummaries(false);
+      } else {
+        console.error('Error fetching proposals:', await response.text());
       }
     } catch (error) {
       console.error('Error fetching proposals:', error);
       setLoadingProposals(false);
     }
   };
+  
 
   const query = proposalsQuery;
 

@@ -3,7 +3,7 @@
 export const proposalsQuery = `
   {
     proposals (
-      first: 5,
+      first: 10,
       skip: 0,
       where: {
         space_in: ["skatehive.eth"],
@@ -28,21 +28,4 @@ export const proposalsQuery = `
   }
 `;
 
-export const votesQuery = (proposalIds: string[]) => `
-  query {
-    votes(
-      first: 1000
-      skip: 0
-      where: {
-        proposal_in: [${proposalIds.map(id => `"${id}"`).join(', ')}]
-      }
-    ) {
-      proposal {
-        id
-        title
-      }
-      id
-    }
-  }
-`;
 

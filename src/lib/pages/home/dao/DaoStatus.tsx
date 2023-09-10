@@ -6,7 +6,8 @@
 
   // Hive Stuff
   import * as dhive from "@hiveio/dhive";
-
+import * as safeService from '@safe-global/api-kit';
+import axios from 'axios';
   const dhiveClient = new dhive.Client([
     "https://api.hive.blog",
     "https://api.hivekings.com",
@@ -39,18 +40,58 @@
     const [daoWallet, setDaoWallet] = useState<User | null>(null);
     const [hotWalletBalance, setHotWalletBalance] = useState<User | null>(null);
     const [hiveUser, setHiveUser] = useState<User | null>(null);
-
-    const DAO_SAFE = "0x41CB654D1F47913ACAB158a8199191D160DAbe4A";
+    const [ethereumBalance, setEthereumBalance] = useState<number | null>(null);
+    const DAO_SAFE = "0x5501838d869B125EFd90daCf45cDFAC4ea192c12";
     const HOT_WALLET = "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c";
+
+    // create apiKey from process env VITE_ETHEREUM_API
+    const apiKey = process.env.VITE_ETHERSCAN_API
+
+    // Ethereum address you want to check
+    const ethereumAddress = '0x5501838d869b125efd90dacf45cdfac4ea192c12';
+
+    // Etherscan API endpoint
+    const etherscanEndpoint = `https://api.etherscan.io/api`;
+
+    // Function to get the balance of an Ethereum address
+    // Function to get the balance of an Ethereum address
+    async function getBalance() {
+      try {
+        const response = await axios.get(etherscanEndpoint, {
+          params: {
+            module: 'account',
+            action: 'balance',
+            address: ethereumAddress,
+            apikey: apiKey,
+          },
+        });
+  
+        console.log('Etherscan API Response:', response);
+  
+        if (response.data.status === '1') {
+          const balanceWei = response.data.result;
+          const balanceEther = parseFloat(balanceWei) / 1e18;
+          console.log(`Balance of ${ethereumAddress}: ${balanceEther} ETH`);
+          setEthereumBalance(balanceEther); // Set the Ethereum balance in the component's state
+        } else {
+          console.error('Error:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
 
     const onStart = async () => {
       try {
         if (api && app) {
           const portfolio = await api.GetPortfolio({ address: DAO_SAFE });
+          console.log("TREASURE",portfolio)
           const eth_hotwallet = await api.GetPortfolio({ address: HOT_WALLET });
           setDaoPortfolio(portfolio);
           setHotWalletBalance(eth_hotwallet);
           setLoading(false);
+
+
         }
       } catch (e) {
         console.error("Error in onStart:", e);
@@ -93,9 +134,12 @@
     };
 
     useEffect(() => {
+      console.log('useEffect triggered with [api, app]', api, app);
       onStart();
       fetchSteemskateBalance();
+      getBalance();
     }, [api, app]);
+    
 
     const [hivePrice, setHivePrice] = useState<number | null>(null);
 
@@ -136,81 +180,80 @@
     return (
       <Flex paddingBottom="30px" justifyContent="center" alignItems="center">
         <VStack>
-        <Box>
+          <Box>
             <Text fontSize="18px" fontWeight="bold" marginBottom="5px">
-                Treasure: ${totalWorthUSD.toFixed(3)} USD
-              </Text>
-            </Box>
-            <HStack>
-        <Flex padding="10px" borderRadius="10px">
-          {/* Ethereum Section */}
-          <Box flex="1" margin="5px" borderRadius="10px" border="1px solid limegreen" padding="20px">
-            {/* Ethereum Avatar */}
-            <Flex flexDirection="column" alignItems="center">
-              <Image
-                src="https://www.pngitem.com/pimgs/m/124-1245793_ethereum-eth-icon-ethereum-png-transparent-png.png"
-                alt="Avatar"
-                width="40px"
-                height="40px"
-                borderRadius="50%"
-              />
-              <Text fontSize="24px" fontWeight="bold" color="limegreen" marginBottom="10px">
-                Ethereum Treasure Value
-              </Text>
-              <Text fontSize="18px" fontWeight="bold" marginBottom="5px">
-                420 PEPE
-              </Text>
-              <Divider padding="0px" orientation="horizontal" colorScheme="limegreen" />
-              
-              <Box padding="5px" justifyContent="left">
-              <Text fontSize="16px">USD pegged Balance: $2500.00</Text>
+              Treasure: ${totalWorthUSD.toFixed(3)} USD
+            </Text>
+          </Box>
+          <HStack>
+            <Flex borderRadius="10px">
+              {/* Ethereum Section */}
+              <Box flex="1" borderRadius="10px" border="1px solid limegreen" padding="10px">
+                {/* Ethereum Avatar */}
+                <Flex flexDirection="column" alignItems="center">
+                  <Image
+                    src="https://www.pngitem.com/pimgs/m/124-1245793_ethereum-eth-icon-ethereum-png-transparent-png.png"
+                    alt="Avatar"
+                    width="40px"
+                    height="40px"
+                    borderRadius="50%"
+                  />
+                  <Divider paddingTop="10px" orientation="horizontal" colorScheme="limegreen" />
+  
+                  <Text fontSize="24px" fontWeight="bold" color="limegreen" marginBottom="10px">
+                    Ethereum Treasure
+                  </Text>
+                  <Text fontSize="18px" fontWeight="bold" marginBottom="5px">
+                    {ethereumBalance ? `${ethereumBalance.toFixed(3)} ETH` : "Fetching..."}
+                  </Text>
+                  <Divider orientation="horizontal" colorScheme="limegreen" />
+  
+                  <Box padding="2px" justifyContent="left">
+                    <Text fontSize="16px">USD pegged Balance: $2500.00</Text>
+                  </Box>
+                  <Divider orientation="horizontal" colorScheme="limegreen" />
+                  <Text fontSize="16px">Gnars Delegated: 25</Text>
+                </Flex>
               </Box>
-              <Divider padding="0px" orientation="horizontal" colorScheme="limegreen" />
-              <Text fontSize="16px">Gnars Delegated: 25</Text>
-
+  
+              {/* Hive Section */}
+              <Box flex="1"  borderRadius="10px" border="1px solid limegreen" padding="10px">
+                {/* Hive Avatar */}
+                <Flex flexDirection="column" alignItems="center">
+                  <Image
+                    src="https://cryptologos.cc/logos/hive-blockchain-hive-logo.png"
+                    alt="Avatar"
+                    width="40px"
+                    height="40px"
+                    borderRadius="50%"
+                  />
+                  <Divider paddingTop="10px" orientation="horizontal" colorScheme="limegreen" />
+  
+                  <Text fontSize="24px" fontWeight="bold" color="limegreen" marginBottom="10px">
+                    Hive Treasure
+                  </Text>
+                  <Text fontSize="18px" fontWeight="bold" marginBottom="5px">
+                    XXXX USD
+                  </Text>
+                  <Divider  orientation="horizontal" colorScheme="limegreen" />
+  
+                  <Text fontSize="16px">Treasure HIVE: {hiveUser?.balance || "Fetching..."}</Text>
+                  <Text fontSize="16px">HP (Owned): {hiveUser?.ownVestingShares || "Fetching..."}</Text>
+                  <Text fontSize="16px">HP (Total): {hiveUser?.totalVestingShares || "Fetching..."}</Text>
+                  <Text fontSize="16px">HBD: {hiveUser?.hbd_balance || "Fetching..."}</Text>
+                  <Text fontSize="16px">Savings: {hiveUser?.savings_hbd_balance || "Fetching..."}</Text>
+                  <Text fontSize="18px">Hive Worth: ${hiveWorthInUSD.toFixed(3)} USD</Text>
+                  <Text fontSize="16px">Owned Vests Worth: ${ownVestingWorthInUSD.toFixed(3)} USD</Text>
+                  <Text fontSize="16px">Deleg. Vests Worth: ${delegatedVestingWorthInUSD.toFixed(3)} USD</Text>
+                </Flex>
+              </Box>
             </Flex>
-          </Box>
-    
-          {/* Hive Section */}
-          <Box flex="1" margin="5px" borderRadius="10px" border="1px solid limegreen" padding="20px">
-            {/* Hive Avatar */}
-            <Flex flexDirection="column" alignItems="center">
-              <Image
-                src="https://cryptologos.cc/logos/hive-blockchain-hive-logo.png"
-                alt="Avatar"
-                width="40px"
-                height="40px"
-                borderRadius="50%"
-              />
-              <Text fontSize="24px" fontWeight="bold" color="limegreen" marginBottom="10px">
-                Hive Treasure Value
-              </Text>
-
-              <Text fontSize="16px">Treasure HIVE: {hiveUser?.balance || "Fetching..."}</Text>
-              <Text fontSize="16px">HP (Owned): {hiveUser?.ownVestingShares || "Fetching..."}</Text>
-              <Text fontSize="16px">HP (Total): {hiveUser?.totalVestingShares || "Fetching..."}</Text>
-              <Text fontSize="16px">HBD: {hiveUser?.hbd_balance || "Fetching..."}</Text>
-              <Text fontSize="16px">Savings: {hiveUser?.savings_hbd_balance || "Fetching..."}</Text>
-              <Text fontSize="18px">Hive Worth: ${hiveWorthInUSD.toFixed(3)} USD</Text>
-              <Text fontSize="16px">Owned Vests Worth: ${ownVestingWorthInUSD.toFixed(3)} USD</Text>
-              <Text fontSize="16px">Deleg. Vests Worth: ${delegatedVestingWorthInUSD.toFixed(3)} USD</Text>
-            </Flex>
-
-          </Box>
-          </Flex>
-
-        </HStack>
+          </HStack>
         </VStack>
-
-
-
-        </Flex>
+      </Flex>
     );
-    
-    
   }
-
-
+  
   export default DaoStatus;
 
 

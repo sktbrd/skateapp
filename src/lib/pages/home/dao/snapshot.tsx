@@ -21,9 +21,7 @@ const SnapShot: React.FC = () => {
   const getSummary = async (body: string) => {
     // Check if the summary is cached in local storage
     const cachedSummary = localStorage.getItem(body);
-    console.log('cachedSummary', cachedSummary);
     if (cachedSummary) {
-      console.log('Using cached summary:', cachedSummary);
       return cachedSummary; // Return the cached summary immediately
       setLoadingSummaries(false);
     }

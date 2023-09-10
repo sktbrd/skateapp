@@ -137,11 +137,7 @@ const Chat: React.FC = () => {
 
   const [isDesktop] = useMediaQuery("(min-width: 768px)");
 
-
   useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
     const storedUser = sessionStorage.getItem("user");
     if (storedUser) {
       const userObject = JSON.parse(storedUser);

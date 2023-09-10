@@ -290,7 +290,7 @@ const DaoStatus = () => {
                 </HStack>
 
 
-              </Flex>
+              </Flex> 
             </Box>
 
             {/* Hive Section */}

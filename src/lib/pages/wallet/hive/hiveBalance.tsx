@@ -29,6 +29,31 @@ interface User {
   name?: string;
 }
 
+export async function fetchHbdPrice() {
+  try {
+  const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hive_dollar&vs_currencies=usd");
+  const data = await response.json();
+  return data.hive_dollar.usd;
+} catch (error) {
+  console.error("Error fetching HBD price:", error);
+  return 0;
+}
+};
+
+export async function fetchConversionRate() {
+  try {
+    const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hive&vs_currencies=usd");
+    const data = await response.json();
+    const conversionRate = data.hive.usd;
+    console.log("HIVE: ", conversionRate);
+    return conversionRate; // Return the conversion rate as a number
+  } catch (error) {
+    console.error("Error fetching conversion rate:", error);
+    return 0;
+  }
+};
+
+
 export default function HiveBalanceDisplay() {
   const { user } = useAuthUser() as { user: User | null };
   const [hiveBalance, setHiveBalance] = useState<string>("0");
@@ -54,16 +79,7 @@ export default function HiveBalanceDisplay() {
     }
   };
   
-  const fetchHbdPrice = async () => {
-    try {
-      const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hive_dollar&vs_currencies=usd");
-      const data = await response.json();
-      return data.hive_dollar.usd;
-    } catch (error) {
-      console.error("Error fetching HBD price:", error);
-      return 0;
-    }
-  };
+
 
   const convertVestingSharesToHivePower = async (
     vestingShares: string,

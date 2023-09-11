@@ -179,9 +179,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
   }
   , [user]);
 
-  
-
-      
+    
 
   const glow = keyframes`
     0% {
@@ -310,7 +308,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           color="orange"
 
         >
-{totalWorth.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
+          {totalWorth.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
         </Button>
       </Box>
     

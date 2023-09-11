@@ -122,7 +122,7 @@ const HiveStats = () => {
             <Divider backgroundColor="red" />
       
             <Flex alignItems="center" justifyContent="center">
-              <Text>Wallet Worth: ${total.toFixed(2)}</Text>
+              <Text color="white">Wallet Worth: ${total.toFixed(2)}</Text>
             </Flex>
             <Divider backgroundColor="red" />
             <HStack spacing={4} align="stretch">
@@ -133,6 +133,15 @@ const HiveStats = () => {
               <BalanceDisplay label="Savings" balance={hiveSavings} />
               <BalanceDisplay label="Hive Dollar" balance={hbdbalance} />
             </HStack>
+            <HStack margin="10px" borderRadius="10px" border="1px dashed orange" justifyContent="center" padding="10px">
+        <Image
+            src="https://images.ecency.com/u/hive-173115/avatar/large"
+            alt="Avatar"
+            width="20px"
+            height="20px"
+        />
+        <Text fontSize="16px">Witness: 1.7M</Text>
+        </HStack>
           </VStack>
         </Box>
       );
@@ -142,7 +151,7 @@ const HiveStats = () => {
 const BalanceDisplay = ({ label, balance }: { label: string; balance: string }) => {
     return (
         <Box borderRadius="5px" border="1px solid red" width="50%" padding="10px">
-            <Text fontWeight="bold">{label}</Text>
+            <Text color="white" fontWeight="bold">{label}</Text>
             <Text>{balance || "Try Connect your wallet and refresh the page"}</Text>
         </Box>
     );

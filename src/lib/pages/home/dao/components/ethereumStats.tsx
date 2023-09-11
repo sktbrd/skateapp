@@ -73,7 +73,7 @@ const EthereumStats = () => {
             const portfolio = await api.GetPortfolio({ address: DAO_SAFE });
             const eth_hotwallet = await api.GetPortfolio({ address: HOT_WALLET });
             console.log("ETH HOTWALLET",eth_hotwallet)
-            setDaoPortfolio(portfolio);
+            setDaoPortfolio(portfolio.data.totalNetwork);
             setHotWalletBalance(eth_hotwallet);
             setLoading(false);
     
@@ -129,7 +129,6 @@ const EthereumStats = () => {
         <Text color="white">Total Worth: </Text>
         </Flex>
         <Divider backgroundColor="#7CC4FA" />
-        <Box padding="10px">
         <HStack spacing={4} align="stretch">
             <BalanceDisplay label="Multisig Balance" balance={`${ethereumBalance?.toFixed(3)} ETH`} />
             <BalanceDisplay label="Hot Wallet" balance={`${ethereumTreasure.toFixed(3)} USD`} />
@@ -138,7 +137,6 @@ const EthereumStats = () => {
             <BalanceDisplay label="Ethereum Balance" balance={`${ethereumBalance?.toFixed(3)} ETH`} />
             <BalanceDisplay label="Ethereum Balance" balance={`${ethereumBalance?.toFixed(3)} ETH`} />
         </HStack>
-        </Box>
         <HStack margin="10px" borderRadius="10px" border="1px dashed #7CC4FA" justifyContent="center" padding="10px">
         <Image
             src="https://www.gnars.wtf/images/logo.png"
@@ -146,7 +144,7 @@ const EthereumStats = () => {
             width="20px"
             height="20px"
         />
-        <Text fontSize="16px">Gnars Deleg: 25</Text>
+        <Text color="white" fontSize="16px">Gnars Deleg: 25</Text>
         </HStack>
         </VStack>
     </Box>

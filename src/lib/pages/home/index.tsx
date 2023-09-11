@@ -11,7 +11,7 @@ const Home = () => {
         <TabList mb="1em" width="100%">
           <Tab color="white" border="2px limegreen solid">FEED</Tab>
           <Tab color="white" border="2px limegreen solid">VIDEOS</Tab>
-          <Tab color="white" border="2px limegreen solid">DAO</Tab>
+          <Tab color="white" border="2px limegreen solid">GOVERNANCE</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>

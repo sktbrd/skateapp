@@ -26,7 +26,7 @@ const EthereumStats = () => {
     const [daoWallet, setDaoWallet] = useState<User | null>(null);
     const [hotWalletBalance, setHotWalletBalance] = useState<User | null>(null);
     const [ethereumBalance, setEthereumBalance] = useState<number | null>(null);
-
+    const [ethNetworth, setEthNetworth] = useState<number | null>(null);
     const DAO_SAFE = "0x5501838d869b125efd90dacf45cdfac4ea192c12";
     const HOT_WALLET = "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c";
 
@@ -41,6 +41,8 @@ const EthereumStats = () => {
 
     const [loading, setLoading] = useState(true);
 
+    
+
     async function getBalance() {
         try {
           const response = await axios.get(etherscanEndpoint, {
@@ -54,7 +56,7 @@ const EthereumStats = () => {
     
           console.log('Etherscan API Response:', response);
     
-          if (response.data.status === '1') {
+          if (response.data.status === '200') {
             const balanceWei = response.data.result;
             const balanceEther = parseFloat(balanceWei) / 1e18;
             console.log(`Balance of ${ethereumAddress}: ${balanceEther} ETH`);
@@ -63,7 +65,7 @@ const EthereumStats = () => {
             console.error('Error:', response.data.message);
           }
         } catch (error) {
-          console.error('Error:', error);
+          console.error('Errror:', error);
         }
       }
 
@@ -71,12 +73,13 @@ const EthereumStats = () => {
     const onStart = async () => {
         try {
           if (api && app) {
-            const portfolio = await api.GetPortfolio({ address: DAO_SAFE });
             const eth_hotwallet = await api.GetPortfolio({ address: HOT_WALLET });
-            console.log("ETH HOTWALLET",eth_hotwallet)
-            setDaoPortfolio(portfolio.data.totalNetwork);
-            setHotWalletBalance(eth_hotwallet);
-            setLoading(false);
+            const ethNetworth = eth_hotwallet.data.totalNetWorth!; // Use the non-null assertion operator
+            console.log("HOT WALLETT",eth_hotwallet)
+            setEthNetworth(eth_hotwallet.data.totalNetWorth)
+            console.log(eth_hotwallet.data.totalNetWorth)
+
+
     
     
           }
@@ -95,7 +98,7 @@ const EthereumStats = () => {
      
     
       const ethereumTreasure = daoPortfolio?.data?.totalNetWorth || 0; // Total worth in ETH
-      console.log("ETHEREUM TREASURE",ethereumTreasure)
+
 
       const walletAddress = "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c";
       const [copied, setCopied] = useState(false);
@@ -124,8 +127,8 @@ const EthereumStats = () => {
         borderRadius="12px"
         padding="10px"
         margin="10px"
-        width="50%"
-    >
+        width={['100%', '50%']} // Set width to 100% on mobile, 50% on other screen sizes
+        >
         <VStack spacing={4} align="stretch">
 
         <Flex alignItems="center" justifyContent="center" padding="10px">
@@ -147,16 +150,16 @@ const EthereumStats = () => {
         <Divider backgroundColor="#7CC4FA" />
     
         <Flex alignItems="center" justifyContent="center">
-        <Text fontWeight="bold" color="#7CC4FA">Total Worth: </Text>
+        <Text fontWeight="bold" color="#7CC4FA">Total Worth in USD: </Text>
         </Flex>
         <Divider backgroundColor="#7CC4FA" />
         <HStack spacing={4} align="stretch">
             <BalanceDisplay label="Multisig Balance" balance={`${ethereumBalance?.toFixed(3)} ETH`} />
-            <BalanceDisplay label="Hot Wallet" balance={`${ethereumTreasure.toFixed(3)} USD`} />
+            <BalanceDisplay label="Hot Wallet" balance={ethNetworth !== null ? `${ethNetworth.toFixed(3)} USD` : "Loading..."} />
         </HStack>
         <HStack spacing={4} align="stretch">
-            <BalanceDisplay label="Ethereum Balance" balance={`${ethereumBalance?.toFixed(3)} ETH`} />
-            <BalanceDisplay label="Ethereum Balance" balance={`${ethereumBalance?.toFixed(3)} ETH`} />
+            <BalanceDisplay label="USD Coverted HotWallet" balance={""} />
+            <BalanceDisplay label="USD Pegged Tokens" balance={"Fiat is for Losers"} />
         </HStack>
         <HStack margin="10px" borderRadius="10px" border="1px dashed #7CC4FA" justifyContent="center" padding="10px">
         <Image
@@ -205,10 +208,26 @@ const BalanceDisplay = ({ label, balance }: { label: string; balance: string }) 
   textAlign="center"  // Add this line to center text horizontally
 >
   <Text color="white" fontWeight="bold">{label}</Text>
-  <Text>{balance || "Try Connect your wallet and refresh the page"}</Text>
+  <Divider></Divider>
+  <Text>{balance || "PEPE"}</Text>
 </Box>
 
     );
+};
+const avatarDisplay = ({ label}: { label: string;  }) => {
+  return (
+<Box
+borderRadius="5px"
+border="1px solid #7CC4FA"
+width="50%"
+padding="10px"
+textAlign="center" 
+>
+<Text color="white" fontWeight="bold">{label}</Text>
+
+</Box>
+
+  );
 };
 
 export default EthereumStats;

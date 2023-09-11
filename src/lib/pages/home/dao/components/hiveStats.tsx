@@ -104,7 +104,7 @@ const HiveStats = () => {
             borderRadius="12px"
             border="1px solid red"
             padding="10px"
-            width="50%"
+            width={['100%', '50%']} // Set width to 100% on mobile, 50% on other screen sizes
             margin="10px"
         >
             <VStack spacing={4} align="stretch">
@@ -157,6 +157,21 @@ const HiveStats = () => {
                                 height="20px"
                             />
                             <ChakraLink target="_blank" href="https://vote.hive.uno/@skatehive" fontSize="16px">Witness: 1.7M </ChakraLink>
+                        </HStack>
+                        <HStack
+                            margin="10px"
+                            borderRadius="10px"
+                            border="1px dashed orange"
+                            justifyContent="center"
+                            padding="10px"
+                        >
+                            <Image
+                                src="https://images.ecency.com/u/hive-173115/avatar/large"
+                                alt="Avatar"
+                                width="20px"
+                                height="20px"
+                            />
+                            <ChakraLink target="_blank" href="https://hive.vote/dash.php?i=1&trail=steemskate" fontSize="16px">Vote Trail: 37  </ChakraLink>
                         </HStack>
 
                     </>

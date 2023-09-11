@@ -37,7 +37,7 @@ import HiveLogin from "lib/pages/home/api/HiveLoginModal";
 
 import { fetchHbdPrice } from "lib/pages/wallet/hive/hiveBalance";
 import { fetchConversionRate } from "lib/pages/wallet/hive/hiveBalance";
-
+import { resetCache } from "lib/pages/wallet/hive/hiveBalance";
 // Custom LinkTab component
 type LinkTabProps = TabProps & RouterLinkProps;
 
@@ -302,7 +302,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       {/* Dropdown button */}
       <Box>
         <Button
-          onClick={handleTotalClick}
+          onClick={resetCache}
           backgroundColor="black"
           border="limegreen 2px solid"
           color="orange"

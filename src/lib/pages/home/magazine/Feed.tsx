@@ -42,12 +42,27 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
   const placeholderEarnings = 69.42; 
 
 
+  const randomSentences = [
+    "Don't mall grab, or do it, you do you...",
+    "'Its ok to push Mongo (master YODA'",
+    "Be careful, jasper is around",
+    "Roll one and play some stoken.quest",
+    "Remember Mirc times ?",
+  ];
+  
+
   const PlaceholderLoadingBar = () => {
-    return <center>
-        <Image src="https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif"></Image>
-      <Text>Roll a Joint...</Text>
-      </center>;
+    const randomIndex = Math.floor(Math.random() * randomSentences.length);
+    const randomSentence = randomSentences[randomIndex];
+  
+    return (
+      <center>
+        <Image src="https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif" />
+        <Text>{randomSentence}</Text>
+      </center>
+    );
   };
+  
 
 
 

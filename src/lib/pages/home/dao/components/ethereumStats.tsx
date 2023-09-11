@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Text, Flex ,Image, VStack, HStack, Divider} from "@chakra-ui/react";
 // @ts-ignore
 import { usePioneer } from "pioneer-react";
+import { Link as ChakraLink } from "@chakra-ui/react";
 
 import axios from 'axios';
 
@@ -96,6 +97,26 @@ const EthereumStats = () => {
       const ethereumTreasure = daoPortfolio?.data?.totalNetWorth || 0; // Total worth in ETH
       console.log("ETHEREUM TREASURE",ethereumTreasure)
 
+      const walletAddress = "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c";
+      const [copied, setCopied] = useState(false);
+    
+      const handleCopyClick = () => {
+        // Create a temporary input element to copy the wallet address
+        const tempInput = document.createElement("input");
+        tempInput.value = walletAddress;
+        document.body.appendChild(tempInput);
+    
+        // Select and copy the value inside the input element
+        tempInput.select();
+        document.execCommand("copy");
+    
+        // Remove the temporary input element
+        document.body.removeChild(tempInput);
+    
+        // Set copied to true to show a message to the user
+        setCopied(true);
+        alert("Skatehive Delegation Wallet Copied to clipboard");
+      };
 
     return (
     <Box
@@ -126,7 +147,7 @@ const EthereumStats = () => {
         <Divider backgroundColor="#7CC4FA" />
     
         <Flex alignItems="center" justifyContent="center">
-        <Text color="white">Total Worth: </Text>
+        <Text fontWeight="bold" color="#7CC4FA">Total Worth: </Text>
         </Flex>
         <Divider backgroundColor="#7CC4FA" />
         <HStack spacing={4} align="stretch">
@@ -144,7 +165,27 @@ const EthereumStats = () => {
             width="20px"
             height="20px"
         />
-        <Text color="white" fontSize="16px">Gnars Deleg: 25</Text>
+      <ChakraLink
+        target='_blank'
+        href="https://etherscan.io/token/0x558BFFF0D583416f7C4e380625c7865821b8E95C#writeContract#F3"
+        color="white"
+        fontSize="16px"
+        onClick={handleCopyClick}
+        style={{ cursor: "pointer" }}
+      >
+        Gnars Deleg: 25 
+      </ChakraLink>
+              </HStack>
+        <HStack margin="10px" borderRadius="10px" border="1px dashed #7CC4FA" justifyContent="center" padding="10px">
+        <Image
+            src="https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75"
+            alt="Avatar"
+            width="20px"
+            height="20px"
+        />
+    <ChakraLink       target="_blank" href="https://zora.co/collect/eth:0x3ded025e441730e26ab28803353e4471669a3065/1" color="white" fontSize="16px">
+    Skatehive OG: 37
+    </ChakraLink>
         </HStack>
         </VStack>
     </Box>
@@ -156,10 +197,17 @@ const EthereumStats = () => {
 
 const BalanceDisplay = ({ label, balance }: { label: string; balance: string }) => {
     return (
-        <Box borderRadius="5px" border="1px solid #7CC4FA" width="50%" padding="10px">
-            <Text fontWeight="bold">{label}</Text>
-            <Text>{balance || "Try Connect your wallet and refresh the page"}</Text>
-        </Box>
+<Box
+  borderRadius="5px"
+  border="1px solid #7CC4FA"
+  width="50%"
+  padding="10px"
+  textAlign="center"  // Add this line to center text horizontally
+>
+  <Text color="white" fontWeight="bold">{label}</Text>
+  <Text>{balance || "Try Connect your wallet and refresh the page"}</Text>
+</Box>
+
     );
 };
 

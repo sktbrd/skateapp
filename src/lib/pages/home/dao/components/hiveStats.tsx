@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Text, Flex, Image, VStack, HStack, Divider } from "@chakra-ui/react";
+import { Box, Text, Flex, Image, VStack, HStack, Divider} from "@chakra-ui/react";
 import * as dhive from "@hiveio/dhive";
 import { fetchHbdPrice, fetchConversionRate } from 'lib/pages/wallet/hive/hiveBalance';
 import axios from 'axios';
 import { cache } from 'lib/pages/wallet/hive/hiveBalance';
+import { Link as ChakraLink } from "@chakra-ui/react";
 
 const dhiveClient = new dhive.Client([
     "https://api.hive.blog",
@@ -131,7 +132,7 @@ const HiveStats = () => {
                 ) : (
                     <>
                         <Flex alignItems="center" justifyContent="center">
-                            <Text color="white">Wallet Worth: ${total.toFixed(2)}</Text>
+                            <Text fontWeight="bold" color="orange">Wallet Worth: ${total.toFixed(2)}</Text>
                         </Flex>
                         <Divider backgroundColor="red" />
                         <HStack spacing={4} align="stretch">
@@ -155,8 +156,9 @@ const HiveStats = () => {
                                 width="20px"
                                 height="20px"
                             />
-                            <Text fontSize="16px">Witness: 1.7M</Text>
+                            <ChakraLink target="_blank" href="https://vote.hive.uno/@skatehive" fontSize="16px">Witness: 1.7M </ChakraLink>
                         </HStack>
+
                     </>
                 )}
             </VStack>
@@ -166,10 +168,17 @@ const HiveStats = () => {
 
 const BalanceDisplay = ({ label, balance }: { label: string; balance: string }) => {
     return (
-        <Box borderRadius="5px" border="1px solid red" width="50%" padding="10px">
-            <Text color="white" fontWeight="bold">{label}</Text>
-            <Text>{balance || "Try connecting your wallet and refreshing the page"}</Text>
-        </Box>
+<Box
+  borderRadius="5px"
+  border="1px solid red"
+  width="50%"
+  padding="10px"
+  textAlign="center"  // Add this line to center text horizontally
+>
+  <Text  color="white" fontWeight="bold">{label}</Text>
+  <Text>{balance || "Try Connect your wallet and refresh the page"}</Text>
+</Box>
+
     );
 };
 

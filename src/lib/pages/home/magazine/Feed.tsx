@@ -44,7 +44,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
 
   const randomSentences = [
     "Don't mall grab, or do it, you do you...",
-    "'Its ok to push Mongo (master YODA'",
+    "'Its ok to push Mongo (master YODA)'",
     "Be careful, jasper is around",
     "Roll one and play some stoken.quest",
     "Remember Mirc times ?",

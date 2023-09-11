@@ -208,7 +208,7 @@ const Chat: React.FC = () => {
   return (
     <>
       <Button style={chatToggleButtonStyle} onClick={toggleChat}>
-      {isChatVisible ? '💬' : <img style={{ width: '40px', height: '40px', borderRadius: '100%' }} src='https://gifdb.com/images/high/pepe-frog-meme-reading-text-nervous-sweat-3m7pw9rg9d3fyf5f.gif' alt='Chat Icon'></img>
+      {isChatVisible ? '' : <img style={{ width: '50px', height: '50px', borderRadius: '100%' }} src='https://gifdb.com/images/high/pepe-frog-meme-reading-text-nervous-sweat-3m7pw9rg9d3fyf5f.gif' alt='Chat Icon'></img>
 }
       </Button>
 

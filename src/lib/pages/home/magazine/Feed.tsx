@@ -25,6 +25,7 @@ import PostModal from "./postModal/postModal";
 import { useNavigate, Link } from "react-router-dom";
 
 import * as Types from "./types";
+import { css } from "@emotion/react";
 
 import EarningsModal from "./postModal/earningsModal"; // Replace with the correct path to EarningsModal
 
@@ -44,10 +45,16 @@ const placeholderEarnings = 69.42;
 
 const randomSentences = [
   "Don't mall grab, or do it, you do you...",
-  "'Its ok to push Mongo (master YODA)'",
-  "Be careful, jasper is around",
+  "'Ok to push Mongo it is (master YODA)'",
+  "Be careful, Jasper is around...",
   "Roll one and play some stoken.quest",
   "Remember Mirc times ?",
+  "Fuck instagram!",
+  "Ready to grind on chain?",
+  "Praise whoever made skatevideosite",
+  "Loading Stokenomics...",
+  "Initiating proof of stoke...", 
+  "We will as fast as Daryl on a hill"
 ];
 
 const PlaceholderLoadingBar = () => {
@@ -263,6 +270,32 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     setPostUrl(post.url); // Move this line here
     onOpen();
   };
+  const cardHoverStyles = css`
+  transform: scale(1.01); /* Increase size by 5% */
+  transition: transform 0.2s ease-in-out; /* Add a smooth transition effect */
+  box-shadow: 0 0 150px rgba(0, 128, 0, 0.5); /* Add a green box shadow for the glow effect */
+`;
+
+const cardStyles = css`
+  border: 1px solid limegreen;
+   /* Add a higher z-index to display the card above other cards */
+  /* ... (other styles) */
+  &:hover {
+    ${cardHoverStyles} /* Apply hover styles when hovering over the card */
+  }
+`;
+
+const truncateTitle = (title:any, maxCharacters = 40) => {
+  // Capitalize the first letter of the title
+  title = title.charAt(0).toUpperCase() + title.slice(1);
+
+  if (title.length <= maxCharacters) {
+    return title;
+  } else {
+    const truncatedTitle = title.substring(0, maxCharacters - 3) + '...';
+    return truncatedTitle;
+  }
+};
 
   return (
     <Box>
@@ -285,10 +318,13 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                 mb={4}
                 onClick={() => handleCardClick(post)}
                 cursor="pointer"
+                css={cardStyles} /* Apply the cardStyles CSS */
               >
                 <CardHeader>
                   <Flex>
                     <Flex
+                      css={cardStyles} /* Apply the cardStyles CSS */
+
                       flex="1"
                       gap="3"
                       borderRadius="10px"
@@ -315,7 +351,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                     />
                   </Flex>
                 </CardHeader>
-                <Box padding="10px" height="200px">
+                <Box padding="20px" height="200px">
                   <Image
                     objectFit="cover"
                     border="1px solid limegreen"
@@ -327,7 +363,23 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                   />
                 </Box>
                 <CardBody>
-                  <Text>{post.title}</Text>
+                  <Box
+                    border="1px solid limegreen"
+                    borderRadius="10px"
+                    minWidth="100%"
+                    minHeight="100%"
+                    >
+                                    
+                  <Text 
+                    fontWeight="semibold"
+                    color="orange"
+                    padding="13px"
+                    >
+                    {truncateTitle(post.title)}
+                    </Text>
+
+                  </Box>
+
                 </CardBody>
                 <CardFooter>
                   <Text
@@ -372,7 +424,36 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
           {isLoadingMore && <PlaceholderLoadingBar />} {/* Show loading bar below posts on "Load More" */}
         </>
       )}
-    </Box>
+     <Modal isOpen={isOpen} onClose={onClose} size="xl">
+          <ModalOverlay />
+          <ModalContent>
+            <PostModal
+              title={selectedPost?.title}
+              content={selectedPost?.body}
+              author={selectedPost?.author}
+              user={selectedPost?.user}
+              permlink={selectedPost?.permlink}
+              weight={selectedPost?.weight}
+              onClose={onClose}
+              isOpen={isOpen}
+              comments={comments}
+              postUrl={selectedPost?.url}
+            />
+          </ModalContent>
+        </Modal>
+  
+        <Modal isOpen={isVotersModalOpen} onClose={() => setVotersModalOpen(false)} size="xl">
+          <ModalOverlay />
+          <ModalContent>
+            <EarningsModal
+              isOpen={isVotersModalOpen}
+              onClose={() => setVotersModalOpen(false)}
+              post={selectedPostForModal}
+            />
+          </ModalContent>
+        </Modal>
+      </Box>
+    
   );
 };
 

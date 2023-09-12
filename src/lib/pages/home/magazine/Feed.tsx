@@ -1,21 +1,21 @@
-  import {
-    Avatar,
-    Box,
-    Button,
-    Card,
-    CardBody,
-    CardFooter,
-    CardHeader,
-    Flex,
-    Heading,
-    IconButton,
-    Image,
-    Text,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    useDisclosure,
-  } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Flex,
+  Heading,
+  IconButton,
+  Image,
+  Text,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 import { Client } from "@hiveio/dhive";
 
@@ -24,89 +24,147 @@ import PostModal from "./postModal/postModal";
 
 import { useNavigate, Link } from "react-router-dom";
 
-import * as Types from './types';
+import * as Types from "./types";
 
 import EarningsModal from "./postModal/earningsModal"; // Replace with the correct path to EarningsModal
 
-  const nodes = [
-    "https://rpc.ecency.com",
-    "https://api.deathwing.me",
-    "https://api.hive.blog",
-    "https://api.openhive.network",
-    "https://api.hive.blog",
-    "https://anyx.io",
-    "https://api.pharesim.me",
-  ];
+const nodes = [
+  "https://rpc.ecency.com",
+  "https://api.deathwing.me",
+  "https://api.hive.blog",
+  "https://api.openhive.network",
+  "https://api.hive.blog",
+  "https://anyx.io",
+  "https://api.pharesim.me",
+];
 
-  const defaultThumbnail ="https://images.ecency.com/u/hive-173115/avatar/large";
-  const placeholderEarnings = 69.42; 
+const defaultThumbnail =
+  "https://images.ecency.com/u/hive-173115/avatar/large";
+const placeholderEarnings = 69.42;
 
+const randomSentences = [
+  "Don't mall grab, or do it, you do you...",
+  "'Its ok to push Mongo (master YODA)'",
+  "Be careful, jasper is around",
+  "Roll one and play some stoken.quest",
+  "Remember Mirc times ?",
+];
 
-  const randomSentences = [
-    "Don't mall grab, or do it, you do you...",
-    "'Its ok to push Mongo (master YODA)'",
-    "Be careful, jasper is around",
-    "Roll one and play some stoken.quest",
-    "Remember Mirc times ?",
-  ];
-  
+const PlaceholderLoadingBar = () => {
+  const randomIndex = Math.floor(Math.random() * randomSentences.length);
+  const randomSentence = randomSentences[randomIndex];
 
-  const PlaceholderLoadingBar = () => {
-    const randomIndex = Math.floor(Math.random() * randomSentences.length);
-    const randomSentence = randomSentences[randomIndex];
-  
-    return (
-      <center>
-        <Image src="https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif" />
-        <Text>{randomSentence}</Text>
-      </center>
-    );
+  return (
+    <center>
+      <Image src="https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif" />
+      <Text>{randomSentence}</Text>
+    </center>
+  );
+};
+
+const HiveBlog: React.FC<Types.HiveBlogProps> = ({
+  queryType = "created",
+  tag = "hive-173115",
+}) => {
+  const [loadedPosts, setLoadedPosts] = useState<any[]>([]);
+  const [currentTag, setTag] = useState(tag);
+  const [isLoadingInitial, setIsLoadingInitial] = useState(true); // Loading state for initial posts
+  const [isLoadingMore, setIsLoadingMore] = useState(false); // Loading state for "Load More"
+  const [selectedPost, setSelectedPost] = useState<any | null>(null);
+  const [client, setClient] = useState(new Client(nodes[0]));
+  const [nodeIndex, setNodeIndex] = useState(0);
+  const [comments, setComments] = useState<Types.CommentProps[]>([]);
+  const [isVotersModalOpen, setVotersModalOpen] = useState(false);
+  const [selectedPostForModal, setSelectedPostForModal] = useState<any | null>(
+    null
+  );
+  const [postUrl, setPostUrl] = useState<string | null>(null);
+  const [displayedPosts, setDisplayedPosts] = useState<number>(15 );
+  const [postsToLoadInitially] = useState<number>(15); // Number of posts to load initially
+  const [postsToLoadMore] = useState<number>(10); // Number of additional posts to load on "Load More" click
+
+  const fetchPostEarnings = async (
+    author: string,
+    permlink: string
+  ): Promise<number> => {
+    try {
+      const post = await client.database.call("get_content", [author, permlink]);
+      const totalPayout = parseFloat(post.total_payout_value.split(" ")[0]);
+      const curatorPayout = parseFloat(
+        post.curator_payout_value.split(" ")[0]
+      );
+      const pendingPayout = parseFloat(
+        post.pending_payout_value.split(" ")[0]
+      );
+      const totalEarnings = totalPayout + curatorPayout + pendingPayout;
+      return totalEarnings;
+    } catch (error) {
+      // If a request fails, switch to the next node
+      const newIndex = (nodeIndex + 1) % nodes.length;
+      setNodeIndex(newIndex);
+      setClient(new Client(nodes[newIndex]));
+      console.log(`Switched to node: ${nodes[newIndex]}`);
+      // Retry the request with the new node
+      return fetchPostEarnings(author, permlink);
+    }
   };
-  
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const fetchPosts = async () => {
+    setIsLoadingMore(true); // Set loading state when "Load More" is clicked
 
-  const HiveBlog: React.FC<Types.HiveBlogProps> = ({ queryType = "created", tag = "hive-173115" }) => {
-    const [posts, setPosts] = useState<any[]>([]);
-    const [currentTag, setTag] = useState(tag);
-    const [isLoading, setIsLoading] = useState(false);
-    const [selectedPost, setSelectedPost] = useState<any | null>(null);
-    const [client, setClient] = useState(new Client(nodes[0]));
-    const [nodeIndex, setNodeIndex] = useState(0);
-    const [comments, setComments] = useState<Types.CommentProps[]>([]);
-    const [isVotersModalOpen, setVotersModalOpen] = useState(false);
-    const [selectedPostForModal, setSelectedPostForModal] = useState<any | null>(null);
-    const [postUrl, setPostUrl] = useState<string | null>(null);
+    try {
+      const query = {
+        tag: currentTag,
+        limit: displayedPosts + postsToLoadMore, // Load more posts
+      };
+      const result = await client.database.getDiscussions(queryType, query);
 
+      // Exclude already loaded posts from the new result
+      const newPosts = result.slice(displayedPosts);
 
-    const fetchPostEarnings = async (author: string, permlink: string): Promise<number> => {
-      try {
-        const post = await client.database.call("get_content", [author, permlink]);
-        const totalPayout = parseFloat(post.total_payout_value.split(" ")[0]);
-        const curatorPayout = parseFloat(post.curator_payout_value.split(" ")[0]);
-        const pendingPayout = parseFloat(post.pending_payout_value.split(" ")[0]);
-        const totalEarnings = totalPayout + curatorPayout + pendingPayout;
-        return totalEarnings;
-        console.log(totalEarnings)
-      } catch (error) {
-        // If a request fails, switch to the next node
-        const newIndex = (nodeIndex + 1) % nodes.length;
-        setNodeIndex(newIndex);
-        setClient(new Client(nodes[newIndex]));
-        console.log(`Switched to node: ${nodes[newIndex]}`);
-        // Retry the request with the new node
-        return fetchPostEarnings(author, permlink);
-      }
-    };
-    const { isOpen, onOpen, onClose } = useDisclosure();
+      const postsWithThumbnails = newPosts.map((post) => {
+        const metadata = JSON.parse(post.json_metadata);
+        const thumbnail =
+          Array.isArray(metadata?.image) && metadata.image.length > 0
+            ? metadata.image[0]
+            : defaultThumbnail;
+        return { ...post, thumbnail, earnings: 0 }; // Initialize earnings to 0
+      });
 
-    const fetchPosts = async () => {
-      setIsLoading(true);
+      // Fetch earnings for each new post concurrently
+      const earningsPromises = postsWithThumbnails.map((post) =>
+        fetchPostEarnings(post.author, post.permlink).catch((error) => {
+          console.log(error);
+          return placeholderEarnings; // Use placeholder value if fetching actual earnings fails
+        })
+      );
+      const earnings = await Promise.all(earningsPromises);
+
+      // Update earnings for each new post
+      const updatedPostsWithEarnings = postsWithThumbnails.map(
+        (post, index) => ({ ...post, earnings: earnings[index] })
+      );
+
+      // Append the new posts to the existing ones
+      setLoadedPosts((prevPosts) => [...prevPosts, ...updatedPostsWithEarnings]);
+      setDisplayedPosts(displayedPosts + postsToLoadMore); // Update the displayed posts count
+    } catch (error) {
+      console.log(error);
+    }
+
+    setIsLoadingMore(false); // Clear loading state after new posts are loaded
+  };
+
+  useEffect(() => {
+    const fetchInitialPosts = async () => {
+      setIsLoadingInitial(true); // Set loading state for initial posts
 
       try {
         const query = {
-          tag: tag,
-          limit: 10,
+          tag: currentTag,
+          limit: postsToLoadInitially, // Load initial posts
         };
         const result = await client.database.getDiscussions(queryType, query);
 
@@ -119,7 +177,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
           return { ...post, thumbnail, earnings: 0 }; // Initialize earnings to 0
         });
 
-        // Fetch earnings for each post concurrently
+        // Fetch earnings for each initial post concurrently
         const earningsPromises = postsWithThumbnails.map((post) =>
           fetchPostEarnings(post.author, post.permlink).catch((error) => {
             console.log(error);
@@ -128,94 +186,96 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
         );
         const earnings = await Promise.all(earningsPromises);
 
-        // Update earnings for each post
+        // Update earnings for each initial post
         const updatedPostsWithEarnings = postsWithThumbnails.map(
           (post, index) => ({ ...post, earnings: earnings[index] })
         );
-        setPosts(updatedPostsWithEarnings);
+
+        // Set the initial loaded posts
+        setLoadedPosts(updatedPostsWithEarnings);
       } catch (error) {
         console.log(error);
       }
 
-      setIsLoading(false);
+      setIsLoadingInitial(false); // Clear loading state for initial posts
     };
 
-    useEffect(() => {
-      fetchPosts();
-    }, [tag]);
+    fetchInitialPosts(); // Fetch initial posts when the component mounts
+  }, [tag]);
 
-    
+  const loadMorePosts = () => {
+    fetchPosts(); // Fetch more posts when "Load More" is clicked
+  };
 
+  const fetchComments = async (author: string, permlink: string): Promise<any[]> => {
+    try {
+      const comments = await client.database.call("get_content_replies", [
+        author,
+        permlink,
+      ]);
+      return comments;
+    } catch (error) {
+      // If a request fails, switch to the next node
+      const newIndex = (nodeIndex + 1) % nodes.length;
+      setNodeIndex(newIndex);
+      setClient(new Client(nodes[newIndex]));
+      console.log(`Switched to node: ${nodes[newIndex]}`);
+      // Retry the request with the new node
+      return fetchComments(author, permlink);
+    }
+  };
 
-    const fetchComments = async (author: string, permlink: string): Promise<any[]> => {
-      try {
-        const comments = await client.database.call('get_content_replies', [author, permlink]);
-        return comments;
-        console.log("COMMENTS: ", comments)
-      } catch (error) {
-        // If a request fails, switch to the next node
-        const newIndex = (nodeIndex + 1) % nodes.length;
-        setNodeIndex(newIndex);
-        setClient(new Client(nodes[newIndex]));
-        console.log(`Switched to node: ${nodes[newIndex]}`);
-        // Retry the request with the new node
-        return fetchComments(author, permlink);
-      }
+  const calculateGridColumns = () => {
+    const screenWidth = window.innerWidth;
+    if (screenWidth >= 1400) {
+      return 5;
+    } else if (screenWidth >= 1100) {
+      return 4;
+    } else if (screenWidth >= 800) {
+      return 3;
+    } else if (screenWidth >= 500) {
+      return 2;
+    } else {
+      return 1;
+    }
+  };
+  const [gridColumns, setGridColumns] = useState(calculateGridColumns());
+
+  useEffect(() => {
+    const handleResize = () => {
+      setGridColumns(calculateGridColumns());
     };
-    
-    const calculateGridColumns = () => {
-      const screenWidth = window.innerWidth;
-      if (screenWidth >= 1400) {
-        return 5;
-      } else if (screenWidth >= 1100) {
-        return 4;
-      } else if (screenWidth >= 800) {
-        return 3;
-      } else if (screenWidth >= 500) {
-        return 2;
-      } else {
-        return 1;
-      }
-    };
-    const [gridColumns, setGridColumns] = useState(calculateGridColumns());
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-    useEffect(() => {
-      const handleResize = () => {
-        setGridColumns(calculateGridColumns());
-      };
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }, []);
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const handleVotersModalOpen = (post: any) => {
+    setSelectedPostForModal(post);
+    setVotersModalOpen(true);
+  };
 
-    const handleVotersModalOpen = (post: any) => {
-      setSelectedPostForModal(post);
-      setVotersModalOpen(true);
-    };
-    const handleCardClick = async (post: any) => {
-      setSelectedPost(post);
-      const comments = await fetchComments(post.author, post.permlink);
-      setComments(comments);
-      setPostUrl(post.url);  // Move this line here
-      onOpen();
-      console.log(post);
-    };
-    
+  const handleCardClick = async (post: any) => {
+    setSelectedPost(post);
+    const comments = await fetchComments(post.author, post.permlink);
+    setComments(comments);
+    setPostUrl(post.url); // Move this line here
+    onOpen();
+  };
 
-    return (
-
-      <Box>
-
-        {isLoading ? (
-          <PlaceholderLoadingBar />
-        ) : (
+  return (
+    <Box>
+      {isLoadingInitial ? (
+        <PlaceholderLoadingBar />
+      ) : (
+        <>
           <Box
             display="grid"
             gridTemplateColumns={`repeat(${gridColumns}, minmax(280px, 1fr))`}
             gridGap={1}
           >
-            {posts.map((post) => (
+            {loadedPosts.map((post) => (
               <Card
                 border="1px"
                 borderColor="limegreen"
@@ -228,8 +288,14 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
               >
                 <CardHeader>
                   <Flex>
-                    <Flex flex="1" gap="3" borderRadius="10px" border="1px solid limegreen" alignItems="center">
-                    <Link to={`profile/${post.author}`}>
+                    <Flex
+                      flex="1"
+                      gap="3"
+                      borderRadius="10px"
+                      border="1px solid limegreen"
+                      alignItems="center"
+                    >
+                      <Link to={`profile/${post.author}`}>
                         <Avatar
                           name={post.author}
                           border="1px solid limegreen"
@@ -242,7 +308,11 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
                         <Heading size="sm">{post.author}</Heading>
                       </Box>
                     </Flex>
-                    <IconButton variant="ghost" colorScheme="gray" aria-label="See menu" />
+                    <IconButton
+                      variant="ghost"
+                      colorScheme="gray"
+                      aria-label="See menu"
+                    />
                   </Flex>
                 </CardHeader>
                 <Box padding="10px" height="200px">
@@ -260,66 +330,50 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
                   <Text>{post.title}</Text>
                 </CardBody>
                 <CardFooter>
-                  <Text color="white" style={{ display: "flex", alignItems: "center" }}>
-                  <Button
-                    position="absolute" // Keep this
-                    bottom="10px" // Change from top to bottom
-                    right="10px" // Keep this
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent event from bubbling up
-                      handleVotersModalOpen(post);
-                    }}
-                    variant="ghost"
-                    colorScheme="gray"
-                    size="xs"
-                    ml={2}
+                  <Text
+                    color="white"
+                    style={{ display: "flex", alignItems: "center" }}
                   >
-                    Stoken: {post.earnings.toFixed(2)}
-                    <img
-                      src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
-                      alt="Earning"
-                      style={{ width: "18px", height: "18px", marginLeft:"7px", marginBottom: "2px" }}
-                    />
-                  </Button>
+                    <Button
+                      position="absolute"
+                      bottom="10px"
+                      right="10px"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleVotersModalOpen(post);
+                      }}
+                      variant="ghost"
+                      colorScheme="gray"
+                      size="xs"
+                      ml={2}
+                    >
+                      Stoken: {post.earnings.toFixed(2)}
+                      <img
+                        src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
+                        alt="Earning"
+                        style={{
+                          width: "18px",
+                          height: "18px",
+                          marginLeft: "7px",
+                          marginBottom: "2px",
+                        }}
+                      />
+                    </Button>
                   </Text>
                 </CardFooter>
               </Card>
             ))}
           </Box>
-        )}
-  
-        <Modal isOpen={isOpen} onClose={onClose} size="xl">
-          <ModalOverlay />
-          <ModalContent>
-            <PostModal
-              title={selectedPost?.title}
-              content={selectedPost?.body}
-              author={selectedPost?.author}
-              user={selectedPost?.user}
-              permlink={selectedPost?.permlink}
-              weight={selectedPost?.weight}
-              onClose={onClose}
-              isOpen={isOpen}
-              comments={comments}
-              postUrl={selectedPost?.url}
-            />
-          </ModalContent>
-        </Modal>
-  
-        <Modal isOpen={isVotersModalOpen} onClose={() => setVotersModalOpen(false)} size="xl">
-          <ModalOverlay />
-          <ModalContent>
-            <EarningsModal
-              isOpen={isVotersModalOpen}
-              onClose={() => setVotersModalOpen(false)}
-              post={selectedPostForModal}
-            />
-          </ModalContent>
-        </Modal>
-      </Box>
-    );
+          <Box display="flex" justifyContent="center">
+            <Button variant="outline" colorScheme="green" onClick={loadMorePosts}>
+              Load More
+            </Button>
+          </Box>
+          {isLoadingMore && <PlaceholderLoadingBar />} {/* Show loading bar below posts on "Load More" */}
+        </>
+      )}
+    </Box>
+  );
+};
 
-  };
-
-  export default HiveBlog;
-
+export default HiveBlog;

@@ -12,7 +12,7 @@ const Home = () => {
           <Tab color="white" border="2px limegreen solid">📜 FEED</Tab>
           <Tab color="white" border="2px limegreen solid">📹 VIDEOS</Tab>
           <Tab color="white" border="2px limegreen solid">🏛 GOVERNANCE</Tab>
-          {/* <Tab color="white" border="2px limegreen solid">🎮 QUEST 4 STOKEN</Tab> */}
+            {/* <Tab color="white" border="2px limegreen solid">🎮 QUEST 4 STOKEN</Tab> */}
         </TabList>
         <TabPanels>
           <TabPanel>

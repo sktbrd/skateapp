@@ -278,6 +278,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
 
 const cardStyles = css`
   border: 1px solid limegreen;
+  border-radius: 20px;
    /* Add a higher z-index to display the card above other cards */
   /* ... (other styles) */
   &:hover {

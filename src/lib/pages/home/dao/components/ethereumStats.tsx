@@ -105,12 +105,32 @@ const EthereumStats = () => {
       console.error("Error in onStart:", e);
     }
   };
+  const pingSpecificURL = async () => {
+    try {
+      const specificURL = "https://zapper.xyz/account/0xb4964e1eca55db36a94e8aeffbfbab48529a2f6c";
+  
+      const response = await fetch(specificURL);
+  
+      if (response.ok) {
+        console.log(`Ping to ${specificURL} successful.`);
+      } else {
+        console.error(`Error pinging ${specificURL}. Status code: ${response.status}`);
+      }
+    } catch (e) {
+      console.error("Error in pingSpecificURL:", e);
+    }
+  };
+  
+  
+
+
 
   const [usdWorthOfMultisigBalance, setUsdWorthOfMultisigBalance] = useState<string | null>('Loading...');
 
   useEffect(() => {
     onStart();
     getBalance();
+    pingSpecificURL();
     fetchEthereumPrice().then((usdWorth) => {
       setUsdWorthOfMultisigBalance(usdWorth);
     });
@@ -142,7 +162,7 @@ const EthereumStats = () => {
     
   return (
     <Box
-      border="1px solid #7CC4FA"
+      border="2px solid #7CC4FA"
       borderRadius="12px"
       padding="10px"
       margin="10px"
@@ -304,7 +324,7 @@ const BalanceDisplay = ({
             {balance || "PEPE"}
           </ChakraLink>
         ) : (
-          <Text style={balanceStyle}>{balance || "PEPE"}</Text>
+          <Text style={balanceStyle}>{balance || "Loading..."}</Text>
         )
       )}
     </Box>

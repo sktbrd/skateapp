@@ -10,8 +10,8 @@ const themeConfig = {
 export const theme = extendTheme({
   ...themeConfig,
   fonts: {
-    heading: "Courier New, monospace",
-    body: "Courier New, monospace",
+    heading: "NunitoSans-Regular, sans-serif",
+    body: "NunitoSans-Bold, sans-serif",
   },
   components: {},
   styles: {

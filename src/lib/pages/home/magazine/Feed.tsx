@@ -277,8 +277,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
 `;
 
 const cardStyles = css`
-  border: 1px solid limegreen;
-  border-radius: 20px;
+
    /* Add a higher z-index to display the card above other cards */
   /* ... (other styles) */
   &:hover {
@@ -321,38 +320,8 @@ const truncateTitle = (title:any, maxCharacters = 40) => {
                 cursor="pointer"
                 css={cardStyles} /* Apply the cardStyles CSS */
               >
-                <CardHeader>
-                  <Flex>
-                    <Flex
-                      css={cardStyles} /* Apply the cardStyles CSS */
 
-                      flex="1"
-                      gap="3"
-                      borderRadius="10px"
-                      border="1px solid limegreen"
-                      alignItems="center"
-                    >
-                      <Link to={`profile/${post.author}`}>
-                        <Avatar
-                          name={post.author}
-                          border="1px solid limegreen"
-                          borderRadius="10px"
-                          src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
-                        />
-                      </Link>
-
-                      <Box>
-                        <Heading size="sm">{post.author}</Heading>
-                      </Box>
-                    </Flex>
-                    <IconButton
-                      variant="ghost"
-                      colorScheme="gray"
-                      aria-label="See menu"
-                    />
-                  </Flex>
-                </CardHeader>
-                <Box padding="20px" height="200px">
+                <Box padding="10px" height="200px">
                   <Image
                     objectFit="cover"
                     border="1px solid limegreen"
@@ -373,8 +342,9 @@ const truncateTitle = (title:any, maxCharacters = 40) => {
                                     
                   <Text 
                     fontWeight="semibold"
+                    textAlign="center"
                     color="orange"
-                    padding="13px"
+                    padding="5px"
                     >
                     {truncateTitle(post.title)}
                     </Text>
@@ -383,6 +353,27 @@ const truncateTitle = (title:any, maxCharacters = 40) => {
 
                 </CardBody>
                 <CardFooter>
+                <Flex
+                      css={cardStyles} /* Apply the cardStyles CSS */
+
+                      flex="1"
+                      gap="3"
+
+                      alignItems="center"
+                    >
+                      <Link to={`profile/${post.author}`}>
+                        <Avatar
+                          name={post.author}
+                          border="1px solid limegreen"
+                          borderRadius="10px"
+                          src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
+                        />
+                      </Link>
+
+                      <Box>
+                        <Heading size="sm">{post.author}</Heading>
+                      </Box>
+                    </Flex>
                   <Text
                     color="white"
                     style={{ display: "flex", alignItems: "center" }}
@@ -400,7 +391,7 @@ const truncateTitle = (title:any, maxCharacters = 40) => {
                       size="xs"
                       ml={2}
                     >
-                      Stoken: {post.earnings.toFixed(2)}
+                       {post.earnings.toFixed(2)}
                       <img
                         src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
                         alt="Earning"

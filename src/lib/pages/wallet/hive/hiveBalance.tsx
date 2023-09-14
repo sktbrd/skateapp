@@ -37,6 +37,8 @@ export function resetCache() {
   cache.conversionRate = undefined;
   cache.hbdPrice = undefined;
   console.log("Cache reset");
+
+
 }
 // send to utils.tsx
 export async function fetchHbdPrice() {

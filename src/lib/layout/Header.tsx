@@ -28,6 +28,9 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { keyframes } from "@emotion/react";
+import { Link as ChakraLink } from '@chakra-ui/react';
+import { Link as RouterLink } from 'react-router-dom';
+
 
 //@ts-ignore
 //import { Pioneer } from "pioneer-react";
@@ -301,15 +304,17 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       </Text>
       {/* Dropdown button */}
       <Box>
-        <Button
-          onClick={resetCache}
-          backgroundColor="black"
-          border="limegreen 2px solid"
-          color="orange"
+      <ChakraLink as={RouterLink} to="/wallet">
+      <Button
+        backgroundColor="black"
+        border="limegreen 2px solid"
+        color="orange"
+
 
         >
           {totalWorth.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
-        </Button>
+          </Button>
+    </ChakraLink>
       </Box>
     
       </Flex>

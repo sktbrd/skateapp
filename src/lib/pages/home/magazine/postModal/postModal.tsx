@@ -26,7 +26,6 @@ import Comments from './comments';
 import voteOnContent from '../../api/voting';
 import useAuthUser from '../../api/useAuthUser';
 import CommentBox from './commentBox';
-import { MarkdownRenderers } from './MarkdownRenderers';
 import * as Types from '../types';
 import MarkdownInHtmlRenderer from './CustomRenderers';
 const nodes = [

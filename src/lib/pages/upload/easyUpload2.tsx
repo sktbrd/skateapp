@@ -93,7 +93,7 @@ const MediaUpload: React.FC = () => {
           formData,
           {
             headers: {
-              'Content-Type': 'multipart/form-data',
+              'Content-Type': 'video/.mp4',
               pinata_api_key: PINATA_API_KEY,
               pinata_secret_api_key: PINATA_API_SECRET,
             },
@@ -131,15 +131,18 @@ const MediaUpload: React.FC = () => {
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     const src = URL.createObjectURL(file);
-
-    if (file.type.startsWith('video')) {
+  
+    if (file.type === 'video/mp4') { // Check if the file type is 'video/mp4'
       setMedia({ type: 'video', src });
       await uploadToIPFS(file);
-    } else if (file.type.startsWith('image')) {
-      setMedia({ type: 'image', src });
-      await uploadToIPFS(file);
+    } else {
+      // Display an error message or provide feedback to the user that the file is not supported.
+      // You can add a state variable to show an error message to the user.
+      console.error('Invalid file type. Only .mp4 files are supported.');
+      window.alert('Invalid file type. Only .mp4 files are supported. Sorry we will do better soon.');
     }
   }, []);
+  
 
   const uploadThumbnailToIPFS = async (formData: FormData) => {
     try {

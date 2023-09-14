@@ -107,6 +107,7 @@ table: ({ children, ...props }: RendererProps) => (
     </td>
     
   ),
+  
 
 };
 

@@ -343,7 +343,7 @@ const truncateTitle = (title:any, maxCharacters = 40) => {
                   <Text 
                     fontWeight="semibold"
                     textAlign="center"
-                    color="red"
+                    color="orange"
                     padding="5px"
                     >
                     {truncateTitle(post.title)}

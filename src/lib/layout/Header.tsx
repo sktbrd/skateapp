@@ -28,7 +28,7 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { keyframes } from "@emotion/react";
-import { Link as ChakraLink } from '@chakra-ui/react';
+import { Link as ChakraLink  } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
 
@@ -40,7 +40,6 @@ import HiveLogin from "lib/pages/home/api/HiveLoginModal";
 
 import { fetchHbdPrice } from "lib/pages/wallet/hive/hiveBalance";
 import { fetchConversionRate } from "lib/pages/wallet/hive/hiveBalance";
-import { resetCache } from "lib/pages/wallet/hive/hiveBalance";
 // Custom LinkTab component
 type LinkTabProps = TabProps & RouterLinkProps;
 

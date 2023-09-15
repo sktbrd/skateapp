@@ -15,7 +15,9 @@ import {
   Button,
   Text,
   useDisclosure,
-  Stack
+  Stack,
+  HStack,
+  VStack,
 } from "@chakra-ui/react";
 import EvmSendModal from "./evmSendModal";
 //@ts-ignore
@@ -82,7 +84,7 @@ const EvmBalance: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [tokenLogos, setTokenLogos] = useState({});
-  const COINGECKO_API_KEY = 'CG-we5Z4KbdYMCgMUVAqDjQMWfc'; 
+  const COINGECKO_API_KEY = process.env.VITE_APP_COINGECKO_API_KEY; 
 
  
 
@@ -141,6 +143,7 @@ if (userPortifolio && userPortifolio.data) {
   const filteredTokens = selectedBlockchain === "all"
   ? userPortifolio?.data?.tokens
   : userPortifolio?.data?.tokens.filter((token: any) => token.network === selectedBlockchain);
+  console.log()
 
 
   const copyToClipboard = (address: string): void => {
@@ -179,48 +182,86 @@ if (userPortifolio && userPortifolio.data) {
 
   return (
     <Box
-      className="hive_box"
       borderRadius="12px"
       border="1px solid blue"
       padding="10px"
       overflow="auto"
       fontFamily="'Courier New', monospace"
     >
-      {pubkeyContext && loading ? (
-        <Flex flexDirection="column" alignItems="center" justifyContent="center" height="200px">
+      {!pubkeyContext ? (
+        <Flex flexDirection="column" alignItems="center" justifyContent="center">
+          <Text>Connect Wallet</Text>
+          <Pioneer></Pioneer>
+        </Flex>
+      ) : loading ? (
+        <Flex flexDirection="column" alignItems="center" justifyContent="center">
           <Spinner size="xl" color="limegreen" />
           <Text mt={4}>Loading balances... So many tokens uaau !</Text>
         </Flex>
       ) : (
         <>
-          <Text
-            textAlign="center"
-            borderRadius="12px"
-            fontWeight="700"
-            fontSize="18px"
-            color="limegreen"
-            padding="10px"
-          >
-            Multichain Balance
-          </Text>
-          <Flex justifyContent={"space-between"}>
-            <Stack spacing={3}>
-              <Box>
-                <h2>Total Balance (App):</h2>
-                <p>{(userPortifolio?.data.totalBalanceUSDApp ?? 0).toFixed(2)} USD</p>
-              </Box>
-              <Box>
-                <h2>Total Balance (Tokens):</h2>
-                <p>{(userPortifolio?.data.totalBalanceUsdTokens ?? 0).toFixed(2)} USD</p>
-              </Box>
-              <Box>
-                <h2>Total Net Worth:</h2>
-                <p>{(userPortifolio?.data.totalNetWorth ?? 0).toFixed(2)} USD</p>
-              </Box>
-            </Stack>
-            <Pioneer></Pioneer>
-          </Flex>
+<Box border="1px solid blue" borderRadius="12px" p="20px">
+  <Text
+    textAlign="center"
+    fontWeight="700"
+    fontSize="18px"
+    color="limegreen"
+    mb="20px" // Add margin to the bottom
+  >
+    Multichain Balance
+  </Text>
 
+  <Flex alignItems="center" justifyContent="space-between" flexDirection={{ base: 'column', md: 'row' }}>
+  <Flex
+    alignItems="center"
+    justifyContent="center"
+    flex="1" // This allows it to take half the available width
+    border="1px solid blue"
+    borderRadius="10px"
+    width="20%"
+    padding="5px"
+  >
+    <Pioneer  />
+    <Text> Select Wallets</Text>
+  </Flex>
+
+  <VStack spacing={3} ml={{ base: '0', md: '20px' }}>
+  <Box>
+    <Text fontWeight="bold"> Stable:</Text>
+    <HStack justifyContent="center">
+      <Text>
+        {(userPortifolio?.data.totalBalanceUSDApp ?? 0).toFixed(2)} USD
+      </Text>
+    </HStack>
+  </Box>
+  <Box>
+    <Text fontWeight="bold"> Tokens:</Text>
+    <HStack justifyContent="center">
+      <Text>
+        {(userPortifolio?.data.totalBalanceUsdTokens ?? 0).toFixed(2)} USD
+      </Text>
+    </HStack>
+  </Box>
+  <Box>
+    <Text fontWeight="bold"> NetWorth:</Text>
+    <HStack justifyContent="center">
+      <Text>
+        {(userPortifolio?.data.totalNetWorth ?? 0).toFixed(2)} USD
+      </Text>
+    </HStack>
+  </Box>
+</VStack>
+
+</Flex>
+
+
+
+</Box>
+
+
+
+
+  
           <Flex align="center">
             <Select
               value={selectedBlockchain}
@@ -270,12 +311,13 @@ if (userPortifolio && userPortifolio.data) {
               </Tbody>
             </Table>
           )}
-
+  
           <EvmSendModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} tokenInfo={selectedTokenInfo} />
         </>
       )}
     </Box>
-);
+  );
+  
 
 
 

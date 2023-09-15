@@ -41,7 +41,7 @@ const MarkdownInHtmlRenderer: React.FC<{ content?: string }> = ({ content = '' }
     display: 'flex',
     justifyContent: 'center',
     border: '1px solid limegreen',
-    borderRadius: '10px',
+    borderRadius: '20px',
     maxWidth: '80%', // Set the maximum width for the iframe
     margin: '0 auto', // Center horizontally
   }}

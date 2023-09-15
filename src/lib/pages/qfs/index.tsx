@@ -73,7 +73,7 @@ export default function QFS() {
 
     setRewardPool({
       name: post.title,
-      link: `https://peakd.com/@${post.author}/${post.permlink}`,
+      link: `https://skatehive.app/profile/@${post.author}/${post.permlink}`,
       reward,
       isVoted
     });
@@ -324,19 +324,28 @@ export default function QFS() {
                 <Th>Highscore</Th>
               </Tr>
             </Thead>
-            <Tbody>
-              {leaderboard.map((user, index) => (
-                <Tr key={index}>
-                  <Td>{index + 1}</Td>
-                  <Td>
-                    <Link style={{textDecoration: 'none'}} href={"https://peakd.com/@" + user.username} isExternal>
-                    @{user.username}
-                    </Link>
-                  </Td>
-                  <Td isNumeric>{user.highscore}</Td>
-                </Tr>
-              ))}
-            </Tbody>
+  <Tbody>
+    {leaderboard.map((user, index) => (
+      <Tr key={index}>
+        <Td>{index + 1}</Td>
+        <Td>
+          <Image
+            src={`https://images.hive.blog/u/${user.username}/avatar`}
+            alt="profile avatar"
+            borderRadius="10px"
+            border="2px solid limegreen"
+            boxSize="20px"
+          />
+        </Td>
+        <Td>
+          <Link style={{ textDecoration: 'none' }} href={"https://peakd.com/@" + user.username} isExternal>
+            @{user.username}
+          </Link>
+        </Td>
+        <Td isNumeric>{user.highscore}</Td>
+      </Tr>
+    ))}
+  </Tbody>
           </Table>
         </Flex>
 

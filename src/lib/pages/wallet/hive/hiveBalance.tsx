@@ -183,7 +183,9 @@ export default function HiveBalanceDisplay() {
     console.log(`Clicked ${balanceType} logo`);
     console.log(user);
     setShowModal(true);
+    console.log(showModal); // Check the value of showModal
   };
+  
 
   const handleLogoClick = (balanceType: string) => {
     console.log(`Clicked ${balanceType} logo`);
@@ -351,6 +353,7 @@ export default function HiveBalanceDisplay() {
         setAmount={setAmount}
         handleTransfer={handleTransfer}
       />
+      
     </Box>
   );
   

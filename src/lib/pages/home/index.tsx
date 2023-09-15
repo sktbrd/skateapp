@@ -16,28 +16,28 @@ import QFS from "../qfs";
             <Tab
               color="white"
               border="1px limegreen solid"
-              _selected={{ backgroundColor: "blue.500" }} // Change the background color when selected
+              _selected={{ backgroundColor: "limegreen",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
               📜 FEED
             </Tab>
             <Tab
-              color="white"
+              color="white" 
               border="1px limegreen solid"
-              _selected={{ backgroundColor: "blue.500" }} // Change the background color when selected
+              _selected={{ backgroundColor: "limegreen",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
               📹 VIDEOS
             </Tab>
             <Tab
               color="white"
               border="2px limegreen solid"
-              _selected={{ backgroundColor: "blue.500" }} // Change the background color when selected
+              _selected={{ backgroundColor: "limegreen",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
               🎮 PLAY
             </Tab>
             <Tab
               color="white"
               border="1px limegreen solid"
-              _selected={{ backgroundColor: "blue.500" }} // Change the background color when selected
+              _selected={{ backgroundColor: "limegreen" ,color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
               🏛 GOVERN.
             </Tab>

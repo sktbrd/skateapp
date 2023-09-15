@@ -320,6 +320,7 @@ export default function QFS() {
             <Thead>
               <Tr>
                 <Th>#</Th>
+                <Th>User</Th>
                 <Th>Username</Th>
                 <Th>Highscore</Th>
               </Tr>
@@ -334,7 +335,7 @@ export default function QFS() {
             alt="profile avatar"
             borderRadius="10px"
             border="2px solid limegreen"
-            boxSize="20px"
+            boxSize="35px"
           />
         </Td>
         <Td>

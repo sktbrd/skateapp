@@ -265,7 +265,7 @@ const DaoStatus = () => {
                 <Divider paddingTop="10px" orientation="horizontal" colorScheme="limegreen" />
 
                 <Text fontSize="24px" fontWeight="bold" color="limegreen" marginBottom="10px">
-                  ETH Treasure
+                  ETH Treasurey
                 </Text>
                 <Text fontSize="18px" fontWeight="bold" marginBottom="5px">
                   {ethereumBalance ? `${ethereumBalance.toFixed(3)} ETH` : "Fetching..."}
@@ -307,7 +307,7 @@ const DaoStatus = () => {
                 <Divider paddingTop="10px" orientation="horizontal" colorScheme="limegreen" />
 
                 <Text fontSize="24px" fontWeight="bold" color="limegreen" marginBottom="10px">
-                  Hive Treasure
+                  Hive Treasurey
                 </Text>
                 <Text fontSize="18px" fontWeight="bold" marginBottom="5px">
                   2112.96 USD

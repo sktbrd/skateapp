@@ -12,6 +12,7 @@ const BeCool = React.lazy(() => import("lib/pages/profile/beCool")); // Update t
 const TutorialPage = React.lazy(() => import("lib/pages/home/tutorialPage")); // Update the path accordingly
 const PostPage = React.lazy(() => import("lib/pages/postpage")); // Update the path accordingly
 const MediaUpload = React.lazy(() => import("lib/pages/upload/easyUpload2")); // Update the path accordingly
+const QFS = React.lazy(() => import("lib/pages/qfs")); // Update the path accordingly
 export const routes: Array<PathRouteProps> = [
   {
     path: "/",
@@ -59,6 +60,10 @@ export const routes: Array<PathRouteProps> = [
 {
   path: "/easy-upload2",
   element: <MediaUpload />,
+},
+{
+  path: "/qfs",
+  element: <QFS />,
 },
 
 ];

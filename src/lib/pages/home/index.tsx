@@ -3,6 +3,7 @@ import HiveBlog from "./magazine/Feed";
 import HiveVideos from "./videos/FeedVideo";
 import SnapShot from "./dao/snapshot";
 import Chat from "./chat";
+import QFS from "../qfs";
 
 const Home = () => {
   return (
@@ -12,7 +13,7 @@ const Home = () => {
           <Tab color="white" border="1px limegreen solid">📜 FEED</Tab>
           <Tab color="white" border="1px limegreen solid">📹 VIDEOS</Tab>
           <Tab color="white" border="1px limegreen solid">🏛 GOVERNANCE</Tab>
-            {/* <Tab color="white" border="2px limegreen solid">🎮 QUEST 4 STOKEN</Tab> */}
+            <Tab color="white" border="2px limegreen solid">🎮 QUEST 4 STOKEN</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -23,6 +24,9 @@ const Home = () => {
           </TabPanel>
           <TabPanel>
             <SnapShot />
+          </TabPanel>
+          <TabPanel>
+            <QFS />
           </TabPanel>
         </TabPanels>
       </Tabs>

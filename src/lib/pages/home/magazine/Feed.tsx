@@ -45,7 +45,7 @@ const placeholderEarnings = 69.42;
 
 const randomSentences = [
   "Don't mall grab, or do it.",
-  "'Ok to push Mongo, it is...' - Master Yoda",
+  "Ok to push Mongo, it is... - Master Yoda",
   "Roll one and play some stoken.quest",
   "Ready to grind on chain?",
   "Loading Stokenomics...",
@@ -341,7 +341,7 @@ const truncateTitle = (title:any, maxCharacters = 90) => {
                     fontWeight="semibold"
                     textAlign="center"
                     color="orange"
-                    padding="5px"
+                    //padding="20px"
                     >
                     {truncateTitle(post.title)}
                     </Text>
@@ -354,7 +354,7 @@ const truncateTitle = (title:any, maxCharacters = 90) => {
                       css={cardStyles} /* Apply the cardStyles CSS */
 
                       flex="1"
-                      gap="3"
+                      gap="1"
 
                       alignItems="center"
                     >
@@ -395,8 +395,8 @@ const truncateTitle = (title:any, maxCharacters = 90) => {
                         src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
                         alt="Earning"
                         style={{
-                          width: "22px",
-                          height: "22px",
+                          width: "20px",
+                          height: "20px",
                           marginLeft: "7px",
                           marginBottom: "2px",
                         }}

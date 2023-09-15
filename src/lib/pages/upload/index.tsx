@@ -10,32 +10,37 @@ import {
 } from '@chakra-ui/react';
 import MediaUpload from './easyUpload2';
 import AdvancedUpload from './advancedUpload';
-
+import Chat from '../home/chat';
 const UploadPage = () => {
     const [tabIndex, setTabIndex] = useState(0);
 
   return (
-    <Tabs  variant="soft-rounded" index={tabIndex} colorScheme='green' onChange={(index) => setTabIndex(index)}>
-      <TabList justifyContent={"center"} >
-        <Tab>Post a video 🛹 </Tab>
-        <Tab>Advanced Post 	👩‍💻 </Tab>
-      </TabList>
-      <TabPanels>
-        <TabPanel>
+    <Box position="relative">  {/* This wrapper Box is added to position the Chat component correctly */}
+      <Tabs variant="soft-rounded" index={tabIndex} colorScheme='green' onChange={(index) => setTabIndex(index)}>
+        <TabList justifyContent={"center"}>
+          <Tab>Post a video 🛹 </Tab>
+          <Tab>Advanced Post 👩‍💻 </Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
             <MediaUpload />
-        </TabPanel>
-        <TabPanel>
-        <AdvancedUpload
-  title=""
-  content=""
-  author=""
-  user={null} // Initially, user data is null or empty
-  permlink=""
-  weight={0} // Set an appropriate default weight value
-/>
-        </TabPanel>
-      </TabPanels>
-    </Tabs>
+          </TabPanel>
+          <TabPanel>
+            <AdvancedUpload
+              title=""
+              content=""
+              author=""
+              user={null}  // Initially, user data is null or empty
+              permlink=""
+              weight={0}  // Set an appropriate default weight value
+            />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+
+      {/* Include the Chat component */}
+      <Chat />
+    </Box>
   );
 }
 

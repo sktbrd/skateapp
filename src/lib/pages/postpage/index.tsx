@@ -137,7 +137,8 @@ const PostPage: React.FC = () => {
       const storedUsername = userObject.name;
       setUsername(storedUsername);
       console.log('username:', storedUsername);
-      console.log(post);
+      console.log(post)
+
     }
   }, []);
 

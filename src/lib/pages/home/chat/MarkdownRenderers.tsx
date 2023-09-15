@@ -50,19 +50,7 @@ hr: ({ children, ...props }: RendererProps) => <hr {...props} style={{ paddingBo
 strong: ({ children, ...props }: RendererProps) => <strong {...props} style={{ color: 'yellow' }}>{children}</strong>,
 
 br: ({ children, ...props }: RendererProps) => <br {...props} style={{ paddingBottom: '20px' }}>{children}</br>,
-iframe: ({ ...props }: RendererProps) => (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-    <iframe 
-        {...props} 
-        style={{ 
-        border: '1px solid limegreen', 
-        borderRadius: '10px', 
-        width: '560px',
-        height: '315px',
-        }} 
-    /> 
-    </div>
-),
+
 table: ({ children, ...props }: RendererProps) => (
     <div style={{ overflowX: 'auto' }}>
       <table {...props} style={{ borderCollapse: 'collapse', width: '100%' }}>
@@ -107,7 +95,6 @@ table: ({ children, ...props }: RendererProps) => (
     </td>
     
   ),
-  
 
 };
 

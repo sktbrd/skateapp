@@ -11,28 +11,17 @@ import { theme } from "lib/styles/theme";
 
 
 
-// @ts-ignore
-const ForceDarkMode = ({ children }) => {
-  const { setColorMode } = useColorMode();
 
-  useEffect(() => {
-    setColorMode("dark");
-  }, [setColorMode]);
-
-  return <>{children}</>;
-};
 
 const App = () => {
   return (
    <PioneerProvider>
       <ChakraProvider theme={theme}>
-        <ForceDarkMode>
           <Router>
             <Layout>
               <Routings />
             </Layout>
           </Router>
-        </ForceDarkMode>
       </ChakraProvider>
    </PioneerProvider>
   );

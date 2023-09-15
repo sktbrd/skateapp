@@ -2,7 +2,7 @@ import Page404 from "lib/pages/404";
 import UploadPage from "lib/pages/upload";
 import React from "react";
 import type { PathRouteProps } from "react-router-dom";
-import SimpleUploadPage from "lib/pages/upload/easyUpload"; // Import the UploadPage component
+
 
 const Home = React.lazy(() => import("lib/pages/home"));
 const Wallet = React.lazy(() => import("lib/pages/wallet"));

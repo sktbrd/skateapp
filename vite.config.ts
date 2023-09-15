@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 import { defineConfig } from "vite";
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
-import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
 import cors from 'cors'; // Import the 'cors' package
 
@@ -15,12 +14,19 @@ export default defineConfig(({}) => {
   // Load env file based on `mode` in the current working directory.
   // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
   // const env = loadEnv(mode, process.cwd(), '')
+
+  const allowedOrigins = [
+    'https://www.skatehive.app',
+    'https://hub.snapshot.org/graphql',
+    // Add more domains as needed
+  ];
+
   return {
     // vite config
     server: {
       middleware: [
         cors({
-          origin: 'https://www.skatehive.app', // Allow requests from your domain
+          origin: allowedOrigins, // Allow requests from your domain
         }),
       ],
     },
@@ -30,6 +36,7 @@ export default defineConfig(({}) => {
       'process.env.VITE_RECAPTCHA_SITE_KEY': JSON.stringify(process.env.VITE_RECAPTCHA_SITE_KEY),
       'process.env.PINATA_API_KEY': JSON.stringify(process.env.PINATA_API_KEY),
       'process.env.PINATA_SECRET_API_KEY': JSON.stringify(process.env.PINATA_SECRET_API_KEY),
+      'process.env.VITE_ETHERSCAN_API': JSON.stringify(process.env.VITE_ETHERSCAN_API_KEY),
     },
     
     plugins: [react()],

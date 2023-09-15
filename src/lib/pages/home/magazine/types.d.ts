@@ -18,6 +18,12 @@ created: string;
 net_votes: number;
 permlink: string;
 url: string;
+parentId: string; // Add this field to store the parent ID
+id: string; // Add this field to store the unique identifier of the comment
+replies: CommentProps[]; 
+limit: number;
+
+
 
 }
 export interface CommentsProps {

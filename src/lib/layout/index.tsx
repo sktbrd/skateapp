@@ -13,9 +13,9 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div>
       <HeaderNew />
-      <Box margin="0 auto" maxWidth={"100%"} transition="0.5s ease-out">
+      <Box margin="0 auto" minWidth={"100%"} transition="0.5s ease-out">
         <Meta />
-        <Flex wrap="wrap" margin="8" minHeight="90vh">
+        <Flex wrap="wrap" margin="0" minHeight="90vh">
           <Box width="full" as="main" marginY={22}>
             {children}
           </Box>

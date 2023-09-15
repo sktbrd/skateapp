@@ -105,20 +105,23 @@ const HiveVideos: React.FC = () => {
                   </div>
                 </Box>
               <Box >
-                <ChakraText ml={2}>{post.author}</ChakraText>
-                <Avatar 
-                  src={`https://images.hive.blog/u/${post.author}/avatar`} 
-                  size="md" 
-
-                  borderRadius="8px" />
+                
               </Box>
-                <Box textAlign="right">
+                <Box >
+                  
                   <Button 
                     border="1px solid limegreen" 
-                    onClick={() => openPostModal(post)}>Open Original Post
+                    borderRadius="20px"
+                    onClick={() => openPostModal(post)}>
+                      Video Info
+                    <ChakraText ml={2}>{post.author}</ChakraText>
+                <Avatar 
+                  src={`https://images.hive.blog/u/${post.author}/avatar`} 
+                  size="sm" 
+                  borderRadius="8px" />
                   </Button>
                 </Box>
-                
+
               </Box>
             ))
           ) : null;

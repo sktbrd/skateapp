@@ -8,13 +8,15 @@ import {
   getUpdate,
 } from "lib/pages/qfs/gamestore";
 
-const API = "http://localhost:3000/";
+// API URL
+const API = "https://www.stoken.quest/";
 
 export default function QFS() {
   
   const { user } = useAuthUser();
   const { isLoggedIn } = useAuthUser();
 
+  // interfaces for API data
   interface UserStats {
     username: string;
     highscore: number;
@@ -43,6 +45,7 @@ export default function QFS() {
   const [bestTimes, setBestTimes] = useState<BestTimes[]>([]);
   const [rewardPool, setRewardPool] = useState<RewardPool>();
 
+  // utility functions for API
   const getLeaderboard = async () => {
     const response = await fetch(API + "leaderboard");
     const data = await response.json();
@@ -61,9 +64,11 @@ export default function QFS() {
 
     const { post } = data;
 
+    // calculate reward pool after deducting curation and hive power
     const pendingPayout = parseFloat(post.pending_payout_value.split(' ')[0]) / 2;
     const reward = (pendingPayout / 2).toFixed(3);
 
+    // check if user has already voted (for later use)
     const isVoted = post.active_votes.some((vote: any) => vote.voter === user?.name);
 
     setRewardPool({
@@ -75,11 +80,13 @@ export default function QFS() {
   };
 
   const loadUserStats = async () => {
+    // if user is not logged in load game without stats
     if (!user?.name) {
       loadGame();
       return;
     }
 
+    // get user stats from API
     const response = await fetch(API + "getuser/" + user?.name);
     const data = await response.json();
     setUserStats({
@@ -88,6 +95,7 @@ export default function QFS() {
       time: data.time,
     });
 
+    // event that is used to detect changes in local storage (game storage)
     window.addEventListener('storage', async () => {
       const update = getUpdate();
 
@@ -99,8 +107,10 @@ export default function QFS() {
       }
     });
 
+    // trigger event to check for changes in game storage
     window.dispatchEvent(new Event('storage'));
 
+    // load game iframe
     loadGame();
   };
 
@@ -112,10 +122,12 @@ export default function QFS() {
 
   const pushStats = async () => {
 
+    // get user stats from game storage
     const username = getStore("Username") || "guest";
     const highscore = getStore("Highscore") || 0;
     const time = getStore("Time") || 0;
 
+    // if user is guest, don't push stats
     if (username === "guest") {
       return;
     }
@@ -146,6 +158,7 @@ export default function QFS() {
   };
 
   useEffect(() => {
+    // get reward pool, leaderboard and best times on page load/user login
     getRewardPool();
     getLeaderboard();
     getBestTimes();
@@ -155,18 +168,17 @@ export default function QFS() {
 
   useEffect(() => {
     if (userStats.username !== "guest") {
+      // if user is not guest, save stats to game storage
       setStore("Username", userStats.username);
     } else {
+      // if user is guest, remove stats from game storage
       removeStore("Username");
     }
+
+    // save stats to game storage
     setStore("Highscore", userStats.highscore);
     setStore("Time", userStats.time);
   }, [userStats]);
-
-  useEffect(() => {
-    
-  }, []);
-
 
   return (
     <Flex
@@ -250,13 +262,9 @@ export default function QFS() {
       <iframe width="1280" height="720" style={{background: "#000000"}} />
       </Box>
 
-      <Text fontSize="3xl">{rewardPool?.name || "The Quest For Stoken!"}</Text>
-      <Text marginBottom={ 5}>
+      <Text fontSize="3xl">
         <Link style={{textDecoration: 'none'}} href={rewardPool?.link || "https://peakd.com/@stoken.quest/"} isExternal>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
-            <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
-          </svg>
+          {rewardPool?.name || "The Quest For Stoken!"}
         </Link>
       </Text>
 

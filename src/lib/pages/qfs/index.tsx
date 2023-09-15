@@ -377,7 +377,7 @@ export default function QFS() {
           />
         </Td>
         <Td bg="black"> {/* Set background color for the cell */}
-          <Link style={{ textDecoration: 'none' }} href={"https://skatehive.app/post/" + user.username} isExternal>
+          <Link style={{ textDecoration: 'none' }} href={"https://skatehive.app/profile/" + user.username} isExternal>
             @{user.username}
           </Link>
         </Td>
@@ -437,7 +437,7 @@ export default function QFS() {
           />
         </Td>
         <Td bg="black"> {/* Set background color for the cell */}
-          <Link style={{ textDecoration: 'none' }} href={"https://peakd.com/@" + user.username} isExternal>
+          <Link style={{ textDecoration: 'none' }} href={"https://skatehive.app/profile/" + user.username} isExternal>
             @{user.username}
           </Link>
         </Td>

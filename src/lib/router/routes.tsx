@@ -11,6 +11,7 @@ const AuthorProfilePage = React.lazy(() => import("lib/pages/profile/authorProfi
 const BeCool = React.lazy(() => import("lib/pages/profile/beCool")); // Update the path accordingly
 const TutorialPage = React.lazy(() => import("lib/pages/home/tutorialPage")); // Update the path accordingly
 const PostPage = React.lazy(() => import("lib/pages/postpage")); // Update the path accordingly
+const QFS = React.lazy(() => import("lib/pages/qfs")); // Update the path accordingly
 export const routes: Array<PathRouteProps> = [
   {
     path: "/",
@@ -50,7 +51,11 @@ export const routes: Array<PathRouteProps> = [
 {
     path: "/profile/:username",
     element: <AuthorProfilePage />,
-}
+},
+{
+  path: "/qfs",
+  element: <QFS />,
+},
 
 ];
 

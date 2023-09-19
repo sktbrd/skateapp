@@ -40,7 +40,7 @@ const nodes = [
 ];
 
 const defaultThumbnail =
-  "https://images.ecency.com/u/hive-173115/avatar/large";
+  "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia3.giphy.com%2Fmedia%2F7zJgqvSbjBH2M%2Fgiphy.gif&f=1&nofb=1&ipt=bc07296593e03a4e1a7678e540f9997367e9e43729cb81956c5df4fbc3fabcae&ipo=images";
 const placeholderEarnings = 69.42;
 
 const randomSentences = [
@@ -71,7 +71,7 @@ const PlaceholderLoadingBar = () => {
 
 const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   queryType = "created",
-  tag = "hive-173115",
+  tag = "hive-141964",
 }) => {
   const [loadedPosts, setLoadedPosts] = useState<any[]>([]);
   const [currentTag, setTag] = useState(tag);
@@ -273,11 +273,11 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   const cardHoverStyles = css`
   transform: scale(1.01); /* Increase size by 5% */
   transition: transform 0.2s ease-in-out; /* Add a smooth transition effect */
-  box-shadow: 0 0 150px rgba(0, 128, 0, 0.5); /* Add a green box shadow for the glow effect */
+  box-shadow: 0 0 150px teal; /* Add a green box shadow for the glow effect */
 `;
 
 const cardStyles = css`
-  border: 1px solid limegreen;
+  border: 1px solid teal;
   border-radius: 20px;
    /* Add a higher z-index to display the card above other cards */
   /* ... (other styles) */
@@ -312,8 +312,8 @@ const truncateTitle = (title:any, maxCharacters = 40) => {
             {loadedPosts.map((post) => (
               <Card
                 border="1px"
-                borderColor="limegreen"
-                bg="black"
+                borderColor="teal"
+                bg="white"
                 key={post.permlink}
                 maxW="md"
                 mb={4}
@@ -329,20 +329,20 @@ const truncateTitle = (title:any, maxCharacters = 40) => {
                       flex="1"
                       gap="3"
                       borderRadius="10px"
-                      border="1px solid limegreen"
+                      border="1px solid teal"
                       alignItems="center"
                     >
                       <Link to={`profile/${post.author}`}>
                         <Avatar
                           name={post.author}
-                          border="1px solid limegreen"
+                          border="1px solid teal"
                           borderRadius="10px"
                           src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
                         />
                       </Link>
 
                       <Box>
-                        <Heading size="sm">{post.author}</Heading>
+                        <Heading color="teal" size="sm">{post.author}</Heading>
                       </Box>
                     </Flex>
                     <IconButton
@@ -355,7 +355,7 @@ const truncateTitle = (title:any, maxCharacters = 40) => {
                 <Box padding="20px" height="200px">
                   <Image
                     objectFit="cover"
-                    border="1px solid limegreen"
+                    border="1px solid teal"
                     borderRadius="10px"
                     src={post.thumbnail}
                     alt="Post Thumbnail"
@@ -365,7 +365,7 @@ const truncateTitle = (title:any, maxCharacters = 40) => {
                 </Box>
                 <CardBody>
                   <Box
-                    border="1px solid limegreen"
+                    border="1px solid teal"
                     borderRadius="10px"
                     minWidth="100%"
                     minHeight="100%"
@@ -373,7 +373,7 @@ const truncateTitle = (title:any, maxCharacters = 40) => {
                                     
                   <Text 
                     fontWeight="semibold"
-                    color="orange"
+                    color="teal"
                     padding="13px"
                     >
                     {truncateTitle(post.title)}
@@ -384,7 +384,7 @@ const truncateTitle = (title:any, maxCharacters = 40) => {
                 </CardBody>
                 <CardFooter>
                   <Text
-                    color="white"
+                    color="black"
                     style={{ display: "flex", alignItems: "center" }}
                   >
                     <Button

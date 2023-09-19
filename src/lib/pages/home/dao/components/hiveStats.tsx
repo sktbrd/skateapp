@@ -5,6 +5,7 @@ import { fetchHbdPrice, fetchConversionRate } from 'lib/pages/wallet/hive/hiveBa
 import axios from 'axios';
 import { cache } from 'lib/pages/wallet/hive/hiveBalance';
 import { Link as ChakraLink } from "@chakra-ui/react";
+import { read } from 'fs';
 
 const dhiveClient = new dhive.Client([
     "https://api.hive.blog",
@@ -24,6 +25,8 @@ const HiveStats = () => {
     const [hbdbalance, setHbdbalance] = useState<string>("0");
     const [total, setTotal] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(true);
+    const [witnessVotes, setWitnessVotes] = useState<string>("0.00"); // State variable for witness votes
+    const [readableWitnessVotes, setReadableWitnessVotes] = useState<string>("0"); // Keep it as a string
 
     const convertVestingSharesToHivePower = async (
       vestingShares: string,
@@ -98,6 +101,45 @@ const HiveStats = () => {
     useEffect(() => {
         fetchHiveStats();
     }, []);
+
+    const fetchWitnessVotes = async () => {
+      
+      try {
+
+          // Fetch dynamic global properties to get total_vesting_fund_hive and total_vesting_shares
+          const dynamicGlobalProperties = await dhiveClient.call('condenser_api', 'get_dynamic_global_properties', []);
+          const totalVestingFundHive = parseFloat(dynamicGlobalProperties.total_vesting_fund_hive);
+          const totalVestingShares = parseFloat(dynamicGlobalProperties.total_vesting_shares);
+          const witnessInfo = await dhiveClient.call('condenser_api', 'get_witness_by_account', ['skatehive']);
+          const votesInVest = parseFloat(witnessInfo.votes);
+          // Calculate Hive Power using the formula
+          const hivePower = votesInVest * (totalVestingFundHive / totalVestingShares);
+        
+          setWitnessVotes((hivePower / 1000000).toString());
+
+          // Format Hive Power as a string with two decimal places
+
+          setReadableWitnessVotes((hivePower / 1000000000000).toFixed(2)  );
+      } catch (error) {
+          console.error("Error fetching witness votes:", error);
+      }
+  };
+  
+  
+  
+
+  useEffect(() => {
+      // Fetch initial witness voters data
+      fetchWitnessVotes();
+
+      // Periodically fetch the latest witness voters data every, for example, 5 minutes
+      const intervalId = setInterval(fetchWitnessVotes, 5 * 60 * 1000);
+
+      // Clear the interval when the component unmounts
+      return () => clearInterval(intervalId);
+  }, []);
+
+  
 
     return (
         <Box
@@ -185,7 +227,7 @@ const HiveStats = () => {
                                 width="20px"
                                 height="20px"
                             />
-                            <ChakraLink target="_blank" href="https://vote.hive.uno/@skatehive" fontSize="16px">Witness: 1.7M </ChakraLink>
+                            <ChakraLink target="_blank" href="https://vote.hive.uno/@skatehive" fontSize="16px"> Witness: {readableWitnessVotes}M</ChakraLink>
                         </HStack>
                         </Tooltip>
 

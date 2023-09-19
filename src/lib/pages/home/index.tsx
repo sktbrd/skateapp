@@ -10,34 +10,34 @@ import QFS from "../qfs";
     const { selectedIndex, ...tabProps } = useTabs({});
   
     return (
-      <Flex backgroundColor="black" direction="column" alignItems="center" justifyContent="center">
+      <Flex backgroundColor="white" direction="column" alignItems="center" justifyContent="center">
         <Tabs isFitted variant="enclosedyarn" width="100%" colorScheme="yellow" {...tabProps}>
           <TabList mb="1em" width="100%">
             <Tab
-              color="white"
-              border="1px limegreen solid"
-              _selected={{ backgroundColor: "limegreen",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
+              color="teal"
+              border="1px teal solid"
+              _selected={{ backgroundColor: "teal",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
               📜 FEED
             </Tab>
             <Tab
-              color="white" 
-              border="1px limegreen solid"
-              _selected={{ backgroundColor: "limegreen",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
+              color="teal" 
+              border="1px teal solid"
+              _selected={{ backgroundColor: "teal",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
               📹 VIDEOS
             </Tab>
             <Tab
-              color="white"
-              border="2px limegreen solid"
-              _selected={{ backgroundColor: "limegreen",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
+              color="teal"
+              border="2px teal solid"
+              _selected={{ backgroundColor: "teal",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
               🎮 PLAY
             </Tab>
             <Tab
-              color="white"
-              border="1px limegreen solid"
-              _selected={{ backgroundColor: "limegreen" ,color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
+              color="teal"
+              border="1px teal solid"
+              _selected={{ backgroundColor: "teal" ,color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
               🏛 GOVERN.
             </Tab>
@@ -47,7 +47,7 @@ import QFS from "../qfs";
               <HiveBlog />
             </TabPanel>
             <TabPanel>
-              <HiveVideos />
+              {/* <HiveVideos /> */}
             </TabPanel>
             <TabPanel>
               <QFS />

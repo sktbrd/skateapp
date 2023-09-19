@@ -17,11 +17,11 @@ export const theme = extendTheme({
   styles: {
     global: (props: GlobalStyleProps) => ({
       body: {
-        backgroundColor: "black",
+        backgroundColor: "white",
         color: props.colorMode === "dark" ? "white" : "black",
       },
       p: {
-        color: "limegreen",
+        color: "teal",
       },
       // Style for Webkit scrollbars
       "::-webkit-scrollbar": {

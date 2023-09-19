@@ -185,13 +185,13 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
   const glow = keyframes`
     0% {
-      box-shadow: 0 0 5px rgba(0, 255, 0, 0.8);
+      box-shadow: 0 0 5px teal);
     }
     50% {
-      box-shadow: 0 0 30px rgba(0, 255, 0, 2);
+      box-shadow: 0 0 30px white);
     }
     100% {
-      box-shadow: 0 0 5px rgba(0, 255, 0, 0.8);
+      box-shadow: 0 0 5px teal);
     }
   `;
   const enlargeOnHover = keyframes`
@@ -221,19 +221,20 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       alignItems="center"
       justifyContent="space-between"
       p={6}
-      bg="black"
-      border="1px solid limegreen"
+      bg="teal"
+      border="1px solid teal"
       position="relative"
       borderRadius="10px"
     >
 
       <Flex width="100%" justifyContent="space-between" alignItems="center" mb={{ base: 2, md: 0 }}>
       <Menu>
+        
       <MenuButton
           as={Button}
-          backgroundColor="black"
-          border="limegreen 1px solid"
-          color="limegreen"
+          backgroundColor="teal"
+          border="teal 1px solid"
+          color="teal"
           size="l"
           css={{
             animation: `${glow} 2s infinite alternate , ${moveUpAndDown} 3s infinite` ,
@@ -243,49 +244,49 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           }}
         >
           <Image
-            src="https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75"
+            src="https://images.hive.blog/u/hive-141964/avatar"
             alt="Dropdown Image"
             boxSize="48px" // Adjust the size as needed
             borderRadius="10px"
           />
         </MenuButton>
-        <MenuList border="1px solid limegreen" backgroundColor="black" color="white">
+        <MenuList border="1px solid teal" backgroundColor="teal" color="white">
           <Link to="https://snapshot.org/#/skatehive.eth" style={{ textDecoration: 'none' }}>
             <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
+              _hover={{ backgroundColor: 'white', color: 'teal' }} // Invert colors on hover
+              backgroundColor="teal"
             >
               Governance
             </MenuItem>
           </Link>
           <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" style={{ textDecoration: 'none' }}>
             <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
+              _hover={{ backgroundColor: 'white', color: 'teal' }} // Invert colors on hover
+              backgroundColor="teal"
             >
               Curation Trail
             </MenuItem>
           </Link>
           <Link to="https://www.stoken.quest/" style={{ textDecoration: 'none' }}>
             <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
+              _hover={{ backgroundColor: 'white', color: 'teal' }} // Invert colors on hover
+              backgroundColor="teal"
             >
               Quest For Stoken
             </MenuItem>
           </Link>
           <Link to="https://docs.skatehive.app" style={{ textDecoration: 'none' }}>
             <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
+              _hover={{ backgroundColor: 'white', color: 'teal' }} // Invert colors on hover
+              backgroundColor="teal"
             >
               Docs
             </MenuItem>
           </Link>
           <Link to="/becool" style={{ textDecoration: 'none' }}>
             <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
+              _hover={{ backgroundColor: 'white', color: 'teal' }} // Invert colors on hover
+              backgroundColor="teal"
             >
               How to be Cool
             </MenuItem>
@@ -294,6 +295,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         </MenuList>
 
       </Menu>
+
       <Text 
         fontSize={fontSize} 
         fontWeight="medium" 
@@ -305,13 +307,13 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       <Box>
       <ChakraLink as={RouterLink} to="/wallet">
       <Button
-        backgroundColor="black"
-        border="limegreen 2px solid"
-        color="orange"
+        backgroundColor="white"
+        border="teal 2px solid"
+        color="teal"
 
 
         >
-          {totalWorth.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
+          {totalWorth.toFixed(2)} <Text color="teal" style={{ marginLeft: '5px' }}>USD</Text>
           </Button>
     </ChakraLink>
       </Box>
@@ -329,7 +331,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         size={tabSize}
         mb={6}
         css={{
-          border: "2px solid limegreen",
+          border: "2px solid white",
           borderRadius: "10px",
           overflow: "hidden",
         }}
@@ -351,7 +353,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
                 value="" 
                 onChange={handleSelectChange}
                 style={{
-                  backgroundColor: 'black',
+                  backgroundColor: 'teal',
                   color: 'white',
                   border: 'none',  
                   cursor: 'pointer'

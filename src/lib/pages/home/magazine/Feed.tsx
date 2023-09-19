@@ -269,6 +269,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     setComments(comments);
     setPostUrl(post.url); // Move this line here
     onOpen();
+    console.log(post)
   };
   const cardHoverStyles = css`
   transform: scale(1.01); /* Increase size by 5% */

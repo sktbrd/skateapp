@@ -78,7 +78,20 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   const handleEditClick = () => {
     setIsEditing(true);
   };
+  function transformYouTubeContent(content: string): string {
+    // Regular expression to match YouTube video URLs
+    const regex = /https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/g;
+    
+    // Use the replace method to replace YouTube video URLs with embedded iframes
+    const transformedContent = content.replace(regex, (match: string, videoID: string) => {
+      // Create an iframe with the YouTube video URL
+      return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoID}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    });
   
+    return transformedContent;
+  }
+  
+
   // Save edited content handler
   const handleSaveClick = () => {
     // TODO: Implement the logic to save the edited content to Hive
@@ -296,7 +309,7 @@ const handleCopyPostLink = () => {
     console.error('Failed to copy the link:', error);
   }
 };
-
+const transformedContent = transformYouTubeContent(content);
 
 return (
   <Modal isOpen={isOpen} onClose={onClose} size="3xl">
@@ -318,7 +331,7 @@ return (
       onChange={(e) => setEditedContent(e.target.value)}
     />
   ) : (
-    <MarkdownInHtmlRenderer content={charactersToShow >= content.length ? content : content.slice(0, charactersToShow)} />
+    <MarkdownInHtmlRenderer content={transformYouTubeContent(content)} />
   )}
 </ModalBody>
 
@@ -331,17 +344,17 @@ return (
       />
       <PostFooter onClose={onClose} user={user} author={author} permlink={permlink} weight={weight} />
       <HStack justifyContent="space-between">
-      <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
+        <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
           <Button margin="5px" border="1px solid orange" onClick={handleViewFullPost}>View Full Post</Button>
-      </Link>
-      <Button border="1px solid orange" onClick={handleCopyPostLink}>
-            {postLinkCopied ? 'Link Copied!' : 'Share Post'}
-      </Button>
+        </Link>
+        <Button border="1px solid orange" onClick={handleCopyPostLink}>
+          {postLinkCopied ? 'Link Copied!' : 'Share Post'}
+        </Button>
       </HStack>
-      
     </ModalContent>
   </Modal>
 );
+
 
 };
 

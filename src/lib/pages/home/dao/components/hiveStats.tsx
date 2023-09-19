@@ -161,7 +161,7 @@ const HiveStats = () => {
                         borderRadius="12px"
                         fontWeight="700"
                         fontSize="18px"
-                        color="white"
+                        color="teal"
                         padding="10px"
                     >
                         Hive Treasury
@@ -170,7 +170,7 @@ const HiveStats = () => {
                 <Divider backgroundColor="red" />
 
                 {isLoading ? (
-                    <Text color="white">Loading...</Text>
+                    <Text color="teal">Loading...</Text>
                 ) : (
                     <>
                         <Flex alignItems="center" justifyContent="center">
@@ -209,7 +209,7 @@ const HiveStats = () => {
                         </HStack>
                         <Tooltip 
                             bg="black" 
-                            color="white" 
+                            color="teal" 
                             borderRadius="10px" 
                             border="1px dashed limegreen" 
                             label="Skatehive operates a Hive witness, a vital role ensuring network security and stability by producing blocks and validating transactions. Elected by the Hive community, witnesses like Skatehive are integral to decentralized governance, directly impacting the blockchain's functionality. You can show your support by voting for Skatehive as a witness">
@@ -233,7 +233,7 @@ const HiveStats = () => {
 
                        <Tooltip 
                             bg="black" 
-                            color="white" 
+                            color="teal" 
                             borderRadius="10px" 
                             border="1px dashed limegreen" 
                             label="A curation trail on Hive is like a way to automatically follow the voting choices of a trusted user. When they upvote content, your account does too, and you both earn rewards. It's akin to having a content curator or guide who selects valuable posts, and you get to benefit from their expertise without actively searching for content to upvote. You can adjust how closely you follow their votes, giving you some control over your engagement. You can follow our curation trail clicking in this link.">
@@ -288,30 +288,30 @@ const BalanceDisplay = ({
       textAlign="center"
     >
       {labelTooltip ? (
-        <Tooltip label={labelTooltip} bg="black" color="white" borderRadius="10px" border="1px dashed limegreen">
+        <Tooltip label={labelTooltip} bg="black" color="teal" borderRadius="10px" border="1px dashed limegreen">
           {labelLink ? (
-            <ChakraLink color="white" fontWeight="bold"  href={labelLink} isExternal style={labelStyle}>
+            <ChakraLink color="teal" fontWeight="bold"  href={labelLink} isExternal style={labelStyle}>
               {label}
             </ChakraLink>
           ) : (
-            <Text color="white" fontWeight="bold" cursor="pointer" style={labelStyle}>
+            <Text color="teal" fontWeight="bold" cursor="pointer" style={labelStyle}>
               {label}
             </Text>
           )}
         </Tooltip>
       ) : (
         labelLink ? (
-          <ChakraLink color="white" fontWeight="bold"  href={labelLink} isExternal style={labelStyle}>
+          <ChakraLink color="teal" fontWeight="bold"  href={labelLink} isExternal style={labelStyle}>
             {label}
           </ChakraLink>
         ) : (
-          <Text color="white" fontWeight="bold" style={labelStyle}>
+          <Text color="teal" fontWeight="bold" style={labelStyle}>
             {label}
           </Text>
         )
       )}
       {balanceTooltip ? (
-        <Tooltip label={balanceTooltip} bg="black" color="white" borderRadius="10px" border="1px dashed limegreen">
+        <Tooltip label={balanceTooltip} bg="black" color="teal" borderRadius="10px" border="1px dashed limegreen">
         {balanceLink ? (
             <ChakraLink href={balanceLink} isExternal style={balanceStyle}>
               {balance || "Loading..."}

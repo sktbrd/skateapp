@@ -29,7 +29,7 @@ import QFS from "../qfs";
             </Tab>
             <Tab
               color="teal"
-              border="2px teal solid"
+              border="1px teal solid"
               _selected={{ backgroundColor: "teal",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
               🎮 PLAY

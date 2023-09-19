@@ -191,7 +191,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       box-shadow: 0 0 30px white);
     }
     100% {
-      box-shadow: 0 0 5px teal);
+      box-shadow: 0 0 6px teal);
     }
   `;
   const enlargeOnHover = keyframes`

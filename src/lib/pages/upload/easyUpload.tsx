@@ -75,7 +75,7 @@ const SimpleUploadPage: React.FC = () => {
   const [ipfsLinks, setIpfsLinks] = useState<string[]>([]); // State to store all IPFS links
   const [markdownBody, setMarkdownBody] = useState<string>(''); 
   const [showFooter, setShowFooter] = useState(false);
-  const allTags = ['skatehive', 'skateboarding', 'hive-173115'];
+  const allTags = ['skatehive', 'skateboarding', 'hive-141964'];
   const [beneficiariesArray, setBeneficiariesArray] = useState<BeneficiaryForBroadcast[]>([]);
   const [user, setUser] = useState<User>({});
   const [body, setBody] = useState<string>('');

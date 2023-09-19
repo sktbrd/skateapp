@@ -327,7 +327,7 @@ const MediaUpload: React.FC = () => {
               'comment',
               {
                 parent_author: '',
-                parent_permlink: 'hive-173115',
+                parent_permlink: 'hive-141964',
                 author: username,
                 permlink: permlink,
                 title: title,

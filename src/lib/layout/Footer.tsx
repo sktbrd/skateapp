@@ -11,7 +11,7 @@ const Footer = () => {
     >
       <Text fontSize="xs">
           <Link href="https://docs.skatehive.app" isExternal>
-            Weed Saves Lives
+Baker , Baker, Baker...
         </Link>
       </Text>
     </Flex>

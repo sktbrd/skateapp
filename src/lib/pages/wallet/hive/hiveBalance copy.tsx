@@ -136,6 +136,8 @@ export default function HiveBalanceDisplay2() {
     };
   };
 
+  
+
   const onStart = async function () {
     if (user) {
       try {
@@ -183,11 +185,13 @@ export default function HiveBalanceDisplay2() {
     console.log("user wants to transfer")
   };
 
-  const handleOpenModal = (balanceType: string) => {
-    console.log(`Clicked ${balanceType} logo`);
+  const handleOpenModal = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault(); // Prevent the default button click behavior
     console.log(user);
     setShowModal(true);
+    console.log(showModal)
   };
+  
 
   const handleLogoClick = (balanceType: string) => {
     console.log(`Clicked ${balanceType} logo`);
@@ -233,6 +237,7 @@ export default function HiveBalanceDisplay2() {
           </>
         )}
       </Box>
+
             </Flex>
             <Divider backgroundColor="red" />
 
@@ -250,13 +255,14 @@ export default function HiveBalanceDisplay2() {
                           balance={hiveBalance} 
                           labelTooltip="Native Token of Hive Blockchain"
                           balanceTooltip="Hive tokens are like digital coins on the Hive blockchain, and they have different uses. You can vote on stuff, get premium features, and help with the network and decision-making by staking them. They also reward content makers, keep users engaged, and you can trade them elsewhere. They basically keep Hive running, adding value and community vibes. 🛹🚀
-                         " />
+                         " ></BalanceDisplay>
                         <BalanceDisplay 
                           label="Hive Power" 
                           balance={hivePower} 
                           labelTooltip="Hive Power signifies influence, voting, and status within Hive blockchain. 🚀🤝"
                           balanceTooltip="Hive Power represents a user's influence and engagement within the Hive blockchain. It's like your reputation and impact score on the platform. When you ´power up Hive tokens by converting liquid Hive into Hive Power, you increase your ability to vote on content and participate in network governance. This boosts your say in decision-making and supports the Hive ecosystem's stability and decentralization. It's like investing in your standing and community involvement on Hive. 🚀🤝s"
                           />
+
                     </HStack>
                     <HStack spacing={4} align="stretch">
                         <BalanceDisplay 
@@ -320,10 +326,28 @@ export default function HiveBalanceDisplay2() {
                         <ChakraLink target="_blank" href="https://hive.vote/dash.php?i=1&trail=steemskate" fontSize="16px">Sell Hive  </ChakraLink>
                     </HStack>
                     </Tooltip>
+                    <Button                         margin="10px"
+                        borderRadius="10px"
+                        border="1px dashed yellow"
+                        justifyContent="center"
+                        padding="10px" onClick={handleOpenModal}>
+                            SEND
+                          </Button>
                 </>
             )}
         </VStack>
+        <SendHiveModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        toAddress={toAddress}
+        setToAddress={setToAddress}
+        amount={amount}
+        setAmount={setAmount}
+        handleTransfer={handleTransfer}
+      />
     </Box>
+    
+    
 );
 };
 

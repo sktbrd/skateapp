@@ -73,7 +73,7 @@ export default function QFS() {
 
     setRewardPool({
       name: post.title,
-      link: `https://peakd.com/@${post.author}/${post.permlink}`,
+      link: `https://skatehive.app/profile/@${post.author}/${post.permlink}`,
       reward,
       isVoted
     });
@@ -180,6 +180,44 @@ export default function QFS() {
     setStore("Time", userStats.time);
   }, [userStats]);
 
+// ---------------------------------- 4 Testing ---------------------------------- Comment before commit 
+
+// useEffect(() => {
+//   // get reward pool, leaderboard, and best times on page load/user login
+//   getRewardPool();
+//   getLeaderboard();
+//       // Example user for testing in Best Times
+//   const exampleBestTimeUser: BestTimes = {
+//     username: "testuser",
+//     time: 120, // Example time in seconds
+//   };
+//   // Example users for testing in Best Times
+//   const fakeBestTimesData: BestTimes[] = [
+//     {
+//       username: "xvlad",
+//       time: 95, // Example time in seconds
+//     },
+//     {
+//       username: "knowhow92",
+//       time: 120, // Example time in seconds
+//     },
+//     {
+//       username: "arcange",
+//       time: 85, // Example time in seconds
+//     },
+//     {
+//       username: "howdarylrolls",
+//       time: 150, // Example time in seconds
+//     },
+//   ];
+
+//   setBestTimes(fakeBestTimesData);
+
+//   // Load the rest of the content
+//   loadUserStats();
+// }, [user]);
+
+
   return (
     <Flex
       direction="column"
@@ -254,8 +292,6 @@ export default function QFS() {
       )}
 
       <Box
-        border={ "3px dotted green" }
-        borderRadius="3xl"
         padding={ 2 }
         marginBottom={ 10 }
       >
@@ -313,72 +349,107 @@ export default function QFS() {
             Leaderboard
           </Text>
           <Table
-            variant="striped"
-            colorScheme="green"
-            width="100%"
-          >
-            <Thead>
-              <Tr>
-                <Th>#</Th>
-                <Th>Username</Th>
-                <Th>Highscore</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {leaderboard.map((user, index) => (
-                <Tr key={index}>
-                  <Td>{index + 1}</Td>
-                  <Td>
-                    <Link style={{textDecoration: 'none'}} href={"https://peakd.com/@" + user.username} isExternal>
-                    @{user.username}
-                    </Link>
-                  </Td>
-                  <Td isNumeric>{user.highscore}</Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
+  variant="striped"
+  width="100%"
+  border="1px solid green" // Add a border to the table
+>
+  <Thead>
+    <Tr>
+      <Th>#</Th>
+      <Th>User</Th>
+      <Th>Username</Th>
+      <Th w="20%" textAlign="center">Highscore</Th> {/* Set width and center align */}
+    </Tr>
+  </Thead>
+  <Tbody>
+    {leaderboard.map((user, index) => (
+      <Tr key={index} bg="black"> {/* Set background color for the row */}
+        <Td bg="black"> {/* Set background color for the cell */}
+          {index + 1}
+        </Td>
+        <Td bg="black"> {/* Set background color for the cell */}
+          <Image
+            src={`https://images.hive.blog/u/${user.username}/avatar`}
+            alt="profile avatar"
+            borderRadius="10px"
+            border="2px solid limegreen"
+            boxSize="35px"
+          />
+        </Td>
+        <Td bg="black"> {/* Set background color for the cell */}
+          <Link style={{ textDecoration: 'none' }} href={"https://skatehive.app/profile/" + user.username} isExternal>
+            @{user.username}
+          </Link>
+        </Td>
+        <Td isNumeric textAlign="center" bg="black"> {/* Set background color for the cell */}
+          {user.highscore.toFixed(2)}
+        </Td>
+      </Tr>
+    ))}
+  </Tbody>
+</Table>
+
+
+
+
         </Flex>
 
         <Flex
-          direction="column"
-          align="center"
-          justify="center"
-          width="50%"
-        >
-          <Text
-            fontSize="3xl"
-            fontWeight="bold"
-          >
-            Best Times
-          </Text>
-          <Table
-            variant="striped"
-            colorScheme="green"
-            width="100%"
-          >
-            <Thead>
-              <Tr>
-                <Th>#</Th>
-                <Th>Username</Th>
-                <Th>Time</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {bestTimes.map((user, index) => (
-                <Tr key={index}>
-                  <Td>{index + 1}</Td>
-                  <Td>
-                    <Link style={{textDecoration: 'none'}} href={"https://peakd.com/@" + user.username} isExternal>
-                    @{user.username}
-                    </Link>
-                  </Td>
-                  <Td isNumeric>{user.time}</Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </Flex>
+  direction="column"
+  align="center"
+  justify="center"
+  width="50%"
+>
+  <Text
+    fontSize="3xl"
+    fontWeight="bold"
+  >
+    Best Times
+  </Text>
+  <Table
+  variant="striped"
+  bg="black" // Set background color for the entire table
+  width="100%"
+  border="1px solid green" // Add a border to the table
+  borderRadius="10px"
+>
+  <Thead>
+    <Tr>
+      <Th>#</Th>
+      <Th>Avatar</Th>
+      <Th>Username</Th>
+      <Th w="20%" textAlign="center">Time</Th> {/* Set width and center align */}
+    </Tr>
+  </Thead>
+  <Tbody>
+    {bestTimes.map((user, index) => (
+      <Tr key={index} bg="black"> {/* Set background color for the row */}
+        <Td bg="black"> {/* Set background color for the cell */}
+          {index + 1}
+        </Td>
+        <Td bg="black"> {/* Set background color for the cell */}
+          <Image
+            src={`https://images.hive.blog/u/${user.username}/avatar`}
+            alt="profile avatar"
+            borderRadius="10px"
+            border="2px solid limegreen"
+            boxSize="35px"
+          />
+        </Td>
+        <Td bg="black"> {/* Set background color for the cell */}
+          <Link style={{ textDecoration: 'none' }} href={"https://skatehive.app/profile/" + user.username} isExternal>
+            @{user.username}
+          </Link>
+        </Td>
+        <Td isNumeric textAlign="center" bg="black"> {/* Set background color for the cell */}
+          {user.time}
+        </Td>
+      </Tr>
+    ))}
+  </Tbody>
+</Table>
+
+</Flex>
       </Flex>
       
     </Flex>

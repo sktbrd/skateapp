@@ -14,11 +14,27 @@ type MarkdownProps = {
   
   
 export const MarkdownRenderers = {
-img: ({ alt, src, title, ...props }: RendererProps) => (
-    <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <img {...props} alt={alt} src={src} title={title} style={{ maxWidth: '100%', height: 'auto', borderRadius: "10px", border: '1px solid limegreen' }} />
-    </span>
-    ),
+    img: ({ alt, src, title, ...props }: RendererProps) => (
+        <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <img
+            {...props}
+            alt={alt}
+            src={src}
+            title={title}
+            style={{
+              maxWidth: '100%',
+              height: 'auto',
+              borderRadius: '10px',
+              border: '1px solid limegreen',
+            }}
+            onError={(e) => {
+              // Handle image loading error by replacing the source with a default image
+              e.currentTarget.src = 'https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75'; // Replace with the URL of your default image
+            }}
+          />
+        </span>
+      ),
+      
 a: ({ children, ...props }: RendererProps) => <a {...props} style={{ color: 'yellow' }}>{children}</a>,
 h1: ({ children, ...props }: RendererProps) => <h1 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '26px', paddingBottom: '10px' }}>{children}</h1>,
 h2: ({ children, ...props }: RendererProps) => <h2 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '20px', paddingBottom: '8px' }}>{children}</h2>,
@@ -34,6 +50,33 @@ ul: ({ children, ...props }: RendererProps) => {
 },
 hr: ({ children, ...props }: RendererProps) => <hr {...props} style={{ paddingBottom: '20px' }}>{children}</hr>,
 br: ({ children, ...props }: RendererProps) => <br {...props} style={{ paddingBottom: '20px' }}>{children}</br>,
+pre: ({ children, ...props }: RendererProps) => (
+    <code
+      {...props}
+      style={{
+        backgroundColor: 'gray',
+        color: 'pink',
+        
+        maxWidth: '100%', // Set maximum width to 100% of parent container (the modal)
+        overflowX: 'auto', // Allow horizontal scrolling if content overflows
+      }}
+    >
+      {children}
+    </code>
+  ),
+  iframe: ({ src, ...props }: RendererProps) => (
+    <iframe
+      {...props}
+      src={src}
+      style={{ borderRadius: '10px', marginBottom: '20px', border:'1px limegreen solid' /* You can adjust the value as needed */ }}
+    />
+  ),
+  table: ({ children, ...props }: RendererProps) => (
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <table {...props}>{children}</table>
+    </div>
+),
+
 
 };
 

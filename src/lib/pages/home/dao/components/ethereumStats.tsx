@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Text, Flex, Image, VStack, HStack, Divider,Tooltip } from "@chakra-ui/react";
+import { Box, Text, Flex, Image, VStack, HStack, Divider,Tooltip, Button } from "@chakra-ui/react";
 // @ts-ignore
 import { usePioneer } from "pioneer-react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
 import axios from 'axios';
+
+import { ContractAbi } from 'web3';
+import { ethers } from "ethers";
+
+const gnars_contract = "0x558BFFF0D583416f7C4e380625c7865821b8E95C";
+const skatehive_contract = "0x3dEd025e441730e26AB28803353E4471669a3065"
+import ERC721_ABI from "./gnars_abi.json";
+
 
 interface User {
   data?: {
@@ -29,6 +37,30 @@ const EthereumStats = () => {
   const [copied, setCopied] = useState(false);
   const DAO_SAFE = "0x5501838d869b125efd90dacf45cdfac4ea192c12";
   const HOT_WALLET = "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c";
+  
+  const provider = new ethers.providers.JsonRpcProvider("https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik");
+  const contract_gnars = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
+  const [currentVotes, setCurrentVotes] = useState<string | null>(null);
+  const [currentHolders, setCurrentHolders] = useState<string | null>(null);
+
+  async function readGnarsContract() {
+    try {
+      const result = await contract_gnars.getCurrentVotes("0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c");
+      
+      // Convert the result to a readable number
+      const votes = ethers.utils.formatUnits(result, 0); // Assuming it's a uint256
+
+      // Update the currentVotes state
+      setCurrentVotes(votes);
+
+      console.log("Contract result:", votes);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+
+  
 
   // create apiKey from process env VITE_ETHEREUM_API
   const apiKey = process.env.VITE_ETHERSCAN_API
@@ -105,36 +137,21 @@ const EthereumStats = () => {
       console.error("Error in onStart:", e);
     }
   };
-  const pingSpecificURL = async () => {
-    try {
-      const specificURL = "https://zapper.xyz/account/0xb4964e1eca55db36a94e8aeffbfbab48529a2f6c";
-  
-      const response = await fetch(specificURL);
-  
-      if (response.ok) {
-        console.log(`Ping to ${specificURL} successful.`);
-      } else {
-        console.error(`Error pinging ${specificURL}. Status code: ${response.status}`);
-      }
-    } catch (e) {
-      console.error("Error in pingSpecificURL:", e);
-    }
-  };
-  
-  
 
-
+  
 
   const [usdWorthOfMultisigBalance, setUsdWorthOfMultisigBalance] = useState<string | null>('Loading...');
 
-  useEffect(() => {
-    onStart();
-    getBalance();
-    pingSpecificURL();
-    fetchEthereumPrice().then((usdWorth) => {
-      setUsdWorthOfMultisigBalance(usdWorth);
-    });
-  }, [api, app]);
+useEffect(() => {
+  // Call your function here
+  readGnarsContract();
+  onStart();
+  getBalance();
+  fetchEthereumPrice().then((usdWorth) => {
+    setUsdWorthOfMultisigBalance(usdWorth);
+  });
+}, []); // The empty dependency array means this effect runs once, when the component mounts
+
 
   // Calculate the total worth by adding the Hot Wallet balance and the ETH/USD value from the multisig
   const totalWorthInUSD = ethNetworth !== null && usdWorthOfMultisigBalance !== null
@@ -235,7 +252,7 @@ const EthereumStats = () => {
       onClick={handleCopyClick}
       style={{ cursor: "pointer" }}
     >
-      Gnars Deleg: 25
+      Gnars Deleg: {currentVotes}
     </ChakraLink>
     </Tooltip>
         </HStack>

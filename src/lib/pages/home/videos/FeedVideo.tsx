@@ -29,16 +29,16 @@ function transform3SpeakContent(content: string): string {
 }
 
 const adjustVideoSize = (iframe: string): string => {
-  
   const odyseeDomains = ["odysee.com", "lbry.tv"]; // You can add more domains to this list in the future if needed
-  
+
   if (iframe.includes("youtube.com") || odyseeDomains.some(domain => iframe.includes(domain))) {
-    iframe = iframe.replace(/width\s*=\s*"\d+"/, '').replace(/height\s*=\s*"\d+"/, '').replace('<iframe', '<iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"');
+    iframe = iframe.replace(/width\s*=\s*"\d+"/, '').replace(/height\s*=\s*"\d+"/, '').replace('<iframe', '<iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen allow-scripts');
     return iframe;
   }
 
   return iframe;
 };
+
 
 
 

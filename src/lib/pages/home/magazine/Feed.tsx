@@ -264,12 +264,13 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   };
 
   const handleCardClick = async (post: any) => {
+    console.log(post)
+
     setSelectedPost(post);
     const comments = await fetchComments(post.author, post.permlink);
     setComments(comments);
     setPostUrl(post.url); // Move this line here
     onOpen();
-    console.log(post)
   };
   const cardHoverStyles = css`
   transform: scale(1.01); /* Increase size by 5% */
@@ -279,7 +280,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
 
 const cardStyles = css`
   border: 1px solid limegreen;
-  border-radius: 20px;
+  border-radius: 10px;
    /* Add a higher z-index to display the card above other cards */
   /* ... (other styles) */
   &:hover {
@@ -287,7 +288,7 @@ const cardStyles = css`
   }
 `;
 
-const truncateTitle = (title:any, maxCharacters = 40) => {
+const truncateTitle = (title:any, maxCharacters = 60) => {
   // Capitalize the first letter of the title
   title = title.charAt(0).toUpperCase() + title.slice(1);
 
@@ -353,7 +354,7 @@ const truncateTitle = (title:any, maxCharacters = 40) => {
                     />
                   </Flex>
                 </CardHeader>
-                <Box padding="20px" height="200px">
+                <Box padding="10px" height="200px">
                   <Image
                     objectFit="cover"
                     border="1px solid limegreen"

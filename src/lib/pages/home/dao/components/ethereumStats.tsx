@@ -137,21 +137,7 @@ const EthereumStats = () => {
       console.error("Error in onStart:", e);
     }
   };
-  const pingSpecificURL = async () => {
-    try {
-      const specificURL = "https://zapper.xyz/account/0xb4964e1eca55db36a94e8aeffbfbab48529a2f6c";
-  
-      const response = await fetch(specificURL);
-  
-      if (response.ok) {
-        console.log(`Ping to ${specificURL} successful.`);
-      } else {
-        console.error(`Error pinging ${specificURL}. Status code: ${response.status}`);
-      }
-    } catch (e) {
-      console.error("Error in pingSpecificURL:", e);
-    }
-  };
+
   
 
   const [usdWorthOfMultisigBalance, setUsdWorthOfMultisigBalance] = useState<string | null>('Loading...');
@@ -161,7 +147,6 @@ useEffect(() => {
   readGnarsContract();
   onStart();
   getBalance();
-  pingSpecificURL();
   fetchEthereumPrice().then((usdWorth) => {
     setUsdWorthOfMultisigBalance(usdWorth);
   });

@@ -36,7 +36,7 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
           "permlink": permlink,
           "title": "",
           "body": commentContent,
-          "json_metadata": JSON.stringify({ tags: ["skateboard"], app: "pepeskate" })
+          "json_metadata": JSON.stringify({ tags: ["skateboard"], app: "skatehive" })
         }
       ]
     ];

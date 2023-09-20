@@ -20,14 +20,14 @@ import remarkGfm from 'remark-gfm';
 
 import { Client, PrivateKey } from '@hiveio/dhive';
 
-import PostHeader from './postHeader';
-import PostFooter from './modalFooter';
+import PostHeader from './postModalHeader';
+import PostFooter from './postModalFooter';
 import Comments from './comments';
 import voteOnContent from '../../api/voting';
 import useAuthUser from '../../api/useAuthUser';
 import CommentBox from './commentBox';
 import * as Types from '../types';
-import MarkdownInHtmlRenderer from './CustomRenderers';
+import { MarkdownRenderers } from './MarkdownRenderers';
 const nodes = [
   "https://rpc.ecency.com",
   "https://api.deathwing.me",
@@ -59,8 +59,9 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   const [client, setClient] = useState(new Client(nodes[0]));
   const [nodeIndex, setNodeIndex] = useState(0);
   console.log(postUrl)
-  // Transform the content for 3speak videos
-  content = transform3SpeakContent(content);
+
+
+
 
   function transform3SpeakContent(content: any) {
     const regex = /\[!\[\]\((https:\/\/ipfs-3speak\.b-cdn\.net\/ipfs\/[a-zA-Z0-9]+\/)\)\]\((https:\/\/3speak\.tv\/watch\?v=([a-zA-Z0-9]+\/[a-zA-Z0-9]+))\)/;
@@ -68,29 +69,29 @@ const PostModal: React.FC<Types.PostModalProps> = ({
     if (match) {
       const videoURL = match[2];
       const videoID = match[3];
-      const iframe = `<iframe width="560" height="315" src="https://3speak.tv/embed?v=${videoID}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      const iframe = `<iframe class="video-player" width="560" height="315" src="https://3speak.tv/embed?v=${videoID}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
       content = content.replace(regex, iframe);
     }
     return content;
   }
 
-  // Edit button handler
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
+
   function transformYouTubeContent(content: string): string {
     // Regular expression to match YouTube video URLs
     const regex = /https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/g;
-    
+  
     // Use the replace method to replace YouTube video URLs with embedded iframes
     const transformedContent = content.replace(regex, (match: string, videoID: string) => {
-      // Create an iframe with the YouTube video URL
-      return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoID}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      // Wrap the iframe in a div with centering styles
+      return `<div style="display: flex; justify-content: center; "><iframe width="560" height="315" src="https://www.youtube.com/embed/${videoID}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
     });
   
     return transformedContent;
   }
   
+
+    // Transform the content for 3speak videos
+    content = transform3SpeakContent(content);
 
   // Save edited content handler
   const handleSaveClick = () => {
@@ -191,6 +192,11 @@ const PostModal: React.FC<Types.PostModalProps> = ({
       console.error("Hive Keychain extension not found or user not authenticated!");
     }
   };
+
+  // Edit button handler
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
   
   const generatePostUrl = () => {
     return `${window.location.origin}/post${postUrl}`;
@@ -199,44 +205,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   
 
  
-//  ---------------------------------------Scroll Effect -------------------------------
-  const [userScrolled, setUserScrolled] = useState(false);
 
-  const handleScroll = () => {
-    const isAtBottom =
-      modalContainerRef.current!.scrollTop >=
-      (modalContainerRef.current!.scrollHeight || 0) - (modalContainerRef.current!.offsetHeight || 0);
-    setUserScrolled(!isAtBottom);
-  };
-  const [charactersToShow, setCharactersToShow] = useState(0); // Start from 0
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCharactersToShow((prevChars) => {
-        if (prevChars >= content.length) {
-          clearInterval(timer);
-          return prevChars;
-        } else if (prevChars < 400) { // Scroll effect for the first 300 characters
-          return prevChars + 1;
-        } else { // Display the entire content after the scroll effect
-          clearInterval(timer);
-          return content.length;
-        }
-      });
-    }, 5);
-  
-    return () => clearInterval(timer);
-  }, [content]);
-  
-  
-
-  useEffect(() => {
-    if (modalContainerRef.current && !userScrolled) {
-      modalContainerRef.current.scrollTop = modalContainerRef.current.scrollHeight;
-    }
-  }, [charactersToShow, userScrolled]);
-
-//  ---------------------------------------Scroll Effect -------------------------------
 
 //  ---------------------------------------Voting Button -------------------------------
 
@@ -279,7 +248,6 @@ const postData = {
   weight,
   comments,
   postUrl,
-  // ... any other post properties you need
 };    
 const handleViewFullPost = (event:any) => {
   event.stopPropagation(); // Prevent event from bubbling up to the parent
@@ -324,15 +292,20 @@ return (
           <Button id="saveButton" onClick={handleSaveClick}>Save</Button>
         )}
       </ModalHeader>
-      <ModalBody ref={modalContainerRef} onScroll={handleScroll}>
+      <ModalBody ref={modalContainerRef}>
   {isEditing ? (
     <Textarea
       value={editedContent}
       onChange={(e) => setEditedContent(e.target.value)}
     />
   ) : (
-    <MarkdownInHtmlRenderer content={transformYouTubeContent(content)} />
-  )}
+    <ReactMarkdown
+    components={MarkdownRenderers} // Use your custom renderers here
+    rehypePlugins={[rehypeRaw]}
+    remarkPlugins={[remarkGfm]}
+  >
+    {transformYouTubeContent(content)}
+  </ReactMarkdown>  )}
 </ModalBody>
 
       <Comments comments={comments} commentPosted={commentPosted} />

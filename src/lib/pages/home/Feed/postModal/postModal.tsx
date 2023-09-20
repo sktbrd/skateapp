@@ -27,7 +27,7 @@ import voteOnContent from '../../api/voting';
 import useAuthUser from '../../api/useAuthUser';
 import CommentBox from './commentBox';
 import * as Types from '../types';
-import { MarkdownRenderers } from './MarkdownRenderers';
+import { MarkdownRenderers } from '../../../utils/MarkdownRenderers';
 const nodes = [
   "https://rpc.ecency.com",
   "https://api.deathwing.me",

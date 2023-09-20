@@ -2387,6 +2387,43 @@
     ts-node "^8.10.2"
     typescript "^5.0.2"
 
+"@pioneer-platform/pioneer-react@0.2.34":
+  version "0.2.34"
+  resolved "https://registry.yarnpkg.com/@pioneer-platform/pioneer-react/-/pioneer-react-0.2.34.tgz#31bd03ad811fa09ab2937d2809987198a3b3cd61"
+  integrity sha512-bHspnMcv9FF0tJa9UJtBAtyxUKypghazv2JIfeLkt++KhGghIanwdP8f15tm8+VCPRxIDKYY2ExEjuRi64Gy4g==
+  dependencies:
+    "@chakra-ui/icons" "^2.0.19"
+    "@chakra-ui/react" "^2.6.0"
+    "@emotion/react" "^11.10.8"
+    "@emotion/styled" "^11.10.8"
+    "@esbuild-plugins/node-globals-polyfill" "^0.2.3"
+    "@esbuild-plugins/node-modules-polyfill" "^0.2.2"
+    "@fontsource/plus-jakarta-sans" "^4.5.11"
+    "@keepkey/hdwallet-keepkey-rest" "^1.40.29"
+    "@keepkey/keepkey-sdk" "^0.2.48"
+    "@pioneer-platform/pioneer-client" "^9.0.6"
+    "@pioneer-sdk/sdk" "1.1.158"
+    "@shapeshiftoss/hdwallet-core" "^1.50.0"
+    "@shapeshiftoss/hdwallet-metamask" "^1.50.0"
+    "@shapeshiftoss/hdwallet-native" "^1.50.3"
+    "@types/uuid" "^9.0.1"
+    assert "^2.0.0"
+    dotenv "^16.3.1"
+    events "^3.3.0"
+    framer-motion "^10.12.4"
+    react "^18.2.0"
+    react-dom "^18.2.0"
+    react-helmet "^6.1.0"
+    react-icons "^4.8.0"
+    react-image "^4.1.0"
+    react-qr-code "^2.0.11"
+    react-router-dom "^6.10.0"
+    rollup-plugin-node-polyfills "^0.2.1"
+    short-uuid "^4.2.2"
+    stream-browserify "^3.0.0"
+    swagger-client "^3.19.8"
+    uuid "^9.0.0"
+
 "@pioneer-platform/pioneer-types@^8.1.55":
   version "8.1.55"
   resolved "https://registry.yarnpkg.com/@pioneer-platform/pioneer-types/-/pioneer-types-8.1.55.tgz#45a336382e78b36e9d089d705c2022faaa6434f7"
@@ -2398,6 +2435,22 @@
   version "1.1.157"
   resolved "https://registry.yarnpkg.com/@pioneer-sdk/sdk/-/sdk-1.1.157.tgz#adb4a4b68bef4ce6a478baf7aac0760fde36e5d9"
   integrity sha512-52g1IFc75y7H39QNyBMEibDtBuO85ipBlhuCqvrjutK+TRmRa86Vjs0VCcwFYm39DCHFYs4orQLXEnKXFf9pvA==
+  dependencies:
+    "@keepkey/keepkey-sdk" "^0.2.25"
+    "@pioneer-platform/loggerdog" "^8.1.27"
+    "@pioneer-platform/pioneer-client" "^9.0.18"
+    "@pioneer-platform/pioneer-coins" "^8.1.72"
+    "@pioneer-platform/pioneer-events" "^8.1.49"
+    "@pioneer-platform/pioneer-invoke" "^8.1.43"
+    "@pioneer-sdk/tx-builder" "^1.0.18"
+    rango-sdk "^0.1.30"
+    stable "^0.1.8"
+    typescript "4.6.4"
+
+"@pioneer-sdk/sdk@1.1.158":
+  version "1.1.158"
+  resolved "https://registry.yarnpkg.com/@pioneer-sdk/sdk/-/sdk-1.1.158.tgz#24a30bcfa2cbd4383167da05a7470ca5d568582f"
+  integrity sha512-YTJCw4a1li6sJZHlVAcIpwvDHwpcaDyhuZXPrgw/qYHD/N6cuzX+7v8Sba1Vlxr2FvPxMxEMEm1bD+eGFf0EJw==
   dependencies:
     "@keepkey/keepkey-sdk" "^0.2.25"
     "@pioneer-platform/loggerdog" "^8.1.27"

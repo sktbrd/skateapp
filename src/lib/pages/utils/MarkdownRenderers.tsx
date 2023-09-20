@@ -15,7 +15,7 @@ type MarkdownProps = {
   
 export const MarkdownRenderers = {
     img: ({ alt, src, title, ...props }: RendererProps) => (
-        <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding:'20px' }}>
           <img
             {...props}
             alt={alt}
@@ -35,10 +35,12 @@ export const MarkdownRenderers = {
         </span>
       ),
       
-a: ({ children, ...props }: RendererProps) => <a {...props} style={{ color: 'yellow' }}>{children}</a>,
-h1: ({ children, ...props }: RendererProps) => <h1 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '26px', paddingBottom: '10px' }}>{children}</h1>,
-h2: ({ children, ...props }: RendererProps) => <h2 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '20px', paddingBottom: '8px' }}>{children}</h2>,
-h3: ({ children, ...props }: RendererProps) => <h3 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '18px', paddingBottom: '6px' }}>{children}</h3>,
+a: ({ children, ...props }: RendererProps) => <a {...props} style={{ color: 'yellow' }}> {children} <br/></a>,
+
+h1: ({ children, ...props }: RendererProps) => <h1 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '26px', paddingBottom: '10px' , paddingTop:"10px" }}>{children}</h1>,
+h2: ({ children, ...props }: RendererProps) => <h2 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '20px', paddingBottom: '8px' , paddingTop:"10px"}}>{children}</h2>,
+h3: ({ children, ...props }: RendererProps) => <h3 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '18px', paddingBottom: '6px' , paddingTop:"10px"}}>{children}</h3>,
+h4: ({ children, ...props }: RendererProps) => <h4 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '16px', paddingBottom: '4px' , paddingTop:"10px"}}>{children}</h4>,
 blockquote: ({ children, ...props }: RendererProps) => <blockquote {...props} style={{ borderLeft: '3px solid red', paddingLeft: '10px', fontStyle: 'italic' }}>{children}</blockquote>,
 ol: ({ ordered, children, ...props }: RendererProps) => {
     const listType = ordered ? "1" : "decimal";
@@ -65,11 +67,14 @@ pre: ({ children, ...props }: RendererProps) => (
     </code>
   ),
   iframe: ({ src, ...props }: RendererProps) => (
+    <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop:'10px' }}>
+
     <iframe
       {...props}
       src={src}
       style={{ borderRadius: '10px', marginBottom: '20px', border:'1px limegreen solid' /* You can adjust the value as needed */ }}
     />
+    </span>
   ),
   table: ({ children, ...props }: RendererProps) => (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -77,6 +82,43 @@ pre: ({ children, ...props }: RendererProps) => (
     </div>
 ),
 
+
+tbody: ({ children, ...props }: RendererProps) => (
+  <tbody {...props}>{children}</tbody>
+),
+
+tr: ({ children, ...props }: RendererProps) => (
+  <tr {...props}>{children}</tr>
+),
+
+th: ({ children, ...props }: RendererProps) => (
+  <th
+    {...props}
+    style={{
+      border: '1px solid black',
+      padding: '8px',
+      fontWeight: 'bold',
+      textAlign: 'left',
+    }}
+  >
+    {children}
+  </th>
+),
+
+
+td: ({ children, ...props }: RendererProps) => (
+  <td
+    {...props}
+    style={{
+      border: '1px solid black',
+      padding: '8px',
+      textAlign: 'left',
+    }}
+  >
+    {children}
+  </td>
+  
+),
 
 };
 

@@ -14,7 +14,7 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import { MarkdownRenderersComments } from './MarkdownRenderersComments';
-import { CommentProps } from '../magazine/types';
+import { CommentProps } from '../Feed/types';
 import { CSSProperties } from 'react';
 import { FaRedo } from 'react-icons/fa';
 

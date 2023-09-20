@@ -336,7 +336,8 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       >
         <TabList display="flex" alignItems="center">
           <LinkTab to="/">Home</LinkTab>
-          {loggedIn && <LinkTab to="/upload">Upload</LinkTab>} {/* Conditionally render Upload tab */}
+          <LinkTab to="/QFS">Play</LinkTab>
+
           {loggedIn && <LinkTab to="/wallet">Wallet</LinkTab>} {/* Conditionally render Wallet tab */}
           {loggedIn ? (
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
@@ -368,6 +369,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
             <Tab onClick={() => setModalOpen(true)}>
               Log in 
             </Tab>
+            
           )}
         </TabList>
       </Tabs>

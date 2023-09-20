@@ -1,9 +1,10 @@
 import { Flex, Tabs, TabList, TabPanels, Tab, TabPanel, useTabs } from "@chakra-ui/react";
-import HiveBlog from "./magazine/Feed";
+import HiveBlog from "./Feed/Feed";
 import HiveVideos from "./videos/FeedVideo";
 import SnapShot from "./dao/snapshot";
 import Chat from "./chat";
 import QFS from "../qfs";
+import UploadPage from "../upload";
 
 
   const Home = () => {
@@ -27,12 +28,19 @@ import QFS from "../qfs";
             >
               📹 VIDEOS
             </Tab>
-            <Tab
+            {/* <Tab
               color="white"
               border="2px limegreen solid"
               _selected={{ backgroundColor: "limegreen",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
               🎮 PLAY
+            </Tab> */}
+            <Tab
+              color="white"
+              border="1px limegreen solid"
+              _selected={{ backgroundColor: "limegreen" ,color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
+            >
+              🛹 Upload
             </Tab>
             <Tab
               color="white"
@@ -49,8 +57,11 @@ import QFS from "../qfs";
             <TabPanel>
               <HiveVideos />
             </TabPanel>
-            <TabPanel>
+            {/* <TabPanel>
               <QFS />
+            </TabPanel> */}
+            <TabPanel>
+              <UploadPage />
             </TabPanel>
             <TabPanel>
               <SnapShot />

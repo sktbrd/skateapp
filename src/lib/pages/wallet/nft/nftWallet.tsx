@@ -28,6 +28,11 @@ const NFTWallet: React.FC<Types.NFTWalletProps> = ({ nftList = [] }) => {
         const currentAddress = pubkeyContext.master || pubkeyContext;
         const portfolio = await api.GetPortfolio({ address: currentAddress });
         const nftList = portfolio.data.nfts;
+        
+        // Console log all the const above
+        console.log("portfolio: ", portfolio);
+        console.log("nftList: ", nftList);
+        console.log("currentAddress: ", currentAddress);
 
         // Filter out the "POAP" NFTs
         const nonPoapNfts = nftList.filter((nft: Types.NFT) => nft.token.collection.name.toLowerCase() !== "poap");
@@ -41,7 +46,7 @@ const NFTWallet: React.FC<Types.NFTWalletProps> = ({ nftList = [] }) => {
   
   useEffect(() => {
     onStart();
-  }, [api, app, pubkeyContext, address]);
+  }, []);
 
   const filteredNftList = selectedContract === "all"
     ? userNftPortifolio

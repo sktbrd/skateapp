@@ -8,18 +8,28 @@ import {
   Button,
   Textarea,
 } from '@chakra-ui/react';
+
 import { Link } from 'react-router-dom';
+
 import { Client } from '@hiveio/dhive';
+
+
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
-import { MarkdownRenderers } from './MarkdownRenderers';
+
+import { MarkdownRenderers } from '../utils/MarkdownRenderers';
 import { MarkdownRenderersComments } from './MarkdownRenderersComments';
-import CommentBox from '../home/magazine/postModal/commentBox';
-import { CommentProps } from '../home/magazine/types';
-import { transform3SpeakContent } from '../utils/transform3speakvideo';
+
+import CommentBox from '../home/Feed/postModal/commentBox';
+import { CommentProps } from '../home/Feed/types';
+import { transform3SpeakContent } from '../utils/VideoUtils';
 import VotingBox from './votingBox';
-import ContentRenderer from './CustomRenderers';
+
+import { transformYouTubeContent } from '../utils/VideoUtils';
+
+
+
 type User = {
   name: string;
   // ... other properties ...
@@ -46,12 +56,16 @@ const PostPage: React.FC = () => {
     const fetchPostData = async () => {
       try {
         const postData = await client.database.call("get_content", [URLAuthor, URLPermlink]);
-        const transformedBody = await transform3SpeakContent(postData.body);
-        setPost({ ...postData, body: transformedBody});
+        let transformedBody = await transform3SpeakContent(postData.body);
+        transformedBody = transformYouTubeContent(transformedBody); // Transform YouTube content
+        setPost({ ...postData, body: transformedBody });
+        console.log(post)
+
       } catch (error) {
         console.error('Error fetching post data:', error);
       }
     };
+    
 
     const fetchComments = async () => {
       try {
@@ -66,21 +80,9 @@ const PostPage: React.FC = () => {
     fetchComments();
   }, [URLAuthor, URLPermlink, commentsUpdated]);
 
-  const containerStyle = {
-    width: '100%',
-    margin: 0,
-    padding: '10px',
-    marginTop: '-30px',
-  };
 
-  const titleStyle = {
-    fontWeight: 'bold',
-    color: 'yellow',
-    fontSize: '26px',
-    padding: '10px',
-    border: '1px solid limegreen',
-    borderRadius: '10px',
-  };
+
+
 
   const commentTitleStyle = {
     fontWeight: 'bold',
@@ -137,7 +139,6 @@ const PostPage: React.FC = () => {
       const storedUsername = userObject.name;
       setUsername(storedUsername);
       console.log('username:', storedUsername);
-      console.log(post  )
 
     }
   }, []);
@@ -162,12 +163,28 @@ const PostPage: React.FC = () => {
     borderRadius: '10px',
   };
 
+  const containerStyle = {
+    width: '100%',
+    margin: 0,
+    padding: '10px',
+    marginTop: '-30px',
+  };
+  const titleStyle = {
+    fontWeight: 'bold',
+    color: 'yellow',
+    fontSize: '26px',
+    padding: '20px',
+    borderRadius: '10px',
+  };
   const userFromSession = sessionStorage.getItem("user");
   const user: User = userFromSession ? JSON.parse(userFromSession) : null;
 
   return (
     <div style={containerStyle}>
+      <center>
       <h1 style={titleStyle}>{post?.title}</h1>
+
+      </center>
       <Flex direction={isDesktop ? "row" : "column"} style={{ marginTop: 10 }}>
       <Box
           style={{
@@ -175,7 +192,11 @@ const PostPage: React.FC = () => {
             maxWidth: isDesktop ? '50%' : '100%',
           }}
         >
-          <ContentRenderer content={post?.body} />
+          <ReactMarkdown
+            children={post?.body}
+            rehypePlugins={[rehypeRaw]}
+            remarkPlugins={[remarkGfm]} 
+            components={MarkdownRenderers} />
         </Box>
         <VStack
           style={{

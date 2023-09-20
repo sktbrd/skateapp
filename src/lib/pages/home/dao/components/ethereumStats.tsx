@@ -128,6 +128,7 @@ const EthereumStats = () => {
     try {
       if (api && app) {
         const eth_hotwallet = await api.GetPortfolio({ address: HOT_WALLET });
+        console.log("HOT WALLETT", eth_hotwallet)
         const ethNetworth = eth_hotwallet.data.totalNetWorth!; // Use the non-null assertion operator
         console.log("HOT WALLETT", eth_hotwallet)
         setEthNetworth(eth_hotwallet.data.totalNetWorth)
@@ -138,6 +139,7 @@ const EthereumStats = () => {
     }
   };
 
+  
   
 
   const [usdWorthOfMultisigBalance, setUsdWorthOfMultisigBalance] = useState<string | null>('Loading...');
@@ -150,7 +152,13 @@ useEffect(() => {
   fetchEthereumPrice().then((usdWorth) => {
     setUsdWorthOfMultisigBalance(usdWorth);
   });
-}, []); // The empty dependency array means this effect runs once, when the component mounts
+}, []); 
+
+useEffect(() => {
+  onStart();
+  console.log("ÖNSTART2")
+}
+, [api, app]);
 
 
   // Calculate the total worth by adding the Hot Wallet balance and the ETH/USD value from the multisig

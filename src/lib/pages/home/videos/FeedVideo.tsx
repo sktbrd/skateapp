@@ -85,20 +85,43 @@ const HiveVideos: React.FC = () => {
           const iframes = extractIframes(modifiedContent);
           return iframes.length > 0 ? (
             iframes.map((iframe, i) => (
-              <Box key={`${index}-${i}`} border="2px solid limegreen" borderRadius="md" m={2} p={2}>
-                <Box display="flex" alignItems="center" mb={2}>
-                  <Avatar src={`https://images.hive.blog/u/${post.author}/avatar`} size="md" borderRadius="8px" />
-                  <ChakraText ml={2}>{post.author}</ChakraText>
+              <Box 
+                  key={`${index}-${i}`} 
+                  borderRadius="md" 
+                  m={2} 
+                  p={2}
+                  >
+                <Box 
+                  display="flex" 
+                  alignItems="center" 
+                  mb={2}>
+
+                  
+                  
                 </Box>
                 <Box position="relative" width="100%" paddingBottom="56.25%">
-                  <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: '1px solid limegreen' }}>
+    
                     {ReactHtmlParser(iframe)}
-                  </div>
+   
                 </Box>
-                <Box textAlign="right">
-                  <br></br>
-                  <Button border="1px solid limegreen" onClick={() => openPostModal(post)}>Open Original Post</Button>
+              <Box >
+                
+              </Box>
+                <Box >
+                  
+                  <Button 
+                    border="1px solid limegreen" 
+                    borderRadius="20px"
+                    onClick={() => openPostModal(post)}>
+                      Full Post |
+                    <ChakraText ml={2}>{post.author}</ChakraText>
+                <Avatar 
+                  src={`https://images.hive.blog/u/${post.author}/avatar`} 
+                  size="sm" 
+                  borderRadius="8px" />
+                  </Button>
                 </Box>
+
               </Box>
             ))
           ) : null;

@@ -398,11 +398,11 @@ const truncateTitle = (title:any, maxCharacters = 60) => {
                         handleVotersModalOpen(post);
                       }}
                       variant="ghost"
-                      colorScheme="gray"
-                      size="xs"
+                      colorScheme="green"
+                      size="s"
                       ml={2}
                     >
-                      Stoken: {post.earnings.toFixed(2)}
+                     $ {post.earnings.toFixed(2)}
                       <img
                         src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
                         alt="Earning"

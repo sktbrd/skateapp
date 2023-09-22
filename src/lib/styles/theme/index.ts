@@ -3,7 +3,7 @@ import { extendTheme } from "@chakra-ui/react";
 type GlobalStyleProps = { colorMode: "light" | "dark" };
 
 const themeConfig = {
-  initialColorMode: "dark",
+
   useSystemColorMode: false,
 };
 
@@ -18,7 +18,7 @@ export const theme = extendTheme({
     global: (props: GlobalStyleProps) => ({
       body: {
         backgroundColor: "black",
-        color: props.colorMode === "dark" ? "white" : "black",
+        color:  "white" ,
       },
       p: {
         color: "limegreen",

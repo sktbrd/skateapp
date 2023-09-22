@@ -181,6 +181,7 @@ if (userPortifolio && userPortifolio.data) {
   
 
   return (
+    
     <Box
       borderRadius="12px"
       border="1px solid blue"
@@ -188,9 +189,13 @@ if (userPortifolio && userPortifolio.data) {
       overflow="auto"
       fontFamily="'Courier New', monospace"
     >
+      <center>
+      <Text> Sorry its Broken for now !</Text>
+      </center>
+      
       {!pubkeyContext ? (
         <Flex flexDirection="column" alignItems="center" justifyContent="center">
-          <Text>Connect Wallet</Text>
+          {/* <Text>Connect Wallet</Text> */}
           <Pioneer></Pioneer>
         </Flex>
       ) : loading ? (

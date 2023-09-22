@@ -54,6 +54,7 @@ const Wallet = () => {
       <EvmBalance />
     </Box>
   </Flex>
+  
 </TabPanel>
 
         <TabPanel>

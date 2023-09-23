@@ -351,7 +351,7 @@ export default function QFS() {
           <Table
   variant="striped"
   width="100%"
-  border="1px solid green" // Add a border to the table
+  border="1px solid green" 
 >
   <Thead>
     <Tr>

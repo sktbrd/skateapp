@@ -13,8 +13,7 @@ const DaoStatus = () => {
   return (
     <Flex flexDirection={['column', 'row']} paddingBottom="30px" width="100%" >
       <EthereumStats></EthereumStats>
-      <HiveStats></HiveStats>
-    </Flex>
+      <HiveStats wallet="steemskate" />    </Flex>
   );
 }
 

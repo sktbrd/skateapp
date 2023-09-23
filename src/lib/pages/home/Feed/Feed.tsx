@@ -46,7 +46,6 @@ const placeholderEarnings = 69.42;
 const randomSentences = [
   "Don't mall grab, or do it, you do you...",
   "'Ok to push Mongo it is (master YODA)'",
-  "Be careful, Jasper is around...",
   "Roll one and play some stoken.quest",
   "Remember Mirc times ?",
   "Fuck instagram!",
@@ -279,7 +278,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
 `;
 
 const cardStyles = css`
-  border: 1px solid limegreen;
   border-radius: 10px;
    /* Add a higher z-index to display the card above other cards */
   /* ... (other styles) */
@@ -289,8 +287,8 @@ const cardStyles = css`
 `;
 
 const truncateTitle = (title:any, maxCharacters = 60) => {
-  // Capitalize the first letter of the title
-  title = title.charAt(0).toUpperCase() + title.slice(1);
+  // Capitalize todas as letras do título
+  title = title.toUpperCase();
 
   if (title.length <= maxCharacters) {
     return title;
@@ -299,6 +297,7 @@ const truncateTitle = (title:any, maxCharacters = 60) => {
     return truncatedTitle;
   }
 };
+
 
   return (
     <Box>
@@ -331,7 +330,6 @@ const truncateTitle = (title:any, maxCharacters = 60) => {
                       flex="1"
                       gap="3"
                       borderRadius="10px"
-                      border="1px solid limegreen"
                       alignItems="center"
                     >
                       <Link to={`profile/${post.author}`}>
@@ -344,7 +342,7 @@ const truncateTitle = (title:any, maxCharacters = 60) => {
                       </Link>
 
                       <Box>
-                        <Heading size="sm">{post.author}</Heading>
+                        <Heading color="white" size="sm">{post.author}</Heading>
                       </Box>
                     </Flex>
                     <IconButton
@@ -385,6 +383,7 @@ const truncateTitle = (title:any, maxCharacters = 60) => {
 
                 </CardBody>
                 <CardFooter>
+                  
                   <Text
                     color="white"
                     style={{ display: "flex", alignItems: "center" }}
@@ -398,11 +397,11 @@ const truncateTitle = (title:any, maxCharacters = 60) => {
                         handleVotersModalOpen(post);
                       }}
                       variant="ghost"
-                      colorScheme="gray"
-                      size="xs"
+                      colorScheme="green"
+                      size="s"
                       ml={2}
                     >
-                      Stoken: {post.earnings.toFixed(2)}
+                     $ {post.earnings.toFixed(2)}
                       <img
                         src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
                         alt="Earning"

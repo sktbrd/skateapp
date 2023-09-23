@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import SendHiveModal from "./sendHiveModal";
 import useAuthUser from "lib/pages/home/api/useAuthUser";
 import * as dhive from "@hiveio/dhive";
+import WalletTransactions from "lib/pages/home/dao/components/txHistory";
 
 import FiatBalance from "../fiat/fiat";
 
@@ -285,7 +286,7 @@ export default function HiveBalanceDisplay2() {
                         color="white" 
                         borderRadius="10px" 
                         border="1px dashed limegreen" 
-                        label="Skatehive operates a Hive witness, a vital role ensuring network security and stability by producing blocks and validating transactions. Elected by the Hive community, witnesses like Skatehive are integral to decentralized governance, directly impacting the blockchain's functionality. You can show your support by voting for Skatehive as a witness">
+                        label="Buy hive using othe crypto">
 
                     <HStack
                         margin="10px"
@@ -300,7 +301,7 @@ export default function HiveBalanceDisplay2() {
                             width="20px"
                             height="20px"
                         />
-                        <ChakraLink target="_blank" href="https://vote.hive.uno/@skatehive" fontSize="16px">Buy HIVE </ChakraLink>
+                        <ChakraLink target="_blank" href="https://simpleswap.io/" fontSize="16px">Buy HIVE </ChakraLink>
                     </HStack>
                     </Tooltip>
 
@@ -309,7 +310,7 @@ export default function HiveBalanceDisplay2() {
                         color="white" 
                         borderRadius="10px" 
                         border="1px dashed limegreen" 
-                        label="A curation trail on Hive is like a way to automatically follow the voting choices of a trusted user. When they upvote content, your account does too, and you both earn rewards. It's akin to having a content curator or guide who selects valuable posts, and you get to benefit from their expertise without actively searching for content to upvote. You can adjust how closely you follow their votes, giving you some control over your engagement. You can follow our curation trail clicking in this link.">
+                        label="Dont! power up!">
                     <HStack
                         margin="10px"
                         borderRadius="10px"
@@ -323,7 +324,7 @@ export default function HiveBalanceDisplay2() {
                             width="20px"
                             height="20px"
                         />
-                        <ChakraLink target="_blank" href="https://hive.vote/dash.php?i=1&trail=steemskate" fontSize="16px">Sell Hive  </ChakraLink>
+                        <ChakraLink target="_blank" href="https://simpleswap.io/" fontSize="16px">Sell Hive  </ChakraLink>
                     </HStack>
                     </Tooltip>
                     <Button                         margin="10px"
@@ -345,6 +346,8 @@ export default function HiveBalanceDisplay2() {
         setAmount={setAmount}
         handleTransfer={handleTransfer}
       />
+      <WalletTransactions wallet={user?.name || ""} />
+      
     </Box>
     
     

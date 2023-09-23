@@ -47,9 +47,12 @@ ol: ({ ordered, children, ...props }: RendererProps) => {
     return <ol {...props} style={{ listStyleType: listType, paddingLeft: '20px' }}>{children}</ol>;
 },
 
-ul: ({ children, ...props }: RendererProps) => {
-    return <ul {...props} style={{ paddingLeft: '20px' }}>{children}</ul>;
+ul: ({ ordered, children, ...props }: RendererProps) => {
+  const listType = ordered ? "1" : "decimal";
+  return <ul {...props} data-ordered={listType} style={{ paddingLeft: '20px' }}>{children}</ul>;
 },
+
+
 hr: ({ children, ...props }: RendererProps) => <hr {...props} style={{ paddingBottom: '20px' }}>{children}</hr>,
 br: ({ children, ...props }: RendererProps) => <br {...props} style={{ paddingBottom: '20px' }}>{children}</br>,
 pre: ({ children, ...props }: RendererProps) => (

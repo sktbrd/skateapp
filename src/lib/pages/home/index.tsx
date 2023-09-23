@@ -40,7 +40,7 @@ import UploadPage from "../upload";
               border="1px limegreen solid"
               _selected={{ backgroundColor: "limegreen" ,color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
-              🛹 Upload
+              🛹 UPLOAD
             </Tab>
             <Tab
               color="white"

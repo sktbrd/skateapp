@@ -13,7 +13,12 @@ const dhiveClient = new dhive.Client([
     "https://api.openhive.network",
 ]);
 
-const HiveStats = () => {
+// Define the prop type for the wallet
+interface HiveStatsProps {
+  wallet: string;
+}
+
+const HiveStats: React.FC<HiveStatsProps> = ({ wallet }) => {
     const [hivePrice, setHivePrice] = useState(0);
     const [HBDprice, setHBDPrice] = useState(0);
     const [hivePower, setHivePower] = useState<string>("0");
@@ -61,7 +66,7 @@ const HiveStats = () => {
 
     const fetchHiveStats = async () => {
       try {
-          const account = await dhiveClient.database.getAccounts(["steemskate"]);
+          const account = await dhiveClient.database.getAccounts([wallet]);
   
           const [conversionRate, hbdPrice, vestingSharesData] = await Promise.all([
               cache.conversionRate || fetchConversionRate(),
@@ -95,10 +100,10 @@ const HiveStats = () => {
   };
   
 
-    useEffect(() => {
-        fetchHiveStats();
-    }, []);
-
+  useEffect(() => {
+    fetchHiveStats();
+  }, [wallet]);
+  
     return (
         <Box
             borderRadius="12px"

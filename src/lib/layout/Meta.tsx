@@ -19,7 +19,7 @@ const Meta = () => {
       {/* Open Graph Meta Tags */}
       <meta property="og:title" content={APP_NAME} />
       <meta property="og:description" content="Skateboarders App" />
-      <meta property="og:image" content="https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75" />
+      <meta property="og:image" content="https://i.ibb.co/3R7cvdZ/image.png" />
       <meta property="og:url" content="https://skatehive.app" />
       <meta property="og:type" content="website" />
 

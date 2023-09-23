@@ -4,6 +4,8 @@ import ReactHtmlParser from 'react-html-parser';
 import { Text as ChakraText, Modal, ModalOverlay, ModalContent, useDisclosure } from '@chakra-ui/react';
 import { Avatar, Button, Box, SimpleGrid } from '@chakra-ui/react';
 import PostModal from '../Feed/postModal/postModal';
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 
 
 
@@ -101,7 +103,7 @@ const HiveVideos: React.FC = () => {
                 </Box>
                 <Box position="relative" width="100%" paddingBottom="56.25%">
     
-                    {ReactHtmlParser(iframe)}
+                <ReactMarkdown rehypePlugins={[rehypeRaw]}>{iframe}</ReactMarkdown>
    
                 </Box>
               <Box >

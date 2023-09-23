@@ -22,6 +22,7 @@ const Meta = () => {
       <meta property="og:image" content="https://i.ibb.co/3R7cvdZ/image.png" />
       <meta property="og:url" content="https://skatehive.app" />
       <meta property="og:type" content="website" />
+      <meta property="twitter:image" content="https://i.ibb.co/3R7cvdZ/image.png"/>
 
       <link rel="shortcut icon" href="https://images.hive.blog/u/hive-173115/avatar" />
       <link rel="manifest" href="/manifest.json" />

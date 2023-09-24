@@ -21,7 +21,7 @@ export const Meta: React.FC<SeoProps> = memo(
     return (
       <Helmet>
         {/* Standard metadata tags */}
-        <title>{title ? `${title} | ShapeShift` : 'ShapeShift'}</title>
+        <title>{title ? `${title} | SkateHive` : 'SkateHive'}</title>
         <meta name='description' content={description} />
         {/* End standard metadata tags */}
         {/* Facebook tags */}

@@ -1,32 +1,42 @@
-import { Helmet } from "react-helmet";
+import React, { memo } from 'react'
+import { Helmet } from 'react-helmet'
 
-const APP_NAME = "SkateHive App";
+const Thumb = 'https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75'
 
-const Meta = () => {
-  return (
-    <div>
-      <title>{APP_NAME}</title>
-      <meta name="description" content="Skateboarders App" />
+type SeoProps = {
+  title?: string
+  description?: string
+  type?: string
+  name?: string
+}
 
-      <meta name="application-name" content={APP_NAME} />
-      <meta name="apple-mobile-web-app-capable" content="yes" />
-      <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-      <meta name="apple-mobile-web-app-title" content={APP_NAME} />
-      <meta name="format-detection" content="telephone=no" />
-      <meta name="mobile-web-app-capable" content="yes" />
-      <meta name="theme-color" content="#228B22" />
-
-      {/* Open Graph Meta Tags */}
-      <meta property="og:title" content={APP_NAME} />
-      <meta property="og:description" content="Skateboarders App" />
-      <meta property="og:image" content="https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75" />
-      <meta property="og:url" content="https://skatehive.app" />
-      <meta property="og:type" content="website" />
-
-      <link rel="shortcut icon" href="https://images.hive.blog/u/hive-173115/avatar" />
-      <link rel="manifest" href="/manifest.json" />
-    </div>
-  );
-};
-
-export default Meta;
+export const Meta: React.FC<SeoProps> = memo(
+  ({
+    title,
+    description = 'Skatehive | The portal for skateboarding in web3',
+    type = 'website',
+    name = 'Skatehive',
+  }) => {
+    const publicUrl = window.location.origin
+    return (
+      <Helmet>
+        {/* Standard metadata tags */}
+        <title>{title ? `${title} | ShapeShift` : 'ShapeShift'}</title>
+        <meta name='description' content={description} />
+        {/* End standard metadata tags */}
+        {/* Facebook tags */}
+        <meta property='og:image' content={`${publicUrl}${Thumb}`} />
+        <meta property='og:type' content={type} />
+        <meta property='og:title' content={title} />
+        <meta property='og:description' content={description} />
+        {/* End Facebook tags */}
+        {/* Twitter tags */}
+        <meta name='twitter:creator' content={name} />
+        <meta name='twitter:card' content={type} />
+        <meta name='twitter:title' content={title} />
+        <meta name='twitter:description' content={description} />
+        {/* End Twitter tags */}
+      </Helmet>
+    )
+  },
+)

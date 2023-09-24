@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 import Footer from "./Footer";
 import HeaderNew from "./Header";
-import Meta from "./Meta";
+import {Meta}  from "./Meta";
 
 type LayoutProps = {
   children: ReactNode;

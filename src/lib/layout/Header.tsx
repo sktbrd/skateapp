@@ -282,6 +282,14 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
               Docs
             </MenuItem>
           </Link>
+          <Link to="https:/github.com/sktbrd/skateapp" style={{ textDecoration: 'none' }}>
+            <MenuItem
+              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+              backgroundColor="black"
+            >
+              Contribute
+            </MenuItem>
+          </Link>
           <Link to="/becool" style={{ textDecoration: 'none' }}>
             <MenuItem
               _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover

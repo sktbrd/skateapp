@@ -13,7 +13,7 @@ type SeoProps = {
 export const Meta: React.FC<SeoProps> = memo(
   ({
     title,
-    description = 'Skatehive | The portal for skateboarding in web3',
+    description = 'Skatehive | The portal for skateboard in web3',
     type = 'website',
     name = 'Skatehive',
   }) => {
@@ -32,7 +32,7 @@ export const Meta: React.FC<SeoProps> = memo(
         {/* End Facebook tags */}
         {/* Twitter tags */}
         <meta name='twitter:creator' content={name} />
-        <meta name='twitter:card' content={type} />
+        <meta name='twittcard' content={type} />
         <meta name='twitter:title' content={title} />
         <meta name='twitter:description' content={description} />
         {/* End Twitter tags */}

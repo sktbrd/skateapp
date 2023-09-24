@@ -70,8 +70,10 @@ const HiveVideos: React.FC = () => {
   const extractIframes = (markdownContent: string): string[] => {
     const iframeRegex = /<iframe[^>]*src="([^"]*)"[^>]*><\/iframe>/g;
     const matches = markdownContent.match(iframeRegex) || [];
-    return matches.map(adjustVideoSize);
+    const nonPinataIframes = matches.filter(iframe => !iframe.includes("gateway.pinata.cloud"));
+    return nonPinataIframes.map(adjustVideoSize);
   };
+  
 
   const openPostModal = (post: Discussion) => {
     setSelectedPost(post);

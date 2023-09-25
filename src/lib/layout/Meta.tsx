@@ -4,7 +4,7 @@ const APP_NAME = "SkateHive App";
 
 const Meta = () => {
   return (
-    <div>
+    <Helmet>
       <title>{APP_NAME}</title>
       <meta name="description" content="Skateboarders App" />
 
@@ -26,8 +26,8 @@ const Meta = () => {
       <meta property="twitter:description" content="The Portal to web3 skateboarding"></meta>
 
       <link rel="shortcut icon" href="https://images.hive.blog/u/hive-173115/avatar" />
-      <link rel="manifest" href="/manifest.json" />
-    </div>
+      <link rel="manifest" href="./manifest.json" />
+    </Helmet>
   );
 };
 

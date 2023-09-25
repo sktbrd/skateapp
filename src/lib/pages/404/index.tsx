@@ -16,13 +16,12 @@ const Page404 = () => {
 
   return (
     <Grid gap={4} textAlign="center">
+      <Heading> 404 !</Heading>
       <Heading>You found nothing !</Heading>
 
       <Box maxWidth={[280, 400]} marginX="auto">
-        <Image width={400} src="/assets/404 Error-rafiki.svg" />
-        <Link fontSize="xs" href="https://stories.freepik.com/web" isExternal>
-          Illustration by Freepik Stories
-        </Link>
+        <Image border="1px solid limegreen" borderRadius="10px" width={400} src="/assets/404.gif" />
+
       </Box>
 
       <Box>

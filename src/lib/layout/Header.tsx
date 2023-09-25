@@ -243,7 +243,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           }}
         >
           <Image
-            src="https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75"
+            src="/assets/skatehive.jpeg"
             alt="Dropdown Image"
             boxSize="48px" // Adjust the size as needed
             borderRadius="10px"
@@ -280,6 +280,14 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
               backgroundColor="black"
             >
               Docs
+            </MenuItem>
+          </Link>
+          <Link to="https:/github.com/sktbrd/skateapp" style={{ textDecoration: 'none' }}>
+            <MenuItem
+              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+              backgroundColor="black"
+            >
+              Contribute
             </MenuItem>
           </Link>
           <Link to="/becool" style={{ textDecoration: 'none' }}>

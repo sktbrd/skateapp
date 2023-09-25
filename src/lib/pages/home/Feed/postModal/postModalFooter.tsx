@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Flex, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box, Text } from '@chakra-ui/react';
 import voteOnContent from '../../api/voting';
 import { useState } from 'react';
+import HiveLogin from '../../api/HiveLoginModal';
 
 import * as Types from '../types'
 
@@ -18,7 +19,9 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
   
 
   const handleVote = async () => {
-    
+    // Assuming you have a DOM element for displaying error messages with an id "error-message"
+    const errorMessageElement = document.getElementById("error-message");
+  
     if (!user || !user.name) {
       console.error("User not logged in or missing username");
       return;
@@ -30,9 +33,14 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
       // handle the vote result here
     } catch (error) {
       console.error("Voting failed:", error);
-      // handle the error properly here
+  
+      // Use a type assertion to cast 'error' to the 'Error' type
+      const errorMessage = (error as Error).message || "An unknown error occurred.";
+      alert(`Voting failed: ${errorMessage}`);
     }
   };
+  
+  
   
   return (
     <Flex border="1px white solid" padding="20px" justify="space-between" >

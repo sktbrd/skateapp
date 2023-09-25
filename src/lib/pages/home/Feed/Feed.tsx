@@ -40,7 +40,7 @@ const nodes = [
 ];
 
 const defaultThumbnail =
-  "https://images.ecency.com/u/hive-173115/avatar/large";
+  "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fc.tenor.com%2FZco-fadJri4AAAAd%2Fcode-matrix.gif&f=1&nofb=1&ipt=9a9b3c43e852a375c62be78a0faf338d6b596b4eca90e5c37f75e20725a3fc67&ipo=images";
 const placeholderEarnings = 69.42;
 
 const randomSentences = [

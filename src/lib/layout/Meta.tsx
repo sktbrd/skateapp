@@ -26,7 +26,11 @@ const Meta = () => {
       <meta property="twitter:description" content="The Portal to web3 skateboarding"></meta>
 
       <link rel="shortcut icon" href="https://images.hive.blog/u/hive-173115/avatar" />
+<<<<<<< HEAD
       <link rel="manifest" href="/manifest.json" />
+=======
+      <link rel="manifest" href="./manifest.json" />
+>>>>>>> development
     </Helmet>
   );
 };

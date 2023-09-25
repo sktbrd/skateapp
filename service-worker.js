@@ -8,20 +8,36 @@ const filesToCache = [
   '/',
   '/index.html',
   '/public/',
-  '/assets/skatehive-logo.png', // Add paths to individual assets you want to cache
+  '/assets/skatehive.jpeg', // Add paths to individual assets you want to cache
   // Include paths to other assets (images, stylesheets, scripts, etc.)
   // Add paths to all the files you want to cache
   // Include paths to other assets (images, stylesheets, scripts, etc.)
 ];
 
-// Install event: Cache all the necessary assets
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(cacheName).then((cache) => {
-      return cache.addAll(filesToCache);
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      if (response) {
+        return response; // Serve the cached response if available
+      } else {
+        return fetch(event.request)
+          .then((fetchResponse) => {
+            // Cache the fetched response for future use
+            return caches.open(cacheName).then((cache) => {
+              cache.put(event.request, fetchResponse.clone());
+              return fetchResponse;
+            });
+          })
+          .catch((error) => {
+            console.error('Fetch failed:', error);
+            throw error; // Rethrow the error to propagate it further
+          });
+      }
     })
   );
 });
+
+
 
 // Fetch event: Serve cached content or fetch from network
 self.addEventListener('fetch', (event) => {

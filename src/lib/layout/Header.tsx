@@ -243,7 +243,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           }}
         >
           <Image
-            src="https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75"
+            src="/assets/skatehive.jpeg"
             alt="Dropdown Image"
             boxSize="48px" // Adjust the size as needed
             borderRadius="10px"

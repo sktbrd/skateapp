@@ -8,5 +8,13 @@
   "dir": "ltr",
   "display": "standalone",
   "orientation": "portrait",
-  "prefer_related_applications": false
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "public/assets/skatehive-logo.png",
+      "sizes": "196x196",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
 }

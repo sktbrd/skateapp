@@ -28,6 +28,7 @@ import useAuthUser from '../../api/useAuthUser';
 import CommentBox from './commentBox';
 import * as Types from '../types';
 import { MarkdownRenderers } from '../../../utils/MarkdownRenderers';
+import HiveLogin from '../../api/HiveLoginModal';
 const nodes = [
   "https://rpc.ecency.com",
   "https://api.deathwing.me",
@@ -52,6 +53,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   
   const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
   const { user } = useAuthUser();
+  const isUserLoggedIn = !!user; // Check if the user is logged in
   const username = user ? user.name : null
   const modalContainerRef = useRef<HTMLDivElement>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -59,6 +61,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   const [client, setClient] = useState(new Client(nodes[0]));
   const [nodeIndex, setNodeIndex] = useState(0);
   console.log(postUrl)
+  const [showLoginModal, setShowLoginModal] = useState(false); // State to control the login modal visibility
 
 
 
@@ -285,50 +288,61 @@ return (
     <ModalContent backgroundColor={'black'} border={'1px solid limegreen'}>
       <ModalHeader>
         <PostHeader title={title} author={author} avatarUrl={avatarUrl} postUrl={postUrl} permlink={permlink} onClose={onClose} />
-        {user?.name === author && !isEditing && (
+        {isUserLoggedIn && user.name === author && !isEditing && (
           <Button id="editButton" onClick={handleEditClick}>Edit</Button>
         )}
-        {isEditing && (
+        {isUserLoggedIn && isEditing && (
           <Button id="saveButton" onClick={handleSaveClick}>Save</Button>
         )}
       </ModalHeader>
       <ModalBody ref={modalContainerRef}>
-  {isEditing ? (
-    <Textarea
-      value={editedContent}
-      onChange={(e) => setEditedContent(e.target.value)}
-    />
-  ) : (
-    <ReactMarkdown
-    components={MarkdownRenderers} // Use your custom renderers here
-    rehypePlugins={[rehypeRaw]}
-    remarkPlugins={[remarkGfm]}
-  >
-    {transformYouTubeContent(content)}
-  </ReactMarkdown>  )}
-</ModalBody>
-
+        {isEditing ? (
+          <Textarea
+            value={editedContent}
+            onChange={(e) => setEditedContent(e.target.value)}
+          />
+        ) : (
+          <ReactMarkdown
+            components={MarkdownRenderers}
+            rehypePlugins={[rehypeRaw]}
+            remarkPlugins={[remarkGfm]}
+          >
+            {transformYouTubeContent(content)}
+          </ReactMarkdown>
+        )}
+      </ModalBody>
       <Comments comments={comments} commentPosted={commentPosted} />
-      <CommentBox
+
+      {/* Render comment box or login button */}
+      {isUserLoggedIn ? (
+        <div>
+                <CommentBox
         user={user}
         parentAuthor={author}
         parentPermlink={permlink}
         onCommentPosted={() => setCommentPosted(!commentPosted)}
       />
-      <PostFooter onClose={onClose} user={user} author={author} permlink={permlink} weight={weight} />
-      <HStack justifyContent="space-between">
-        <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
-          <Button margin="5px" border="1px solid orange" onClick={handleViewFullPost}>View Full Post</Button>
-        </Link>
-        <Button border="1px solid orange" onClick={handleCopyPostLink}>
-          {postLinkCopied ? 'Link Copied!' : 'Share Post'}
-        </Button>
-      </HStack>
+          <PostFooter onClose={onClose} user={user} author={author} permlink={permlink} weight={weight} />
+        </div>
+      ) : (
+        <center>
+        <Button margin="10px" border="1px solid yellow" onClick={() => setShowLoginModal(true)}>Login to Comment | Vote</Button>
+
+        </center>
+      )}
+
+      {/* Always render the footer */}
+      {/* ... other code ... */}
     </ModalContent>
+
+    {/* Render HiveLogin modal */}
+    <HiveLogin isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
   </Modal>
 );
 
 
 };
+
+
 
 export default PostModal;

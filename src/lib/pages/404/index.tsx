@@ -16,6 +16,7 @@ const Page404 = () => {
 
   return (
     <Grid gap={4} textAlign="center">
+      <Heading> 404 !</Heading>
       <Heading>You found nothing !</Heading>
 
       <Box maxWidth={[280, 400]} marginX="auto">

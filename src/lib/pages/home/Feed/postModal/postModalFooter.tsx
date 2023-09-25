@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Flex, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box, Text } from '@chakra-ui/react';
 import voteOnContent from '../../api/voting';
 import { useState } from 'react';
+import HiveLogin from '../../api/HiveLoginModal';
 
 import * as Types from '../types'
 

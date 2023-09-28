@@ -255,7 +255,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
               _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
               backgroundColor="black"
             >
-              Governance
+              Putaria
             </MenuItem>
           </Link>
           <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" style={{ textDecoration: 'none' }}>

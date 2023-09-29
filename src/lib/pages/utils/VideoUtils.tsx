@@ -11,6 +11,16 @@ export function transform3SpeakContent(content: any) {
   }
   return content;
 }
+export function transformGiphyLinksToMarkdown(content: string): string {
+  const regex = /https:\/\/media0\.giphy\.com\/media\/[a-zA-Z0-9]+\/giphy\.gif/g;
+  
+  // Use the replace method to replace Giphy links with markdown image syntax
+  const transformedContent = content.replace(regex, (match: string) => {
+    return `![Giphy Image](${match})`;
+  });
+
+  return transformedContent;
+}
 
 
 export function transformYouTubeContent(content: string): string {

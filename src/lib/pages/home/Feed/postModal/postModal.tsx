@@ -39,6 +39,8 @@ const nodes = [
   "https://api.pharesim.me",
 ];
 
+import { transformGiphyLinksToMarkdown } from 'lib/pages/utils/VideoUtils';
+
 const PostModal: React.FC<Types.PostModalProps> = ({
   isOpen,
   onClose,
@@ -331,11 +333,10 @@ return (
         </center>
       )}
 
-      {/* Always render the footer */}
-      {/* ... other code ... */}
+
     </ModalContent>
 
-    {/* Render HiveLogin modal */}
+
     <HiveLogin isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
   </Modal>
 );

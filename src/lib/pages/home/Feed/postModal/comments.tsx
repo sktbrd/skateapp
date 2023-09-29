@@ -30,7 +30,7 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
     };
 
     return (
-        <Box border="1px solid limegreen" borderRadius="5px" padding="15px" margin="10px">
+        <Box border="1px solid yellow" borderRadius="5px" padding="15px" margin="10px">
             <Flex padding="5px" alignItems="center">
                 <Image src={avatarUrl} borderRadius="full" boxSize="40px" mr="3" />
                 <Text fontWeight="bold">@{author}</Text>

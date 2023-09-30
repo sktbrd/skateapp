@@ -297,6 +297,7 @@ return (
           <Button id="saveButton" onClick={handleSaveClick}>Save</Button>
         )}
       </ModalHeader>
+      
       <ModalBody ref={modalContainerRef}>
         {isEditing ? (
           <Textarea
@@ -304,6 +305,7 @@ return (
             onChange={(e) => setEditedContent(e.target.value)}
           />
         ) : (
+          
           <ReactMarkdown
             components={MarkdownRenderers}
             rehypePlugins={[rehypeRaw]}
@@ -311,10 +313,19 @@ return (
           >
             {transformYouTubeContent(content)}
           </ReactMarkdown>
+          
         )}
+        
       </ModalBody>
       <Comments comments={comments} commentPosted={commentPosted} />
-
+      <HStack justifyContent="space-between">
+        <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
+          <Button color="white" bg="black" margin="15px" border="1px solid orange" onClick={handleViewFullPost}>View Full Post</Button>
+        </Link>
+        <Button color="white" bg="black" border="1px solid orange" margin="15px" onClick={handleCopyPostLink}>
+          {postLinkCopied ? 'Link Copied!' : 'Share Post'}
+        </Button>
+      </HStack>   
       {/* Render comment box or login button */}
       {isUserLoggedIn ? (
         <div>
@@ -325,10 +336,11 @@ return (
         onCommentPosted={() => setCommentPosted(!commentPosted)}
       />
           <PostFooter onClose={onClose} user={user} author={author} permlink={permlink} weight={weight} />
+
         </div>
       ) : (
         <center>
-        <Button margin="10px" border="1px solid yellow" onClick={() => setShowLoginModal(true)}>Login to Comment | Vote</Button>
+        <Button color="white" bg="black"  margin="10px" border="1px solid yellow" onClick={() => setShowLoginModal(true)}>Login to Comment | Vote</Button>
 
         </center>
       )}

@@ -223,7 +223,7 @@ const HiveStats: React.FC<HiveStatsProps> = ({ wallet }) => {
     );
 };
 
-const BalanceDisplay = ({
+export const BalanceDisplay = ({
   label,
   balance,
   labelTooltip,

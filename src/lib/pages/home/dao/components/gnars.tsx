@@ -1,12 +1,16 @@
 import React from "react";
 import HiveStats from "./hiveStats";
+import AccSummary from "./accSummary";
 import WalletTransactions from "./txHistory";
 import { Box } from "@chakra-ui/react";
 
 const GnarsStats = () => {
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
-      <HiveStats wallet="gnars" />
+      <Box display="flex" flexDirection="row" width="100%">
+        <HiveStats wallet="gnars" />
+        <AccSummary username="gnars" />
+      </Box>
       <WalletTransactions wallet="gnars" />
     </Box>
   );

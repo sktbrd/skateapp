@@ -4,7 +4,7 @@ import voteOnContent from '../home/api/voting';
 import { useState } from 'react';
 
 
-import * as Types from '../home/magazine/types'
+import * as Types from '../home/Feed/types'
 
 const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, user, author, permlink, weight = 10000 }) => {
   const [sliderValue, setSliderValue] = useState(0);

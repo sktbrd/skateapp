@@ -118,12 +118,14 @@ const SnapShot: React.FC = () => {
 const [isMobile] = useMediaQuery('(max-width: 768px)');
 
 return (
-  <Flex flexDirection="column">
+  <Flex  flexDirection="column">
     <DaoStatus />
-    <Box p={4} backgroundColor="black" borderRadius="10px" border="1px solid limegreen">
-      <Text fontSize="2xl" color="limegreen">
+      <Flex justify={"center"}>
+      <Text border="1px solid white" borderRadius="10px" padding="8px"  fontSize="2xl" color="white">
         Governance
       </Text>
+      </Flex>
+
       <List mt={3} spacing={3}>
         {loadingProposals ? (
           Array.from({ length: 10 }).map((_, index) => (
@@ -138,21 +140,21 @@ return (
               <Flex
                 borderWidth={1}
                 borderRadius="md"
+                border="2px solid orange"
                 p={4}
                 flexDirection="column"
                 backgroundColor="black"
-                border="1px solid limegreen"
                 boxShadow="md"
                 opacity={proposal.state === 'closed' ? 0.7 : 1}
               >
 
-                <Flex padding="2px" flexDirection="column">
+              <Flex padding="2px" flexDirection={!isMobile ? "row" : "column"}>
                   {!isMobile && ( // Check if not mobile
                     <Image
                       src={findImage(proposal.body)}
                       alt="Thumbnail"
-                      boxSize="150px"
-                      border="1px solid limegreen"
+                      boxSize="10%"
+                      border="1px solid white"
                       borderRadius="md"
                       onError={(e) => {
                         e.currentTarget.src = placeholderImage;
@@ -164,84 +166,88 @@ return (
                   
                   <Flex flexDirection={!isMobile ? "row" : "column"}>
                     {isMobile && (
-                      <Image
+                        <Image
                         src={findImage(proposal.body)}
                         alt="Thumbnail"
-                        boxSize="150px"
-                        border="1px solid limegreen"
+                        boxSize="10%"
+                        border="1px solid white"
                         borderRadius="md"
                         onError={(e) => {
                           e.currentTarget.src = placeholderImage;
                         }}
                         mr={4}
                       />
-                    )}
-                    <VStack align="start" flex="1">
 
-                      <Text 
-                        border="1px solid limegreen" 
-                        padding="10px" 
+
+                    )}
+                    <VStack paddingLeft="5px"  align="start">
+                       <Box minWidth="100%"  borderRadius="10px"  border="1px solid white" >
+                       <Text 
+                        padding="5px" 
                         color="white" 
-                        borderRadius="10px" 
                         fontSize="xl"
                       >
                         {proposal.title}
                       </Text>
-                      <HStack>
+                        </Box> 
+
+                      <HStack alignContent="center">
                         <Badge 
-                          variant="solid" 
+                          variant="subtle" 
                           colorScheme={proposal.state === 'closed' ? 'red' : 'green'} 
                           mb={2}
                         >
                           {proposal.state === 'closed' ? 'Closed' : 'Open'}
                         </Badge>
-                        <Text flexWrap="-moz-initial" color="white" mt={2} fontStyle="italic">
-                Author: {proposal.author}
-              </Text>
+                        <Text color="white" >
+                          Author: {proposal.author.slice(0, 6)}...{proposal.author.slice(-4)}
+                        </Text>
                       </HStack>
                       {loadingSummaries ? (
                         <Skeleton height="20px" width="100%" mt={2} />
                       ) : (
+                        <Box paddingBottom="5px">
                         <Text 
                           padding="5px" 
-                          color="yellow" 
+                          color="aqua" 
                           borderRadius="10px" 
-                          border="1px solid limegreen" 
+                          border="1px solid white" 
                           mt={2}
                         >
                           🤖 GPT-Summary: {proposal.summary}
                         </Text>
+                        </Box>
+
                       )}
                     </VStack>
                   </Flex>
                 </Flex>
 
                 <Flex borderRadius="10px" flexDirection="row" justifyContent="space-between">
-                  <Flex flexDirection="row">
-                    {proposal.choices.sort().reverse().map((choice, index) => (
-                      <Button
-                        key={index}
-                        backgroundColor="black"
-                        border="1px solid orange"
-                        mr={2}
-                        mb={2}
-                        borderRadius="md"
-                        onClick={() => {
-                          if (proposal.state === 'closed') {
-                            alert("Voting is closed. You're late to vote! Lazy Ass...");
-                          } else {
-                            window.open(
-                              `https://snapshot.org/#/skatehive.eth/proposal/${proposal.id}`, // Replace with the actual snapshot URL
-                              '_blank'
-                            );
-                          }
-                        }}
-                      >
-                        {choice}
-                      </Button>
-                    ))}
-
-                  </Flex>
+                <Flex flexDirection="row" justifyContent="center" width="100%">
+  {proposal.choices.sort().reverse().map((choice, index) => (
+    <Button
+      key={index}
+      backgroundColor="black"
+      border="1px solid orange"
+      mr={2}
+      mb={2}
+      borderRadius="md"
+      onClick={() => {
+        if (proposal.state === 'closed') {
+          alert("Voting is closed. You're late to vote! Lazy Ass...");
+        } else {
+          window.open(
+            `https://snapshot.org/#/skatehive.eth/proposal/${proposal.id}`, // Replace with the actual snapshot URL
+            '_blank'
+          );
+        }
+      }}
+    >
+      {choice}
+    </Button>
+  ))}
+</Flex>
 
                 </Flex>
               </Flex>
@@ -250,7 +256,6 @@ return (
           ))
         )}
       </List>
-    </Box>
   </Flex>
 );
 

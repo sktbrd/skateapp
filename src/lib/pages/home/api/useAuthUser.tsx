@@ -87,6 +87,7 @@ export default function useAuthUser(): AuthUser {
   const logout = () => {
     setUser(null);
     sessionStorage.removeItem("user");
+    window.location.reload();
   };
 
   const isLoggedIn = () => {

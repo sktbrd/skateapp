@@ -70,6 +70,7 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
           <SliderThumb boxSize={6}>
           </SliderThumb>
         </Slider>
+        
         <Text color="yellow" mt={2} textAlign="center">
           {getFeedbackText(sliderValue)}
         </Text>

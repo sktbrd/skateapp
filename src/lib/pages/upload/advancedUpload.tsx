@@ -523,7 +523,7 @@ const AdvancedUpload: React.FC<UploadPageProps> = () => {
 </Flex>
 
        <Box borderRadius="10px"border="1px solid limegreen" width="100%">
-          <Button onClick={handlePublish} width="100%">
+          <Button bg="black" onClick={handlePublish} width="100%">
             Publish
           </Button>
         </Box>

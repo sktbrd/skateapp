@@ -478,7 +478,7 @@ const MediaUpload: React.FC = () => {
             />
           )}
           {showPublishButton ? (
-            <Button marginTop="10px" onClick={handlePublish}>
+            <Button bg="black" marginTop="10px" onClick={handlePublish}>
               Publish
             </Button>
           ) : (

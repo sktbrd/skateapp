@@ -41,34 +41,65 @@ h1: ({ children, ...props }: RendererProps) => <h1 {...props} style={{ fontWeigh
 h2: ({ children, ...props }: RendererProps) => <h2 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '20px', paddingBottom: '8px' , paddingTop:"10px"}}>{children}</h2>,
 h3: ({ children, ...props }: RendererProps) => <h3 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '18px', paddingBottom: '6px' , paddingTop:"10px"}}>{children}</h3>,
 h4: ({ children, ...props }: RendererProps) => <h4 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '16px', paddingBottom: '4px' , paddingTop:"10px"}}>{children}</h4>,
-blockquote: ({ children, ...props }: RendererProps) => <blockquote {...props} style={{ borderLeft: '3px solid red', paddingLeft: '10px', fontStyle: 'italic' }}>{children}</blockquote>,
+blockquote: ({ children, ...props }: RendererProps) => (
+  <div
+    style={{
+      backgroundColor: '#333',
+      padding: '16px',
+      borderLeft: '4px solid #FFD700', // Gold border
+      margin: '20px 0',
+      borderRadius: '8px',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',
+      color: '#FFF',
+      fontStyle: 'italic',
+      fontSize: '18px',
+      lineHeight: '1.5',
+    }}
+  >
+    <p style={{ margin: '0' }}>
+      {children}
+    </p>
+  </div>
+),
+
 ol: ({ ordered, children, ...props }: RendererProps) => {
     const listType = ordered ? "1" : "decimal";
-    return <ol {...props} style={{ listStyleType: listType, paddingLeft: '20px' }}>{children}</ol>;
+    return <ol {...props} style={{ listStyleType: listType, paddingLeft: '10%' }}>{children}</ol>;
 },
 
 ul: ({ ordered, children, ...props }: RendererProps) => {
   const listType = ordered ? "1" : "decimal";
-  return <ul {...props} data-ordered={listType} style={{ paddingLeft: '20px' }}>{children}</ul>;
+  return <ul {...props} data-ordered={listType} style={{ paddingLeft: '10%' }}>{children}</ul>;
 },
 
 
 hr: ({ children, ...props }: RendererProps) => <hr {...props} style={{ paddingBottom: '20px' }}>{children}</hr>,
 br: ({ children, ...props }: RendererProps) => <br {...props} style={{ paddingBottom: '20px' }}>{children}</br>,
 pre: ({ children, ...props }: RendererProps) => (
+  <div
+    style={{
+      backgroundColor: '#1E1E1E', // Dark gray background
+      padding: '16px',
+      borderRadius: '8px',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',
+      overflowX: 'auto', // Horizontal scrollbar for long code lines
+    }}
+  >
     <code
       {...props}
       style={{
-        backgroundColor: 'gray',
-        color: 'pink',
-        
-        maxWidth: '100%', // Set maximum width to 100% of parent container (the modal)
-        overflowX: 'auto', // Allow horizontal scrolling if content overflows
+        color: '#A9B7C6', // Light gray text color
+        fontFamily: 'monospace',
+        fontSize: '14px',
+        lineHeight: '1.5',
       }}
     >
       {children}
     </code>
-  ),
+  </div>
+),
+
+
   iframe: ({ src, ...props }: RendererProps) => (
     <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop:'10px' }}>
 

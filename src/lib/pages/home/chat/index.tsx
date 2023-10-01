@@ -245,6 +245,8 @@ const Chat: React.FC = () => {
     position: 'fixed',
     bottom: '30px',
     right: isSmallScreen ? '5px' : '20px',
+    backgroundColor: 'black',
+    border:'1px solid limegreen',
     zIndex: 2000,
     borderRadius: '100%',
   };

@@ -65,6 +65,10 @@ export const routes: Array<PathRouteProps> = [
   path: "/gnars",
   element: <GnarsStats />,
 },
+{
+  path: "/community",
+  element: <a href="https://discord.gg/skatehive">Redirecting to Discord</a>,
+}
 
 
 ];

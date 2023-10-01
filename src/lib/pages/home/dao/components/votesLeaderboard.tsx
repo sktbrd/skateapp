@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Text, Image, Button } from "@chakra-ui/react";
-import { VoteHistoryQuery, CurrationHistoryQuery } from './quries';
+import { VoteHistoryQuery, CurrationHistoryQuery } from './queries';
 import { Link as ChakraLink } from "@chakra-ui/react";
 
 const SQL_ENDPOINT = 'https://www.stoken.quest/sql';

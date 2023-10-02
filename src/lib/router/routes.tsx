@@ -1,5 +1,5 @@
 import Page404 from "lib/pages/404";
-import GnarsDao from "lib/pages/home/dao/components/gnars";
+import GnarsDao from "lib/pages/home/dao/components/hiveGnars/gnars";
 import UploadPage from "lib/pages/upload";
 import React from "react";
 import type { PathRouteProps } from "react-router-dom";
@@ -13,8 +13,8 @@ const BeCool = React.lazy(() => import("lib/pages/profile/beCool")); // Update t
 const TutorialPage = React.lazy(() => import("lib/pages/home/tutorialPage")); // Update the path accordingly
 const PostPage = React.lazy(() => import("lib/pages/postpage")); // Update the path accordingly
 const QFS = React.lazy(() => import("lib/pages/qfs")); // Update the path accordingly
-const Test = React.lazy(() => import("lib/pages/home/dao/components/testContract")); // Update the path accordingly
-const GnarsStats = React.lazy(() => import("lib/pages/home/dao/components/gnars")); // Update the path accordingly
+const Test = React.lazy(() => import("lib/pages/home/dao/components/ethereum/testContract")); // Update the path accordingly
+const GnarsStats = React.lazy(() => import("lib/pages/home/dao/components/hiveGnars/gnars")); // Update the path accordingly
 
 export const routes: Array<PathRouteProps> = [
   {

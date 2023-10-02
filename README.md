@@ -1,5 +1,7 @@
 # Skatehive App
 
+## Check the Full tutorial of [How to Fork](https://docs.skatehive.app/docs/tutorial-extras/fork-skatehive)
+
 - Install : `yarn`
 - Run : `yarn dev`
 

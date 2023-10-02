@@ -85,7 +85,25 @@ const VotesLeaderboard: React.FC<votesLeaderboardProps> = ({ username }) => {
       <Text fontSize="xx-large" align="center" fontWeight="bold" mb="4">
         Skaters Leaderboard
       </Text>
-    
+      <Box >
+        <center>
+        <Text color="white" align="center" fontWeight="bold" mb="4">
+          Gnars account upvotes skateboarding content on hive blockchain.  
+      
+          When Gnars account upvotes anything, it is delegating rewards (HBD and HP) from Hive Blockchain Reward Pool 
+          When HIVE tokens are mined, half the HIVE is given to the node validators mining the blocks, the other half is put into what is called,  the Hive Reward Pool.
+          The Hive Reward Pool’s funds are then distributed to users of Hive Blockchain through Curation.
+          By upvoting quality content on Hive, you are “curating” the content.
+          The more Hive Power (HP), which are STAKED HIVE tokens, an account on HIVE has, the more money from the reward pool they are able to direct towards quality content.
+          The rewards that are given out by curators to quality posts, are THEN split 50/50 with the curators, and the author of the post. So when Gnars Account upvotes something, it EARNS a percentage of it’s own upvote weight, back.
+         <br/>
+         <Text color="orange">
+         *Fans who leave thoughtful comments sometimes receive small upvotes.
+         </Text>
+        </Text>
+        </center>
+
+      </Box>
         {
         /* 
         all the unique authors and their total votes, total vote rewards

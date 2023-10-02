@@ -112,7 +112,7 @@ const AccSummary: React.FC<AccSummaryProps> = ({ username }) => {
                           color="white"
                           padding="10px"
                       >
-                        Account Summary
+                        Shared Rewards
                       </Text>
                   </Flex>
                 </Tooltip>

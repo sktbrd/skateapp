@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Box, Text, Flex, Image, VStack, HStack, Divider } from "@chakra-ui/react";
 
 // Hive Stuff
-import HiveStats from './components/hiveStats';
-import EthereumStats from './components/ethereumStats';
+import HiveStats from './components/steemskate/hiveStats';
+import EthereumStats from './components/ethereum/ethereumStats';
 
 const DaoStatus = () => {
   // Define hooks

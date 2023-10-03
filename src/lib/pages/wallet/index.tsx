@@ -64,7 +64,7 @@ const Wallet = () => {
         <TabPanel>
         <POAPsNFTWallet />
           <Text>POAPs content will be displayed here.</Text>
-        </TabPanel> {/* Added this block */}
+        </TabPanel> 
       </TabPanels>
     </Tabs>
   );

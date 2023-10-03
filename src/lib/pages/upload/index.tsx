@@ -8,7 +8,7 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react';
-import MediaUpload from './easyUpload2';
+import MediaUpload from './easyUpload';
 import AdvancedUpload from './advancedUpload';
 import Chat from '../home/chat';
 const UploadPage = () => {
@@ -37,8 +37,6 @@ const UploadPage = () => {
           </TabPanel>
         </TabPanels>
       </Tabs>
-
-      {/* Include the Chat component */}
       <Chat />
     </Box>
   );

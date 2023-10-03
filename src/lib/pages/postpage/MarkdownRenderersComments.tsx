@@ -43,6 +43,7 @@ ol: ({ ordered, children, ...props }: RendererProps) => {
 ul: ({ children, ...props }: RendererProps) => {
     return <ul {...props} style={{ paddingLeft: '20px' }}>{children}</ul>;
 },
+
 hr: ({ children, ...props }: RendererProps) => <hr {...props} style={{ paddingBottom: '20px' }}>{children}</hr>,
 br: ({ children, ...props }: RendererProps) => <br {...props} style={{ paddingBottom: '20px' }}>{children}</br>,
 iframe: ({ ...props }: RendererProps) => (

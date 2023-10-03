@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import SendHiveModal from "./sendHiveModal";
 import useAuthUser from "lib/pages/home/api/useAuthUser";
 import * as dhive from "@hiveio/dhive";
-import WalletTransactions from "lib/pages/home/dao/components/txHistory";
+import WalletTransactions from "lib/pages/home/dao/components/hiveGnars/txHistory";
 
 import FiatBalance from "../fiat/fiat";
 

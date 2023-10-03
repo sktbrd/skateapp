@@ -2,8 +2,6 @@
 
 ![](https://gifdb.com/images/high/pepe-frog-meme-reading-text-nervous-sweat-3m7pw9rg9d3fyf5f.gif)
 
-WebGnar likes fat butts 
-
 ## Check the Full tutorial of [How to Fork](https://docs.skatehive.app/docs/tutorial-extras/fork-skatehive)
 
 - Install : `yarn`

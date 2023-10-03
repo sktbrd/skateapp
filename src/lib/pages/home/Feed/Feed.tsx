@@ -28,6 +28,7 @@ import * as Types from "./types";
 import { css } from "@emotion/react";
 
 import EarningsModal from "./postModal/earningsModal"; // Replace with the correct path to EarningsModal
+import { MdArrowUpward } from 'react-icons/md';
 
 const nodes = [
   "https://rpc.ecency.com",
@@ -300,164 +301,170 @@ const truncateTitle = (title:any, maxCharacters = 60) => {
 };
 
 
-  return (
-    <Box>
-      {isLoadingInitial ? (
-        <PlaceholderLoadingBar />
-      ) : (
-        <>
-          <Box
-            display="grid"
-            gridTemplateColumns={`repeat(${gridColumns}, minmax(280px, 1fr))`}
-            gridGap={1}
-          >
-            {loadedPosts.map((post) => (
-              <Card
-                border="1px"
-                borderColor="limegreen"
-                bg="black"
-                key={post.permlink}
-                maxW="md"
-                mb={4}
-                onClick={() => handleCardClick(post)}
-                cursor="pointer"
-                css={cardStyles} /* Apply the cardStyles CSS */
-              >
-                <CardHeader>
-                  <Flex>
-                    <Flex
-                      css={cardStyles} /* Apply the cardStyles CSS */
+return (
+  <Box>
+    {isLoadingInitial ? (
+      <PlaceholderLoadingBar />
+    ) : (
+      <>
+        <Box
+          display="grid"
+          gridTemplateColumns={`repeat(${gridColumns}, minmax(280px, 1fr))`}
+          gridGap={1}
+        >
+          {loadedPosts.map((post) => (
+            <Card
+              border="1px"
+              borderColor="limegreen"
+              bg="black"
+              key={post.permlink}
+              maxW="md"
+              mb={4}
+              onClick={() => handleCardClick(post)}
+              cursor="pointer"
+              css={cardStyles} /* Apply the cardStyles CSS */
+            >
 
-                      flex="1"
-                      gap="3"
-                      borderRadius="10px"
-                      alignItems="center"
-                    >
-                      <Link to={`profile/${post.author}`}>
-                        <Avatar
-                          name={post.author}
-                          border="1px solid limegreen"
-                          borderRadius="10px"
-                          src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
-                        />
-                      </Link>
 
-                      <Box>
-                        <Heading color="white" size="sm">{post.author}</Heading>
-                      </Box>
-                    </Flex>
-                    <IconButton
-                      variant="ghost"
-                      colorScheme="gray"
-                      aria-label="See menu"
-                    />
-                  </Flex>
-                </CardHeader>
-                <Box padding="10px" height="200px">
-                  <Image
-                    objectFit="cover"
-                    border="1px solid limegreen"
+              <CardHeader>
+                <Flex>
+                  <Flex
+                    css={cardStyles} /* Apply the cardStyles CSS */
+                    flex="1"
+                    gap="3"
                     borderRadius="10px"
-                    src={post.thumbnail}
-                    alt="Post Thumbnail"
-                    height="100%"
-                    width="100%"
-                  />
-                </Box>
-                <CardBody>
-                  <Box
-                    border="1px solid limegreen"
-                    borderRadius="10px"
-                    minWidth="100%"
-                    minHeight="100%"
-                    >
-                                    
-                  <Text 
-                    fontWeight="semibold"
-                    color="orange"
-                    padding="13px"
-                    >
-                    {truncateTitle(post.title)}
-                    </Text>
-
-                  </Box>
-
-                </CardBody>
-                <CardFooter>
-                  
-                  <Text
-                    color="white"
-                    style={{ display: "flex", alignItems: "center" }}
+                    alignItems="center"
                   >
-                    <Button
-                      position="absolute"
-                      bottom="10px"
-                      right="10px"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleVotersModalOpen(post);
-                      }}
-                      variant="ghost"
-                      colorScheme="green"
-                      size="s"
-                      ml={2}
-                    >
-                     $ {post.earnings.toFixed(2)}
-                      <img
-                        src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
-                        alt="Earning"
-                        style={{
-                          width: "18px",
-                          height: "18px",
-                          marginLeft: "7px",
-                          marginBottom: "2px",
-                        }}
+                    <Link to={`profile/${post.author}`}>
+                      <Avatar
+                        name={post.author}
+                        border="1px solid limegreen"
+                        borderRadius="10px"
+                        src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
                       />
-                    </Button>
+                    </Link>
+
+                    <Box>
+                      <Heading color="white" size="sm">
+                        {post.author}
+                      </Heading>
+                    </Box>
+                  </Flex>
+
+                </Flex>
+              </CardHeader>
+              <Box padding="10px" height="200px">
+                <Image
+                  objectFit="cover"
+                  border="1px solid limegreen"
+                  borderRadius="10px"
+                  src={post.thumbnail}
+                  alt="Post Thumbnail"
+                  height="100%"
+                  width="100%"
+                />
+              </Box>
+              <CardBody>
+                <Box
+                  border="1px solid limegreen"
+                  borderRadius="10px"
+                  minWidth="100%"
+                  minHeight="100%"
+                >
+                  <Text fontWeight="semibold" color="orange" padding="13px">
+                    {truncateTitle(post.title)}
                   </Text>
-                </CardFooter>
-              </Card>
-            ))}
-          </Box>
-          <Box display="flex" justifyContent="center">
-            <Button variant="outline" colorScheme="green" onClick={loadMorePosts}>
-              Load More
-            </Button>
-          </Box>
-          {isLoadingMore && <PlaceholderLoadingBar />} {/* Show loading bar below posts on "Load More" */}
-        </>
-      )}
-     <Modal isOpen={isOpen} onClose={onClose} size="xl">
-          <ModalOverlay />
-          <ModalContent>
-            <PostModal
-              title={selectedPost?.title}
-              content={selectedPost?.body}
-              author={selectedPost?.author}
-              user={selectedPost?.user}
-              permlink={selectedPost?.permlink}
-              weight={selectedPost?.weight}
-              onClose={onClose}
-              isOpen={isOpen}
-              comments={comments}
-              postUrl={selectedPost?.url}
-            />
-          </ModalContent>
-        </Modal>
-  
-        <Modal isOpen={isVotersModalOpen} onClose={() => setVotersModalOpen(false)} size="xl">
-          <ModalOverlay />
-          <ModalContent>
-            <EarningsModal
-              isOpen={isVotersModalOpen}
-              onClose={() => setVotersModalOpen(false)}
-              post={selectedPostForModal}
-            />
-          </ModalContent>
-        </Modal>
-      </Box>
-    
-  );
+                </Box>
+              </CardBody>
+              <CardFooter>
+                <Text
+                  color="white"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  <Button
+                    position="absolute"
+                    bottom="10px"
+                    right="10px"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleVotersModalOpen(post);
+                    }}
+                    variant="ghost"
+                    colorScheme="green"
+                    size="s"
+                    ml={2}
+                  >
+                    $ {post.earnings.toFixed(2)}
+                    <img
+                      src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
+                      alt="Earning"
+                      style={{
+                        width: "18px",
+                        height: "18px",
+                        marginLeft: "7px",
+                        marginBottom: "2px",
+                      }}
+                    />
+                  </Button>
+                </Text>
+                <IconButton
+  icon={<Text fontSize="md" color="black" lineHeight="0" paddingY="4px">ˆ</Text>} 
+  backgroundColor="limegreen"
+  color="black"
+  variant="ghost" 
+  size={"sm"}
+  borderRadius='50%'
+  aria-label="Upvote"
+  onClick={(e) => {
+    e.stopPropagation();
+    // Handle upvote logic here
+  }}
+/>
+
+
+
+              </CardFooter>
+            </Card>
+          ))}
+        </Box>
+        <Box display="flex" justifyContent="center">
+          <Button variant="outline" colorScheme="green" onClick={loadMorePosts}>
+            Load More
+          </Button>
+        </Box>
+        {isLoadingMore && <PlaceholderLoadingBar />}
+      </>
+    )}
+    <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <ModalOverlay />
+      <ModalContent>
+        <PostModal
+          title={selectedPost?.title}
+          content={selectedPost?.body}
+          author={selectedPost?.author}
+          user={selectedPost?.user}
+          permlink={selectedPost?.permlink}
+          weight={selectedPost?.weight}
+          onClose={onClose}
+          isOpen={isOpen}
+          comments={comments}
+          postUrl={selectedPost?.url}
+        />
+      </ModalContent>
+    </Modal>
+    <Modal isOpen={isVotersModalOpen} onClose={() => setVotersModalOpen(false)} size="xl">
+      <ModalOverlay />
+      <ModalContent>
+
+        <EarningsModal
+          isOpen={isVotersModalOpen}
+          onClose={() => setVotersModalOpen(false)}
+          post={selectedPostForModal}
+        />
+      </ModalContent>
+    </Modal>
+  </Box>
+);
 };
 
 export default HiveBlog;

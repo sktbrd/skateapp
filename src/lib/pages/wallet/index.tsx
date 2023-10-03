@@ -7,7 +7,7 @@ import EvmBalance from './evm/evmWallet';
 import HiveBalanceDisplay from './hive/hiveBalance';
 import FiatBalance from './fiat/fiat';
 import POAPsNFTWallet from './nft/poapWallet';
-
+import HiveBalanceDisplay2 from './hive/hiveBalance copy';
 import {
   useMediaQuery,
   Box,
@@ -37,7 +37,7 @@ const Wallet = () => {
   }, [pubkeyContext]);
 
   return (
-    <Tabs variant="enclosed">
+    <Tabs color="limegreen" variant="enclosed">
       <TabList justifyContent="center">
         <Tab>Tokens</Tab>
         <Tab>NFTs</Tab>
@@ -45,19 +45,17 @@ const Wallet = () => {
       </TabList>
 
       <TabPanels>
-        <TabPanel>
-          <Flex direction="column">
-            <Box mb="10px">
-              <HiveBalanceDisplay />
-            </Box>
-            <Box mb="10px">
-              <EvmBalance />
-            </Box>
-            <Box mb="10px">
-              {/* <FiatBalance /> */}
-            </Box>
-          </Flex>
-        </TabPanel>
+      <TabPanel>
+  <Flex direction={["column", "row"]}>
+    <Box flex={1} mb={[4, 0]}>
+      <HiveBalanceDisplay2 />
+    </Box>
+    <Box flex={1} ml={[0, 4]}>
+      <EvmBalance />
+    </Box>
+  </Flex>
+  
+</TabPanel>
 
         <TabPanel>
           <NFTWallet nftList={nftList} />
@@ -66,7 +64,7 @@ const Wallet = () => {
         <TabPanel>
         <POAPsNFTWallet />
           <Text>POAPs content will be displayed here.</Text>
-        </TabPanel> {/* Added this block */}
+        </TabPanel> 
       </TabPanels>
     </Tabs>
   );

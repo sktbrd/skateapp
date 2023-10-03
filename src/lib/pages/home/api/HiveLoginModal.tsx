@@ -10,6 +10,7 @@ import {
   Button,
   Input,
   Flex,
+  Image,
 } from "@chakra-ui/react";
 
 import useAuthUser from "./useAuthUser.js";
@@ -47,6 +48,7 @@ const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose }) => {
       <ModalOverlay />
       <ModalContent as="form" onSubmit={handleSubmit} backgroundColor="black" border="1px solid limegreen">
         <ModalHeader>Hive Login</ModalHeader>
+        <Image border="1px solid limegreen" margin="20px" borderRadius="10px" src="https://media.tenor.com/lcPFRYQqnPsAAAAM/nazare-tedesco-maths.gif" alt="SkateHive" />
         <ModalCloseButton />
         <ModalBody>
           {user && user.name ? (

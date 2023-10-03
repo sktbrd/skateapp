@@ -28,7 +28,7 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { keyframes } from "@emotion/react";
-import { Link as ChakraLink } from '@chakra-ui/react';
+import { Link as ChakraLink  } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
 
@@ -40,7 +40,6 @@ import HiveLogin from "lib/pages/home/api/HiveLoginModal";
 
 import { fetchHbdPrice } from "lib/pages/wallet/hive/hiveBalance";
 import { fetchConversionRate } from "lib/pages/wallet/hive/hiveBalance";
-import { resetCache } from "lib/pages/wallet/hive/hiveBalance";
 // Custom LinkTab component
 type LinkTabProps = TabProps & RouterLinkProps;
 
@@ -244,7 +243,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           }}
         >
           <Image
-            src="https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75"
+            src="/assets/skatehive.jpeg"
             alt="Dropdown Image"
             boxSize="48px" // Adjust the size as needed
             borderRadius="10px"
@@ -281,6 +280,14 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
               backgroundColor="black"
             >
               Docs
+            </MenuItem>
+          </Link>
+          <Link to="https:/github.com/sktbrd/skateapp" style={{ textDecoration: 'none' }}>
+            <MenuItem
+              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+              backgroundColor="black"
+            >
+              Contribute
             </MenuItem>
           </Link>
           <Link to="/becool" style={{ textDecoration: 'none' }}>
@@ -337,7 +344,8 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       >
         <TabList display="flex" alignItems="center">
           <LinkTab to="/">Home</LinkTab>
-          {loggedIn && <LinkTab to="/upload">Upload</LinkTab>} {/* Conditionally render Upload tab */}
+          <LinkTab to="/QFS">Play</LinkTab>
+
           {loggedIn && <LinkTab to="/wallet">Wallet</LinkTab>} {/* Conditionally render Wallet tab */}
           {loggedIn ? (
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
@@ -369,6 +377,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
             <Tab onClick={() => setModalOpen(true)}>
               Log in 
             </Tab>
+            
           )}
         </TabList>
       </Tabs>

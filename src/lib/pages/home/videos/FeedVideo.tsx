@@ -3,7 +3,9 @@ import { Client, Discussion } from '@hiveio/dhive';
 import ReactHtmlParser from 'react-html-parser';
 import { Text as ChakraText, Modal, ModalOverlay, ModalContent, useDisclosure } from '@chakra-ui/react';
 import { Avatar, Button, Box, SimpleGrid } from '@chakra-ui/react';
-import PostModal from '../magazine/postModal/postModal';
+import PostModal from '../Feed/postModal/postModal';
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 
 
 
@@ -29,16 +31,16 @@ function transform3SpeakContent(content: string): string {
 }
 
 const adjustVideoSize = (iframe: string): string => {
-  
   const odyseeDomains = ["odysee.com", "lbry.tv"]; // You can add more domains to this list in the future if needed
-  
+
   if (iframe.includes("youtube.com") || odyseeDomains.some(domain => iframe.includes(domain))) {
-    iframe = iframe.replace(/width\s*=\s*"\d+"/, '').replace(/height\s*=\s*"\d+"/, '').replace('<iframe', '<iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"');
+    iframe = iframe.replace(/width\s*=\s*"\d+"/, '').replace(/height\s*=\s*"\d+"/, '').replace('<iframe', '<iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen allow-scripts');
     return iframe;
   }
 
   return iframe;
 };
+
 
 
 
@@ -68,8 +70,10 @@ const HiveVideos: React.FC = () => {
   const extractIframes = (markdownContent: string): string[] => {
     const iframeRegex = /<iframe[^>]*src="([^"]*)"[^>]*><\/iframe>/g;
     const matches = markdownContent.match(iframeRegex) || [];
-    return matches.map(adjustVideoSize);
+    const nonPinataIframes = matches.filter(iframe => !iframe.includes("gateway.pinata.cloud"));
+    return nonPinataIframes.map(adjustVideoSize);
   };
+  
 
   const openPostModal = (post: Discussion) => {
     setSelectedPost(post);
@@ -85,20 +89,43 @@ const HiveVideos: React.FC = () => {
           const iframes = extractIframes(modifiedContent);
           return iframes.length > 0 ? (
             iframes.map((iframe, i) => (
-              <Box key={`${index}-${i}`} border="2px solid limegreen" borderRadius="md" m={2} p={2}>
-                <Box display="flex" alignItems="center" mb={2}>
-                  <Avatar src={`https://images.hive.blog/u/${post.author}/avatar`} size="md" borderRadius="8px" />
-                  <ChakraText ml={2}>{post.author}</ChakraText>
+              <Box 
+                  key={`${index}-${i}`} 
+                  borderRadius="md" 
+                  m={2} 
+                  p={2}
+                  >
+                <Box 
+                  display="flex" 
+                  alignItems="center" 
+                  mb={2}>
+
+                  
+                  
                 </Box>
                 <Box position="relative" width="100%" paddingBottom="56.25%">
-                  <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: '1px solid limegreen' }}>
-                    {ReactHtmlParser(iframe)}
-                  </div>
+    
+                <ReactMarkdown rehypePlugins={[rehypeRaw]}>{iframe}</ReactMarkdown>
+   
                 </Box>
-                <Box textAlign="right">
-                  <br></br>
-                  <Button border="1px solid limegreen" onClick={() => openPostModal(post)}>Open Original Post</Button>
+              <Box >
+                
+              </Box>
+                <Box >
+                  
+                  <Button 
+                    border="1px solid limegreen" 
+                    borderRadius="20px"
+                    onClick={() => openPostModal(post)}>
+                      Full Post |
+                    <ChakraText ml={2}>{post.author}</ChakraText>
+                <Avatar 
+                  src={`https://images.hive.blog/u/${post.author}/avatar`} 
+                  size="sm" 
+                  borderRadius="8px" />
+                  </Button>
                 </Box>
+
               </Box>
             ))
           ) : null;

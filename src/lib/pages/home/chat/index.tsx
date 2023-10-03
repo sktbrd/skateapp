@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState} from 'react';
 import {
   Flex,
   Box,
@@ -14,14 +14,13 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import { MarkdownRenderersComments } from './MarkdownRenderersComments';
-import { CommentProps } from '../magazine/types';
+import { CommentProps } from '../Feed/types';
 import { CSSProperties } from 'react';
 import { FaRedo } from 'react-icons/fa';
-
+import { Spinner } from '@chakra-ui/react';
 
 type User = {
   name: string;
-  // ... other properties ...
 } | null;
 
 const Chat: React.FC = () => {
@@ -38,11 +37,14 @@ const Chat: React.FC = () => {
   const [parentId, setParentId] = useState<string | null>(null); // New state to store the parent comment ID
   const [isChatVisible, setIsChatVisible] = useState(false); // or false based on preference
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const [isLoadingComments, setIsLoadingComments] = useState(false);
+  const [isPostingComment, setIsPostingComment] = useState(false);
+  const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(null);
 
   const client = new Client('https://api.hive.blog');
 
   const [loadedCommentsCount, setLoadedCommentsCount] = useState(5); // start by loading 5
-
+  
   const fetchComments = async () => {
     try {
       const allComments: CommentProps[] = await client.database.call("get_content_replies", [URLAuthor, URLPermlink]);
@@ -75,7 +77,34 @@ const Chat: React.FC = () => {
     fetchComments();
   }, [URLAuthor, URLPermlink, commentsUpdated]);
 
-
+  useEffect(() => {
+    const storedUser = sessionStorage.getItem("user");
+    if (storedUser) {
+      const userObject = JSON.parse(storedUser);
+      const storedUsername = userObject.name;
+      setUsername(storedUsername);
+      console.log(post);
+    }
+  
+    // Start polling for comments when the modal is open
+    if (isChatVisible) {
+      const intervalId = setInterval(fetchComments, 5000); // Fetch comments every 5 seconds
+      setPollingInterval(intervalId);
+    } else {
+      // Clear the polling interval when the modal is closed
+      if (pollingInterval) {
+        clearInterval(pollingInterval);
+      }
+    }
+  
+    // Cleanup the interval when the component unmounts
+    return () => {
+      if (pollingInterval) {
+        clearInterval(pollingInterval);
+      }
+    };
+  }, [isChatVisible]);
+  
   const commentTitleStyle = {
     fontWeight: 'bold',
     color: 'yellow',
@@ -88,17 +117,17 @@ const Chat: React.FC = () => {
       console.error("Hive Keychain extension not found!");
       return;
     }
-
+  
     if (!username) {
       console.error("Username is missing");
       return;
     }
-
+  
     const permlink = new Date().toISOString().replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-
+  
     let parentAuthor = '';
     let parentPermlink = '';
-
+  
     if (parentId) {
       const parentComment = comments.find((comment) => comment.id === parentId);
       if (parentComment) {
@@ -109,7 +138,7 @@ const Chat: React.FC = () => {
       parentAuthor = URLAuthor;
       parentPermlink = URLPermlink;
     }
-
+  
     const operations = [
       ["comment",
         {
@@ -119,21 +148,35 @@ const Chat: React.FC = () => {
           "permlink": permlink,
           "title": "",
           "body": commentContent,
-          "json_metadata": JSON.stringify({ tags: ["skateboard"], app: "pepeskate" })
+          "json_metadata": JSON.stringify({ tags: ["skateboard"], app: "skatehive" })
         }
       ]
     ];
-
-    window.hive_keychain.requestBroadcast(username, operations, "posting", (response: any) => {
-      if (response.success) {
-        setCommentContent('');
-        setCommentsUpdated(true);
-        fetchComments();
-      } else {
-        console.error("Error posting comment:", response.message);
+  
+    setIsPostingComment(true); // Set posting state to true
+  
+    window.hive_keychain.requestBroadcast(username, operations, "posting", async (response: any) => {
+      try {
+        if (response.success) {
+          setCommentContent('');
+          console.log("Comment posted successfully");
+  
+          // Fetch comments immediately after posting a comment
+          fetchComments();
+        } else {
+          console.error("Error posting comment:", response.message);
+        }
+      } catch (error) {
+        console.error("Error handling post comment response:", error);
+      } finally {
+        setIsPostingComment(false); // Clear posting state
       }
     });
   };
+  
+  
+  
+  
 
   const [isDesktop] = useMediaQuery("(min-width: 768px)");
 
@@ -202,147 +245,147 @@ const Chat: React.FC = () => {
     position: 'fixed',
     bottom: '30px',
     right: isSmallScreen ? '5px' : '20px',
+    backgroundColor: 'black',
+    border:'1px solid limegreen',
     zIndex: 2000,
     borderRadius: '100%',
   };
   return (
     <>
       <Button style={chatToggleButtonStyle} onClick={toggleChat}>
-      {isChatVisible ? '' : <img style={{ width: '50px', height: '50px', borderRadius: '100%' }} src='https://gifdb.com/images/high/pepe-frog-meme-reading-text-nervous-sweat-3m7pw9rg9d3fyf5f.gif' alt='Chat Icon'></img>
-}
+        {isChatVisible ? '' : <img style={{ width: '50px', height: '50px', borderRadius: '100%' }} src='https://gifdb.com/images/high/pepe-frog-meme-reading-text-nervous-sweat-3m7pw9rg9d3fyf5f.gif' alt='Chat Icon'></img>}
       </Button>
-
+  
       {isChatVisible && (
         <div ref={chatContainerRef} style={containerStyle}>
           
           {/* ModalHeader */}
           <div style={{ padding: '0px', borderBottom: '1px solid white', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
   
-  <div style={{ display: 'flex', alignItems: 'center' }}>
-    <img onClick={fetchComments} style={{ cursor: 'pointer', width: '30px', height: 'auto', borderRadius: '100%' }} src='https://gifdb.com/images/high/pepe-frog-meme-reading-text-nervous-sweat-3m7pw9rg9d3fyf5f.gif' alt='Chat Icon' />
-    <p style={commentTitleStyle}>Troll Box</p>
-  </div>
-  
-  <FaRedo onClick={fetchComments} style={{ cursor: 'pointer' }} /> {/* Refresh icon with click event */}
-  
-</div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <img onClick={fetchComments} style={{ cursor: 'pointer', width: '30px', height: 'auto', borderRadius: '100%' }} src='https://gifdb.com/images/high/pepe-frog-meme-reading-text-nervous-sweat-3m7pw9rg9d3fyf5f.gif' alt='Chat Icon' />
+              <p style={commentTitleStyle}>Troll Box</p>
+            </div>
+            
+            <FaRedo onClick={fetchComments} style={{ cursor: 'pointer' }} /> {/* Refresh icon with click event */}
+            
+          </div>
           
           {/* ModalBody */}
-          <div style={{ borderRadius:'10px', overflowY: 'auto', maxHeight: 'calc(400px - 100px)' }}>
-            <Flex border="1px solid white" borderRadius="10px" padding="10px" direction="column" style={{ width: '100%' }}>
-              
-              {comments.map((comment) => (
-                <div key={comment.id} style={{ marginBottom: '10px' }}>
-                  {/* User avatar and name as a header */}
-                  <Flex alignItems="center" justifyContent="start" bg="black" paddingLeft="10px">
-                    <Image
-                      src={`https://images.ecency.com/webp/u/${comment.author}/avatar/small`}
-                      alt={`${comment.author}'s avatar`}
-                      boxSize="20px"
-                      borderRadius="50%"
-                      marginRight="8px"
-                    />
-                    <span>{comment.author}</span>
-                  </Flex>
-
-                  {/* Message content */}
-                  <Box style={commentCardStyle}>
-                    <VStack align="end">
-                      <ReactMarkdown
-                        children={comment.body}
-                        rehypePlugins={[rehypeRaw]}
-                        remarkPlugins={[remarkGfm]}
-                        components={MarkdownRenderersComments}
+          <div style={{ borderRadius:'10px', overflowY: 'auto', maxHeight: 'calc(500px - 100px)' }}>
+            {isLoadingComments ? (
+              // Render a loading spinner or message while comments are loading
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+                Loading comments...
+                {/* You can use a spinner component here if you have one */}
+              </div>
+            ) : (
+              // Render the comments as you were doing before
+              <Flex border="1px solid white" borderRadius="10px" padding="10px" direction="column" style={{ width: '100%' }}>
+                {comments.map((comment) => (
+                  <div key={comment.id} style={{ marginBottom: '10px' }}>
+                    {/* User avatar and name as a header */}
+                    <Flex alignItems="center" justifyContent="start" bg="black" paddingLeft="10px">
+                      <Image
+                        src={`https://images.ecency.com/webp/u/${comment.author}/avatar/small`}
+                        alt={`${comment.author}'s avatar`}
+                        boxSize="20px"
+                        borderRadius="50%"
+                        marginRight="8px"
                       />
-                    </VStack>
-
-                    {/* Reply and Like buttons */}
-                    <Flex justifyContent="flex-end" mt="4">
-                      {/* <Button 
-                        onClick={() => setParentId(comment.id)}
-                        style={{ 
-                          border: "1px solid limegreen", 
-                          backgroundColor: "black", 
-                          fontSize: '10px',
-                          padding: '0px 2px',
-                          maxHeight: '15px',
-                          marginRight: '5px'
-                        }}
-                      >
-                        Reply
-                      </Button> */}
-                      <Button 
-                        onClick={() => setParentId(comment.id)}
-                        style={{ 
-                          border: "1px solid limegreen", 
-                          backgroundColor: "black", 
-                          fontSize: '10px',
-                          padding: '0px 0px',
-                          maxHeight: '15px'
-                        }}
-                      >
-                        Like❤️
-                      </Button>
+                      <span>{comment.author}</span>
                     </Flex>
-                  </Box>
-                </div>
-              ))}
-
-            </Flex>
+  
+                    {/* Message content */}
+                    <Box style={commentCardStyle}>
+                      <VStack align="end">
+                        <ReactMarkdown
+                          children={comment.body}
+                          rehypePlugins={[rehypeRaw]}
+                          remarkPlugins={[remarkGfm]}
+                          components={MarkdownRenderersComments}
+                        />
+                      </VStack>
+  
+                      {/* Reply and Like buttons */}
+                      <Flex justifyContent="flex-end" mt="4">
+                        <Button 
+                          onClick={() => setParentId(comment.id)}
+                          style={{ 
+                            border: "1px solid limegreen", 
+                            backgroundColor: "black", 
+                            fontSize: '10px',
+                            padding: '0px 0px',
+                            maxHeight: '15px'
+                          }}
+                        >
+                          Like❤️
+                        </Button>
+                      </Flex>
+                    </Box>
+                  </div>
+                ))}
+              </Flex>
+            )}
           </div>
           
           {/* ModalFooter */}
           <div style={{ borderTop: '1px solid white', padding: '10px' }}>
-          <Button
-                                 style={{ 
-                                  backgroundColor: "black", 
-                                  fontSize: '15px',
-                                  maxHeight: '15px'
-                                }}
-          onClick={() => {
-            setLoadedCommentsCount(prevCount => prevCount + 5);
-            fetchComments();
-          }}>
-            + Load More
-          </Button>
-            <Flex direction={isDesktop ? "row" : "column"} style={{ width: "100%" }}>
-                        
-
-            <Box width="100%" border="1px solid white" borderRadius="10px" padding="10px" margin="3px">
-    {parentId && (
-        <div style={{ marginBottom: '5px' }}>
-            Replying to {comments.find((comment) => comment.id === parentId)?.author}
-        </div>
-    )}
-
-    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
-        <Textarea
-            border="1px solid white"
-            value={commentContent}
-            onChange={(e) => setCommentContent(e.target.value)}
-            placeholder="Write anything that comes to your crooked mind..."
-        />
-
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '5px' }}>
-            <Button 
-                fontSize="10px"
-                padding="3px 6px" // Reduced padding
-                height="20px"     // Set a fixed height to make it smaller
-                border="1px solid red"
-                onClick={handlePostComment}>
-                🗣 Speak up ! 
+            <Button
+              style={{ 
+                backgroundColor: "black", 
+                fontSize: '15px',
+                maxHeight: '15px'
+              }}
+              onClick={() => {
+                setLoadedCommentsCount(prevCount => prevCount + 5);
+                fetchComments();
+              }}
+            >
+              + Load More
             </Button>
-        </div>
-    </div>
-</Box>
-
-  
+            <Flex direction={isDesktop ? "row" : "column"} style={{ width: "100%" }}>
+              <Box width="100%" border="1px solid white" borderRadius="10px" padding="10px" margin="3px">
+                {parentId && (
+                  <div style={{ marginBottom: '5px' }}>
+                    Replying to {comments.find((comment) => comment.id === parentId)?.author}
+                  </div>
+                )}
+                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+                  <Textarea
+                    border="1px solid white"
+                    value={commentContent}
+                    onChange={(e) => setCommentContent(e.target.value)}
+                    placeholder="Write anything that comes to your crooked mind..."
+                  />
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '5px' }}>
+                    <Button 
+                      fontSize="10px"
+                      padding="3px 6px"
+                      height="20px"
+                      border="1px solid red"
+                      onClick={handlePostComment}
+                      disabled={isPostingComment} // Disable the button while posting
+                    >
+                      {isPostingComment ? (
+                        // Render a loading spinner here, or any loading message you prefer
+                        <Spinner size="sm" />
+                      ) : (
+                        // Render the normal button content
+                        "🗣 Speak up !"
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              </Box>
             </Flex>
           </div>
         </div>
       )}
     </>
-);
+  );
+  
+  
 
 
   

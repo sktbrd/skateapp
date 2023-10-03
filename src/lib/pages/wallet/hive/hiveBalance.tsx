@@ -183,7 +183,9 @@ export default function HiveBalanceDisplay() {
     console.log(`Clicked ${balanceType} logo`);
     console.log(user);
     setShowModal(true);
+    console.log(showModal); // Check the value of showModal
   };
+  
 
   const handleLogoClick = (balanceType: string) => {
     console.log(`Clicked ${balanceType} logo`);
@@ -198,20 +200,30 @@ export default function HiveBalanceDisplay() {
       padding="10px"
       overflow="auto"
       fontFamily="'Courier New', monospace"
+      display="grid"
+      gridTemplateColumns="repeat(2, 1fr)"
+      gap="10px"
     >
       {/* <FiatBalance totalWorth={totalWorth} /> */}
-
+  
       <Text
         textAlign="center"
         borderRadius="12px"
         fontWeight="700"
         fontSize="18px"
         color="limegreen"
+        gridColumn="span 2"
         padding="10px"
       >
         Hive Balance
       </Text>
-      <Flex alignItems="center" justifyContent="left" padding="10px">
+  
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+      >
         {user ? (
           <>
             <Image
@@ -235,55 +247,103 @@ export default function HiveBalanceDisplay() {
             />
           </>
         )}
-      </Flex>
-      <Button onClick={resetCache} > Reset</Button>
-      <Text>Total Worth in USD: ${totalWorth.toFixed(2)}</Text>
-            <Table variant="simple">
-        <Thead>
-          <Tr>
-            <Th></Th>
-            <Th>Balance</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr>
-            <Td>
-              <Button width="200px" border={"1px solid red"} onClick={() => handleOpenModal("Hive")}>
-                <Image src={HIVE_LOGO_URL} alt="Hive Logo" boxSize="40px" />
-                <Text padding={"10px"}>Manage HIVE</Text>
-              </Button>
-            </Td>
-            <Td>{hiveBalance || "Try Connect your wallet and refresh the page"} </Td>
-          </Tr>
-          <Tr>
-            <Td>
-              <Button width="200px" border={"1px solid red"} onClick={() => handleOpenModal("Hive Power")}>
-                <Image src={HIVE_POWER_LOGO_URL} alt="Hive Power Logo" boxSize="40px" />
-                <Text padding={"10px"}>Manage HP</Text>
-              </Button>
-            </Td>
-            <Td>{hivePower || "Try Connect your wallet and refresh the page"} HP</Td>
-          </Tr>
-          <Tr>
-            <Td>
-              <Button width="200px" border={"1px solid red"} onClick={() => handleOpenModal("HBD")}>
-                <Image src={HBD_LOGO_URL} alt="HBD Logo" boxSize="40px" />
-                <Text padding={"10px"}>Manage HBD</Text>
-              </Button>
-            </Td>
-            <Td>{hbdBalance || "Try Connect your wallet and refresh the page"} </Td>
-          </Tr>
-          <Tr>
-            <Td>
-              <Button width="200px" border={"1px solid red"} onClick={() => handleOpenModal("Savings")}>
-                <Image src={SAVINGS_LOGO_URL} alt="Savings Logo" boxSize="40px" />
-                <Text padding={"10px"}>Manage Sav.</Text>
-              </Button>
-            </Td>
-            <Td>{savingsBalance || "Try Connect your wallet and refresh the page"} Savings</Td>
-          </Tr>
-        </Tbody>
-      </Table>
+      </Box>
+  
+      <Text
+        textAlign="center"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        Total Worth in USD: ${totalWorth.toFixed(2)}
+      </Text>
+  
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Button
+          width="200px"
+          border={"1px solid red"}
+          onClick={() => handleOpenModal("Hive")}
+        >
+          <Image src={HIVE_LOGO_URL} alt="Hive Logo" boxSize="40px" />
+          <Text padding={"10px"}>Manage HIVE</Text>
+        </Button>
+        {hiveBalance || "Try Connect your wallet and refresh the page"}
+      </Box>
+  
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Button
+          width="200px"
+          border={"1px solid red"}
+          onClick={() => handleOpenModal("Hive Power")}
+        >
+          <Image
+            src={HIVE_POWER_LOGO_URL}
+            alt="Hive Power Logo"
+            boxSize="40px"
+          />
+          <Text padding={"10px"}>Manage HP</Text>
+        </Button>
+        {hivePower || "Try Connect your wallet and refresh the page"} HP
+      </Box>
+  
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Button
+          width="200px"
+          border={"1px solid red"}
+          onClick={() => handleOpenModal("HBD")}
+        >
+          <Image src={HBD_LOGO_URL} alt="HBD Logo" boxSize="40px" />
+          <Text padding={"10px"}>Manage HBD</Text>
+        </Button>
+        {hbdBalance || "Try Connect your wallet and refresh the page"}
+      </Box>
+  
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Button
+          width="200px"
+          border={"1px solid red"}
+          onClick={() => handleOpenModal("Savings")}
+        >
+          <Image
+            src={SAVINGS_LOGO_URL}
+            alt="Savings Logo"
+            boxSize="40px"
+          />
+          <Text padding={"10px"}>Manage Sav.</Text>
+        </Button>
+        <Box
+        padding="10px"         
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        border="1px solid red">
+        {savingsBalance || "Try Connect your wallet and refresh the page"} Savings
+
+        </Box>
+      </Box>
+  
       <SendHiveModal
         showModal={showModal}
         setShowModal={setShowModal}
@@ -293,7 +353,11 @@ export default function HiveBalanceDisplay() {
         setAmount={setAmount}
         handleTransfer={handleTransfer}
       />
+      
     </Box>
   );
+  
+  
+  
 }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button, Input } from "@chakra-ui/react";
+import { Modal, Button, Input, Box, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from "@chakra-ui/react";
 
 interface SendHiveModalProps {
   showModal: boolean;
@@ -21,19 +21,39 @@ const SendHiveModal: React.FC<SendHiveModalProps> = ({
   handleTransfer,
 }) => {
   return (
-    <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-      {/* Modal Content */}
-      <Input
-        placeholder="To Address"
-        value={toAddress}
-        onChange={(e) => setToAddress(e.target.value)}
-      />
-      <Input
-        placeholder="Amount"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-      />
-      <Button onClick={handleTransfer}>Send</Button>
+    <Modal  isOpen={showModal} onClose={() => setShowModal(false)} size="md">
+      <ModalOverlay />
+      <ModalContent backgroundColor="black" border="1px dashed limegreen">
+        <ModalHeader>Send Hive (under development)</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <Box border="1px solid orange" padding="10px">
+            <Input
+              placeholder="To Address"
+              value={toAddress}
+              onChange={(e) => setToAddress(e.target.value)}
+            />
+            <Input
+              placeholder="Amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+            <Input
+              placeholder="Memo (optional)"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+          </Box>
+        </ModalBody>
+        <ModalFooter>
+          <Button colorScheme="blue" mr={3} onClick={handleTransfer}>
+            Send
+          </Button>
+          <Button variant="ghost" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </ModalFooter>
+      </ModalContent>
     </Modal>
   );
 };

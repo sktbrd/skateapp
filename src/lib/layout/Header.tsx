@@ -232,8 +232,8 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       <MenuButton
           as={Button}
           backgroundColor="black"
-          border="limegreen 1px solid"
-          color="limegreen"
+          border="white 1px solid"
+          color="white"
           size="l"
           css={{
             animation: `${glow} 2s infinite alternate , ${moveUpAndDown} 3s infinite` ,
@@ -249,51 +249,55 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
             borderRadius="10px"
           />
         </MenuButton>
-        <MenuList border="1px solid limegreen" backgroundColor="black" color="white">
+        <MenuList border="1px solid limegreen" backgroundColor="#593576" color="white">
           <Link to="https://snapshot.org/#/skatehive.eth" style={{ textDecoration: 'none' }}>
             <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
+              _hover={{ backgroundColor: '#65418C', color: 'white' }}
+              backgroundColor="#593576"  // Invert colors on hover
             >
-              Putaria
+             Store
             </MenuItem>
           </Link>
           <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" style={{ textDecoration: 'none' }}>
             <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
+              _hover={{ backgroundColor: '#65418C', color: 'white' }}
+              backgroundColor="#593576" // Invert colors on hover
             >
               Curation Trail
             </MenuItem>
           </Link>
           <Link to="https://www.stoken.quest/" style={{ textDecoration: 'none' }}>
             <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
-            >
+              _hover={{ backgroundColor: '#65418C', color: 'white' }}
+              backgroundColor="#593576"  // Invert colors on hover
+          
+            >link
               Quest For Stoken
             </MenuItem>
           </Link>
           <Link to="https://docs.skatehive.app" style={{ textDecoration: 'none' }}>
             <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
+              _hover={{ backgroundColor: '#65418C', color: 'white' }}
+              backgroundColor="#593576"  // Invert colors on hover
+            
             >
               Docs
             </MenuItem>
           </Link>
           <Link to="https:/github.com/sktbrd/skateapp" style={{ textDecoration: 'none' }}>
             <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
+              _hover={{ backgroundColor: '#65418C', color: 'white' }}
+              backgroundColor="#593576"  // Invert colors on hover
+            
             >
               Contribute
             </MenuItem>
           </Link>
           <Link to="/becool" style={{ textDecoration: 'none' }}>
             <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
+              _hover={{ backgroundColor: '#65418C', color: 'white' }}
+              backgroundColor="#593576"  // Invert colors on hover
+  
             >
               How to be Cool
             </MenuItem>
@@ -313,7 +317,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       <Box>
       <ChakraLink as={RouterLink} to="/wallet">
       <Button
-        backgroundColor="black"
+        backgroundColor="#593576"
         border="limegreen 2px solid"
         color="orange"
 

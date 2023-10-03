@@ -17,8 +17,8 @@ export const theme = extendTheme({
   styles: {
     global: (props: GlobalStyleProps) => ({
       body: {
-        backgroundColor: "black",
-        color:  "white" ,
+        background: "linear-gradient(to bottom, #562D75, #593576)",
+        color:  "red" ,
       },
       p: {
         color: "limegreen",

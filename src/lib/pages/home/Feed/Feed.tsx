@@ -314,8 +314,8 @@ return (
         >
           {loadedPosts.map((post) => (
             <Card
-              border="1px"
-              borderColor="limegreen"
+              //border="1px"
+              //borderColor="limegreen"
               bg="black"
               key={post.permlink}
               maxW="md"
@@ -350,7 +350,7 @@ return (
                 <Image 
                   objectFit="cover"
                   border="1px solid limegreen"
-                  borderRadius="50px"
+                  borderRadius="35px"
                   src={post.thumbnail}
                   alt="Post Thumbnail"
                   height="100%"
@@ -382,7 +382,7 @@ return (
                       <Avatar
                         name={post.author}
                         border="1px solid limegreen"
-                        borderRadius="10px"
+                        borderRadius="100px"
                         src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
                       />
                     </Link>
@@ -422,12 +422,15 @@ return (
                   icon={<Text fontSize="4xl" color="magenta" lineHeight="0" marginTop="20px" marginLeft="3px" >
                            ˆ
                       </Text>} 
+                      
                   backgroundColor="green"
                   color="limegreen"
                   variant="ghost" 
                   size={"xs"}
                   borderRadius='50%'
                   aria-label="Upvote"
+                  border={"1px"}
+                  borderColor="limegreen"
                   onClick={(e) => {
                     e.stopPropagation();
                     // Handle upvote logic here

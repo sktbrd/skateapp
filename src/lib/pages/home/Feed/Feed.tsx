@@ -288,8 +288,8 @@ const cardStyles = css`
   }
 `;
 
-const truncateTitle = (title:any, maxCharacters = 60) => {
-  // Capitalize todas as letras do título
+const truncateTitle = (title:any, maxCharacters = 80) => {
+  // full caps for title of post
   title = title.toUpperCase();
 
   if (title.length <= maxCharacters) {
@@ -335,7 +335,50 @@ return (
                     borderRadius="10px"
                     alignItems="center"
                   >
-                    <Link to={`profile/${post.author}`}>
+                    <Box>
+                      <Heading color="white" size="lg">
+                        {post.author}
+                      </Heading>
+                    </Box>
+                  </Flex>
+
+                </Flex>
+              </CardHeader>
+
+              
+              <Box padding="10px" height="200px"> 
+                <Image 
+                  objectFit="cover"
+                  border="1px solid limegreen"
+                  borderRadius="50px"
+                  src={post.thumbnail}
+                  alt="Post Thumbnail"
+                  height="100%"
+                  width="100%"
+                />
+              </Box>
+              <CardBody>
+                
+                <Box //the box around the blogpost title
+                  //border="1px solid limegreen"
+                  borderRadius="10px"
+                  minWidth="100%"
+                  minHeight="100%"
+                >
+                  <Text fontWeight="semibold" color="orange" padding="0px">
+                    {truncateTitle(post.title)}
+                  </Text>
+                </Box>
+              </CardBody>
+
+              <CardFooter>
+                <Text
+                  color="white"
+                  marginTop = "0px"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+
+<Link to={`profile/${post.author}`}>
                       <Avatar
                         name={post.author}
                         border="1px solid limegreen"
@@ -344,43 +387,8 @@ return (
                       />
                     </Link>
 
-                    <Box>
-                      <Heading color="white" size="sm">
-                        {post.author}
-                      </Heading>
-                    </Box>
-                  </Flex>
+                    
 
-                </Flex>
-              </CardHeader>
-              <Box padding="10px" height="200px">
-                <Image
-                  objectFit="cover"
-                  border="1px solid limegreen"
-                  borderRadius="10px"
-                  src={post.thumbnail}
-                  alt="Post Thumbnail"
-                  height="100%"
-                  width="100%"
-                />
-              </Box>
-              <CardBody>
-                <Box
-                  border="1px solid limegreen"
-                  borderRadius="10px"
-                  minWidth="100%"
-                  minHeight="100%"
-                >
-                  <Text fontWeight="semibold" color="orange" padding="13px">
-                    {truncateTitle(post.title)}
-                  </Text>
-                </Box>
-              </CardBody>
-              <CardFooter>
-                <Text
-                  color="white"
-                  style={{ display: "flex", alignItems: "center" }}
-                >
                   <Button
                     position="absolute"
                     bottom="10px"
@@ -393,11 +401,12 @@ return (
                     colorScheme="green"
                     size="s"
                     ml={2}
+                    style={{ fontFamily: 'Helvetica', fontSize: '14px' }}
                   >
                     $ {post.earnings.toFixed(2)}
                     <img
                       src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
-                      alt="Earning"
+                      alt="spinning stoken coin"
                       style={{
                         width: "18px",
                         height: "18px",
@@ -407,19 +416,25 @@ return (
                     />
                   </Button>
                 </Text>
-                <IconButton
-  icon={<Text fontSize="md" color="black" lineHeight="0" paddingY="4px">ˆ</Text>} 
-  backgroundColor="limegreen"
-  color="black"
-  variant="ghost" 
-  size={"sm"}
-  borderRadius='50%'
-  aria-label="Upvote"
-  onClick={(e) => {
-    e.stopPropagation();
-    // Handle upvote logic here
-  }}
-/>
+                
+                <Box marginLeft="auto">
+                <IconButton //upvote button on card
+                  icon={<Text fontSize="4xl" color="magenta" lineHeight="0" marginTop="20px" marginLeft="3px" >
+                           ˆ
+                      </Text>} 
+                  backgroundColor="green"
+                  color="limegreen"
+                  variant="ghost" 
+                  size={"xs"}
+                  borderRadius='50%'
+                  aria-label="Upvote"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // Handle upvote logic here
+                  }}
+                 />
+                 </Box>
+                 
 
 
 

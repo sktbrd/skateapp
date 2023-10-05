@@ -365,29 +365,35 @@ return (
                   minWidth="100%"
                   minHeight="100%"
 
-                  style={{
+                  style={{ //style of the speech bubble
                     backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23tGLtmE5K6ovFdVS4tYwA5yfJ4S3vnByzcg7BshwvCN1r5Jbmz8NmNm9CUKBm91FVFqT.png')`,
-                    backgroundSize: '100% 100%', // Adjust as needed
-                    backgroundPosition: 'center', // Adjust as needed
-                    backgroundRepeat: 'no-repeat', // Adjust as needed
-                    
-                    marginBottom: '-40px', // Adjust the negative margin as needed
-                    paddingBottom: '40px',
+                    backgroundSize: '100% 100%', // stretches the speech bubble as big as the div and dynamically changes 
+                    backgroundPosition: 'center', 
+                    backgroundRepeat: 'no-repeat', 
+                    marginBottom: '-40px', // makes the speech bubble extend beyond the div
+                    paddingBottom: '40px', // for some reason it needs this part too?
                   }}
-
                 >
-                  <Text fontWeight="semibold" color="orange" padding="0px">
+                  <Text fontWeight="semibold" 
+                        color="orange" 
+                        paddingLeft="5px"
+                        paddingTop="10px"
+                        paddingRight="5px"
+                        textAlign="center" // Center horizontally
+                        display="flex"     // Use flexbox to center vertically
+                        justifyContent="center" // Center vertically
+                        alignItems="center"
+                        >
                     {truncateTitle(post.title)}
                   </Text>
-                </Box>
-              </CardBody>
+              </Box>
+          </CardBody>
 
               <CardFooter>
                 <Text
                   color="white"
                   marginTop = "2px"
-                  style={{ display: "flex", alignItems: "center" }}
-                >
+                  style={{ display: "flex", alignItems: "center" }} >
 
                 <Link to={`profile/${post.author}`}>
                       <Avatar
@@ -406,17 +412,15 @@ return (
                     position="absolute"
                     bottom="10px"
                     right="10px"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleVotersModalOpen(post);
-                    }}
+                    onClick={(e) => {e.stopPropagation(); handleVotersModalOpen(post);}}
                     variant="ghost"
                     colorScheme="green"
                     size="s"
                     ml={2}
                     style={{ fontFamily: 'Helvetica', 
-                            fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`, }}
-                  >
+                            fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`, }} //dynamically changes font size based on numerical value of post.earnings
+                            > 
+                              
                     $ {post.earnings.toFixed(2)}
                     <img
                       src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"

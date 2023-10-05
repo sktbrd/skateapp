@@ -2521,6 +2521,11 @@
     randombytes "^2.1.0"
     text-encoding "0.7.0"
 
+"@fontsource-variable/bodoni-moda@^5.0.9":
+  version "5.0.9"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/bodoni-moda/-/bodoni-moda-5.0.9.tgz#9ec7aed607eed5b9ff202fe01241209e72e5a6ea"
+  integrity sha512-DCMFhv6+aISVWFL8VDgy09BhnWdeUTxt/ZXuJOy4XMuEbG3f6Jd6JnJ7ht3yrZp/uh01ftZWZ3l9U8y/bA32RA==
+
 "@fontsource-variable/inconsolata@^5.0.12":
   version "5.0.12"
   resolved "https://registry.yarnpkg.com/@fontsource-variable/inconsolata/-/inconsolata-5.0.12.tgz#b705ad75d3bb694011cdf0194b582a4d8279910e"

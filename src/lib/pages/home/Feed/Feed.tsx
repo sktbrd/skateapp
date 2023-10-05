@@ -288,7 +288,7 @@ const cardStyles = css`
   }
 `;
 
-const truncateTitle = (title:any, maxCharacters = 80) => {
+const truncateTitle = (title:any, maxCharacters = 110) => {
   // full caps for title of post
   title = title.toUpperCase();
 
@@ -319,7 +319,7 @@ return (
               bg="black"
               key={post.permlink}
               maxW="md"
-              mb={4}
+              mb={2}
               onClick={() => handleCardClick(post)}
               cursor="pointer"
               css={cardStyles} /* Apply the cardStyles CSS */
@@ -361,9 +361,20 @@ return (
                 
                 <Box //the box around the blogpost title
                   //border="1px solid limegreen"
-                  borderRadius="10px"
+                  borderRadius="0px"
                   minWidth="100%"
                   minHeight="100%"
+
+                  style={{
+                    backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23tGLtmE5K6ovFdVS4tYwA5yfJ4S3vnByzcg7BshwvCN1r5Jbmz8NmNm9CUKBm91FVFqT.png')`,
+                    backgroundSize: '100% 100%', // Adjust as needed
+                    backgroundPosition: 'center', // Adjust as needed
+                    backgroundRepeat: 'no-repeat', // Adjust as needed
+                    
+                    marginBottom: '-40px', // Adjust the negative margin as needed
+                    paddingBottom: '40px',
+                  }}
+
                 >
                   <Text fontWeight="semibold" color="orange" padding="0px">
                     {truncateTitle(post.title)}
@@ -374,16 +385,18 @@ return (
               <CardFooter>
                 <Text
                   color="white"
-                  marginTop = "0px"
+                  marginTop = "2px"
                   style={{ display: "flex", alignItems: "center" }}
                 >
 
-<Link to={`profile/${post.author}`}>
+                <Link to={`profile/${post.author}`}>
                       <Avatar
                         name={post.author}
                         border="1px solid limegreen"
                         borderRadius="100px"
                         src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
+                        width="105%"
+                        height="105%"
                       />
                     </Link>
 
@@ -401,7 +414,8 @@ return (
                     colorScheme="green"
                     size="s"
                     ml={2}
-                    style={{ fontFamily: 'Helvetica', fontSize: '14px' }}
+                    style={{ fontFamily: 'Helvetica', 
+                            fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`, }}
                   >
                     $ {post.earnings.toFixed(2)}
                     <img

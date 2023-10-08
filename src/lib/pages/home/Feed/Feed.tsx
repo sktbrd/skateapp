@@ -287,8 +287,8 @@ const cardStyles = css`
   }
 `;
 
-const truncateTitle = (title:any, maxCharacters = 60) => {
-  // Capitalize todas as letras do título
+const truncateTitle = (title:any, maxCharacters = 110) => {
+  // full caps for title of post
   title = title.toUpperCase();
 
   if (title.length <= maxCharacters) {
@@ -300,6 +300,7 @@ const truncateTitle = (title:any, maxCharacters = 60) => {
 };
 
 
+<<<<<<< HEAD
   return (
     <Box>
       {isLoadingInitial ? (
@@ -327,6 +328,31 @@ const truncateTitle = (title:any, maxCharacters = 60) => {
                   <Flex>
                     <Flex
                       css={cardStyles} /* Apply the cardStyles CSS */
+=======
+return (
+  <Box>
+    {isLoadingInitial ? (
+      <PlaceholderLoadingBar />
+    ) : (
+      <>
+        <Box
+          display="grid"
+          gridTemplateColumns={`repeat(${gridColumns}, minmax(280px, 1fr))`}
+          gridGap={1}
+        >
+          {loadedPosts.map((post) => (
+            <Card
+              //border="1px"
+              //borderColor="limegreen"
+              bg="black"
+              key={post.permlink}
+              maxW="md"
+              mb={2}
+              onClick={() => handleCardClick(post)}
+              cursor="pointer"
+              css={cardStyles} /* Apply the cardStyles CSS */
+            >
+>>>>>>> 2b41bc96a080d8e980aff599499096b7b5f8b2ba
 
                       flex="1"
                       gap="3"
@@ -342,6 +368,7 @@ const truncateTitle = (title:any, maxCharacters = 60) => {
                         />
                       </Link>
 
+<<<<<<< HEAD
                       <Box>
                         <Heading color="white" size="sm">{post.author}</Heading>
                       </Box>
@@ -379,6 +406,138 @@ const truncateTitle = (title:any, maxCharacters = 60) => {
                     >
                     {truncateTitle(post.title)}
                     </Text>
+=======
+              <CardHeader>
+                <Flex>
+                  <Flex
+                    css={cardStyles} /* Apply the cardStyles CSS */
+                    flex="1"
+                    gap="3"
+                    borderRadius="10px"
+                    alignItems="center"
+                  >
+                    <Box>
+                      <Heading color="white" size="lg">
+                        {post.author}
+                      </Heading>
+                    </Box>
+                  </Flex>
+
+                </Flex>
+              </CardHeader>
+
+              
+              <Box padding="10px" height="200px"> 
+                <Image 
+                  objectFit="cover"
+                  border="1px solid limegreen"
+                  borderRadius="35px"
+                  src={post.thumbnail}
+                  alt="Post Thumbnail"
+                  height="100%"
+                  width="100%"
+                />
+              </Box>
+              <CardBody>
+                
+                <Box //the box around the blogpost title
+                  //border="1px solid limegreen"
+                  borderRadius="0px"
+                  minWidth="100%"
+                  minHeight="100%"
+
+                  style={{ //style of the speech bubble
+                    backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23tGLtmE5K6ovFdVS4tYwA5yfJ4S3vnByzcg7BshwvCN1r5Jbmz8NmNm9CUKBm91FVFqT.png')`,
+                    backgroundSize: '100% 100%', // stretches the speech bubble as big as the div and dynamically changes 
+                    backgroundPosition: 'center', 
+                    backgroundRepeat: 'no-repeat', 
+                    marginBottom: '-40px', // makes the speech bubble extend beyond the div
+                    paddingBottom: '40px', // for some reason it needs this part too?
+                  }}
+                >
+                  <Text fontWeight="semibold" 
+                        color="orange" 
+                        paddingLeft="5px"
+                        paddingTop="10px"
+                        paddingRight="5px"
+                        textAlign="center" // Center horizontally
+                        display="flex"     // Use flexbox to center vertically
+                        justifyContent="center" // Center vertically
+                        alignItems="center"
+                        >
+                    {truncateTitle(post.title)}
+                  </Text>
+              </Box>
+          </CardBody>
+
+              <CardFooter>
+                <Text
+                  color="white"
+                  marginTop = "2px"
+                  style={{ display: "flex", alignItems: "center" }} >
+
+                <Link to={`profile/${post.author}`}>
+                      <Avatar
+                        name={post.author}
+                        border="1px solid limegreen"
+                        borderRadius="100px"
+                        src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
+                        width="105%"
+                        height="105%"
+                      />
+                    </Link>
+
+                    
+
+                  <Button
+                    position="absolute"
+                    bottom="10px"
+                    right="10px"
+                    onClick={(e) => {e.stopPropagation(); handleVotersModalOpen(post);}}
+                    variant="ghost"
+                    colorScheme="green"
+                    size="s"
+                    ml={2}
+                    style={{ fontFamily: 'Helvetica', 
+                            fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`, }} //dynamically changes font size based on numerical value of post.earnings
+                            > 
+                              
+                    $ {post.earnings.toFixed(2)}
+                    <img
+                      src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
+                      alt="spinning stoken coin"
+                      style={{
+                        width: "18px",
+                        height: "18px",
+                        marginLeft: "7px",
+                        marginBottom: "2px",
+                      }}
+                    />
+                  </Button>
+                </Text>
+                
+                <Box marginLeft="auto">
+                <IconButton //upvote button on card
+                  icon={<Text fontSize="4xl" color="magenta" lineHeight="0" marginTop="20px" marginLeft="3px" >
+                           ˆ
+                      </Text>} 
+                      
+                  backgroundColor="green"
+                  color="limegreen"
+                  variant="ghost" 
+                  size={"xs"}
+                  borderRadius='50%'
+                  aria-label="Upvote"
+                  border={"1px"}
+                  borderColor="limegreen"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // Handle upvote logic here
+                  }}
+                 />
+                 </Box>
+                 
+>>>>>>> 2b41bc96a080d8e980aff599499096b7b5f8b2ba
 
                   </Box>
 

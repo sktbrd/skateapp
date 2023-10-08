@@ -2521,6 +2521,36 @@
     randombytes "^2.1.0"
     text-encoding "0.7.0"
 
+"@fontsource-variable/bodoni-moda@^5.0.9":
+  version "5.0.9"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/bodoni-moda/-/bodoni-moda-5.0.9.tgz#9ec7aed607eed5b9ff202fe01241209e72e5a6ea"
+  integrity sha512-DCMFhv6+aISVWFL8VDgy09BhnWdeUTxt/ZXuJOy4XMuEbG3f6Jd6JnJ7ht3yrZp/uh01ftZWZ3l9U8y/bA32RA==
+
+"@fontsource-variable/inconsolata@^5.0.12":
+  version "5.0.12"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/inconsolata/-/inconsolata-5.0.12.tgz#b705ad75d3bb694011cdf0194b582a4d8279910e"
+  integrity sha512-viMFm0h0Gty32DwbnJWc35MbIHaHY3/1i8HeI65W9oYolaIVjU0WDJh6U9CsAbMqt/K9f/heSEaI2q1seIyjFg==
+
+"@fontsource-variable/roboto-mono@^5.0.13":
+  version "5.0.13"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/roboto-mono/-/roboto-mono-5.0.13.tgz#8f1c91687ee637a721583cb349c2ecf1f3323e5b"
+  integrity sha512-JIzZGcdMtZTZ7dmSZUP1PgMj1n7u3k081tp7EiDwJn6GgualaaoRUZiHm7zTAJkAyYGwU+sbdlHiM3Am7wLkLw==
+
+"@fontsource/bangers@^5.0.14":
+  version "5.0.14"
+  resolved "https://registry.yarnpkg.com/@fontsource/bangers/-/bangers-5.0.14.tgz#1e0ca7502e8309b710f0dd170622a2d633e86cf6"
+  integrity sha512-WigqhPEsuJpQEmloRT5Rt+lGNWG899vwEh/5+2CEYA1RWawQoptP09atv3wUCs2QJqwAuAb1YuLEJcMAm8wNpw==
+
+"@fontsource/castoro@^5.0.8":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@fontsource/castoro/-/castoro-5.0.8.tgz#7ca27d21bb4c42daa1457dece2944cfcab1b7c0b"
+  integrity sha512-z/3f5RdFj+SWyqx2BEzhD8fkI+1GF0eIWmM5oW+IR5scN5fw1lQha3+rUBn5TJ4MuEn9hjjTu/dU+dwdAL6tng==
+
+"@fontsource/open-sans@^5.0.14":
+  version "5.0.14"
+  resolved "https://registry.yarnpkg.com/@fontsource/open-sans/-/open-sans-5.0.14.tgz#257252e1a7c953176d42bf314b3aba79c5a4f9c1"
+  integrity sha512-r9dEDCrZsBfjd2WREzffY1j7Y5gbyfOU1ybChTXjKdOCRAtTVpxO1ZJ5UyVkotXGSIWNt2hedlfyshWSQ6p5kQ==
+
 "@fontsource/plus-jakarta-sans@^4.5.11":
   version "4.5.11"
   resolved "https://registry.yarnpkg.com/@fontsource/plus-jakarta-sans/-/plus-jakarta-sans-4.5.11.tgz#89caa4a112ca7451a85942bb58d327618d731d8e"
@@ -2530,6 +2560,26 @@
   version "5.0.11"
   resolved "https://registry.yarnpkg.com/@fontsource/plus-jakarta-sans/-/plus-jakarta-sans-5.0.11.tgz#93ec84eda67e6d49bcc696f4b946d64d5a874854"
   integrity sha512-H6S+whyxydx4WZPhzfdR68igavJ+dpRe238EQd3ez/BXuzxEUnUwHlSEPClrjLjmIOPxLv+4ffijz1UeVUS6oQ==
+
+"@fontsource/press-start-2p@^5.0.14":
+  version "5.0.14"
+  resolved "https://registry.yarnpkg.com/@fontsource/press-start-2p/-/press-start-2p-5.0.14.tgz#1b1f26e2ee05ff160da0645b8f2c3a7c35f6d8d6"
+  integrity sha512-3YFunnrTF9vqA7QrRtc0H0vSzM+C2opRh//PdN9QuMXkSu1iE3zGOjuAsK8JJMNu/bu5Az5theTdpA7PICjxmw==
+
+"@fontsource/raleway@^5.0.12":
+  version "5.0.12"
+  resolved "https://registry.yarnpkg.com/@fontsource/raleway/-/raleway-5.0.12.tgz#7bf47b812f40631c8ad07938868af62ec0258400"
+  integrity sha512-ozJah4uGPFGVW3mA4V6h7QkHvbrFR1U1HC4mxTL1dvKfs7t1zg11/lUi8g7EyFraoWUmCzrm9b9mUqJBxZ0h/w==
+
+"@fontsource/silkscreen@^5.0.14":
+  version "5.0.14"
+  resolved "https://registry.yarnpkg.com/@fontsource/silkscreen/-/silkscreen-5.0.14.tgz#c1f62114407c8b988a40c4e2c466e5154ee87179"
+  integrity sha512-YPoI+nJQDhYwj/Hm8bL5f+EQyUaqY6YWKDVtYz+5p0o6cgrjYLCi94Lojd3oYTlLrs6Abd0ZjOIi4I6APsn0sA==
+
+"@fontsource/ubuntu@^5.0.8":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@fontsource/ubuntu/-/ubuntu-5.0.8.tgz#5009cfaf00057277acdb88caa3537686248a484d"
+  integrity sha512-lZY64hVXrnkt/+5jRfm0uMiRv+lmrIdnATAnDj1SPqebmI2UDf3KC9p4rOkIYsBOjOsD6seJ82GIQE067DSvWw==
 
 "@hiveio/dhive@^1.2.5", "@hiveio/dhive@^1.2.7":
   version "1.2.7"

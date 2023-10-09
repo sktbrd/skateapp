@@ -18,6 +18,8 @@ import {
 } from "@chakra-ui/react";
 
 import { Client } from "@hiveio/dhive";
+import voteOnContent from "../api/voting";
+import useAuthUser from "../api/useAuthUser";
 
 import { useEffect, useState } from "react";
 import PostModal from "./postModal/postModal";
@@ -90,7 +92,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   const [displayedPosts, setDisplayedPosts] = useState<number>(15 );
   const [postsToLoadInitially] = useState<number>(15); // Number of posts to load initially
   const [postsToLoadMore] = useState<number>(10); // Number of additional posts to load on "Load More" click
-
+  const { user, isLoggedIn } = useAuthUser();
   const fetchPostEarnings = async (
     author: string,
     permlink: string
@@ -299,7 +301,30 @@ const truncateTitle = (title:any, maxCharacters = 110) => {
     return truncatedTitle;
   }
 };
+const handleVoteClick = async (post: any) => {
+  // Check if the user is logged in before allowing them to vote
+  if (!isLoggedIn()) {
+    // Handle the case where the user is not logged in, e.g., show a login prompt
+    console.log("User is not logged in. Show a login prompt.");
+    return;
+  }
 
+  // Perform the voting action
+  try {
+    // You may need to retrieve the user's username and other information here
+    const username = user?.name || ""; // Replace with the actual username
+    const weight = 10000; // Replace with the desired voting weight
+
+    // Call the voteOnContent function to vote on the post
+    await voteOnContent(username, post.permlink, post.author, weight);
+
+    // Handle successful vote
+    console.log("Vote successful!");
+  } catch (error) {
+    // Handle voting error
+    console.error("Error while voting:", error);
+  }
+};
 
 return (
   <Box>
@@ -436,24 +461,18 @@ return (
                 </Text>
                 
                 <Box marginLeft="auto">
-                <IconButton //upvote button on card
-                  icon={<Text fontSize="4xl" color="magenta" lineHeight="0" marginTop="20px" marginLeft="3px" >
-                           ˆ
-                      </Text>} 
-                      
-                  backgroundColor="green"
-                  color="limegreen"
-                  variant="ghost" 
-                  size={"xs"}
-                  borderRadius='50%'
-                  aria-label="Upvote"
-                  border={"1px"}
-                  borderColor="limegreen"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    // Handle upvote logic here
-                  }}
-                 />
+                <IconButton
+              icon={<MdArrowUpward />}
+              backgroundColor="green"
+              color="white"
+              variant="ghost"
+              size="xs"
+              borderRadius="50%"
+              aria-label="Upvote"
+              border="1px"
+              borderColor="limegreen"
+              onClick={() => handleVoteClick(post)}
+            />
                  </Box>
                  
 

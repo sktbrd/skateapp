@@ -18,6 +18,8 @@ import {
 } from "@chakra-ui/react";
 
 import { Client } from "@hiveio/dhive";
+import voteOnContent from "../api/voting";
+import useAuthUser from "../api/useAuthUser";
 
 import { useEffect, useState } from "react";
 import PostModal from "./postModal/postModal";
@@ -28,6 +30,7 @@ import * as Types from "./types";
 import { css } from "@emotion/react";
 
 import EarningsModal from "./postModal/earningsModal"; // Replace with the correct path to EarningsModal
+import { MdArrowUpward } from 'react-icons/md';
 
 const nodes = [
   "https://rpc.ecency.com",
@@ -89,7 +92,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   const [displayedPosts, setDisplayedPosts] = useState<number>(15 );
   const [postsToLoadInitially] = useState<number>(15); // Number of posts to load initially
   const [postsToLoadMore] = useState<number>(10); // Number of additional posts to load on "Load More" click
-
+  const { user, isLoggedIn } = useAuthUser();
   const fetchPostEarnings = async (
     author: string,
     permlink: string
@@ -287,8 +290,8 @@ const cardStyles = css`
   }
 `;
 
-const truncateTitle = (title:any, maxCharacters = 60) => {
-  // Capitalize todas as letras do título
+const truncateTitle = (title:any, maxCharacters = 110) => {
+  // full caps for title of post
   title = title.toUpperCase();
 
   if (title.length <= maxCharacters) {
@@ -298,166 +301,225 @@ const truncateTitle = (title:any, maxCharacters = 60) => {
     return truncatedTitle;
   }
 };
+const handleVoteClick = async (post: any) => {
+  // Check if the user is logged in before allowing them to vote
+  if (!isLoggedIn()) {
+    // Handle the case where the user is not logged in, e.g., show a login prompt
+    console.log("User is not logged in. Show a login prompt.");
+    return;
+  }
+
+  // Perform the voting action
+  try {
+    // You may need to retrieve the user's username and other information here
+    const username = user?.name || ""; // Replace with the actual username
+    const weight = 10000; // Replace with the desired voting weight
+
+    // Call the voteOnContent function to vote on the post
+    await voteOnContent(username, post.permlink, post.author, weight);
+
+    // Handle successful vote
+    console.log("Vote successful!");
+  } catch (error) {
+    // Handle voting error
+    console.error("Error while voting:", error);
+  }
+};
+
+return (
+  <Box>
+    {isLoadingInitial ? (
+      <PlaceholderLoadingBar />
+    ) : (
+      <>
+        <Box
+          display="grid"
+          gridTemplateColumns={`repeat(${gridColumns}, minmax(280px, 1fr))`}
+          gridGap={1}
+        >
+          {loadedPosts.map((post) => (
+            <Card
+              //border="1px"
+              //borderColor="limegreen"
+              bg="black"
+              key={post.permlink}
+              maxW="md"
+              mb={2}
+              onClick={() => handleCardClick(post)}
+              cursor="pointer"
+              css={cardStyles} /* Apply the cardStyles CSS */
+            >
 
 
-  return (
-    <Box>
-      {isLoadingInitial ? (
-        <PlaceholderLoadingBar />
-      ) : (
-        <>
-          <Box
-            display="grid"
-            gridTemplateColumns={`repeat(${gridColumns}, minmax(280px, 1fr))`}
-            gridGap={1}
-          >
-            {loadedPosts.map((post) => (
-              <Card
-                border="1px"
-                borderColor="limegreen"
-                bg="black"
-                key={post.permlink}
-                maxW="md"
-                mb={4}
-                onClick={() => handleCardClick(post)}
-                cursor="pointer"
-                css={cardStyles} /* Apply the cardStyles CSS */
-              >
-                <CardHeader>
-                  <Flex>
-                    <Flex
-                      css={cardStyles} /* Apply the cardStyles CSS */
-
-                      flex="1"
-                      gap="3"
-                      borderRadius="10px"
-                      alignItems="center"
-                    >
-                      <Link to={`profile/${post.author}`}>
-                        <Avatar
-                          name={post.author}
-                          border="1px solid limegreen"
-                          borderRadius="10px"
-                          src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
-                        />
-                      </Link>
-
-                      <Box>
-                        <Heading color="white" size="sm">{post.author}</Heading>
-                      </Box>
-                    </Flex>
-                    <IconButton
-                      variant="ghost"
-                      colorScheme="gray"
-                      aria-label="See menu"
-                    />
-                  </Flex>
-                </CardHeader>
-                <Box padding="10px" height="200px">
-                  <Image
-                    objectFit="cover"
-                    border="1px solid limegreen"
+              <CardHeader>
+                <Flex>
+                  <Flex
+                    css={cardStyles} /* Apply the cardStyles CSS */
+                    flex="1"
+                    gap="3"
                     borderRadius="10px"
-                    src={post.thumbnail}
-                    alt="Post Thumbnail"
-                    height="100%"
-                    width="100%"
-                  />
-                </Box>
-                <CardBody>
-                  <Box
-                    border="1px solid limegreen"
-                    borderRadius="10px"
-                    minWidth="100%"
-                    minHeight="100%"
-                    >
-                                    
-                  <Text 
-                    fontWeight="semibold"
-                    color="orange"
-                    padding="13px"
-                    >
-                    {truncateTitle(post.title)}
-                    </Text>
-
-                  </Box>
-
-                </CardBody>
-                <CardFooter>
-                  
-                  <Text
-                    color="white"
-                    style={{ display: "flex", alignItems: "center" }}
+                    alignItems="center"
                   >
-                    <Button
-                      position="absolute"
-                      bottom="10px"
-                      right="10px"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleVotersModalOpen(post);
-                      }}
-                      variant="ghost"
-                      colorScheme="green"
-                      size="s"
-                      ml={2}
-                    >
-                     $ {post.earnings.toFixed(2)}
-                      <img
-                        src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
-                        alt="Earning"
-                        style={{
-                          width: "18px",
-                          height: "18px",
-                          marginLeft: "7px",
-                          marginBottom: "2px",
-                        }}
-                      />
-                    </Button>
+                    <Box>
+                      <Heading color="white" size="lg">
+                        {post.author}
+                      </Heading>
+                    </Box>
+                  </Flex>
+
+                </Flex>
+              </CardHeader>
+
+              
+              <Box padding="10px" height="200px"> 
+                <Image 
+                  objectFit="cover"
+                  border="1px solid limegreen"
+                  borderRadius="35px"
+                  src={post.thumbnail}
+                  alt="Post Thumbnail"
+                  height="100%"
+                  width="100%"
+                />
+              </Box>
+              <CardBody>
+                
+                <Box //the box around the blogpost title
+                  //border="1px solid limegreen"
+                  borderRadius="0px"
+                  minWidth="100%"
+                  minHeight="100%"
+
+                  style={{ //style of the speech bubble
+                    backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23tGLtmE5K6ovFdVS4tYwA5yfJ4S3vnByzcg7BshwvCN1r5Jbmz8NmNm9CUKBm91FVFqT.png')`,
+                    backgroundSize: '100% 100%', // stretches the speech bubble as big as the div and dynamically changes 
+                    backgroundPosition: 'center', 
+                    backgroundRepeat: 'no-repeat', 
+                    marginBottom: '-40px', // makes the speech bubble extend beyond the div
+                    paddingBottom: '40px', // for some reason it needs this part too?
+                  }}
+                >
+                  <Text fontWeight="semibold" 
+                        color="orange" 
+                        paddingLeft="5px"
+                        paddingTop="10px"
+                        paddingRight="5px"
+                        textAlign="center" // Center horizontally
+                        display="flex"     // Use flexbox to center vertically
+                        justifyContent="center" // Center vertically
+                        alignItems="center"
+                        >
+                    {truncateTitle(post.title)}
                   </Text>
-                </CardFooter>
-              </Card>
-            ))}
-          </Box>
-          <Box display="flex" justifyContent="center">
-            <Button variant="outline" colorScheme="green" onClick={loadMorePosts}>
-              Load More
-            </Button>
-          </Box>
-          {isLoadingMore && <PlaceholderLoadingBar />} {/* Show loading bar below posts on "Load More" */}
-        </>
-      )}
-     <Modal isOpen={isOpen} onClose={onClose} size="xl">
-          <ModalOverlay />
-          <ModalContent>
-            <PostModal
-              title={selectedPost?.title}
-              content={selectedPost?.body}
-              author={selectedPost?.author}
-              user={selectedPost?.user}
-              permlink={selectedPost?.permlink}
-              weight={selectedPost?.weight}
-              onClose={onClose}
-              isOpen={isOpen}
-              comments={comments}
-              postUrl={selectedPost?.url}
+              </Box>
+          </CardBody>
+
+              <CardFooter>
+                <Text
+                  color="white"
+                  marginTop = "2px"
+                  style={{ display: "flex", alignItems: "center" }} >
+
+                <Link to={`profile/${post.author}`}>
+                      <Avatar
+                        name={post.author}
+                        border="1px solid limegreen"
+                        borderRadius="100px"
+                        src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
+                        width="105%"
+                        height="105%"
+                      />
+                    </Link>
+
+                    
+
+                  <Button
+                    position="absolute"
+                    bottom="10px"
+                    right="10px"
+                    onClick={(e) => {e.stopPropagation(); handleVotersModalOpen(post);}}
+                    variant="ghost"
+                    colorScheme="green"
+                    size="s"
+                    ml={2}
+                    style={{ fontFamily: 'Helvetica', 
+                            fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`, }} //dynamically changes font size based on numerical value of post.earnings
+                            > 
+                              
+                    $ {post.earnings.toFixed(2)}
+                    <img
+                      src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
+                      alt="spinning stoken coin"
+                      style={{
+                        width: "18px",
+                        height: "18px",
+                        marginLeft: "7px",
+                        marginBottom: "2px",
+                      }}
+                    />
+                  </Button>
+                </Text>
+                
+                <Box marginLeft="auto">
+                <IconButton
+              icon={<MdArrowUpward />}
+              backgroundColor="green"
+              color="white"
+              variant="ghost"
+              size="xs"
+              borderRadius="50%"
+              aria-label="Upvote"
+              border="1px"
+              borderColor="limegreen"
+              onClick={() => handleVoteClick(post)}
             />
-          </ModalContent>
-        </Modal>
-  
-        <Modal isOpen={isVotersModalOpen} onClose={() => setVotersModalOpen(false)} size="xl">
-          <ModalOverlay />
-          <ModalContent>
-            <EarningsModal
-              isOpen={isVotersModalOpen}
-              onClose={() => setVotersModalOpen(false)}
-              post={selectedPostForModal}
-            />
-          </ModalContent>
-        </Modal>
-      </Box>
-    
-  );
+                 </Box>
+                 
+
+
+
+              </CardFooter>
+            </Card>
+          ))}
+        </Box>
+        <Box display="flex" justifyContent="center">
+          <Button variant="outline" colorScheme="green" onClick={loadMorePosts}>
+            Load More
+          </Button>
+        </Box>
+        {isLoadingMore && <PlaceholderLoadingBar />}
+      </>
+    )}
+    <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <ModalOverlay />
+      <ModalContent>
+        <PostModal
+          title={selectedPost?.title}
+          content={selectedPost?.body}
+          author={selectedPost?.author}
+          user={selectedPost?.user}
+          permlink={selectedPost?.permlink}
+          weight={selectedPost?.weight}
+          onClose={onClose}
+          isOpen={isOpen}
+          comments={comments}
+          postUrl={selectedPost?.url}
+        />
+      </ModalContent>
+    </Modal>
+    <Modal isOpen={isVotersModalOpen} onClose={() => setVotersModalOpen(false)} size="xl">
+      <ModalOverlay />
+      <ModalContent>
+
+        <EarningsModal
+          isOpen={isVotersModalOpen}
+          onClose={() => setVotersModalOpen(false)}
+          post={selectedPostForModal}
+        />
+      </ModalContent>
+    </Modal>
+  </Box>
+);
 };
 
 export default HiveBlog;

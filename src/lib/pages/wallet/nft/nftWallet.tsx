@@ -3,7 +3,7 @@ import { Grid, Select, Box, Text } from "@chakra-ui/react";
 import NFTCard from './nftCard';
 import axios from 'axios';
 //@ts-ignore
-import { usePioneer } from 'pioneer-react';
+import { usePioneer } from '@pioneer-platform/pioneer-react';
 import * as Types from './types'; 
 import { useState , useEffect } from 'react';
 

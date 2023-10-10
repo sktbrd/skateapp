@@ -134,7 +134,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
       // Exclude already loaded posts from the new result
       const newPosts = result.slice(displayedPosts);
 
-      const postsWithThumbnails = newPosts.map((post) => {
+      const postsWithThumbnails = newPosts.map((post:any) => {
         const metadata = JSON.parse(post.json_metadata);
         const thumbnail =
           Array.isArray(metadata?.image) && metadata.image.length > 0
@@ -144,7 +144,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
       });
 
       // Fetch earnings for each new post concurrently
-      const earningsPromises = postsWithThumbnails.map((post) =>
+      const earningsPromises = postsWithThumbnails.map((post:any) =>
         fetchPostEarnings(post.author, post.permlink).catch((error) => {
           console.log(error);
           return placeholderEarnings; // Use placeholder value if fetching actual earnings fails
@@ -154,7 +154,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
 
       // Update earnings for each new post
       const updatedPostsWithEarnings = postsWithThumbnails.map(
-        (post, index) => ({ ...post, earnings: earnings[index] })
+        (post:any, index:any) => ({ ...post, earnings: earnings[index] })
       );
 
       // Append the new posts to the existing ones
@@ -178,7 +178,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
         };
         const result = await client.database.getDiscussions(queryType, query);
 
-        const postsWithThumbnails = result.map((post) => {
+        const postsWithThumbnails = result.map((post:any) => {
           const metadata = JSON.parse(post.json_metadata);
           const thumbnail =
             Array.isArray(metadata?.image) && metadata.image.length > 0
@@ -188,7 +188,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
         });
 
         // Fetch earnings for each initial post concurrently
-        const earningsPromises = postsWithThumbnails.map((post) =>
+        const earningsPromises = postsWithThumbnails.map((post:any) =>
           fetchPostEarnings(post.author, post.permlink).catch((error) => {
             console.log(error);
             return placeholderEarnings; // Use placeholder value if fetching actual earnings fails
@@ -198,7 +198,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
 
         // Update earnings for each initial post
         const updatedPostsWithEarnings = postsWithThumbnails.map(
-          (post, index) => ({ ...post, earnings: earnings[index] })
+          (post:any, index:any) => ({ ...post, earnings: earnings[index] })
         );
 
         // Set the initial loaded posts

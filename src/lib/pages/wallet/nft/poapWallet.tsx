@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Grid, Box, Text } from "@chakra-ui/react";
 import NFTCard from './nftCard';
 //@ts-ignore
-import { usePioneer } from 'pioneer-react';
+import { usePioneer } from '@pioneer-platform/pioneer-react';
 import * as Types from './types';
 
 const POAPsNFTWallet: React.FC = () => {

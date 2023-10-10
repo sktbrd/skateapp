@@ -40,26 +40,26 @@ const Wallet = () => {
   return (
     <Tabs color="limegreen" variant="enclosed">
       <TabList justifyContent="center">
-        <Tab>Tokens</Tab>
-        <Tab>NFTs</Tab>
+        <Tab>Hive Tokens</Tab>
+        <Tab>ETH NFTs</Tab>
         <Tab>POAPs</Tab> {/* Added this line */}
       </TabList>
 
       <TabPanels>
       <TabPanel>
   <Flex direction={["column", "row"]}>
-    {/* <Box flex={1} mb={[4, 0]}>
+    <Box flex={1} mb={[4, 0]}>
       <HiveBalanceDisplay2 />
-    </Box> */}
-    <Box flex={1} ml={[0, 4]}>
-      <TestEvm />
     </Box>
+    {/* <Box flex={1} ml={[0, 4]}>
+      <TestEvm />
+    </Box> */}
   </Flex>
   
 </TabPanel>
 
         <TabPanel>
-          <NFTWallet nftList={nftList} />
+          <NFTWallet  />
         </TabPanel>
 
         <TabPanel>

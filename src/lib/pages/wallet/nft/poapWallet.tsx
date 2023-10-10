@@ -32,7 +32,7 @@ const POAPsNFTWallet: React.FC = () => {
   return (
     <Box padding="5px" borderRadius="10px" border="limegreen solid 1px">
       <Text borderRadius="12px" fontWeight="700" fontSize="18px" color="limegreen" padding="10px">
-            Poaps
+            This feature went Skate, its comming back soon 
       </Text>
       <Grid templateColumns="repeat(auto-fit, minmax(400px, 1fr))" gap={2}>
       {poapNfts.map((nft: Types.NFT, index) => (

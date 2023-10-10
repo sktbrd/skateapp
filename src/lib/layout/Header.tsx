@@ -212,7 +212,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
   `;
 
   const handleTotalClick = () => {
-    alert("Total worth: " + totalWorth.toFixed(2) + " USD");
+    alert("Total worth: " + totalWorth.toFixed(2) + " BRL");
   };
 
   return (
@@ -221,8 +221,8 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       alignItems="center"
       justifyContent="space-between"
       p={6}
-      bg="black"
-      border="1px solid limegreen"
+      bg=""
+      border="3px solid black"
       position="relative"
       borderRadius="10px"
     >
@@ -323,7 +323,8 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
 
         >
-          {totalWorth.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
+          <Text color="white" style={{ marginLeft: '5px' }}>R$</Text>
+          <Text style={{ marginLeft: '5px' }} color = '#FFA500'>{totalWorth.toFixed(2)}</Text> 
           </Button>
     </ChakraLink>
       </Box>
@@ -332,8 +333,8 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
       {/* Tabs centered horizontally */}
       <Tabs
-        variant="soft-rounded"
-        colorScheme="whiteAlpha"
+        variant="solid-rounded" //solid-rounded
+        colorScheme="blackAlpha" //blackAlpha
         position={{ base: "relative", md: "absolute" }}
         left="50%"
         bottom={0}
@@ -364,7 +365,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
                 value="" 
                 onChange={handleSelectChange}
                 style={{
-                  backgroundColor: 'black',
+                  backgroundColor: '',//escolher cor
                   color: 'white',
                   border: 'none',  
                   cursor: 'pointer'

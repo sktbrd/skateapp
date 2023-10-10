@@ -1,4 +1,4 @@
-import { Flex, Tabs, TabList, TabPanels, Tab, TabPanel, useTabs } from "@chakra-ui/react";
+import { Flex, Tabs, TabList, Tab, TabPanels, TabPanel, useTabs } from "@chakra-ui/react";
 import HiveBlog from "./Feed/Feed";
 import HiveVideos from "./videos/FeedVideo";
 import SnapShot from "./dao/snapshot";
@@ -19,14 +19,14 @@ import UploadPage from "../upload";
               border="2px black solid"
               _selected={{ backgroundColor: "#65418C",color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
-              <img src="public\assets\gifs\crows2.gif" alt="" width="30%" height="auto"/>FEED
+              <img src="public\assets\gifs\crows2.gif" alt="" width="13%" height="auto"/>FEED
             </Tab>
             <Tab
               color="white" 
               border="2px black solid"
               _selected={{ backgroundColor: "#65418C",color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
-              <img src="public\assets\gifs\crows1.gif" alt="" width="20%" height="auto"/>VIDEOS
+              <img src="public\assets\gifs\crows1.gif" alt="" width="10%" height="auto"/>VIDEOS
             </Tab>
             {/* <Tab
               color="white"
@@ -40,14 +40,14 @@ import UploadPage from "../upload";
               border="2px black solid"
               _selected={{ backgroundColor: "#65418C" ,color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
-              <img src="public\assets\gifs\crows3.gif" alt="" width="20%" height="auto"/>UPLOAD
+              <img src="public\assets\gifs\crows3.gif" alt="" width="10%" height="auto"/>UPLOAD
             </Tab>
             <Tab
               color="white"
               border="2px black solid"
               _selected={{ backgroundColor: "#65418C" ,color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
-              <img src="public\assets\gifs\crows4.gif" alt="" width="20%" height="auto"/> STORE
+              <img src="public\assets\gifs\crows4.gif" alt="" width="10%" height="auto"/> STORE
             </Tab>
           </TabList>
           <TabPanels>

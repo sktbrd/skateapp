@@ -21,7 +21,7 @@ export const theme = extendTheme({
         color:  "red" ,
       },
       p: {
-        color: "limegreen",
+        color: "white",
       },
       // Style for Webkit scrollbars
       "::-webkit-scrollbar": {

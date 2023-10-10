@@ -162,8 +162,7 @@ const MediaUpload: React.FC = () => {
       );
 
       if (response && response.data && response.data.IpfsHash) {
-        // TO-DO insecure, move pinataGatewayToken to env file later
-        const thumbnailURL = `https://gray-soft-cardinal-116.mypinata.cloud/ipfs/${response.data.IpfsHash}?pinataGatewayToken=nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE`;
+        const thumbnailURL = `https://gray-soft-cardinal-116.mypinata.cloud/ipfs/${response.data.IpfsHash}?pinataGatewayToken=${PINATA_GATEWAY_TOKEN}`;
         setThumbnailIpfsURL(thumbnailURL); // Set the thumbnail IPFS link in the state
         console.log('Thumbnail uploaded to IPFS:', thumbnailIpfsURL);
         // Set the thumbnail IPFS link in the media state or wherever you need it

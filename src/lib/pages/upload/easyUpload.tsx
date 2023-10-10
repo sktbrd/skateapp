@@ -299,7 +299,9 @@ const MediaUpload: React.FC = () => {
         if (username) {
           const commentOptions = {
             author: username,
-            permlink: permlink,
+            permLink: "testestest",
+            // TO-DO, uncomment back
+            // permlink: permlink,
             max_accepted_payout: '10000.000 HBD',
             percent_hbd: 10000,
             allow_votes: true,

@@ -86,7 +86,7 @@ const MediaUpload: React.FC = () => {
       formData.append('pinataMetadata', JSON.stringify({ name: file.name }));
       console.log("formData: ", formData)
 
-      try {
+      try { 
 
         const response = await axios.post(
           'https://api.pinata.cloud/pinning/pinFileToIPFS',
@@ -107,7 +107,7 @@ const MediaUpload: React.FC = () => {
 
 
         if (response && response.data && response.data.IpfsHash) {
-          const videoipfsURL = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
+          const videoipfsURL = `https://gray-soft-cardinal-116.mypinata.cloud/ipfs/${response.data.IpfsHash}`;
           console.log('Dropped in IPFS:', videoipfsURL);
           setIpfsLink(videoipfsURL);
           // console type of everything
@@ -159,7 +159,8 @@ const MediaUpload: React.FC = () => {
       );
 
       if (response && response.data && response.data.IpfsHash) {
-        const thumbnailURL = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
+        // TO-DO insecure, move pinataGatewayToken to env file later
+        const thumbnailURL = `https://gray-soft-cardinal-116.mypinata.cloud/ipfs/${response.data.IpfsHash}`;
         setThumbnailIpfsURL(thumbnailURL); // Set the thumbnail IPFS link in the state
         console.log('Thumbnail uploaded to IPFS:', thumbnailIpfsURL);
         // Set the thumbnail IPFS link in the media state or wherever you need it
@@ -181,7 +182,7 @@ const MediaUpload: React.FC = () => {
   const assembleBodyContent = (currentBody: string, newContent: string) => {
     const assembledBody = currentBody + '\n' + newContent;
     return assembledBody;
-    console.log(thumbnailIpfsURL)
+    console.log(thumbnailIpfsURL);
   };
 
   // Define a function to handle assembling the body and logging it
@@ -327,7 +328,7 @@ const MediaUpload: React.FC = () => {
               'comment',
               {
                 parent_author: '',
-                parent_permlink: JSON.stringify(process.env.COMMUNITY) || 'hive-173115'
+                parent_permlink: JSON.stringify(process.env.COMMUNITY) || ''
                 ,
                 author: username,
                 permlink: permlink,

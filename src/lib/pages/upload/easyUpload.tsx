@@ -299,9 +299,7 @@ const MediaUpload: React.FC = () => {
         if (username) {
           const commentOptions = {
             author: username,
-            permlink: "testestest",
-            // TO-DO, uncomment back
-            // permlink: permlink,
+            permlink: permlink,
             max_accepted_payout: '10000.000 HBD',
             percent_hbd: 10000,
             allow_votes: true,
@@ -330,11 +328,9 @@ const MediaUpload: React.FC = () => {
               'comment',
               {
                 parent_author: '',
-                parent_permlink: JSON.stringify(process.env.COMMUNITY || 'test-community'),
+                parent_permlink: JSON.stringify(process.env.COMMUNITY) || 'kleenex',
                 author: username,
-                permlink: "testestest",
-                // TO-DO, uncomment back
-                // permlink: permlink,
+                permlink: permlink,
                 title: title,
                 body: completePostBody,
                 json_metadata: JSON.stringify({

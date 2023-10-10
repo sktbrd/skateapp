@@ -49,8 +49,9 @@ interface BeneficiaryForBroadcast {
 
 const client = new Client('https://api.hive.blog');
 
-const PINATA_API_KEY = 'f382d9b820088964b995';
-const PINATA_API_SECRET = '818eab92027191ccbdcdaabb08046745da75c78f5adab06099371a2ee518a4fd';
+//TO-DO Replace all instances of these two with process.env with fallbacks
+const PINATA_API_KEY = process.env.PINATA_API_KEY;
+const PINATA_API_SECRET = process.env.PINATA_API_SECRET;
 
 const MediaUpload: React.FC = () => {
   const [media, setMedia] = useState<Media | null>(null);
@@ -107,7 +108,8 @@ const MediaUpload: React.FC = () => {
 
 
         if (response && response.data && response.data.IpfsHash) {
-          const videoipfsURL = `https://gray-soft-cardinal-116.mypinata.cloud/ipfs/${response.data.IpfsHash}`;
+          const gatewayToken = process.env.PINATA_GATEWAY_TOKEN || 'missing-gateway-token';
+          const videoipfsURL = `https://gray-soft-cardinal-116.mypinata.cloud/ipfs/${response.data.IpfsHash}?pinataGatewayToken=${gatewayToken}`;
           console.log('Dropped in IPFS:', videoipfsURL);
           setIpfsLink(videoipfsURL);
           // console type of everything
@@ -160,7 +162,7 @@ const MediaUpload: React.FC = () => {
 
       if (response && response.data && response.data.IpfsHash) {
         // TO-DO insecure, move pinataGatewayToken to env file later
-        const thumbnailURL = `https://gray-soft-cardinal-116.mypinata.cloud/ipfs/${response.data.IpfsHash}`;
+        const thumbnailURL = `https://gray-soft-cardinal-116.mypinata.cloud/ipfs/${response.data.IpfsHash}?pinataGatewayToken=nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE`;
         setThumbnailIpfsURL(thumbnailURL); // Set the thumbnail IPFS link in the state
         console.log('Thumbnail uploaded to IPFS:', thumbnailIpfsURL);
         // Set the thumbnail IPFS link in the media state or wherever you need it

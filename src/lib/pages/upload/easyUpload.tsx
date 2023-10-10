@@ -49,9 +49,11 @@ interface BeneficiaryForBroadcast {
 
 const client = new Client('https://api.hive.blog');
 
-//TO-DO Replace all instances of these two with process.env with fallbacks
-const PINATA_API_KEY = process.env.PINATA_API_KEY;
-const PINATA_API_SECRET = process.env.PINATA_API_SECRET;
+//TO-DO Replace these with process.env plus fallbacks
+const PINATA_API_KEY = process.env.PINATA_API_KEY || 'f382d9b820088964b995';
+const PINATA_API_SECRET = process.env.PINATA_API_SECRET || '818eab92027191ccbdcdaabb08046745da75c78f5adab06099371a2ee518a4fd';
+const PINATA_GATEWAY_TOKEN = process.env.PINATA_GATEWAY_TOKEN || 'nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE';
+;
 
 const MediaUpload: React.FC = () => {
   const [media, setMedia] = useState<Media | null>(null);
@@ -108,8 +110,7 @@ const MediaUpload: React.FC = () => {
 
 
         if (response && response.data && response.data.IpfsHash) {
-          const gatewayToken = process.env.PINATA_GATEWAY_TOKEN || 'missing-gateway-token';
-          const videoipfsURL = `https://gray-soft-cardinal-116.mypinata.cloud/ipfs/${response.data.IpfsHash}?pinataGatewayToken=${gatewayToken}`;
+          const videoipfsURL = `https://gray-soft-cardinal-116.mypinata.cloud/ipfs/${response.data.IpfsHash}?pinataGatewayToken=${PINATA_GATEWAY_TOKEN}`;
           console.log('Dropped in IPFS:', videoipfsURL);
           setIpfsLink(videoipfsURL);
           // console type of everything

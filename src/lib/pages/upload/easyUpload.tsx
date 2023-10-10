@@ -330,8 +330,7 @@ const MediaUpload: React.FC = () => {
               'comment',
               {
                 parent_author: '',
-                parent_permlink: JSON.stringify(process.env.COMMUNITY) || ''
-                ,
+                parent_permlink: JSON.stringify(process.env.COMMUNITY || 'test-community'),
                 author: username,
                 permlink: permlink,
                 title: title,

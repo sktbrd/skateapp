@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Text, Spinner, Grid,Flex, Image, VStack, Button } from "@chakra-ui/react";
+import { Box, Text, Grid,Flex, Image, VStack, Button } from "@chakra-ui/react";
 //@ts-ignore
 import { Pioneer } from "@pioneer-platform/pioneer-react";
 
@@ -17,24 +17,23 @@ type NFT = {
       name: string;
       address: string;
     };
-    floorPriceEth: string;
-    lastSaleEth: string;
+    floorPriceEth: string; 
+    lastSaleEth: string;   
     lastOffer?: {
       price: string;
     };
-    tokenId: string; // Add 'tokenId' property
   };
 };
 
 
-const PoapWallet = () => {
+
+const GnarsNfts = () => {
   const { state } = usePioneer();
   const { api, app, context, assetContext, blockchainContext, pubkeyContext, status } = state;
   const [ETHaddress, setETHAddress] = useState("");
   const [userPortfolios, setUserPortfolios] = useState<NFT[]>([]); // Provide a type annotation for userPortfolios
   const [loading, setLoading] = useState(true);
-
-  const defaultImageUrl = "https://poap.gallery/icons/poap_dark.png";
+  const defaultImageUrl = "../../../public/assets/loading.gif"; // Replace with the actual URL of your default image
 
   const onStart = async function () {
     try {
@@ -66,15 +65,14 @@ const PoapWallet = () => {
         <p>{ETHaddress}</p>
       </center>
 
-      <Grid templateColumns={{ base: "2fr", md: "repeat(10, 1fr)" }} gap={4}>
+      <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={4}>
       {userPortfolios
-  .filter((nft) => nft.token.collection.name === "POAP")
-  .sort((a, b) => {
-    return b.token.tokenId.localeCompare(a.token.tokenId);
-  })
+  .filter((nft) => nft.token.collection.name === "Gnars")
   .map((nft, index) => (
     <Flex
       key={index}
+      borderWidth="1px"
+      borderColor="limegreen"
       width="100%"
       alignItems="center"
       padding="10px"
@@ -83,6 +81,9 @@ const PoapWallet = () => {
       color="white"
     >
       {/* NFT Image */}
+
+      <VStack alignItems="start" spacing={1} flex="1">
+
       {nft.token.medias[0]?.originalUrl ? (
         <Image
           src={nft.token.medias[0]?.originalUrl}
@@ -92,6 +93,8 @@ const PoapWallet = () => {
           height="100%"
           borderRadius="10px"
         />
+        
+        
       ) : (
         <Image
           src={defaultImageUrl}
@@ -102,6 +105,12 @@ const PoapWallet = () => {
           borderRadius="10px"
         />
       )}
+              {/* Check if last offer exists and display it */}
+              {nft.token.lastSaleEth && (
+                <Text>Last Sale  {Number(nft.token.lastSaleEth).toFixed(2)} ETH</Text>
+              )}
+              {/* Add any additional information you want to display for each NFT here */}
+            </VStack>
     </Flex>
   ))}
       </Grid>
@@ -115,4 +124,4 @@ const PoapWallet = () => {
 };
 
 
-export default PoapWallet;
+export default GnarsNfts;

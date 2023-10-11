@@ -8,6 +8,7 @@ import HiveBalanceDisplay from './hive/hiveBalance';
 import FiatBalance from './fiat/fiat';
 import POAPsNFTWallet from './nft/poapWallet';
 import HiveBalanceDisplay2 from './hive/hiveBalance copy';
+
 import {
   useMediaQuery,
   Box,
@@ -40,9 +41,8 @@ const Wallet = () => {
   return (
     <Tabs color="limegreen" variant="enclosed">
       <TabList justifyContent="center">
-        <Tab>Hive Tokens</Tab>
-        <Tab>ETH NFTs</Tab>
-        <Tab>POAPs</Tab> {/* Added this line */}
+        <Tab>Tokens</Tab>
+        <Tab>NFTs</Tab>
       </TabList>
 
       <TabPanels>
@@ -62,10 +62,6 @@ const Wallet = () => {
           <NFTWallet  />
         </TabPanel>
 
-        <TabPanel>
-        <POAPsNFTWallet />
-          <Text>POAPs content will be displayed here.</Text>
-        </TabPanel> 
       </TabPanels>
     </Tabs>
   );

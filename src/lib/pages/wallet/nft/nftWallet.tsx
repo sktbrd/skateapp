@@ -1,118 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { Box, Text, Spinner, Grid,Flex, Image, VStack, Button } from "@chakra-ui/react";
-//@ts-ignore
-import { Pioneer } from "@pioneer-platform/pioneer-react";
-
-import {
-  usePioneer,
-  AssetSelect,
-  BlockchainSelect,
-  WalletSelect,
-  // @ts-ignore
-} from "@pioneer-platform/pioneer-react";
-
-type NFT = {
-  token: {
-    medias: {
-      originalUrl: string;
-    }[];
-    collection: {
-      name: string;
-      address: string;
-    };
-    floorPriceEth: string; 
-    lastSaleEth: string;   
-    lastOffer?: {
-      price: string;
-    };
-  };
-};
-
-
-
-const TestEvm = () => {
-  const { state } = usePioneer();
-  const { api, app, context, assetContext, blockchainContext, pubkeyContext, status } = state;
-  const [ETHaddress, setETHAddress] = useState("");
-  const [userPortfolios, setUserPortfolios] = useState<NFT[]>([]); // Provide a type annotation for userPortfolios
-  const [loading, setLoading] = useState(true);
-
-  const onStart = async function () {
-    try {
-      if (app) {
-        const currentAddress = app.wallets[0].wallet.accounts[0];
-        console.log("currentAddress: ", currentAddress);
-        setETHAddress(currentAddress);
-      }
-      if (ETHaddress) {
-        const portfolio = await api.GetPortfolio({ address: ETHaddress.toUpperCase() });
-        setUserPortfolios(portfolio.data.nfts);
-        console.log("portfolio: ", userPortfolios);
-        console.log(portfolio.data.nfts);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  useEffect(() => {
-    onStart();
-  }, [app, api, app?.wallets, status, pubkeyContext]);
-
+import React from "react";
+import { Flex, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+import PoapWallet from "./poapWallet";
+import AllNfts from "./allNfts";
+import GnarsNfts from "./gnarsNfts";
+const NftWallet = () => {
   return (
-    <Box>
-      <center>
-      <Pioneer />
-      <p> Selected Wallet</p>
-      <p>{ETHaddress}</p>
-      </center>
+    <Flex flexDirection="column">
+      <Tabs isFitted variant="enclosed-colored" colorScheme="green">
+        <TabList>
+          <Tab>POAPs</Tab>
+          <Tab>Gnars</Tab>
+          <Tab>All NFTs</Tab>
+        </TabList>
 
-      <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={4}>
-        {userPortfolios.map((nft, index) => (
-          <Flex
-            key={index}
-            borderWidth="1px"
-            borderColor="limegreen"
-            width="100%"
-            alignItems="center"
-            padding="10px"
-            borderRadius="md"
-            bg="black"
-            color="white"
-          >
-            {/* NFT Image */}
-            <Image
-              src={nft.token.medias[0]?.originalUrl}
-              alt={`NFT ${index}`}
-              objectFit="cover"
-              width="100px"
-              height="100px"
-              marginRight="16px"
-              borderRadius="10px"
-            />
-
-            {/* NFT Information */}
-            <VStack alignItems="start" spacing={1} flex="1">
-              <Text fontWeight="bold">Collection: {nft.token.collection.name}</Text>
-              <Text>Collection Address: {nft.token.collection.address}</Text>
-              <Text>Floor Price (ETH): {nft.token.floorPriceEth}</Text>
-              <Text>Last Sale Price (ETH): {nft.token.lastSaleEth}</Text>
-              {/* Check if last offer exists and display it */}
-              {nft.token.lastOffer && (
-                <Text>Last Offer Price (ETH): {nft.token.lastOffer.price}</Text>
-              )}
-              {/* Add any additional information you want to display for each NFT here */}
-            </VStack>
-          </Flex>
-        ))}
-      </Grid>
-      <center> 
-      <Button onClick={onStart} marginTop="1rem">Load NFTs</Button>
-
-      </center> 
-    </Box>
+        <TabPanels>
+          <TabPanel>
+            <PoapWallet />
+          </TabPanel>
+          <TabPanel>
+            <GnarsNfts />
+          </TabPanel>
+          <TabPanel>
+          <AllNfts />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </Flex>
   );
 };
 
-
-export default TestEvm;
+export default NftWallet;

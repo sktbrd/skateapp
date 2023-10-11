@@ -5,9 +5,6 @@ import { Pioneer } from "@pioneer-platform/pioneer-react";
 
 import {
   usePioneer,
-  AssetSelect,
-  BlockchainSelect,
-  WalletSelect,
   // @ts-ignore
 } from "@pioneer-platform/pioneer-react";
 
@@ -30,7 +27,7 @@ type NFT = {
 
 
 
-const TestEvm = () => {
+const AllNfts = () => {
   const { state } = usePioneer();
   const { api, app, context, assetContext, blockchainContext, pubkeyContext, status } = state;
   const [ETHaddress, setETHAddress] = useState("");
@@ -114,4 +111,4 @@ const TestEvm = () => {
 };
 
 
-export default TestEvm;
+export default AllNfts;

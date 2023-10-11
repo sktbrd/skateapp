@@ -33,7 +33,7 @@ const GnarsNfts = () => {
   const [ETHaddress, setETHAddress] = useState("");
   const [userPortfolios, setUserPortfolios] = useState<NFT[]>([]); // Provide a type annotation for userPortfolios
   const [loading, setLoading] = useState(true);
-  const defaultImageUrl = "../../../public/assets/loading.gif"; // Replace with the actual URL of your default image
+  const defaultImageUrl = "../../../assets/loading.gif"; // Replace with the actual URL of your default image
 
   const onStart = async function () {
     try {

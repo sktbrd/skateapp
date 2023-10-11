@@ -11,7 +11,8 @@ import AuthorSearchBar from './searchBar';
 import axios, { AxiosResponse, AxiosError, AxiosProgressEvent } from 'axios';
 import { FaBold, FaItalic } from 'react-icons/fa'; // Import font awesome icons
 
-import MarkdownComponents, { MarkdownBlockquote, MarkdownAnchor, MarkdownH1, MarkdownH2, MarkdownH3, MarkdownUl, MarkdownOl, MarkdownIframe } from './MarkdownComponents';
+
+import { MarkdownRenderers} from '../utils/MarkdownRenderers';
 import { Box, Flex, Textarea, Divider, Button, Input, Checkbox, Select, Text, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
 
 
@@ -542,34 +543,18 @@ const AdvancedUpload: React.FC<UploadPageProps> = () => {
         </Text>
         <ReactMarkdown
           children={markdownContent}
-          remarkPlugins={[remarkGfm]}
           components={{
-            ...MarkdownComponents,
-            blockquote: MarkdownBlockquote,
-            a: MarkdownAnchor,
-            h1: MarkdownH1,
-            h2: MarkdownH2,
-            h3: MarkdownH3,
-            ul: MarkdownUl,
-            ol: MarkdownOl,
-            iframe: MarkdownIframe,
+            ...MarkdownRenderers,
+
           }}          
         />
         {showFooter && (
           
           <ReactMarkdown
             children={defaultFooter}
-            remarkPlugins={[remarkGfm]}
             components={{
-              ...MarkdownComponents,
-              blockquote: MarkdownBlockquote,
-              a: MarkdownAnchor,
-              h1: MarkdownH1,
-              h2: MarkdownH2,
-              h3: MarkdownH3,
-              ul: MarkdownUl,
-              ol: MarkdownOl,
-              iframe: MarkdownIframe,
+              ...MarkdownRenderers,
+
             }}
           />
           

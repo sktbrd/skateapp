@@ -49,8 +49,11 @@ interface BeneficiaryForBroadcast {
 
 const client = new Client('https://api.hive.blog');
 
-const PINATA_API_KEY = 'f382d9b820088964b995';
-const PINATA_API_SECRET = '818eab92027191ccbdcdaabb08046745da75c78f5adab06099371a2ee518a4fd';
+//TO-DO Replace these with process.env plus fallbacks
+const PINATA_API_KEY = process.env.PINATA_API_KEY || 'f382d9b820088964b995';
+const PINATA_API_SECRET = process.env.PINATA_API_SECRET || '818eab92027191ccbdcdaabb08046745da75c78f5adab06099371a2ee518a4fd';
+const PINATA_GATEWAY_TOKEN = process.env.PINATA_GATEWAY_TOKEN || 'nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE';
+;
 
 const MediaUpload: React.FC = () => {
   const [media, setMedia] = useState<Media | null>(null);
@@ -86,7 +89,7 @@ const MediaUpload: React.FC = () => {
       formData.append('pinataMetadata', JSON.stringify({ name: file.name }));
       console.log("formData: ", formData)
 
-      try {
+      try { 
 
         const response = await axios.post(
           'https://api.pinata.cloud/pinning/pinFileToIPFS',
@@ -107,7 +110,7 @@ const MediaUpload: React.FC = () => {
 
 
         if (response && response.data && response.data.IpfsHash) {
-          const videoipfsURL = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
+          const videoipfsURL = `https://gray-soft-cardinal-116.mypinata.cloud/ipfs/${response.data.IpfsHash}?pinataGatewayToken=${PINATA_GATEWAY_TOKEN}`;
           console.log('Dropped in IPFS:', videoipfsURL);
           setIpfsLink(videoipfsURL);
           // console type of everything
@@ -159,7 +162,7 @@ const MediaUpload: React.FC = () => {
       );
 
       if (response && response.data && response.data.IpfsHash) {
-        const thumbnailURL = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
+        const thumbnailURL = `https://gray-soft-cardinal-116.mypinata.cloud/ipfs/${response.data.IpfsHash}?pinataGatewayToken=${PINATA_GATEWAY_TOKEN}`;
         setThumbnailIpfsURL(thumbnailURL); // Set the thumbnail IPFS link in the state
         console.log('Thumbnail uploaded to IPFS:', thumbnailIpfsURL);
         // Set the thumbnail IPFS link in the media state or wherever you need it
@@ -181,7 +184,6 @@ const MediaUpload: React.FC = () => {
   const assembleBodyContent = (currentBody: string, newContent: string) => {
     const assembledBody = currentBody + '\n' + newContent;
     return assembledBody;
-    console.log(thumbnailIpfsURL)
   };
 
   // Define a function to handle assembling the body and logging it
@@ -193,19 +195,21 @@ const MediaUpload: React.FC = () => {
       setScreenshotTaken(true);
       const video = document.createElement('video');
       video.src = media.src;
-
       const handleTimeUpdate = (e: Event) => {
         video.currentTime = screenshotTime;
       };
 
       video.addEventListener('timeupdate', handleTimeUpdate);
 
+      // TO-DO Firefox onseeked event is borked up, 
+      // so this event doesn't trigger and thumbnails break
       video.onseeked = async () => {
         console.log('Video seeked:', screenshotTime);
         const canvas = document.createElement('canvas');
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         const context = canvas.getContext('2d');
+
         if (context) {
           context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
           video.removeEventListener('timeupdate', handleTimeUpdate);
@@ -220,7 +224,6 @@ const MediaUpload: React.FC = () => {
           const formData = new FormData();
           formData.append('file', thumbnailBlob, 'thumbnail.jpg');
           formData.append('pinataMetadata', JSON.stringify({ name: 'thumbnail.jpg' }));
-
           uploadThumbnailToIPFS(formData);
         }
       };
@@ -327,8 +330,7 @@ const MediaUpload: React.FC = () => {
               'comment',
               {
                 parent_author: '',
-                parent_permlink: JSON.stringify(process.env.COMMUNITY) || 'hive-173115'
-                ,
+                parent_permlink: JSON.stringify(process.env.COMMUNITY) || 'kleenex',
                 author: username,
                 permlink: permlink,
                 title: title,

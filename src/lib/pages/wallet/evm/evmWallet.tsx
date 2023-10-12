@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 //@ts-ignore
-import { usePioneer } from "pioneer-react"
+import { Pioneer } from "@pioneer-platform/pioneer-react"
 import {
   Box,
   Table,
@@ -21,7 +21,7 @@ import {
 } from "@chakra-ui/react";
 import EvmSendModal from "./evmSendModal";
 //@ts-ignore
-import { Pioneer } from "pioneer-react";
+import { usePioneer } from "@pioneer-platform/pioneer-react";
 
 import { Spinner } from "@chakra-ui/react"; // Import Spinner
 
@@ -143,7 +143,6 @@ if (userPortifolio && userPortifolio.data) {
   const filteredTokens = selectedBlockchain === "all"
   ? userPortifolio?.data?.tokens
   : userPortifolio?.data?.tokens.filter((token: any) => token.network === selectedBlockchain);
-  console.log()
 
 
   const copyToClipboard = (address: string): void => {

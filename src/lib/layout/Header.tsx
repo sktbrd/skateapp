@@ -32,8 +32,6 @@ import { Link as ChakraLink  } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
 
-//@ts-ignore
-//import { Pioneer } from "pioneer-react";
 import { Link, LinkProps as RouterLinkProps } from "react-router-dom";
 import useAuthUser from "lib/pages/home/api/useAuthUser";
 import HiveLogin from "lib/pages/home/api/HiveLoginModal";
@@ -169,7 +167,6 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSavingsBalance(user.savings_hbd_balance);
         setHivePower(`${vestingSharesData.hivePower} + ${vestingSharesData.delegatedHivePower} (delegated)`);
         setTotalWorth(total);
-        console.log("TotalWorth: ", total);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

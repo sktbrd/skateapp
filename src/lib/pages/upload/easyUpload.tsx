@@ -184,7 +184,6 @@ const MediaUpload: React.FC = () => {
   const assembleBodyContent = (currentBody: string, newContent: string) => {
     const assembledBody = currentBody + '\n' + newContent;
     return assembledBody;
-    console.log(thumbnailIpfsURL);
   };
 
   // Define a function to handle assembling the body and logging it
@@ -196,19 +195,21 @@ const MediaUpload: React.FC = () => {
       setScreenshotTaken(true);
       const video = document.createElement('video');
       video.src = media.src;
-
       const handleTimeUpdate = (e: Event) => {
         video.currentTime = screenshotTime;
       };
 
       video.addEventListener('timeupdate', handleTimeUpdate);
 
+      // TO-DO Firefox onseeked event is borked up, 
+      // so this event doesn't trigger and thumbnails break
       video.onseeked = async () => {
         console.log('Video seeked:', screenshotTime);
         const canvas = document.createElement('canvas');
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         const context = canvas.getContext('2d');
+
         if (context) {
           context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
           video.removeEventListener('timeupdate', handleTimeUpdate);
@@ -223,7 +224,6 @@ const MediaUpload: React.FC = () => {
           const formData = new FormData();
           formData.append('file', thumbnailBlob, 'thumbnail.jpg');
           formData.append('pinataMetadata', JSON.stringify({ name: 'thumbnail.jpg' }));
-
           uploadThumbnailToIPFS(formData);
         }
       };

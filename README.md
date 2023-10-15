@@ -1,14 +1,27 @@
 # Skatehive App
 
-## Check the Full tutorial of [How to Fork](https://docs.skatehive.app/docs/tutorial-extras/fork-skatehive)
+## Contributors 
+
+<a href="https://github.com/sktbrd/skateapp/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=sktbrd/skateapp" />
+</a>
+
+
+### Check the Full tutorial of [How to Fork](https://docs.skatehive.app/docs/tutorial-extras/fork-skatehive)
 
 - Install : `yarn`
 - Run : `yarn dev`
 
-## Deployment
+### Create .env file 
+
+
+### Deployment
+
 
 - build command: `yarn build:turbo`
 - output directory: `dist`
+
+
 
 ## References
 
@@ -16,3 +29,6 @@
 - [avoid manual import](https://vitejs.dev/guide/features.html#jsx)
 - [Chakra UI](https://chakra-ui.com/)
 - [TypeScript](https://www.typescriptlang.org)
+
+
+WEB GNAR WAS HERE 

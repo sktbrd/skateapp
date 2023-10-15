@@ -32,8 +32,6 @@ import { Link as ChakraLink  } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
 
-//@ts-ignore
-//import { Pioneer } from "pioneer-react";
 import { Link, LinkProps as RouterLinkProps } from "react-router-dom";
 import useAuthUser from "lib/pages/home/api/useAuthUser";
 import HiveLogin from "lib/pages/home/api/HiveLoginModal";
@@ -169,7 +167,6 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSavingsBalance(user.savings_hbd_balance);
         setHivePower(`${vestingSharesData.hivePower} + ${vestingSharesData.delegatedHivePower} (delegated)`);
         setTotalWorth(total);
-        console.log("TotalWorth: ", total);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -263,16 +260,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
               _hover={{ backgroundColor: '#65418C', color: 'white' }}
               backgroundColor="#593576" // Invert colors on hover
             >
-              Curation Trail
-            </MenuItem>
-          </Link>
-          <Link to="https://www.stoken.quest/" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              _hover={{ backgroundColor: '#65418C', color: 'white' }}
-              backgroundColor="#593576"  // Invert colors on hover
-          
-            >link
-              Quest For Stoken
+              🔗 Curation Trail
             </MenuItem>
           </Link>
           <Link to="https://docs.skatehive.app" style={{ textDecoration: 'none' }}>
@@ -281,7 +269,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
               backgroundColor="#593576"  // Invert colors on hover
             
             >
-              Docs
+              	📖 Docs
             </MenuItem>
           </Link>
           <Link to="https:/github.com/sktbrd/skateapp" style={{ textDecoration: 'none' }}>
@@ -290,18 +278,18 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
               backgroundColor="#593576"  // Invert colors on hover
             
             >
-              Contribute
+              	💻 Contribute
             </MenuItem>
           </Link>
-          <Link to="/becool" style={{ textDecoration: 'none' }}>
+          {/* <Link to="/becool" style={{ textDecoration: 'none' }}>
             <MenuItem
               _hover={{ backgroundColor: '#65418C', color: 'white' }}
               backgroundColor="#593576"  // Invert colors on hover
   
             >
-              How to be Cool
+             	🛹 How to be Cool
             </MenuItem>
-          </Link>
+          </Link> */}
           {/* Add more external links as needed */}
         </MenuList>
 

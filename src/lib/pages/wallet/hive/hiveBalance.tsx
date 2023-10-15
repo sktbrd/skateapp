@@ -45,7 +45,6 @@ export async function fetchHbdPrice() {
   try {
     if (cache.hbdPrice !== undefined) {
       // Use the cached value if available
-      console.log("Using cached HBD price:", cache.hbdPrice);
       return cache.hbdPrice;
     }
     const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hive_dollar&vs_currencies=brl");
@@ -53,7 +52,6 @@ export async function fetchHbdPrice() {
     const hbdPrice = data.hive_dollar.brl;
     // Update the cache
     cache.hbdPrice = hbdPrice;
-    console.log("Fetched new HBD price:", hbdPrice);
     return hbdPrice;
   } catch (error) {
     console.error("Error fetching HBD price:", error);
@@ -66,7 +64,6 @@ export async function fetchConversionRate() {
   try {
     if (cache.conversionRate !== undefined) {
       // Use the cached value if available
-      console.log("Using cached conversion rate:", cache.conversionRate);
       return cache.conversionRate;
     }
     const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hive&vs_currencies=brl");

@@ -15,7 +15,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": "./src",
+    "baseUrl": "./src"
   },
-  "include": ["./src","src/lib/pages/home/api/environment.d.ts"]
+  "include": ["./src", "src/lib/pages/home/api/environment.d.ts"]
 }

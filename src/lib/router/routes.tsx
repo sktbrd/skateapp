@@ -16,7 +16,7 @@ const QFS = React.lazy(() => import("lib/pages/qfs")); // Update the path accord
 const Test = React.lazy(() => import("lib/pages/home/dao/components/ethereum/testContract")); // Update the path accordingly
 const GnarsStats = React.lazy(() => import("lib/pages/home/dao/components/hiveGnars/gnars")); // Update the path accordingly
 const ThatsGnarly = React.lazy(() => import("lib/pages/home/Feed/thatsgnarly")); // Update the path accordingly
-
+const Account = React.lazy(() => import("lib/pages/account")); // Update the path accordingly
 
 export const routes: Array<PathRouteProps> = [
   {
@@ -70,7 +70,11 @@ export const routes: Array<PathRouteProps> = [
 { 
   path: "/thatsgnarly",
   element: <ThatsGnarly />,
-}
+},
+{
+  path: "/account",
+  element: <Account />,
+},
 
 
 ];

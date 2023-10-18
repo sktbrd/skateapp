@@ -16,10 +16,11 @@ import UploadPage from "../upload";
           <TabList mb="1em" width="100%">
             <Tab
               color="white"
+              fontSize="18px"
               border="2px black solid"
               _selected={{ backgroundColor: "#65418C",color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
-              <img src="assets\gifs\crows2.gif" alt="" width="13%" height="auto"/>FEED
+              <img src="assets\gifs\crows2.gif" alt="" width="13%" height="auto" style={{margin: "2%"}} />FEED
             </Tab>
             <Tab
               color="white" 

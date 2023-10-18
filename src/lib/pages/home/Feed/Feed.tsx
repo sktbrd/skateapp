@@ -65,7 +65,7 @@ const PlaceholderLoadingBar = () => {
 
   return (
     <center>
-      <Image src="https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif" />
+      <Image src="https://i.gifer.com/YzDZ.gif" width="250px"/>
       <Text>{randomSentence}</Text>
     </center>
   );
@@ -73,7 +73,7 @@ const PlaceholderLoadingBar = () => {
 
 const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   queryType = "created",
-  tag = JSON.stringify(process.env.COMMUNITY) || 'hive-173115'
+  tag = 'crowsnight666'
   
 }) => {
   const [loadedPosts, setLoadedPosts] = useState<any[]>([]);
@@ -339,9 +339,9 @@ return (
         >
           {loadedPosts.map((post) => (
             <Card
-              //border="1px"
-              //borderColor="limegreen"
-              bg="black"
+              border="1px"
+              borderColor="white"
+              bg="#312240"
               key={post.permlink}
               maxW="md"
               mb={2}
@@ -374,7 +374,7 @@ return (
               <Box padding="10px" height="200px"> 
                 <Image 
                   objectFit="cover"
-                  border="1px solid limegreen"
+                  border="1px solid white"
                   borderRadius="35px"
                   src={post.thumbnail}
                   alt="Post Thumbnail"
@@ -400,7 +400,7 @@ return (
                   }}
                 >
                   <Text fontWeight="semibold" 
-                        color="orange" 
+                        color="white" 
                         paddingLeft="5px"
                         paddingTop="10px"
                         paddingRight="5px"
@@ -423,7 +423,7 @@ return (
                 <Link to={`profile/${post.author}`}>
                       <Avatar
                         name={post.author}
-                        border="1px solid limegreen"
+                        border="1px solid white"
                         borderRadius="100px"
                         src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
                         width="105%"
@@ -439,14 +439,14 @@ return (
                     right="10px"
                     onClick={(e) => {e.stopPropagation(); handleVotersModalOpen(post);}}
                     variant="ghost"
-                    colorScheme="green"
+                    colorScheme="red"
                     size="s"
                     ml={2}
                     style={{ fontFamily: 'Helvetica', 
                             fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`, }} //dynamically changes font size based on numerical value of post.earnings
                             > 
                               
-                    $ {post.earnings.toFixed(2)}
+                     <p>&#x1FA78;</p>{post.earnings.toFixed(2)}
                     <img
                       src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
                       alt="spinning stoken coin"
@@ -463,14 +463,14 @@ return (
                 <Box marginLeft="auto">
                 <IconButton
               icon={<MdArrowUpward />}
-              backgroundColor="green"
+              backgroundColor="black"
               color="white"
               variant="ghost"
               size="xs"
               borderRadius="50%"
               aria-label="Upvote"
               border="1px"
-              borderColor="limegreen"
+              borderColor="white"
               onClick={() => handleVoteClick(post)}
             />
                  </Box>

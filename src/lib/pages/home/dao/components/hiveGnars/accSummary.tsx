@@ -129,7 +129,7 @@ const AccSummary: React.FC<AccSummaryProps> = ({ username }) => {
                       labelTooltip="Total value of Votes given out in HBD (Hive Backed Dollars)"
                     />
                     <BalanceDisplay 
-                      label="Curration Rewards" 
+                      label="Curation Rewards" 
                       balance={currationRewards ? currationRewards.toFixed(3) + " HP" : "Loading..."}
                       labelTooltip="Total value of Curration Rewards in HP (Hive Power)"
                     />

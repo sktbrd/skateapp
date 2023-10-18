@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 //@ts-ignore
-import { Pioneer } from "@pioneer-platform/pioneer-react"
+import { Pioneer } from "@pioneer-sdk/pioneer-react"
 import {
   Box,
   Table,
@@ -21,7 +21,7 @@ import {
 } from "@chakra-ui/react";
 import EvmSendModal from "./evmSendModal";
 //@ts-ignore
-import { usePioneer } from "@pioneer-platform/pioneer-react";
+import { usePioneer } from "@pioneer-sdk/pioneer-react";
 
 import { Spinner } from "@chakra-ui/react"; // Import Spinner
 

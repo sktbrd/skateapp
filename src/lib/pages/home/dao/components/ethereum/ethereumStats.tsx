@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Text, Flex, Image, VStack, HStack, Divider,Tooltip, Button } from "@chakra-ui/react";
 // @ts-ignore
-import { usePioneer } from "@pioneer-platform/pioneer-react";
+import { usePioneer } from "@pioneer-sdk/pioneer-react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
 import axios from 'axios';

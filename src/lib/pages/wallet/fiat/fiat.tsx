@@ -1,6 +1,6 @@
 import { Box, Text, Flex } from "@chakra-ui/react";
 //@ts-ignore
-import { usePioneer } from "@pioneer-platform/pioneer-react";
+import { usePioneer } from "@pioneer-sdk/pioneer-react";
 import { useEffect, useState } from "react";
 
 interface FiatBalanceProps {

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Box, Text, Spinner, Grid,Flex, Image, VStack, Button } from "@chakra-ui/react";
 //@ts-ignore
-import { Pioneer } from "@pioneer-platform/pioneer-react";
+import { Pioneer } from "@pioneer-sdk/pioneer-react";
 
 import {
   usePioneer,
   // @ts-ignore
-} from "@pioneer-platform/pioneer-react";
+} from "@pioneer-sdk/pioneer-react";
 
 type NFT = {
   token: {

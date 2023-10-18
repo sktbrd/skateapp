@@ -1,7 +1,7 @@
 
 import React from "react";
 //@ts-ignore
-import { usePioneer } from "@pioneer-platform/pioneer-react";
+import { usePioneer } from "@pioneer-sdk/pioneer-react";
 import { useState, useEffect } from "react"; // You might not need this import if it's unused
 import {
     chakra,

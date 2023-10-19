@@ -50,9 +50,9 @@ interface BeneficiaryForBroadcast {
 const client = new Client('https://api.hive.blog');
 
 //TO-DO Replace these with process.env plus fallbacks
-const PINATA_API_KEY = process.env.PINATA_API_KEY || 'f382d9b820088964b995';
-const PINATA_API_SECRET = process.env.PINATA_API_SECRET || '818eab92027191ccbdcdaabb08046745da75c78f5adab06099371a2ee518a4fd';
-const PINATA_GATEWAY_TOKEN = process.env.PINATA_GATEWAY_TOKEN || 'nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE';
+const PINATA_API_KEY = process.env.PINATA_API_KEY || 'd2f6f2a1488052269329';
+const PINATA_API_SECRET = process.env.PINATA_API_SECRET || '15c87a551e9fbdb21e1e6bf57e0ca18f2cff089e7b7941973b6a710412a772a6';
+const PINATA_GATEWAY_TOKEN = process.env.PINATA_GATEWAY_TOKEN || 'ILGh5Ktd7WAdVwav9EmOC8nFmEjN4bOmY4iXHYf-0jtkqDzr9A10_pSF9nkyZ4Mh';
 ;
 
 const MediaUpload: React.FC = () => {

@@ -391,12 +391,12 @@ return (
                   minHeight="100%"
 
                   style={{ //style of the speech bubble
-                    backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23tGLtmE5K6ovFdVS4tYwA5yfJ4S3vnByzcg7BshwvCN1r5Jbmz8NmNm9CUKBm91FVFqT.png')`,
-                    backgroundSize: '100% 100%', // stretches the speech bubble as big as the div and dynamically changes 
+                    backgroundImage: `url('https://clipart-library.com/images/pkc8nx9Tr.png')`,
+                    backgroundSize: '105% 140%', // stretches the speech bubble as big as the div and dynamically changes 
                     backgroundPosition: 'center', 
                     backgroundRepeat: 'no-repeat', 
                     marginBottom: '-40px', // makes the speech bubble extend beyond the div
-                    paddingBottom: '40px', // for some reason it needs this part too?
+                    paddingBottom: '60px', // for some reason it needs this part too?
                   }}
                 >
                   <Text fontWeight="semibold" 

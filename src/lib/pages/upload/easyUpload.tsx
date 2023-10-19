@@ -10,7 +10,8 @@ import {
   VStack,
   Progress,
   Center,
-  Textarea
+  Textarea,
+  
 } from '@chakra-ui/react';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
@@ -289,9 +290,8 @@ const MediaUpload: React.FC = () => {
       // Construct the complete post body
       const completePostBody = `${updatedBody}${showFooter ? defaultFooter : ''}`;
 
-      // Log the complete post body
-      console.log('Title: ', title);
-      console.log('Complete Post Body:', completePostBody);
+      // console.log('Title: ', title);
+      // console.log('Complete Post Body:', completePostBody);
 
       if (window.hive_keychain) {
         const username = user?.name;

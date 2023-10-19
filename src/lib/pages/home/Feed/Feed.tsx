@@ -73,7 +73,7 @@ const PlaceholderLoadingBar = () => {
 
 const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   queryType = "created",
-  tag = process.env.COMMUNITY 
+  tag = process.env.COMMUNITY || 'hive-173115'
   
 }) => {
   const [loadedPosts, setLoadedPosts] = useState<any[]>([]);

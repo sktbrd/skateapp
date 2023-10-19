@@ -19,16 +19,10 @@ import useAuthUser from '../home/api/useAuthUser';
 import { KeychainSDK } from 'keychain-sdk';
 import { Client } from '@hiveio/dhive';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
-import MarkdownComponents, {
-  MarkdownH1,
-  MarkdownH2,
-  MarkdownBlockquote,
-  MarkdownAnchor,
-  MarkdownUl,
-  MarkdownOl,
-  MarkdownIframe,
-  MarkdownContent,
-} from './MarkdownComponents';
+
+import { MarkdownRenderers } from '../utils/MarkdownRenderers';
+
+
 interface Media {
   type: 'video' | 'image';
   src: string;
@@ -57,7 +51,7 @@ const PINATA_GATEWAY_TOKEN = process.env.PINATA_GATEWAY_TOKEN;
 
 const MediaUpload: React.FC = () => {
   const [media, setMedia] = useState<Media | null>(null);
-  const [screenshotTime, setScreenshotTime] = useState<number>(0);
+  const [screenshotTime, setScreenshotTime] = useState<number>(2);
   const [ipfsLink, setIpfsLink] = useState<string | null>(null);
 
   const [body, setBody] = useState<string>(''); // Initialize 'body' as an empty string
@@ -165,7 +159,6 @@ const MediaUpload: React.FC = () => {
       if (response && response.data && response.data.IpfsHash) {
         const thumbnailURL = `https://gray-soft-cardinal-116.mypinata.cloud/ipfs/${response.data.IpfsHash}?pinataGatewayToken=${PINATA_GATEWAY_TOKEN}`;
         setThumbnailIpfsURL(thumbnailURL); // Set the thumbnail IPFS link in the state
-        console.log('Thumbnail uploaded to IPFS:', thumbnailIpfsURL);
         // Set the thumbnail IPFS link in the media state or wherever you need it
       }
     } catch (error) {
@@ -194,6 +187,9 @@ const MediaUpload: React.FC = () => {
       console.log('Media:', media);
       console.log('Screenshot time:', screenshotTime);
       setScreenshotTaken(true);
+      if (screenshotTime === 0) {
+        setScreenshotTime(2); // Set it to the default value of 2 seconds
+      }
       const video = document.createElement('video');
       video.src = media.src;
       const handleTimeUpdate = (e: Event) => {
@@ -400,6 +396,7 @@ const MediaUpload: React.FC = () => {
           transform="translateX(-50%) scaleX(-1)" // Flip vertically
           userSelect="none"
           fontSize="3xl"
+          transition="0.666s ease-in-out"
         >
           🛹
         </Box>
@@ -429,7 +426,7 @@ const MediaUpload: React.FC = () => {
     >
       {/* Top section for inputs in mobile */}
       <Box flex="1" p={6} borderBottom={{ base: '1px solid gray', md: 'none' }}>
-        <VStack spacing={6} alignItems="flex-start"> {/* Align items to the start */}
+        <VStack spacing={6} alignItems="flex-start"> 
           {/* Title input */}
           <Flex alignItems="center"> {/* Added Flex container */}
             <Text fontWeight="bold" fontSize={'24px'} mr={2}> {/* Added right margin */}
@@ -449,13 +446,38 @@ const MediaUpload: React.FC = () => {
             p={6}
           >
             <input {...getInputProps()} />
-            <Text>Drag & drop videos or click to select</Text>
+            <center>
+            <Text>Drag & drop videos or click to select</Text>  
+            </center>
             {progress > 0 && progress < 100 && <SkateboardLoading progress={progress} />}
           </Box>
   
-          {/* Description input */}
-          <Flex alignItems="center"> {/* Added Flex container */}
-            <Text fontWeight="bold" fontSize={'24px'} mr={2}> {/* Added right margin */}
+
+            
+          {/* Thumbnail preview */}
+          {media?.thumbnail && (
+            <div>
+            <Text fontWeight="bold" fontSize={'24px'} mr={2}> 
+              {' '}
+              Select Thumbnail:{' '}
+            </Text>
+            <Text>
+              Select a moment in the video player to take a screenshot and use as thumbnail
+            </Text>
+            <center>
+            <Image
+              src={media.thumbnail}
+              marginTop="10px"
+              borderRadius="10px"
+              border="1px solid limegreen"
+              alt="Thumbnail"
+              maxW="40%"
+              h="auto"
+            />  
+            </center>
+       
+             <Flex alignItems="center">
+            <Text fontWeight="bold" fontSize={'24px'} mr={2}> 
               {' '}
               Description:{' '}
             </Text>
@@ -465,27 +487,20 @@ const MediaUpload: React.FC = () => {
             placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            style={{ width: "100%", height: "200px" }} // You can adjust the height as needed
-          />
-            
-          {/* Thumbnail preview */}
-          {media?.thumbnail && (
-            <Image
-              src={media.thumbnail}
-              marginTop="10px"
-              borderRadius="10px"
-              border="1px solid limegreen"
-              alt="Thumbnail"
-              maxW="40%"
-              h="auto"
-            />
+            style={{ width: "100%", height: "200px" }}
+          />   
+                   </div>
+
           )}
           {showPublishButton ? (
-            <Button bg="black" marginTop="10px" onClick={handlePublish}>
+            <Button color='white' border={'solid 1px limegreen'} bg="black" marginTop="10px" onClick={handlePublish}>
               Publish
             </Button>
           ) : (
             <Button
+              color='white' 
+              border={'solid 1px limegreen'} 
+              bg="black"
               marginTop="10px"
               onClick={() => {
                 setShowPublishButton(true);
@@ -528,10 +543,13 @@ const MediaUpload: React.FC = () => {
               ></video>
 
             </center>
+            <ReactMarkdown
+          children={description}
+          components={{
+            ...MarkdownRenderers,
 
-              <ReactMarkdown >
-                {description}
-              </ReactMarkdown>
+          }}          
+        />
             </>
           )}
         </Box>

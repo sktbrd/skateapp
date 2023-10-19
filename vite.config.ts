@@ -1,7 +1,8 @@
-require('dotenv').config();
+require('dotenv').config(); 
+
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
 import cors from 'cors'; // Import the 'cors' package
@@ -10,7 +11,7 @@ import cors from 'cors'; // Import the 'cors' package
 // import wasm from 'vite-plugin-wasm'
 
 // @ts-ignore
-export default defineConfig(({}) => {
+export default defineConfig(({ command, mode }) => {
   // Load env file based on `mode` in the current working directory.
   // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
   // const env = loadEnv(mode, process.cwd(), '')
@@ -20,7 +21,7 @@ export default defineConfig(({}) => {
     'https://hub.snapshot.org/graphql',
     // Add more domains as needed
   ];
-
+  const env = loadEnv(mode, process.cwd(), '')
   return {
     // vite config
     server: {
@@ -31,13 +32,14 @@ export default defineConfig(({}) => {
       ],
     },
     define: {
-      'process.env.OPENAI_API_KEY': JSON.stringify(process.env.OPENAI_API_KEY),
-      'process.env.COINGECKO_API_KEY': JSON.stringify(process.env.COINGECKO_API_KEY),
-      'process.env.VITE_RECAPTCHA_SITE_KEY': JSON.stringify(process.env.VITE_RECAPTCHA_SITE_KEY),
-      'process.env.PINATA_API_KEY': JSON.stringify(process.env.PINATA_API_KEY),
-      'process.env.PINATA_SECRET_API_KEY': JSON.stringify(process.env.PINATA_SECRET_API_KEY),
-      'process.env.VITE_ETHERSCAN_API': JSON.stringify(process.env.VITE_ETHERSCAN_API_KEY),
-      'process.env.PINATA_GATEWAY_TOKEN': JSON.stringify(process.env.PINATA_GATEWAY_TOKEN),
+      'process.env': env
+      // 'process.env.OPENAI_API_KEY': JSON.stringify(process.env.OPENAI_API_KEY),
+      // 'process.env.COINGECKO_API_KEY': JSON.stringify(process.env.COINGECKO_API_KEY),
+      // 'process.env.VITE_RECAPTCHA_SITE_KEY': JSON.stringify(process.env.VITE_RECAPTCHA_SITE_KEY),
+      // 'process.env.PINATA_API_KEY': JSON.stringify(process.env.PINATA_API_KEY),
+      // 'process.env.PINATA_SECRET_API_KEY': JSON.stringify(process.env.PINATA_SECRET_API_KEY),
+      // 'process.env.VITE_ETHERSCAN_API': JSON.stringify(process.env.VITE_ETHERSCAN_API_KEY),
+      // 'process.env.PINATA_GATEWAY_TOKEN': JSON.stringify(process.env.VITE_GATEWAY_TOKEN),
     },
     
     plugins: [react()],

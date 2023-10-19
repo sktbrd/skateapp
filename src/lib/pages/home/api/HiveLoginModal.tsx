@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -11,6 +11,7 @@ import {
   Input,
   Flex,
   Image,
+  Badge,
 } from "@chakra-ui/react";
 
 import useAuthUser from "./useAuthUser.js";
@@ -22,7 +23,13 @@ interface HiveLoginProps {
 
 const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose }) => {
   const [username, setUsername] = useState("");
+  const [isHiveKeychainInstalled, setIsHiveKeychainInstalled] = useState(false);
   const { loginWithHive, user } = useAuthUser();
+
+  useEffect(() => {
+    // Check if Hive Keychain extension is available
+    setIsHiveKeychainInstalled(!!window.hive_keychain);
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -38,6 +45,7 @@ const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose }) => {
   const handleSignUp = () => {
     window.open("https://discord.gg/skatehive", "_blank");
   };
+
   const logout = () => {
     setUsername("");
     sessionStorage.removeItem("user");
@@ -47,8 +55,29 @@ const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent as="form" onSubmit={handleSubmit} backgroundColor="black" border="1px solid limegreen">
-        <ModalHeader>Hive Login</ModalHeader>
-        <Image border="1px solid limegreen" margin="20px" borderRadius="10px" src="assets/pepe_login.png" alt="SkateHive" />
+        <center>
+          <ModalHeader>Hive Login</ModalHeader>
+        </center>
+
+        {!isHiveKeychainInstalled && (
+          <Badge
+            variant="solid"
+            colorScheme="red"
+            marginLeft={"40px"}
+            marginRight={"40px"}
+            p="1"
+            borderRadius="lg"
+          >
+            <center>
+             💀 Hive Keychain Not Installed
+              <a href="/tutorial" style={{ color: 'limegreen' }}> - Install Here ! </a>
+            </center>
+          </Badge>
+        )}
+
+
+        <Image margin="20px" borderRadius="10px" src="assets/pepe_login.png" alt="SkateHive" />
+
         <ModalCloseButton />
         <ModalBody>
           {user && user.name ? (
@@ -66,27 +95,28 @@ const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose }) => {
                 required
               />
               <Flex paddingTop="20px" justifyContent={"space-between"}>
-
-              <Button border="1px solid red" type="submit">Login</Button>
-
-              <Button border="1px solid orange" type="button" onClick={handleSignUp}>
-                Ask Help
-              </Button>
+                <Button border="1px solid red" type="submit">
+                  Login
+                </Button>
+                <Button border="1px solid orange" type="button" onClick={handleSignUp}>
+                  Ask Help
+                </Button>
               </Flex>
-              
             </>
           )}
         </ModalBody>
         <ModalFooter>
-        {user && user.name ? (
-          <>
-            <Button border="1px solid red" onClick={logout}>LogOut</Button>
-          </>
+          {user && user.name ? (
+            <>
+              <Button border="1px solid red" onClick={logout}>
+                LogOut
+              </Button>
+            </>
           ) : (
             <>
             </>
           )}
-          </ModalFooter>
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );

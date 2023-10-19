@@ -23,7 +23,7 @@ interface HiveLoginProps {
 
 const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose }) => {
   const [username, setUsername] = useState("");
-  const [isHiveKeychainInstalled, setIsHiveKeychainInstalled] = useState(false);
+  const [isHiveKeychainInstalled, setIsHiveKeychainInstalled] = useState(true);
   const { loginWithHive, user } = useAuthUser();
 
   useEffect(() => {

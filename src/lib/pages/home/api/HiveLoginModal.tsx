@@ -48,7 +48,7 @@ const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose }) => {
       <ModalOverlay />
       <ModalContent as="form" onSubmit={handleSubmit} backgroundColor="black" border="1px solid limegreen">
         <ModalHeader>Hive Login</ModalHeader>
-        <Image border="1px solid limegreen" margin="20px" borderRadius="10px" src="https://media.tenor.com/lcPFRYQqnPsAAAAM/nazare-tedesco-maths.gif" alt="SkateHive" />
+        <Image border="1px solid limegreen" margin="20px" borderRadius="10px" src="assets/pepe_login.png" alt="SkateHive" />
         <ModalCloseButton />
         <ModalBody>
           {user && user.name ? (

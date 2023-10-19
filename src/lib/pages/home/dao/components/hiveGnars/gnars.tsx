@@ -4,6 +4,7 @@ import AccSummary from "./accSummary";
 import VotesLeaderboard from "./votesLeaderboard";
 import WalletTransactions from "./txHistory";
 import { Box } from "@chakra-ui/react";
+import EthereumStats from "../ethereum/ethereumStats";
 
 const GnarsStats = () => {  
   return (
@@ -11,6 +12,7 @@ const GnarsStats = () => {
       <Box display="flex" flexDirection="row" width="100%">
         <HiveStats wallet="gnars" />
         <AccSummary username="gnars" />
+        {/* <EthereumStats /> */}
       </Box>
       <VotesLeaderboard username="gnars" />
       <WalletTransactions wallet="gnars" />

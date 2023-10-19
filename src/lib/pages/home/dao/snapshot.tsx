@@ -7,7 +7,7 @@ import { Proposal } from './types';
 
 import OpenAI from 'openai'; // Import OpenAI if not already done
 
-const SnapShot: React.FC = () => {
+const SkatehiveProposals: React.FC = () => {
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const placeholderImage = '/assets/skatehive-logo.png';
   const [loadingProposals, setLoadingProposals] = useState<boolean>(true);
@@ -261,4 +261,4 @@ return (
 
 };
 
-export default SnapShot;
+export default SkatehiveProposals;

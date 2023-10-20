@@ -240,13 +240,13 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           }}
         >
           <Image
-            src="/assets/skatehive.jpeg"
+            src="public\assets\crn4.jpg"
             alt="Dropdown Image"
-            boxSize="48px" // Adjust the size as needed
+            boxSize="50px" // Adjust the size as needed
             borderRadius="10px"
           />
         </MenuButton>
-        <MenuList border="1px solid limegreen" backgroundColor="#593576" color="white">
+        <MenuList border="1px solid white" backgroundColor="#593576" color="white">
           <Link to="https://snapshot.org/#/skatehive.eth" style={{ textDecoration: 'none' }}>
             <MenuItem
               _hover={{ backgroundColor: '#65418C', color: 'white' }}
@@ -330,8 +330,8 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         size={tabSize}
         mb={6}
         css={{
-          border: "2px solid limegreen",
-          borderRadius: "10px",
+          border: "5px solid black",
+          borderRadius: "5px",
           overflow: "hidden",
         }}
       >

@@ -43,7 +43,6 @@ interface BeneficiaryForBroadcast {
 
 const client = new Client('https://api.hive.blog');
 
-//TO-DO Replace these with process.env plus fallbacks
 const PINATA_API_KEY = process.env.PINATA_API_KEY ;
 const PINATA_API_SECRET = process.env.PINATA_API_SECRET ;
 const PINATA_GATEWAY_TOKEN = process.env.PINATA_GATEWAY_TOKEN;
@@ -62,7 +61,7 @@ const MediaUpload: React.FC = () => {
 
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([
     { name: 'skatehacker', percentage: 20 },
-    { name: 'steemskate', percentage: 30} // Hardcoded beneficiary
+    { name: 'steemskate', percentage: 30} 
   ]);
   const [tags, setTags] = useState<string[]>([]); // Empty tags array
 
@@ -285,8 +284,6 @@ const MediaUpload: React.FC = () => {
 
       console.log('Assembled Body:', updatedBody);
 
-      console.log('Assembled Body:', updatedBody);
-
       // Construct the complete post body
       const completePostBody = `${updatedBody}${showFooter ? defaultFooter : ''}`;
 
@@ -327,7 +324,7 @@ const MediaUpload: React.FC = () => {
               'comment',
               {
                 parent_author: '',
-                parent_permlink: JSON.stringify(process.env.COMMUNITY) || 'kleenex',
+                parent_permlink: process.env.COMMUNITY || 'hive-173115',
                 author: username,
                 permlink: permlink,
                 title: title,

@@ -164,7 +164,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
         .replace(/^-+/, '')             // Trim - from start of text
         .replace(/-+$/, '');            // Trim - from end of text
   };
-
+// TO DO : Add the tags and the parent permlink to the post
   const handleSaveEdit = () => {
     const username = user?.name; // Get the username from the authenticated user
     if (username && window.hive_keychain) {

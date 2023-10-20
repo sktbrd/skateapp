@@ -6,10 +6,12 @@ import remarkGfm from 'remark-gfm';
 // Hive Imports 
 import useAuthUser from '../home/api/useAuthUser';
 import { KeychainSDK } from 'keychain-sdk';
-import { defaultFooter } from './defaultFooter'; // Import the defaultFooter constant
+import { defaultFooter } from './defaultFooter'; 
 import AuthorSearchBar from './searchBar';
 import axios, { AxiosResponse, AxiosError, AxiosProgressEvent } from 'axios';
-import { FaBold, FaItalic } from 'react-icons/fa'; // Import font awesome icons
+import { FaBold, FaItalic } from 'react-icons/fa';
+
+import { getYouTubeEmbedURL } from '../utils/VideoUtils';
 
 
 import { MarkdownRenderers} from '../utils/MarkdownRenderers';
@@ -42,30 +44,24 @@ interface BeneficiaryForBroadcast {
 }
 
 const keychain = new KeychainSDK(window);
+
 const defaultBeneficiaries: Beneficiary[] = [
   { name: 'skatehacker', percentage: 2 },
   { name: 'steemskate', percentage: 3 },
 ];
+const PINATA_API_KEY = process.env.PINATA_API_KEY ;
+const PINATA_API_SECRET = process.env.PINATA_API_SECRET ;
+const PINATA_GATEWAY_TOKEN = process.env.PINATA_GATEWAY_TOKEN;
+
 
 const AdvancedUpload: React.FC<UploadPageProps> = () => {
-  // User 
   const { user } = useAuthUser() as { user: User | null };
-  // Post 
-
-  // ---------------------------Title ------------------------------
   const [title, setTitle] = useState('');
-
 
   // ---------------------------Add Video ------------------------------
   const [videoLink, setVideoLink] = useState('');
 
-  const getYouTubeEmbedURL = (url: string) => {
-    const videoId = url.split('v=')[1];
-    if (videoId) {
-      return `https://www.youtube.com/embed/${videoId}`;
-    }
-    return url;
-  };
+
   const handleAddVideo = () => {
     let embedURL = '';
   
@@ -88,8 +84,8 @@ const AdvancedUpload: React.FC<UploadPageProps> = () => {
   const [uploadProgress, setUploadProgress] = useState(0); // Initial value
   const [addedImages, setAddedImages] = useState<string[]>([]);
   const [thumbnail, setThumbnail] = useState<string | null>(null);
-  const PINATA_API_KEY = 'f382d9b820088964b995';
-  const PINATA_API_SECRET = '818eab92027191ccbdcdaabb08046745da75c78f5adab06099371a2ee518a4fd';
+
+  const PINATA_GATEWAY_TOKEN = process.env.PINATA_GATEWAY_TOKEN;
   const [selectedOption, setSelectedOption] = useState<'url' | 'file'>('url'); 
 
   const handleIPFSUpload = async () => {
@@ -124,7 +120,7 @@ const AdvancedUpload: React.FC<UploadPageProps> = () => {
             setSelectedFile(null);
             
             if (response && response.data && response.data.IpfsHash) {
-                const ipfsLink = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
+                const ipfsLink = `https://gray-soft-cardinal-116.mypinata.cloud/ipfs/${response.data.IpfsHash}?pinataGatewayToken=${PINATA_GATEWAY_TOKEN}`;
                 setThumbnail(ipfsLink);
                 if (ipfsLink) {
                     setAddedImages(prev => [...prev, ipfsLink]);
@@ -365,7 +361,8 @@ const AdvancedUpload: React.FC<UploadPageProps> = () => {
               ["comment",
                   {
                       "parent_author": "",
-                      "parent_permlink": JSON.stringify(process.env.COMMUNITY) || 'hive-173115',
+                      // "parent_permlink": process.env.COMMUNITY || 'hive-173115',
+                      "parent_permlink": 'test',
                       "author": username,
                       "permlink": permlink,
                       "title": title,

@@ -11,6 +11,7 @@ export function transform3SpeakContent(content: any) {
   }
   return content;
 }
+
 export function transformGiphyLinksToMarkdown(content: string): string {
   const regex = /https:\/\/media0\.giphy\.com\/media\/[a-zA-Z0-9]+\/giphy\.gif/g;
   
@@ -21,7 +22,6 @@ export function transformGiphyLinksToMarkdown(content: string): string {
 
   return transformedContent;
 }
-
 
 export function transformYouTubeContent(content: string): string {
   // Regular expression to match YouTube video URLs
@@ -36,7 +36,6 @@ export function transformYouTubeContent(content: string): string {
   return transformedContent;
 }
 
-
 export function slugify(text: string) {
     return text
         .toString()
@@ -48,23 +47,11 @@ export function slugify(text: string) {
         .replace(/-+$/, '');            // Trim - from end of text
   };
 
-
-
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setCharactersToShow((prevChars) => {
-  //       if (prevChars >= content.length) {
-  //         clearInterval(timer);
-  //         return prevChars;
-  //       } else if (prevChars < 400) { // Scroll effect for the first 300 characters
-  //         return prevChars + 1;
-  //       } else { // Display the entire content after the scroll effect
-  //         clearInterval(timer);
-  //         return content.length;
-  //       }
-  //     });
-  //   }, 5);
-  
-  //   return () => clearInterval(timer);
-  // }, [content]);
+  export function getYouTubeEmbedURL(url: string) {
+    const videoId = url.split('v=')[1];
+    if (videoId) {
+      return `https://www.youtube.com/embed/${videoId}`;
+    }
+    return url;
+  }
   

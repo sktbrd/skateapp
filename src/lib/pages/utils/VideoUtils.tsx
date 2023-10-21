@@ -1,4 +1,5 @@
 import React from 'react';
+import { Box, Text } from "@chakra-ui/react";
 
 export function transform3SpeakContent(content: any) {
   const regex = /\[!\[\]\((https:\/\/ipfs-3speak\.b-cdn\.net\/ipfs\/[a-zA-Z0-9]+\/)\)\]\((https:\/\/3speak\.tv\/watch\?v=([a-zA-Z0-9]+\/[a-zA-Z0-9]+))\)/;
@@ -6,7 +7,7 @@ export function transform3SpeakContent(content: any) {
   if (match) {
     const videoURL = match[2];
     const videoID = match[3];
-    const iframe = `<iframe class="video-player" width="560" height="315" src="https://3speak.tv/embed?v=${videoID}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    const iframe = `<iframe class="video-player" width="560" height="315" src="https://3speak.tv/embed?v=${videoID}" frameborder="0" allow="accelerometer;  encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
     content = content.replace(regex, iframe);
   }
   return content;
@@ -30,7 +31,7 @@ export function transformYouTubeContent(content: string): string {
   // Use the replace method to replace YouTube video URLs with embedded iframes
   const transformedContent = content.replace(regex, (match: string, videoID: string) => {
     // Create an iframe with the YouTube video URL
-    return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoID}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoID}" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
   });
 
   return transformedContent;
@@ -54,4 +55,61 @@ export function slugify(text: string) {
     }
     return url;
   }
-  
+
+
+
+export function SkateboardLoading({ progress }: any) {
+    return (
+      <Box
+        mt={4}
+        position="relative"
+        height="8px"
+        borderRadius="4px"
+        border="1px solid gray"
+        background="black"
+      >
+        {/* This Box represents the track on which the skateboard moves */}
+        <Box
+          position="absolute"
+          top="0"
+          bottom="0"
+          width={`${progress}%`}
+          background="limegreen"
+          borderRadius="4px"
+          boxShadow="0 2px 4px rgba(0,0,0,0.1)"
+        />
+
+        {/* This Box represents the flat bar */}
+        <Box
+          position="absolute"
+          height="8px"
+          width="100%"
+          bottom="0px"
+          background="limegreen"
+          borderRadius="4px"
+        />
+        <Box
+          position="absolute"
+          left={`${progress}%`}
+          bottom="-8px"
+          transform="translateX(-50%) scaleX(-1)" // Flip vertically
+          userSelect="none"
+          fontSize="3xl"
+          transition="0.666s ease-in-out"
+        >
+          🛹
+        </Box>
+        {/* Sparkles coming out from the grinding */}
+        <Text
+          position="absolute"
+          left={`${progress - 2}%`}
+          bottom="0px"
+          fontSize="sm"
+          color="limegreen"
+          transform="translateX(-50%)"
+        >
+          _____✨
+        </Text>
+      </Box>
+    );
+  }

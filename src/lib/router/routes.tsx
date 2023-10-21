@@ -17,6 +17,8 @@ const Test = React.lazy(() => import("lib/pages/home/dao/components/ethereum/tes
 const GnarsStats = React.lazy(() => import("lib/pages/home/dao/components/hiveGnars/gnars")); // Update the path accordingly
 const ThatsGnarly = React.lazy(() => import("lib/pages/home/Feed/thatsgnarly")); // Update the path accordingly
 const Account = React.lazy(() => import("lib/pages/account")); // Update the path accordingly
+const NewUpload = React.lazy(() => import("lib/pages/upload/newUpload")); // Update the path accordingly
+
 
 export const routes: Array<PathRouteProps> = [
   {
@@ -75,7 +77,14 @@ export const routes: Array<PathRouteProps> = [
   path: "/account",
   element: <Account />,
 },
-
+{
+  path: "/newupload",
+  element:  <NewUpload />,
+},
+{
+  path: "/test",
+  element: <Test />,
+}
 
 ];
 

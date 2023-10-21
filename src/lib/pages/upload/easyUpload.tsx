@@ -22,7 +22,7 @@ import { Client } from '@hiveio/dhive';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 
 import { MarkdownRenderers } from '../utils/MarkdownRenderers';
-
+import { SkateboardLoading } from '../utils/VideoUtils';
 
 interface Media {
   type: 'video' | 'image';
@@ -43,7 +43,6 @@ interface BeneficiaryForBroadcast {
 
 const client = new Client('https://api.hive.blog');
 
-//TO-DO Replace these with process.env plus fallbacks
 const PINATA_API_KEY = process.env.PINATA_API_KEY ;
 const PINATA_API_SECRET = process.env.PINATA_API_SECRET ;
 const PINATA_GATEWAY_TOKEN = process.env.PINATA_GATEWAY_TOKEN;
@@ -62,7 +61,7 @@ const MediaUpload: React.FC = () => {
 
   const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([
     { name: 'skatehacker', percentage: 20 },
-    { name: 'steemskate', percentage: 30} // Hardcoded beneficiary
+    { name: 'steemskate', percentage: 30} 
   ]);
   const [tags, setTags] = useState<string[]>([]); // Empty tags array
 
@@ -285,8 +284,6 @@ const MediaUpload: React.FC = () => {
 
       console.log('Assembled Body:', updatedBody);
 
-      console.log('Assembled Body:', updatedBody);
-
       // Construct the complete post body
       const completePostBody = `${updatedBody}${showFooter ? defaultFooter : ''}`;
 
@@ -327,7 +324,7 @@ const MediaUpload: React.FC = () => {
               'comment',
               {
                 parent_author: '',
-                parent_permlink: JSON.stringify(process.env.COMMUNITY) || 'kleenex',
+                parent_permlink: process.env.COMMUNITY || 'hive-173115',
                 author: username,
                 permlink: permlink,
                 title: title,
@@ -359,61 +356,7 @@ const MediaUpload: React.FC = () => {
     }
   };
 
-  function SkateboardLoading({ progress }: any) {
-    return (
-      <Box
-        mt={4}
-        position="relative"
-        height="8px"
-        borderRadius="4px"
-        border="1px solid gray"
-        background="black"
-      >
-        {/* This Box represents the track on which the skateboard moves */}
-        <Box
-          position="absolute"
-          top="0"
-          bottom="0"
-          width={`${progress}%`}
-          background="limegreen"
-          borderRadius="4px"
-          boxShadow="0 2px 4px rgba(0,0,0,0.1)"
-        />
 
-        {/* This Box represents the flat bar */}
-        <Box
-          position="absolute"
-          height="8px"
-          width="100%"
-          bottom="0px"
-          background="limegreen"
-          borderRadius="4px"
-        />
-        <Box
-          position="absolute"
-          left={`${progress}%`}
-          bottom="-8px"
-          transform="translateX(-50%) scaleX(-1)" // Flip vertically
-          userSelect="none"
-          fontSize="3xl"
-          transition="0.666s ease-in-out"
-        >
-          🛹
-        </Box>
-        {/* Sparkles coming out from the grinding */}
-        <Text
-          position="absolute"
-          left={`${progress - 2}%`}
-          bottom="0px"
-          fontSize="sm"
-          color="limegreen"
-          transform="translateX(-50%)"
-        >
-          _____✨
-        </Text>
-      </Box>
-    );
-  }
 
   const avatarUrl = `https://images.ecency.com/webp/u/${user?.name}/avatar/small`;
 

@@ -74,7 +74,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
     if (match) {
       const videoURL = match[2];
       const videoID = match[3];
-      const iframe = `<iframe class="video-player" width="560" height="315" src="https://3speak.tv/embed?v=${videoID}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      const iframe = `<iframe class="video-player" width="560" height="315" src="https://3speak.tv/embed?v=${videoID}" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
       content = content.replace(regex, iframe);
     }
     return content;
@@ -88,7 +88,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
     // Use the replace method to replace YouTube video URLs with embedded iframes
     const transformedContent = content.replace(regex, (match: string, videoID: string) => {
       // Wrap the iframe in a div with centering styles
-      return `<div style="display: flex; justify-content: center; "><iframe width="560" height="315" src="https://www.youtube.com/embed/${videoID}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+      return `<div style="display: flex; justify-content: center; "><iframe width="560" height="315" src="https://www.youtube.com/embed/${videoID}" frameborder="0" allow="accelerometer;  encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
     });
   
     return transformedContent;
@@ -164,7 +164,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
         .replace(/^-+/, '')             // Trim - from start of text
         .replace(/-+$/, '');            // Trim - from end of text
   };
-
+// TO DO : Add the tags and the parent permlink to the post
   const handleSaveEdit = () => {
     const username = user?.name; // Get the username from the authenticated user
     if (username && window.hive_keychain) {

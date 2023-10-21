@@ -6,7 +6,7 @@ export function transform3SpeakContent(content: string): string {
     if (match) {
         const videoURL = match[2];
         const videoID = match[3];
-        const iframe = `<iframe width="560" height="315" src="https://3speak.tv/embed?v=${videoID}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        const iframe = `<iframe width="560" height="315" src="https://3speak.tv/embed?v=${videoID}" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
         content = content.replace(regex, iframe);
     }
     return content;

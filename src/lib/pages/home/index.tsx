@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import HiveBlog from './Feed/Feed';
 import HiveVideos from './videos/FeedVideo';
-import SnapShot from './dao/snapshot';
+import SkatehiveProposals from './dao/snapshot';
 import Chat from './chat';
 import QFS from '../qfs';
 import UploadPage from '../upload';
@@ -87,7 +87,7 @@ const Home = () => {
               border: '1px solid white',
             }} // Change the background color when selected
           >
-            🏛 GOVERN.
+            🏛 DAOs
           </Tab>
         </TabList>
         <TabPanels>
@@ -104,7 +104,7 @@ const Home = () => {
             <UploadPage />
           </TabPanel>
           <TabPanel>
-            <SnapShot />
+            <SkatehiveProposals />
           </TabPanel>
         </TabPanels>
       </Tabs>

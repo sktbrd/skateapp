@@ -1,4 +1,4 @@
-import { Flex, Tabs, TabList, Tab, TabPanels, TabPanel, useTabs } from "@chakra-ui/react";
+import { Flex, Tabs, TabList, Tab, TabPanels, TabPanel, useTabs,Image, VStack, Text } from "@chakra-ui/react";
 import HiveBlog from "./Feed/Feed";
 import HiveVideos from "./videos/FeedVideo";
 import SnapShot from "./dao/snapshot";
@@ -12,23 +12,24 @@ import UploadPage from "../upload";
   
     return (
       <Flex direction="column" alignItems="center" justifyContent="center">
-        <Tabs isFitted variant="enclosedyarn" width="100%" colorScheme="yellow" {...tabProps}>
+        <Tabs isFitted variant="line" width="100%" colorScheme="yellow" {...tabProps} size='sm' >
           <TabList mb="1em" width="100%">
             <Tab
               color="white"
-              fontSize="18px"
-              border="2px black solid"
+              fontSize="20px"
+              border="1px black solid"
               _selected={{ backgroundColor: "#65418C",color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
-              <img src="assets\gifs\crows2.gif" alt="" width="13%" height="auto" style={{margin: "2%"}} />FEED
+              <VStack><Image src="assets\gifs\crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>FEED</Text></VStack>
+              
             </Tab>
-            <Tab
+            {/* <Tab
               color="white" 
               border="2px black solid"
               _selected={{ backgroundColor: "#65418C",color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
-              <img src="assets\gifs\crows1.gif" alt="" width="10%" height="auto"/>VIDEOS
-            </Tab>
+              <Image src="assets\gifs\crows1.gif" alt="" width="20%" height="auto"/>VIDEOS
+            </Tab> */}
             {/* <Tab
               color="white"
               border="2px limegreen solid"
@@ -37,18 +38,20 @@ import UploadPage from "../upload";
               🎮 PLAY
             </Tab> */}
             <Tab
-              color="white"
-              border="2px black solid"
-              _selected={{ backgroundColor: "#65418C" ,color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
+             color="white"
+             fontSize="20px"
+             border="1px black solid"
+             _selected={{ backgroundColor: "#65418C",color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
-              <img src="assets\gifs\crows3.gif" alt="" width="10%" height="auto"/>UPLOAD
+              <VStack><Image src="assets\gifs\crows1.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>UPLOAD</Text></VStack>
             </Tab>
             <Tab
-              color="white"
-              border="2px black solid"
-              _selected={{ backgroundColor: "#65418C" ,color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
-            >
-              <img src="assets\gifs\crows4.gif" alt="" width="10%" height="auto"/> STORE
+            color="white"
+            fontSize="20px"
+            border="1px black solid"
+            _selected={{ backgroundColor: "#65418C",color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
+           >
+             <VStack><Image src="assets\gifs\crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>STORE</Text></VStack>
             </Tab>
           </TabList>
           <TabPanels>

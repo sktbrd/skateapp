@@ -42,12 +42,12 @@ export const theme = extendTheme({
         backgroundColor: "black",
       },
       "::-webkit-scrollbar-thumb": {
-        backgroundColor: "limegreen",
+        backgroundColor: "black",
         borderRadius: "0px",
       },
       // Style for Firefox scrollbars
       scrollbarWidth: "thin",
-      scrollbarColor: "limegreen black",
+      scrollbarColor: "black black",
     }),
   },
 });

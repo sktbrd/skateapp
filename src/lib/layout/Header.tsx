@@ -182,13 +182,13 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
   const glow = keyframes`
     0% {
-      box-shadow: 0 0 5px rgba(0, 255, 0, 0.8);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
     }
     50% {
-      box-shadow: 0 0 30px rgba(0, 255, 0, 2);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 2);
     }
     100% {
-      box-shadow: 0 0 5px rgba(0, 255, 0, 0.8);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
     }
   `;
   const enlargeOnHover = keyframes`
@@ -240,7 +240,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           }}
         >
           <Image
-            src="public\assets\crn4.jpg"
+            src="assets\crn4.jpg"
             alt="Dropdown Image"
             boxSize="50px" // Adjust the size as needed
             borderRadius="10px"
@@ -306,7 +306,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       <ChakraLink as={RouterLink} to="/wallet">
       <Button
         backgroundColor="#593576"
-        border="limegreen 2px solid"
+        border="black 5px solid"
         color="orange"
 
 
@@ -336,10 +336,10 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         }}
       >
         <TabList display="flex" alignItems="center">
-          <LinkTab to="/">Home</LinkTab>
-          <LinkTab to="/QFS">Play</LinkTab>
+          <LinkTab to="/" color="white">Home</LinkTab>
+          <LinkTab to="/QFS" color="white">Play</LinkTab>
 
-          {loggedIn && <LinkTab to="/wallet">Wallet</LinkTab>} {/* Conditionally render Wallet tab */}
+          {loggedIn && <LinkTab to="/wallet" color="white">Wallet</LinkTab>} {/* Conditionally render Wallet tab */}
           {loggedIn ? (
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
               <Avatar 

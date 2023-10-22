@@ -448,12 +448,12 @@ return (
                               
                      <p>&#x1FA78;</p>{post.earnings.toFixed(2)}
                     <img
-                      src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
+                      src="assets\blood2.gif"
                       alt="spinning stoken coin"
                       style={{
-                        width: "18px",
-                        height: "18px",
-                        marginLeft: "7px",
+                        width: "50px",
+                        height: "50px",
+                        marginLeft: "3px",
                         marginBottom: "2px",
                       }}
                     />
@@ -483,8 +483,8 @@ return (
           ))}
         </Box>
         <Box display="flex" justifyContent="center">
-          <Button variant="outline" colorScheme="green" onClick={loadMorePosts}>
-            Load More
+          <Button variant="outline" colorScheme="white" onClick={loadMorePosts}>
+            Assista mais
           </Button>
         </Box>
         {isLoadingMore && <PlaceholderLoadingBar />}

@@ -20,7 +20,7 @@ import UploadPage from "../upload";
               border="1px black solid"
               _selected={{ backgroundColor: "#65418C",color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
-              <VStack><Image src="assets\gifs\crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>FEED</Text></VStack>
+              <VStack><Image src="assets\gifs\crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>PORTAL 666</Text></VStack>
               
             </Tab>
             {/* <Tab
@@ -43,7 +43,7 @@ import UploadPage from "../upload";
              border="1px black solid"
              _selected={{ backgroundColor: "#65418C",color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
-              <VStack><Image src="assets\gifs\crows1.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>UPLOAD</Text></VStack>
+              <VStack><Image src="assets\gifs\crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>UPLOAD</Text></VStack>
             </Tab>
             <Tab
             color="white"
@@ -51,7 +51,7 @@ import UploadPage from "../upload";
             border="1px black solid"
             _selected={{ backgroundColor: "#65418C",color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
            >
-             <VStack><Image src="assets\gifs\crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>STORE</Text></VStack>
+             <VStack><Image src="assets\gifs\crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>LOJA</Text></VStack>
             </Tab>
           </TabList>
           <TabPanels>

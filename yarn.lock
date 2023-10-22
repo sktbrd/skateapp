@@ -6392,21 +6392,6 @@
     "@walletconnect/window-getters" "^1.0.1"
     tslib "1.14.1"
 
-"@widgetbot/embed-api@^1.2.11":
-  version "1.2.14"
-  resolved "https://registry.yarnpkg.com/@widgetbot/embed-api/-/embed-api-1.2.14.tgz#2c8b8af59d6553c8f7807bc01080df6b7dec65d2"
-  integrity sha512-O27qFFITbgiKDoK9iEQZS0IydWfveD3UxgnTuIRg4/v393S2k/i72KiD7oxOulSu3i6GZF0ebcS2OR1DJD5tRg==
-  dependencies:
-    post-robot "^8.0.28"
-
-"@widgetbot/react-embed@^1.9.0":
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/@widgetbot/react-embed/-/react-embed-1.9.0.tgz#775dee7cde04409d62c8246f04ebac4e32361611"
-  integrity sha512-+Qgqy7lwLy++lIiHmSsgxUjwcX80iFIHR0QJpKq4W82ePUmq4bTuxvUbxcE+VQH5IjNrWaydGNR8zROV5vUQsA==
-  dependencies:
-    "@widgetbot/embed-api" "^1.2.11"
-    react "^18.2.0"
-
 "@yarnpkg/lockfile@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
@@ -8119,20 +8104,6 @@ cron-parser@^4.5.0:
   integrity sha512-p0SaNjrHOnQeR8/VnfGbmg9te2kfyYSQ7Sc/j/6DtPL3JQvKxmjO9TSjNFpujqV3vEYYBvNNvXSxzyksBWAx1Q==
   dependencies:
     luxon "^3.2.1"
-
-cross-domain-safe-weakmap@^1.0.1:
-  version "1.0.29"
-  resolved "https://registry.yarnpkg.com/cross-domain-safe-weakmap/-/cross-domain-safe-weakmap-1.0.29.tgz#0847975c27d9e1cc840f24c1745311958df98022"
-  integrity sha512-VLoUgf2SXnf3+na8NfeUFV59TRZkIJqCIATaMdbhccgtnTlSnHXkyTRwokngEGYdQXx8JbHT9GDYitgR2sdjuA==
-  dependencies:
-    cross-domain-utils "^2.0.0"
-
-cross-domain-utils@^2.0.0:
-  version "2.0.38"
-  resolved "https://registry.yarnpkg.com/cross-domain-utils/-/cross-domain-utils-2.0.38.tgz#2eaf321c4dfdb61596805ca4233fde4400cb6377"
-  integrity sha512-zZfi3+2EIR9l4chrEiXI2xFleyacsJf8YMLR1eJ0Veb5FTMXeJ3DpxDjZkto2FhL/g717WSELqbptNSo85UJDw==
-  dependencies:
-    zalgo-promise "^1.0.11"
 
 cross-fetch@3.1.4:
   version "3.1.4"
@@ -13208,15 +13179,6 @@ pnpm@^8.6.12:
   resolved "https://registry.yarnpkg.com/pnpm/-/pnpm-8.9.1.tgz#834023334160b64567a1b483ff2d7508d6503bb7"
   integrity sha512-/ma2OuIl3ISym/T14A10j0TASAX/xdk4aDaUZj+4IwmrBCCkSpB1F9QNuPSeQs2POqEKtxa5BzbPE/mJQFWxaQ==
 
-post-robot@^8.0.28:
-  version "8.0.31"
-  resolved "https://registry.yarnpkg.com/post-robot/-/post-robot-8.0.31.tgz#0b5592b695d9252b86105b50b33d4469447349d5"
-  integrity sha512-nUhtKgtmcgyuPm4RnIhUB3gsDYJBHOgFry3TvOxhIHpgfwYY/T69d4oB90tw4YUllFZUUwqLEv1Wgyg6eOoJ7A==
-  dependencies:
-    cross-domain-safe-weakmap "^1.0.1"
-    cross-domain-utils "^2.0.0"
-    zalgo-promise "^1.0.3"
-
 postcss@^8.4.27:
   version "8.4.31"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.31.tgz#92b451050a9f914da6755af352bdc0192508656d"
@@ -17154,11 +17116,6 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
-
-zalgo-promise@^1.0.11, zalgo-promise@^1.0.3:
-  version "1.0.48"
-  resolved "https://registry.yarnpkg.com/zalgo-promise/-/zalgo-promise-1.0.48.tgz#9e33eef502d5ed9f5a09fc5728c833c3e87afa2e"
-  integrity sha512-LLHANmdm53+MucY9aOFIggzYtUdkSBFxUsy4glTTQYNyK6B3uCPWTbfiGvSrEvLojw0mSzyFJ1/RRLv+QMNdzQ==
 
 zksync-web3@^0.14.3:
   version "0.14.3"

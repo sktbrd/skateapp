@@ -117,7 +117,7 @@ export default function QFS() {
   // load game iframe
   const loadGame = () => {
     const game = document.querySelector("iframe");
-    game?.setAttribute("src", "QFS/game.html");
+    game?.setAttribute("src", "QFS/index.html");
   };
 
   const pushStats = async () => {
@@ -220,6 +220,7 @@ export default function QFS() {
 
   return (
     <Flex
+      marginTop={ 12 }
       direction="column"
       align="center"
       justify="center"

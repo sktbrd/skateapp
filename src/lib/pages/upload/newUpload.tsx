@@ -9,17 +9,24 @@ import {
   Input,
   useMediaQuery,
   Button,
-  border,
+  Avatar,
+  Badge,
 } from "@chakra-ui/react";
 import ReactMarkdown from "react-markdown";
 import { useDropzone } from "react-dropzone";
 import { SkateboardLoading } from "../utils/VideoUtils";
-import { MarkdownRenderers } from "../utils/MarkdownRenderers";
+import { MarkdownRenderersUpload } from "../utils/MarkdownRenderersUpload";
 import { FaImage, FaVideo } from "react-icons/fa";
+import useAuthUser from '../home/api/useAuthUser';
+import rehypeRaw  from "rehype-raw";
+import remarkGfm from "remark-gfm";
+
 const PINATA_API_KEY = process.env.PINATA_API_KEY;
 const PINATA_API_SECRET = process.env.PINATA_API_SECRET;
 const PINATA_GATEWAY_TOKEN = process.env.PINATA_GATEWAY_TOKEN;
-
+interface User {
+  name?: string;
+}
 const NewUpload: React.FC = () => {
   const [markdownText, setMarkdownText] = useState<string>("");
   const [progress, setProgress] = useState<number>(0);
@@ -27,7 +34,10 @@ const NewUpload: React.FC = () => {
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [uploadedVideo, setUploadedVideo] = useState<string | null>(null);
   const [title, setTitle] = useState<string>("");
-  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null); // New state for thumbnail URL
+  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const { user } = useAuthUser() as { user: User | null };
+  const avatarUrl = `https://images.ecency.com/webp/u/${user?.name}/avatar/small`;
 
   const handleMarkdownChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdownText(event.target.value);
@@ -37,11 +47,21 @@ const NewUpload: React.FC = () => {
     setTitle(event.target.value);
   };
 
+  const handleImageUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setImageUrl(event.target.value);
+  };
+
+  const addImageToMarkdown = () => {
+    if (imageUrl) {
+      setMarkdownText((prevMarkdown) => `${prevMarkdown}\n![Image](${imageUrl})`);
+      setThumbnailUrl(imageUrl);
+    }
+  };
+
   const uploadFileToIPFS = async (file: File) => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-
       formData.set("Content-Type", "multipart/form-data");
 
       const response = await fetch(
@@ -58,19 +78,18 @@ const NewUpload: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
-        const ipfsUrl = `https://gray-soft-cardinal-116.mypinata.cloud/ipfs/${data.IpfsHash}?pinataGatewayToken=${PINATA_GATEWAY_TOKEN}`;
-        console.log("Uploaded file to IPFS:", ipfsUrl);
+        const ipfsUrl = `https://ipfs.skatehive.app/ipfs/${data.IpfsHash}?pinataGatewayToken=nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE`;
 
         if (file.type.startsWith("video")) {
           setUploadedVideo(ipfsUrl);
         }
 
         const transformedLink = file.type.startsWith("video")
-          ? `<iframe src="${ipfsUrl}"></iframe>)`
-          : `![Image](${ipfsUrl})`;
-
+        ? `<iframe src="${ipfsUrl}"></iframe>` + ""
+        : `![Image](${ipfsUrl})` + "";
+      
+      
         setMarkdownText((prevMarkdown) => prevMarkdown + `\n${transformedLink}`);
-
         setUploadedFiles((prevFiles) => [...prevFiles, ipfsUrl]);
       } else {
         const errorData = await response.json();
@@ -85,7 +104,6 @@ const NewUpload: React.FC = () => {
     setIsUploading(true);
 
     for (const file of acceptedFiles) {
-      console.log("Uploading image:", file.name);
       await uploadFileToIPFS(file);
     }
 
@@ -96,7 +114,6 @@ const NewUpload: React.FC = () => {
     setIsUploading(true);
 
     for (const file of acceptedFiles) {
-      console.log("Uploading video:", file.name);
       await uploadFileToIPFS(file);
     }
 
@@ -121,130 +138,193 @@ const NewUpload: React.FC = () => {
 
   const [isMobile] = useMediaQuery("(max-width: 768px)");
 
+  const extractImageUrls = (markdownText: string): string[] => {
+    const regex = /!\[.*?\]\((.*?)\)/g;
+    const imageUrls: string[] = [];
+    let match = regex.exec(markdownText);
+    while (match) {
+      imageUrls.push(match[1]);
+      match = regex.exec(markdownText);
+    }
+    return imageUrls;
+  };
+
   const renderThumbnailOptions = () => {
-    return uploadedFiles.map((fileUrl, index) => (
+    const selectedThumbnailStyle = {
+      border: '2px solid limegreen',
+    };
+
+    const imageUrls = extractImageUrls(markdownText);
+
+    const options = imageUrls.map((imageUrl, index) => (
       <Box
         key={index}
         cursor="pointer"
-        width="100px" 
-        height="100px" 
+        width="100px"
+        height="100px"
         display="flex"
         justifyContent="center"
         alignItems="center"
-        onClick={() => setThumbnailUrl(fileUrl)} // Set the selected image as the thumbnail
+        onClick={() => {
+          setThumbnailUrl(imageUrl);
+          console.log("Selected Thumbnail:", imageUrl); // Log selected thumbnail URL
+        }}
+        style={imageUrl === thumbnailUrl ? selectedThumbnailStyle : {}}
       >
         <img
-          src={fileUrl}
+          src={imageUrl}
           alt={`Thumbnail ${index}`}
           style={{ maxWidth: "100%", maxHeight: "100%" }}
         />
       </Box>
     ));
-  };
-  
-  
 
-  
+    return options;
+  };
 
   return (
-    <Flex
-      flexDirection={isMobile ? "column" : "row"}
-      justifyContent="center"
-      alignItems="stretch"
-    >
-      <Box flex={isMobile ? "auto" : 1} p={4}>
-        <Box marginBottom={4}>
-          <Input
-            value={title}
-            onChange={handleTitleChange}
-            placeholder="Enter title here..."
-            fontSize="xl"
-            fontWeight="bold"
-          />
-        </Box>
-
-        <Flex flexDirection={isMobile ? "column" : "row"}>
-          <Box flex={1} marginRight={isMobile ? 0 : 4}>
-            <VStack
-              {...getImagesRootProps()}
-              cursor="pointer"
-              borderWidth={2}
-              borderRadius={10}
-              borderStyle="dashed"
-              borderColor="gray.300"
-              p={6}
-              alignItems="center"
-              justifyContent="center"
-              flex="auto"
-            >
-              <input {...getImagesInputProps()} />
-              <FaImage size={32} />
-              <Text>Drag & drop images or click to select</Text>
-            </VStack>
-          </Box>
-          <Box flex={1}>
-            <VStack
-              {...getVideosRootProps()}
-              cursor="pointer"
-              borderWidth={2}
-              borderRadius={10}
-              borderStyle="dashed"
-              borderColor="gray.300"
-              p={6}
-              alignItems="center"
-              justifyContent="center"
-              flex="auto"
-            >
-              <input {...getVideosInputProps()} />
-              <FaVideo size={32} />
-              <Text>Drag & drop videos or click to select</Text>
-              {isUploading && <SkateboardLoading progress={progress} />}
-            </VStack>
-          </Box>
-        </Flex>
-        <Textarea
-  value={markdownText}
-  onChange={handleMarkdownChange}
-  placeholder="Enter your Markdown here..."
-  minHeight="700px" // Adjust this height as needed
-  marginTop={4}
-/>
-
-        
-        {/* "Thumbnail Options" box */}
-        <Box marginTop={4}>
-          <Text fontSize="lg" fontWeight="bold">
-            Thumbnail Options
-          </Text>
-          <Flex flexWrap="wrap">{renderThumbnailOptions()}</Flex>
-        </Box>
-      </Box>
-
-      <Box flex={isMobile ? "auto" : 1} p={4} border="1px solid limegreen" borderRadius={"10px"}>
-        <Box>
-          <Text fontSize={"48px"}> {title}</Text>
-          <Divider /> 
-        </Box>
-        {uploadedVideo && (
+    <Box>
+      <center>
+        <Badge>
+          If it's your first time uploading to SkateHive, please check our{" "}
+          <a
+            href="https://docs.skatehive.app/docs/tutorial-basics/share-ur-content"
+            style={{ color: 'pink' }}
+          >
+            Tutorial
+          </a>{" "}
+          First
+        </Badge>
+      </center>
+      <Flex
+        flexDirection={isMobile ? "column" : "row"}
+        justifyContent="center"
+        alignItems="stretch"
+      >
+        <Box flex={isMobile ? "auto" : 1} p={4}>
           <Box marginBottom={4}>
-<video
-  style={{ borderRadius: '15px', margin:'10px',border:'1px solid limegreen' }} // Add the borderRadius style here
-  src={uploadedVideo}
-  controls
-  width="100%"
-></video>
+            <Input
+              value={title}
+              onChange={handleTitleChange}
+              placeholder="Enter title here..."
+              fontSize="xl"
+              fontWeight="bold"
+            />
           </Box>
-        )}
-        <VStack alignItems="start">
-          <ReactMarkdown
-            children={markdownText}
-            components={{
-              ...MarkdownRenderers,
-            }}
+
+          <Flex flexDirection={isMobile ? "column" : "row"}>
+            <Box flex={1} marginRight={isMobile ? 0 : 4}>
+              <VStack
+                {...getImagesRootProps()}
+                cursor="pointer"
+                borderWidth={2}
+                borderRadius={10}
+                borderStyle="dashed"
+                borderColor="gray.300"
+                p={6}
+                alignItems="center"
+                justifyContent="center"
+                flex="auto"
+              >
+                <input {...getImagesInputProps()} />
+                <FaImage size={32} />
+                <Text> Drop images or click to select</Text>
+              </VStack>
+            </Box>
+            <Box flex={1}>
+              <VStack
+                {...getVideosRootProps()}
+                cursor="pointer"
+                borderWidth={2}
+                borderRadius={10}
+                borderStyle="dashed"
+                borderColor="gray.300"
+                p={6}
+                alignItems="center"
+                justifyContent="center"
+                flex="auto"
+              >
+                <input {...getVideosInputProps()} />
+                <FaVideo size={32} />
+                <Text> Drop videos or click to select</Text>
+              </VStack>
+              {isUploading && <SkateboardLoading progress={progress} />}
+            </Box>
+            
+          </Flex>
+          {/* {uploadedVideo && (
+            <Box marginBottom={4}>
+              <video
+                style={{ borderRadius: "15px", marginTop:"10px", border: "1px solid limegreen" }}
+                src={uploadedVideo}
+                controls
+                width="100%"
+              ></video>
+            </Box>
+          )} */}
+          <Box marginTop={4}>
+            <Input
+              value={imageUrl}
+              onChange={handleImageUrlChange}
+              placeholder="Enter image URL"
+              marginTop={2}
+            />
+            <Button
+              onClick={addImageToMarkdown}
+              colorScheme="teal"
+              size="sm"
+              marginTop={2}
+            >
+              📸 Add Image to Post
+            </Button>
+          </Box>
+          <Textarea
+            value={markdownText}
+            onChange={handleMarkdownChange}
+            placeholder="Enter your Markdown here..."
+            minHeight="600px"
+            marginTop={4}
           />
-        </VStack>
-      </Box>
-    </Flex>
+          <Box marginTop={4}>
+            <Text fontSize="lg" fontWeight="bold">
+              Thumbnail Options
+            </Text>
+            <Flex flexWrap="wrap">{renderThumbnailOptions()}</Flex>
+          </Box>
+        </Box>
+        <Box
+          flex={isMobile ? "auto" : 1}
+          p={4}
+          border="1px solid limegreen"
+          margin={"15px"}
+          borderRadius={"10px"}
+        >
+          <Box>
+          <Flex padding="1%" borderRadius="10px" border="1px solid limegreen" align="center" mb={4}>
+            <Avatar border="1px solid limegreen" src={avatarUrl} size="sm" />
+            <Text ml={2} fontWeight="bold">
+              {user?.name}
+            </Text> 
+            <Text marginLeft={"10px"} fontSize={"36px"} fontWeight={"bold"}> | </Text>
+            <Text marginLeft={"10px"} fontSize={"36px"} fontWeight={"bold"} color={"white"} >  {title}</Text>
+
+          </Flex>
+            <Divider />
+          </Box>
+
+          <VStack alignItems="start">
+            <ReactMarkdown
+              children={markdownText}
+              components={{
+                ...MarkdownRenderersUpload,
+              }}
+              rehypePlugins={[rehypeRaw]}
+              remarkPlugins={[remarkGfm]} 
+            />
+          </VStack>
+        </Box>
+      </Flex>
+    </Box>
   );
 };
 

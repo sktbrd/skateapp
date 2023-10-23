@@ -13,10 +13,12 @@ type MarkdownProps = {
   };
   
   
-export const MarkdownRenderers = {
+export const MarkdownRenderersUpload = {
+  
     img: ({ alt, src, title, ...props }: RendererProps) => (
         <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding:'20px' }}>
-          <img
+         <center>
+         <img
             {...props}
             alt={alt}
             src={src}
@@ -32,6 +34,8 @@ export const MarkdownRenderers = {
               e.currentTarget.src = 'https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75'; // Replace with the URL of your default image
             }}
           />
+         </center>
+
         </span>
       ),
       
@@ -101,12 +105,12 @@ pre: ({ children, ...props }: RendererProps) => (
 
 
   iframe: ({ src, ...props }: RendererProps) => (
-    <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop:'10px' }}>
+    <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop:'10px' , minWidth: '100%', minHeight: 'auto'}}>
 
     <iframe
       {...props}
       src={src}
-      style={{ borderRadius: '10px', marginBottom: '10px', border:'1px limegreen solid' /* You can adjust the value as needed */ }}
+      style={{ borderRadius: '10px', marginBottom: '20px', border:'1px red solid', minWidth: '600px', minHeight: '400px'}}
     />
     </span>
   ),

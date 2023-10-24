@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import ReactMarkdown from "react-markdown";
 import { useDropzone } from "react-dropzone";
-import { SkateboardLoading } from "../utils/VideoUtils";
+import { SkateboardLoading } from "../utils/videoUtils/VideoUtils";
 import { MarkdownRenderersUpload } from "../utils/MarkdownRenderersUpload";
 import { FaImage, FaVideo } from "react-icons/fa";
 import useAuthUser from '../home/api/useAuthUser';
@@ -24,6 +24,7 @@ import remarkGfm from "remark-gfm";
 const PINATA_API_KEY = process.env.PINATA_API_KEY;
 const PINATA_API_SECRET = process.env.PINATA_API_SECRET;
 const PINATA_GATEWAY_TOKEN = process.env.PINATA_GATEWAY_TOKEN;
+
 interface User {
   name?: string;
 }
@@ -185,11 +186,11 @@ const NewUpload: React.FC = () => {
   return (
     <Box>
       <center>
-        <Badge>
+        <Badge bg={"yellow"} marginTop={"15px"}>
           If it's your first time uploading to SkateHive, please check our{" "}
           <a
             href="https://docs.skatehive.app/docs/tutorial-basics/share-ur-content"
-            style={{ color: 'pink' }}
+            style={{ color: 'blue' }}
           >
             Tutorial
           </a>{" "}
@@ -228,29 +229,12 @@ const NewUpload: React.FC = () => {
               >
                 <input {...getImagesInputProps()} />
                 <FaImage size={32} />
-                <Text> Drop images or click to select</Text>
+                <Text> Drop images/video or click to select</Text>
               </VStack>
             </Box>
-            <Box flex={1}>
-              <VStack
-                {...getVideosRootProps()}
-                cursor="pointer"
-                borderWidth={2}
-                borderRadius={10}
-                borderStyle="dashed"
-                borderColor="gray.300"
-                p={6}
-                alignItems="center"
-                justifyContent="center"
-                flex="auto"
-              >
-                <input {...getVideosInputProps()} />
-                <FaVideo size={32} />
-                <Text> Drop videos or click to select</Text>
-              </VStack>
-              {isUploading && <SkateboardLoading progress={progress} />}
-            </Box>
-            
+
+            {isUploading && <SkateboardLoading progress={progress} />}
+
           </Flex>
           {/* {uploadedVideo && (
             <Box marginBottom={4}>

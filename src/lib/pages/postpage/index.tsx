@@ -23,10 +23,10 @@ import { MarkdownRenderersComments } from './MarkdownRenderersComments';
 
 import CommentBox from '../home/Feed/postModal/commentBox';
 import { CommentProps } from '../home/Feed/types';
-import { transform3SpeakContent } from '../utils/VideoUtils';
+import { transform3SpeakContent } from '../utils/videoUtils/VideoUtils';
 import VotingBox from './votingBox';
 
-import { transformYouTubeContent } from '../utils/VideoUtils';
+import { transformYouTubeContent } from '../utils/videoUtils/VideoUtils';
 
 
 

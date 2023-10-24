@@ -41,7 +41,7 @@ const Home = () => {
           >
             📜 FEED
           </Tab>
-          <Tab
+          {/* <Tab
             color="white"
             border="1px limegreen solid"
             _selected={{
@@ -52,7 +52,7 @@ const Home = () => {
             }} // Change the background color when selected
           >
             📹 VIDEOS
-          </Tab>
+          </Tab> */}
           {/* <Tab
             color="white"
             border="2px limegreen solid"
@@ -94,9 +94,9 @@ const Home = () => {
           <TabPanel>
             <HiveBlog />
           </TabPanel>
-          <TabPanel>
+          {/* <TabPanel>
             <HiveVideos />
-          </TabPanel>
+          </TabPanel> */}
           {/* <TabPanel>
             <QFS />
           </TabPanel> */}

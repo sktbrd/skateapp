@@ -22,7 +22,7 @@ import { Client } from '@hiveio/dhive';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 
 import { MarkdownRenderers } from '../utils/MarkdownRenderers';
-import { SkateboardLoading } from '../utils/VideoUtils';
+import { SkateboardLoading } from '../utils/videoUtils/VideoUtils';
 
 interface Media {
   type: 'video' | 'image';

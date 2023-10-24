@@ -11,7 +11,7 @@ import AuthorSearchBar from './searchBar';
 import axios, { AxiosResponse, AxiosError, AxiosProgressEvent } from 'axios';
 import { FaBold, FaItalic } from 'react-icons/fa';
 
-import { getYouTubeEmbedURL } from '../utils/VideoUtils';
+import { getYouTubeEmbedURL } from '../utils/videoUtils/VideoUtils';
 
 
 import { MarkdownRenderers} from '../utils/MarkdownRenderers';

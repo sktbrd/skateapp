@@ -7,6 +7,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Text,
 } from '@chakra-ui/react';
 import MediaUpload from './easyUpload';
 import AdvancedUpload from './advancedUpload';
@@ -16,6 +17,13 @@ const UploadPage = () => {
 
   return (
     <Box position="relative">  {/* This wrapper Box is added to position the Chat component correctly */}
+    <center>
+    <Text> Yo, posting here is not the best experience yet, we are trying to make it better. 
+      If its not working, please use the https://ecency.com/created/hive-173115
+    </Text>
+    <br></br>
+    </center>
+
       <Tabs variant="soft-rounded" index={tabIndex} colorScheme='green' onChange={(index) => setTabIndex(index)}>
         <TabList justifyContent={"center"}>
           <Tab>Post a video 🛹 </Tab>

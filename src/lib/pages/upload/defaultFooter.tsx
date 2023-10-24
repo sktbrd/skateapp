@@ -11,6 +11,7 @@ export const defaultFooter : string= `
 - Delegate HP to @skatehive
 - Follow our [curation trail](https://hive.vote/dash.php?i=1&trail=steemskate)
 - Buy a Skatehive OG NFT : [Buy here](https://zora.co/collect/eth:0x3ded025e441730e26ab28803353e4471669a3065/1/mint)
+- Test and FeedBack on [Skatehive.app](https://skatehive.app)
 
 **Join Skatehive Discord and connect with the community**
 
@@ -20,7 +21,7 @@ export const defaultFooter : string= `
 
 - Hive : https://skatehive.app/@skatehive
 - Instagram : https://www.instagram.com/skatehive/
-- Twitter : https://twitter.com/Skate_Hive
+- Twitter : https://x.com/Skate_Hive
 
 > This post was made with https://skatehive.app `;
 

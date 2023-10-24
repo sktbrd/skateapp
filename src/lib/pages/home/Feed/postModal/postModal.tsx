@@ -39,7 +39,7 @@ const nodes = [
   "https://api.pharesim.me",
 ];
 
-import { transformGiphyLinksToMarkdown } from 'lib/pages/utils/VideoUtils';
+import { transformGiphyLinksToMarkdown } from 'lib/pages/utils/videoUtils/VideoUtils';
 
 const PostModal: React.FC<Types.PostModalProps> = ({
   isOpen,

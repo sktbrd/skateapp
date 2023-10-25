@@ -39,7 +39,6 @@ const EthereumStats = () => {
   const contract_gnars = new ethers.Contract(gnars_nftContract, ERC721_ABI, provider);
   const [currentVotes, setCurrentVotes] = useState<string | null>(null);
   const [currentHolders, setCurrentHolders] = useState<string | null>(null);
-  const [usdWorthOfMultisigBalance, setUsdWorthOfMultisigBalance] = useState<string | null>('Loading...');
   const [copied, setCopied] = useState(false);
 
   async function readGnarsContract() {
@@ -64,7 +63,7 @@ const EthereumStats = () => {
   const etherscanEndpoint = `https://api.etherscan.io/api`;
 
   const [loading, setLoading] = useState(true);
-
+  const [ethPrice,setethPrice] = useState<number | null>(null);
   async function fetchEthereumPrice() {
     try {
       const response = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd', {
@@ -73,13 +72,12 @@ const EthereumStats = () => {
           vs_currencies: 'usd',
         },
       });
-
+    
       if (response.status === 200) {
         const ethereumPriceInUSD = response.data.ethereum.usd;
-        console.log(multisigETHBalance)
-        const usdWorthOfMultisigBalance = multisigETHBalance !== null ? (multisigETHBalance * ethereumPriceInUSD).toFixed(2) + ' USD' : 'Loading...';
+        setethPrice(ethereumPriceInUSD)
 
-        return usdWorthOfMultisigBalance;
+
       } else {
         console.error('Error fetching Ethereum price:', response.statusText);
         return 'Error';
@@ -89,8 +87,13 @@ const EthereumStats = () => {
       return 'Error';
     }
   }
-
-  async function getBalance(wallet: string) {
+useEffect(() => {
+  fetchEthereumPrice()
+}
+, [multisigETHBalance])
+ 
+const usdWorthOfMultisigBalance = multisigETHBalance && ethPrice !== null ? (multisigETHBalance * ethPrice).toFixed(2) + ' USD' : 'Loading...';
+async function getBalance(wallet: string) {
     try {
       const response = await axios.get(etherscanEndpoint, {
         params: {
@@ -116,18 +119,18 @@ const EthereumStats = () => {
   
 
   const [hotWalletBalance, setHotWalletBalance] = useState<number | null>(null);
+  
   const onStart = async () => {
     try {
       if (app) {
-        const eth_hotwallet = await getBalance(SKATEHIVE_HOTWALLET); // Await the getBalance function
-        const eth_multisig = await getBalance(SKATEHIVE_SAFE); // Await the getBalance function
+        const eth_hotwallet = await getBalance(SKATEHIVE_HOTWALLET);
+        const eth_multisig = await getBalance(SKATEHIVE_SAFE);
         if (eth_multisig !== undefined) {
-          // Convert eth_multisig to a number
           const multisigBalanceAsNumber = parseFloat(eth_multisig);
   
-          // Update the multisigBalance state with the number
           setmultisigETHBalance(multisigBalanceAsNumber);
           console.log("MULTISIG", multisigBalanceAsNumber);
+          
         } else {
           console.error("Eth_multisig is undefined");
         }
@@ -135,10 +138,7 @@ const EthereumStats = () => {
 
 
         if (eth_hotwallet !== undefined) {
-          // Convert eth_hotwallet to a number
           const hotWalletBalanceAsNumber = parseFloat(eth_hotwallet);
-          console.log(typeof hotWalletBalanceAsNumber)
-          // Update the hotWalletBalance state with the number
           setHotWalletBalance(hotWalletBalanceAsNumber);
           console.log("HOT WALLETT", hotWalletBalanceAsNumber);
         } else {
@@ -148,7 +148,7 @@ const EthereumStats = () => {
     } catch (e) {
       console.error("Error in onStart:", e);
     }
-  };
+  };  
   
   
 
@@ -157,16 +157,10 @@ useEffect(() => {
   // Call your function here
   readGnarsContract();
   onStart();
-  fetchEthereumPrice().then((usdWorth) => {
-    setUsdWorthOfMultisigBalance(usdWorth);
-  });
+
 }, [app]); 
 
-  // Calculate the total worth by adding the Hot Wallet balance and the ETH/USD value from the multisig
-  const totalWorthInUSD = ethNetworth !== null && usdWorthOfMultisigBalance !== null
-    ? (ethNetworth + parseFloat(usdWorthOfMultisigBalance.replace(' USD', ''))).toFixed(2) + ' USD'
-    : 'Loading...';
-    console.log("TOTAL WORTH", ethNetworth, usdWorthOfMultisigBalance, totalWorthInUSD)
+
 
     const handleCopyClick = () => {
       // Create a temporary input element to copy the wallet address
@@ -185,7 +179,8 @@ useEffect(() => {
       setCopied(true);
       alert("Skatehive Delegation Wallet Copied to clipboard");
     };
-    
+    const totalWorthof2wallets = multisigETHBalance && hotWalletBalance && ethPrice !== null ? ((multisigETHBalance + hotWalletBalance) * ethPrice).toFixed(2) + ' USD' : 'Loading...';
+
   return (
     <Box
       border="2px solid #7CC4FA"
@@ -216,7 +211,7 @@ useEffect(() => {
         <Divider backgroundColor="#7CC4FA" />
 
         <Flex alignItems="center" justifyContent="center">
-          <Text fontWeight="bold" color="#7CC4FA">Total Worth: {totalWorthInUSD}</Text>
+          <Text fontWeight="bold" color="#7CC4FA">Total Worth: {totalWorthof2wallets}</Text>
         </Flex>
         <Divider backgroundColor="#7CC4FA" />
         <HStack spacing={4} align="stretch">
@@ -238,7 +233,7 @@ useEffect(() => {
               balanceTooltip="Click in the link to see the Gnosis Safe" 
               labelLink='https://app.safe.global/settings/setup?safe=eth:0x5501838d869B125EFd90daCf45cDFAC4ea192c12'
               label="ETH/USD Multisig" 
-              balance={usdWorthOfMultisigBalance !== null ? usdWorthOfMultisigBalance : 'Loading...'} />
+              balance={usdWorthOfMultisigBalance !== null ? usdWorthOfMultisigBalance : 'FUUUCK...'} />
           <BalanceDisplay 
               labelTooltip="Donate to Skatehive using Giveth"
               balanceTooltip="P2P for free and get crypto back for your donations" 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, RefObject, useEffect } from "react";
 import {
   Box,
   Text,
@@ -27,6 +27,7 @@ import { Client } from '@hiveio/dhive';
 import { KeychainSDK } from 'keychain-sdk';
 import { Spinner } from "@chakra-ui/react";
 import { defaultFooter } from "./defaultFooter";
+import AuthorSearchBar from "./searchBar";
 
 const apiEndpoints = [
   "https://api.hive.blog",
@@ -44,6 +45,20 @@ const PINATA_GATEWAY_TOKEN = process.env.PINATA_GATEWAY_TOKEN;
 interface User {
   name?: string;
 }
+
+interface Beneficiary {
+  name: string;
+  percentage: number;
+}
+interface BeneficiaryForBroadcast {
+  account: string;
+  weight: string;
+}
+const defaultBeneficiaries: Beneficiary[] = [
+  { name: 'skatehacker', percentage: 2 },
+  { name: 'steemskate', percentage: 3 },
+];
+
 const NewUpload: React.FC = () => {
   const [markdownText, setMarkdownText] = useState<string>("");
   const [progress, setProgress] = useState<number>(0);
@@ -58,6 +73,7 @@ const NewUpload: React.FC = () => {
   const [tagsInput, setTagsInput] = useState<string>(""); // State for tags input
   const [tags, setTags] = useState<string[]>([]); // State to store tags
   const [includeFooter, setIncludeFooter] = useState<boolean>(false); // New state for the checkbox
+  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
 
   const handleMarkdownChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdownText(event.target.value);
@@ -248,22 +264,13 @@ const NewUpload: React.FC = () => {
           allow_votes: true,
           allow_curation_rewards: true,
           extensions: [
-            [
-              0,
-              {
-                beneficiaries: [
-                  {
-                    account: 'skatehacker',
-                    weight: 200, // This represents 2%
-                  },
-                  {
-                    account: 'skatehive',
-                    weight: 300, // This represents 3%
-                  },
-                ],
-              },
-            ],
-          ],
+            [0, {
+                beneficiaries: beneficiariesArray.map(b => ({
+                    account: b.account,
+                    weight: parseInt(b.weight, 10) // Convert the weight string to an integer
+                }))
+            }]
+        ]
         };
   
         // Add defaultFooter to the markdown if includeFooter is true
@@ -404,59 +411,107 @@ const handleIncludeFooterChange = () => {
     const addDefaultFooterToMarkdown = () => {
       setMarkdownText((prevMarkdown) => prevMarkdown + "\n" + defaultFooter);
     };
-    
-    return (
-      <Box>
-        <center>
-          <Badge bg={"yellow"} marginTop={"15px"}>
-            If it's your first time uploading to SkateHive, please check our{" "}
-            <a
-              href="https://docs.skatehive.app/docs/tutorial-basics/share-ur-content"
-              style={{ color: 'blue' }}
-            >
-              Tutorial
-            </a>{" "}
-            First
-          </Badge>
-        </center>
-        <Flex
-          flexDirection={isMobile ? "column" : "row"}
-          justifyContent="center"
-          alignItems="stretch"
-        >
-          <Box flex={isMobile ? "auto" : 1} p={4}>
-            <Box marginBottom={4}>
-              <Input
-                value={title}
-                onChange={handleTitleChange}
-                placeholder="Enter title here..."
-                fontSize="xl"
-                fontWeight="bold"
-              />
-            </Box>
-    
-            <Flex flexDirection={isMobile ? "column" : "row"}>
-              <Box flex={1} marginRight={isMobile ? 0 : 4}>
-                <VStack
-                  {...getImagesRootProps()}
-                  cursor="pointer"
-                  borderWidth={2}
-                  borderRadius={10}
-                  borderStyle="dashed"
-                  borderColor="gray.300"
-                  p={6}
-                  alignItems="center"
-                  justifyContent="center"
-                  flex="auto"
-                >
-                  <input {...getImagesInputProps()} />
-                  <FaImage size={32} />
-                  <Text> Drop images/video or click to select</Text>
-                </VStack>
+      // -------------------------Add Beneficiaries--------------------------
+
+  const searchBarRef: RefObject<HTMLDivElement> = useRef(null);
+
+  const [beneficiaries, setBeneficiaries] = useState<Beneficiary[]>([]);
+  const handleAuthorSearch = (searchUsername: string) => {
+    const percentage = 10;
+
+    // Check if the beneficiary already exists
+    const beneficiaryExists = beneficiaries.some(b => b.name === searchUsername);
+
+    if (!beneficiaryExists && percentage > 0) {
+        const newBeneficiary = { name: searchUsername, percentage };
+        setBeneficiaries(prevBeneficiaries => [...prevBeneficiaries, newBeneficiary]);
+        alert(`Beneficiary ${searchUsername} added! Please set the percentage using the sliders below.`);
+    } else {
+        alert(`Beneficiary ${searchUsername} already exists or percentage is zero.`);
+    }
+
+    console.log("Search username:", searchUsername);
+    console.log(beneficiariesArray)
+};
+
+  const handleBeneficiaryPercentageChange = (index: number, newPercentage: number) => {
+    const updatedBeneficiaries = [...beneficiaries];
+    updatedBeneficiaries[index].percentage = newPercentage;
+    setBeneficiaries(updatedBeneficiaries);
+  };
+
+  const beneficiariesArray: BeneficiaryForBroadcast[] = [
+    ...beneficiaries,
+    ...defaultBeneficiaries,
+  ].sort((a, b) => a.name.localeCompare(b.name))
+    .map(beneficiary => ({
+      account: beneficiary.name,
+      weight: (beneficiary.percentage * 100).toFixed(0),
+    }));
+
+    const handleClickOutside = (event:any) => {
+      if (searchBarRef.current && !searchBarRef.current.contains(event.target)) {
+          // Close the search results here
+      }
+    };
+      useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }, []);
+      const toggleAdvancedOptions = () => {
+        setShowAdvancedOptions((prevShow) => !prevShow);
+      };
+      
+      return (
+        <Box>
+          <center>
+            <Badge color="black" bg={"yellow"} marginTop={"15px"}>
+              If it's your first time uploading to SkateHive, please check our{" "}
+              <a
+                href="https://docs.skatehive.app/docs/tutorial-basics/share-ur-content"
+                style={{ color: 'blue' }}
+              >
+                Tutorial
+              </a>{" "}
+              First
+            </Badge>
+          </center>
+          <Flex
+            flexDirection={isMobile ? "column" : "row"}
+            justifyContent="center"
+            alignItems="stretch"
+          >
+            <Box flex={isMobile ? "auto" : 1} p={4}>
+              <Box marginBottom={4}>
+                <Input
+                  value={title}
+                  onChange={handleTitleChange}
+                  placeholder="Enter title here..."
+                  fontSize="xl"
+                  fontWeight="bold"
+                />
               </Box>
-            </Flex>
-    
-            <Box marginTop={4}>
+              <Flex flexDirection={isMobile ? "column" : "row"}>
+                <Box flex={1} marginRight={isMobile ? 0 : 4}>
+                  <VStack
+                    {...getImagesRootProps()}
+                    cursor="pointer"
+                    borderWidth={2}
+                    borderRadius={10}
+                    borderStyle="dashed"
+                    borderColor="gray.300"
+                    p={6}
+                    alignItems="center"
+                    justifyContent="center"
+                    flex="auto"
+                  >
+                    <input {...getImagesInputProps()} />
+                    <FaImage size={32} />
+                    <Text> Drop images/video or click to select</Text>
+                    
+                  </VStack>
               <Box marginTop={4}>
                 <center>
                   {isUploading ? (
@@ -470,107 +525,116 @@ const handleIncludeFooterChange = () => {
                   ) : null}
                 </center>
               </Box>
-    
-              <Input
-                value={imageUrl}
-                onChange={handleImageUrlChange}
-                placeholder="Enter image URL"
-                marginTop={2}
-              />
-              <Button
-                onClick={addImageToMarkdown}
-                colorScheme="teal"
-                size="sm"
-                marginTop={2}
-              >
-                📸 Add Image to Post
+
+                  <Textarea
+  value={markdownText}
+  onChange={handleMarkdownChange}
+  placeholder="Enter your Markdown here..."
+  minHeight="600px"
+  marginTop={4}
+/>
+<Checkbox
+                      isChecked={includeFooter}
+                      onChange={handleIncludeFooterChange}
+                      marginLeft={2}
+                    >
+                      Include Skatehive Footer
+                    </Checkbox>
+
+                </Box>
+              </Flex>
+              <Button onClick={toggleAdvancedOptions} colorScheme="teal" size="sm" marginTop={2} marginRight={2}>
+                {showAdvancedOptions ? 'Hide Advanced Options' : ' Advanced Options'}
+              </Button>
+              {showAdvancedOptions && (
+                <>
+                  <Box marginTop={4}>
+                    <Text fontSize="lg" fontWeight="bold">
+                      Thumbnail Options
+                    </Text>
+                    <Flex flexWrap="wrap">{renderThumbnailOptions()}</Flex>
+                  </Box>
+                  <Box marginTop={4}>
+                    <div ref={searchBarRef}>
+                      <Text fontSize="lg" fontWeight="bold">
+                        Set Beneficiaries
+                      </Text>
+                      <AuthorSearchBar onSearch={handleAuthorSearch} />
+                      {beneficiaries.map((beneficiary, index) => (
+                        <div key={index}>
+                          <p>
+                            {beneficiary.name} - {beneficiary.percentage}%
+                          </p>
+                          <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            value={beneficiary.percentage}
+                            onChange={(e) =>
+                              handleBeneficiaryPercentageChange(index, parseFloat(e.target.value))
+                            }
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </Box>
+                  <Box marginTop={4}>
+                    <Text fontSize="lg" fontWeight="bold">
+                      Tags
+                    </Text>
+                    <Flex alignItems="center">
+                      <Input
+                        value={tagsInput}
+                        onChange={handleTagsChange}
+                        placeholder="Enter tags separated by commas"
+                        marginRight={2}
+                      />
+                    </Flex>
+
+                  </Box>
+                </>
+              )}
+              <Button onClick={handleHiveUpload} colorScheme="teal" size="sm" marginTop={2}>
+                Publish!
               </Button>
             </Box>
-            <Textarea
-              value={markdownText}
-              onChange={handleMarkdownChange}
-              placeholder="Enter your Markdown here..."
-              minHeight="600px"
-              marginTop={4}
-            />
-            <Box marginTop={4}>
-              <Text
-                fontSize="lg"
-                fontWeight="bold"
-              >
-                Thumbnail Options
-              </Text>
-              <Flex flexWrap="wrap">{renderThumbnailOptions()}</Flex>
-            </Box>
-            <Box marginTop={4}>
-              <Text
-                fontSize="lg"
-                fontWeight="bold"
-              >
-                Tags
-              </Text>
-              <Flex alignItems="center">
-                <Input
-                  value={tagsInput}
-                  onChange={handleTagsChange}
-                  placeholder="Enter tags separated by commas"
-                  marginRight={2}
-                />
-              </Flex>
-              <Checkbox
-                isChecked={includeFooter}
-                onChange={handleIncludeFooterChange}
-                marginLeft={2}
-              >
-                Include Default Footer
-              </Checkbox>
-            </Box>
-            <Button
-              onClick={handleHiveUpload}
-              colorScheme="teal"
-              size="sm"
-              marginTop={2}
+            <Box
+              flex={isMobile ? "auto" : 1}
+              p={4}
+              border="1px solid limegreen"
+              margin={"15px"}
+              borderRadius={"10px"}
+              maxWidth={{ base: "100%", md: "50%" }}
+              overflowWrap="break-word"
             >
-              Publish!
-            </Button>
-          </Box>
-          <Box
-  flex={isMobile ? "auto" : 1}
-  p={4}
-  border="1px solid limegreen"
-  margin={"15px"}
-  borderRadius={"10px"}
-  maxWidth={{ base: "100%", md: "50%" }} // 100% for mobile, 50% for desktop
-  overflowWrap="break-word" // Enable text wrapping
->
-            <Box>
-              <Flex padding="1%" borderRadius="10px" border="1px solid limegreen" align="center" mb={4}>
-                <Avatar border="1px solid limegreen" src={avatarUrl} size="sm" />
-                <Text ml={2} fontWeight="bold">
-                  {user?.name}
-                </Text> 
-                <Text  marginLeft={"10px"} fontSize={"36px"} fontWeight={"bold"}> | </Text>
-                <Text ml={3} fontWeight="bold" style={{ wordBreak: "break-all", maxWidth: "100%", color:'white' }}>
-  {title}
-</Text>
-              </Flex>
-              <Divider />
+              <Box>
+                <Flex padding="1%" borderRadius="10px" border="1px solid limegreen" align="center" mb={4}>
+                  <Avatar border="1px solid limegreen" src={avatarUrl} size="sm" />
+                  <Text ml={2} fontWeight="bold">
+                    {user?.name}
+                  </Text> 
+                  <Text  marginLeft={"10px"} fontSize={"36px"} fontWeight={"bold"}> | </Text>
+                  <Text ml={3} fontWeight="bold" style={{ wordBreak: "break-all", maxWidth: "100%", color:'white' }}>
+                    {title}
+                  </Text>
+                </Flex>
+                <Divider />
+              </Box>
+              <ReactMarkdown
+                children={markdownText}
+                components={{
+                  ...MarkdownRenderersUpload,
+                }}
+                rehypePlugins={[rehypeRaw]}
+                remarkPlugins={[remarkGfm]} 
+              />
+              <Flex alignItems="center">{renderTags()}</Flex>
             </Box>
-
-    
-            <ReactMarkdown
-              children={markdownText}
-              components={{
-                ...MarkdownRenderersUpload,
-              }}
-              rehypePlugins={[rehypeRaw]}
-              remarkPlugins={[remarkGfm]} 
-            />
-            <Flex alignItems="center">{renderTags()}</Flex>
-          </Box>
-        </Flex>
-      </Box>
-    );
+          </Flex>
+        </Box>
+      );
+      
+      
     
     
     

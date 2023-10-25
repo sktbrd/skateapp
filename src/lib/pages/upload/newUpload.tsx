@@ -413,7 +413,7 @@ const NewUpload: React.FC = () => {
             size="sm"
             marginTop={2}
           >
-            📸 Upload to Hive
+             Post it !
           </Button>
         </Box>
         <Box

@@ -4,10 +4,9 @@ import { useEffect, useState } from 'react';
 import { usePioneer } from '@pioneer-platform/pioneer-react';
 import NFTWallet from './nft/nftWallet';
 import EvmBalance from './evm/evmWallet';
-import HiveBalanceDisplay from './hive/hiveBalance';
 import FiatBalance from './fiat/fiat';
 import POAPsNFTWallet from './nft/poapWallet';
-import HiveBalanceDisplay2 from './hive/hiveBalance copy';
+import HiveBalanceDisplay2 from './hive/hiveBalance';
 
 import {
   useMediaQuery,

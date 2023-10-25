@@ -2,7 +2,6 @@ import { Image, Box, Text, Flex, Tabs, TabList, TabPanels, Tab, TabPanel } from 
 import useAuthUser from "../home/api/useAuthUser";
 import React, { useEffect, useState } from 'react';
 import HiveBlog from "../home/Feed/Feed";
-import HiveBalanceDisplay from "../wallet/hive/hiveBalance";
 
 interface User {
   name?: string;
@@ -84,9 +83,8 @@ export default function ProfilePage() {
             {user && <HiveBlog tag={user.name} queryType={"blog"} />}
           </TabPanel>
           <TabPanel>
-            {/* Content for Tab 2 */}
-            <HiveBalanceDisplay/>
-          </TabPanel>
+<p>Yo </p>
+            </TabPanel>
         </TabPanels>
       </Tabs>
     </Box>

@@ -1,8 +1,11 @@
-import { Image, Box, Table, Thead, Tbody, Tr, Th, Td, Text, Flex, Button } from "@chakra-ui/react";
+import { Image, Box, Table, Thead, Tbody, Tr, Th, Td, Text, Flex, Button, VStack, HStack, Divider, Tooltip } from "@chakra-ui/react";
+import { Link as ChakraLink } from "@chakra-ui/react";
+
 import { useState, useEffect } from "react";
 import SendHiveModal from "./sendHiveModal";
 import useAuthUser from "lib/pages/home/api/useAuthUser";
 import * as dhive from "@hiveio/dhive";
+import WalletTransactions from "lib/pages/home/dao/components/hiveGnars/txHistory";
 
 import FiatBalance from "../fiat/fiat";
 
@@ -45,6 +48,7 @@ export async function fetchHbdPrice() {
   try {
     if (cache.hbdPrice !== undefined) {
       // Use the cached value if available
+      console.log("Using cached HBD price:", cache.hbdPrice);
       return cache.hbdPrice;
     }
     const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hive_dollar&vs_currencies=usd");
@@ -52,6 +56,7 @@ export async function fetchHbdPrice() {
     const hbdPrice = data.hive_dollar.usd;
     // Update the cache
     cache.hbdPrice = hbdPrice;
+    console.log("Fetched new HBD price:", hbdPrice);
     return hbdPrice;
   } catch (error) {
     console.error("Error fetching HBD price:", error);
@@ -64,11 +69,13 @@ export async function fetchConversionRate() {
   try {
     if (cache.conversionRate !== undefined) {
       // Use the cached value if available
+      console.log("Using cached conversion rate:", cache.conversionRate);
       return cache.conversionRate;
     }
     const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hive&vs_currencies=usd");
     const data = await response.json();
     const conversionRate = data.hive.usd;
+    console.log("Fetched new conversion rate:", conversionRate);
     // Update the cache
     cache.conversionRate = conversionRate;
     return conversionRate; // Return the conversion rate as a number
@@ -78,7 +85,7 @@ export async function fetchConversionRate() {
   }
 };
 
-export default function HiveBalanceDisplay() {
+export default function HiveBalanceDisplay2() {
   const { user } = useAuthUser() as { user: User | null };
   const [hiveBalance, setHiveBalance] = useState<string>("0");
   const [hivePower, setHivePower] = useState<string>("0");
@@ -89,6 +96,7 @@ export default function HiveBalanceDisplay() {
   const [amount, setAmount] = useState("");
   const [conversionRate, setConversionRate] = useState<number>(0);
   const [totalWorth, setTotalWorth] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(true);
 
 
 
@@ -129,6 +137,8 @@ export default function HiveBalanceDisplay() {
     };
   };
 
+  
+
   const onStart = async function () {
     if (user) {
       try {
@@ -156,6 +166,7 @@ export default function HiveBalanceDisplay() {
         setSavingsBalance(user.savings_hbd_balance);
         setHivePower(`${vestingSharesData.hivePower} + ${vestingSharesData.delegatedHivePower} (delegated)`);
         setTotalWorth(total);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -175,11 +186,11 @@ export default function HiveBalanceDisplay() {
     console.log("user wants to transfer")
   };
 
-  const handleOpenModal = (balanceType: string) => {
-    console.log(`Clicked ${balanceType} logo`);
+  const handleOpenModal = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault(); // Prevent the default button click behavior
     console.log(user);
     setShowModal(true);
-    console.log(showModal); // Check the value of showModal
+    console.log(showModal)
   };
   
 
@@ -190,31 +201,14 @@ export default function HiveBalanceDisplay() {
   
   return (
     <Box
-      className="hive_box"
-      borderRadius="12px"
-      border="1px solid red"
-      padding="10px"
-      overflow="auto"
-      fontFamily="'Courier New', monospace"
-      display="grid"
-      gridTemplateColumns="repeat(2, 1fr)"
-      gap="10px"
-    >
-      {/* <FiatBalance totalWorth={totalWorth} /> */}
-  
-      <Text
-        textAlign="center"
         borderRadius="12px"
-        fontWeight="700"
-        fontSize="18px"
-        color="limegreen"
-        gridColumn="span 2"
+        border="2px solid red"
         padding="10px"
-      >
-        Hive Balance
-      </Text>
-  
-      <Box
+        width={['100%', '100%']} // Set width to 100% on mobile, 50% on other screen sizes
+    >
+        <VStack spacing={4} align="stretch">
+            <Flex alignItems="center" justifyContent="center" padding="10px">
+            <Box
         display="flex"
         flexDirection="column"
         justifyContent="center"
@@ -227,9 +221,9 @@ export default function HiveBalanceDisplay() {
               alt="profile avatar"
               borderRadius="20px"
               border="2px solid limegreen"
-              boxSize="40px"
+              boxSize="80px"
             />
-            <Text padding="10px" color="limegreen">
+            <Text fontSize="32px" padding="10px" color="white">
               {user.name}
             </Text>
           </>
@@ -244,103 +238,106 @@ export default function HiveBalanceDisplay() {
           </>
         )}
       </Box>
-  
-      <Text
-        textAlign="center"
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-      >
-        Total Worth in USD: ${totalWorth.toFixed(2)}
-      </Text>
-  
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Button
-          width="200px"
-          border={"1px solid red"}
-          onClick={() => handleOpenModal("Hive")}
-        >
-          <Image src={HIVE_LOGO_URL} alt="Hive Logo" boxSize="40px" />
-          <Text padding={"10px"}>Manage HIVE</Text>
-        </Button>
-        {hiveBalance || "Try Connect your wallet and refresh the page"}
-      </Box>
-  
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Button
-          width="200px"
-          border={"1px solid red"}
-          onClick={() => handleOpenModal("Hive Power")}
-        >
-          <Image
-            src={HIVE_POWER_LOGO_URL}
-            alt="Hive Power Logo"
-            boxSize="40px"
-          />
-          <Text padding={"10px"}>Manage HP</Text>
-        </Button>
-        {hivePower || "Try Connect your wallet and refresh the page"} HP
-      </Box>
-  
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Button
-          width="200px"
-          border={"1px solid red"}
-          onClick={() => handleOpenModal("HBD")}
-        >
-          <Image src={HBD_LOGO_URL} alt="HBD Logo" boxSize="40px" />
-          <Text padding={"10px"}>Manage HBD</Text>
-        </Button>
-        {hbdBalance || "Try Connect your wallet and refresh the page"}
-      </Box>
-  
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Button
-          width="200px"
-          border={"1px solid red"}
-          onClick={() => handleOpenModal("Savings")}
-        >
-          <Image
-            src={SAVINGS_LOGO_URL}
-            alt="Savings Logo"
-            boxSize="40px"
-          />
-          <Text padding={"10px"}>Manage Sav.</Text>
-        </Button>
-        <Box
-        padding="10px"         
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        border="1px solid red">
-        {savingsBalance || "Try Connect your wallet and refresh the page"} Savings
 
-        </Box>
-      </Box>
-  
-      <SendHiveModal
+            </Flex>
+            <Divider backgroundColor="red" />
+
+            {isLoading ? (
+                <Text color="white">Loading...</Text>
+            ) : (
+                <>
+                    <Flex alignItems="center" justifyContent="center">
+                        <Text fontWeight="bold" color="orange">Wallet Wortth: ${totalWorth.toFixed(2)}</Text>
+                    </Flex>
+                    <Divider backgroundColor="red" />
+                    <HStack spacing={4} align="stretch">
+                        <BalanceDisplay 
+                          label="Hive" 
+                          balance={hiveBalance} 
+                          labelTooltip="Native Token of Hive Blockchain"
+                          balanceTooltip="Hive tokens are like digital coins on the Hive blockchain, and they have different uses. You can vote on stuff, get premium features, and help with the network and decision-making by staking them. They also reward content makers, keep users engaged, and you can trade them elsewhere. They basically keep Hive running, adding value and community vibes. 🛹🚀
+                         " ></BalanceDisplay>
+                        <BalanceDisplay 
+                          label="Hive Power" 
+                          balance={hivePower} 
+                          labelTooltip="Hive Power signifies influence, voting, and status within Hive blockchain. 🚀🤝"
+                          balanceTooltip="Hive Power represents a user's influence and engagement within the Hive blockchain. It's like your reputation and impact score on the platform. When you ´power up Hive tokens by converting liquid Hive into Hive Power, you increase your ability to vote on content and participate in network governance. This boosts your say in decision-making and supports the Hive ecosystem's stability and decentralization. It's like investing in your standing and community involvement on Hive. 🚀🤝s"
+                          />
+
+                    </HStack>
+                    <HStack spacing={4} align="stretch">
+                        <BalanceDisplay 
+                          label="Dollar Savings" 
+                          balance={savingsBalance} 
+                          labelTooltip="Hive Savings are like a savings account for your HBD tokens. 🚀🤝"
+                          balanceTooltip="Picture it like planting some Hive coins, but in this case, they're Hive Backed Dollars (HBD), kind of like specialized cannabis strains. You nurture them over time, and they steadily grow. With a 20% increase each year, it's like cultivating a thriving HBD garden. You're investing your time and care, and eventually, you'll have a bountiful harvest of HBD, just like some potent homegrown herb. So, you're tending to your HBD crop, man, and it's growing just as nicely as your favorite buds. 🌱💵🚀"
+                          />
+                        <BalanceDisplay 
+                          label="Hive Dollar" 
+                          balance={hbdBalance} 
+                          labelTooltip="Hive Backed Dollar (HBD) is a stablecoin pegged to the US Dollar"
+                          balanceTooltip="Hive Backed Dollars (HBD) are a stablecoin on the Hive blockchain designed to maintain a value close to one United States dollar. They are backed by Hive cryptocurrency held in a collateralized debt position. HBD provides users with a stable and reliable digital currency for transactions, making it a practical choice for everyday use within the Hive ecosystem." 
+                          labelLink='https://giveth.io/es/project/skatehive-skateboarding-community'
+            
+                          />
+                    </HStack>
+                    <Tooltip 
+                        bg="black" 
+                        color="white" 
+                        borderRadius="10px" 
+                        border="1px dashed limegreen" 
+                        label="Buy hive using othe crypto">
+
+                    <HStack
+                        margin="10px"
+                        borderRadius="10px"
+                        border="1px dashed orange"
+                        justifyContent="center"
+                        padding="10px"
+                    >
+                        <Image
+                            src="https://images.ecency.com/u/hive-173115/avatar/large"
+                            alt="Avatar"
+                            width="20px"
+                            height="20px"
+                        />
+                        <ChakraLink target="_blank" href="https://simpleswap.io/" fontSize="16px">Buy HIVE </ChakraLink>
+                    </HStack>
+                    </Tooltip>
+
+                   <Tooltip 
+                        bg="black" 
+                        color="white" 
+                        borderRadius="10px" 
+                        border="1px dashed limegreen" 
+                        label="Dont! power up!">
+                    <HStack
+                        margin="10px"
+                        borderRadius="10px"
+                        border="1px dashed orange"
+                        justifyContent="center"
+                        padding="10px"
+                    >
+                        <Image
+                            src="https://images.ecency.com/u/hive-173115/avatar/large"
+                            alt="Avatar"
+                            width="20px"
+                            height="20px"
+                        />
+                        <ChakraLink target="_blank" href="https://simpleswap.io/" fontSize="16px">Sell Hive  </ChakraLink>
+                    </HStack>
+                    </Tooltip>
+                    <Button                         margin="10px"
+                        borderRadius="10px"
+                        border="1px dashed yellow"
+                        justifyContent="center"
+                        padding="10px" onClick={handleOpenModal}>
+                            SEND
+                          </Button>
+                </>
+            )}
+        </VStack>
+        <SendHiveModal
         showModal={showModal}
         setShowModal={setShowModal}
         toAddress={toAddress}
@@ -349,11 +346,87 @@ export default function HiveBalanceDisplay() {
         setAmount={setAmount}
         handleTransfer={handleTransfer}
       />
+      <WalletTransactions wallet={user?.name || ""} />
       
     </Box>
-  );
+    
+    
+);
+};
+
+const BalanceDisplay = ({
+label,
+balance,
+labelTooltip,
+balanceTooltip,
+labelLink,
+balanceLink,
+labelStyle,
+balanceStyle,
+}: {
+label: string;
+balance: string;
+labelTooltip?: string;
+balanceTooltip?: string;
+labelLink?: string;
+balanceLink?: string;
+labelStyle?: React.CSSProperties;
+balanceStyle?: React.CSSProperties;
+}) => {
+return (
+<Box
+  borderRadius="5px"
+  border="1px solid red"
+  width="50%"
+  padding="10px"
+  textAlign="center"
+>
+  {labelTooltip ? (
+    <Tooltip label={labelTooltip} bg="black" color="white" borderRadius="10px" border="1px dashed limegreen">
+      {labelLink ? (
+        <ChakraLink color="white" fontWeight="bold"  href={labelLink} isExternal style={labelStyle}>
+          {label}
+        </ChakraLink>
+      ) : (
+        <Text color="white" fontWeight="bold" cursor="pointer" style={labelStyle}>
+          {label}
+        </Text>
+      )}
+    </Tooltip>
+  ) : (
+    labelLink ? (
+      <ChakraLink color="white" fontWeight="bold"  href={labelLink} isExternal style={labelStyle}>
+        {label}
+      </ChakraLink>
+    ) : (
+      <Text color="white" fontWeight="bold" style={labelStyle}>
+        {label}
+      </Text>
+    )
+  )}
+  {balanceTooltip ? (
+    <Tooltip label={balanceTooltip} bg="black" color="white" borderRadius="10px" border="1px dashed limegreen">
+    {balanceLink ? (
+        <ChakraLink href={balanceLink} isExternal style={balanceStyle}>
+          {balance || "Loading..."}
+        </ChakraLink>
+      ) : (
+        <Text style={balanceStyle}>{balance || "PEPE"}</Text>
+      )}
+    </Tooltip>
+  ) : (
+    balanceLink ? (
+      <ChakraLink href={balanceLink} isExternal style={balanceStyle}>
+        {balance || "PEPE"}
+      </ChakraLink>
+    ) : (
+      <Text style={balanceStyle}>{balance || "Loading..."}</Text>
+    )
+  )}
+</Box>
+);
+};
   
   
   
-}
 

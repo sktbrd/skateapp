@@ -9,8 +9,8 @@ import axios from 'axios';
 import { ContractAbi } from 'web3';
 import { ethers } from "ethers";
 
-const gnars_contract = "0x558BFFF0D583416f7C4e380625c7865821b8E95C";
-const skatehive_contract = "0x3dEd025e441730e26AB28803353E4471669a3065"
+const gnars_nftContract = "0x558BFFF0D583416f7C4e380625c7865821b8E95C";
+const skatehive_nftContract = "0x3dEd025e441730e26AB28803353E4471669a3065"
 import ERC721_ABI from "./gnars_abi.json";
 
 
@@ -29,19 +29,18 @@ const EthereumStats = () => {
   const [totalWorth, setTotalWorth] = useState<number>(0);
   const [daoPortfolio, setDaoPortfolio] = useState<any>(null);
   const [daoWallet, setDaoWallet] = useState<User | null>(null);
-  const [hotWalletBalance, setHotWalletBalance] = useState<User | null>(null);
-  const [ethereumBalance, setEthereumBalance] = useState<number | null>(null);
+  const [multisigETHBalance, setmultisigETHBalance] = useState<number | null>(null);
   const [ethNetworth, setEthNetworth] = useState<number | null>(null);
 
-  const walletAddress = "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c";
-  const [copied, setCopied] = useState(false);
-  const DAO_SAFE = "0x5501838d869b125efd90dacf45cdfac4ea192c12";
-  const HOT_WALLET = "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c";
+  const SKATEHIVE_SAFE = "0x5501838d869b125efd90dacf45cdfac4ea192c12";
+  const SKATEHIVE_HOTWALLET = "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c";
   
   const provider = new ethers.providers.JsonRpcProvider("https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik");
-  const contract_gnars = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
+  const contract_gnars = new ethers.Contract(gnars_nftContract, ERC721_ABI, provider);
   const [currentVotes, setCurrentVotes] = useState<string | null>(null);
   const [currentHolders, setCurrentHolders] = useState<string | null>(null);
+  const [usdWorthOfMultisigBalance, setUsdWorthOfMultisigBalance] = useState<string | null>('Loading...');
+  const [copied, setCopied] = useState(false);
 
   async function readGnarsContract() {
     try {
@@ -57,9 +56,6 @@ const EthereumStats = () => {
       console.error("Error:", error);
     }
   }
-
-
-  
 
   const apiKey = process.env.VITE_ETHERSCAN_API
 
@@ -80,8 +76,9 @@ const EthereumStats = () => {
 
       if (response.status === 200) {
         const ethereumPriceInUSD = response.data.ethereum.usd;
-        // Calculate the USD worth of the multisig balance here
-        const usdWorthOfMultisigBalance = ethereumBalance !== null ? (ethereumBalance * ethereumPriceInUSD).toFixed(2) + ' USD' : 'Loading...';
+        console.log(multisigETHBalance)
+        const usdWorthOfMultisigBalance = multisigETHBalance !== null ? (multisigETHBalance * ethereumPriceInUSD).toFixed(2) + ' USD' : 'Loading...';
+
         return usdWorthOfMultisigBalance;
       } else {
         console.error('Error fetching Ethereum price:', response.statusText);
@@ -93,24 +90,22 @@ const EthereumStats = () => {
     }
   }
 
-  async function getBalance() {
+  async function getBalance(wallet: string) {
     try {
       const response = await axios.get(etherscanEndpoint, {
         params: {
           module: 'account',
           action: 'balance',
-          address: ethereumAddress,
+          address: wallet,
           apikey: apiKey,
         },
       });
-
-      console.log('Etherscan API Response:', response);
-
+  
+  
       if (response.data.status === '1') {
-        const balanceWei = response.data.result;
-        const balanceEther = parseFloat(balanceWei) / 1e18;
-        console.log(`Balance of ${ethereumAddress}: ${balanceEther} ETH`);
-        setEthereumBalance(balanceEther); // Set the Ethereum balance in the component's state
+        console.log(response)
+        const balance = ethers.utils.formatEther(response.data.result);
+        return balance;
       } else {
         console.error('Error:', response.data.message);
       }
@@ -118,55 +113,63 @@ const EthereumStats = () => {
       console.error('Error:', error);
     }
   }
+  
 
-  // Function to get the balance of an Ethereum address   
+  const [hotWalletBalance, setHotWalletBalance] = useState<number | null>(null);
   const onStart = async () => {
     try {
-      if (api && app) {
-        const eth_hotwallet = await api.GetPortfolio({ address: HOT_WALLET });
-        console.log("HOT WALLETT", eth_hotwallet)
-        const ethNetworth = eth_hotwallet.data.totalNetWorth!; // Use the non-null assertion operator
-        console.log("HOT WALLETT", eth_hotwallet)
-        setEthNetworth(eth_hotwallet.data.totalNetWorth)
-        console.log(eth_hotwallet.data.totalNetWorth)
+      if (app) {
+        const eth_hotwallet = await getBalance(SKATEHIVE_HOTWALLET); // Await the getBalance function
+        const eth_multisig = await getBalance(SKATEHIVE_SAFE); // Await the getBalance function
+        if (eth_multisig !== undefined) {
+          // Convert eth_multisig to a number
+          const multisigBalanceAsNumber = parseFloat(eth_multisig);
+  
+          // Update the multisigBalance state with the number
+          setmultisigETHBalance(multisigBalanceAsNumber);
+          console.log("MULTISIG", multisigBalanceAsNumber);
+        }
+
+        
+
+        if (eth_hotwallet !== undefined) {
+          // Convert eth_hotwallet to a number
+          const hotWalletBalanceAsNumber = parseFloat(eth_hotwallet);
+  
+          // Update the hotWalletBalance state with the number
+          setHotWalletBalance(hotWalletBalanceAsNumber);
+          console.log("HOT WALLETT", hotWalletBalanceAsNumber);
+        } else {
+          console.error("Eth_hotwallet is undefined");
+        }
       }
     } catch (e) {
       console.error("Error in onStart:", e);
     }
   };
-
   
   
 
-  const [usdWorthOfMultisigBalance, setUsdWorthOfMultisigBalance] = useState<string | null>('Loading...');
 
 useEffect(() => {
   // Call your function here
   readGnarsContract();
   onStart();
-  getBalance();
   fetchEthereumPrice().then((usdWorth) => {
     setUsdWorthOfMultisigBalance(usdWorth);
   });
-}, []); 
-
-useEffect(() => {
-  onStart();
-  console.log("ÖNSTART2")
-}
-, [api, app]);
-
+}, [app]); 
 
   // Calculate the total worth by adding the Hot Wallet balance and the ETH/USD value from the multisig
   const totalWorthInUSD = ethNetworth !== null && usdWorthOfMultisigBalance !== null
     ? (ethNetworth + parseFloat(usdWorthOfMultisigBalance.replace(' USD', ''))).toFixed(2) + ' USD'
     : 'Loading...';
-
+    console.log("TOTAL WORTH", ethNetworth, usdWorthOfMultisigBalance, totalWorthInUSD)
 
     const handleCopyClick = () => {
       // Create a temporary input element to copy the wallet address
       const tempInput = document.createElement("input");
-      tempInput.value = walletAddress;
+      tempInput.value = SKATEHIVE_HOTWALLET;
       document.body.appendChild(tempInput);
     
       // Select and copy the value inside the input element
@@ -219,12 +222,13 @@ useEffect(() => {
               labelTooltip="Balance of the multisig wallet in ETH"
               balanceTooltip="Transactions in our treasury are triggered by proposals on Snapshot" 
               label="Multisig Balance" 
-              balance={`${ethereumBalance?.toFixed(3)} ETH`} />
-          <BalanceDisplay 
-              labelTooltip="skatehive.eth"
-              labelLink='https://app.zerion.io/0xb4964e1eca55db36a94e8aeffbfbab48529a2f6c/overview?name=skatehive.eth'
-              label="Hot Wallet" 
-              balance={ethNetworth !== null ? `${ethNetworth.toFixed(3)} USD` : "Loading..."} />  
+              balance={`${multisigETHBalance?.toFixed(3)} ETH`} />
+<BalanceDisplay 
+  labelTooltip="skatehive.eth"
+  labelLink='https://app.zerion.io/0xb4964e1eca55db36a94e8aeffbfbab48529a2f6c/overview?name=skatehive.eth'
+  label="Hot Wallet" 
+  balance={typeof hotWalletBalance === 'number' ? `${hotWalletBalance.toFixed(3)} ETH` : "Loading..."} />  
+
         </HStack>
         <HStack spacing={4} align="stretch">
           <BalanceDisplay 

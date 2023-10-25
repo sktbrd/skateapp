@@ -1,7 +1,7 @@
 import { Image, Box, Flex, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import React, { useEffect, useState } from 'react';
 import HiveBlog from "../home/Feed/Feed";
-import HiveBalanceDisplay from "../wallet/hive/hiveBalance";
+import HiveBalanceDisplay2 from "../wallet/hive/hiveBalance";
 import { useParams } from 'react-router-dom';
 import { Client } from "@hiveio/dhive";
 
@@ -41,25 +41,22 @@ export default function AuthorProfilePage() {
   }, [username]);
 
   return (
-      <Box
-        borderRadius="10px"
-        border="1px solid red"
-        fontFamily="'Courier New', monospace"
-        position="relative"
-        overflow="hidden"
-        maxWidth="1920px"  // Set a max width for the image container
-        margin="0 auto"     // Center align the image container
-      >
-        <Image src={coverImageUrl} alt="Cover Image" maxH="240px" width="100%" objectFit="cover" />
+    <Box
+      fontFamily="'Courier New', monospace"
+      position="relative"
+      overflow="hidden"
+      maxWidth="100%"  // Set a max width for the image container
+      margin="0 auto"     // Center align the image container
+    >
+      <Image src={coverImageUrl} alt="Cover Image" maxH="240px" width="100%" objectFit="cover" />
       <Flex alignItems="center" justifyContent="center" padding="10px" position="relative" zIndex="1">
         <Box
           position="absolute"
           left="50%"
-          top="50%"
           transform="translate(-50%, -50%)"
           borderRadius="20%"
           border="2px solid limegreen"
-          boxSize="100px"
+          boxSize="192px"
           bg="white"
           boxShadow="0px 2px 6px rgba(0, 0, 0, 0.1)"
         >
@@ -67,26 +64,33 @@ export default function AuthorProfilePage() {
             src={`https://images.hive.blog/u/${username}/avatar`}
             alt="profile avatar"
             borderRadius="20%"
-            boxSize="96px"
+            boxSize="192px"
           />
         </Box>
       </Flex>
-
-      <Tabs>
-        <TabList>
-          <Tab>Blog</Tab>
-          <Tab>Wallet</Tab>
-        </TabList>
-
-        <TabPanels>
-          <TabPanel>
-            <HiveBlog tag={username} queryType={"blog"} />
-          </TabPanel>
-          <TabPanel>
-            <HiveBalanceDisplay/>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+      <Box marginTop={"10px"}>
+        <Flex
+          backgroundColor="black"
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Tabs variant={"soft-rounded"}>
+            <TabList justifyContent="center"> {/* Center align the TabList */}
+              <Tab>Blog</Tab>
+              <Tab>About</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <HiveBlog tag={username} queryType={"blog"} />
+              </TabPanel>
+              <TabPanel>
+                <p>yo</p>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Flex>
+      </Box>
     </Box>
   );
 }

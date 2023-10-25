@@ -128,14 +128,16 @@ const EthereumStats = () => {
           // Update the multisigBalance state with the number
           setmultisigETHBalance(multisigBalanceAsNumber);
           console.log("MULTISIG", multisigBalanceAsNumber);
+        } else {
+          console.error("Eth_multisig is undefined");
         }
 
-        
+
 
         if (eth_hotwallet !== undefined) {
           // Convert eth_hotwallet to a number
           const hotWalletBalanceAsNumber = parseFloat(eth_hotwallet);
-  
+          console.log(typeof hotWalletBalanceAsNumber)
           // Update the hotWalletBalance state with the number
           setHotWalletBalance(hotWalletBalanceAsNumber);
           console.log("HOT WALLETT", hotWalletBalanceAsNumber);

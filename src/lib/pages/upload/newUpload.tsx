@@ -20,12 +20,20 @@ import { FaImage, FaVideo } from "react-icons/fa";
 import useAuthUser from '../home/api/useAuthUser';
 import rehypeRaw  from "rehype-raw";
 import remarkGfm from "remark-gfm";
-import { slugify } from "../utils/videoUtils/VideoUtils";
+import { slugify } from "../utils/videoUtils/slugify";
 import { Client } from '@hiveio/dhive';
 import { KeychainSDK } from 'keychain-sdk';
+import { Spinner } from "@chakra-ui/react";
 
 
-const client = new Client('https://api.hive.blog');
+const apiEndpoints = [
+  "https://api.hive.blog",
+  "https://api.hivekings.com",
+  "https://anyx.io",
+  "https://api.openhive.network",
+];
+
+const client = new Client(apiEndpoints);
 
 const PINATA_API_KEY = process.env.PINATA_API_KEY;
 const PINATA_API_SECRET = process.env.PINATA_API_SECRET;
@@ -67,45 +75,76 @@ const NewUpload: React.FC = () => {
 
   const uploadFileToIPFS = async (file: File) => {
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.set("Content-Type", "multipart/form-data");
-
-      const response = await fetch(
-        "https://api.pinata.cloud/pinning/pinFileToIPFS",
-        {
-          method: "POST",
-          headers: {
-            "pinata_api_key": PINATA_API_KEY,
-            "pinata_secret_api_key": PINATA_API_SECRET,
-          },
-          body: formData,
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        const ipfsUrl = `https://ipfs.skatehive.app/ipfs/${data.IpfsHash}?pinataGatewayToken=nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE`;
-
-        if (file.type.startsWith("video")) {
+      if (file.type.startsWith("video/mp4")) {
+        // Handle video file upload
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.set("Content-Type", "multipart/form-data");
+  
+        const response = await fetch(
+          "https://api.pinata.cloud/pinning/pinFileToIPFS",
+          {
+            method: "POST",
+            headers: {
+              "pinata_api_key": PINATA_API_KEY,
+              "pinata_secret_api_key": PINATA_API_SECRET,
+            },
+            body: formData,
+          }
+        );
+  
+        if (response.ok) {
+          const data = await response.json();
+          const ipfsUrl = `https://ipfs.skatehive.app/ipfs/${data.IpfsHash}?pinataGatewayToken=nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE`;
+  
           setUploadedVideo(ipfsUrl);
+  
+          const transformedLink = `<iframe src="${ipfsUrl}"></iframe>` + " ";
+  
+          setMarkdownText((prevMarkdown) => prevMarkdown + `\n${transformedLink}` + '\n');
+          setUploadedFiles((prevFiles) => [...prevFiles, ipfsUrl]);
+        } else {
+          const errorData = await response.json();
+          console.error("Error uploading video file to Pinata IPFS:", errorData);
         }
-
-        const transformedLink = file.type.startsWith("video")
-        ? `<iframe src="${ipfsUrl}"></iframe>` + ""
-        : `![Image](${ipfsUrl})` + "";
-      
-      
-        setMarkdownText((prevMarkdown) => prevMarkdown + `\n${transformedLink}`);
-        setUploadedFiles((prevFiles) => [...prevFiles, ipfsUrl]);
+      } else if (file.type.startsWith("image/")) {
+        // Handle image file upload
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.set("Content-Type", "multipart/form-data");
+  
+        const response = await fetch(
+          "https://api.pinata.cloud/pinning/pinFileToIPFS",
+          {
+            method: "POST",
+            headers: {
+              "pinata_api_key": PINATA_API_KEY,
+              "pinata_secret_api_key": PINATA_API_SECRET,
+            },
+            body: formData,
+          }
+        );
+  
+        if (response.ok) {
+          const data = await response.json();
+          const ipfsUrl = `https://ipfs.skatehive.app/ipfs/${data.IpfsHash}?pinataGatewayToken=nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE`;
+  
+          const transformedLink = `![Image](${ipfsUrl})` + " ";
+  
+          setMarkdownText((prevMarkdown) => prevMarkdown + `\n${transformedLink}` + '\n');
+          setUploadedFiles((prevFiles) => [...prevFiles, ipfsUrl]);
+        } else {
+          const errorData = await response.json();
+          console.error("Error uploading image file to Pinata IPFS:", errorData);
+        }
       } else {
-        const errorData = await response.json();
-        console.error("Error uploading file to Pinata IPFS:", errorData);
+        alert("Invalid file type. Only video files (MP4) and images are allowed.");
       }
     } catch (error) {
       console.error("Error uploading file:", error);
     }
   };
+  
 
   const onDropImages = async (acceptedFiles: File[]) => {
     setIsUploading(true);
@@ -189,8 +228,9 @@ const NewUpload: React.FC = () => {
     return options;
   };
   const handleHiveUpload = () => {
+    console.log("clicked")
     // Replace 'ipfsLink' with 'uploadedVideo'
-    if (uploadedVideo) {
+    if (user && title ) {
       const username = user?.name;
       if (username) {
         const permlink = slugify(title.toLowerCase());
@@ -227,13 +267,14 @@ const NewUpload: React.FC = () => {
           'comment',
           {
             parent_author: '',
-            parent_permlink: 'test666',
+            // parent_permlink: process.env.COMMUNITY || 'hive-173115',
+            parent_permlink: 'testing',
             author: username,
             permlink: permlink,
             title: title,
             body: markdownText, // Use the complete post body here
             json_metadata: JSON.stringify({
-              tags: ['test'],
+              tags: ['skateboard'],
               app: 'skatehive',
               image: thumbnailUrl ? [thumbnailUrl] : [], // Replace 'thumbnailIpfsURL' with 'thumbnailUrl'
             }),
@@ -310,7 +351,6 @@ const NewUpload: React.FC = () => {
               </VStack>
             </Box>
 
-            {isUploading && <SkateboardLoading progress={progress} />}
 
           </Flex>
           {/* {uploadedVideo && (
@@ -324,6 +364,21 @@ const NewUpload: React.FC = () => {
             </Box>
           )} */}
           <Box marginTop={4}>
+          <Box marginTop={4}>
+    <center>
+    {isUploading ? (
+    <Spinner
+    thickness="4px"
+    speed="0.65s"
+    emptyColor="gray.200"
+    color="limegreen"
+    size="xl"
+  />
+) : null}
+    </center>
+
+</Box>
+
             <Input
               value={imageUrl}
               onChange={handleImageUrlChange}

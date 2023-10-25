@@ -20,6 +20,12 @@ import { FaImage, FaVideo } from "react-icons/fa";
 import useAuthUser from '../home/api/useAuthUser';
 import rehypeRaw  from "rehype-raw";
 import remarkGfm from "remark-gfm";
+import { slugify } from "../utils/videoUtils/VideoUtils";
+import { Client } from '@hiveio/dhive';
+import { KeychainSDK } from 'keychain-sdk';
+
+
+const client = new Client('https://api.hive.blog');
 
 const PINATA_API_KEY = process.env.PINATA_API_KEY;
 const PINATA_API_SECRET = process.env.PINATA_API_SECRET;
@@ -182,7 +188,78 @@ const NewUpload: React.FC = () => {
 
     return options;
   };
-
+  const handleHiveUpload = () => {
+    // Replace 'ipfsLink' with 'uploadedVideo'
+    if (uploadedVideo) {
+      const username = user?.name;
+      if (username) {
+        const permlink = slugify(title.toLowerCase());
+  
+        // Define your comment options (e.g., max_accepted_payout, beneficiaries, etc.)
+        const commentOptions = {
+          author: username,
+          permlink: permlink,
+          max_accepted_payout: '10000.000 HBD',
+          percent_hbd: 10000,
+          allow_votes: true,
+          allow_curation_rewards: true,
+          extensions: [
+            [
+              0,
+              {
+                beneficiaries: [
+                  {
+                    account: 'skatehacker',
+                    weight: 200, // This represents 2%
+                  },
+                  {
+                    account: 'skatehive',
+                    weight: 300, // This represents 3%
+                  },
+                ],
+              },
+            ],
+          ],
+        };
+  
+        // Define the post operation
+        const postOperation = [
+          'comment',
+          {
+            parent_author: '',
+            parent_permlink: 'test666',
+            author: username,
+            permlink: permlink,
+            title: title,
+            body: markdownText, // Use the complete post body here
+            json_metadata: JSON.stringify({
+              tags: ['test'],
+              app: 'skatehive',
+              image: thumbnailUrl ? [thumbnailUrl] : [], // Replace 'thumbnailIpfsURL' with 'thumbnailUrl'
+            }),
+          },
+        ];
+  
+        // Define the comment options operation
+        const commentOptionsOperation = ['comment_options', commentOptions];
+  
+        // Construct the operations array
+        const operations = [postOperation, commentOptionsOperation];
+  
+        // Request the broadcast using Hive Keychain
+        window.hive_keychain.requestBroadcast(username, operations, 'posting', (response: any) => {
+          if (response.success) {
+            window.alert('Post successfully published on Hive!');
+          } else {
+            console.error('Error publishing post on Hive:', response.message);
+          }
+        });
+      } else {
+        alert('You have to log in with Hive Keychain to use this feature...');
+      }
+    }
+  };
+  
   return (
     <Box>
       <center>
@@ -275,6 +352,14 @@ const NewUpload: React.FC = () => {
             </Text>
             <Flex flexWrap="wrap">{renderThumbnailOptions()}</Flex>
           </Box>
+          <Button
+            onClick={handleHiveUpload}
+            colorScheme="teal"
+            size="sm"
+            marginTop={2}
+          >
+            📸 Upload to Hive
+          </Button>
         </Box>
         <Box
           flex={isMobile ? "auto" : 1}

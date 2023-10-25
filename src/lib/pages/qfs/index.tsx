@@ -296,7 +296,7 @@ export default function QFS() {
         padding={ 2 }
         marginBottom={ 10 }
       >
-      <iframe width="1280" height="720" style={{background: "#000000"}} />
+      <iframe width="1280" height="720" style={{background: "#000000", borderRadius:"20px"}} />
       </Box>
 
       <Text fontSize="3xl">

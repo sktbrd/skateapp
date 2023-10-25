@@ -267,8 +267,8 @@ const NewUpload: React.FC = () => {
           'comment',
           {
             parent_author: '',
-            // parent_permlink: process.env.COMMUNITY || 'hive-173115',
-            parent_permlink: 'testing',
+            parent_permlink: process.env.COMMUNITY || 'hive-173115',
+            // parent_permlink: 'testing',
             author: username,
             permlink: permlink,
             title: title,

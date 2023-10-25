@@ -15,29 +15,36 @@ type MarkdownProps = {
   
 export const MarkdownRenderersUpload = {
   
-    img: ({ alt, src, title, ...props }: RendererProps) => (
-        <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding:'20px' }}>
-         <center>
-         <img
-            {...props}
-            alt={alt}
-            src={src}
-            title={title}
-            style={{
-              maxWidth: '100%',
-              height: 'auto',
-              borderRadius: '10px',
-              border: '1px solid limegreen',
-            }}
-            onError={(e) => {
-              // Handle image loading error by replacing the source with a default image
-              e.currentTarget.src = 'https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75'; // Replace with the URL of your default image
-            }}
-          />
-         </center>
-
-        </span>
-      ),
+  img: ({ alt, src, title, ...props }: RendererProps) => (
+    <span
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '20px',
+      }}
+    >
+      <img
+        {...props}
+        alt={alt}
+        src={src}
+        title={title}
+        style={{
+          maxWidth: '100%',
+          height: 'auto',
+          borderRadius: '10px',
+          border: '1px solid limegreen',
+          margin: '0 auto', // Center the image horizontally using margin
+        }}
+        onError={(e) => {
+          // Handle image loading error by replacing the source with a default image
+          e.currentTarget.src =
+            'https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75'; // Replace with the URL of your default image
+        }}
+      />
+    </span>
+  ),
+  
       
 a: ({ children, ...props }: RendererProps) => <a {...props} style={{ color: 'yellow' }}> {children} <br/></a>,
 

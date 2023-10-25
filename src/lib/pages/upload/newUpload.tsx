@@ -10,6 +10,8 @@ import {
   useMediaQuery,
   Button,
   Avatar,
+  CloseButton,
+  Checkbox,
   Badge,
 } from "@chakra-ui/react";
 import ReactMarkdown from "react-markdown";
@@ -24,7 +26,7 @@ import { slugify } from "../utils/videoUtils/slugify";
 import { Client } from '@hiveio/dhive';
 import { KeychainSDK } from 'keychain-sdk';
 import { Spinner } from "@chakra-ui/react";
-
+import { defaultFooter } from "./defaultFooter";
 
 const apiEndpoints = [
   "https://api.hive.blog",
@@ -53,6 +55,9 @@ const NewUpload: React.FC = () => {
   const [imageUrl, setImageUrl] = useState<string>("");
   const { user } = useAuthUser() as { user: User | null };
   const avatarUrl = `https://images.ecency.com/webp/u/${user?.name}/avatar/small`;
+  const [tagsInput, setTagsInput] = useState<string>(""); // State for tags input
+  const [tags, setTags] = useState<string[]>([]); // State to store tags
+  const [includeFooter, setIncludeFooter] = useState<boolean>(false); // New state for the checkbox
 
   const handleMarkdownChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdownText(event.target.value);
@@ -129,7 +134,7 @@ const NewUpload: React.FC = () => {
           const data = await response.json();
           const ipfsUrl = `https://ipfs.skatehive.app/ipfs/${data.IpfsHash}?pinataGatewayToken=nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE`;
   
-          const transformedLink = `![Image](${ipfsUrl})` + " ";
+          const transformedLink = ` ![Image](${ipfsUrl})` + " ";
   
           setMarkdownText((prevMarkdown) => prevMarkdown + `\n${transformedLink}` + '\n');
           setUploadedFiles((prevFiles) => [...prevFiles, ipfsUrl]);
@@ -228,9 +233,8 @@ const NewUpload: React.FC = () => {
     return options;
   };
   const handleHiveUpload = () => {
-    console.log("clicked")
-    // Replace 'ipfsLink' with 'uploadedVideo'
-    if (user && title ) {
+
+    if (user && title) {
       const username = user?.name;
       if (username) {
         const permlink = slugify(title.toLowerCase());
@@ -262,19 +266,24 @@ const NewUpload: React.FC = () => {
           ],
         };
   
+        // Add defaultFooter to the markdown if includeFooter is true
+        let finalMarkdown = markdownText;
+        if (includeFooter) {
+          finalMarkdown += "\n" + defaultFooter;
+        }
+  
         // Define the post operation
         const postOperation = [
           'comment',
           {
             parent_author: '',
             parent_permlink: process.env.COMMUNITY || 'hive-173115',
-            // parent_permlink: 'testing',
             author: username,
             permlink: permlink,
             title: title,
-            body: markdownText, // Use the complete post body here
+            body: finalMarkdown, // Use the complete post body here
             json_metadata: JSON.stringify({
-              tags: ['skateboard'],
+              tags: tags, // Pass the 'tags' array here
               app: 'skatehive',
               image: thumbnailUrl ? [thumbnailUrl] : [], // Replace 'thumbnailIpfsURL' with 'thumbnailUrl'
             }),
@@ -301,142 +310,254 @@ const NewUpload: React.FC = () => {
     }
   };
   
-  return (
-    <Box>
-      <center>
-        <Badge bg={"yellow"} marginTop={"15px"}>
-          If it's your first time uploading to SkateHive, please check our{" "}
-          <a
-            href="https://docs.skatehive.app/docs/tutorial-basics/share-ur-content"
-            style={{ color: 'blue' }}
-          >
-            Tutorial
-          </a>{" "}
-          First
-        </Badge>
-      </center>
+  
+// Function to handle changes in the tags input field
+const handleTagsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const inputValue = event.target.value;
+  // Check if the last character is a comma or space
+  if (inputValue.endsWith(',') || inputValue.endsWith(' ')) {
+    // Extract the new tag without the comma or space
+    const newTag = inputValue.slice(0, -1).trim();
+    if (newTag) {
+      // Add the new tag to the tags list
+      setTags([...tags, newTag]);
+      // Clear the input field
+      setTagsInput('');
+    }
+  } else {
+    // Update the input field with the current value
+    setTagsInput(inputValue);
+  }
+};
+
+// Function to render the tags as badges
+    const renderTags = () => {
+    return tags.map((tag, index) => (
       <Flex
-        flexDirection={isMobile ? "column" : "row"}
-        justifyContent="center"
-        alignItems="stretch"
+        key={index}
+        alignItems="center"
+        justifyContent="space-between"
+        marginRight={2}
+        position="relative"
       >
-        <Box flex={isMobile ? "auto" : 1} p={4}>
-          <Box marginBottom={4}>
-            <Input
-              value={title}
-              onChange={handleTitleChange}
-              placeholder="Enter title here..."
-              fontSize="xl"
-              fontWeight="bold"
-            />
-          </Box>
+        <Box
+          as="span" // Use a span to wrap Badge and CloseButton
+          _hover={{
+            cursor: "pointer",
+            "& > .badge-close-button": {
+              opacity: 1, // Show the CloseButton on hover
+            },
+          }}
+        >
+          <Badge
+            colorScheme="teal"
+            variant="subtle"
+            marginTop={"10px"}
+          >
+            {tag}
+          </Badge>
+          <CloseButton
+            size="xs"
+            color="red.500"
+            position="absolute"
+            top="5px" // Adjust the top position as needed
+            right="-10px" // Adjust the right position as needed
+            opacity={0} // Initially hide the CloseButton
+            transition="opacity 0.2s ease-in-out" // Add a smooth transition effect
+            className="badge-close-button" // Add a class name for easier targeting
+            onClick={() => {
+              // Remove the tag from the tags array
+              const newTags = [...tags];
+              newTags.splice(index, 1);
+              setTags(newTags);
+            }}
+          />
+        </Box>
+      </Flex>
+    ));
+    };
 
-          <Flex flexDirection={isMobile ? "column" : "row"}>
-            <Box flex={1} marginRight={isMobile ? 0 : 4}>
-              <VStack
-                {...getImagesRootProps()}
-                cursor="pointer"
-                borderWidth={2}
-                borderRadius={10}
-                borderStyle="dashed"
-                borderColor="gray.300"
-                p={6}
-                alignItems="center"
-                justifyContent="center"
-                flex="auto"
-              >
-                <input {...getImagesInputProps()} />
-                <FaImage size={32} />
-                <Text> Drop images/video or click to select</Text>
-              </VStack>
-            </Box>
 
+    // Function to parse and set the tags
+    const handleTagsSubmit = () => {
+      // Split the input value by commas and trim whitespace
+      const newTags = tagsInput.split(",").map((tag) => tag.trim());
+      setTags(newTags);
+      // Clear the input field
+      setTagsInput("");
+    };
+  
+// Function to handle the checkbox change
+const handleIncludeFooterChange = () => {
+  setIncludeFooter((prevIncludeFooter) => !prevIncludeFooter);
+  if (includeFooter) {
+    // If the toggle is turned off, remove the default footer from Markdown text
+    setMarkdownText((prevMarkdown) =>
+      prevMarkdown.replace(defaultFooter, "")
+    );
+  } else {
+    // If the toggle is turned on, add the default footer to Markdown text
+    setMarkdownText((prevMarkdown) => prevMarkdown + defaultFooter);
+  }
+};
 
-          </Flex>
-          {/* {uploadedVideo && (
+    const addDefaultFooterToMarkdown = () => {
+      setMarkdownText((prevMarkdown) => prevMarkdown + "\n" + defaultFooter);
+    };
+    
+    return (
+      <Box>
+        <center>
+          <Badge bg={"yellow"} marginTop={"15px"}>
+            If it's your first time uploading to SkateHive, please check our{" "}
+            <a
+              href="https://docs.skatehive.app/docs/tutorial-basics/share-ur-content"
+              style={{ color: 'blue' }}
+            >
+              Tutorial
+            </a>{" "}
+            First
+          </Badge>
+        </center>
+        <Flex
+          flexDirection={isMobile ? "column" : "row"}
+          justifyContent="center"
+          alignItems="stretch"
+        >
+          <Box flex={isMobile ? "auto" : 1} p={4}>
             <Box marginBottom={4}>
-              <video
-                style={{ borderRadius: "15px", marginTop:"10px", border: "1px solid limegreen" }}
-                src={uploadedVideo}
-                controls
-                width="100%"
-              ></video>
+              <Input
+                value={title}
+                onChange={handleTitleChange}
+                placeholder="Enter title here..."
+                fontSize="xl"
+                fontWeight="bold"
+              />
             </Box>
-          )} */}
-          <Box marginTop={4}>
-          <Box marginTop={4}>
-    <center>
-    {isUploading ? (
-    <Spinner
-    thickness="4px"
-    speed="0.65s"
-    emptyColor="gray.200"
-    color="limegreen"
-    size="xl"
-  />
-) : null}
-    </center>
-
-</Box>
-
-            <Input
-              value={imageUrl}
-              onChange={handleImageUrlChange}
-              placeholder="Enter image URL"
-              marginTop={2}
+    
+            <Flex flexDirection={isMobile ? "column" : "row"}>
+              <Box flex={1} marginRight={isMobile ? 0 : 4}>
+                <VStack
+                  {...getImagesRootProps()}
+                  cursor="pointer"
+                  borderWidth={2}
+                  borderRadius={10}
+                  borderStyle="dashed"
+                  borderColor="gray.300"
+                  p={6}
+                  alignItems="center"
+                  justifyContent="center"
+                  flex="auto"
+                >
+                  <input {...getImagesInputProps()} />
+                  <FaImage size={32} />
+                  <Text> Drop images/video or click to select</Text>
+                </VStack>
+              </Box>
+            </Flex>
+    
+            <Box marginTop={4}>
+              <Box marginTop={4}>
+                <center>
+                  {isUploading ? (
+                    <Spinner
+                      thickness="4px"
+                      speed="0.65s"
+                      emptyColor="gray.200"
+                      color="limegreen"
+                      size="xl"
+                    />
+                  ) : null}
+                </center>
+              </Box>
+    
+              <Input
+                value={imageUrl}
+                onChange={handleImageUrlChange}
+                placeholder="Enter image URL"
+                marginTop={2}
+              />
+              <Button
+                onClick={addImageToMarkdown}
+                colorScheme="teal"
+                size="sm"
+                marginTop={2}
+              >
+                📸 Add Image to Post
+              </Button>
+            </Box>
+            <Textarea
+              value={markdownText}
+              onChange={handleMarkdownChange}
+              placeholder="Enter your Markdown here..."
+              minHeight="600px"
+              marginTop={4}
             />
+            <Box marginTop={4}>
+              <Text
+                fontSize="lg"
+                fontWeight="bold"
+              >
+                Thumbnail Options
+              </Text>
+              <Flex flexWrap="wrap">{renderThumbnailOptions()}</Flex>
+            </Box>
+            <Box marginTop={4}>
+              <Text
+                fontSize="lg"
+                fontWeight="bold"
+              >
+                Tags
+              </Text>
+              <Flex alignItems="center">
+                <Input
+                  value={tagsInput}
+                  onChange={handleTagsChange}
+                  placeholder="Enter tags separated by commas"
+                  marginRight={2}
+                />
+              </Flex>
+              <Checkbox
+                isChecked={includeFooter}
+                onChange={handleIncludeFooterChange}
+                marginLeft={2}
+              >
+                Include Default Footer
+              </Checkbox>
+            </Box>
             <Button
-              onClick={addImageToMarkdown}
+              onClick={handleHiveUpload}
               colorScheme="teal"
               size="sm"
               marginTop={2}
             >
-              📸 Add Image to Post
+              Publish!
             </Button>
           </Box>
-          <Textarea
-            value={markdownText}
-            onChange={handleMarkdownChange}
-            placeholder="Enter your Markdown here..."
-            minHeight="600px"
-            marginTop={4}
-          />
-          <Box marginTop={4}>
-            <Text fontSize="lg" fontWeight="bold">
-              Thumbnail Options
-            </Text>
-            <Flex flexWrap="wrap">{renderThumbnailOptions()}</Flex>
-          </Box>
-          <Button
-            onClick={handleHiveUpload}
-            colorScheme="teal"
-            size="sm"
-            marginTop={2}
-          >
-             Post it !
-          </Button>
-        </Box>
-        <Box
-          flex={isMobile ? "auto" : 1}
-          p={4}
-          border="1px solid limegreen"
-          margin={"15px"}
-          borderRadius={"10px"}
-        >
-          <Box>
-          <Flex padding="1%" borderRadius="10px" border="1px solid limegreen" align="center" mb={4}>
-            <Avatar border="1px solid limegreen" src={avatarUrl} size="sm" />
-            <Text ml={2} fontWeight="bold">
-              {user?.name}
-            </Text> 
-            <Text marginLeft={"10px"} fontSize={"36px"} fontWeight={"bold"}> | </Text>
-            <Text marginLeft={"10px"} fontSize={"36px"} fontWeight={"bold"} color={"white"} >  {title}</Text>
+          <Box
+  flex={isMobile ? "auto" : 1}
+  p={4}
+  border="1px solid limegreen"
+  margin={"15px"}
+  borderRadius={"10px"}
+  maxWidth={{ base: "100%", md: "50%" }} // 100% for mobile, 50% for desktop
+  overflowWrap="break-word" // Enable text wrapping
+>
+            <Box>
+              <Flex padding="1%" borderRadius="10px" border="1px solid limegreen" align="center" mb={4}>
+                <Avatar border="1px solid limegreen" src={avatarUrl} size="sm" />
+                <Text ml={2} fontWeight="bold">
+                  {user?.name}
+                </Text> 
+                <Text  marginLeft={"10px"} fontSize={"36px"} fontWeight={"bold"}> | </Text>
+                <Text ml={3} fontWeight="bold" style={{ wordBreak: "break-all", maxWidth: "100%", color:'white' }}>
+  {title}
+</Text>
+              </Flex>
+              <Divider />
+            </Box>
 
-          </Flex>
-            <Divider />
-          </Box>
-
-          <VStack alignItems="start">
+    
             <ReactMarkdown
               children={markdownText}
               components={{
@@ -445,11 +566,14 @@ const NewUpload: React.FC = () => {
               rehypePlugins={[rehypeRaw]}
               remarkPlugins={[remarkGfm]} 
             />
-          </VStack>
-        </Box>
-      </Flex>
-    </Box>
-  );
+            <Flex alignItems="center">{renderTags()}</Flex>
+          </Box>
+        </Flex>
+      </Box>
+    );
+    
+    
+    
 };
 
 export default NewUpload;

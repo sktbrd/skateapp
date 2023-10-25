@@ -284,6 +284,7 @@ const NewUpload: React.FC = () => {
           'comment',
           {
             parent_author: '',
+            // parent_permlink: 'testing67',
             parent_permlink: process.env.COMMUNITY || 'hive-173115',
             author: username,
             permlink: permlink,
@@ -540,7 +541,12 @@ const handleIncludeFooterChange = () => {
                     >
                       Include Skatehive Footer
                     </Checkbox>
-
+                    <Box marginTop={4}>
+                    <Text fontSize="lg" fontWeight="bold">
+                      Thumbnail Options
+                    </Text>
+                    <Flex flexWrap="wrap">{renderThumbnailOptions()}</Flex>
+                  </Box>
                 </Box>
               </Flex>
               <Button onClick={toggleAdvancedOptions} colorScheme="teal" size="sm" marginTop={2} marginRight={2}>
@@ -548,12 +554,7 @@ const handleIncludeFooterChange = () => {
               </Button>
               {showAdvancedOptions && (
                 <>
-                  <Box marginTop={4}>
-                    <Text fontSize="lg" fontWeight="bold">
-                      Thumbnail Options
-                    </Text>
-                    <Flex flexWrap="wrap">{renderThumbnailOptions()}</Flex>
-                  </Box>
+
                   <Box marginTop={4}>
                     <div ref={searchBarRef}>
                       <Text fontSize="lg" fontWeight="bold">
@@ -589,11 +590,15 @@ const handleIncludeFooterChange = () => {
                         placeholder="Enter tags separated by commas"
                         marginRight={2}
                       />
+
                     </Flex>
 
                   </Box>
+
                 </>
               )}
+                                <Flex alignItems="center">{renderTags()}</Flex>
+
               <Button onClick={handleHiveUpload} colorScheme="teal" size="sm" marginTop={2}>
                 Publish!
               </Button>

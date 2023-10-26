@@ -472,7 +472,7 @@ const handleIncludeFooterChange = () => {
             <VStack>
 
             <img
-                src="../../public/assets/smartpepe.png"
+                src="../../assets/smartpepe.png"
                 style={{
                   width: '100px', 
                   height: 'auto', 

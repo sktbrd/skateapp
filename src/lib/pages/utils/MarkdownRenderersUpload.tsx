@@ -13,34 +13,45 @@ type MarkdownProps = {
   };
   
   
-export const MarkdownRenderers = {
-    img: ({ alt, src, title, ...props }: RendererProps) => (
-        <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding:'20px' }}>
-          <img
-            {...props}
-            alt={alt}
-            src={src}
-            title={title}
-            style={{
-              maxWidth: '100%',
-              height: 'auto',
-              borderRadius: '10px',
-              border: '1px solid limegreen',
-            }}
-            onError={(e) => {
-              // Handle image loading error by replacing the source with a default image
-              e.currentTarget.src = 'https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75'; // Replace with the URL of your default image
-            }}
-          />
-        </span>
-      ),
+export const MarkdownRenderersUpload = {
+  
+  img: ({ alt, src, title, ...props }: RendererProps) => (
+    <span
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '20px',
+      }}
+    >
+      <img
+        {...props}
+        alt={alt}
+        src={src}
+        title={title}
+        style={{
+          maxWidth: '100%',
+          height: 'auto',
+          borderRadius: '10px',
+          border: '1px solid limegreen',
+          margin: '0 auto', // Center the image horizontally using margin
+        }}
+        onError={(e) => {
+          // Handle image loading error by replacing the source with a default image
+          e.currentTarget.src =
+            'https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75'; // Replace with the URL of your default image
+        }}
+      />
+    </span>
+  ),
+  
       
 a: ({ children, ...props }: RendererProps) => <a {...props} style={{ color: 'yellow' }}> {children} <br/></a>,
 
-h1: ({ children, ...props }: RendererProps) => <h1 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '26px', paddingBottom: '10px' , paddingTop:"10px" }}>{children}</h1>,
-h2: ({ children, ...props }: RendererProps) => <h2 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '20px', paddingBottom: '8px' , paddingTop:"10px"}}>{children}</h2>,
-h3: ({ children, ...props }: RendererProps) => <h3 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '18px', paddingBottom: '6px' , paddingTop:"10px"}}>{children}</h3>,
-h4: ({ children, ...props }: RendererProps) => <h4 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '16px', paddingBottom: '4px' , paddingTop:"10px"}}>{children}</h4>,
+h1: ({ children, ...props }: RendererProps) => <h1 {...props} style={{ fontWeight: 'bold', color: 'white', fontSize: '48px', paddingBottom: '10px' , paddingTop:"10px" }}>{children}</h1>,
+h2: ({ children, ...props }: RendererProps) => <h2 {...props} style={{ fontWeight: 'bold', color: 'white', fontSize: '36px', paddingBottom: '8px' , paddingTop:"10px"}}>{children}</h2>,
+h3: ({ children, ...props }: RendererProps) => <h3 {...props} style={{ fontWeight: 'bold', color: 'white', fontSize: '30px', paddingBottom: '6px' , paddingTop:"10px"}}>{children}</h3>,
+h4: ({ children, ...props }: RendererProps) => <h4 {...props} style={{ fontWeight: 'bold', color: 'white', fontSize: '26px', paddingBottom: '4px' , paddingTop:"10px"}}>{children}</h4>,
 blockquote: ({ children, ...props }: RendererProps) => (
   <div
     style={{
@@ -101,12 +112,12 @@ pre: ({ children, ...props }: RendererProps) => (
 
 
   iframe: ({ src, ...props }: RendererProps) => (
-    <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop:'10px' }}>
+    <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop:'10px' , minWidth: '100%', minHeight: 'auto'}}>
 
     <iframe
       {...props}
       src={src}
-      style={{ borderRadius: '10px', marginBottom: '10px', border:'1px limegreen solid', minWidth: '100%', maxWidth: '100%', minHeight: '400px', maxHeight: '400px' }}
+      style={{ borderRadius: '10px', marginBottom: '20px', border:'1px yellow solid', minWidth: '600px', minHeight: '400px'}}
     />
     </span>
   ),

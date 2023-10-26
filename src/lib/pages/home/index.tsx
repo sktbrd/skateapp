@@ -4,7 +4,7 @@ import HiveVideos from "./videos/FeedVideo";
 import SnapShot from "./dao/snapshot";
 import Chat from "./chat";
 import QFS from "../qfs";
-import UploadPage from "../upload";
+import NewUpload from "../upload/newUpload";
 
 
   const Home = () => {
@@ -59,13 +59,7 @@ import UploadPage from "../upload";
               <HiveBlog />
             </TabPanel>
             <TabPanel>
-              <HiveVideos />
-            </TabPanel>
-            {/* <TabPanel>
-              <QFS />
-            </TabPanel> */}
-            <TabPanel>
-              <UploadPage />
+            <NewUpload/>
             </TabPanel>
             <TabPanel>
               <SnapShot />

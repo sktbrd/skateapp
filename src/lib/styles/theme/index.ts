@@ -15,16 +15,16 @@ export const theme = extendTheme({
   ...themeConfig,
   fonts: {
     heading: "Press Start 2P, sans serif", //not working
-    body: "Roboto Mono Variable, sans serif", 
+    body: "Roboto Mono Variable, sans serif,bold", 
   },
 
   components: {},
 
   styles: {
     global: (props: GlobalStyleProps) => ({
-      body: {
+      body: { 
         background: "linear-gradient(to bottom, #562D75, #593576)",
-        color:  "red" ,
+        color:  "black" ,
       },
       p: {
         color: "white",

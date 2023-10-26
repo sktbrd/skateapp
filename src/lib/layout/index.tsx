@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Footer from "./Footer";
 import HeaderNew from "./Header";
 import Meta from "./Meta";
+import { Analytics } from '@vercel/analytics/react';
 
 type LayoutProps = {
   children: ReactNode;
@@ -19,6 +20,8 @@ const Layout = ({ children }: LayoutProps) => {
         <Flex wrap="wrap" margin="0" minHeight="90vh">
           <Box width="full" as="main" marginY={0}>
             {children}
+            <Analytics />
+
           </Box>
 
           <Footer />

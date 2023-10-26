@@ -1,42 +1,29 @@
 import React, { useState } from 'react';
 import {
-  ChakraProvider,
   Box,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
+
 } from '@chakra-ui/react';
-import MediaUpload from './easyUpload';
-import AdvancedUpload from './advancedUpload';
+import NewUpload from './newUpload';
 import Chat from '../home/chat';
+import useAuthUser from '../home/api/useAuthUser';
+interface User {
+  name?: string;
+}
 const UploadPage = () => {
-    const [tabIndex, setTabIndex] = useState(0);
+
+  const { user } = useAuthUser() as { user: User | null };
+  const isUserLoggedIn = !!user; // Check if the user is logged in
 
   return (
     <Box position="relative">  {/* This wrapper Box is added to position the Chat component correctly */}
-      <Tabs variant="soft-rounded" index={tabIndex} colorScheme='green' onChange={(index) => setTabIndex(index)}>
-        <TabList justifyContent={"center"}>
-          <Tab>Post a video 🛹 </Tab>
-          <Tab>Advanced Post 👩‍💻 </Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel>
-            <MediaUpload />
-          </TabPanel>
-          <TabPanel>
-            <AdvancedUpload
-              title=""
-              content=""
-              author=""
-              user={null}  // Initially, user data is null or empty
-              permlink=""
-              weight={0}  // Set an appropriate default weight value
-            />
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+      {isUserLoggedIn ? (
+        <NewUpload /> // Render NewUpload component when the user is logged in
+      ) : (
+        <center>
+          <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F4.bp.blogspot.com%2F-LREcRjW-L18%2FVxTVTk4ju3I%2FAAAAAAAAAJQ%2FQzXPrXjegs01Bm9WhWdUJZhv-jakMfXZwCK4B%2Fs1600-r%2Fgifs-pikachu.gif&f=1&nofb=1&ipt=433c3bec51363457a920b5db0eb0dd466261f71203c0140ea5dd05cbdfc026ac&ipo=images" />
+          <p>User not logged in. Please log in to upload content.</p>  
+        </center>
+      )}
       <Chat />
     </Box>
   );

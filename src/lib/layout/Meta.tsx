@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet";
 
-const APP_NAME = "SkateHive App";
+const APP_NAME = "Crow's Night App";
 
 const Meta = () => {
   return (
@@ -25,7 +25,7 @@ const Meta = () => {
       <meta property="twitter:image" content="https://i.ibb.co/3R7cvdZ/image.png"/>
       <meta property="twitter:description" content="The Portal to web3 skateboarding"></meta>
 
-      <link rel="shortcut icon" href="https://images.hive.blog/u/hive-173115/avatar" />
+      <link rel="shortcut icon" href="assets\crlogo.ico" />
       <link rel="manifest" href="./manifest.json" />
     </Helmet>
   );

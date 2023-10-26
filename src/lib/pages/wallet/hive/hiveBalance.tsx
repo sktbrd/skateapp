@@ -45,15 +45,13 @@ export async function fetchHbdPrice() {
   try {
     if (cache.hbdPrice !== undefined) {
       // Use the cached value if available
-      console.log("Using cached HBD price:", cache.hbdPrice);
       return cache.hbdPrice;
     }
-    const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hive_dollar&vs_currencies=usd");
+    const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hive_dollar&vs_currencies=brl");
     const data = await response.json();
-    const hbdPrice = data.hive_dollar.usd;
+    const hbdPrice = data.hive_dollar.brl;
     // Update the cache
     cache.hbdPrice = hbdPrice;
-    console.log("Fetched new HBD price:", hbdPrice);
     return hbdPrice;
   } catch (error) {
     console.error("Error fetching HBD price:", error);
@@ -66,12 +64,11 @@ export async function fetchConversionRate() {
   try {
     if (cache.conversionRate !== undefined) {
       // Use the cached value if available
-      console.log("Using cached conversion rate:", cache.conversionRate);
       return cache.conversionRate;
     }
-    const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hive&vs_currencies=usd");
+    const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hive&vs_currencies=brl");
     const data = await response.json();
-    const conversionRate = data.hive.usd;
+    const conversionRate = data.hive.brl;
     console.log("Fetched new conversion rate:", conversionRate);
     // Update the cache
     cache.conversionRate = conversionRate;
@@ -256,7 +253,7 @@ export default function HiveBalanceDisplay() {
         justifyContent="center"
         alignItems="center"
       >
-        Total Worth in USD: ${totalWorth.toFixed(2)}
+        Seu saldo em reais: ${totalWorth.toFixed(2)}
       </Text>
   
       <Box

@@ -1,17 +1,21 @@
 # Skatehive App
 
-![](https://gifdb.com/images/high/pepe-frog-meme-reading-text-nervous-sweat-3m7pw9rg9d3fyf5f.gif)
+## Contributors 
 
-## Create .env file 
+<a href="https://github.com/sktbrd/skateapp/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=sktbrd/skateapp" />
+</a>
 
 
-## Check the Full tutorial of [How to Fork](https://docs.skatehive.app/docs/tutorial-extras/fork-skatehive)
+### Check the Full tutorial of [How to Fork](https://docs.skatehive.app/docs/tutorial-extras/fork-skatehive)
 
 - Install : `yarn`
 - Run : `yarn dev`
 
+### Create .env file 
 
-## Deployment
+
+### Deployment
 
 
 - build command: `yarn build:turbo`

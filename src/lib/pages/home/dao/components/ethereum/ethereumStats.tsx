@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Text, Flex, Image, VStack, HStack, Divider,Tooltip, Button } from "@chakra-ui/react";
 // @ts-ignore
-import { usePioneer } from "pioneer-react";
+import { usePioneer } from "@pioneer-platform/pioneer-react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
 import axios from 'axios';
@@ -53,7 +53,6 @@ const EthereumStats = () => {
       // Update the currentVotes state
       setCurrentVotes(votes);
 
-      console.log("Contract result:", votes);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -62,13 +61,10 @@ const EthereumStats = () => {
 
   
 
-  // create apiKey from process env VITE_ETHEREUM_API
   const apiKey = process.env.VITE_ETHERSCAN_API
 
-  // Ethereum address you want to check
   const ethereumAddress = '0x5501838d869b125efd90dacf45cdfac4ea192c12';
 
-  // Etherscan API endpoint
   const etherscanEndpoint = `https://api.etherscan.io/api`;
 
   const [loading, setLoading] = useState(true);

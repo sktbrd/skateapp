@@ -1,13 +1,14 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 //@ts-ignore
-import { usePioneer } from 'pioneer-react';
+import { usePioneer } from '@pioneer-platform/pioneer-react';
 import NFTWallet from './nft/nftWallet';
 import EvmBalance from './evm/evmWallet';
 import HiveBalanceDisplay from './hive/hiveBalance';
 import FiatBalance from './fiat/fiat';
 import POAPsNFTWallet from './nft/poapWallet';
 import HiveBalanceDisplay2 from './hive/hiveBalance copy';
+
 import {
   useMediaQuery,
   Box,
@@ -21,6 +22,7 @@ import {
 } from '@chakra-ui/react';
 import Web3 from 'web3'; // Ensure you have this imported
 import * as Types from './nft/types';
+import TestEvm from './testEvm/testEvm';
 
 const Wallet = () => {
   const { state } = usePioneer();
@@ -41,7 +43,6 @@ const Wallet = () => {
       <TabList justifyContent="center">
         <Tab>Tokens</Tab>
         <Tab>NFTs</Tab>
-        <Tab>POAPs</Tab> {/* Added this line */}
       </TabList>
 
       <TabPanels>
@@ -50,21 +51,17 @@ const Wallet = () => {
     <Box flex={1} mb={[4, 0]}>
       <HiveBalanceDisplay2 />
     </Box>
-    <Box flex={1} ml={[0, 4]}>
-      <EvmBalance />
-    </Box>
+    {/* <Box flex={1} ml={[0, 4]}>
+      <TestEvm />
+    </Box> */}
   </Flex>
   
 </TabPanel>
 
         <TabPanel>
-          <NFTWallet nftList={nftList} />
+          <NFTWallet  />
         </TabPanel>
 
-        <TabPanel>
-        <POAPsNFTWallet />
-          <Text>POAPs content will be displayed here.</Text>
-        </TabPanel> 
       </TabPanels>
     </Tabs>
   );

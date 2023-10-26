@@ -53,7 +53,6 @@ const Chat: React.FC = () => {
       const displayedComments = allComments.slice(-loadedCommentsCount);
 
       setComments(displayedComments);
-      console.log("comments fetched");
     } catch (error) {
       console.error('Error fetching comments:', error);
     }

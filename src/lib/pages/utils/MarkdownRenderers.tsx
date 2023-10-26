@@ -72,7 +72,7 @@ ul: ({ ordered, children, ...props }: RendererProps) => {
   return <ul {...props} data-ordered={listType} style={{ paddingLeft: '10%' }}>{children}</ul>;
 },
 
-
+sub: ({ children, ...props }: RendererProps) => (<sub {...props} style={{color: 'red' }}>{children}</sub>),
 hr: ({ children, ...props }: RendererProps) => <hr {...props} style={{ paddingBottom: '20px' }}>{children}</hr>,
 br: ({ children, ...props }: RendererProps) => <br {...props} style={{ paddingBottom: '20px' }}>{children}</br>,
 pre: ({ children, ...props }: RendererProps) => (
@@ -106,7 +106,7 @@ pre: ({ children, ...props }: RendererProps) => (
     <iframe
       {...props}
       src={src}
-      style={{ borderRadius: '10px', marginBottom: '20px', border:'1px limegreen solid' /* You can adjust the value as needed */ }}
+      style={{ borderRadius: '10px', marginBottom: '10px', border:'1px limegreen solid', minWidth: '100%', maxWidth: '100%', minHeight: '400px', maxHeight: '400px' }}
     />
     </span>
   ),

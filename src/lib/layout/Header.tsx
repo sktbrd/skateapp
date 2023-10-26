@@ -32,8 +32,6 @@ import { Link as ChakraLink  } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
 
-//@ts-ignore
-//import { Pioneer } from "pioneer-react";
 import { Link, LinkProps as RouterLinkProps } from "react-router-dom";
 import useAuthUser from "lib/pages/home/api/useAuthUser";
 import HiveLogin from "lib/pages/home/api/HiveLoginModal";
@@ -169,7 +167,6 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSavingsBalance(user.savings_hbd_balance);
         setHivePower(`${vestingSharesData.hivePower} + ${vestingSharesData.delegatedHivePower} (delegated)`);
         setTotalWorth(total);
-        console.log("TotalWorth: ", total);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -185,13 +182,13 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
   const glow = keyframes`
     0% {
-      box-shadow: 0 0 5px rgba(0, 255, 0, 0.8);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
     }
     50% {
-      box-shadow: 0 0 30px rgba(0, 255, 0, 2);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 2);
     }
     100% {
-      box-shadow: 0 0 5px rgba(0, 255, 0, 0.8);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
     }
   `;
   const enlargeOnHover = keyframes`
@@ -212,7 +209,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
   `;
 
   const handleTotalClick = () => {
-    alert("Total worth: " + totalWorth.toFixed(2) + " USD");
+    alert("Total worth: " + totalWorth.toFixed(2) + " BRL");
   };
 
   return (
@@ -221,8 +218,8 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       alignItems="center"
       justifyContent="space-between"
       p={6}
-      bg="black"
-      border="1px solid limegreen"
+      bg=""
+      border="3px solid black"
       position="relative"
       borderRadius="10px"
     >
@@ -232,8 +229,8 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       <MenuButton
           as={Button}
           backgroundColor="black"
-          border="limegreen 1px solid"
-          color="limegreen"
+          border="white 1px solid"
+          color="white"
           size="l"
           css={{
             animation: `${glow} 2s infinite alternate , ${moveUpAndDown} 3s infinite` ,
@@ -243,61 +240,56 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           }}
         >
           <Image
-            src="/assets/skatehive.jpeg"
+            src="assets\crn4.jpg"
             alt="Dropdown Image"
-            boxSize="48px" // Adjust the size as needed
+            boxSize="50px" // Adjust the size as needed
             borderRadius="10px"
           />
         </MenuButton>
-        <MenuList border="1px solid limegreen" backgroundColor="black" color="white">
+        <MenuList border="1px solid white" backgroundColor="#593576" color="white">
           <Link to="https://snapshot.org/#/skatehive.eth" style={{ textDecoration: 'none' }}>
             <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
+              _hover={{ backgroundColor: '#65418C', color: 'white' }}
+              backgroundColor="#593576"  // Invert colors on hover
             >
-              Putaria
+             Store
             </MenuItem>
           </Link>
           <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" style={{ textDecoration: 'none' }}>
             <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
+              _hover={{ backgroundColor: '#65418C', color: 'white' }}
+              backgroundColor="#593576" // Invert colors on hover
             >
-              Curation Trail
-            </MenuItem>
-          </Link>
-          <Link to="https://www.stoken.quest/" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
-            >
-              Quest For Stoken
+              🔗 Curation Trail
             </MenuItem>
           </Link>
           <Link to="https://docs.skatehive.app" style={{ textDecoration: 'none' }}>
             <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
+              _hover={{ backgroundColor: '#65418C', color: 'white' }}
+              backgroundColor="#593576"  // Invert colors on hover
+            
             >
-              Docs
+              	📖 Docs
             </MenuItem>
           </Link>
           <Link to="https:/github.com/sktbrd/skateapp" style={{ textDecoration: 'none' }}>
             <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
+              _hover={{ backgroundColor: '#65418C', color: 'white' }}
+              backgroundColor="#593576"  // Invert colors on hover
+            
             >
-              Contribute
+              	💻 Contribute
             </MenuItem>
           </Link>
-          <Link to="/becool" style={{ textDecoration: 'none' }}>
+          {/* <Link to="/becool" style={{ textDecoration: 'none' }}>
             <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
+              _hover={{ backgroundColor: '#65418C', color: 'white' }}
+              backgroundColor="#593576"  // Invert colors on hover
+  
             >
-              How to be Cool
+             	🛹 How to be Cool
             </MenuItem>
-          </Link>
+          </Link> */}
           {/* Add more external links as needed */}
         </MenuList>
 
@@ -313,13 +305,14 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       <Box>
       <ChakraLink as={RouterLink} to="/wallet">
       <Button
-        backgroundColor="black"
-        border="limegreen 2px solid"
+        backgroundColor="#593576"
+        border="black 5px solid"
         color="orange"
 
 
         >
-          {totalWorth.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
+          <Text color="white" style={{ marginLeft: '5px' }}>R$</Text>
+          <Text style={{ marginLeft: '5px' }} color = '#FFA500'>{totalWorth.toFixed(2)}</Text> 
           </Button>
     </ChakraLink>
       </Box>
@@ -328,8 +321,8 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
       {/* Tabs centered horizontally */}
       <Tabs
-        variant="soft-rounded"
-        colorScheme="whiteAlpha"
+        variant="solid-rounded" //solid-rounded
+        colorScheme="blackAlpha" //blackAlpha
         position={{ base: "relative", md: "absolute" }}
         left="50%"
         bottom={0}
@@ -337,16 +330,16 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         size={tabSize}
         mb={6}
         css={{
-          border: "2px solid limegreen",
-          borderRadius: "10px",
+          border: "5px solid black",
+          borderRadius: "5px",
           overflow: "hidden",
         }}
       >
         <TabList display="flex" alignItems="center">
-          <LinkTab to="/">Home</LinkTab>
-          <LinkTab to="/QFS">Play</LinkTab>
+          <LinkTab to="/" color="white">Home</LinkTab>
+          <LinkTab to="/QFS" color="white">Play</LinkTab>
 
-          {loggedIn && <LinkTab to="/wallet">Wallet</LinkTab>} {/* Conditionally render Wallet tab */}
+          {loggedIn && <LinkTab to="/wallet" color="white">Wallet</LinkTab>} {/* Conditionally render Wallet tab */}
           {loggedIn ? (
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
               <Avatar 
@@ -360,7 +353,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
                 value="" 
                 onChange={handleSelectChange}
                 style={{
-                  backgroundColor: 'black',
+                  backgroundColor: '',//escolher cor
                   color: 'white',
                   border: 'none',  
                   cursor: 'pointer'

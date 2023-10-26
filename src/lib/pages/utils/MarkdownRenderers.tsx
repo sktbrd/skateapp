@@ -106,7 +106,7 @@ pre: ({ children, ...props }: RendererProps) => (
     <iframe
       {...props}
       src={src}
-      style={{ borderRadius: '10px', marginBottom: '10px', border:'1px limegreen solid', minWidth: '100%', maxWidth: '100%', minHeight: '400px', maxHeight: '400px' }}
+      style={{ borderRadius: '10px', marginBottom: '10px',  minWidth: '100%', maxWidth: '100%', minHeight: '400px', maxHeight: '400px' }}
     />
     </span>
   ),

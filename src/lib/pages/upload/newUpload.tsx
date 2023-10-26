@@ -469,16 +469,28 @@ const handleIncludeFooterChange = () => {
       return (
         <Box>
           <center>
+            <VStack>
+
+            <img
+                src="../../public/assets/smartpepe.png"
+                style={{
+                  width: '100px', 
+                  height: 'auto', 
+                  margin: '-50px'
+                }}
+                alt="Smart Pepe"
+              />
             <Badge color="black" bg={"yellow"} marginTop={"15px"}>
-              If it's your first time uploading to SkateHive, please check our{" "}
+              First time? Check our{" "}
               <a
                 href="https://docs.skatehive.app/docs/tutorial-basics/share-ur-content"
                 style={{ color: 'blue' }}
-              >
+                >
                 Tutorial
               </a>{" "}
               First
             </Badge>
+          </VStack>
           </center>
           <Flex
             flexDirection={isMobile ? "column" : "row"}
@@ -514,28 +526,28 @@ const handleIncludeFooterChange = () => {
                     <Text> Drop images/video or click to select</Text>
                     
                   </VStack>
-              <Box marginTop={4}>
-                <center>
-                  {isUploading ? (
-                    <Spinner
-                      thickness="4px"
-                      speed="0.65s"
-                      emptyColor="gray.200"
-                      color="limegreen"
-                      size="xl"
-                    />
-                  ) : null}
-                </center>
-              </Box>
+                    <Box marginTop={4}>
+                      <center>
+                        {isUploading ? (
+                          <Spinner
+                            thickness="4px"
+                            speed="0.65s"
+                            emptyColor="gray.200"
+                            color="limegreen"
+                            size="xl"
+                          />
+                        ) : null}
+                      </center>
+                    </Box>
 
                   <Textarea
-  value={markdownText}
-  onChange={handleMarkdownChange}
-  placeholder="Enter your Markdown here..."
-  minHeight="600px"
-  marginTop={4}
-/>
-<Checkbox
+                      value={markdownText}
+                      onChange={handleMarkdownChange}
+                      placeholder="Enter your Markdown here..."
+                      minHeight="600px"
+                      marginTop={4}
+                    />
+                    <Checkbox
                       isChecked={includeFooter}
                       onChange={handleIncludeFooterChange}
                       marginLeft={2}

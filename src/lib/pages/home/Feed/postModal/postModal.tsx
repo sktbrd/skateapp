@@ -39,7 +39,8 @@ const nodes = [
   "https://api.pharesim.me",
 ];
 
-import { transformGiphyLinksToMarkdown } from 'lib/pages/utils/videoUtils/VideoUtils';
+import { transformGiphyLinksToMarkdown } from 'lib/pages/utils/ImageUtils';
+import { transform3SpeakContent } from 'lib/pages/utils/videoUtils/transform3speak';
 
 const PostModal: React.FC<Types.PostModalProps> = ({
   isOpen,
@@ -68,17 +69,6 @@ const PostModal: React.FC<Types.PostModalProps> = ({
 
 
 
-  function transform3SpeakContent(content: any) {
-    const regex = /\[!\[\]\((https:\/\/ipfs-3speak\.b-cdn\.net\/ipfs\/[a-zA-Z0-9]+\/)\)\]\((https:\/\/3speak\.tv\/watch\?v=([a-zA-Z0-9]+\/[a-zA-Z0-9]+))\)/;
-    const match = content.match(regex);
-    if (match) {
-      const videoURL = match[2];
-      const videoID = match[3];
-      const iframe = `<iframe class="video-player" width="560" height="315" src="https://3speak.tv/embed?v=${videoID}" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-      content = content.replace(regex, iframe);
-    }
-    return content;
-  }
 
 
   function transformYouTubeContent(content: string): string {
@@ -86,17 +76,17 @@ const PostModal: React.FC<Types.PostModalProps> = ({
     const regex = /https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/g;
   
     // Use the replace method to replace YouTube video URLs with embedded iframes
-    const transformedContent = content.replace(regex, (match: string, videoID: string) => {
+    let transformedContent = content.replace(regex, (match: string, videoID: string) => {
       // Wrap the iframe in a div with centering styles
       return `<div style="display: flex; justify-content: center; "><iframe width="560" height="315" src="https://www.youtube.com/embed/${videoID}" frameborder="0" allow="accelerometer;  encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
     });
-  
-    return transformedContent;
+        // Transform the content for 3speak videos
+        transformedContent = transform3SpeakContent(transformedContent);
+        transformedContent = transformGiphyLinksToMarkdown(transformedContent);
+        return transformedContent;
   }
   
 
-    // Transform the content for 3speak videos
-    content = transform3SpeakContent(content);
 
   // Save edited content handler
   const handleSaveClick = () => {
@@ -311,7 +301,7 @@ return (
             rehypePlugins={[rehypeRaw]}
             remarkPlugins={[remarkGfm]}
           >
-            {transformYouTubeContent(content)}
+            {(transformedContent)}
           </ReactMarkdown>
           
         )}

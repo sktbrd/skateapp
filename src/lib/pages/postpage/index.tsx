@@ -23,16 +23,15 @@ import { MarkdownRenderersComments } from './MarkdownRenderersComments';
 
 import CommentBox from '../home/Feed/postModal/commentBox';
 import { CommentProps } from '../home/Feed/types';
-import { transform3SpeakContent } from '../utils/videoUtils/VideoUtils';
 import VotingBox from './votingBox';
 
 import { transformYouTubeContent } from '../utils/videoUtils/VideoUtils';
-
+import { transform3SpeakContent } from '../utils/videoUtils/transform3speak';
+import { transformGiphyLinksToMarkdown } from '../utils/ImageUtils';
 
 
 type User = {
   name: string;
-  // ... other properties ...
 } | null;
 
 
@@ -57,7 +56,8 @@ const PostPage: React.FC = () => {
       try {
         const postData = await client.database.call("get_content", [URLAuthor, URLPermlink]);
         let transformedBody = await transform3SpeakContent(postData.body);
-        transformedBody = transformYouTubeContent(transformedBody); // Transform YouTube content
+        transformedBody = transformYouTubeContent(transformedBody); 
+        transformedBody = transformGiphyLinksToMarkdown(transformedBody);
         setPost({ ...postData, body: transformedBody });
         console.log(post)
 

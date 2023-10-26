@@ -58,7 +58,11 @@ const defaultBeneficiaries: Beneficiary[] = [
   { name: 'skatehacker', percentage: 2 },
   { name: 'steemskate', percentage: 3 },
 ];
-
+declare global {
+  interface Window {
+    hive_keychain: any;
+  }
+}
 const NewUpload: React.FC = () => {
   const [markdownText, setMarkdownText] = useState<string>("");
   const [progress, setProgress] = useState<number>(0);
@@ -409,9 +413,6 @@ const handleIncludeFooterChange = () => {
   }
 };
 
-    const addDefaultFooterToMarkdown = () => {
-      setMarkdownText((prevMarkdown) => prevMarkdown + "\n" + defaultFooter);
-    };
       // -------------------------Add Beneficiaries--------------------------
 
   const searchBarRef: RefObject<HTMLDivElement> = useRef(null);

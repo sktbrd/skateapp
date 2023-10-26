@@ -1,7 +1,6 @@
-// utils.tsx
 
 // Function to transform a URL into Markdown image syntax
-export function transformUrlToMarkdownImage(url: string): string {
+export function transformGiphyLinksToMarkdown(url: string): string {
   // Define a regular expression to match the provided URL format
   const regex = /https:\/\/media\d+\.giphy\.com\/media\/([a-zA-Z0-9]+)\/giphy\.gif/;
 
@@ -21,5 +20,4 @@ export function transformUrlToMarkdownImage(url: string): string {
     return url;
   }
 }
-
 

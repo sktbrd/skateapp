@@ -1,28 +1,7 @@
 import React from 'react';
 import { Box, Text } from "@chakra-ui/react";
 
-export function transform3SpeakContent(content: any) {
-  const regex = /\[!\[\]\((https:\/\/ipfs-3speak\.b-cdn\.net\/ipfs\/[a-zA-Z0-9]+\/)\)\]\((https:\/\/3speak\.tv\/watch\?v=([a-zA-Z0-9]+\/[a-zA-Z0-9]+))\)/;
-  const match = content.match(regex);
-  if (match) {
-    const videoURL = match[2];
-    const videoID = match[3];
-    const iframe = `<iframe class="video-player" width="560" height="315" src="https://3speak.tv/embed?v=${videoID}" frameborder="0" allow="accelerometer;  encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-    content = content.replace(regex, iframe);
-  }
-  return content;
-}
 
-export function transformGiphyLinksToMarkdown(content: string): string {
-  const regex = /https:\/\/media0\.giphy\.com\/media\/[a-zA-Z0-9]+\/giphy\.gif/g;
-  
-  // Use the replace method to replace Giphy links with markdown image syntax
-  const transformedContent = content.replace(regex, (match: string) => {
-    return `![Giphy Image](${match})`;
-  });
-
-  return transformedContent;
-}
 
 export function transformYouTubeContent(content: string): string {
   // Regular expression to match YouTube video URLs
@@ -35,6 +14,24 @@ export function transformYouTubeContent(content: string): string {
   });
 
   return transformedContent;
+}
+export function transformShortYouTubeLink(link: string): string | null {
+  // Regular expression to match YouTube shortlinks
+  const regex = /https:\/\/youtu\.be\/([a-zA-Z0-9_-]+)/;
+
+  // Check if the input link matches the regex
+  const match = link.match(regex);
+
+  if (match) {
+    // Extract the video ID from the matched link
+    const videoID = match[1];
+
+    // Create an iframe with the YouTube video URL
+    return `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoID}" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  } else {
+    // If the input link doesn't match the regex, return null
+    return null;
+  }
 }
 
 

@@ -6,7 +6,7 @@ import GnarsNfts from "./gnarsNfts";
 const NftWallet = () => {
   return (
     <Flex flexDirection="column">
-      <Tabs isFitted variant="enclosed-colored" colorScheme="green">
+      <Tabs isFitted variant="enclosed" >
         <TabList>
           <Tab>POAPs</Tab>
           <Tab>Gnars</Tab>

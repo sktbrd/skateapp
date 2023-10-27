@@ -346,7 +346,7 @@ export default function HiveBalanceDisplay2() {
         setAmount={setAmount}
         handleTransfer={handleTransfer}
       />
-      <WalletTransactions wallet={user?.name || ""} />
+      {/* <WalletTransactions wallet={user?.name || ""} /> */}
       
     </Box>
     

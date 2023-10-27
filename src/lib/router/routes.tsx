@@ -18,7 +18,7 @@ const GnarsStats = React.lazy(() => import("lib/pages/home/dao/components/hiveGn
 const ThatsGnarly = React.lazy(() => import("lib/pages/home/Feed/thatsgnarly")); // Update the path accordingly
 const Account = React.lazy(() => import("lib/pages/account")); // Update the path accordingly
 const NewUpload = React.lazy(() => import("lib/pages/upload/newUpload")); // Update the path accordingly
-
+const Shelf = React.lazy(() => import("lib/pages/home/videos/lbry")); // Update the path accordingly  
 
 export const routes: Array<PathRouteProps> = [
   {
@@ -84,6 +84,10 @@ export const routes: Array<PathRouteProps> = [
 {
   path: "/test",
   element: <Test />,
+},
+{
+  path: "/411",
+  element: <Shelf />,
 }
 
 ];

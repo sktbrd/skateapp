@@ -56,7 +56,9 @@ const randomSentences = [
   "Praise whoever made skatevideosite",
   "Loading Stokenomics...",
   "Initiating proof of stoke...", 
-  "We will as fast as Daryl on a hill"
+  "We will as fast as Daryl on a hill",
+  "Nobody knows who was Gnartoshi Shredmoto",
+  "We have secret sections here, try /411"
 ];
 
 const PlaceholderLoadingBar = () => {

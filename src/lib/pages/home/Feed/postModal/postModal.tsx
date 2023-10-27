@@ -277,7 +277,7 @@ const transformedContent = transformYouTubeContent(content);
 return (
   <Modal isOpen={isOpen} onClose={onClose} size="3xl">
     <ModalOverlay />
-    <ModalContent backgroundColor={'black'} border={'1px solid limegreen'}>
+    <ModalContent backgroundColor={'black'} border={'3px solid white'}>
       <ModalHeader>
         <PostHeader title={title} author={author} avatarUrl={avatarUrl} postUrl={postUrl} permlink={permlink} onClose={onClose} />
         {isUserLoggedIn && user.name === author && !isEditing && (

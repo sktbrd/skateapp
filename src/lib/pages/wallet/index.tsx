@@ -46,14 +46,18 @@ const Wallet = () => {
 
       <TabPanels>
       <TabPanel>
-  <Flex direction={["column", "row"]}>
-    <Box flex={1} mb={[4, 0]}>
+        <center>
+
+  <Flex maxWidth={"30%"} direction={["column", "row"]}>
+
+    <Box  flex={1} mb={[4, 0]}>
       <HiveBalanceDisplay2 />
     </Box>
     {/* <Box flex={1} ml={[0, 4]}>
       <TestEvm />
     </Box> */}
   </Flex>
+    </center>
   
 </TabPanel>
 

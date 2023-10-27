@@ -5,7 +5,7 @@ import SnapShot from "./dao/snapshot";
 import Chat from "./chat";
 import QFS from "../qfs";
 import NewUpload from "../upload/newUpload";
-
+import CardGrid from "./equipe";
 
   const Home = () => {
     const { selectedIndex, ...tabProps } = useTabs({});
@@ -20,7 +20,7 @@ import NewUpload from "../upload/newUpload";
               border="1px black solid"
               _selected={{ backgroundColor: "#65418C",color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
-              <VStack><Image src="assets\gifs\crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>PORTAL 666</Text></VStack>
+              <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>PORTAL 666</Text></VStack>
               
             </Tab>
             {/* <Tab
@@ -35,7 +35,7 @@ import NewUpload from "../upload/newUpload";
               border="2px limegreen solid"
               _selected={{ backgroundColor: "limegreen",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
-              🎮 PLAY
+              :video_game: PLAY
             </Tab> */}
             <Tab
              color="white"
@@ -43,7 +43,7 @@ import NewUpload from "../upload/newUpload";
              border="1px black solid"
              _selected={{ backgroundColor: "#65418C",color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
-              <VStack><Image src="assets\gifs\crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>UPLOAD</Text></VStack>
+              <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>UPLOAD</Text></VStack>
             </Tab>
             <Tab
             color="white"
@@ -51,8 +51,18 @@ import NewUpload from "../upload/newUpload";
             border="1px black solid"
             _selected={{ backgroundColor: "#65418C",color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
            >
-             <VStack><Image src="assets\gifs\crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>LOJA</Text></VStack>
+             <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>EQUIPE</Text></VStack>
             </Tab>
+            
+            <Tab
+            color="white"
+            fontSize="20px"
+            border="1px black solid"
+            _selected={{ backgroundColor: "#65418C",color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
+           >
+             <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>LOJA</Text></VStack>
+            </Tab>
+
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -60,6 +70,10 @@ import NewUpload from "../upload/newUpload";
             </TabPanel>
             <TabPanel>
             <NewUpload/>
+            </TabPanel>
+            <TabPanel>
+              <CardGrid />
+
             </TabPanel>
             <TabPanel>
               <SnapShot />
@@ -72,6 +86,3 @@ import NewUpload from "../upload/newUpload";
   };
   
   export default Home;
-
-
-

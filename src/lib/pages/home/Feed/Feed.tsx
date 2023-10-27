@@ -278,7 +278,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   const cardHoverStyles = css`
   transform: scale(1.01); /* Increase size by 5% */
   transition: transform 0.2s ease-in-out; /* Add a smooth transition effect */
-  box-shadow: 0 0 150px rgba(0, 128, 0, 0.5); /* Add a green box shadow for the glow effect */
+  box-shadow: 0 0 150px rgba(0, 0, 0, 0.5); /* Add a green box shadow for the glow effect */
 `;
 
 const cardStyles = css`
@@ -448,7 +448,7 @@ return (
                               
                      <p>&#x1FA78;</p>{post.earnings.toFixed(2)}
                     <img
-                      src="assets\blood2.gif"
+                      src="assets/blood2.gif"
                       alt="spinning stoken coin"
                       style={{
                         width: "50px",

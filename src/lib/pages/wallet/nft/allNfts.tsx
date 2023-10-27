@@ -55,7 +55,11 @@ const AllNfts = () => {
   useEffect(() => {
     onStart();
   }, [app, api, app?.wallets, status, pubkeyContext]);
-
+  useEffect(() => {
+    onStart();
+    console.log("loaded")
+  }
+  , [ETHaddress]);
   return (
     <Box>
       <center>

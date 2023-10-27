@@ -55,7 +55,14 @@ const GnarsNfts = () => {
 
   useEffect(() => {
     onStart();
+    console.log("loaded")
   }, [app, api, app?.wallets, status, pubkeyContext]);
+
+useEffect(() => {
+  onStart();
+  console.log("loaded")
+}
+, [ETHaddress]);
 
   return (
     <Box>

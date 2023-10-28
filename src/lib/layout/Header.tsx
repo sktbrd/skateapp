@@ -222,6 +222,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       border="1px solid limegreen"
       position="relative"
       borderRadius="10px"
+      marginBottom="10px"
     >
 
       <Flex width="100%" justifyContent="space-between" alignItems="center" mb={{ base: 2, md: 0 }}>
@@ -355,11 +356,11 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
                   cursor: 'pointer'
                 }}
               >
-                <option value="" disabled selected>
+                <option style={{ backgroundColor: 'black' }} value="" disabled selected>
                   {user?.name}
                 </option>
-                <option value="profile">Profile</option>
-                <option value="logout">Log out</option>
+                <option style={{ backgroundColor: 'black' }} value="profile">Profile</option>
+                <option style={{ backgroundColor: 'black' }} value="logout">Log out</option>
               </Select>
             </div>
           ) : (

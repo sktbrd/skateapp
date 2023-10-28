@@ -92,14 +92,16 @@ const WalletTransactions: React.FC<WalletTransactionsProps> = ({ wallet }) => {
           <Text fontSize="24" fontWeight="bold">Transactions of {wallet}:</Text>
         </center>
         <Select
+          style={{backgroundColor: 'lightgray'}}
+          color="black"
           placeholder="Select Transaction Type"
           value={selectedType || ''}
           onChange={(e) => setSelectedType(e.target.value || null)}
           mb="4"
         >
-          <option value="">All</option>
+          <option style={{backgroundColor: 'lightgray'}} value="">All</option>
           {transactionTypes.map((type) => (
-            <option key={type} value={type}>
+            <option key={type} value={type} style={{backgroundColor: 'lightgray'}}>
               {transactionTypeNicknames[type] || type} {/* Display nickname if available */}
             </option>
           ))}

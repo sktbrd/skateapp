@@ -29,7 +29,7 @@ export default function useAuthUser(): AuthUser {
   const [user, setUser] = useState<Account | null>(null);
 
   useEffect(() => {
-    const userData = sessionStorage.getItem("user");
+    const userData = localStorage.getItem("user");
     if (userData) {
       setUser(JSON.parse(userData));
     }
@@ -71,7 +71,7 @@ export default function useAuthUser(): AuthUser {
                 };
             
                 setUser(userAccount);
-                sessionStorage.setItem("user", JSON.stringify(userAccount));
+                localStorage.setItem("user", JSON.stringify(userAccount));
                 window.location.reload(); // Refresh the page after login
                         
               }
@@ -86,7 +86,7 @@ export default function useAuthUser(): AuthUser {
 
   const logout = () => {
     setUser(null);
-    sessionStorage.removeItem("user");
+    localStorage.removeItem("user");
     window.location.reload();
   };
 

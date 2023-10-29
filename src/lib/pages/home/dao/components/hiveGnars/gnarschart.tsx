@@ -32,8 +32,6 @@ interface ChartSlice {
 
 const GnarsChart = () => {
   const [rawData, setRawData] = useState<ChartSlice[]>([]);
-  const [totalCurationRewards, setTotalCurationRewards] = useState(0);
-
   const [chartData, setChartData] = useState({} as any);
   const [chartOptions, setChartOptions] = useState({} as any);
   // const [voteHistory, setVoteHistory] = useState(new Map());
@@ -75,8 +73,6 @@ const GnarsChart = () => {
     });
 
     const data = await response.json();
-
-    let totalRewards = 0;
     
     // calculate rewards per date since the START_DATE
     const rewardsPerDate = new Map();
@@ -91,19 +87,12 @@ const GnarsChart = () => {
 
       const quantity = type === 'vote' ? reward.vote_value : reward.hp;
 
-      totalRewards += quantity;
-
       if (rewardsPerDate.has(date)) {
         rewardsPerDate.set(date, rewardsPerDate.get(date) + quantity);
       } else {
         rewardsPerDate.set(date, quantity);
       }
     });
-
-    if (type === 'curation') {
-      setTotalCurationRewards(totalRewards);
-    }
-
 
     return rewardsPerDate;
   }
@@ -118,6 +107,12 @@ const GnarsChart = () => {
 
     const voteHistory = await fethRewardHistory('vote');
     const curationHistory = await fethRewardHistory('curation');
+
+    // calculate total curation rewards
+    let totalCurationRewards = 0;
+    curationHistory.forEach((reward: number) => {
+      totalCurationRewards += reward;
+    });
 
     // set reward history
     // setVoteHistory(voteHistory);
@@ -255,6 +250,7 @@ const GnarsChart = () => {
     
     
     const chartOptions = {
+      maintainAspectRatio: true,
       scales: {
         x: {
           type: 'category',

@@ -416,7 +416,7 @@ const handleIncludeFooterChange = () => {
     setPostLink(link);
     console.log(postLink)
   }
-  let newFooter = defaultFooter +  "\n" + "> **Check this post at** " + `[Skatehive App](${postLink})`
+  let newFooter = defaultFooter +  "\n" + "> **Check this post on** " + `[Skatehive App](${postLink})`
   setIncludeFooter((prevIncludeFooter) => !prevIncludeFooter);
   if (includeFooter) {
     // If the toggle is turned off, remove the default footer from Markdown text
@@ -525,11 +525,7 @@ const handleIncludeFooterChange = () => {
                   fontWeight="bold"
                 />
               </Box>
-              <div>
-                <Button onClick={buildPostLink} colorScheme="teal" size="sm" marginTop={2}>
-                  Build Post Link
-                </Button>
-                </div>
+
               <Flex flexDirection={isMobile ? "column" : "row"}>
                 <Box flex={1} marginRight={isMobile ? 0 : 4}>
                   <VStack

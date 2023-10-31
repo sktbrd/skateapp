@@ -78,13 +78,23 @@ const NewUpload: React.FC = () => {
   const [tags, setTags] = useState<string[]>([]); // State to store tags
   const [includeFooter, setIncludeFooter] = useState<boolean>(false); // New state for the checkbox
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+  const [postLink , setPostLink] = useState<string>("");
 
   const handleMarkdownChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdownText(event.target.value);
   };
-
+  const buildPostLink = () => {
+    const username = user?.name;
+    if (username) {
+      const permlink = slugify(title.toLowerCase());
+      const link = `https://skatehive.app/post/hive-173115/@${username}/${permlink}`;
+      setPostLink(link);
+      console.log(postLink)
+    }
+  }
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    buildPostLink();
   };
 
   const handleImageUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -170,6 +180,8 @@ const NewUpload: React.FC = () => {
     }
   };
   
+  
+
 
   const onDropImages = async (acceptedFiles: File[]) => {
     setIsUploading(true);
@@ -277,11 +289,8 @@ const NewUpload: React.FC = () => {
         ]
         };
   
-        // Add defaultFooter to the markdown if includeFooter is true
         let finalMarkdown = markdownText;
-        if (includeFooter) {
-          finalMarkdown += "\n" + defaultFooter;
-        }
+
   
         // Define the post operation
         const postOperation = [
@@ -307,7 +316,6 @@ const NewUpload: React.FC = () => {
   
         // Construct the operations array
         const operations = [postOperation, commentOptionsOperation];
-  
         // Request the broadcast using Hive Keychain
         window.hive_keychain.requestBroadcast(username, operations, 'posting', (response: any) => {
           if (response.success) {
@@ -401,15 +409,23 @@ const handleTagsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   
 // Function to handle the checkbox change
 const handleIncludeFooterChange = () => {
+  const username = user?.name;
+  if (username) {
+    const permlink = slugify(title.toLowerCase());
+    const link = `https://skatehive.app/post/testing67/@${username}/${permlink}`;
+    setPostLink(link);
+    console.log(postLink)
+  }
+  let newFooter = defaultFooter +  "\n" + "> **Check this post at** " + `[Skatehive App](${postLink})`
   setIncludeFooter((prevIncludeFooter) => !prevIncludeFooter);
   if (includeFooter) {
     // If the toggle is turned off, remove the default footer from Markdown text
     setMarkdownText((prevMarkdown) =>
-      prevMarkdown.replace(defaultFooter, "")
+      prevMarkdown.replace(newFooter,  "")
     );
   } else {
     // If the toggle is turned on, add the default footer to Markdown text
-    setMarkdownText((prevMarkdown) => prevMarkdown + defaultFooter);
+    setMarkdownText((prevMarkdown) => prevMarkdown + newFooter);
   }
 };
 
@@ -499,6 +515,8 @@ const handleIncludeFooterChange = () => {
           >
             <Box flex={isMobile ? "auto" : 1} p={4}>
               <Box marginBottom={4}>
+
+                  
                 <Input
                   value={title}
                   onChange={handleTitleChange}
@@ -507,6 +525,11 @@ const handleIncludeFooterChange = () => {
                   fontWeight="bold"
                 />
               </Box>
+              <div>
+                <Button onClick={buildPostLink} colorScheme="teal" size="sm" marginTop={2}>
+                  Build Post Link
+                </Button>
+                </div>
               <Flex flexDirection={isMobile ? "column" : "row"}>
                 <Box flex={1} marginRight={isMobile ? 0 : 4}>
                   <VStack

@@ -23,5 +23,5 @@ export const defaultFooter : string= `
 - Instagram : https://www.instagram.com/skatehive/
 - Twitter : https://x.com/Skate_Hive
 
-> This post was made with https://skatehive.app `;
+`;
 

@@ -283,7 +283,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           </Link>
           {/* <Link to="/becool" style={{ textDecoration: 'none' }}>
             <MenuItem
-              _hover={{ backgroundColor: '#65418C', color: 'white' }}
+              _hover={{ backgroundColor: '#060126', color: 'white' }}
               backgroundColor="#593576"  // Invert colors on hover
   
             >
@@ -305,14 +305,14 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       <Box>
       <ChakraLink as={RouterLink} to="/wallet">
       <Button
-        backgroundColor="#593576"
+        backgroundColor="#231B59"
         border="black 5px solid"
         color="orange"
 
-
+        
         >
-          <Text color="white" style={{ marginLeft: '5px' }}>R$</Text>
-          <Text style={{ marginLeft: '5px' }} color = '#FFA500'>{totalWorth.toFixed(2)}</Text> 
+          <Text color="#FF0500" style={{ marginLeft: '5px' }}>R$</Text>
+          <Text style={{ marginLeft: '5px' }} color = '#B92000'>{totalWorth.toFixed(2)}</Text> 
           </Button>
     </ChakraLink>
       </Box>

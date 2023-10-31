@@ -43,7 +43,7 @@ const nodes = [
 ];
 
 const defaultThumbnail =
-  "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fc.tenor.com%2FZco-fadJri4AAAAd%2Fcode-matrix.gif&f=1&nofb=1&ipt=9a9b3c43e852a375c62be78a0faf338d6b596b4eca90e5c37f75e20725a3fc67&ipo=images";
+  "../../../../public/assets/crn2.png";
 const placeholderEarnings = 69.42;
 
 const randomSentences = [
@@ -341,7 +341,7 @@ return (
             <Card
               border="1px"
               borderColor="white"
-              bg="#312240"
+              bg="linear-gradient(to top, #0D0D0D, #060126, #3D278C)"
               key={post.permlink}
               maxW="md"
               mb={2}
@@ -361,7 +361,7 @@ return (
                     alignItems="center"
                   >
                     <Box>
-                      <Heading color="white" size="lg">
+                      <Heading color="#D9D5A0" size="lg">
                         {post.author}
                       </Heading>
                     </Box>
@@ -391,7 +391,7 @@ return (
                   minHeight="100%"
 
                   style={{ //style of the speech bubble
-                    backgroundImage: `url('https://clipart-library.com/images/pkc8nx9Tr.png')`,
+                    backgroundImage: `url('')`,
                     backgroundSize: '105% 140%', // stretches the speech bubble as big as the div and dynamically changes 
                     backgroundPosition: 'center', 
                     backgroundRepeat: 'no-repeat', 
@@ -448,7 +448,7 @@ return (
                               
                      <p>&#x1FA78;</p>{post.earnings.toFixed(2)}
                     <img
-                      src="assets/blood2.gif"
+                      src="../../../../assets/blood2.gif"
                       alt="spinning stoken coin"
                       style={{
                         width: "50px",

@@ -326,6 +326,10 @@ const handleVoteClick = async (post: any) => {
     console.error("Error while voting:", error);
   }
 };
+const cardStyleGradient = css`
+background-color: "linear-gradient(to top, #0D0D0D, #1C1C1C, #000000)",
+`;
+
 
 return (
   <Box>
@@ -342,7 +346,7 @@ return (
             <Card
               //border="1px"
               //borderColor="limegreen"
-              bg="black"
+              bg="linear-gradient(to top,  black, #070807, black)"
               key={post.permlink}
               maxW="md"
               mb={2}

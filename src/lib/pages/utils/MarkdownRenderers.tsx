@@ -25,7 +25,7 @@ export const MarkdownRenderers = {
               maxWidth: '100%',
               height: 'auto',
               borderRadius: '10px',
-              border: '1px solid orange',
+              // border: '1px solid orange',
             }}
             onError={(e) => {
               // Handle image loading error by replacing the source with a default image

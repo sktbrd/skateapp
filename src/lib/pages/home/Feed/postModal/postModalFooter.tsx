@@ -43,14 +43,14 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
   
   
   return (
-    <Flex border="1px white solid" padding="20px" justify="space-between" >
+    <Flex borderRadius={"10px"}  padding="20px" justify="space-between" >
       <Button
-        bg="#121212"
+        bg="black"
         color="#fff"
         borderRadius="4px"
         p={2}
         onClick={onClose}
-        _hover={{ bg: 'white', color: '#020202' }}
+        _hover={{ bg: 'black', color: 'red' }}
         border={"1px solid white"}
       >
         Close
@@ -76,13 +76,13 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
         </Text>
       </Box>
       <Button
-        bg="white"
-        color="#020202"
+        bg="black"
+        color="white"
         borderRadius="4px"
         border="1px solid limegreen"
         p={2}
         onClick={handleVote}
-        _hover={{ bg: 'yellow', color: 'black' }}
+        _hover={{ bg: 'black', color: 'orange' }}
       >
         Vote
       </Button>

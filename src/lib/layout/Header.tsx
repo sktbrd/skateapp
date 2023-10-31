@@ -218,8 +218,6 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       alignItems="center"
       justifyContent="space-between"
       p={6}
-      bg="black"
-      border="1px solid limegreen"
       position="relative"
       borderRadius="10px"
     >
@@ -325,7 +323,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
       {/* Tabs centered horizontally */}
       <Tabs
-        variant="soft-rounded"
+        variant="unstyled"
         colorScheme="whiteAlpha"
         position={{ base: "relative", md: "absolute" }}
         left="50%"

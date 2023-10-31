@@ -638,16 +638,16 @@ const handleIncludeFooterChange = () => {
             <Box
               flex={isMobile ? "auto" : 1}
               p={4}
-              border="1px solid limegreen"
+              border="1px solid white"
               margin={"15px"}
               borderRadius={"10px"}
               maxWidth={{ base: "100%", md: "50%" }}
               overflowWrap="break-word"
             >
               <Box>
-                <Flex padding="1%" borderRadius="10px" border="1px solid limegreen" align="center" mb={4}>
+                <Flex padding="1%" borderRadius="10px" border="1px solid white" align="center" mb={4}>
                   <Avatar border="1px solid limegreen" src={avatarUrl} size="sm" />
-                  <Text ml={2} fontWeight="bold">
+                  <Text ml={2} fontWeight="bold" color={"orange"}>
                     {user?.name}
                   </Text> 
                   <Text  marginLeft={"10px"} fontSize={"36px"} fontWeight={"bold"}> | </Text>

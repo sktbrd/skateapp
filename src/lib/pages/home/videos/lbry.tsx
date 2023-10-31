@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Flex, Text ,Grid} from '@chakra-ui/react';
-import { tapes } from './411vm';
+import { tapes } from './411';
 
 interface VhsTapeProps {
   id: number; // Add id prop

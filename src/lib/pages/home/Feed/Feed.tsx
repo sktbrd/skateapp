@@ -372,11 +372,11 @@ return (
               </CardHeader>
 
               
-              <Box padding="10px" height="200px"> 
+              <Box padding="20px" height="200px"> 
                 <Image 
                   objectFit="cover"
                   border="1px solid limegreen"
-                  borderRadius="35px"
+                  borderRadius="20px"
                   src={post.thumbnail}
                   alt="Post Thumbnail"
                   height="100%"
@@ -422,10 +422,9 @@ return (
                   style={{ display: "flex", alignItems: "center" }} >
 
                 <Link to={`profile/${post.author}`}>
-                      <Avatar
-                        name={post.author}
+                      <Image
                         border="1px solid limegreen"
-                        borderRadius="100px"
+                        borderRadius="10px"
                         src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
                         width="105%"
                         height="105%"

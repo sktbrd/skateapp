@@ -22,6 +22,7 @@ parentId: string; // Add this field to store the parent ID
 id: string; // Add this field to store the unique identifier of the comment
 replies: CommentProps[]; 
 limit: number;
+blockedUser: string;
 
 
 
@@ -29,6 +30,7 @@ limit: number;
 export interface CommentsProps {
 comments: CommentProps[];
 commentPosted: boolean;
+blockedUser: string;
 }
 
 export interface CommentBoxProps {

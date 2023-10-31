@@ -12,18 +12,21 @@ const DaoStatus = () => {
   const [activeTab, setActiveTab] = useState("skatehive"); // Default active tab
 
   return (
-    <Flex flexDirection="column" paddingBottom="30px" width="100%">
-      <Tabs variant='soft-rounded' colorScheme='green' isFitted>
-        <TabList>
+    <Flex flexDirection="column" paddingBottom="10px" width="100%">
+
+      <Tabs variant='enclosed' >
+    
+
+      <TabList justifyContent="center">
           <Tab
             onClick={() => setActiveTab("skatehive")}
-            color={activeTab === "skatehive" ? "blue.500" : "gray.500"}
+            color={activeTab === "skatehive" ? "orange" : "gray.500"}
           >
             Skatehive
           </Tab>
           <Tab
             onClick={() => setActiveTab("gnars")}
-            color={activeTab === "gnars" ? "blue.500" : "gray.500"}
+            color={activeTab === "gnars" ? "yellow" : "gray.500"}
           >
             Gnars
           </Tab>
@@ -42,7 +45,9 @@ const DaoStatus = () => {
             
           </TabPanel>
         </TabPanels>
+
       </Tabs>
+
     </Flex>
   );
 }

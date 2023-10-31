@@ -22,16 +22,14 @@ const Home = () => {
 
   return (
     <Flex
-      backgroundColor="black"
       direction="column"
       alignItems="center"
       justifyContent="center"
     >
-      <Tabs isFitted variant="enclosedyarn" width="100%" colorScheme="yellow" {...tabProps}>
-        <TabList mb="1em" width="100%">
+      <Tabs isFitted variant="enclosed" width="100%"  {...tabProps}>
+        <TabList justifyContent={"center"} mb="1em" width="100%" >
           <Tab
             color="white"
-            border="1px limegreen solid"
             _selected={{
               backgroundColor: 'limegreen',
               color: 'black',
@@ -41,50 +39,27 @@ const Home = () => {
           >
             📜 FEED
           </Tab>
-          {/* <Tab
-            color="white"
-            border="1px limegreen solid"
-            _selected={{
-              backgroundColor: 'limegreen',
-              color: 'black',
-              fontWeight: 'bold',
-              border: '1px solid white',
-            }} // Change the background color when selected
-          >
-            📹 VIDEOS
-          </Tab> */}
-          {/* <Tab
-            color="white"
-            border="2px limegreen solid"
-            _selected={{
-              backgroundColor: 'limegreen',
-              color: 'black',
-              fontWeight: 'bold',
-              border: '1px solid white',
-            }} // Change the background color when selected
-          >
-            🎮 PLAY
-          </Tab> */}
+
           <Tab
             color="white"
-            border="1px limegreen solid"
             _selected={{
               backgroundColor: 'limegreen',
               color: 'black',
               fontWeight: 'bold',
-              border: '1px solid white',
+              border: '1px solid white'
+
             }} // Change the background color when selected
           >
             🛹 UPLOAD
           </Tab>
           <Tab
             color="white"
-            border="1px limegreen solid"
             _selected={{
               backgroundColor: 'limegreen',
               color: 'black',
               fontWeight: 'bold',
               border: '1px solid white',
+
             }} // Change the background color when selected
           >
             🏛 DAOs

@@ -93,7 +93,7 @@ const Captcha: React.FC<CaptchaProps> = ({ onCaptchaCompletion }) => {
   const [occupiedPositions, setOccupiedPositions] = useState<number>(0);
 
   // URL for the background image
-  const backgroundImageURL = 'https://i.ibb.co/S5DR5qv/image.png';
+  const backgroundImageURL = 'assets/skateboard.png';
 
   // State to track if the captcha is passed
   const [captchaPassed, setCaptchaPassed] = useState<boolean | null>(null);
@@ -210,7 +210,7 @@ const Captcha: React.FC<CaptchaProps> = ({ onCaptchaCompletion }) => {
       >
         {renderGrid()}
       </Grid>
-      <div style={{ marginTop:'30px', display: 'flex', flexWrap: 'wrap' }}>
+      <div style={{ justifyContent:'center', marginTop:'30px', display: 'flex', flexWrap: 'wrap' }}>
         {images.map((image) => (
           <DraggableImage  key={image.id} {...image} />
         ))}

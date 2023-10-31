@@ -15,7 +15,7 @@ import * as Types from '../types';
 const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_votes, permlink }) => {
     const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
     const { user } = useAuthUser();
-
+    const [localNetVotes, setNetVotes] = useState(net_votes);
     const handleVote = async () => {
         if (!user || !user.name) {
             console.error("Username is missing");
@@ -23,7 +23,15 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
         }
 
         try {
-            await voteOnContent(user.name, permlink, author, 10000);
+            
+            await voteOnContent(user.name, permlink, author, 9000);
+            if (author) {
+                const author_alert =author
+                alert("You just voted on " + author_alert + "'s comment! 🛹")
+            }
+            // make the net_votes update in real time
+            setNetVotes(net_votes + 1);
+
         } catch (error) {
             console.error("Error voting:", error);
         }
@@ -57,8 +65,19 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
       />
             <Flex justifyContent="space-between" alignItems="center">
                 <Text fontSize="sm">{new Date(created).toLocaleString()}</Text>
-                <Button leftIcon={<span>🛹</span>} variant="outline" size="sm" onClick={handleVote}>
-                    {net_votes}
+                <Button leftIcon={<span></span>} variant="outline" size="sm" onClick={handleVote}>
+                <img
+            src='https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless'
+            alt="Vote"
+            style={{
+              maxWidth: '24px', // Set a maximum width for the image
+              maxHeight: '24px', // Set a maximum height for the image
+              marginRight: '5px', // Add some spacing between the image and text
+            }}
+          />
+                    <p>
+                        {localNetVotes}
+                        </p>
                 </Button>
             </Flex>
         </Box>
@@ -82,6 +101,7 @@ const Comments: React.FC<Types.CommentsProps> = ({ comments, commentPosted }) =>
             {localComments.map((comment, index) => (
                 <Comment key={index} {...comment} />
             ))}
+
         </Box>
     );
 };

@@ -43,7 +43,7 @@ const nodes = [
 ];
 
 const defaultThumbnail =
-  "../../../../public/assets/crn2.png";
+  "/assets/crn2.png";
 const placeholderEarnings = 69.42;
 
 const randomSentences = [

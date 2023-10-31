@@ -240,7 +240,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           }}
         >
           <Image
-            src="assets/crn4.jpg"
+            src="/assets/crn4.jpg"
             alt="Dropdown Image"
             boxSize="50px" // Adjust the size as needed
             borderRadius="10px"

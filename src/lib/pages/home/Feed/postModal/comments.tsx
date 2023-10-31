@@ -18,24 +18,38 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
     const [localNetVotes, setNetVotes] = useState(net_votes);
     const handleVote = async () => {
         if (!user || !user.name) {
-            console.error("Username is missing");
-            return;
+          console.error("Username is missing");
+          return;
         }
-
+      
         try {
-            
-            await voteOnContent(user.name, permlink, author, 9000);
-            if (author) {
-                const author_alert =author
-                alert("You just voted on " + author_alert + "'s comment! 🛹")
-            }
-            // make the net_votes update in real time
-            setNetVotes(net_votes + 1);
-
-        } catch (error) {
-            console.error("Error voting:", error);
+          // Perform the vote operation
+          await voteOnContent(user.name, permlink, author, 10000);
+      
+          if (author) {
+            const author_alert = author;
+            alert("You just voted on " + author_alert + "'s comment! 🛹");
+          }
+      
+          // Update the net_votes only if the vote operation is successful
+          setNetVotes(net_votes + 1);
+        } catch (error:any) {
+          console.error("Error voting:", error);
+      
+          // Check if the error code is -32003 and handle it differently
+          if (error.code === -32003) {
+            // Handle this specific error case (optional)
+            // You can add custom logic here if needed
+            await voteOnContent(user.name, permlink, author, 0);
+            setNetVotes(localNetVotes-1);
+          } else {
+            // Handle other errors (if any)
+            // You can add custom error handling logic here
+          }
         }
-    };
+      };
+      
+      
 
     return (
         <Box border="1px solid white" borderRadius="5px" padding="15px" margin="10px">

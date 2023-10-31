@@ -57,7 +57,7 @@ const randomSentences = [
   "Initiating proof of stoke...", 
   "We will as fast as Daryl on a hill",
   "Nobody knows who was Gnartoshi Shredmoto",
-  "We have secret sections here, try /411"
+  "We have secret sections here, try /secret"
 ];
 
 const PlaceholderLoadingBar = () => {

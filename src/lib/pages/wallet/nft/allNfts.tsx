@@ -31,7 +31,7 @@ const AllNfts = () => {
   const { state } = usePioneer();
   const { api, app, context, assetContext, blockchainContext, pubkeyContext, status } = state;
   const [ETHaddress, setETHAddress] = useState("");
-  const [userPortfolios, setUserPortfolios] = useState<NFT[]>([]); // Provide a type annotation for userPortfolios
+  const [userPortfolios, setUserPortfolios] = useState<NFT[]>([]); 
   const [loading, setLoading] = useState(true);
 
   const onStart = async function () {
@@ -57,7 +57,6 @@ const AllNfts = () => {
   }, [app, api, app?.wallets, status, pubkeyContext]);
   useEffect(() => {
     onStart();
-    console.log("loaded")
   }
   , [ETHaddress]);
   return (
@@ -101,7 +100,6 @@ const AllNfts = () => {
               {nft.token.lastOffer && (
                 <Text>Last Offer Price (ETH): {nft.token.lastOffer.price}</Text>
               )}
-              {/* Add any additional information you want to display for each NFT here */}
             </VStack>
           </Flex>
         ))}

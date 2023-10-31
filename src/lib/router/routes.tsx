@@ -1,5 +1,4 @@
 import Page404 from "lib/pages/404";
-import GnarsDao from "lib/pages/home/dao/components/hiveGnars/gnars";
 import UploadPage from "lib/pages/upload";
 import React from "react";
 import type { PathRouteProps } from "react-router-dom";
@@ -8,17 +7,17 @@ import type { PathRouteProps } from "react-router-dom";
 const Home = React.lazy(() => import("lib/pages/home"));
 const Wallet = React.lazy(() => import("lib/pages/wallet"));
 const Profile = React.lazy(() => import("lib/pages/profile"));
-const AuthorProfilePage = React.lazy(() => import("lib/pages/profile/authorProfile")); // Update the path accordingly
-const BeCool = React.lazy(() => import("lib/pages/profile/beCool")); // Update the path accordingly
-const TutorialPage = React.lazy(() => import("lib/pages/home/tutorialPage")); // Update the path accordingly
-const PostPage = React.lazy(() => import("lib/pages/postpage")); // Update the path accordingly
-const QFS = React.lazy(() => import("lib/pages/qfs")); // Update the path accordingly
-const Test = React.lazy(() => import("lib/pages/home/dao/components/ethereum/testContract")); // Update the path accordingly
-const GnarsStats = React.lazy(() => import("lib/pages/home/dao/components/hiveGnars/gnars")); // Update the path accordingly
-const ThatsGnarly = React.lazy(() => import("lib/pages/home/Feed/thatsgnarly")); // Update the path accordingly
-const Account = React.lazy(() => import("lib/pages/account")); // Update the path accordingly
-const NewUpload = React.lazy(() => import("lib/pages/upload/newUpload")); // Update the path accordingly
-const Shelf = React.lazy(() => import("lib/pages/home/videos/lbry")); // Update the path accordingly  
+const AuthorProfilePage = React.lazy(() => import("lib/pages/profile/authorProfile"));  
+const BeCool = React.lazy(() => import("lib/pages/profile/beCool"));  
+const TutorialPage = React.lazy(() => import("lib/pages/home/tutorialPage"));  
+const PostPage = React.lazy(() => import("lib/pages/postpage"));  
+const QFS = React.lazy(() => import("lib/pages/qfs"));  
+const Test = React.lazy(() => import("lib/pages/home/dao/components/ethereum/testContract"));  
+const GnarsStats = React.lazy(() => import("lib/pages/home/dao/components/hiveGnars/gnars"));  
+const ThatsGnarly = React.lazy(() => import("lib/pages/home/Feed/thatsgnarly"));  
+const PepeCaptcha = React.lazy(() => import("lib/pages/secret-spot"));  
+const NewUpload = React.lazy(() => import("lib/pages/upload/newUpload"));  
+const Shelf = React.lazy(() => import("lib/pages/home/videos/lbry"));    
 
 export const routes: Array<PathRouteProps> = [
   {
@@ -74,8 +73,8 @@ export const routes: Array<PathRouteProps> = [
   element: <ThatsGnarly />,
 },
 {
-  path: "/account",
-  element: <Account />,
+  path: "/secret",
+  element: <PepeCaptcha />,
 },
 {
   path: "/newupload",
@@ -86,7 +85,7 @@ export const routes: Array<PathRouteProps> = [
   element: <Test />,
 },
 {
-  path: "/411",
+  path: "/secret",
   element: <Shelf />,
 }
 

@@ -36,7 +36,7 @@ const checkAccountExists = async (username: string) => {
   }
 };
 
-function AccountChecker() {
+function AccountCreation() {
   const [username, setUsername] = useState('');
   const [showSecondForm, setShowSecondForm] = useState(false);
   const [accountAvailable, setAccountAvailable] = useState(false);
@@ -109,4 +109,4 @@ function AccountChecker() {
   );
 }
 
-export default AccountChecker;
+export default AccountCreation;

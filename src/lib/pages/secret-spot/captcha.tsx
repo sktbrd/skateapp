@@ -16,10 +16,10 @@ interface CaptchaProps {
 
 // Define the array of images
 const images: ImageItem[] = [
-  { id: '1', src: 'https://www.skatehype.com/f/shL.png' },
-  { id: '2', src: 'https://www.skatehype.com/f/shR.png' },
-  { id: '3', src: 'https://www.skatehype.com/f/shrL.png' },
-  { id: '4', src: 'https://www.skatehype.com/f/shrR.png' },
+  { id: 'LSF', src: 'https://www.skatehype.com/f/shL.png' },
+  { id: 'RSF', src: 'https://www.skatehype.com/f/shR.png' },
+  { id: 'LCF', src: 'https://www.skatehype.com/f/shrL.png' },
+  { id: 'RCF', src: 'https://www.skatehype.com/f/shrR.png' },
 ];
 
 // Define an array of trick names
@@ -34,26 +34,28 @@ const trickNames: string[] = [
 // Define correct answers for each trick
 const trickCorrectAnswers: Record<string, Record<string, string[]>> = {
   'Nollie Flip': {
-    'A6': ['2'],
-    'B3': ['1'],
+    'A6': ['RSF'],
+    'B3': ['LSF', 'LCF'], // Both LSF and LCF are correct for position B3
   },
   '360 Flip': {
-    'B4': ['4'],
-    'A1': ['1'],
+    'B4': ['RCF'],
+    'A1': ['LSF'],
   },
   'Varial Heelflip': {
-    'A4': ['2'],
-    'B1': ['1'],
+    'A4': ['RSF'],
+    'B1': ['LSF', 'LCF'],
   },
   'Nollie Heelflip': {
-    'B6': ['2'],
-    'A3': ['1'],
+    'B6': ['RSF'],
+    'A3': ['LSF'],
+    'A2': ['LSF'],
   },
   'Nollie 360flip': {
-    'A6': ['2'],
-    'B3': ['3'],
+    'A6': ['RSF'],
+    'B3': ['LCF'],
   },
 };
+
 
 // Function to get a random trick name
 const getRandomTrickName = () => {
@@ -156,20 +158,21 @@ const Captcha: React.FC<CaptchaProps> = ({ onCaptchaCompletion }) => {
   // Check if the user's answers for a given trick are correct
   const isAnswerCorrect = (trick: string) => {
     const correctAnswers = trickCorrectAnswers[trick];
-
+  
     if (!correctAnswers) return true;
-
+  
     for (const position in correctAnswers) {
       if (correctAnswers.hasOwnProperty(position)) {
         const image = userImagePositions[position];
-        if (!image || !correctAnswers[position].includes(image.id)) {
-          return false;
+        if (image && correctAnswers[position].includes(image.id)) {
+          return true; // At least one correct image matches for the position
         }
       }
     }
-
-    return true;
+  
+    return false; // No correct image matches for any position
   };
+  
 
   // Render the grid of image positions
   const renderGrid = () => {
@@ -240,12 +243,10 @@ const Captcha: React.FC<CaptchaProps> = ({ onCaptchaCompletion }) => {
             : 'Captcha Failed! Please try again.'}
         </div>
       )}
-      {/* ... (your user answers and result components) */}
     </Box>
   );
 };
 
-// Define the DroppedImage component
 const DroppedImage: React.FC<ImageItem> = ({ id, src }) => {
   return (
     <Box

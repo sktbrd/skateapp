@@ -16,7 +16,6 @@ import {
   ModalContent,
   useDisclosure,
 } from "@chakra-ui/react";
-
 import { Client } from "@hiveio/dhive";
 import voteOnContent from "../api/voting";
 import useAuthUser from "../api/useAuthUser";

@@ -475,14 +475,14 @@ const handleIncludeFooterChange = () => {
         <Box>
           <center>
             <Badge color="black" bg={"yellow"} marginTop={"15px"}>
-              If it's your first time uploading to SkateHive, please check our{" "}
+              se este for o seu primeiro post na crowsnightapp, por favor veja nosso{" "}
               <a
                 href="https://docs.skatehive.app/docs/tutorial-basics/share-ur-content"
                 style={{ color: 'blue' }}
               >
                 Tutorial
               </a>{" "}
-              First
+              primeiro
             </Badge>
           </center>
           <Flex
@@ -612,15 +612,15 @@ const handleIncludeFooterChange = () => {
             <Box
               flex={isMobile ? "auto" : 1}
               p={4}
-              border="1px solid limegreen"
+              border="1px solid white"
               margin={"15px"}
               borderRadius={"10px"}
               maxWidth={{ base: "100%", md: "50%" }}
               overflowWrap="break-word"
             >
               <Box>
-                <Flex padding="1%" borderRadius="10px" border="1px solid limegreen" align="center" mb={4}>
-                  <Avatar border="1px solid limegreen" src={avatarUrl} size="sm" />
+                <Flex padding="1%" borderRadius="10px" border="1px solid white" align="center" mb={4}>
+                  <Avatar border="1px solid black" src={avatarUrl} size="sm" />
                   <Text ml={2} fontWeight="bold">
                     {user?.name}
                   </Text> 

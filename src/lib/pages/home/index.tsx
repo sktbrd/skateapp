@@ -1,11 +1,12 @@
-import { Flex, Tabs, TabList, Tab, TabPanels, TabPanel, useTabs,Image, VStack, Text } from "@chakra-ui/react";
+import { Flex, Tabs, TabList, Tab, TabPanels, TabPanel, useTabs,Image, VStack, Text, } from "@chakra-ui/react";
 import HiveBlog from "./Feed/Feed";
 import HiveVideos from "./videos/FeedVideo";
 import SnapShot from "./dao/snapshot";
 import Chat from "./chat";
 import QFS from "../qfs";
 import NewUpload from "../upload/newUpload";
-import CardGrid from "./equipe";
+import Equipe from "./equipe";
+import Store from "./store";
 
   const Home = () => {
     const { selectedIndex, ...tabProps } = useTabs({});
@@ -66,17 +67,17 @@ import CardGrid from "./equipe";
           </TabList>
           <TabPanels>
             <TabPanel>
-              <HiveBlog />
+              <HiveBlog/>
             </TabPanel>
             <TabPanel>
             <NewUpload/>
             </TabPanel>
             <TabPanel>
-              <CardGrid />
+            <Equipe/>
 
             </TabPanel>
             <TabPanel>
-              <SnapShot />
+              <Store/>
             </TabPanel>
           </TabPanels>
         </Tabs>

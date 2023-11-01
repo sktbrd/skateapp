@@ -7,59 +7,69 @@ interface Card {
   subtitle: string;
   url?: string;
   hoverImageUrl?: string;
+  price?: string;
 }
 
 const cardData: Card[] = [
   {
-    imageUrl: '../../../../assets/team/baba.png',
-    hoverImageUrl: 'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fimg1.wikia.nocookie.net%2F__cb20120603213349%2Fsonicpokemon%2Fimages%2F7%2F77%2FPikachu.png&f=1&nofb=1&ipt=4b3752fce892cbbbde3e01e1d1bbc9bb6ac25a8520fb33e66be90fc1628a8cef&ipo=images', // Specify hover image URL
-    subtitle: 'Baba de Lex',
-    url: '/profile/babaskt'
+    imageUrl: '/assets/meias/meiasanguepreto.jpg',
+    hoverImageUrl: '', // Specify hover image URL
+    subtitle: 'Sangue',
+    url: '',
+    price: 'Valor: 100,00'
     },
     {
-    imageUrl: '../../../../assets/team/zero.png',
-    subtitle: 'Zero ',
+    imageUrl: '/assets/meias/meiaolhos.jpg',
+    subtitle: 'Olhos',
+    price: 'Valor: 100,00'
     },
 
   {
-    imageUrl: '../../../../assets/team/bodao.png',
-    subtitle: 'Matheus BodÃ¥o',
+    imageUrl: '/assets/meias/meiaossobranca.jpg',
+    subtitle: 'Ossos',
+    price: 'Valor: 100,00'
   },
   {
-    imageUrl: '../../../../assets/team/emo.png',
-    subtitle: 'Guilherme',
+    imageUrl: '/assets/meias/meiaossopreto.jpg',
+    subtitle: 'Ossos',
+    price: 'Valor: 100,00'
   },
   {
-    imageUrl: '../../../../assets/team/harleyvladson.png',
-    subtitle: 'Xvlad 666',
-    hoverImageUrl: '../../../../assets/team/vlad_hover.gif',
+    imageUrl: '/assets/meias/meiasanguebranca.jpg',
+    subtitle: 'Sangue',
+    hoverImageUrl: '',
+    price: 'Valor: 100,00'
   },
   {
-    imageUrl: '../../../../assets/team/pharra.png',
-    subtitle: 'PharRat',
-    url: 'https://www.instagram.com/pharraskt/',
-    hoverImageUrl: '../../../../assets/team/pharra_hover.gif',
+    imageUrl: '/assets/meias/meiavela.jpg',
+    subtitle: 'Velas',
+    url: '',
+    hoverImageUrl: '',
+    price: 'Valor: 100,00'
   },
   {
-    imageUrl: '../../../../assets/team/meiola.png',
-    subtitle: 'Meiola ',
+    imageUrl: '/assets/meias/meiavelaelogo.jpg',
+    subtitle: 'Vela e corvo',
+    price: 'Valor: 100,00'
   },
   {
-    imageUrl: '../../../../assets/team/bruno.png',
-    subtitle: 'Bruno Boaz',
-    url: 'https://www.instagram.com/chriscobracole/'
+    imageUrl: '/assets/meias/meiaverme.jpg',
+    subtitle: 'Vermes',
+    url: '',
+    price: 'Valor: 100,00'
+    
   },
 
 ];
 
-const Equipe: React.FC = () => {
+const Store: React.FC = () => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
     return (
       <>
         <center>
           <Text fontSize={"48px"}>
-            MONSTROS
+            LOJA
           </Text>
         </center>
   
@@ -74,7 +84,7 @@ const Equipe: React.FC = () => {
               borderWidth="1px"
               borderRadius="lg"
               overflow="hidden"
-              style={{ filter: 'grayscale(100%)' }}
+              style={{ filter: 'initial' }}
               bg='black'
             >
               <RouterLink to={card.url || '/'}>
@@ -95,7 +105,7 @@ const Equipe: React.FC = () => {
                       left: 0,
                       width: '100%',
                       height: '100%',
-                      objectFit: 'cover',
+                      objectFit: 'initial',
                       transition: 'transform 0.3s ease-in-out',
                       transform: hoveredIndex === index ? 'scale(1.1)' : 'scale(1)',
                     }}
@@ -104,7 +114,7 @@ const Equipe: React.FC = () => {
                   />
                   <Image
                     boxSize={10}
-                    src='https://i.pinimg.com/originals/00/10/0a/00100af8e857761d150425dbc8213d69.gif'
+                    src='/assets/crlogo.ico'
                     style={{
                       position: 'absolute',
                       bottom: '10px',
@@ -118,24 +128,26 @@ const Equipe: React.FC = () => {
   
               <VStack spacing={2} align="center" p={4}>
                 <center>
-                  <Flex alignItems="center">
+                    <Flex alignItems="center">
                     <Image
-                      boxSize={10}
-                      src='https://i.pinimg.com/originals/00/10/0a/00100af8e857761d150425dbc8213d69.gif'
+                        boxSize={10}
+                        src='/assets/crlogo.ico'
                     />
                     <ChakraLink
-                      as={RouterLink}
-                      to={card.url || '/'}
-                      fontSize="lg"
-                      fontWeight="bold"
-                      marginLeft={'8px'}
-                      color={'white'}
+                        as={RouterLink}
+                        to={card.url || '/'}
+                        fontSize="lg"
+                        fontWeight="bold"
+                        marginLeft={'8px'}
+                        color={'white'}
                     >
-                      {card.subtitle}
+                        {card.subtitle}
                     </ChakraLink>
-                  </Flex>
+                    </Flex>
+                    {card.price && <Text fontSize="md" color="white">{card.price}</Text>}
                 </center>
-              </VStack>
+                </VStack>
+
             </Box>
           ))}
         </Grid>
@@ -143,4 +155,4 @@ const Equipe: React.FC = () => {
     );
 };
 
-export default Equipe;
+export default Store;

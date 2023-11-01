@@ -15,6 +15,7 @@ import {
   ModalOverlay,
   ModalContent,
   useDisclosure,
+  Tooltip,
 } from "@chakra-ui/react";
 import { Client } from "@hiveio/dhive";
 import voteOnContent from "../api/voting";
@@ -437,7 +438,7 @@ return (
                     </Link>
 
                     
-
+                <Tooltip backgroundColor={"black"} border={"1px dashed limegreen"} label={<div className="tooltip-text">47.5% - 🛹 You <br /> 47.5% - 🧡 Voters <br /> 5.00% - 🏦 Treasure* <br /><br /> Click to Learn More  </div>} aria-label="View Voters">
                   <Button
                     position="absolute"
                     bottom="10px"
@@ -447,10 +448,11 @@ return (
                     colorScheme="green"
                     size="s"
                     ml={2}
-                    style={{ fontFamily: 'Helvetica', 
-                            fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`, }} //dynamically changes font size based on numerical value of post.earnings
-                            > 
-                              
+                    style={{
+                      fontFamily: 'Helvetica',
+                      fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`,
+                    }} //dynamically changes font size based on numerical value of post.earnings
+                  >
                     $ {post.earnings.toFixed(2)}
                     <img
                       src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
@@ -463,24 +465,29 @@ return (
                       }}
                     />
                   </Button>
+                </Tooltip>
+
                 </Text>
-                
+
                 <Box marginLeft="auto">
+                <Tooltip backgroundColor={"black"} border={"1px dashed limegreen"} label={<div className="tooltip-text">Wow!</div>} aria-label="View Voters">
+
                 <IconButton
-              icon={<MdArrowUpward />}
-              backgroundColor="green"
-              color="white"
-              variant="ghost"
-              size="xs"
-              borderRadius="50%"
-              aria-label="Upvote"
-              border="1px"
-              borderColor="limegreen"
-              onClick={() => handleVoteClick(post)}
-            />
+                    icon={<MdArrowUpward />}
+                    backgroundColor="green"
+                    color="white"
+                    variant="ghost"
+                    size="xs"
+                    borderRadius="50%"
+                    aria-label="Upvote"
+                    border="1px"
+                    borderColor="limegreen"
+                    onClick={() => handleVoteClick(post)}
+                  />
+                                  </Tooltip>
+
                  </Box>
                  
-
 
 
               </CardFooter>

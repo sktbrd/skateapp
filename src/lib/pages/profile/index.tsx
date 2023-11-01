@@ -14,15 +14,13 @@ const DEFAULT_COVER_IMAGE_URL = 'https://i.ibb.co/r20bWsF/You-forgot-to-add-a-co
 export default function ProfilePage() {
   const { user } = useAuthUser() as { user: User | null };
   const [coverImageUrl, setCoverImageUrl] = useState<string>(DEFAULT_COVER_IMAGE_URL);
-  const [username, setUsername] = useState<string>("steemskate");
-  
+
   useEffect(() => {
     const fetchCoverImage = async () => {
       if (user) {
         try {
         const metadata = JSON.parse(user.posting_json_metadata || '');
         const coverImage = metadata.profile.cover_image;
-        setUsername(user.name || "");
         setCoverImageUrl(coverImage);
         } catch (error) {
           console.error('Error parsing JSON metadata:', error);
@@ -31,9 +29,7 @@ export default function ProfilePage() {
     };
 
     fetchCoverImage();
-    
   }, [user]);
-
   const UserAbout = () => {
     if (user) {
       const metadata = JSON.parse(user.posting_json_metadata || '');
@@ -44,36 +40,35 @@ export default function ProfilePage() {
     }
   }
 
-
   return (
     <Box
+      borderRadius="12px"
       fontFamily="'Courier New', monospace"
-      position="relative"
-      overflow="hidden"
-      maxWidth="100%"  // Set a max width for the image container
-      margin="0 auto"     // Center align the image container
+      position="relative" // Add position relative to the container
+      overflow="hidden"   // Hide overflow
     >
-      <Image src={coverImageUrl} alt="Cover Image" maxH="240px" width="100%" objectFit="cover" />
+      <Image src={coverImageUrl} alt="Cover Image" w="100%" h="auto" position="relative" zIndex="-1" />
 
       <Flex alignItems="center" justifyContent="center" padding="10px" position="relative" zIndex="1">
-      <Box
+        <Box
           position="absolute"
-          left="50%"
-          transform="translate(-50%, -50%)"
-          borderRadius="20%"
+          left="50%"   // Center horizontally
+          top="50%"    // Center vertically
+          transform="translate(-50%, -50%)"   // Center alignment
+          borderRadius="50%"
           border="2px solid limegreen"
-          boxSize="192px"
-          bg="white"
-          boxShadow="0px 2px 6px rgba(0, 0, 0, 0.1)"
-          background={"transparent"}
+          boxSize="100px"
+          bg="white"    // Add a white background for the profile image
+          boxShadow="0px 2px 6px rgba(0, 0, 0, 0.1)"   // Add a subtle shadow
         >
           {user ? (
-          <Image
-          src={`https://images.hive.blog/u/${user.name}/avatar`}
-          alt="profile avatar"
-          borderRadius="20%"
-          boxSize="192px"
-        />
+            <Image
+              src={`https://images.hive.blog/u/${user.name}/avatar`}
+              alt="profile avatar"
+              borderRadius="50%"
+              boxSize="96px" 
+                // Adjust size to fit within the circle border
+            />
           ) : (
             <Image
               src={DEFAULT_AVATAR_URL}
@@ -85,29 +80,21 @@ export default function ProfilePage() {
         </Box>
       </Flex>
 
-      <Box marginTop={"10px"}>
-        <Flex
-          backgroundColor="black"
-          direction="column"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Tabs variant={"enclosed"}>
-            <TabList justifyContent="center"> {/* Center align the TabList */}
-              <Tab>Blog</Tab>
-              <Tab>About</Tab>
-            </TabList>
-            <TabPanels>
-              <TabPanel>
-                <HiveBlog tag={username} queryType={"blog"} />
-              </TabPanel>
-              <TabPanel>
-              <UserAbout />
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        </Flex>
-      </Box>
+      <Tabs>
+        <TabList>
+          <Tab>Blog</Tab>
+          <Tab>About</Tab>
+        </TabList>
+
+        <TabPanels>
+          <TabPanel>
+            {user && <HiveBlog tag={user.name} queryType={"blog"} />}
+          </TabPanel>
+          <TabPanel>
+          <UserAbout/>
+            </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Box>
   );
 }

@@ -63,6 +63,9 @@ declare global {
     hive_keychain: any;
   }
 }
+const defaultTags = ["skatehive", "skateboarding" , "leofinance" ,"sportstalk", "hive-engine"];
+
+
 const NewUpload: React.FC = () => {
   const [markdownText, setMarkdownText] = useState<string>("");
   const [progress, setProgress] = useState<number>(0);
@@ -80,6 +83,11 @@ const NewUpload: React.FC = () => {
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
   const [postLink , setPostLink] = useState<string>("");
 
+
+  useEffect(() => {
+    setTags(defaultTags);
+  }, []);
+  
   const handleMarkdownChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdownText(event.target.value);
   };
@@ -331,24 +339,29 @@ const NewUpload: React.FC = () => {
   };
   
   
-// Function to handle changes in the tags input field
-const handleTagsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  const inputValue = event.target.value;
-  // Check if the last character is a comma or space
-  if (inputValue.endsWith(',') || inputValue.endsWith(' ')) {
-    // Extract the new tag without the comma or space
-    const newTag = inputValue.slice(0, -1).trim();
-    if (newTag) {
-      // Add the new tag to the tags list
-      setTags([...tags, newTag]);
-      // Clear the input field
-      setTagsInput('');
+  const handleTagsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    // Check if the last character is a comma or space
+    if (inputValue.endsWith(',') || inputValue.endsWith(' ')) {
+      // Extract the new tag without the comma or space
+      const newTag = inputValue.slice(0, -1).trim();
+      if (newTag) {
+        // Check if the number of tags is less than 10 before adding a new tag
+        if (tags.length < 10) {
+          // Add the new tag to the tags list
+          setTags([...tags, newTag]);
+          // Clear the input field
+          setTagsInput('');
+        } else {
+          alert('You can only add up to 10 tags.');
+        }
+      }
+    } else {
+      // Update the input field with the current value
+      setTagsInput(inputValue);
     }
-  } else {
-    // Update the input field with the current value
-    setTagsInput(inputValue);
-  }
-};
+  };
+  
 
 // Function to render the tags as badges
     const renderTags = () => {
@@ -402,7 +415,7 @@ const handleTagsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const handleTagsSubmit = () => {
       // Split the input value by commas and trim whitespace
       const newTags = tagsInput.split(",").map((tag) => tag.trim());
-      setTags(newTags);
+      setTags( newTags);
       // Clear the input field
       setTagsInput("");
     };
@@ -575,7 +588,7 @@ const handleIncludeFooterChange = () => {
                     </Checkbox>
                     <Box marginTop={4}>
                     <Text fontSize="lg" fontWeight="bold">
-                      Thumbnail Options
+                      Thumbnail Options (select at least one)
                     </Text>
                     <Flex flexWrap="wrap">{renderThumbnailOptions()}</Flex>
                   </Box>
@@ -590,7 +603,7 @@ const handleIncludeFooterChange = () => {
                   <Box marginTop={4}>
                     <div ref={searchBarRef}>
                       <Text fontSize="lg" fontWeight="bold">
-                        Set Beneficiaries
+                        Split rewards with your photographer/videomaker 
                       </Text>
                       <AuthorSearchBar onSearch={handleAuthorSearch} />
                       {beneficiaries.map((beneficiary, index) => (

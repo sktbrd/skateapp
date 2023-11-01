@@ -182,9 +182,6 @@ export default function HiveBalanceDisplay2() {
     onStart();
   }, [user]);
 
-  const handleTransfer = async () => {
-    console.log("user wants to transfer")
-  };
 
   const handleOpenModal = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault(); // Prevent the default button click behavior
@@ -344,7 +341,6 @@ export default function HiveBalanceDisplay2() {
         setToAddress={setToAddress}
         amount={amount}
         setAmount={setAmount}
-        handleTransfer={handleTransfer}
       />
       {/* <WalletTransactions wallet={user?.name || ""} /> */}
       

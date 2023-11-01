@@ -85,7 +85,7 @@ export default function AuthorProfilePage() {
                 <HiveBlog tag={username} queryType={"blog"} />
               </TabPanel>
               <TabPanel>
-                <p>yo</p>
+                <p>yo2</p>
               </TabPanel>
             </TabPanels>
           </Tabs>

@@ -8,7 +8,6 @@ interface SendHiveModalProps {
   setToAddress: React.Dispatch<React.SetStateAction<string>>;
   amount: string;
   setAmount: React.Dispatch<React.SetStateAction<string>>;
-  handleTransfer: () => Promise<void>;
 }
 
 const SendHiveModal: React.FC<SendHiveModalProps> = ({
@@ -18,8 +17,14 @@ const SendHiveModal: React.FC<SendHiveModalProps> = ({
   setToAddress,
   amount,
   setAmount,
-  handleTransfer,
 }) => {
+
+
+  const handleTransfer = async () => {
+    console.log("user wants to transfer")
+  };
+
+
   return (
     <Modal  isOpen={showModal} onClose={() => setShowModal(false)} size="md">
       <ModalOverlay />

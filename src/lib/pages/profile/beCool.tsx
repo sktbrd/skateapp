@@ -62,13 +62,12 @@ export default function HiveBalanceDisplay() {
       <Flex alignItems="center" justifyContent="left" padding="10px">
         {user ? (
           <>
-            <Image
-              src={`https://images.hive.blog/u/${user.name}/avatar`}
-              alt="profile avatar"
-              borderRadius="20px"
-              border="2px solid limegreen"
-              boxSize="40px"
-            />
+          <Image
+            src={`https://images.hive.blog/u/${user.name}/avatar`}
+            alt="profile avatar"
+            borderRadius="20%"
+            boxSize="192px"
+          />
             <Text padding="10px" color="limegreen">
               {user.name}
             </Text>

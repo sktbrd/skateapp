@@ -277,7 +277,7 @@ const transformedContent = transformYouTubeContent(content);
 return (
   <Modal isOpen={isOpen} onClose={onClose} size="3xl">
     <ModalOverlay />
-    <ModalContent backgroundColor={'#593576'} border={'1px solid white'}>
+    <ModalContent background = {'radial-gradient(circle, #0D0D0D, #060126, #3D278C)'} border={'1px solid white'}>
       <ModalHeader>
         <PostHeader title={title} author={author} avatarUrl={avatarUrl} postUrl={postUrl} permlink={permlink} onClose={onClose} />
         {isUserLoggedIn && user.name === author && !isEditing && (

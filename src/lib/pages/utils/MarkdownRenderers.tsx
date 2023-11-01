@@ -25,28 +25,28 @@ export const MarkdownRenderers = {
               maxWidth: '100%',
               height: 'auto',
               borderRadius: '10px',
-              border: '1px solid limegreen',
+              border: '1px solid black',
             }}
             onError={(e) => {
               // Handle image loading error by replacing the source with a default image
-              e.currentTarget.src = 'https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75'; // Replace with the URL of your default image
+              e.currentTarget.src = 'https://ibb.co/k0gXpjf'; // Replace with the URL of your default image
             }}
           />
         </span>
       ),
       
-a: ({ children, ...props }: RendererProps) => <a {...props} style={{ color: 'yellow' }}> {children} <br/></a>,
+a: ({ children, ...props }: RendererProps) => <a {...props} style={{ color: '#D9D5A0' }}> {children} <br/></a>,
 
-h1: ({ children, ...props }: RendererProps) => <h1 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '26px', paddingBottom: '10px' , paddingTop:"10px" }}>{children}</h1>,
-h2: ({ children, ...props }: RendererProps) => <h2 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '20px', paddingBottom: '8px' , paddingTop:"10px"}}>{children}</h2>,
-h3: ({ children, ...props }: RendererProps) => <h3 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '18px', paddingBottom: '6px' , paddingTop:"10px"}}>{children}</h3>,
-h4: ({ children, ...props }: RendererProps) => <h4 {...props} style={{ fontWeight: 'bold', color: 'yellow', fontSize: '16px', paddingBottom: '4px' , paddingTop:"10px"}}>{children}</h4>,
+h1: ({ children, ...props }: RendererProps) => <h1 {...props} style={{ fontWeight: 'bold', color: '#D9D5A0', fontSize: '26px', paddingBottom: '10px' , paddingTop:"10px" }}>{children}</h1>,
+h2: ({ children, ...props }: RendererProps) => <h2 {...props} style={{ fontWeight: 'bold', color: '#D9D5A0', fontSize: '20px', paddingBottom: '8px' , paddingTop:"10px"}}>{children}</h2>,
+h3: ({ children, ...props }: RendererProps) => <h3 {...props} style={{ fontWeight: 'bold', color: '#D9D5A0', fontSize: '18px', paddingBottom: '6px' , paddingTop:"10px"}}>{children}</h3>,
+h4: ({ children, ...props }: RendererProps) => <h4 {...props} style={{ fontWeight: 'bold', color: '#D9D5A0', fontSize: '16px', paddingBottom: '4px' , paddingTop:"10px"}}>{children}</h4>,
 blockquote: ({ children, ...props }: RendererProps) => (
   <div
     style={{
       backgroundColor: '#333',
       padding: '16px',
-      borderLeft: '4px solid #FFD700', // Gold border
+      borderLeft: '4px solid black', // Gold border
       margin: '20px 0',
       borderRadius: '8px',
       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',
@@ -72,7 +72,7 @@ ul: ({ ordered, children, ...props }: RendererProps) => {
   return <ul {...props} data-ordered={listType} style={{ paddingLeft: '10%' }}>{children}</ul>;
 },
 
-sub: ({ children, ...props }: RendererProps) => (<sub {...props} style={{color: 'red' }}>{children}</sub>),
+sub: ({ children, ...props }: RendererProps) => (<sub {...props} style={{color: '#D9D5A0' }}>{children}</sub>),
 hr: ({ children, ...props }: RendererProps) => <hr {...props} style={{ paddingBottom: '20px' }}>{children}</hr>,
 br: ({ children, ...props }: RendererProps) => <br {...props} style={{ paddingBottom: '20px' }}>{children}</br>,
 pre: ({ children, ...props }: RendererProps) => (
@@ -106,7 +106,7 @@ pre: ({ children, ...props }: RendererProps) => (
     <iframe
       {...props}
       src={src}
-      style={{ borderRadius: '10px', marginBottom: '10px', border:'1px limegreen solid', minWidth: '100%', maxWidth: '100%', minHeight: '400px', maxHeight: '400px' }}
+      style={{ borderRadius: '10px', marginBottom: '10px', border:'1px black solid', minWidth: '100%', maxWidth: '100%', minHeight: '400px', maxHeight: '400px' }}
     />
     </span>
   ),

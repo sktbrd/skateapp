@@ -23,7 +23,7 @@ export const theme = extendTheme({
   styles: {
     global: (props: GlobalStyleProps) => ({
       body: { 
-        background: "linear-gradient(to bottom, #562D75, #593576)",
+        background: "linear-gradient(to top, #0D0D0D, #060126, #3D278C)",
         color:  "black" ,
       },
       p: {

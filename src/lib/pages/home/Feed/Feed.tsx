@@ -46,18 +46,19 @@ const defaultThumbnail =
 const placeholderEarnings = 69.42;
 
 const randomSentences = [
-  "Don't mall grab, or do it, you do you...",
-  "'Ok to push Mongo it is (master YODA)'",
-  "Roll one and play some stoken.quest",
-  "Remember Mirc times ?",
-  "Fuck instagram!",
-  "Ready to grind on chain?",
-  "Praise whoever made skatevideosite",
-  "Loading Stokenomics...",
-  "Initiating proof of stoke...", 
-  "We will as fast as Daryl on a hill",
-  "Nobody knows who was Gnartoshi Shredmoto",
-  "We have secret sections here, try /secret"
+  "Have a spooky Skateboarding!",
+  // "Don't mall grab, or do it, you do you...",
+  // "'Ok to push Mongo it is (master YODA)'",
+  // "Roll one and play some stoken.quest",
+  // "Remember Mirc times ?",
+  // "Fuck instagram!",
+  // "Ready to grind on chain?",
+  // "Praise whoever made skatevideosite",
+  // "Loading Stokenomics...",
+  // "Initiating proof of stoke...", 
+  // "We will as fast as Daryl on a hill",
+  // "Nobody knows who was Gnartoshi Shredmoto",
+  // "We have secret sections here, try /secret"
 ];
 
 const PlaceholderLoadingBar = () => {
@@ -66,7 +67,7 @@ const PlaceholderLoadingBar = () => {
 
   return (
     <center>
-      <Image src="https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif" />
+      <Image src="https://media3.giphy.com/media/d7nezQSKYE4fBpVrKF/giphy.gif?cid=6c09b952381j20p3fpvckoccq5p50kr91vjq9sb7k7oi0hut&ep=v1_stickers_related&rid=giphy.gif&ct=s" />
       <Text>{randomSentence}</Text>
     </center>
   );

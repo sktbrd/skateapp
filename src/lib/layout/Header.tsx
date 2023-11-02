@@ -289,7 +289,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     </Link>
     <MenuDivider />
 
-    <MenuGroup title="🍴 Forks">
+    <MenuGroup title="Forks">
     <Link to="https://crowsnight.vercel.app" target="_blank" style={{ textDecoration: 'none' }}>
 
       <MenuItem

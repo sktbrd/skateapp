@@ -438,7 +438,7 @@ return (
                     </Link>
 
                     
-                <Tooltip color={"white"} backgroundColor={"black"} border={"1px dashed limegreen"} label={<div className="tooltip-text">47.5% - 🛹 You <br /> 47.5% - 🧡 Voters <br /> 5.00% - 🏦 Treasure* <br /><br /> Click to Learn More  </div>} aria-label="View Voters">
+                <Tooltip color={"white"} backgroundColor={"black"} border={"1px dashed limegreen"} label={<div style={{color: 'limegreen'}}>45% - 🛹 You <br /> 50% - 🧡 Voters <br /> 5.0% - 🏦 Treasure* <br /><br /> Click to Learn More  </div>} aria-label="View Voters">
                   <Button
                     position="absolute"
                     bottom="10px"
@@ -470,7 +470,7 @@ return (
                 </Text>
 
                 <Box marginLeft="auto">
-                <Tooltip backgroundColor={"black"} border={"1px dashed limegreen"} label={<div className="tooltip-text">Wow!</div>} aria-label="View Voters">
+                <Tooltip backgroundColor={"black"} border={"1px dashed limegreen"} label={<div style={{color: 'orange'}}>Wow!</div>} aria-label="View Voters">
 
                 <IconButton
                     icon={<MdArrowUpward />}

@@ -20,11 +20,13 @@ import {
   ModalBody,
   Menu,
   MenuButton,
+  MenuGroup,
   MenuList,
   MenuItem,
   Button,
   Select,
   Divider,
+  MenuDivider,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { keyframes } from "@emotion/react";
@@ -224,79 +226,83 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
       <Flex width="100%" justifyContent="space-between" alignItems="center" mb={{ base: 2, md: 0 }}>
       <Menu>
-      <MenuButton
-          as={Button}
-          backgroundColor="black"
-          border="limegreen 1px solid"
-          color="limegreen"
-          size="l"
-          css={{
-            animation: `${glow} 2s infinite alternate , ${moveUpAndDown} 3s infinite` ,
-            "&:hover": {
-              animation: `${enlargeOnHover} 0.2s forwards, ${glow} 2s infinite alternate,${moveUpAndDown} 0s infinite`,
-            },
-          }}
-        >
-          <Image
-            src="/assets/skatehive.jpeg"
-            alt="Dropdown Image"
-            boxSize="48px" // Adjust the size as needed
-            borderRadius="10px"
-          />
-        </MenuButton>
-        <MenuList border="1px solid limegreen"  backgroundColor="black" color="white">
-          <Link to="https://snapshot.org/#/skatehive.eth" target="_blank" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
-            >
-              	🏛 Governance
-            </MenuItem>
-          </Link>
-          <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" target="_blank" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
-            >
-              🔗 Curation Trail
-            </MenuItem>
-          </Link>
-          <Link to="https://docs.skatehive.app" target="_blank" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
-            >
-              	📖 Docs
-            </MenuItem>
-          </Link>
-          <Link to="/secret" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
-            >
-              	㊙ Secret Spot
-            </MenuItem>
-          </Link>
-          <Link to="https:/github.com/sktbrd/skateapp" target="_blank" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
-            >
-              	💻 Contribute
-            </MenuItem>
-          </Link>
-          {/* <Link to="/becool" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
-            >
-             	🛹 How to be Cool
-            </MenuItem>
-          </Link> */}
-          {/* Add more external links as needed */}
-        </MenuList>
+  <MenuButton
+    as={Button}
+    backgroundColor="black"
+    border="limegreen 1px solid"
+    color="limegreen"
+    size="l"
+    css={{
+      animation: `${glow} 2s infinite alternate , ${moveUpAndDown} 3s infinite`,
+      "&:hover": {
+        animation: `${enlargeOnHover} 0.2s forwards, ${glow} 2s infinite alternate,${moveUpAndDown} 0s infinite`,
+      },
+    }}
+  >
+    <Image
+      src="/assets/skatehive.jpeg"
+      alt="Dropdown Image"
+      boxSize="48px" // Adjust the size as needed
+      borderRadius="10px"
+    />
+  </MenuButton>
+  <MenuList border="1px solid limegreen" backgroundColor="black" color="white">
+    <Link to="https://snapshot.org/#/skatehive.eth" target="_blank" style={{ textDecoration: 'none' }}>
+      <MenuItem
+        _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+        backgroundColor="black"
+      >
+        🏛 Governance
+      </MenuItem>
+    </Link>
+    <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" target="_blank" style={{ textDecoration: 'none' }}>
+      <MenuItem
+        _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+        backgroundColor="black"
+      >
+        🔗 Curation Trail
+      </MenuItem>
+    </Link>
+    <Link to="https://docs.skatehive.app" target="_blank" style={{ textDecoration: 'none' }}>
+      <MenuItem
+        _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+        backgroundColor="black"
+      >
+        📖 Docs
+      </MenuItem>
+    </Link>
+    <Link to="/secret" style={{ textDecoration: 'none' }}>
+      <MenuItem
+        _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+        backgroundColor="black"
+      >
+        ㊙ Secret Spot
+      </MenuItem>
+    </Link>
+    <Link to="https:/github.com/sktbrd/skateapp" target="_blank" style={{ textDecoration: 'none' }}>
+      <MenuItem
+        _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+        backgroundColor="black"
+      >
+        💻 Contribute
+      </MenuItem>
+    </Link>
+    <MenuDivider />
 
-      </Menu>
+    <MenuGroup title="🍴 Forks">
+    <Link to="https://crowsnight.vercel.app" target="_blank" style={{ textDecoration: 'none' }}>
+
+      <MenuItem
+        _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+        backgroundColor="black"
+      >
+        	💀 CrowsNight
+      </MenuItem>
+      </Link>
+    </MenuGroup>
+  </MenuList>
+</Menu>
+
       <Text 
         fontSize={fontSize} 
         fontWeight="medium" 

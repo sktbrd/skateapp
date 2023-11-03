@@ -118,8 +118,13 @@ const AccSummary: React.FC<AccSummaryProps> = ({ username }) => {
                 </Tooltip>
                 <Divider backgroundColor="red" />
 
-                <Flex alignItems="center" justifyContent="center">
-                    <Text fontWeight="bold" color="orange">Total Value Generated: { !isLoading ? "$" + (voteRewards + (currationRewards * conversionRate)).toFixed(3) : "Loading..." }</Text>
+                <Flex alignItems="center" justifyContent="center" flexDirection={'column'}>
+                <Text fontSize="2xl" fontWeight="bold" color="orange" >
+  Total Value Generated: {!isLoading ? "" : "Loading..."}
+  </Text>
+  <Text fontWeight="bold" fontSize="48px">
+    {!isLoading ? ("$"+ (voteRewards + currationRewards * conversionRate).toFixed(2)) : ""}
+  </Text>
                 </Flex>
                 <Divider backgroundColor="red" />
                 <HStack spacing={4} align="stretch">

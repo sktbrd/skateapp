@@ -201,8 +201,8 @@ export default function HiveBalanceDisplay2() {
         borderRadius="12px"
         border="2px solid red"
         padding="10px"
-        width={['100%', '100%']} // Set width to 100% on mobile, 50% on other screen sizes
-    >
+        maxWidth={{ base: "100%", md: "50%" }}
+        >
         <VStack spacing={4} align="stretch">
             <Flex alignItems="center" justifyContent="center" padding="10px">
             <Box
@@ -244,7 +244,7 @@ export default function HiveBalanceDisplay2() {
             ) : (
                 <>
                     <Flex alignItems="center" justifyContent="center">
-                        <Text fontWeight="bold" color="orange">Wallet Wortth: ${totalWorth.toFixed(2)}</Text>
+                        <Text fontWeight="bold" color="orange">Wallet Worth: ${totalWorth.toFixed(2)}</Text>
                     </Flex>
                     <Divider backgroundColor="red" />
                     <HStack spacing={4} align="stretch">
@@ -283,7 +283,7 @@ export default function HiveBalanceDisplay2() {
                         color="white" 
                         borderRadius="10px" 
                         border="1px dashed limegreen" 
-                        label="Buy hive using othe crypto">
+                        label="Buy hive using other crypto">
 
                     <HStack
                         margin="10px"

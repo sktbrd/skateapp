@@ -276,7 +276,7 @@ const transformedContent = transformYouTubeContent(content);
 
 return (
   <Modal isOpen={isOpen} onClose={onClose} size="3xl">
-  <ModalOverlay style={{ background: 'rgba(0, 0, 0, 0.9)' }} /> {/* Adjust the opacity as needed */}
+  <ModalOverlay style={{ background: 'rgba(0, 0, 0, 0.8)' }} /> {/* Adjust the opacity as needed */}
     <ModalContent backgroundColor={'black'}  boxShadow="0px 0px 10px 5px rgba(128,128,128,0.1)">
       <ModalHeader>
         <PostHeader title={title} author={author} avatarUrl={avatarUrl} postUrl={postUrl} permlink={permlink} onClose={onClose} />

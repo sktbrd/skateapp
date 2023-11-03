@@ -48,7 +48,7 @@ const Wallet = () => {
       <TabPanel>
         <center>
 
-  <Flex maxWidth={"30%"} direction={["column", "row"]}>
+  <Flex>
 
     <Box  flex={1} mb={[4, 0]}>
       <HiveBalanceDisplay2 />

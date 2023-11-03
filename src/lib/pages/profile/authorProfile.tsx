@@ -1,4 +1,4 @@
-import { Image, Box, Flex, Tabs, TabList, TabPanels, Tab, TabPanel , Text} from "@chakra-ui/react";
+import { Image, Box, Flex, Tabs, TabList, TabPanels, Tab, TabPanel , Text, Tooltip} from "@chakra-ui/react";
 import React, { useEffect, useState } from 'react';
 import HiveBlog from "../home/Feed/Feed";
 import HiveBalanceDisplay2 from "../wallet/hive/hiveBalance";
@@ -70,7 +70,7 @@ export default function AuthorProfilePage() {
     >
       <Image src={coverImageUrl} alt="Cover Image" maxH="240px" width="100%" objectFit="cover" />
       <Flex alignItems="center" justifyContent="center" padding="10px" position="relative" zIndex="1">
-        <Box
+      <Box
           position="absolute"
           left="50%"
           transform="translate(-50%, -65%)"
@@ -85,10 +85,22 @@ export default function AuthorProfilePage() {
             borderRadius="10%"
             boxSize="192px"
             border="2px solid limegreen"
-
           />
-
+          {/* Conditional rendering for verification badge */}
+          {hasVotedWitness && (
+            <Tooltip label="This person knows stuff! (S)he Voted on our Hive Validator" aria-label="Verified Badge">
+            <Image
+              src="https://www.stoken.quest/images/coinspin.gif"
+              alt="Verified Badge"
+              position="absolute"
+              right="-4"
+              bottom="-3"
+              boxSize="48px" // You can adjust the size as needed
+            />
+            </Tooltip>
+          )}
         </Box>
+
         <center>
           <Text  fontSize={"26px"}> {username}</Text>
           </center>

@@ -109,7 +109,7 @@ const HiveStats: React.FC<HiveStatsProps> = ({ wallet }) => {
             border="2px solid red"
             padding="10px"
             margin="10px"
-            minWidth={"50%"}
+            minWidth={"47.5%"}
         >
             <VStack spacing={4} align="stretch">
                 <Flex alignItems="center" justifyContent="center" padding="10px">

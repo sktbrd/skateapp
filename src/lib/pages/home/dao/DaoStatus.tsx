@@ -13,7 +13,7 @@ const DaoStatus = () => {
   const [activeTab, setActiveTab] = useState("skatehive"); // Default active tab
 
   return (
-    <Flex border={'1px so'} flexDirection="column" paddingBottom="10px" width="100%">
+    <Flex  flexDirection="column" paddingBottom="10px" width="100%">
 
       <Tabs variant='enclosed' >
     
@@ -34,7 +34,7 @@ const DaoStatus = () => {
         </TabList>
         <center>
 
-        <TabPanels justifyContent={'center'}>
+        <TabPanels  justifyContent={'center'}>
           <TabPanel >
             {activeTab === "skatehive" && (
               <div>
@@ -47,7 +47,7 @@ const DaoStatus = () => {
                 >
                 
 
-                <EthereumStats />
+                <EthereumStats  />
                 <HiveStats wallet="steemskate" />
                 
               </Flex>

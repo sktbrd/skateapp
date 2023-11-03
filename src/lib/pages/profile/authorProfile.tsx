@@ -6,7 +6,10 @@ import { useParams } from 'react-router-dom';
 import { Client } from "@hiveio/dhive";
 
 interface AuthorProfile {
+  about?: string;
   cover_image?: string;
+  location?: string;
+  name?: string;
   // Add other properties of the profile if needed
 }
 
@@ -21,25 +24,64 @@ const DEFAULT_COVER_IMAGE_URL = 'https://i.ibb.co/r20bWsF/You-forgot-to-add-a-co
 export default function AuthorProfilePage() {
   const { username } = useParams<{ username: string }>();
   const [coverImageUrl, setCoverImageUrl] = useState<string>(DEFAULT_COVER_IMAGE_URL);
-
+  const [account, setAccount] = useState<string | null>(null); // Step 2
+  const [authorAbout, setAuthorAbout] = useState<string | null>(null); // Step 3
   useEffect(() => {
-    const fetchCoverImage = async () => {
+    const fetchAccountInfo = async () => {
       if (username) {
         try {
-          const client = new Client('https://api.hive.blog'); // Set the appropriate Hive node URL
+          
+          const client = new Client('https://api.hive.blog'); 
           const account = await client.database.getAccounts([username]);
+          console.log('ACCOUNT',account)
+          setAccount(account[0].name);
           const metadata = JSON.parse(account[0].posting_json_metadata) as Author;
+          console.log('METADATA',metadata)
+          const authorAbout = metadata.profile?.about || null;
+          console.log('ABOUT', authorAbout);
           const coverImage = metadata.profile?.cover_image || DEFAULT_COVER_IMAGE_URL;
           setCoverImageUrl(coverImage);
+          setAuthorAbout(authorAbout);
         } catch (error) {
           console.error('Error fetching author metadata:', error);
         }
       }
     };
 
-    fetchCoverImage();
+    fetchAccountInfo();
   }, [username]);
 
+  const [accountReputation, setAccountReputation] = useState<number | null>(null); // Step 2
+  useEffect(() => {
+    const fetchData = async () => {
+      if (username) {
+        try {
+          const client = new Client('https://api.hive.blog');
+          const response = await client.call('condenser_api.get_account_reputations', username, 1);
+          console.log('USERNAME',username)
+          console.log('Response:', response)
+          if (response && response.length > 0) {
+            const reputation = response[0]?.reputation || null;
+        
+            // Fetch additional account metadata if needed
+            const account = await client.database.getAccounts([username]);
+            const metadata = JSON.parse(account[0].posting_json_metadata) as Author;
+            const coverImage = metadata.profile?.cover_image || DEFAULT_COVER_IMAGE_URL;
+            setCoverImageUrl(coverImage);
+            setAccountReputation(reputation);
+          } else {
+            console.error('Invalid response from API:', response);
+          }
+        } catch (error) {
+          console.error('Error fetching author metadata:', error);
+        }
+        
+      }
+    };
+
+
+    fetchData();
+  }, [username]);
   return (
     <Box
       fontFamily="'Courier New', monospace"
@@ -82,10 +124,11 @@ export default function AuthorProfilePage() {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <HiveBlog tag={username} queryType={"created"} />
+                <HiveBlog tag={username} queryType={"blog"} />
               </TabPanel>
               <TabPanel>
-                <p>yo2</p>
+              <p>Account : {account}</p> {/* Step 5: Display the account reputation */}
+              <p>About: {authorAbout} </p>
               </TabPanel>
             </TabPanels>
           </Tabs>

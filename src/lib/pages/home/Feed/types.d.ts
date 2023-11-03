@@ -23,6 +23,7 @@ id: string; // Add this field to store the unique identifier of the comment
 replies: CommentProps[]; 
 limit: number;
 blockedUser: string;
+parent_permlink: string;
 
 
 
@@ -31,6 +32,7 @@ export interface CommentsProps {
 comments: CommentProps[];
 commentPosted: boolean;
 blockedUser: string;
+permlink: string;
 }
 
 export interface CommentBoxProps {

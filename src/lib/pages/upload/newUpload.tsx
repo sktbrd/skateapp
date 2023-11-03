@@ -425,7 +425,7 @@ const handleIncludeFooterChange = () => {
   const username = user?.name;
   if (username) {
     const permlink = slugify(title.toLowerCase());
-    const link = `https://skatehive.app/post/testing67/@${username}/${permlink}`;
+    const link = `https://skatehive.app/post/hive-173115/@${username}/${permlink}`;
     setPostLink(link);
     console.log(postLink)
   }

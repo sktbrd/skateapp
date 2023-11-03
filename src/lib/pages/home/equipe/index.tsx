@@ -43,6 +43,7 @@ const cardData: Card[] = [
   {
     imageUrl: '../../../../assets/team/defon.jpg',
     subtitle: 'Defon',
+    url: 'https://crowsnight.vercel.app/profile/doblershiva'
   },
   {
     imageUrl: '../../../../assets/team/bruno.png',

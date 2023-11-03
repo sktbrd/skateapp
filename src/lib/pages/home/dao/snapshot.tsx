@@ -118,7 +118,7 @@ const SkatehiveProposals: React.FC = () => {
 const [isMobile] = useMediaQuery('(max-width: 768px)');
 
 return (
-  <Flex  flexDirection="column">
+  <Flex   flexDirection="column">
     <DaoStatus />
       <Flex justify={"center"}>
       <Text border="1px solid white" borderRadius="10px" padding="8px"  fontSize="2xl" color="white">

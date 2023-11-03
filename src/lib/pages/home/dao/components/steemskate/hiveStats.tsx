@@ -5,7 +5,6 @@ import { fetchHbdPrice, fetchConversionRate } from 'lib/pages/wallet/hive/hiveBa
 import axios from 'axios';
 import { cache } from 'lib/pages/wallet/hive/hiveBalance';
 import { Link as ChakraLink } from "@chakra-ui/react";
-
 const dhiveClient = new dhive.Client([
     "https://api.hive.blog",
     "https://api.hivekings.com",
@@ -109,8 +108,8 @@ const HiveStats: React.FC<HiveStatsProps> = ({ wallet }) => {
             borderRadius="12px"
             border="2px solid red"
             padding="10px"
-            width={['100%', '50%']} // Set width to 100% on mobile, 50% on other screen sizes
             margin="10px"
+            minWidth={"50%"}
         >
             <VStack spacing={4} align="stretch">
                 <Flex alignItems="center" justifyContent="center" padding="10px">
@@ -246,7 +245,7 @@ export const BalanceDisplay = ({
     <Box
       borderRadius="5px"
       border="1px solid red"
-      width="50%"
+      width="100%"
       padding="10px"
       textAlign="center"
     >

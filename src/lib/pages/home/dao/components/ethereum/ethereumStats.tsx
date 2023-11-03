@@ -187,7 +187,8 @@ useEffect(() => {
       borderRadius="12px"
       padding="10px"
       margin="10px"
-      width={['100%', '50%']} // Set width to 100% on mobile, 50% on other screen sizes
+      minWidth={['50%']} 
+      // Set width to 100% on mobile, 50% on other screen sizes
     >
       <VStack spacing={4} align="stretch">
 
@@ -303,7 +304,7 @@ const BalanceDisplay = ({
     <Box
       borderRadius="5px"
       border="1px solid #7CC4FA"
-      width="50%"
+      width="100%"
       padding="10px"
       textAlign="center"
     >

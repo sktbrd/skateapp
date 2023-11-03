@@ -307,7 +307,7 @@ return (
         )}
         
       </ModalBody>
-      <Comments comments={comments} commentPosted={commentPosted} blockedUser={"hivebuzz"} />
+      <Comments comments={comments} commentPosted={commentPosted} blockedUser={"hivebuzz"} permlink='' />
       <HStack justifyContent="space-between">
         <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
           <Button color="white" bg="black" margin="15px" border="1px solid orange" onClick={handleViewFullPost}>View Full Post</Button>

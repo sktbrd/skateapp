@@ -47,16 +47,12 @@ const defaultThumbnail =
 const placeholderEarnings = 69.42;
 
 const randomSentences = [
-  "Don't mall grab, or do it, you do you...",
-  "'Ok to push Mongo it is (master YODA)'",
-  "Roll one and play some stoken.quest",
-  "Remember Mirc times ?",
-  "Fuck instagram!",
-  "Ready to grind on chain?",
-  "Praise whoever made skatevideosite",
-  "Loading Stokenomics...",
-  "Initiating proof of stoke...", 
-  "We will as fast as Daryl on a hill"
+  "Rock'n Roll Bloder!",
+  "Viva satã!",
+  "Vou beber até vomitar sangue.",
+  "Isso é Crow's Night!",
+  "Foda-se o instagram!",
+  "Skateboard, porra!!!",
 ];
 
 const PlaceholderLoadingBar = () => {

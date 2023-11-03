@@ -41,8 +41,8 @@ const cardData: Card[] = [
     hoverImageUrl: '../../../../assets/team/pharra_hover.gif',
   },
   {
-    imageUrl: '../../../../assets/team/meiola.png',
-    subtitle: 'Meiola ',
+    imageUrl: '../../../../assets/team/defon.jpg',
+    subtitle: 'Defon',
   },
   {
     imageUrl: '../../../../assets/team/bruno.png',

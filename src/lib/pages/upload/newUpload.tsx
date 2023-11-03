@@ -78,14 +78,14 @@ const NewUpload: React.FC = () => {
   const [tags, setTags] = useState<string[]>(["crowsnight666"]); // State to store tags
   const [includeFooter, setIncludeFooter] = useState<boolean>(false); // New state for the checkbox
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
-
+  const [postLink , setPostLink] = useState<string>("");  
   const handleMarkdownChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdownText(event.target.value);
   };
-
+  
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-  };
+      };
 
   const handleImageUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setImageUrl(event.target.value);
@@ -170,7 +170,7 @@ const NewUpload: React.FC = () => {
     }
   };
   
-
+  
   const onDropImages = async (acceptedFiles: File[]) => {
     setIsUploading(true);
 
@@ -277,9 +277,9 @@ const NewUpload: React.FC = () => {
         ]
         };
   
-        // Add defaultFooter to the markdown if includeFooter is true
+// Add defaultFooter to the markdown if includeFooter is true
         let finalMarkdown = markdownText;
-        if (includeFooter) {
+if (includeFooter) {
           finalMarkdown += "\n" + defaultFooter;
         }
   
@@ -307,7 +307,7 @@ const NewUpload: React.FC = () => {
   
         // Construct the operations array
         const operations = [postOperation, commentOptionsOperation];
-  
+
         // Request the broadcast using Hive Keychain
         window.hive_keychain.requestBroadcast(username, operations, 'posting', (response: any) => {
           if (response.success) {
@@ -324,51 +324,51 @@ const NewUpload: React.FC = () => {
   
   
 // Function to handle changes in the tags input field
-const handleTagsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  const inputValue = event.target.value;
-  // Check if the last character is a comma or space
-  if (inputValue.endsWith(',') || inputValue.endsWith(' ')) {
-    // Extract the new tag without the comma or space
-    const newTag = inputValue.slice(0, -1).trim();
-    if (newTag) {
-      // Add the new tag to the tags list
-      setTags([...tags, newTag]);
-      // Clear the input field
-      setTagsInput('');
+  const handleTagsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    // Check if the last character is a comma or space
+    if (inputValue.endsWith(',') || inputValue.endsWith(' ')) {
+      // Extract the new tag without the comma or space
+      const newTag = inputValue.slice(0, -1).trim();
+      if (newTag) {
+                  // Add the new tag to the tags list
+          setTags([...tags, newTag]);
+          // Clear the input field
+          setTagsInput('');
+              }
+    } else {
+      // Update the input field with the current value
+      setTagsInput(inputValue);
     }
-  } else {
-    // Update the input field with the current value
-    setTagsInput(inputValue);
-  }
-};
-
+  };
+  
 // Function to render the tags as badges
-const renderTags = () => {
-  return tags.map((tag, index) => (
-    <Flex
-      key={index}
-      alignItems="center"
-      justifyContent="space-between"
-      marginRight={2}
-      position="relative"
-    >
-      <Box
-        as="span" // Use a span to wrap Badge and CloseButton
-        _hover={{
-          cursor: "pointer",
-          "& > .badge-close-button": {
-            opacity: 1, // Show the CloseButton on hover
-          },
-        }}
+    const renderTags = () => {
+    return tags.map((tag, index) => (
+      <Flex
+        key={index}
+        alignItems="center"
+        justifyContent="space-between"
+        marginRight={2}
+        position="relative"
       >
-        <Badge
-          colorScheme="teal"
-          variant="subtle"
-          marginTop={"10px"}
+        <Box
+          as="span" // Use a span to wrap Badge and CloseButton
+          _hover={{
+            cursor: "pointer",
+            "& > .badge-close-button": {
+              opacity: 1, // Show the CloseButton on hover
+            },
+          }}
         >
-          {tag}
-        </Badge>
-        {tag !== "crowsnight666" && (
+          <Badge
+            colorScheme="teal"
+            variant="subtle"
+            marginTop={"10px"}
+          >
+            {tag}
+          </Badge>
+{tag !== "crowsnight666" && (
           <CloseButton
             size="xs"
             color="red.500"
@@ -381,17 +381,17 @@ const renderTags = () => {
             onClick={() => {
               // Check if the tag is not "crowsnight666" before removing it
               if (tag !== "crowsnight666") {
-                const newTags = [...tags];
-                newTags.splice(index, 1);
-                setTags(newTags);
-              }
+              const newTags = [...tags];
+              newTags.splice(index, 1);
+              setTags(newTags);
+}
             }}
           />
-        )}
-      </Box>
-    </Flex>
-  ));
-};
+)}
+        </Box>
+      </Flex>
+    ));
+    };
 
 
 
@@ -406,15 +406,23 @@ const renderTags = () => {
   
 // Function to handle the checkbox change
 const handleIncludeFooterChange = () => {
+  const username = user?.name;
+  if (username) {
+    const permlink = slugify(title.toLowerCase());
+    const link = `https://skatehive.app/post/testing67/@${username}/${permlink}`;
+    setPostLink(link);
+    console.log(postLink)
+  }
+  let newFooter = defaultFooter +  "\n" + "> **Veja este post em:** " + `[<a href="https://crowsnight.vercel.app/">Crow's Night App</a>](${postLink})`
   setIncludeFooter((prevIncludeFooter) => !prevIncludeFooter);
   if (includeFooter) {
     // If the toggle is turned off, remove the default footer from Markdown text
     setMarkdownText((prevMarkdown) =>
-      prevMarkdown.replace(defaultFooter, "")
+      prevMarkdown.replace(newFooter,  "")
     );
   } else {
     // If the toggle is turned on, add the default footer to Markdown text
-    setMarkdownText((prevMarkdown) => prevMarkdown + defaultFooter);
+    setMarkdownText((prevMarkdown) => prevMarkdown + newFooter);
   }
 };
 
@@ -474,17 +482,17 @@ const handleIncludeFooterChange = () => {
       return (
         <Box>
           <center>
-            <Badge color="black" bg={"yellow"} marginTop={"15px"}>
+                        <Badge color="black" bg={"yellow"} marginTop={"15px"}>
               se este for o seu primeiro post na crowsnightapp, por favor veja nosso{" "}
               <a
                 href="https://docs.skatehive.app/docs/tutorial-basics/share-ur-content"
                 style={{ color: 'blue' }}
-              >
+                >
                 Tutorial
               </a>{" "}
               primeiro
             </Badge>
-          </center>
+                    </center>
           <Flex
             flexDirection={isMobile ? "column" : "row"}
             justifyContent="center"
@@ -497,6 +505,7 @@ const handleIncludeFooterChange = () => {
                   onChange={handleTitleChange}
                   placeholder="Enter title here..."
                   fontSize="xl"
+                  color={'white'}
                   fontWeight="bold"
                 />
               </Box>
@@ -516,31 +525,32 @@ const handleIncludeFooterChange = () => {
                   >
                     <input {...getImagesInputProps()} />
                     <FaImage size={32} />
-                    <Text> Drop images/video or click to select</Text>
+                    <Text> Clique aqui para adicionar uma imagem ou video</Text>
                     
                   </VStack>
-              <Box marginTop={4}>
-                <center>
-                  {isUploading ? (
-                    <Spinner
-                      thickness="4px"
-                      speed="0.65s"
-                      emptyColor="gray.200"
-                      color="limegreen"
-                      size="xl"
-                    />
-                  ) : null}
-                </center>
-              </Box>
+                    <Box marginTop={4}>
+                      <center>
+                        {isUploading ? (
+                          <Spinner
+                            thickness="4px"
+                            speed="0.65s"
+                            emptyColor="gray.200"
+                            color="limegreen"
+                            size="xl"
+                          />
+                        ) : null}
+                      </center>
+                    </Box>
 
                   <Textarea
-  value={markdownText}
-  onChange={handleMarkdownChange}
-  placeholder="Enter your Markdown here..."
-  minHeight="600px"
-  marginTop={4}
-/>
-<Checkbox
+                      value={markdownText}
+                      onChange={handleMarkdownChange}
+                      placeholder="Enter your Markdown here..."
+                      minHeight="600px"
+                      marginTop={4}
+                      color={'white'}
+                    />
+                    <Checkbox
                       isChecked={includeFooter}
                       onChange={handleIncludeFooterChange}
                       marginLeft={2}
@@ -564,7 +574,7 @@ const handleIncludeFooterChange = () => {
                   <Box marginTop={4}>
                     <div ref={searchBarRef}>
                       <Text fontSize="lg" fontWeight="bold">
-                        Valor destinado para o fotógrafo
+                        Valor destinado para o fotógrafo 
                       </Text>
                       <AuthorSearchBar onSearch={handleAuthorSearch} />
                       {beneficiaries.map((beneficiary, index) => (

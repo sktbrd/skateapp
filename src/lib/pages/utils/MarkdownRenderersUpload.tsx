@@ -140,7 +140,7 @@ th: ({ children, ...props }: RendererProps) => (
   <th
     {...props}
     style={{
-      border: '1px solid black',
+      border: '1px solid white',
       padding: '8px',
       fontWeight: 'bold',
       textAlign: 'left',
@@ -165,6 +165,17 @@ td: ({ children, ...props }: RendererProps) => (
   
 ),
 
+center: ({ children, ...props }: RendererProps) => (
+  <center
+    {...props}
+    style={{
+      color: 'white'
+    }}
+  >
+    {children}
+  </center>
+  
+),
 
 };
 

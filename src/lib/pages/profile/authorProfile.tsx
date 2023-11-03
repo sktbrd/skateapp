@@ -1,9 +1,10 @@
-import { Image, Box, Flex, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+import { Image, Box, Flex, Tabs, TabList, TabPanels, Tab, TabPanel , Text} from "@chakra-ui/react";
 import React, { useEffect, useState } from 'react';
 import HiveBlog from "../home/Feed/Feed";
 import HiveBalanceDisplay2 from "../wallet/hive/hiveBalance";
 import { useParams } from 'react-router-dom';
 import { Client } from "@hiveio/dhive";
+import styled from "@emotion/styled";
 
 interface AuthorProfile {
   about?: string;
@@ -26,6 +27,7 @@ export default function AuthorProfilePage() {
   const [coverImageUrl, setCoverImageUrl] = useState<string>(DEFAULT_COVER_IMAGE_URL);
   const [account, setAccount] = useState<string | null>(null); // Step 2
   const [authorAbout, setAuthorAbout] = useState<string | null>(null); // Step 3
+  const [hasVotedWitness, setHasVotedWitness] = useState<boolean>(false); // Step 4
   useEffect(() => {
     const fetchAccountInfo = async () => {
       if (username) {
@@ -38,10 +40,16 @@ export default function AuthorProfilePage() {
           const metadata = JSON.parse(account[0].posting_json_metadata) as Author;
           console.log('METADATA',metadata)
           const authorAbout = metadata.profile?.about || null;
-          console.log('ABOUT', authorAbout);
           const coverImage = metadata.profile?.cover_image || DEFAULT_COVER_IMAGE_URL;
           setCoverImageUrl(coverImage);
           setAuthorAbout(authorAbout);
+          // Step 4: Check if the user has voted for the Hive witness
+          const witnessVotes = account[0].witness_votes;
+          const hasVotedWitness = witnessVotes.includes('skatehive');
+          setHasVotedWitness(hasVotedWitness);
+          const response = await client.database.getAccounts([username])
+
+          console.log('Response:', response)
         } catch (error) {
           console.error('Error fetching author metadata:', error);
         }
@@ -51,37 +59,7 @@ export default function AuthorProfilePage() {
     fetchAccountInfo();
   }, [username]);
 
-  const [accountReputation, setAccountReputation] = useState<number | null>(null); // Step 2
-  useEffect(() => {
-    const fetchData = async () => {
-      if (username) {
-        try {
-          const client = new Client('https://api.hive.blog');
-          const response = await client.call('condenser_api.get_account_reputations', username, 1);
-          console.log('USERNAME',username)
-          console.log('Response:', response)
-          if (response && response.length > 0) {
-            const reputation = response[0]?.reputation || null;
-        
-            // Fetch additional account metadata if needed
-            const account = await client.database.getAccounts([username]);
-            const metadata = JSON.parse(account[0].posting_json_metadata) as Author;
-            const coverImage = metadata.profile?.cover_image || DEFAULT_COVER_IMAGE_URL;
-            setCoverImageUrl(coverImage);
-            setAccountReputation(reputation);
-          } else {
-            console.error('Invalid response from API:', response);
-          }
-        } catch (error) {
-          console.error('Error fetching author metadata:', error);
-        }
-        
-      }
-    };
 
-
-    fetchData();
-  }, [username]);
   return (
     <Box
       fontFamily="'Courier New', monospace"
@@ -95,9 +73,8 @@ export default function AuthorProfilePage() {
         <Box
           position="absolute"
           left="50%"
-          transform="translate(-50%, -50%)"
+          transform="translate(-50%, -65%)"
           borderRadius="20%"
-          border="2px solid limegreen"
           boxSize="192px"
           bg="white"
           boxShadow="0px 2px 6px rgba(0, 0, 0, 0.1)"
@@ -105,10 +82,16 @@ export default function AuthorProfilePage() {
           <Image
             src={`https://images.hive.blog/u/${username}/avatar`}
             alt="profile avatar"
-            borderRadius="20%"
+            borderRadius="10%"
             boxSize="192px"
+            border="2px solid limegreen"
+
           />
+
         </Box>
+        <center>
+          <Text  fontSize={"26px"}> {username}</Text>
+          </center>
       </Flex>
       <Box marginTop={"10px"}>
         <Flex
@@ -117,10 +100,10 @@ export default function AuthorProfilePage() {
           alignItems="center"
           justifyContent="center"
         >
-          <Tabs variant={"soft-rounded"}>
-            <TabList justifyContent="center"> {/* Center align the TabList */}
-              <Tab>Blog</Tab>
-              <Tab>About</Tab>
+          <Tabs variant={"unstyled"}  colorScheme="green" >
+            <TabList  color={"white"} justifyContent="center"> {/* Center align the TabList */}
+              <Tab borderRadius={"10px"} border={"1px solid "}>Posts</Tab>
+              <Tab borderRadius={"10px"} border={"1px solid "}>About</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -129,6 +112,7 @@ export default function AuthorProfilePage() {
               <TabPanel>
               <p>Account : {account}</p> {/* Step 5: Display the account reputation */}
               <p>About: {authorAbout} </p>
+              <p>Has voted for the Hive witness: {hasVotedWitness ? 'Yes' : 'No'}</p>
               </TabPanel>
             </TabPanels>
           </Tabs>

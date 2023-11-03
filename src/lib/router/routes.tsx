@@ -18,7 +18,7 @@ const ThatsGnarly = React.lazy(() => import("lib/pages/home/Feed/thatsgnarly"));
 const PepeCaptcha = React.lazy(() => import("lib/pages/secret-spot"));  
 const NewUpload = React.lazy(() => import("lib/pages/upload/newUpload"));  
 const Shelf = React.lazy(() => import("lib/pages/home/videos/lbry"));    
-
+const Maps = React.lazy(() => import("lib/pages/home/dao/map"));
 export const routes: Array<PathRouteProps> = [
   {
     path: "/",
@@ -87,7 +87,11 @@ export const routes: Array<PathRouteProps> = [
 {
   path: "/secret",
   element: <Shelf />,
-}
+},
+{
+  path: "/map",
+  element: <Maps />,
+},
 
 ];
 

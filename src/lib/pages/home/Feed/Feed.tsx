@@ -57,7 +57,7 @@ const randomSentences = [
   "Praise whoever made skatevideosite",
   "Loading Stokenomics...",
   "Initiating proof of stoke...", 
-  "We will as fast as Daryl on a hill",
+  "We will as fast as Daryl Rolls",
   "Nobody knows who was Gnartoshi Shredmoto",
   "We have secret sections here, try /secret"
 ];

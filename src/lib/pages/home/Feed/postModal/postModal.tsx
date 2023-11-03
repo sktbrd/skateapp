@@ -336,7 +336,7 @@ return (
       )}
 
 
-    </ModalContent>
+    </ModalContent>   
 
 
     <HiveLogin isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />

@@ -212,7 +212,9 @@ useEffect(() => {
         <Divider backgroundColor="#7CC4FA" />
 
         <Flex alignItems="center" justifyContent="center">
-          <Text fontWeight="bold" color="#7CC4FA">Total Worth: {totalWorthof2wallets}</Text>
+        <Text fontSize={"2xl"} fontWeight="bold" color="#7CC4FA">
+  Total Worth: <Text style={{ fontSize: '48px' }}>{totalWorthof2wallets}</Text>
+</Text>
         </Flex>
         <Divider backgroundColor="#7CC4FA" />
         <HStack spacing={4} align="stretch">

@@ -136,7 +136,9 @@ const HiveStats: React.FC<HiveStatsProps> = ({ wallet }) => {
                 ) : (
                     <>
                         <Flex alignItems="center" justifyContent="center">
-                            <Text fontWeight="bold" color="orange">Wallet Worth: ${total.toFixed(2)}</Text>
+                        <Text fontSize="2xl" fontWeight="bold" color="red">
+  Total Worth: <Text style={{ fontSize: '48px' }}>${total.toFixed(2)}</Text>
+</Text>
                         </Flex>
                         <Divider backgroundColor="red" />
                         <HStack spacing={4} align="stretch">

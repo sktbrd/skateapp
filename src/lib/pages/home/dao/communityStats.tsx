@@ -64,25 +64,28 @@ const [numberOfAuthors, setNumberOfAuthors] = useState<number | null>(null);
       {communityStats ? (
         <Flex justifyContent={'space-between'} flexDirection="row">
 
-          <Flex flexDirection="column">
+          <Flex  paddingLeft={"10%"} flexDirection="column">
           <center>
           <Text fontSize={"48px"}>📜</Text>
-          <Text>Number of Posts:</Text> 
           <Text color={"orange"}>{communityStats.numberOfPosts}</Text>
+
+          <Text>Posts in this Round</Text> 
             </center>
           </Flex>
           <Flex flexDirection="column">
             <center>
              <Text fontSize={"48px"}>💰</Text>
-          <Text>Pending Rewards:</Text> 
-           <Text color={"orange"}> {communityStats.totalPayout}</Text>
+             <Text color={"orange"}> ${communityStats.totalPayout.toFixed(2)}</Text>
+
+          <Text>Pending Rewards</Text> 
             </center>
           </Flex>
-          <Flex flexDirection="column">
+          <Flex paddingRight={"10%"} flexDirection="column">
           <center>
           <Text fontSize={"48px"}>👨‍💻</Text>
-          <Text>Active Users: </Text>
           <Text color={"orange"}>   {communityStats.numberOfAuthors}</Text>
+
+          <Text>Active Users </Text>
           </center>
           </Flex>
         </Flex>

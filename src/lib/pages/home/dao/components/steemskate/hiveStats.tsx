@@ -191,7 +191,7 @@ const HiveStats: React.FC<HiveStatsProps> = ({ wallet }) => {
                                 width="20px"
                                 height="20px"
                             />
-                            <ChakraLink target="_blank" href="https://vote.hive.uno/@skatehive" fontSize="16px">Witness: 1.7M </ChakraLink>
+                            <ChakraLink target="_blank" href="https://vote.hive.uno/@skatehive" fontSize="16px">Witness: 2.1M </ChakraLink>
                         </HStack>
                         </Tooltip>
 

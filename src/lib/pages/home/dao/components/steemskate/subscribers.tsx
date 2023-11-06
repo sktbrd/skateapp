@@ -286,7 +286,14 @@ const [transferMemo, setTransferMemo] = useState("");
   _hover={{ transform: 'scale(1.05)' }}
 >
     <HStack justifyContent={'center'}>
-
+    <Avatar
+      src={`https://images.ecency.com/webp/u/${encodeURIComponent(subscriberInfo.username)}/avatar/small`}
+      size="lg"
+      boxSize={20}
+      borderRadius="50%"
+      border="2px solid limegreen"
+      marginBottom="10px"
+    />
     <Link href={`https://skatehive.app/profile/${subscriberInfo.username}`} target="_blank" rel="noopener noreferrer">
 
     <Text color={'orange'} fontSize="lg" fontWeight="bold" textAlign="center">
@@ -302,14 +309,7 @@ const [transferMemo, setTransferMemo] = useState("");
 </HStack>
 
   <Flex align="center" flexDirection="column" justifyContent="center">
-    <Avatar
-      src={`https://images.ecency.com/webp/u/${encodeURIComponent(subscriberInfo.username)}/avatar/small`}
-      size="lg"
-      boxSize={20}
-      borderRadius="50%"
-      border="2px solid limegreen"
-      marginBottom="10px"
-    />
+
     <Divider margin="10px" />
     
     <Table variant="simple">

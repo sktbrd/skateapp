@@ -15,16 +15,16 @@ import UploadPage from "../upload";
         <Tabs isFitted variant="enclosedyarn" width="100%" colorScheme="yellow" {...tabProps}>
           <TabList mb="1em" width="100%">
             <Tab
-              color="orange"
-              border="1px blue solid"
-              _selected={{ backgroundColor: "blue",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
+              color="white"
+              border="1px limegreen solid"
+              _selected={{ backgroundColor: "limegreen",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
               📜 FEED
             </Tab>
             <Tab
               color="white" 
               border="1px limegreen solid"
-              _selected={{ backgroundColor: "blue",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
+              _selected={{ backgroundColor: "limegreen",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
               📹 VIDEOS
             </Tab>
@@ -38,14 +38,14 @@ import UploadPage from "../upload";
             <Tab
               color="white"
               border="1px limegreen solid"
-              _selected={{ backgroundColor: "blue" ,color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
+              _selected={{ backgroundColor: "limegreen" ,color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
               🛹 UPLOAD
             </Tab>
             <Tab
               color="white"
               border="1px limegreen solid"
-              _selected={{ backgroundColor: "blue" ,color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
+              _selected={{ backgroundColor: "limegreen" ,color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
               🏛 GOVERN.
             </Tab>

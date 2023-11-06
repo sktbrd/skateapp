@@ -60,6 +60,7 @@ function SubscriberList() {
   const [isLoading, setIsLoading] = useState(true);
   const subscribersPerPage = 20;
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [userCount, setUserCount] = useState<number>(0); // Initialize userCount to 0
 
   const fetchSubscribersWithPagination = async (lastSubscriberName?: string) => {
     try {
@@ -81,6 +82,7 @@ function SubscriberList() {
   
       if (response.data && response.data.result) {
         const subscriberUsernames = response.data.result.map((subscriber: any) => subscriber[0]);
+
         const subscriberInfoPromises = subscriberUsernames.map(async (username: any) => {
           try {
             const client = new Client([
@@ -167,6 +169,8 @@ function SubscriberList() {
         });
   
         const newSubscriberInfo = await Promise.all<any>(subscriberInfoPromises);
+        setUserCount((prevUserCount) => prevUserCount + subscriberUsernames.length);
+
         setSubscribers((prevSubscribers) => [...prevSubscribers, ...newSubscriberInfo]);
         setIsLoading(false);
       }
@@ -185,6 +189,7 @@ function SubscriberList() {
     const lastSubscriberIndex = subscribers.length - 1;
     const lastSubscriberName = subscribers[lastSubscriberIndex]?.username;
     fetchSubscribersWithPagination(lastSubscriberName);
+    setIsLoading(true);
   };
 
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -208,6 +213,8 @@ function SubscriberList() {
   });
   return (
 <Flex flexDirection="column" alignItems="center" justifyContent="center">
+<Text>Users Loaded: {userCount}</Text> {/* Display user count */}
+
   <Input
     type="text"
     placeholder="Search by username"
@@ -216,20 +223,33 @@ function SubscriberList() {
     onChange={handleSearchInputChange}
     marginBottom="10px"
   />
-    {!isLoading && (
-      <Button
-      border="1px solid limegreen"
-      color="white"
-      bg="black"
-      onClick={handleLoadMore}
-      marginTop="10px"
-    >
-      Load More
-    </Button>
-  )}
-  {isLoading ? (
-    <Image src="http://www.animated-gifs.fr/category_office/paperclips/paperclip-22859369.gif" boxSize="200px" />
-  ) : (
+{isLoading ? (
+    <Flex justifyContent="center" alignItems="center" flexDirection={"column"}>
+<Image boxSize={"60px"} src='https://64.media.tumblr.com/12da5f52c1491f392676d1d6edb9b055/870d8bca33241f31-7b/s400x600/fda9322a446d8d833f53467be19fca3811830c26.gif'></Image>
+  <Button
+    border="1px solid limegreen"
+    color="white"
+    bg="black"
+    onClick={handleLoadMore}
+    marginTop="10px"
+    isDisabled={true} // Disable the button when loading
+  >
+    Loading...
+  </Button>
+  </Flex>
+) : (
+  <Button
+    border="1px solid limegreen"
+    color="white"
+    bg="black"
+    onClick={handleLoadMore}
+    marginTop="10px"
+  >
+    Load More
+  </Button>
+)}
+
+
     <Flex flexWrap="wrap" justifyContent="center" alignItems="center">
     {sortedSubscribers.map((subscriberInfo) => (
         <Box
@@ -290,7 +310,6 @@ function SubscriberList() {
 </Box>
       ))}
     </Flex>
-  )}
 
 </Flex>
 

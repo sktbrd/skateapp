@@ -302,7 +302,7 @@ const [transferMemo, setTransferMemo] = useState("");
     </Link>
 
     <Button variant={"ghost"} onClick={() => handleSendModalOpen(subscriberInfo.username)}>
-  <FaGift size={30} color="limegreen" />
+  <FaGift size={30} color="orange" />
 </Button>
 
 

@@ -367,7 +367,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
                   cursor: 'pointer'
                 }}
               >
-                <option value="" disabled selected>
+                <option disabled >
                   {user?.name}
                 </option>
                 <option value="profile">Profile</option>

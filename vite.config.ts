@@ -15,10 +15,12 @@ export default defineConfig(({ command, mode }) => {
   // Load env file based on `mode` in the current working directory.
   // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
   // const env = loadEnv(mode, process.cwd(), '')
+  const allowedMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
 
   const allowedOrigins = [
     'https://www.skatehive.app',
     'https://hub.snapshot.org/graphql',
+    'https://api.hive.blog',
     // Add more domains as needed
   ];
   const env = loadEnv(mode, process.cwd(), '')
@@ -28,6 +30,8 @@ export default defineConfig(({ command, mode }) => {
       middleware: [
         cors({
           origin: allowedOrigins, // Allow requests from your domain
+          methods: allowedMethods, // Specify allowed HTTP methods
+
         }),
       ],
     },

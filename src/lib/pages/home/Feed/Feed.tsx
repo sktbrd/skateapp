@@ -96,6 +96,8 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   const [postsToLoadInitially] = useState<number>(15); // Number of posts to load initially
   const [postsToLoadMore] = useState<number>(10); // Number of additional posts to load on "Load More" click
   const { user, isLoggedIn } = useAuthUser();
+  const [hasVotedWitness, setHasVotedWitness] = useState<boolean>(false); // Step 4
+
   const fetchPostEarnings = async (
     author: string,
     permlink: string
@@ -438,7 +440,7 @@ return (
                     </Link>
 
                     
-                <Tooltip color={"white"} backgroundColor={"black"} border={"1px dashed limegreen"} label={<div style={{color: 'limegreen'}}>45% - 🛹 You <br /> 50% - 🧡 Voters <br /> 5.0% - 🏦 Treasure* <br /><br /> Click to Learn More  </div>} aria-label="View Voters">
+                <Tooltip color={"white"} backgroundColor={"black"} border={"1px dashed limegreen"} label={<div style={{color: 'limegreen'}}>45% - 🛹 Author + Benef. <br /> 50% - 🧡 Voters <br /> 5%  - 🏦 Treasure* <br /><br /> Click to Learn More  </div>} aria-label="View Voters">
                   <Button
                     position="absolute"
                     bottom="10px"

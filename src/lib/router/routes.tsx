@@ -1,4 +1,5 @@
 import Page404 from "lib/pages/404";
+import SubscriberList from "lib/pages/home/dao/components/steemskate/subscribers";
 import UploadPage from "lib/pages/upload";
 import React from "react";
 import type { PathRouteProps } from "react-router-dom";
@@ -19,6 +20,8 @@ const PepeCaptcha = React.lazy(() => import("lib/pages/secret-spot"));
 const NewUpload = React.lazy(() => import("lib/pages/upload/newUpload"));  
 const Shelf = React.lazy(() => import("lib/pages/home/videos/lbry"));    
 const Maps = React.lazy(() => import("lib/pages/home/dao/map"));
+const Members = React.lazy(() => import("lib/pages/home/dao/components/steemskate/subscribers"));
+
 export const routes: Array<PathRouteProps> = [
   {
     path: "/",
@@ -92,6 +95,10 @@ export const routes: Array<PathRouteProps> = [
   path: "/map",
   element: <Maps />,
 },
+{
+  path: "/members",
+  element: <SubscriberList />,  
+}
 
 ];
 

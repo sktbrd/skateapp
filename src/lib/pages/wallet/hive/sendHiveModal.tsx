@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import {
   Modal,
   Button,
@@ -22,6 +22,8 @@ interface SendHiveModalProps {
   setToAddress: React.Dispatch<React.SetStateAction<string>>;
   amount: string;
   setAmount: React.Dispatch<React.SetStateAction<string>>;
+  hiveMemo: string;
+  setHiveMemo: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SendHiveModal: React.FC<SendHiveModalProps> = ({
@@ -31,6 +33,8 @@ const SendHiveModal: React.FC<SendHiveModalProps> = ({
   setToAddress,
   amount,
   setAmount,
+  hiveMemo,
+  setHiveMemo,
 }) => {
 
   const handleTransfer = async () => {
@@ -47,7 +51,7 @@ const SendHiveModal: React.FC<SendHiveModalProps> = ({
           username: "pepe", // Replace with the sender's username
           to: toAddress,
           amount: parsedAmount, // Use the parsed amount with 3 decimal places
-          memo: "", // You can add a memo here if needed
+          memo: hiveMemo, 
           enforce: false,
           currency: "HIVE",
         },
@@ -84,7 +88,11 @@ const SendHiveModal: React.FC<SendHiveModalProps> = ({
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
-            <Input placeholder="Memo (optional)" />
+          <Input 
+            placeholder="Memo (optional)"
+            value={hiveMemo}
+            onChange={(e) => setHiveMemo(e.target.value) }
+          />
           </Box>
         </ModalBody>
         <ModalFooter>

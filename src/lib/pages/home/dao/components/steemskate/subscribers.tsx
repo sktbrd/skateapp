@@ -67,7 +67,7 @@ function SubscriberList() {
   const [isSendModalOpen, setIsSendModalOpen] = useState(false);
   const [toAddress, setToAddress] = useState("");
 const [amount, setAmount] = useState("");
-const [memo, setMemo] = useState("");
+const [transferMemo, setTransferMemo] = useState("");
 
   
   const fetchSubscribersWithPagination = async (lastSubscriberName?: string) => {
@@ -224,7 +224,7 @@ const [memo, setMemo] = useState("");
     const defaultMemo = "🛹 Thank you for Voting on Skatehive Witness 🛹 "; 
     setIsSendModalOpen(true);
     setToAddress(username); // Set the toAddress to the username
-    setMemo(defaultMemo); // Set the memo to the default value
+    setTransferMemo(defaultMemo); // Set the memo to the default value
 
   };
   
@@ -339,16 +339,18 @@ const [memo, setMemo] = useState("");
     </Table>
   </Flex>
   {isSendModalOpen && (
-              <Modal isOpen={isSendModalOpen} onClose={handleSendModalClose}>
-                <SendHiveModal
-                  showModal={isSendModalOpen}
-                  setShowModal={setIsSendModalOpen}
-                  toAddress={toAddress}
-                  setToAddress={setToAddress}
-                  amount={amount}
-                  setAmount={setAmount}
-                />
-            </Modal>
+  <Modal isOpen={isSendModalOpen} onClose={handleSendModalClose}>
+  <SendHiveModal
+    showModal={isSendModalOpen}
+    setShowModal={setIsSendModalOpen}
+    toAddress={toAddress}
+    setToAddress={setToAddress}
+    amount={amount}
+    setAmount={setAmount}
+    hiveMemo={transferMemo} 
+    setHiveMemo={setTransferMemo} 
+  />
+</Modal>
 )}
 
 

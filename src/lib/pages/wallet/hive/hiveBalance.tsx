@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import SendHiveModal from "./sendHiveModal";
 import useAuthUser from "lib/pages/home/api/useAuthUser";
 import * as dhive from "@hiveio/dhive";
-import WalletTransactions from "lib/pages/home/dao/components/hiveGnars/txHistory";
+// import WalletTransactions from "lib/pages/home/dao/components/hiveGnars/txHistory";
 
 import FiatBalance from "../fiat/fiat";
 
@@ -93,7 +93,7 @@ export default function HiveBalanceDisplay2() {
   const [conversionRate, setConversionRate] = useState<number>(0);
   const [totalWorth, setTotalWorth] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [hiveMemo, setHiveMemo] = useState("");
 
 
 
@@ -331,17 +331,20 @@ export default function HiveBalanceDisplay2() {
             )}
         </VStack>
         <SendHiveModal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        toAddress={toAddress}
-        setToAddress={setToAddress}
-        amount={amount}
-        setAmount={setAmount}
-      />
+  showModal={showModal}
+  setShowModal={setShowModal}
+  toAddress={toAddress}
+  setToAddress={setToAddress}
+  amount={amount}
+  setAmount={setAmount}
+  hiveMemo={hiveMemo} // Make sure to pass hiveMemo here
+  setHiveMemo={setHiveMemo}
+/>
+
       {/* <WalletTransactions wallet={user?.name || ""} /> */}
       
     </Box>
-    
+
     
 );
 };

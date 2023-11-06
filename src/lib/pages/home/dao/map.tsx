@@ -5,7 +5,7 @@ const EmbeddedMap: React.FC = () => {
   
   return (
     <Box
-      display="flex"       // Enables Flexbox layout
+      display="flex"       // Enables Flexbox layoutyarn
       justifyContent="center" // Centers content along the main axis
       alignItems="center"  // Centers content along the cross axis
       border="1px"

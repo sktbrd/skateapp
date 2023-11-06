@@ -68,9 +68,9 @@ const SendHiveModal: React.FC<SendHiveModalProps> = ({
 
   return (
     <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="md">
-      <ModalOverlay />
+      <ModalOverlay opacity={0.2}/>
       <ModalContent backgroundColor="black" border="1px dashed limegreen">
-        <ModalHeader>Send Hive (under development)</ModalHeader>
+        <ModalHeader>Send Hive</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Box border="1px solid orange" padding="10px">

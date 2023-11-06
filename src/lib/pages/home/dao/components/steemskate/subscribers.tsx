@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Text, Avatar, Flex, Button, Image, Input, Link, Divider,Table, Thead, Tbody, Tr, Th, Td,} from '@chakra-ui/react';
+import { Box, Text, Avatar, Flex, Button, Image, Input, Link, Divider,Table, Thead, Tbody, Tr, Th, Td, HStack, ModalOverlay, Modal} from '@chakra-ui/react';
 import { Client } from "@hiveio/dhive";
+import { FaGift } from 'react-icons/fa';
+import SendHiveModal from 'lib/pages/wallet/hive/sendHiveModal';
+
 interface Author {
     name?: string;
     posting_json_metadata?: string;
@@ -61,7 +64,12 @@ function SubscriberList() {
   const subscribersPerPage = 20;
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [userCount, setUserCount] = useState<number>(0); // Initialize userCount to 0
+  const [isSendModalOpen, setIsSendModalOpen] = useState(false);
+  const [toAddress, setToAddress] = useState("");
+const [amount, setAmount] = useState("");
+const [memo, setMemo] = useState("");
 
+  
   const fetchSubscribersWithPagination = async (lastSubscriberName?: string) => {
     try {
       const bridgeApiUrl = 'https://api.hive.blog';
@@ -197,6 +205,7 @@ function SubscriberList() {
     setSearchQuery(query);
   };
 
+
   const filteredSubscribers = subscribers.filter((subscriber) =>
     subscriber.username.toLowerCase().includes(searchQuery)
   );
@@ -211,6 +220,18 @@ function SubscriberList() {
       return 0; // no change in order
     }
   });
+  const handleSendModalOpen = (username: string) => { 
+    const defaultMemo = "🛹 Thank you for Voting on Skatehive Witness 🛹 "; 
+    setIsSendModalOpen(true);
+    setToAddress(username); // Set the toAddress to the username
+    setMemo(defaultMemo); // Set the memo to the default value
+
+  };
+  
+
+  const handleSendModalClose = () => {
+    setIsSendModalOpen(false);
+  };
   return (
 <Flex flexDirection="column" alignItems="center" justifyContent="center">
 <Text>Users Loaded: {userCount}</Text> {/* Display user count */}
@@ -264,11 +285,21 @@ function SubscriberList() {
   transition="transform 0.2s"
   _hover={{ transform: 'scale(1.05)' }}
 >
-  <Link href={`https://skatehive.app/profile/${subscriberInfo.username}`} target="_blank" rel="noopener noreferrer">
+    <HStack justifyContent={'center'}>
+
+    <Link href={`https://skatehive.app/profile/${subscriberInfo.username}`} target="_blank" rel="noopener noreferrer">
+
     <Text color={'orange'} fontSize="lg" fontWeight="bold" textAlign="center">
       {subscriberInfo.username}
     </Text>
-  </Link>
+    </Link>
+
+    <Button variant={"ghost"} onClick={() => handleSendModalOpen(subscriberInfo.username)}>
+  <FaGift size={30} color="limegreen" />
+</Button>
+
+
+</HStack>
 
   <Flex align="center" flexDirection="column" justifyContent="center">
     <Avatar
@@ -307,6 +338,20 @@ function SubscriberList() {
       </Tbody>
     </Table>
   </Flex>
+  {isSendModalOpen && (
+              <Modal isOpen={isSendModalOpen} onClose={handleSendModalClose}>
+                <SendHiveModal
+                  showModal={isSendModalOpen}
+                  setShowModal={setIsSendModalOpen}
+                  toAddress={toAddress}
+                  setToAddress={setToAddress}
+                  amount={amount}
+                  setAmount={setAmount}
+                />
+            </Modal>
+)}
+
+
 </Box>
       ))}
     </Flex>

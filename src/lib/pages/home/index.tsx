@@ -11,12 +11,12 @@ import UploadPage from "../upload";
     const { selectedIndex, ...tabProps } = useTabs({});
   
     return (
-      <Flex backgroundColor="black" direction="column" alignItems="center" justifyContent="center">
+      <Flex backgroundColor="white" direction="column" alignItems="center" justifyContent="center">
         <Tabs isFitted variant="enclosedyarn" width="100%" colorScheme="yellow" {...tabProps}>
           <TabList mb="1em" width="100%">
             <Tab
               color="white"
-              border="1px limegreen solid"
+              border="1px blue solid"
               _selected={{ backgroundColor: "limegreen",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
               📜 FEED

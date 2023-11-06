@@ -15,7 +15,7 @@ import UploadPage from "../upload";
         <Tabs isFitted variant="enclosedyarn" width="100%" colorScheme="yellow" {...tabProps}>
           <TabList mb="1em" width="100%">
             <Tab
-              color="white"
+              color="orange"
               border="1px blue solid"
               _selected={{ backgroundColor: "blue",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >

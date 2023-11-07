@@ -15,6 +15,7 @@ const SkatehiveProposals: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<string>('');
   const [modalTitle, setModalTitle] = useState<string>('');
+
   const handleOpenModal = ({ body, title }: { body: string; title: string }) => {
     setModalContent(body);
     setModalTitle(title);
@@ -226,6 +227,8 @@ return (
         color="aqua" 
         borderRadius="10px" 
         border="1px solid white" 
+        cursor="pointer"
+        onClick={() => handleOpenModal({ body: proposal.body, title: proposal.title })}
         mt={2}
       >
         🤖 GPT-Summary: {proposal.summary}

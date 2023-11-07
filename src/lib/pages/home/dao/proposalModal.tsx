@@ -99,7 +99,7 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
         <ModalCloseButton />
         <ModalBody>
           <Tabs variant="enclosed">
-            <TabList>
+            <TabList justifyContent={"center"} >
               <Tab>Proposal</Tab>
               <Tab>Ai generate LOVE</Tab>
               <Tab>Ai generated HATE</Tab>

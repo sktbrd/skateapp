@@ -17,6 +17,8 @@ interface Author {
   balance?: string;
   hbd_balance?: string;
   last_account_update?: string;
+  account_age?: string;
+  vesting_shares?: string;
 }
 
 interface AuthorProfile {
@@ -90,7 +92,7 @@ function SubscriberList() {
               "https://api.openhive.network",
               "https://hived.privex.io",
               "https://rpc.ausbit.dev",
-              "techcoderx.com"
+              "https://techcoderx.com"
             ]);
             const account = await client.database.getAccounts([username]);
 
@@ -104,7 +106,11 @@ function SubscriberList() {
                 location: null,
                 balance: null,
                 hbd_balance: null,
-                last_account_update: null
+                last_account_update: null,
+                account_age: null,
+                vesting_shares: null
+
+
               };
             }
 
@@ -127,7 +133,9 @@ function SubscriberList() {
             } catch (error) {
               console.error(`Error parsing JSON metadata for ${username}:`, error);
             }
-
+            console.log(account[0].vesting_shares);
+            const vesting_shares = account[0].vesting_shares;
+            const account_age = account[0].created;
             const location = parsedMetadata.profile?.location || null;
             const cover_image = parsedMetadata.profile?.cover_image || null;
             const authorAbout = parsedMetadata.profile?.about || null;
@@ -152,7 +160,9 @@ function SubscriberList() {
               location,
               balance,
               hbd_balance,
-              last_account_update
+              last_account_update,
+              account_age,
+              vesting_shares
             };
           } catch (error) {
             console.error(`Error fetching additional info for ${username}:`, error);
@@ -165,7 +175,9 @@ function SubscriberList() {
               location: null,
               balance: 0,
               hbd_balance: 0,
-              last_account_update: null
+              last_account_update: null,
+              account_age: null,
+              vesting_shares: null
             };
           }
         });
@@ -213,14 +225,23 @@ function SubscriberList() {
     subscriber.username.toLowerCase().includes(searchQuery)
   );
   const sortedSubscribers = [...filteredSubscribers].sort((a, b) => {
+    // Primary sorting by whether they have voted or not
     if (a.hasVotedWitness && !b.hasVotedWitness) {
-      return -1;
+      return -1; // a comes first
     } else if (!a.hasVotedWitness && b.hasVotedWitness) {
-      return 1;
-    } else {
-      return 0;
+      return 1; // b comes first
     }
+  
+    // Secondary sorting by vesting shares
+    if (parseFloat(a.vesting_shares) < parseFloat(b.vesting_shares)) {
+      return 1; // b comes first
+    } else if (parseFloat(a.vesting_shares) > parseFloat(b.vesting_shares)) {
+      return -1; // a comes first
+    }
+  
+    return 0; // no change in order
   });
+  
 
   const handleSendModalOpen = (username: string) => {
     const defaultMemo = "🛹 Thank you for Voting on Skatehive Witness 🛹 ";
@@ -280,7 +301,7 @@ function SubscriberList() {
             boxShadow="md"
             m={2}
             width="380px"
-            height="512px"
+            height="712px"
             transition="transform 0.2s"
             _hover={{ transform: 'scale(1.05)' }}
           >
@@ -316,9 +337,9 @@ function SubscriberList() {
                     <Td>{calculateHumanReadableReputation(subscriberInfo.reputation)}</Td>
                   </Tr>
                   <Tr>
-  <Td>Location</Td>
-  <Td style={{ whiteSpace: 'break-spaces' }}>{subscriberInfo.location}</Td>
-</Tr>
+                    <Td>Location</Td>
+                    <Td >🌎 {subscriberInfo.location}</Td>
+                  </Tr>
 
                   <Tr>
                     <Td>Balance</Td>
@@ -329,8 +350,16 @@ function SubscriberList() {
                     <Td>{subscriberInfo.hbd_balance}</Td>
                   </Tr>
                   <Tr>
+                    <Td>Vestings</Td>
+                    <Td>{subscriberInfo.vesting_shares}</Td>
+                  </Tr>
+                  <Tr>
                     <Td>Last Update</Td>
                     <Td>{formatLastUpdateDate(subscriberInfo.last_account_update)}</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>Since</Td>
+                    <Td>{formatLastUpdateDate(subscriberInfo.account_age)}</Td>
                   </Tr>
                 </Tbody>
               </Table>

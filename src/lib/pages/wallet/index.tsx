@@ -4,10 +4,9 @@ import { useEffect, useState } from 'react';
 import { usePioneer } from '@pioneer-platform/pioneer-react';
 import NFTWallet from './nft/nftWallet';
 import EvmBalance from './evm/evmWallet';
-import HiveBalanceDisplay from './hive/hiveBalance';
 import FiatBalance from './fiat/fiat';
 import POAPsNFTWallet from './nft/poapWallet';
-import HiveBalanceDisplay2 from './hive/hiveBalance copy';
+import HiveBalanceDisplay from './hive/hiveBalance';
 
 import {
   useMediaQuery,
@@ -47,14 +46,18 @@ const Wallet = () => {
 
       <TabPanels>
       <TabPanel>
-  <Flex direction={["column", "row"]}>
-    <Box flex={1} mb={[4, 0]}>
-      <HiveBalanceDisplay2 />
+        <center>
+
+  <Flex>
+
+    <Box  flex={1} mb={[4, 0]}>
+      <HiveBalanceDisplay />
     </Box>
     {/* <Box flex={1} ml={[0, 4]}>
       <TestEvm />
     </Box> */}
   </Flex>
+    </center>
   
 </TabPanel>
 

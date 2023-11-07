@@ -73,4 +73,3 @@ export default function FiatBalance({ totalWorth }: FiatBalanceProps) {
     </Flex>
   );
 }
-

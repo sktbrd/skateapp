@@ -57,7 +57,11 @@ const PoapWallet = () => {
   useEffect(() => {
     onStart();
   }, [app, api, app?.wallets, status, pubkeyContext]);
-
+  useEffect(() => {
+    onStart();
+    console.log("loaded")
+  }
+  , [ETHaddress]);
   return (
     <Box>
       <center>
@@ -89,7 +93,7 @@ const PoapWallet = () => {
           alt={`NFT ${index}`}
           objectFit="cover"
           width="100%"
-          height="100%"
+          height="auto"
           borderRadius="10px"
         />
       ) : (

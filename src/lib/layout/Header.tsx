@@ -365,13 +365,27 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
                   color: 'white',
                   border: 'none',  
                   cursor: 'pointer'
+
                 }}
               >
-                <option value="" disabled >
+                <option 
+                  value=""
+                  disabled
+                  style={{backgroundColor: 'black', color: 'white' ,}}
+                  >
                   {user?.name}
                 </option>
-                <option  value="profile">Profile</option>
-                <option  value="logout">Log out</option>
+                <option
+                  style={{backgroundColor: 'black', color: 'white' }}
+                  value="profile"
+                  >
+                  Profile
+                  </option>
+                <option  
+                  value="logout"
+                  style={{backgroundColor: 'black', color: 'white' }}
+                  >Log out
+                </option>
               </Select>
             </div>
           ) : (

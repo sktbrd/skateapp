@@ -4,7 +4,7 @@ import { Box, Text, List, ListItem, Flex, VStack, Image, Button, Skeleton, Badge
 import DaoStatus from './DaoStatus';
 import { proposalsQuery } from './queries';
 import { Proposal } from './types';
-
+import ProposalModal from './proposalModal';
 import OpenAI from 'openai'; // Import OpenAI if not already done
 
 const SkatehiveProposals: React.FC = () => {
@@ -12,7 +12,18 @@ const SkatehiveProposals: React.FC = () => {
   const placeholderImage = '/assets/skatehive-logo.png';
   const [loadingProposals, setLoadingProposals] = useState<boolean>(true);
   const [loadingSummaries, setLoadingSummaries] = useState<boolean>(true);
-
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalContent, setModalContent] = useState<string>('');
+  const [modalTitle, setModalTitle] = useState<string>('');
+  const handleOpenModal = ({ body, title }: { body: string; title: string }) => {
+    setModalContent(body);
+    setModalTitle(title);
+    setIsModalOpen(true);
+  };
+  
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY || '',
     dangerouslyAllowBrowser: true,
@@ -80,7 +91,7 @@ const SkatehiveProposals: React.FC = () => {
         for (let proposal of fetchedProposals) {
           proposal.summary = await getSummary(proposal.body);
         }
-
+        
         setLoadingSummaries(false);
       } else {
         console.error('Error fetching proposals:', await response.text());
@@ -107,6 +118,7 @@ const SkatehiveProposals: React.FC = () => {
           proposal.summary = await getSummary(proposal.body);
         }
         setLoadingSummaries(false);
+        
       })();
     } else {
       // Fetch fresh proposals
@@ -180,46 +192,47 @@ return (
 
 
                     )}
-                    <VStack paddingLeft="5px"  align="start">
-                       <Box minWidth="100%"  borderRadius="10px"  border="1px solid white" >
-                       <Text 
-                        padding="5px" 
-                        color="white" 
-                        fontSize="xl"
-                      >
-                        {proposal.title}
-                      </Text>
-                        </Box> 
+<VStack paddingLeft="5px"  align="start">
+  <Box minWidth="100%"  borderRadius="10px"  border="1px solid white" >
+    <Text
+      padding="5px"
+      color="white"
+      fontSize="xl"
+      onClick={() => handleOpenModal({ body: proposal.body, title: proposal.title })}
+      cursor="pointer"
+    >
+      {proposal.title}
+    </Text>
+  </Box>
 
-                      <HStack alignContent="center">
-                        <Badge 
-                          variant="subtle" 
-                          colorScheme={proposal.state === 'closed' ? 'red' : 'green'} 
-                          mb={2}
-                        >
-                          {proposal.state === 'closed' ? 'Closed' : 'Open'}
-                        </Badge>
-                        <Text color="white" >
-                          Author: {proposal.author.slice(0, 6)}...{proposal.author.slice(-4)}
-                        </Text>
-                      </HStack>
-                      {loadingSummaries ? (
-                        <Skeleton height="20px" width="100%" mt={2} />
-                      ) : (
-                        <Box paddingBottom="5px">
-                        <Text 
-                          padding="5px" 
-                          color="aqua" 
-                          borderRadius="10px" 
-                          border="1px solid white" 
-                          mt={2}
-                        >
-                          🤖 GPT-Summary: {proposal.summary}
-                        </Text>
-                        </Box>
-
-                      )}
-                    </VStack>
+  <HStack alignContent="center">
+    <Badge 
+      variant="subtle" 
+      colorScheme={proposal.state === 'closed' ? 'red' : 'green'} 
+      mb={2}
+    >
+      {proposal.state === 'closed' ? 'Closed' : 'Open'}
+    </Badge>
+    <Text color="white" >
+      Author: {proposal.author.slice(0, 6)}...{proposal.author.slice(-4)}
+    </Text>
+  </HStack>
+  {loadingSummaries ? (
+    <Skeleton height="20px" width="100%" mt={2} />
+  ) : (
+    <Box paddingBottom="5px">
+      <Text 
+        padding="5px" 
+        color="aqua" 
+        borderRadius="10px" 
+        border="1px solid white" 
+        mt={2}
+      >
+        🤖 GPT-Summary: {proposal.summary}
+      </Text>
+    </Box>
+  )}
+</VStack>
                   </Flex>
                 </Flex>
 
@@ -255,7 +268,9 @@ return (
             </ListItem>
           ))
         )}
-      </List>
+      </List>     
+      <ProposalModal isOpen={isModalOpen} onClose={handleCloseModal} proposalContent={modalContent} proposalTitle={modalTitle} />
+
   </Flex>
 );
 

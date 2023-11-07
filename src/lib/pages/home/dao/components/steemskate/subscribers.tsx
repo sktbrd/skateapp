@@ -14,7 +14,7 @@ interface SubscriberInfo {
   location: string | null;
   balance: string | null;
   hbd_balance: string | null;
-  last_account_update: string | null;
+  last_post: string | null;
   account_age: string | null;
   vesting_shares: string | null;
 }
@@ -96,13 +96,13 @@ function SubscriberList() {
                 location: null,
                 balance: null,
                 hbd_balance: null,
-                last_account_update: null,
+                last_post: null,
                 account_age: null,
                 vesting_shares: null
               };
             }
 
-            const last_account_update = account[0].last_account_update;
+            const last_post = account[0].last_post;
             const hbd_balance = account[0].hbd_balance;
             const balance = account[0].balance;
             const metadata = account[0].posting_json_metadata;
@@ -148,7 +148,7 @@ function SubscriberList() {
               location,
               balance,
               hbd_balance,
-              last_account_update,
+              last_post,
               account_age,
               vesting_shares
             };
@@ -163,7 +163,7 @@ function SubscriberList() {
               location: null,
               balance: 0,
               hbd_balance: 0,
-              last_account_update: null,
+              last_post: null,
               account_age: null,
               vesting_shares: null
             };
@@ -246,7 +246,7 @@ function SubscriberList() {
     }
   
     const currentDate = new Date();
-    const lastPostDate = new Date(subscriberInfo.last_account_update);
+    const lastPostDate = new Date(subscriberInfo.last_post);
   
     // Calculate the difference in months between current date and last post date
     const monthsDifference = (currentDate.getFullYear() - lastPostDate.getFullYear()) * 12 + (currentDate.getMonth() - lastPostDate.getMonth());
@@ -357,7 +357,7 @@ function SubscriberList() {
                   </Tr>
                   <Tr>
   <Td>Last Update</Td>
-  <Td color={isRecentlyActive(subscriberInfo) ? 'limegreen' : 'red'}>{formatLastUpdateDate(subscriberInfo.last_account_update)}</Td>
+  <Td color={isRecentlyActive(subscriberInfo) ? 'limegreen' : 'red'}>{formatLastUpdateDate(subscriberInfo.last_post)}</Td>
 </Tr>
                   <Tr>
                     <Td>Since</Td>

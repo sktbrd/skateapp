@@ -46,7 +46,7 @@ export const MarkdownRenderersUpload = {
   ),
   
       
-a: ({ children, ...props }: RendererProps) => <a {...props} style={{ color: 'yellow' }}> {children} <br/></a>,
+a: ({ children, ...props }: RendererProps) => <a {...props} style={{ color: 'yellow' }}> {children}</a>,
 
 h1: ({ children, ...props }: RendererProps) => <h1 {...props} style={{ fontWeight: 'bold', color: 'white', fontSize: '40px', paddingBottom: '10px' , paddingTop:"10px" }}>{children}</h1>,
 h2: ({ children, ...props }: RendererProps) => <h2 {...props} style={{ fontWeight: 'bold', color: 'white', fontSize: '36px', paddingBottom: '8px' , paddingTop:"10px"}}>{children}</h2>,

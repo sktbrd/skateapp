@@ -16,6 +16,7 @@ import {
   TabPanels,
   Tab,
   TabPanel,
+  Image,
 } from '@chakra-ui/react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
@@ -100,8 +101,8 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
           <Tabs variant="enclosed">
             <TabList>
               <Tab>Proposal</Tab>
-              <Tab>Ai generate HATE</Tab>
-              <Tab>Ai generated LOVE</Tab>
+              <Tab>Ai generate LOVE</Tab>
+              <Tab>Ai generated HATE</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -115,10 +116,18 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
               </TabPanel>
               <TabPanel>
                 <Text color="white">Positive Opinion</Text>
+                <center>
+                <Image boxSize={"120px"} src="https://cdn3.emoji.gg/emojis/6156_pepe_angel.png" />
+                </center>
                 <Text whiteSpace="pre-wrap">{positiveOpinion}</Text>
               </TabPanel>
               <TabPanel>
                 <Text color="white">Negative Opinion</Text>
+                <center>
+
+                <Image boxSize={"120px"} src="https://i.ibb.co/fq343qf/image.png" />
+                </center>
+
                 <Text whiteSpace="pre-wrap">{negativeOpinion}</Text>
               </TabPanel>
             </TabPanels>

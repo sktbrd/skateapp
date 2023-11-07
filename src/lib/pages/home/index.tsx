@@ -16,15 +16,15 @@ import UploadPage from "../upload";
           <TabList mb="1em" width="100%">
             <Tab
               color="black"
-              border="10px limegreen solid"
-              _selected={{ backgroundColor: "blue",color:"white", fontWeight:"bold", border:"10px solid red" }} // Change the background color when selected
+              border="1px limegreen solid"
+              _selected={{ backgroundColor: "DeepSkyBlue",color:"white", fontWeight:"bold", border:"10px solid red" }} // Change the background color when selected
             >
               📜 FEED
             </Tab>
             <Tab
               color="black" 
               border="1px limegreen solid"
-              _selected={{ backgroundColor: "limegreen",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
+              _selected={{ backgroundColor: "Cyan",color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
               📹 VIDEOS
             </Tab>
@@ -45,7 +45,7 @@ import UploadPage from "../upload";
             <Tab
               color="black"
               border="1px limegreen solid"
-              _selected={{ backgroundColor: "LightSkyBlue" ,color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
+              _selected={{ backgroundColor: "LightSkyBlue" ,color:"black", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
             >
               🏛 GOVERN.
             </Tab>

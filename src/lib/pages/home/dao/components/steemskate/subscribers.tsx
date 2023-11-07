@@ -5,28 +5,18 @@ import { Client } from "@hiveio/dhive";
 import { FaGift } from 'react-icons/fa';
 import SendHiveModal from 'lib/pages/wallet/hive/sendHiveModal';
 
-interface Author {
-  name?: string;
-  posting_json_metadata?: string;
-  profile?: {
-    location?: string | null | undefined;
-    cover_image?: string | null | undefined;
-    about?: string | null | undefined;
-  } | undefined;
-  location?: string;
-  balance?: string;
-  hbd_balance?: string;
-  last_account_update?: string;
-  account_age?: string;
-  vesting_shares?: string;
-}
-
-interface AuthorProfile {
-  cover_image?: string;
-  about?: string;
-  location?: string;
-  balance?: string;
-  hbd_balance?: string;
+interface SubscriberInfo {
+  username: string;
+  authorAbout: string | null;
+  hasVotedWitness: boolean;
+  reputation: number;
+  cover_image: string | null;
+  location: string | null;
+  balance: string | null;
+  hbd_balance: string | null;
+  last_account_update: string | null;
+  account_age: string | null;
+  vesting_shares: string | null;
 }
 
 function calculateHumanReadableReputation(reputation: number) {
@@ -109,8 +99,6 @@ function SubscriberList() {
                 last_account_update: null,
                 account_age: null,
                 vesting_shares: null
-
-
               };
             }
 
@@ -133,7 +121,7 @@ function SubscriberList() {
             } catch (error) {
               console.error(`Error parsing JSON metadata for ${username}:`, error);
             }
-            console.log(account[0].vesting_shares);
+
             const vesting_shares = account[0].vesting_shares;
             const account_age = account[0].created;
             const location = parsedMetadata.profile?.location || null;
@@ -204,6 +192,7 @@ function SubscriberList() {
     fetchSubscribersWithPagination(lastSubscriberName);
     setIsLoading(true);
   };
+
   function formatLastUpdateDate(lastUpdate: string | null) {
     if (!lastUpdate) {
       return "";
@@ -215,7 +204,7 @@ function SubscriberList() {
     
     return formattedDate;
   }
-  
+
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
@@ -224,24 +213,22 @@ function SubscriberList() {
   const filteredSubscribers = subscribers.filter((subscriber) =>
     subscriber.username.toLowerCase().includes(searchQuery)
   );
+
   const sortedSubscribers = [...filteredSubscribers].sort((a, b) => {
-    // Primary sorting by whether they have voted or not
     if (a.hasVotedWitness && !b.hasVotedWitness) {
-      return -1; // a comes first
+      return -1;
     } else if (!a.hasVotedWitness && b.hasVotedWitness) {
-      return 1; // b comes first
+      return 1;
     }
-  
-    // Secondary sorting by vesting shares
+
     if (parseFloat(a.vesting_shares) < parseFloat(b.vesting_shares)) {
-      return 1; // b comes first
+      return 1;
     } else if (parseFloat(a.vesting_shares) > parseFloat(b.vesting_shares)) {
-      return -1; // a comes first
+      return -1;
     }
-  
-    return 0; // no change in order
+
+    return 0;
   });
-  
 
   const handleSendModalOpen = (username: string) => {
     const defaultMemo = "🛹 Thank you for Voting on Skatehive Witness 🛹 ";
@@ -253,7 +240,20 @@ function SubscriberList() {
   const handleSendModalClose = () => {
     setIsSendModalOpen(false);
   };
-
+  function isRecentlyActive(subscriberInfo:any) {
+    if (!subscriberInfo.account_age) {
+      return false; // User has no activity if account_age is not available
+    }
+  
+    const currentDate = new Date();
+    const lastPostDate = new Date(subscriberInfo.last_account_update);
+  
+    // Calculate the difference in months between current date and last post date
+    const monthsDifference = (currentDate.getFullYear() - lastPostDate.getFullYear()) * 12 + (currentDate.getMonth() - lastPostDate.getMonth());
+  
+    return monthsDifference <= 3; // Return true if user has posted in the last 3 months
+  }
+  
   return (
     <Flex flexDirection="column" alignItems="center" justifyContent="center">
       <Text>Users Loaded: {userCount}</Text>
@@ -292,7 +292,7 @@ function SubscriberList() {
       )}
 
       <Flex flexWrap="wrap" justifyContent="center" alignItems="center">
-        {sortedSubscribers.map((subscriberInfo) => (
+        {sortedSubscribers.map((subscriberInfo: SubscriberInfo) => (
           <Box
             key={subscriberInfo.username}
             p={4}
@@ -306,14 +306,16 @@ function SubscriberList() {
             _hover={{ transform: 'scale(1.05)' }}
           >
             <HStack justifyContent={'center'}>
-              <Avatar
-                src={`https://images.ecency.com/webp/u/${encodeURIComponent(subscriberInfo.username)}/avatar/small`}
-                size="lg"
-                boxSize={20}
-                borderRadius="50%"
-                border="2px solid limegreen"
-                marginBottom="10px"
-              />
+            <Avatar
+  src={`https://images.ecency.com/webp/u/${encodeURIComponent(subscriberInfo.username)}/avatar/small`}
+  size="lg"
+  boxSize={20}
+  borderRadius="50%"
+  border={isRecentlyActive(subscriberInfo) ? "5px solid limegreen" : "5px solid red"} // Change border color based on activity
+  marginBottom="10px"
+/>
+
+
               <Link href={`https://skatehive.app/profile/${subscriberInfo.username}`} target="_blank" rel="noopener noreferrer">
                 <Text color={'orange'} fontSize="lg" fontWeight="bold" textAlign="center">
                   {subscriberInfo.username}

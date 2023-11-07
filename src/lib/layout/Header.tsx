@@ -367,11 +367,11 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
                   cursor: 'pointer'
                 }}
               >
-                <option disabled >
+                <option value="" disabled >
                   {user?.name}
                 </option>
-                <option value="profile">Profile</option>
-                <option value="logout">Log out</option>
+                <option  value="profile">Profile</option>
+                <option  value="logout">Log out</option>
               </Select>
             </div>
           ) : (

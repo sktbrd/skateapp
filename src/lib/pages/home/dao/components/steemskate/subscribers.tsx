@@ -251,7 +251,7 @@ function SubscriberList() {
     // Calculate the difference in months between current date and last post date
     const monthsDifference = (currentDate.getFullYear() - lastPostDate.getFullYear()) * 12 + (currentDate.getMonth() - lastPostDate.getMonth());
   
-    return monthsDifference <= 3; // Return true if user has posted in the last 3 months
+    return monthsDifference <= 5; // Return true if user has posted in the last 5 months
   }
   
   return (
@@ -307,13 +307,13 @@ function SubscriberList() {
           >
             <HStack justifyContent={'center'}>
             <Avatar
-  src={`https://images.ecency.com/webp/u/${encodeURIComponent(subscriberInfo.username)}/avatar/small`}
-  size="lg"
-  boxSize={20}
-  borderRadius="50%"
-  border={isRecentlyActive(subscriberInfo) ? "5px solid limegreen" : "5px solid red"} // Change border color based on activity
-  marginBottom="10px"
-/>
+                src={`https://images.ecency.com/webp/u/${encodeURIComponent(subscriberInfo.username)}/avatar/small`}
+                size="lg"
+                boxSize={20}
+                borderRadius="50%"
+                border={isRecentlyActive(subscriberInfo) ? "5px solid limegreen" : "5px solid red"} // Change border color based on activity
+                marginBottom="10px"
+              />
 
 
               <Link href={`https://skatehive.app/profile/${subscriberInfo.username}`} target="_blank" rel="noopener noreferrer">
@@ -356,9 +356,9 @@ function SubscriberList() {
                     <Td>{subscriberInfo.vesting_shares}</Td>
                   </Tr>
                   <Tr>
-                    <Td>Last Update</Td>
-                    <Td>{formatLastUpdateDate(subscriberInfo.last_account_update)}</Td>
-                  </Tr>
+  <Td>Last Update</Td>
+  <Td color={isRecentlyActive(subscriberInfo) ? 'limegreen' : 'red'}>{formatLastUpdateDate(subscriberInfo.last_account_update)}</Td>
+</Tr>
                   <Tr>
                     <Td>Since</Td>
                     <Td>{formatLastUpdateDate(subscriberInfo.account_age)}</Td>

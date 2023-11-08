@@ -12,43 +12,55 @@ interface Card {
 const cardData: Card[] = [
   {
     imageUrl: '../../../../assets/team/baba.png',
-    hoverImageUrl: 'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fimg1.wikia.nocookie.net%2F__cb20120603213349%2Fsonicpokemon%2Fimages%2F7%2F77%2FPikachu.png&f=1&nofb=1&ipt=4b3752fce892cbbbde3e01e1d1bbc9bb6ac25a8520fb33e66be90fc1628a8cef&ipo=images', // Specify hover image URL
+    hoverImageUrl: '../../../../assets/team/baba666g.gif', // Specify hover image URL
     subtitle: 'Baba de Lex',
-    url: '/profile/babaskt'
+    url: 'https://crowsnight.vercel.app/profile/babaskt'
     },
     {
     imageUrl: '../../../../assets/team/zero.png',
-    subtitle: 'Zero ',
+    hoverImageUrl: '../../../../assets/team/zerog.gif',
+    subtitle: 'Zero',
     },
 
   {
     imageUrl: '../../../../assets/team/bodao.png',
-    subtitle: 'Matheus BodÃ¥o',
+    hoverImageUrl: '../../../../assets/team/bodaog.gif',
+    subtitle: 'Matheus Bodão',
   },
   {
     imageUrl: '../../../../assets/team/emo.png',
+    hoverImageUrl: '',
     subtitle: 'Guilherme',
   },
   {
     imageUrl: '../../../../assets/team/harleyvladson.png',
     subtitle: 'Xvlad 666',
+    url: 'https://crowsnight.vercel.app/profile/xvlad',
     hoverImageUrl: '../../../../assets/team/vlad_hover.gif',
   },
   {
     imageUrl: '../../../../assets/team/pharra.png',
-    subtitle: 'PharRat',
-    url: 'https://www.instagram.com/pharraskt/',
-    hoverImageUrl: '../../../../assets/team/pharra_hover.gif',
+    subtitle: 'Pharra',
+    url: 'https://crowsnight.vercel.app/profile/pharra',
+    hoverImageUrl: '../../../../assets/team/pharrag.gif',
   },
   {
     imageUrl: '../../../../assets/team/defon.jpg',
     subtitle: 'Defon',
+    hoverImageUrl: '../../../../assets/team/pedrog.gif',
     url: 'https://crowsnight.vercel.app/profile/doblershiva'
   },
   {
     imageUrl: '../../../../assets/team/bruno.png',
     subtitle: 'Bruno Boaz',
-    url: 'https://www.instagram.com/chriscobracole/'
+    hoverImageUrl: '../../../../assets/team/brunetg.gif',
+    url: ''
+  },
+  { 
+    imageUrl: '../../../../assets/team/meola.jpeg',
+    subtitle: 'Meola',
+    hoverImageUrl: '../../../../assets/team/meolag.gif',
+    url: ''
   },
 
 ];

@@ -20,7 +20,7 @@ interface HiveLoginProps {
   onClose: () => void;
 }
 
-const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose }) => {
+const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose}) => {
   const [username, setUsername] = useState("");
   const { loginWithHive, user } = useAuthUser();
 
@@ -46,10 +46,10 @@ const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent as="form" onSubmit={handleSubmit} backgroundColor="black" border="1px solid white">
-        <ModalHeader>Crow's Night App Login</ModalHeader>
-        <Image border="1px solid white" margin="20px" borderRadius="10px" src="assets/michael-myers-halloween.gif" alt="SkateHive" />
-        <ModalCloseButton />
+      <ModalContent as="form" onSubmit={handleSubmit} backgroundColor="black" border="1px solid #5E317A">
+        <ModalHeader color="#5E317A"><div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>𐕣 𖤐 𐕣 <p style={{ margin: '10px' }}>Faça seu pacto </p> 𐕣 𖤐 𐕣</div></ModalHeader>
+        <Image border="1px solid #5E317A" margin="20px" borderRadius="10px" src="assets/michael-myers-halloween.gif" alt="SkateHive" />
+        <ModalCloseButton color="#5E317A"/>
         <ModalBody>
           {user && user.name ? (
             <p>Welcome, {user.name}!</p>
@@ -58,20 +58,28 @@ const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose }) => {
               <Input
                 type="text"
                 name="username"
+                color="white"
                 placeholder="Username"
                 backgroundColor="black"
-                border="3px solid white"
+                border="3px solid #5E317A"
                 value={username}
                 onChange={handleInputChange}
                 required
               />
-              <Flex paddingTop="20px" justifyContent={"space-between"}>
+              <Flex paddingTop="20px" justifyContent={"center"}>
 
-              <Button border="1px solid #65418C" type="submit"backgroundColor="#65418C">Login</Button>
+              <Button
+  border="1px solid #65418C"
+  type="submit"
+  backgroundColor="#65418C"
+  style={{ transition: "background-color 0.3s" }}
+  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "#E0001B"}
+  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "#65418C"}
+>
+  Assinar Pacto
+</Button>
 
-              <Button border="1px solid #65418C" type="button" backgroundColor="#65418C" onClick={handleSignUp}>
-                Ask Help
-              </Button>
+
               </Flex>
               
             </>

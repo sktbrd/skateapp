@@ -1,7 +1,8 @@
 import React from 'react';
-import { Flex, Box, Grid, Image, Text, VStack, Link as ChakraLink } from '@chakra-ui/react';
+import { Flex, Box, Grid, Image, Text, VStack, Link as ChakraLink, Button } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useState } from 'react';
+import BuyModal from './buyModal2';
 interface Card {
   imageUrl: string;
   subtitle: string;
@@ -12,51 +13,79 @@ interface Card {
 
 const cardData: Card[] = [
   {
-    imageUrl: '/assets/meias/meiasanguepreto.jpg',
+    imageUrl: '/assets/meias/gota.png',
     hoverImageUrl: '', // Specify hover image URL
-    subtitle: 'Sangue',
+    subtitle: 'Gota de Sangue',
     url: '',
-    price: 'Valor: 100,00'
+    price: 'Valor: 60,00'
     },
     {
-    imageUrl: '/assets/meias/meiaolhos.jpg',
-    subtitle: 'Olhos',
-    price: 'Valor: 100,00'
+    imageUrl: '/assets/meias/listradabranca.png',
+    subtitle: 'Listrada Branca',
+    price: 'Valor: 60,00'
     },
 
   {
-    imageUrl: '/assets/meias/meiaossobranca.jpg',
-    subtitle: 'Ossos',
-    price: 'Valor: 100,00'
+    imageUrl: '/assets/meias/listradesanguebranco.png',
+    subtitle: 'Listra de Sangue B',
+    price: 'Valor: 60,00'
   },
   {
-    imageUrl: '/assets/meias/meiaossopreto.jpg',
-    subtitle: 'Ossos',
-    price: 'Valor: 100,00'
+    imageUrl: '/assets/meias/listradesanguepreto.png',
+    subtitle: 'Listra de Sangue P',
+    price: 'Valor: 60,00'
   },
   {
-    imageUrl: '/assets/meias/meiasanguebranca.jpg',
-    subtitle: 'Sangue',
+    imageUrl: '/assets/meias/listraroxa.png',
+    subtitle: 'Listra Roxa',
     hoverImageUrl: '',
-    price: 'Valor: 100,00'
+    price: 'Valor: 60,00'
   },
   {
-    imageUrl: '/assets/meias/meiavela.jpg',
-    subtitle: 'Velas',
+    imageUrl: '/assets/meias/olhospregados.png',
+    subtitle: 'Olhos Pregados',
     url: '',
     hoverImageUrl: '',
-    price: 'Valor: 100,00'
+    price: 'Valor: 60,00'
   },
   {
-    imageUrl: '/assets/meias/meiavelaelogo.jpg',
-    subtitle: 'Vela e corvo',
-    price: 'Valor: 100,00'
+    imageUrl: '/assets/meias/pdsb.png',
+    subtitle: 'Pé de Esqueleto B',
+    price: 'Valor: 60,00'
   },
   {
-    imageUrl: '/assets/meias/meiaverme.jpg',
-    subtitle: 'Vermes',
+    imageUrl: '/assets/meias/pdsp.png',
+    subtitle: 'Pé de Esqueleto P',
     url: '',
-    price: 'Valor: 100,00'
+    price: 'Valor: 60,00'
+    
+  },
+  {
+    imageUrl: '/assets/meias/skate.png',
+    subtitle: 'Skate Skate',
+    url: '',
+    price: 'Valor: 60,00'
+    
+  },
+  {
+    imageUrl: '/assets/meias/tda.png',
+    subtitle: 'Teia de Aranha',
+    url: '',
+    price: 'Valor: 60,00'
+    
+  },
+  {
+    imageUrl: '/assets/meias/velalada.png',
+    subtitle: 'Vela Alada',
+    url: '',
+    price: 'Valor: 60,00'
+    
+  },
+  {
+    imageUrl: '/assets/meias/vermes.png',
+    subtitle: 'Vermes Malditos',
+    url: '',
+    price: 'Valor: 60,00'
     
   },
 
@@ -64,6 +93,21 @@ const cardData: Card[] = [
 
 const Store: React.FC = () => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    const [showModal, setShowModal] = useState(false);
+    const [toAddress, setToAddress] = useState("");
+    const [amount, setAmount] = useState("");
+    const [hiveMemo, setHiveMemo] = useState("");
+    const handleOpenModal = () => {
+      setShowModal(true);
+      console.log(showModal)
+    };
+    const handleBuy = (index: number) => {
+      handleOpenModal()
+      console.log(`Compra do item ${index + 1}`);
+  }
+
+  
+    
 
     return (
       <>
@@ -136,7 +180,7 @@ const Store: React.FC = () => {
                     <ChakraLink
                         as={RouterLink}
                         to={card.url || '/'}
-                        fontSize="lg"
+                        fontSize="sm"
                         fontWeight="bold"
                         marginLeft={'8px'}
                         color={'white'}
@@ -145,13 +189,24 @@ const Store: React.FC = () => {
                     </ChakraLink>
                     </Flex>
                     {card.price && <Text fontSize="md" color="white">{card.price}</Text>}
+                    <Button onClick={() => handleBuy(index)}>Comprar</Button>
                 </center>
                 </VStack>
-
+                <BuyModal 
+        showModal={showModal}
+        setShowModal={setShowModal}
+        toAddress={toAddress}
+        setToAddress={setToAddress}
+        amount={amount}
+        setAmount={setAmount}
+        hiveMemo={hiveMemo} // Make sure to pass hiveMemo here
+        setHiveMemo={setHiveMemo}/>
             </Box>
           ))}
         </Grid>
+
       </>
+
     );
 };
 

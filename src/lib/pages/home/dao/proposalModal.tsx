@@ -109,7 +109,7 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
               <TabPanel>
                 <center>
                 <Image boxSize={"120px"} src="https://cdn3.emoji.gg/emojis/6156_pepe_angel.png" />
-                <Text border={"1px solid limegreen"} borderRadius={"10px"} whiteSpace="pre-wrap">{positiveOpinion}</Text>
+                <Text border={"1px solid limegreen"} borderRadius={"10px"} padding="10px" whiteSpace="pre-wrap">{positiveOpinion}</Text>
                 </center>
 
               </TabPanel>
@@ -127,7 +127,7 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
 
                 <Image boxSize={"120px"} src="https://i.ibb.co/fq343qf/image.png" />
 
-                <Text border={"1px solid limegreen"} borderRadius={"10px"} whiteSpace="pre-wrap">{negativeOpinion}</Text>
+                <Text border={"1px solid limegreen"} borderRadius={"10px"} padding="10px" whiteSpace="pre-wrap">{negativeOpinion}</Text>
                 </center>
 
               </TabPanel>

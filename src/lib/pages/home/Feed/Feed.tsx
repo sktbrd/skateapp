@@ -295,7 +295,7 @@ const cardStyles = css`
   }
 `;
 
-const truncateTitle = (title:any, maxCharacters = 110) => {
+const truncateTitle = (title:any, maxCharacters = 60) => {
   // full caps for title of post
   title = title.toUpperCase();
 

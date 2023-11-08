@@ -100,11 +100,19 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
         <ModalBody>
           <Tabs variant="enclosed">
             <TabList justifyContent={"center"} >
+              <Tab>Ai generate LOVE ❤</Tab>
               <Tab>Proposal</Tab>
-              <Tab>Ai generate LOVE</Tab>
-              <Tab>Ai generated HATE</Tab>
+              <Tab>Ai generated HATE💔</Tab>
             </TabList>
             <TabPanels>
+
+              <TabPanel>
+                <center>
+                <Image boxSize={"120px"} src="https://cdn3.emoji.gg/emojis/6156_pepe_angel.png" />
+                <Text border={"1px solid limegreen"} borderRadius={"10px"} whiteSpace="pre-wrap">{positiveOpinion}</Text>
+                </center>
+
+              </TabPanel>
               <TabPanel>
                 <ReactMarkdown
                   rehypePlugins={[rehypeRaw]}
@@ -115,26 +123,19 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
                 </ReactMarkdown>
               </TabPanel>
               <TabPanel>
-                <Text color="white">Positive Opinion</Text>
-                <center>
-                <Image boxSize={"120px"} src="https://cdn3.emoji.gg/emojis/6156_pepe_angel.png" />
-                </center>
-                <Text whiteSpace="pre-wrap">{positiveOpinion}</Text>
-              </TabPanel>
-              <TabPanel>
-                <Text color="white">Negative Opinion</Text>
                 <center>
 
                 <Image boxSize={"120px"} src="https://i.ibb.co/fq343qf/image.png" />
+
+                <Text border={"1px solid limegreen"} borderRadius={"10px"} whiteSpace="pre-wrap">{negativeOpinion}</Text>
                 </center>
 
-                <Text whiteSpace="pre-wrap">{negativeOpinion}</Text>
               </TabPanel>
             </TabPanels>
           </Tabs>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
+          <Button colorScheme="green" mr={3} onClick={onClose}>
             Close
           </Button>
         </ModalFooter>

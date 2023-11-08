@@ -76,8 +76,6 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
       setPositiveOpinion(positiveOpinion);
       setNegativeOpinion(negativeOpinion);
 
-      console.log('Positive Opinion:', positiveOpinion);
-      console.log('Negative Opinion:', negativeOpinion);
     } catch (error) {
       console.error('Error generating opinions:', error);
     }
@@ -98,9 +96,9 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
         <Divider />
         <ModalCloseButton />
         <ModalBody>
-          <Tabs variant="enclosed">
+          <Tabs variant="soft-rounded" defaultIndex={1}>
             <TabList justifyContent={"center"} >
-              <Tab>Ai generate LOVE ❤</Tab>
+              <Tab bg={"pink"} _selected={{bg: "white"}}>Ai generated LOVE ❤</Tab>
               <Tab>Proposal</Tab>
               <Tab>Ai generated HATE💔</Tab>
             </TabList>
@@ -109,7 +107,11 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
               <TabPanel>
                 <center>
                 <Image boxSize={"120px"} src="https://cdn3.emoji.gg/emojis/6156_pepe_angel.png" />
-                <Text border={"1px solid limegreen"} borderRadius={"10px"} padding="10px" whiteSpace="pre-wrap">{positiveOpinion}</Text>
+                <Text border={"1px solid #7CC4FA"} 
+                      borderRadius={"10px"} 
+                      padding="10px" 
+                      color={"#7CC4FA"}
+                      whiteSpace="pre-wrap">{positiveOpinion}</Text>
                 </center>
 
               </TabPanel>
@@ -127,7 +129,15 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
 
                 <Image boxSize={"120px"} src="https://i.ibb.co/fq343qf/image.png" />
 
-                <Text border={"1px solid limegreen"} borderRadius={"10px"} padding="10px" whiteSpace="pre-wrap">{negativeOpinion}</Text>
+                <Text 
+                  border={"1px solid red"}
+                  borderRadius={"10px"}
+                  padding="10px" 
+                  whiteSpace="pre-wrap"
+                  color="red"
+                  >  
+                    {negativeOpinion}
+                </Text>
                 </center>
 
               </TabPanel>

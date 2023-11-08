@@ -98,9 +98,9 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
         <ModalBody>
           <Tabs variant="soft-rounded" defaultIndex={1}>
             <TabList justifyContent={"center"} >
-              <Tab bg={"pink"} _selected={{bg: "white"}}>Ai generated LOVE ❤</Tab>
-              <Tab>Proposal</Tab>
-              <Tab bg={"pink"} _selected={{bg: "white"}}>Ai generated HATE💔</Tab>
+              <Tab color={"white"} bg="black" border="1px solid limegreen" _selected={{bg: "green.400", border:"1px solid white"}}>Ai generated LOVE ❤</Tab>
+              <Tab color={"white"} border={"1px solid teal"} _selected={{bg:"teal", border:"1px solid white"}} >Proposal</Tab>
+              <Tab bg={"black"} border="1px solid red"_selected={{bg: "pink" }}>Ai generated HATE💔</Tab>
             </TabList>
             <TabPanels>
 

@@ -78,6 +78,7 @@ const SkatehiveProposals: React.FC = () => {
       console.log('response2', response);
       if (response.ok) {
         const data = await response.json();
+        console.log('data', data);
         if (data.errors) {
           console.error('GraphQL Proposals Error:', data.errors);
           return;

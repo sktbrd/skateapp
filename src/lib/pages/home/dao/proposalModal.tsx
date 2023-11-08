@@ -100,7 +100,7 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
             <TabList justifyContent={"center"} >
               <Tab bg={"pink"} _selected={{bg: "white"}}>Ai generated LOVE ❤</Tab>
               <Tab>Proposal</Tab>
-              <Tab>Ai generated HATE💔</Tab>
+              <Tab bg={"pink"} _selected={{bg: "white"}}>Ai generated HATE💔</Tab>
             </TabList>
             <TabPanels>
 

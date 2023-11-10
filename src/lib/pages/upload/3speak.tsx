@@ -37,6 +37,11 @@ export const Connect3Speak = () => {
   const [connected, setConnected] = useState(false)
   const { user } = useAuthUser() as any;
 
+  const removeToken = () => {
+    localStorage.removeItem("3SpeakUser");
+    localStorage.removeItem("3SpeakToken");
+  }
+
   const connect = async () => {
 
     // check if user is logged in
@@ -50,6 +55,7 @@ export const Connect3Speak = () => {
       return;
     } else {
       setConnected(false);
+      removeToken();
     }
 
     const LOGIN_URL = `https://studio.3speak.tv/mobile/login?username=${user.name}`;
@@ -84,6 +90,7 @@ export const Connect3Speak = () => {
 
         } else {
           alert("Something went wrong while connecting to 3Speak. Please try again.");
+          removeToken();
         }
       }
     );
@@ -103,32 +110,39 @@ export const Connect3Speak = () => {
     } else {
       setConnected(false);
     }
+  }
 
+  const verifyConnection = async () => {
     // if connected, get all the videos from user on 3speak to verify if jwt is still valid
-    // if (connected) {
-    //   const GET_VIDEOS_URL = `https://studio.3speak.tv/mobile/api/my-videos`;
-    //   const jwt = localStorage.getItem("3SpeakToken");
+    if (connected) {
+      const GET_VIDEOS_URL = `https://studio.3speak.tv/mobile/api/my-videos`;
+      const jwt = localStorage.getItem("3SpeakToken");
 
-    //   // axios get request with jwt in Authorization header
-    //   axios.get(GET_VIDEOS_URL, {
-    //     headers: {
-    //       Authorization: `Bearer ${jwt}`
-    //     }
-    //   }).then((response) => {
+      // axios get request with jwt in Authorization header
+      axios.get(GET_VIDEOS_URL, {
+        headers: {
+          Authorization: `Bearer ${jwt}`
+        }
+      }).then((response) => {
 
-    //     const { data } = response;
-    //     console.log(data);
+        const { data } = response;
+        console.log(data);
 
-    //   }).catch((error) => {
-    //     // if jwt is invalid, then set connected to false
-    //     setConnected(false);
-    //   });
-    // }
+      }).catch((error) => {
+        // if jwt is invalid, then set connected to false
+        setConnected(false);
+        removeToken();
+      });
+    }
   }
 
   useEffect(() => {
     onStart();
   }, [user]);
+
+  useEffect(() => {
+    verifyConnection();
+  }, [connected]);
 
   return (
     <Box>
@@ -190,7 +204,7 @@ export const uploadTo3Speak = async (file: File, setIsUploading: Function, setVi
   return upload;
 };
 
-export const uploadThumbnailTo3Speak = (file: File, setIsUploading: Function, videoInfo: {}, setVideoInfo: Function) => {
+export const uploadThumbnailTo3Speak = (file: File, setIsUploading: Function, videoInfo: {}, setVideoInfo: Function, setVideoThumbnailUrl: Function, setThumbnailUrl: Function) => {
   const UPLOAD_URL = `https://uploads.3speak.tv/files`;
 
   // upload via tus
@@ -211,6 +225,10 @@ export const uploadThumbnailTo3Speak = (file: File, setIsUploading: Function, vi
     },
     onSuccess: function() {
       setIsUploading(false);
+
+      setVideoThumbnailUrl(upload.url);
+      setThumbnailUrl(upload.url);
+
       const name = upload.url?.replace('https://uploads.3speak.tv/files/', '');
 
       setVideoInfo({
@@ -231,13 +249,30 @@ export const uploadThumbnailTo3Speak = (file: File, setIsUploading: Function, vi
   return upload;
 }
 
-export const setVideoInfoOn3Speak = async (videoInfo: {}) => {
-  const SET_VIDEO_INFO_URL = `https://studio.3speak.tv/mobile/api/upload_info?app=skatehive`;
+export const setVideoInfoOn3Speak = async (videoInfo: {}, isUpdate = false) => {
+  const SET_VIDEO_INFO_URL = `https://studio.3speak.tv/mobile/api/${isUpdate ? 'update_info' : 'upload_info?app=skatehive'}`;
 
   const jwt = localStorage.getItem("3SpeakToken");
 
   // axios get request with jwt in Authorization header
   const response = await axios.post(SET_VIDEO_INFO_URL, videoInfo, {
+    headers: {
+      Authorization: `Bearer ${jwt}`
+    }
+  });
+
+  return response.data;
+}
+
+export const setAsPublishedOn3Speak = async (videoId: string) => {
+  const SET_VIDEO_AS_PUBLISHED_URL = `https://studio.3speak.tv/mobile/api/my-videos/iPublished`;
+
+  const jwt = localStorage.getItem("3SpeakToken");
+
+  // axios get request with jwt in Authorization header
+  const response = await axios.post(SET_VIDEO_AS_PUBLISHED_URL, {
+    video_id: videoId
+  }, {
     headers: {
       Authorization: `Bearer ${jwt}`
     }

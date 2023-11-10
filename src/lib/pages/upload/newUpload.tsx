@@ -36,6 +36,7 @@ import {
   uploadTo3Speak,
   uploadThumbnailTo3Speak,
   setVideoInfoOn3Speak,
+  setAsPublishedOn3Speak,
 } from "./3speak";
 
 const apiEndpoints = [
@@ -67,6 +68,7 @@ const defaultBeneficiaries: Beneficiary[] = [
   { name: 'skatehacker', percentage: 2 },
   { name: 'steemskate', percentage: 3 },
 ];
+
 declare global {
   interface Window {
     hive_keychain: any;
@@ -278,11 +280,11 @@ const NewUpload: React.FC = () => {
       setIsUploading(true);
 
       // upload the thumbnail to 3Speak
-      uploadThumbnailTo3Speak(file, setIsUploading, videoInfo, setVideoInfo);
+      uploadThumbnailTo3Speak(file, setIsUploading, videoInfo, setVideoInfo, setVideoThumbnailUrl, setThumbnailUrl);
 
-      // set the thumbnail URL
-      setVideoThumbnailUrl(thumbnailUrl);
-      setThumbnailUrl(thumbnailUrl);
+      // // set the thumbnail URL
+      // setVideoThumbnailUrl(thumbnailUrl);
+      // setThumbnailUrl(thumbnailUrl);
 
       // // upload the thumbnail to IPFS
       // await uploadFileToIPFS(file);
@@ -331,10 +333,49 @@ const NewUpload: React.FC = () => {
     return options;
   };
   const handleHiveUpload = async () => {
+    if (!user) {
+      alert("You have to log in with Hive Keychain to use this feature...");
+      return;
+    }
+    
+    if (!title) {
+      alert("Please enter a title for your post...");
+      return;
+    }
 
-    // if it video is uploaded on 3Speak
+    if (!markdownText) {
+      alert("Please enter some content for your post...");
+      return;
+    }
+
+    if (!thumbnailUrl) {
+      alert("Please select a thumbnail for your post...");
+      return;
+    }
+
+    if (!tags.length) {
+      alert("Please enter some tags for your post...");
+      return;
+    }
+
+    // disable the publish button
+    const publishButton = document.getElementById("publish-button");
+    if (publishButton) {
+      publishButton.setAttribute("disabled", "true");
+    }
+
+    // 3speak video info that is used to publish the post
+    let videoId = '';
+    let videoPermlink = null;
+    let finalMarkdown = markdownText;
+    let finalThumbnailUrl = thumbnailUrl;
+    let videoBeneficiaries = [
+      { account: 'spk.beneficiary', weight: 900 },
+      { account: 'threespeakleader', weight: 100 },
+    ];
+
+    // if video is uploaded on 3Speak and thumbnail is not uploaded, then alert
     if (isVideoUploaded) {
-      // if thumbnail is not uploaded on 3Speak, then alert
       if (!videoThumbnailUrl) {
         alert("Please upload the thumbnail on 3Speak first. You can do this by clicking the 'Set Video Thumbnail' button.");
         return;
@@ -345,40 +386,91 @@ const NewUpload: React.FC = () => {
     if (isVideoUploaded) {
       const videoInstance = await setVideoInfoOn3Speak(videoInfo);
       console.log("Video instance:", videoInstance);
+
+      // at this point the video is uploaded on 3Speak
+      // get the hive post permlink from the video instance and use it to create the hive post
+      // also update the video info on 3Speak with title, description, tags, etc.
+      videoId = videoInstance._id;
+      videoPermlink = videoInstance.permlink;
+
+      // update the markdown text with the video URL and thumbnail URL from 3Speak
+      const videoURL = `https://3speak.tv/watch?v=${username}/${videoPermlink}`;
+      const ipfs3Speak = 'https://ipfs-3speak.b-cdn.net/ipfs/'; // default IPFS 3Speak URL
+      const newThumbnailURL = `${ipfs3Speak}${videoInstance.thumbnail.replace('ipfs://', '')}/`;
+
+      // if the current selected thumbnail is the video thumbnail, then update the thumbnail URL
+      // update the video thumbnail ~ done by tiddi
+      if (thumbnailUrl === videoThumbnailUrl) {
+        finalThumbnailUrl = newThumbnailURL;
+      }
+
+      // update the video info on 3Speak
+      const updateObject = {
+        videoId,
+        title,
+        description: markdownText,
+        tags: tags.toString(), // Pass the 'tags' array as string here separated by commas
+      };
+
+      const updatedVideoInstance = await setVideoInfoOn3Speak(updateObject, true); // true means update
+      console.log("Updated video instance:", updatedVideoInstance);
+
+      // update the markdown text with the video URL and thumbnail URL
+      const videoMarkdown = `<center>\n\n[![](${newThumbnailURL})](${videoURL})\n\n</center>\n`;
+      // video goes on top of the markdown
+      finalMarkdown = videoMarkdown + finalMarkdown;
+      
+      // get the encoder benefeciary from video info
+      const encoderBeneficiaries = JSON.parse(updatedVideoInstance.beneficiaries);
+      const encoderBeneficiary = encoderBeneficiaries.find((b: any) => b.src === 'ENCODER_PAY');
+
+      // add the encoder benefeciary along with the default 3Speak and other benefeciaries
+      if (encoderBeneficiary) {
+        videoBeneficiaries.push({
+          account: encoderBeneficiary.account,
+          weight: encoderBeneficiary.weight,
+        });
+      }
+
+      // set the new benefeciaries along with the default benefeciaries
+      // setBeneficiaries(updatedBeneficiaries); // doesn't work because the component is unmounted
     }
 
-    let videoPermlink = '';
-    let videoBeneficiaries = [
-      { account: 'spk.beneficiary', weight: 900 },
-      { account: 'threespeakleader', weight: 100 },
-    ];    
-
-    // if video is not uploaded on 3Speak
     if (user && title) {
       const username = user?.name;
       if (username) {
         const permlink = slugify(title.toLowerCase());
+
+        // Define the beneficiaries
+        let finalBeneficiaries = beneficiariesArray.map(b => ({
+            account: b.account,
+            weight: parseInt(b.weight, 10) // Convert the weight string to an integer
+        }));
+
+        // Add the video benefeciaries if video is uploaded on 3Speak
+        if (isVideoUploaded) {
+          finalBeneficiaries.push(...videoBeneficiaries);
+        }
+
+        // sort the beneficiaries by account name ascending
+        finalBeneficiaries = finalBeneficiaries.sort((a: any, b: any) => a.account.localeCompare(b.account));
   
         // Define your comment options (e.g., max_accepted_payout, beneficiaries, etc.)
         const commentOptions = {
           author: username,
-          permlink: permlink,
+          permlink: videoPermlink ? videoPermlink : permlink, // Use the video permlink if video is uploaded on 3Speak
           max_accepted_payout: '10000.000 HBD',
           percent_hbd: 10000,
           allow_votes: true,
           allow_curation_rewards: true,
           extensions: [
             [0, {
-                beneficiaries: beneficiariesArray.map(b => ({
-                    account: b.account,
-                    weight: parseInt(b.weight, 10) // Convert the weight string to an integer
-                }))
+                beneficiaries: finalBeneficiaries
             }]
         ]
         };
   
         // Add defaultFooter to the markdown if includeFooter is true
-        let finalMarkdown = markdownText;
         if (includeFooter) {
           finalMarkdown += "\n" + defaultFooter;
         }
@@ -391,13 +483,13 @@ const NewUpload: React.FC = () => {
             // parent_permlink: 'testing67',
             parent_permlink: process.env.COMMUNITY || 'hive-173115',
             author: username,
-            permlink: permlink,
+            permlink: videoPermlink ? videoPermlink : permlink, // Use the video permlink if video is uploaded on 3Speak
             title: title,
             body: finalMarkdown, // Use the complete post body here
             json_metadata: JSON.stringify({
               tags: tags, // Pass the 'tags' array here
               app: 'skatehive',
-              image: thumbnailUrl ? [thumbnailUrl] : [], // Replace 'thumbnailIpfsURL' with 'thumbnailUrl'
+              image: finalThumbnailUrl ? [finalThumbnailUrl] : [], // Replace 'thumbnailIpfsURL' with 'thumbnailUrl'
             }),
           },
         ];
@@ -409,8 +501,15 @@ const NewUpload: React.FC = () => {
         const operations = [postOperation, commentOptionsOperation];
   
         // Request the broadcast using Hive Keychain
-        window.hive_keychain.requestBroadcast(username, operations, 'posting', (response: any) => {
+        window.hive_keychain.requestBroadcast(username, operations, 'posting', async (response: any) => {
           if (response.success) {
+
+            // // set the status of the video to published on 3Speak (if uploaded)
+            // if (isVideoUploaded) {
+            //   await setAsPublishedOn3Speak(videoId);
+            //   window.alert('Video successfully published on 3Speak!');
+            // }
+
             window.alert('Post successfully published on Hive!');
           } else {
             console.error('Error publishing post on Hive:', response.message);
@@ -721,7 +820,7 @@ const handleIncludeFooterChange = () => {
                 )}
                                 <Flex alignItems="center">{renderTags()}</Flex>
 
-              <Button onClick={handleHiveUpload} colorScheme="teal" size="sm" marginTop={2}>
+              <Button onClick={handleHiveUpload} colorScheme="teal" size="sm" marginTop={2} id="publish-button">
                 Publish!
               </Button>
             </Box>

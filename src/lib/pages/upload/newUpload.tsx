@@ -377,7 +377,7 @@ const NewUpload: React.FC = () => {
     // if video is uploaded on 3Speak and thumbnail is not uploaded, then alert
     if (isVideoUploaded) {
       if (!videoThumbnailUrl) {
-        alert("Please upload the thumbnail on 3Speak first. You can do this by clicking the 'Set Video Thumbnail' button.");
+        alert("Please upload video thumbnail on 3Speak first. You can do this by clicking the 'Set Video Thumbnail' after sleeking to any point in the video button.");
         return;
       }
     }

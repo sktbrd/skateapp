@@ -92,8 +92,8 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     null
   );
   const [postUrl, setPostUrl] = useState<string | null>(null);
-  const [displayedPosts, setDisplayedPosts] = useState<number>(15 );
-  const [postsToLoadInitially] = useState<number>(15); // Number of posts to load initially
+  const [displayedPosts, setDisplayedPosts] = useState<number>(20 );
+  const [postsToLoadInitially] = useState<number>(20); // Number of posts to load initially
   const [postsToLoadMore] = useState<number>(10); // Number of additional posts to load on "Load More" click
   const { user, isLoggedIn } = useAuthUser();
   const [hasVotedWitness, setHasVotedWitness] = useState<boolean>(false); // Step 4

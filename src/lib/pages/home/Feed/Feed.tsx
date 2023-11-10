@@ -15,6 +15,7 @@ import {
   ModalOverlay,
   ModalContent,
   useDisclosure,
+  Tooltip
 } from "@chakra-ui/react";
 
 import { Client } from "@hiveio/dhive";
@@ -31,6 +32,8 @@ import { css } from "@emotion/react";
 
 import EarningsModal from "./postModal/earningsModal"; // Replace with the correct path to EarningsModal
 import { MdArrowUpward } from 'react-icons/md';
+import axios from "axios";
+import { AxiosResponse } from 'axios';
 
 const nodes = [
   "https://rpc.ecency.com",
@@ -102,6 +105,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
       const pendingPayout = parseFloat(
         post.pending_payout_value.split(" ")[0]
       );
+      
       const totalEarnings = totalPayout + curatorPayout + pendingPayout;
       return totalEarnings;
     } catch (error) {
@@ -116,6 +120,41 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+// Endpoint da API CoinGecko para obter a taxa de câmbio USD para BRL
+const apiUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=usd&vs_currencies=brl';
+
+const [brl, setBrl] = useState(0);
+
+  const convertUSDtoBRL = async () => {
+    try {
+      const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=usd&vs_currencies=brl');
+      if (response.status !== 200) {
+        console.log(`Looks like there was a problem. Status Code: ${response.status}`);
+        setBrl(5);
+        return brl;
+      }
+      else {
+      const data = await response.json();
+      console.log("DATA:",data)
+      const brl_value = data.usd.brl;
+      setBrl(brl_value);
+      console.log("BRL",brl);
+      return brl_value;
+      }
+
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  }
+
+  useEffect(() => {
+    convertUSDtoBRL();
+    console.log("BRL:",brl)
+
+  }
+  , [brl])
 
   const fetchPosts = async () => {
     setIsLoadingMore(true); // Set loading state when "Load More" is clicked
@@ -429,6 +468,7 @@ return (
 
                     
 
+                    <Tooltip color={"white"} backgroundColor={"black"} border={"1px dashed white"} label={<div style={{color: 'white'}}>45% - 🛹 Usuários e Beneficiários <br /> 50% - 🧡 Para quem vota <br /> 5%  - 🏦 Tesouro <br /><br /> Clique para saber mais  </div>} aria-label="View Voters">
                   <Button
                     position="absolute"
                     bottom="10px"
@@ -438,35 +478,39 @@ return (
                     colorScheme="red"
                     size="s"
                     ml={2}
-                    style={{ fontFamily: 'Helvetica', 
-                            fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`, }} //dynamically changes font size based on numerical value of post.earnings
-                            > 
-                              
-                     <p>&#x1FA78;</p>{post.earnings.toFixed(2)}
+                    style={{
+                      fontFamily: 'Helvetica',
+                      fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`,
+                    }} //dynamically changes font size based on numerical value of post.earnings
+                  >
+                    R$ {(post.earnings*brl).toFixed(2)}
                     <img
                       src="../../../../assets/blood2.gif"
                       alt="spinning stoken coin"
                       style={{
-                        width: "50px",
+                        width: "30px",
                         height: "50px",
-                        marginLeft: "3px",
-                        marginBottom: "2px",
+                        marginLeft: "10px",
+                        marginRight: "12px",
+                        marginBottom: "-10px",
                       }}
                     />
                   </Button>
+                </Tooltip>
                 </Text>
                 
                 <Box marginLeft="auto">
                 <IconButton
               icon={<MdArrowUpward />}
+              marginBottom= "-5"
               backgroundColor="black"
-              color="white"
+              color="red"
               variant="ghost"
               size="xs"
               borderRadius="50%"
               aria-label="Upvote"
               border="1px"
-              borderColor="white"
+              borderColor="red"
               onClick={() => handleVoteClick(post)}
             />
                  </Box>

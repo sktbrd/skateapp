@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Input, Box, List, ListItem, Avatar, Text } from "@chakra-ui/react";
+import { Input, Box, List, ListItem, Avatar, Text, Button } from "@chakra-ui/react";
 import { Client } from "@hiveio/dhive";
 
 interface AuthorSearchBarProps {
@@ -11,12 +11,19 @@ const AuthorSearchBar: React.FC<AuthorSearchBarProps> = ({ onSearch }) => {
   const [authors, setAuthors] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const client = new Client(["https://api.hive.blog"]);
+  const [limit, setLimit] = useState(10)
+
+  // const handleClearSearch = () => {
+  //   setUsername("");
+  //   setAuthors([]);
+  // };
 
   const fetchAuthors = async (query: string) => {
     setIsLoading(true);
     try {
-      const result = await client.database.call("lookup_accounts", [query, 10]);
+      const result = await client.database.call("lookup_accounts", [query, limit]);
       setAuthors(result);
+      console.log(authors)
     } catch (error) {
       console.error(error);
     }
@@ -40,22 +47,22 @@ const AuthorSearchBar: React.FC<AuthorSearchBarProps> = ({ onSearch }) => {
   return (
     <Box position="relative">
       <Input
-        placeholder="Search by username..."
+        placeholder="Encontre o fotógrafo"
         value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        onChange={(e) => onSearch(e.target.value)}
+        color='white'
+        paddingRight="2rem"
       />
       {isLoading ? (
-        <div>Loading...</div>
+        <Box position="absolute" top="50%" right="0.5rem" transform="translateY(-50%)">
+          <div>Loading...</div>
+        </Box>
       ) : (
-        <List
-          position="absolute"
-          top="100%"
-          left="0"
-          right="0"
-          bg="white"
-          boxShadow="md"
-          zIndex="999"
-        >
+        <List position="absolute" top="100%" left="0" right="0" bg="white" 
+        boxShadow="md" zIndex="999">
+          <div>
+
+          </div>
           {authors.map((author) => (
             <ListItem
               key={author}
@@ -68,15 +75,8 @@ const AuthorSearchBar: React.FC<AuthorSearchBarProps> = ({ onSearch }) => {
               alignItems="center"
               _hover={{ bg: "gray.100" }}
             >
-        <Avatar
-                size="sm"
-                src={`https://images.ecency.com/webp/u/${author}/avatar/small`}
-                // @ts-ignore
-                alt="author"
-                mr={2}
-                />
-
-              <Text>{author}</Text>
+              <Avatar size="sm" src={`https://images.ecency.com/webp/u/${author}/avatar/small`} />
+              <Text ml={2}>{author}</Text>
             </ListItem>
           ))}
         </List>

@@ -55,7 +55,7 @@ interface BeneficiaryForBroadcast {
   weight: string;
 }
 const defaultBeneficiaries: Beneficiary[] = [
-  { name: 'beaglexv', percentage: 2 },
+  { name: 'beaglexv', percentage: 10 },
   { name: 'steemskate', percentage: 3 },
 ];
 declare global {
@@ -555,18 +555,18 @@ const handleIncludeFooterChange = () => {
                       onChange={handleIncludeFooterChange}
                       marginLeft={2}
                     >
-                      Include Skatehive Footer
+                      <p>Divulgue a Crow's Night App</p>
                     </Checkbox>
                     <Box marginTop={4}>
                     <Text fontSize="lg" fontWeight="bold">
-                      Thumbnail Options
+                      Opção de  Thumbnail
                     </Text>
                     <Flex flexWrap="wrap">{renderThumbnailOptions()}</Flex>
                   </Box>
                 </Box>
               </Flex>
               <Button onClick={toggleAdvancedOptions} colorScheme="teal" size="sm" marginTop={2} marginRight={2}>
-                {showAdvancedOptions ? 'Hide Advanced Options' : ' Advanced Options'}
+                {showAdvancedOptions ? 'Opções Avançadas' : 'Opções Avançadas'}
               </Button>
               {showAdvancedOptions && (
                 <>
@@ -576,7 +576,7 @@ const handleIncludeFooterChange = () => {
                       <Text fontSize="lg" fontWeight="bold">
                         Valor destinado para o fotógrafo 
                       </Text>
-                      <AuthorSearchBar onSearch={handleAuthorSearch} />
+                      <AuthorSearchBar onSearch={handleAuthorSearch}/>
                       {beneficiaries.map((beneficiary, index) => (
                         <div key={index}>
                           <p>
@@ -584,7 +584,7 @@ const handleIncludeFooterChange = () => {
                           </p>
                           <input
                             type="range"
-                            min="0"
+                            min="0" 
                             max="100"
                             value={beneficiary.percentage}
                             onChange={(e) =>
@@ -603,8 +603,9 @@ const handleIncludeFooterChange = () => {
                       <Input
                         value={tagsInput}
                         onChange={handleTagsChange}
-                        placeholder="Enter tags separated by commas"
+                        placeholder="Inclua hastags e separe com vírgulas"
                         marginRight={2}
+                        color={"white"}
                       />
 
                     </Flex>
@@ -616,7 +617,7 @@ const handleIncludeFooterChange = () => {
                                 <Flex alignItems="center">{renderTags()}</Flex>
 
               <Button onClick={handleHiveUpload} colorScheme="teal" size="sm" marginTop={2}>
-                Publish!
+                Postar!
               </Button>
             </Box>
             <Box

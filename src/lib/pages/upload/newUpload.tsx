@@ -511,6 +511,10 @@ const NewUpload: React.FC = () => {
             // }
 
             window.alert('Post successfully published on Hive!');
+            
+            if (isVideoUploaded) {
+              window.alert('Video successfully published on 3Speak! It will be available soon!');
+            }
           } else {
             console.error('Error publishing post on Hive:', response.message);
           }

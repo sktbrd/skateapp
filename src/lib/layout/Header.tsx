@@ -74,7 +74,7 @@ const HeaderNew = () => {
   const [loggedIn, setLoggedIn] = useState(isLoggedIn());
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [totalNetWorth, setTotalNetWorth] = useState<number | null>(null);
+  const [totalNetWorth, setTotalNetWorth] = useState<number | null>(0.00);
   const [ evmWallet, setEvmWallet ] = useState<string | null>(null);
   const { api, app, context, assetContext, blockchainContext, pubkeyContext, status } = state;
 
@@ -102,18 +102,20 @@ const HeaderNew = () => {
   useEffect(() => {
       const fetchData = async () => {
           try {
-              if (!wallet_address) {
+              if (!wallet_address === null) {
                   console.error("Wallet prop is undefined or null");
                   return;
               }
+              else {
 
-              const response = await axios.get(`https://swaps.pro/api/v1/portfolio/${wallet_address}`);
-              console.log("DATA",response.data.totalBalanceUsdTokens);
-              setTotalNetWorth(response.data.totalNetWorth)
-              console.log(response.data);
-          } catch (error) {
-              console.error('Error fetching data:', error);
-          }
+                const response = await axios.get(`https://swaps.pro/api/v1/portfolio/${wallet_address}`);
+                console.log("DATA",response.data.totalBalanceUsdTokens);
+                setTotalNetWorth(response.data.totalNetWorth)
+                console.log(response.data);
+              }
+              } catch (error) {
+                console.error('Error fetching data:', error);
+              }
       };
 
       fetchData();
@@ -366,21 +368,26 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       {/* Dropdown button */}
       <Box>
       <ChakraLink as={RouterLink} to="/wallet">
+
       <Button
         backgroundColor="black"
         border="limegreen 2px solid"
         color="orange"
-
-
         >
-          {totalWorth.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
+          <Image marginRight={"10px"} boxSize={"22px"} src="https://cdn.freebiesupply.com/logos/large/2x/ethereum-1-logo-png-transparent.png"></Image> {totalNetWorth?.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
+      </Button>
+      <Button
+        backgroundColor="black"
+        border="limegreen 2px solid"
+        color="orange"
+        >
+           <Image marginRight={"10px"} boxSize={"22px"} src="https://cryptologos.cc/logos/hive-blockchain-hive-logo.png?v=026"></Image> {totalWorth.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
           </Button>
+
     </ChakraLink>
       </Box>
     
       </Flex>
-
-      {/* Tabs centered horizontally */}
       <Tabs
         variant="unstyled"
         colorScheme="whiteAlpha"

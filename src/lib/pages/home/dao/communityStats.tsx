@@ -32,17 +32,14 @@ const [numberOfAuthors, setNumberOfAuthors] = useState<number | null>(null);
 
         // Find the SkateHive community stats
         const skateHiveStats = items.find((item: any) => item[1].toLowerCase() === 'skatehive');
-        console.log('skateHiveStats', skateHiveStats);
         if (skateHiveStats) {
           const [communityName, , totalPayout, numberOfPosts, numberOfAuthors] = skateHiveStats;
-          console.log('communityName', communityName);
           setCommunityStats({
             communityName,
             totalPayout,
             numberOfPosts,
             numberOfAuthors,
           });
-          console.log('communityStats', communityStats);
         } else {
           setError('SkateHive community not found');
         }

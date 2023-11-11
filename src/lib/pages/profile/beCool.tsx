@@ -66,7 +66,7 @@ export default function HiveBalanceDisplay() {
               src={`https://images.hive.blog/u/${user.name}/avatar`}
               alt="profile avatar"
               borderRadius="20px"
-              border="2px solid limegreen"
+              border="2px solid white"
               boxSize="40px"
             />
             <Text padding="10px" color="limegreen">

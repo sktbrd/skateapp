@@ -20,15 +20,15 @@ const PostHeader: React.FC<Types.PostHeaderProps> = ({ title, author, avatarUrl,
   return (
     <Flex justifyContent="center" alignItems="center">
       <Box display="flex" alignItems="center">
-        <Link to={`/profile/${author}`}>
-          <Box borderRadius="full" border="1px solid limegreen" display="flex" alignItems="center" p="4">
+        <Link to={`/profile/${author}`} >
+          <Box borderRadius="full" border="1px solid white" display="flex" alignItems="center" p="4">
             <Image boxSize="2rem" borderRadius="full" src={avatarUrl} alt={author} mr="4" />
             <Text fontSize="md">{author}</Text>
           </Box>
         </Link>
       </Box>
-      <Box borderRadius="10px" border="1px solid limegreen" flex="1" ml="4">
-        <Heading padding="10px" as="h5" size="xs">
+      <Box borderRadius="10px" border="1px solid white" flex="1" ml="4">
+        <Heading padding="10px" as="h5" size="md">
           {title}
         </Heading>
       </Box>

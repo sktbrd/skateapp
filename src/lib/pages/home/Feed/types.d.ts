@@ -12,24 +12,26 @@ queryType?: any;
 
 // ------------ Comments -------------------
 export interface CommentProps {
-author: string;
-body: string;
-created: string;
-net_votes: number;
-permlink: string;
-url: string;
-parentId: string; // Add this field to store the parent ID
-id: string; // Add this field to store the unique identifier of the comment
-replies: CommentProps[]; 
-limit: number;
+  author: string;
+  body: string;
+  created: string;
+  net_votes: number;
+  permlink: string;
+  url: string;
+  parentId: string; // Add this field to store the parent ID
+  id: string; // Add this field to store the unique identifier of the comment
+  replies: CommentProps[]; 
+  limit: number;
+  blockedUser: string;
+  parent_permlink: string;
+  }
 
-
-
-}
 export interface CommentsProps {
-comments: CommentProps[];
-commentPosted: boolean;
-}
+    comments: CommentProps[];
+    commentPosted: boolean;
+    blockedUser: string;
+    permlink: string;
+    }
 
 export interface CommentBoxProps {
 user: any;

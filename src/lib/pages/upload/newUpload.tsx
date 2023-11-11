@@ -95,7 +95,7 @@ const NewUpload: React.FC = () => {
   const [isVideoUploaded, setIsVideoUploaded] = useState(false);
   const [videoUploadProgress, setVideoUploadProgress] = useState(0);
   const [videoInfo, setVideoInfo] = useState<any>(null);
-  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [videoFile, setVideoFile] = useState<File | null>(null); // for viewing in editor
   const [videoThumbnailUrl, setVideoThumbnailUrl] = useState<string | null>(null);
 
   const handleMarkdownChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -755,6 +755,7 @@ const handleIncludeFooterChange = () => {
                       placeholder="Enter your Markdown here..."
                       minHeight="600px"
                       marginTop={4}
+                      id="markdown-editor"
                     />
                     <Checkbox
                       isChecked={includeFooter}
@@ -869,6 +870,20 @@ const handleIncludeFooterChange = () => {
                   <video
                     src={videoFile ? URL.createObjectURL(videoFile) : ''}
                     controls
+                    onLoadedData={async () => {
+                      // when the video is ready to play, focus on it
+                      
+                      // current focused element
+                      const focused = document.activeElement as HTMLElement;
+                      
+                      // focus on the video
+                      // this is needed to capture the frame without manually playing the video
+                      const video = document.getElementById("main-video") as HTMLVideoElement;
+                      video?.focus();
+
+                      // now focus on the previous element
+                      focused?.focus();
+                    }}
                     style={{
                       width: "auto",
                       height: "auto",

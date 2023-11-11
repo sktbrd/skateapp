@@ -41,13 +41,11 @@ const TestEvm = () => {
     try {
       if (app) {
         const currentAddress = app.wallets[0].wallet.accounts[0];
-        console.log("currentAddress: ", currentAddress);
         setETHAddress(currentAddress);
       }
       if (ETHaddress) {
         const portfolio = await api.GetPortfolio({ address: ETHaddress.toUpperCase() });
         setUserPortfolios(portfolio.data.nfts);
-        console.log("portfolio: ", userPortfolios);
         console.log(portfolio.data.nfts);
       }
     } catch (e) {

@@ -1,7 +1,7 @@
 // Import necessary modules and components
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, Text, Table, Td, Tbody, Flex} from '@chakra-ui/react';
+import { Box, Text, Table, Td, Tbody, Flex, Image} from '@chakra-ui/react';
 
 interface TokenInfo {
         address: string;
@@ -70,18 +70,48 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
 
     return (
         <Flex flexDirection={"column"}>
-            <Box border={"1px solid #7CC4FA"} borderRadius={"10px"} p={4} >
-<Box style={{ display: 'flex' }}>
-  <Text color={"white"} fontSize={"26px"} fontWeight="bold"> Total of EVM tokens: </Text>
-  <Text color={"orange"} fontSize={"26px"} marginLeft={"5px"}> {totalNetWorth?.toFixed(2)} USD</Text>
-</Box>
-<Box style={{ display: 'flex' }}>
-  <Text color={"white"} fontSize={"26px"} fontWeight="bold"> Total of USD Pegged tokens: </Text>
-  <Text color={"orange"} fontSize={"26px"} marginLeft={"5px"}> {totalBalanceUsdTokens?.toFixed(2)} USD</Text>
-</Box>
+
+
+<Box
+  border={"1px solid #7CC4FA"}
+  borderRadius={"10px"}
+  p={4}
+  display="flex"
+  alignItems="center"
+  boxShadow="0 0 10px rgba(0, 0, 0, 0.1)"
+  margin="auto"
+  background="#002240"
+>
+
+  {/* Left side with the image */}
+  <Box marginRight={4}>
+    <Image src="/assets/cryptopepe.png" alt="Swaps Logo" width="200px" borderRadius="10px" />
+  </Box>
+
+  {/* Right side with stacked sentences */}
+  <Box>
+    <Box marginBottom={2}>
+      <Text color="#FFFFFF" fontSize="26px" fontWeight="bold">EVM tokens</Text>
+      <Text color="#FFA500" fontSize="26px" marginLeft="5px">{totalNetWorth?.toFixed(2)} USD</Text>
+    </Box>
+    <Box>
+      <Text color="#FFFFFF" fontSize="26px" fontWeight="bold">USD Pegged</Text>
+      <Text color="#FFA500" fontSize="26px" marginLeft="5px">{totalBalanceUsdTokens?.toFixed(2)} USD</Text>
+    </Box>
+  </Box>
+
 </Box>
 
-        <Box border={"1px solid #7CC4FA"} borderRadius={"10px"} p={4}>
+
+
+        <Box   border={"1px solid #7CC4FA"}
+  borderRadius={"10px"}
+  p={4}
+  display="flex"
+  alignItems="center"
+  boxShadow="0 0 10px rgba(0, 0, 0, 0.1)"
+  margin="auto"
+  background="#002240">
             <Table>
                 <Tbody>
                     <tr>

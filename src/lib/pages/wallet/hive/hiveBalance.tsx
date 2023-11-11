@@ -181,15 +181,12 @@ export default function HiveBalanceDisplay2() {
 
   const handleOpenModal = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault(); // Prevent the default button click behavior
-    console.log(user);
     setShowModal(true);
-    console.log(showModal)
   };
   
 
   const handleLogoClick = (balanceType: string) => {
     console.log(`Clicked ${balanceType} logo`);
-    console.log(user);
   };
   
   return (

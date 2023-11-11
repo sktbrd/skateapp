@@ -77,7 +77,6 @@ const HiveVideos: React.FC = () => {
 
   const openPostModal = (post: Discussion) => {
     setSelectedPost(post);
-    console.log("Selected post:", post);
     onOpen();
   };
 

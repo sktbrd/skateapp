@@ -114,8 +114,6 @@ export default function AuthorProfilePage() {
         params: [username, null, "ignore", 100],
         id: 1,
       });
-      console.log("YO",followersResponse.data.result)
-      console.log("YO",followingsResponse.data.result)
       setFollowers(followersResponse.data.result);
       setFollowings(followingsResponse.data.result);
     } catch (error) {
@@ -186,7 +184,6 @@ export default function AuthorProfilePage() {
     
       const custom = await keychain.custom(formParamsAsObject.data as Custom);
       
-      console.log({ custom });
     } catch (error) {
       console.log({ error });
     }

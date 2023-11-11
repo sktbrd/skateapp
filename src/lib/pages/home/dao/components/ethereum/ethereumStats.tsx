@@ -106,7 +106,6 @@ async function getBalance(wallet: string) {
   
   
       if (response.data.status === '1') {
-        console.log(response)
         const balance = ethers.utils.formatEther(response.data.result);
         return balance;
       } else {
@@ -129,7 +128,6 @@ async function getBalance(wallet: string) {
           const multisigBalanceAsNumber = parseFloat(eth_multisig);
   
           setmultisigETHBalance(multisigBalanceAsNumber);
-          console.log("MULTISIG", multisigBalanceAsNumber);
           
         } else {
           console.error("Eth_multisig is undefined");
@@ -140,7 +138,6 @@ async function getBalance(wallet: string) {
         if (eth_hotwallet !== undefined) {
           const hotWalletBalanceAsNumber = parseFloat(eth_hotwallet);
           setHotWalletBalance(hotWalletBalanceAsNumber);
-          console.log("HOT WALLETT", hotWalletBalanceAsNumber);
         } else {
           console.error("Eth_hotwallet is undefined");
         }

@@ -76,7 +76,6 @@ const GnarsBlog = ({ tags }: Types.GnarsBlogProps) => {
       const newIndex = (nodeIndex + 1) % nodes.length;
       setNodeIndex(newIndex);
       setClient(new Client(nodes[newIndex]));
-      console.log(`Switched to node: ${nodes[newIndex]}`);
       return fetchPostEarnings(author, permlink);
     }
   };
@@ -130,8 +129,7 @@ const GnarsBlog = ({ tags }: Types.GnarsBlogProps) => {
 
   const handlePostClick = (post: Types.Post) => {
     setSelectedPost(post);
-    console.log(post.body);
-    console.log(post);
+
     onOpen();
   };
 

@@ -118,7 +118,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
       const newIndex = (nodeIndex + 1) % nodes.length;
       setNodeIndex(newIndex);
       setClient(new Client(nodes[newIndex]));
-      console.log(`Switched to node: ${nodes[newIndex]}`);
       // Retry the request with the new node
       return fetchPostEarnings(author, permlink);
     }
@@ -236,7 +235,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
       const newIndex = (nodeIndex + 1) % nodes.length;
       setNodeIndex(newIndex);
       setClient(new Client(nodes[newIndex]));
-      console.log(`Switched to node: ${nodes[newIndex]}`);
       // Retry the request with the new node
       return fetchComments(author, permlink);
     }

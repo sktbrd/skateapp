@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react';
 //@ts-ignore
 import { usePioneer } from '@pioneer-platform/pioneer-react';
 import NFTWallet from './nft/nftWallet';
-import EvmBalance from './evm/evmWallet';
-import FiatBalance from './fiat/fiat';
 import POAPsNFTWallet from './nft/poapWallet';
 import HiveBalanceDisplay2 from './hive/hiveBalance';
 import {
@@ -37,7 +35,6 @@ const Wallet = () => {
       if (app && app.wallets && app.wallets.length > 0 && app.wallets[0].wallet && app.wallets[0].wallet.accounts) {
         const currentAddress = app.wallets[0].wallet.accounts[0];
         setETHAddress(currentAddress);
-        console.log("ADDRESS: ", currentAddress);
       } else {
         console.error("Some properties are undefined or null");
       }

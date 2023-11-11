@@ -109,9 +109,7 @@ const HeaderNew = () => {
               else {
 
                 const response = await axios.get(`https://swaps.pro/api/v1/portfolio/${wallet_address}`);
-                console.log("DATA",response.data.totalBalanceUsdTokens);
                 setTotalNetWorth(response.data.totalNetWorth)
-                console.log(response.data);
               }
               } catch (error) {
                 console.error('Error fetching data:', error);

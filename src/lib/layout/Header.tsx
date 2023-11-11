@@ -40,7 +40,11 @@ import HiveLogin from "lib/pages/home/api/HiveLoginModal";
 
 import { fetchHbdPrice } from "lib/pages/wallet/hive/hiveBalance";
 import { fetchConversionRate } from "lib/pages/wallet/hive/hiveBalance";
-// Custom LinkTab component
+
+import axios from "axios";
+//@ts-ignore
+import { usePioneer } from '@pioneer-platform/pioneer-react';
+
 type LinkTabProps = TabProps & RouterLinkProps;
 
 interface User {
@@ -57,16 +61,65 @@ const LinkTab: React.FC<LinkTabProps> = ({ to, children, ...tabProps }) => (
 );
 
 const HeaderNew = () => {
+  const { state } = usePioneer();
+
   const fontSize = useBreakpointValue({ base: "2xl", md: "3xl" });
   const tabSize = useBreakpointValue({ base: "sm", md: "md" });
   const flexDirection = useBreakpointValue<"row" | "column">({ base: "column", md: "column" });
   const DEFAULT_AVATAR_URL = "https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif";
+
 
   const { user, loginWithHive, logout, isLoggedIn } = useAuthUser();
   const [isModalOpen, setModalOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(isLoggedIn());
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [totalNetWorth, setTotalNetWorth] = useState<number | null>(null);
+  const [ evmWallet, setEvmWallet ] = useState<string | null>(null);
+  const { api, app, context, assetContext, blockchainContext, pubkeyContext, status } = state;
+
+  const [wallet_address, setWalletAddress] = useState<string | null>(null);
+
+  const onLoad = async function () {
+    try {
+      if (app && app.wallets && app.wallets.length > 0 && app.wallets[0].wallet && app.wallets[0].wallet.accounts) {
+        const currentAddress = app.wallets[0].wallet.accounts[0];
+        setWalletAddress(currentAddress);
+        console.log("ADDRESS: ", currentAddress);
+      } else {
+        console.error("Some properties are undefined or null");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  
+  useEffect(() => {
+    onLoad();
+  }, [app, api, app?.wallets, status, pubkeyContext]);
+
+
+  useEffect(() => {
+      const fetchData = async () => {
+          try {
+              if (!wallet_address) {
+                  console.error("Wallet prop is undefined or null");
+                  return;
+              }
+
+              const response = await axios.get(`https://swaps.pro/api/v1/portfolio/${wallet_address}`);
+              console.log("DATA",response.data.totalBalanceUsdTokens);
+              setTotalNetWorth(response.data.totalNetWorth)
+              console.log(response.data);
+          } catch (error) {
+              console.error('Error fetching data:', error);
+          }
+      };
+
+      fetchData();
+  }, [wallet_address]);
+
+
 
   useEffect(() => {
     setLoggedIn(isLoggedIn());

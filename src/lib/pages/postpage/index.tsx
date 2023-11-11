@@ -86,7 +86,7 @@ const PostPage: React.FC = () => {
 
   const commentTitleStyle = {
     fontWeight: 'bold',
-    color: 'yellow',
+    color: '#d9d5a0',
     fontSize: '20px',
     paddingBottom: '8px',
   };
@@ -171,7 +171,7 @@ const PostPage: React.FC = () => {
   };
   const titleStyle = {
     fontWeight: 'bold',
-    color: 'yellow',
+    color: '#d9d5a0',
     fontSize: '26px',
     padding: '20px',
     borderRadius: '10px',

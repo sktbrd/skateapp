@@ -37,11 +37,11 @@ h3: ({ children, ...props }: RendererProps) => <h3 {...props} style={{ fontWeigh
 blockquote: ({ children, ...props }: RendererProps) => <blockquote {...props} style={{ borderLeft: '3px solid red', paddingLeft: '10px', fontStyle: 'italic' }}>{children}</blockquote>,
 ol: ({ ordered, children, ...props }: RendererProps) => {
     const listType = ordered ? "1" : "decimal";
-    return <ol {...props} style={{ listStyleType: listType, paddingLeft: '20px' }}>{children}</ol>;
+    return <ol {...props} style={{ listStyleType: listType, paddingLeft: '20px', color: 'white' }}>{children}</ol>;
 },
 
 ul: ({ children, ...props }: RendererProps) => {
-    return <ul {...props} style={{ paddingLeft: '20px' }}>{children}</ul>;
+    return <ul {...props} style={{ paddingLeft: '20px',color: 'white' }}>{children}</ul>;
 },
 
 hr: ({ children, ...props }: RendererProps) => <hr {...props} style={{ paddingBottom: '20px' }}>{children}</hr>,
@@ -51,7 +51,7 @@ iframe: ({ ...props }: RendererProps) => (
     <iframe 
         {...props} 
         style={{ 
-        border: '1px solid limegreen', 
+        border: '1px solid white', 
         borderRadius: '10px', 
         width: '560px',
         height: '315px',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Flex, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box, Text } from '@chakra-ui/react';
+import { Button, Flex, Slider, SliderTrack, SliderFilledTrack, Box, Text } from '@chakra-ui/react';
 import voteOnContent from '../home/api/voting';
 import { useState } from 'react';
 
@@ -9,11 +9,11 @@ import * as Types from '../home/Feed/types'
 const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, user, author, permlink, weight = 10000 }) => {
   const [sliderValue, setSliderValue] = useState(0);
   const getFeedbackText = (value: number) => {
-    if (value === -10000) return "I hate it";
-    if (value === -5000) return "I don't care for it";
-    if (value === 0) return "Skaters can do better";
-    if (value === 5000) return "That's kind of cool";
-    if (value === 10000) return "That's fucking awesome";
+    if (value === -10000) return "Seu fraco!";
+    if (value === -5000) return "Não gostei muito.";
+    if (value === 0) return "Tenta outra vez!";
+    if (value === 5000) return "Boa, bloder!";
+    if (value === 10000) return "Você é trevoso!";
     return "";
   };
   
@@ -57,7 +57,7 @@ const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, user, author, per
   return (
     <Flex flexDirection="column" alignItems="center" minWidth="100%" borderRadius="10px" border="1px white solid" padding="20px">
       <Box width="100%" marginBottom="20px" position="relative">
-        <Text textAlign="center"> Your opinion on this post</Text>
+        <Text textAlign="center"> Sua opnião sobre este post</Text>
         <Slider 
           min={-10000} 
           max={10000} 
@@ -66,25 +66,25 @@ const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, user, author, per
           onChange={(value) => setSliderValue(value)}
         >
           <SliderTrack bg="white">
-            <SliderFilledTrack bg="yellow" />
+            <SliderFilledTrack bg="red" />
           </SliderTrack>
           <span role="img" aria-label="Skateboard" style={skateEmojiStyle}>{emojiByAmount[sliderValue.toString()]}</span>
         </Slider>
-        <Text color="yellow" mt={2} textAlign="center">
+        <Text color="white" mt={2} textAlign="center">
           {getFeedbackText(sliderValue)}
         </Text>
       </Box>
       <Flex justifyContent="flex-end" width="100%" alignItems="flex-end">
         <Button
-          bg="white"
-          color="#020202"
+          bg="black"
+          color="white"
           borderRadius="4px"
-          border="1px solid limegreen"
+          border="1px solid white"
           p={2}
           onClick={handleVote}
-          _hover={{ bg: 'yellow', color: 'black' }}
+          _hover={{ bg: 'white', color: 'black' }}
         >
-          Vote
+          Votar
         </Button>
       </Flex>
     </Flex>

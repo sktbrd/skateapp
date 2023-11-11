@@ -245,14 +245,14 @@ const Chat: React.FC = () => {
     bottom: '30px',
     right: isSmallScreen ? '5px' : '20px',
     backgroundColor: 'black',
-    border:'1px solid limegreen',
+    border:'1px solid red',
     zIndex: 2000,
     borderRadius: '100%',
   };
   return (
     <>
       <Button style={chatToggleButtonStyle} onClick={toggleChat}>
-        {isChatVisible ? '' : <img style={{ width: '50px', height: '50px', borderRadius: '100%' }} src='https://gifdb.com/images/high/pepe-frog-meme-reading-text-nervous-sweat-3m7pw9rg9d3fyf5f.gif' alt='Chat Icon'></img>}
+        {isChatVisible ? '' : <img style={{ width: '50px', height: '50px', borderRadius: '100%' }} src='/assets/gifs/skull.gif' alt='Chat Icon'></img>}
       </Button>
   
       {isChatVisible && (
@@ -262,7 +262,7 @@ const Chat: React.FC = () => {
           <div style={{ padding: '0px', borderBottom: '1px solid white', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
   
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img onClick={fetchComments} style={{ cursor: 'pointer', width: '30px', height: 'auto', borderRadius: '100%' }} src='https://gifdb.com/images/high/pepe-frog-meme-reading-text-nervous-sweat-3m7pw9rg9d3fyf5f.gif' alt='Chat Icon' />
+              <img onClick={fetchComments} style={{ cursor: 'pointer', width: '30px', height: 'auto', borderRadius: '100%' }} src='/assets/gifs/skull.gif' alt='Chat Icon' />
               <p style={commentTitleStyle}>Troll Box</p>
             </div>
             

@@ -523,7 +523,7 @@ return (
           ))}
         </Box>
         <Box display="flex" justifyContent="center">
-          <Button variant="outline" colorScheme="white" onClick={loadMorePosts}>
+          <Button variant="outline" colorScheme="red" onClick={loadMorePosts}>
             Assista mais
           </Button>
         </Box>

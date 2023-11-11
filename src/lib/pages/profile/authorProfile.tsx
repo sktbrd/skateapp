@@ -104,7 +104,7 @@ export default function AuthorProfilePage() {
       const followersResponse = await axios.post('https://api.hive.blog', {
         jsonrpc: '2.0',
         method: 'condenser_api.get_followers',
-        params: [username, null, "blog", 10],
+        params: [username, null, "blog", 100],
         id: 1,
       });
   
@@ -154,44 +154,44 @@ export default function AuthorProfilePage() {
       return;
     }
   
-    // Get the follower's username from the logged-in user
     const follower = user.user?.name;
   
     // Check if the user is already following the author
     const isAlreadyFollowing = isFollowing;
   
     // Determine the follow type based on the current following status
-    const followType = isAlreadyFollowing ? null : 'blog';
+    const followType = isAlreadyFollowing ? "" : 'blog';
+    
+    try {
+      const keychain = new KeychainSDK(window);
+    
+      const formParamsAsObject = {
+        "data": {
+          "username": follower,  
+          "id": "follow",             
+          "method": KeychainKeyTypes.posting,
+          "json": JSON.stringify([
+            "follow",
+            {
+              "follower": follower,  
+              "following": authorName,    
+              "what": [
+                followType                  
+              ]
+            }
+          ]),
+          "display_msg": "Follow pharra"
+        }
+      }
+    
+      const custom = await keychain.custom(formParamsAsObject.data as Custom);
+      
+      console.log({ custom });
+    } catch (error) {
+      console.log({ error });
+    }
+    
 
-  //   try
-  //   {
-  //     const keychain = new KeychainSDK(window);
-  //     const formParamsAsObject = {
-  //      "data": {
-  //           "username": follower,
-  //           "operations": [
-  //                [
-  //                     "follow",
-  //                     {
-  //                          "follower": follower,
-  //                          "following": username,
-  //                          "what": [
-  //                               followType
-  //                          ]
-  //                     }
-  //                ]
-  //           ],
-  //           "method" : KeychainKeyTypes.posting
-  //      }
-  // }
-  //     const broadcast = await keychain
-  //          .broadcast(
-  //               formParamsAsObject.data as Broadcast);
-  //     console.log({ broadcast });
-  //   } catch (error) {
-  //     console.log({ error });
-  //   }
-    alert("Not ready yet! You can Follow people on Peakd for now");
   
   
   
@@ -203,8 +203,8 @@ export default function AuthorProfilePage() {
       fontFamily="'Courier New', monospace"
       position="relative"
       overflow="hidden"
-      maxWidth="100%"  // Set a max width for the image container
-      margin="0 auto"     // Center align the image container
+      maxWidth="100%"  
+      margin="0 auto"     
     >
       <Image src={coverImageUrl} alt="Cover Image" maxH="340px" width="100%" objectFit="cover" />
       <Flex alignItems="center" justifyContent="center" padding="10px" position="relative" zIndex="1">
@@ -276,13 +276,24 @@ export default function AuthorProfilePage() {
       <p>Has voted for the Hive witness: {hasVotedWitness ? 'Yes' : 'No'}</p>
     </TabPanel>
     <TabPanel>
-  <List>
-    {followers.map((follower) => (
-      <ListItem key={follower.follower}>
-        {follower.follower}
-      </ListItem>
-    ))}
-  </List>
+    <List
+      display="grid"
+      gridTemplateColumns="repeat(auto-fill, minmax(192px, 1fr))"
+      gap={4}
+    >
+      {followers.map((follower) => (
+        <ListItem key={follower.follower}>
+          <Image
+            src={`https://images.hive.blog/u/${follower.follower}/avatar`}
+            alt="profile avatar"
+            borderRadius="10%"
+            boxSize="120px"
+            border="2px solid limegreen"
+          />
+          {follower.follower}
+        </ListItem>
+      ))}
+    </List>
 </TabPanel>
 <TabPanel>
   <List>

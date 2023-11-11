@@ -124,6 +124,8 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     }
   };
 
+  
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const fetchPosts = async () => {

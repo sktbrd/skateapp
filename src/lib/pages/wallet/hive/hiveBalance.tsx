@@ -197,7 +197,7 @@ export default function HiveBalanceDisplay2() {
         borderRadius="12px"
         border="2px solid red"
         padding="10px"
-        maxWidth={{ base: "100%", md: "50%" }}
+        maxWidth={{ base: "100%", md: "100%" }}
         >
         <VStack spacing={4} align="stretch">
             <Flex alignItems="center" justifyContent="center" padding="10px">

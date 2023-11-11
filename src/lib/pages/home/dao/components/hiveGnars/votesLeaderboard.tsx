@@ -153,7 +153,7 @@ const VotesLeaderboard: React.FC<votesLeaderboardProps> = ({ username }) => {
                   @{author.username}
                 </ChakraLink>
               </Text>
-              <Text
+              {/* <Text
                 textAlign="center"
                 borderRadius="12px"
                 fontWeight="700"
@@ -162,7 +162,7 @@ const VotesLeaderboard: React.FC<votesLeaderboardProps> = ({ username }) => {
                 padding="10px"
               >
                 {author.totalVotes} votes
-              </Text>
+              </Text> */}
               <Text
                 textAlign="center"
                 borderRadius="12px"

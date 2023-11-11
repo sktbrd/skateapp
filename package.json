@@ -1,6 +1,10 @@
 {
   "name": "skatehive",
   "version": "0.1.1",
+  "engines": {
+    "node": ">=16.0.0",
+    "pnpm": ">=8.0.0"
+  },
   "private": true,
   "author": "skatehacker",
   "scripts": {
@@ -46,9 +50,9 @@
     "@fontsource/silkscreen": "^5.0.14",
     "@fontsource/ubuntu": "^5.0.8",
     "@hiveio/dhive": "^1.2.7",
-    "@pioneer-platform/pioneer-client": "^9.0.6",
+    "@pioneer-platform/pioneer-client": "9.0.6",
     "@pioneer-platform/pioneer-react": "0.2.39",
-    "@pioneer-sdk/pioneer-react": "^0.0.25",
+    "@pioneer-sdk/pioneer-react": "0.0.25",
     "@react-google-maps/api": "^2.19.2",
     "@safe-global/protocol-kit": "^1.3.0",
     "@snapshot-labs/snapshot.js": "^0.5.8",

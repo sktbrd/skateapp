@@ -81,15 +81,17 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
   boxShadow="0 0 10px rgba(0, 0, 0, 0.1)"
   margin="auto"
   background="#002240"
+  minWidth={["100%", "100%", "100%", "100%"]}
 >
 
   {/* Left side with the image */}
-  <Box marginRight={4}>
+  <Box marginRight={4}
+  >
     <Image src="/assets/cryptopepe.png" alt="Swaps Logo" width="200px" borderRadius="10px" />
   </Box>
 
   {/* Right side with stacked sentences */}
-  <Box>
+  <Box >
     <Box marginBottom={2}>
       <Text color="#FFFFFF" fontSize="26px" fontWeight="bold">EVM tokens</Text>
       <Text color="#FFA500" fontSize="26px" marginLeft="5px">{totalNetWorth?.toFixed(2)} USD</Text>
@@ -106,12 +108,14 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
 
         <Box   border={"1px solid #7CC4FA"}
   borderRadius={"10px"}
-  p={4}
+  p={2}
   display="flex"
   alignItems="center"
   boxShadow="0 0 10px rgba(0, 0, 0, 0.1)"
   margin="auto"
-  background="#002240">
+  background="#002240"
+  minWidth={["100%", "100%", "100%", "100%"]}
+  >
             <Table>
                 <Tbody>
                     <tr>

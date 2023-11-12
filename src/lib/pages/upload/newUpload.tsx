@@ -97,7 +97,6 @@ const NewUpload: React.FC = () => {
       const permlink = slugify(title.toLowerCase());
       const link = `https://skatehive.app/post/hive-173115/@${username}/${permlink}`;
       setPostLink(link);
-      console.log(postLink)
     }
   }
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -427,7 +426,6 @@ const handleIncludeFooterChange = () => {
     const permlink = slugify(title.toLowerCase());
     const link = `https://skatehive.app/post/hive-173115/@${username}/${permlink}`;
     setPostLink(link);
-    console.log(postLink)
   }
   let newFooter = defaultFooter +  "\n" + "> **Check this post on** " + `[Skatehive App](${postLink})`
   setIncludeFooter((prevIncludeFooter) => !prevIncludeFooter);

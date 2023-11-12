@@ -310,10 +310,10 @@ return (
       <Comments comments={comments} commentPosted={commentPosted} blockedUser={"hivebuzz"} permlink=''/>
       <HStack justifyContent="space-between">
         <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
-          <Button color="white" bg="black" margin="15px" border="1px solid white" onClick={handleViewFullPost}>View Full Post</Button>
+          <Button color="white" bg="black" margin="15px" border="1px solid white" onClick={handleViewFullPost}>Ver o post completo</Button>
         </Link>
         <Button color="white" bg="black" border="1px solid white" margin="15px" onClick={handleCopyPostLink}>
-          {postLinkCopied ? 'Link Copied!' : 'Share Post'}
+          {postLinkCopied ? 'Link Copied!' : 'Compartilhar post'}
         </Button>
       </HStack>   
       {/* Render comment box or login button */}

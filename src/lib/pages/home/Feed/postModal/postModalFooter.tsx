@@ -69,7 +69,7 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
         _hover={{ bg: 'white', color: '#020202' }}
         border={"1px solid white"}
       >
-        Close
+        Fechar
       </Button>
       <Box width="40%">
         <Text textAlign="center"> Sua opnião sobre esse post</Text>

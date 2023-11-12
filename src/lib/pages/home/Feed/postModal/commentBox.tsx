@@ -59,10 +59,11 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
       <Textarea
         value={commentContent}
         onChange={(e) => setCommentContent(e.target.value)}
-        placeholder="Write your comment here..."
+        placeholder="Escreva seu comentário..."
+        color="white"
       />
-      <Button border="1px solid white" mt="10px" onClick={handleCommentSubmit}>
-        Submit Comment
+      <Button border="1px solid white" mt="10px" onClick={handleCommentSubmit} color="white" background="black">
+        Postar comentário
       </Button>
       {isHiveLoginModalOpen && (
         <HiveLogin isOpen={true} onClose={() => setHiveLoginModalOpen(false)} />

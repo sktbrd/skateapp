@@ -4,7 +4,6 @@ import {
   Flex,
   HStack,
   Text,
-  Spacer,
   Tabs,
   TabList,
   Tab,
@@ -13,11 +12,6 @@ import {
   Image,
   Avatar,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
   Menu,
   MenuButton,
   MenuGroup,
@@ -25,8 +19,8 @@ import {
   MenuItem,
   Button,
   Select,
-  Divider,
   MenuDivider,
+  Tooltip,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { keyframes } from "@emotion/react";
@@ -44,6 +38,7 @@ import { fetchConversionRate } from "lib/pages/wallet/hive/hiveBalance";
 import axios from "axios";
 //@ts-ignore
 import { usePioneer } from '@pioneer-platform/pioneer-react';
+import { MdTapAndPlay } from "react-icons/md";
 
 type LinkTabProps = TabProps & RouterLinkProps;
 
@@ -366,7 +361,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       {/* Dropdown button */}
       <Box>
       <ChakraLink as={RouterLink} to="/wallet">
-
+      <Tooltip label="Total Networth counting tokens + NFT Value" aria-label="EVM Wallet">
       <Button
         backgroundColor="black"
         border="limegreen 2px solid"
@@ -374,14 +369,21 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         >
           <Image marginRight={"10px"} boxSize={"22px"} src="https://cdn.freebiesupply.com/logos/large/2x/ethereum-1-logo-png-transparent.png"></Image> {totalNetWorth?.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
       </Button>
+      </Tooltip>
+      <Tooltip label="Wallet" aria-label="Wallet">
       <Button
         backgroundColor="black"
         border="limegreen 2px solid"
         color="orange"
         >
-           <Image marginRight={"10px"} boxSize={"22px"} src="https://cryptologos.cc/logos/hive-blockchain-hive-logo.png?v=026"></Image> {totalWorth.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
+           <Image 
+           marginRight={"10px"} 
+           boxSize={"22px"} 
+           src="https://cryptologos.cc/logos/hive-blockchain-hive-logo.png?v=026"
+           >
+            </Image> {totalWorth.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
           </Button>
-
+          </Tooltip>
     </ChakraLink>
       </Box>
     

@@ -51,7 +51,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
   const [ethBalanceInUsd, setEthBalanceInUsd] = useState<number | null>(null);
   const [totalBalance, setTotalBalance] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-
+  const [nftvalue, setNftValue] = useState<number | null>(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -61,15 +61,14 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
         }
 
         const response = await axios.get(`https://swaps.pro/api/v1/portfolio/${wallet_address}`);
+        console.log('RESPONSE', response.data)
         const pubkeyBalanceResponse = await axios.get(`https://pioneers.dev/api/v1/getPubkeyBalance/ETH/${wallet_address}`);
         setEthBalance(pubkeyBalanceResponse.data);
-        console.log("PUBKEY BALANCE", pubkeyBalanceResponse.data);
-        console.log("WalletADRESS portf", response.data);
         setTotalNetWorth(response.data.totalNetWorth);
+        setNftValue(response.data.nftUsdNetWorth[wallet_address]);
         setTotalBalanceUsdTokens(response.data.totalBalanceUsdTokens);
         const sortedTokens = response.data.tokens.map((token: TokenInfo) => token.token).sort((a: any, b: any) => b.balanceUSD - a.balanceUSD);
         setTokens(sortedTokens);
-        console.log(response.data);
         setLoading(false); // Set loading to false after fetching data
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -92,8 +91,8 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
         if (ethBalance !== null) {
           const ethBalanceInUsd = ethBalance * response.data.ethereum.usd;
           const fullBalance = ethBalanceInUsd + (totalNetWorth ?? 0);
-          setEthBalanceInUsd(ethBalanceInUsd); // Update ethBalanceInUsd
-          setTotalBalance(fullBalance); // Update totalBalance
+          setEthBalanceInUsd(ethBalanceInUsd);
+          setTotalBalance(fullBalance);
           console.log(totalBalance);
         }
       } catch (error) {
@@ -104,6 +103,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
     fetchData();
   }, [ethBalance, totalBalanceUsdTokens, totalNetWorth, ethPrice]); // Include ethPrice in the dependencies
   
+
 
   const [copyStatus, setCopyStatus] = useState<boolean>(false);
 
@@ -125,6 +125,13 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
       });
   }
 
+  useEffect(() => {
+    if (ethBalance !== null && ethPrice !== null){
+        setEthBalanceInUsd(ethBalance * ethPrice);
+
+    }}
+    , [ethPrice, ethBalance]);
+    
   return (
     <Flex flexDirection={"column"}>
     <Box
@@ -191,10 +198,10 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
           <GridItem>
             <Box>
               <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
-                USD Pegged
+                NFTs Value
               </Text>
               <Text color="#FFA500" fontSize="18px" marginLeft="5px">
-                {totalBalanceUsdTokens?.toFixed(2)} USD
+                {nftvalue} USD
               </Text>
             </Box>
           </GridItem>

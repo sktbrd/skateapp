@@ -19,7 +19,7 @@ import Store from "./store";
               color="white"
               fontSize="20px"
               border="1px black solid"
-              _selected={{ backgroundColor: "#231B48",color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
+              _selected={{ backgroundColor: "#231B48",color:"white", fontWeight:"bold", border:"1px solid white",textShadow:"red 6px 8px 10px" }} // Change the background color when selected
             >
               <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>PORTAL 666</Text></VStack>
               
@@ -50,7 +50,7 @@ import Store from "./store";
             color="white"
             fontSize="20px"
             border="1px black solid"
-            _selected={{ backgroundColor: "#231B48",color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
+            _selected={{ backgroundColor: "#231B48",color:"white", fontWeight:"bold", border:"1px solid white",textShadow:"red 6px 8px 10px" }} // Change the background color when selected
            >
              <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>EQUIPE</Text></VStack>
             </Tab>
@@ -59,7 +59,7 @@ import Store from "./store";
             color="white"
             fontSize="20px"
             border="1px black solid"
-            _selected={{ backgroundColor: "#231B48",color:"white", fontWeight:"bold", border:"1px solid white" }} // Change the background color when selected
+            _selected={{ backgroundColor: "#231B48",color:"white", fontWeight:"bold", border:"1px solid white",textShadow:"red 6px 8px 10px" }} // Change the background color when selected
            >
              <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>LOJA</Text></VStack>
             </Tab>

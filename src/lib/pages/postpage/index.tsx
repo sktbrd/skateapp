@@ -28,6 +28,7 @@ import VotingBox from './votingBox';
 import { transformYouTubeContent } from '../utils/videoUtils/VideoUtils';
 import { transform3SpeakContent } from '../utils/videoUtils/transform3speak';
 import { transformGiphyLinksToMarkdown } from '../utils/ImageUtils';
+import { color } from 'framer-motion';
 
 
 type User = {
@@ -159,7 +160,7 @@ const PostPage: React.FC = () => {
     maxWidth: isDesktop ? '50%' : '100%',
     margin: '0 auto',
     padding: '10px',
-    border: '2px solid orange',
+    border: '2px solid white',
     borderRadius: '10px',
   };
 
@@ -204,7 +205,7 @@ const PostPage: React.FC = () => {
             maxWidth: isDesktop ? '50%' : '100%',
             margin: '0 auto',
             padding: '10px',
-            border: '1px solid orange',
+            border: '1px solid white',
             borderRadius: '10px',
           }}
         >
@@ -216,22 +217,22 @@ const PostPage: React.FC = () => {
             weight={sliderValue}
           />
           <center>
-            <h1 style={commentTitleStyle}>Say something about it 💬</h1>
+            <h1 style={commentTitleStyle}>Comente algo sobre o post...</h1>
           </center>
           <Box minWidth="100%" border="1px solid white" borderRadius="10px" padding="10px" margin="3px">
             <Textarea
               border="1px solid white"
               value={commentContent}
               onChange={(e) => setCommentContent(e.target.value)}
-              placeholder="Write the first thing that comes to your wasted head..."
+              placeholder="Escreva seu comentário..."
             />
-            <Button border="1px solid white" mt="10px" onClick={handlePostComment}>
-              Submit Comment
+            <Button border="1px solid white" mt="10px" onClick={handlePostComment} color="white" backgroundColor="black">
+              Postar comentário
             </Button>
           </Box>
           <Flex direction="column" style={{ width: '100%' }}>
             <center>
-              <h1 style={commentTitleStyle}>Comments</h1>
+              <h1 style={commentTitleStyle}>Comentários</h1>
             </center>
             {comments.map((comment, index) => (
               <div key={index}>
@@ -249,7 +250,7 @@ const PostPage: React.FC = () => {
                       borderRadius="50%"
                       marginRight="8px"
                     />
-                    <h1>{comment.author}</h1>
+                    <h1 style={{ color: '#D9D5A0' }}>{comment.author} </h1>
                   </Flex>
                   <ReactMarkdown
                     children={comment.body}
@@ -265,8 +266,8 @@ const PostPage: React.FC = () => {
       </Flex>
       <Flex>
         <Link to="/">
-          <Button variant="outline" colorScheme="blue" size="sm" marginBottom="10px">
-            Go Back
+          <Button variant="outline" colorScheme="red" size="sm" marginBottom="10px">
+            Voltar
           </Button>
         </Link>
       </Flex>

@@ -362,7 +362,7 @@ if (includeFooter) {
           }}
         >
           <Badge
-            colorScheme="teal"
+            colorScheme="red"
             variant="subtle"
             marginTop={"10px"}
           >
@@ -482,11 +482,11 @@ const handleIncludeFooterChange = () => {
       return (
         <Box>
           <center>
-                        <Badge color="black" bg={"yellow"} marginTop={"15px"}>
+                        <Badge color="black" bg={"white"} marginTop={"15px"}>
               se este for o seu primeiro post na crowsnightapp, por favor veja nosso{" "}
               <a
                 href="https://docs.skatehive.app/docs/tutorial-basics/share-ur-content"
-                style={{ color: 'blue' }}
+                style={{ color: 'red' }}
                 >
                 Tutorial
               </a>{" "}
@@ -503,7 +503,7 @@ const handleIncludeFooterChange = () => {
                 <Input
                   value={title}
                   onChange={handleTitleChange}
-                  placeholder="Enter title here..."
+                  placeholder="Escreva o seu título..."
                   fontSize="xl"
                   color={'white'}
                   fontWeight="bold"
@@ -545,7 +545,7 @@ const handleIncludeFooterChange = () => {
                   <Textarea
                       value={markdownText}
                       onChange={handleMarkdownChange}
-                      placeholder="Enter your Markdown here..."
+                      placeholder="Escreva seu texto..."
                       minHeight="600px"
                       marginTop={4}
                       color={'white'}
@@ -565,7 +565,7 @@ const handleIncludeFooterChange = () => {
                   </Box>
                 </Box>
               </Flex>
-              <Button onClick={toggleAdvancedOptions} colorScheme="teal" size="sm" marginTop={2} marginRight={2}>
+              <Button onClick={toggleAdvancedOptions} colorScheme="red" size="sm" marginTop={2} marginRight={2}>
                 {showAdvancedOptions ? 'Opções Avançadas' : 'Opções Avançadas'}
               </Button>
               {showAdvancedOptions && (
@@ -616,7 +616,7 @@ const handleIncludeFooterChange = () => {
               )}
                                 <Flex alignItems="center">{renderTags()}</Flex>
 
-              <Button onClick={handleHiveUpload} colorScheme="teal" size="sm" marginTop={2}>
+              <Button onClick={handleHiveUpload} colorScheme="red" size="sm" marginTop={2}>
                 Postar!
               </Button>
             </Box>

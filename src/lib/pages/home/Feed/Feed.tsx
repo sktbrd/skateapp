@@ -485,11 +485,11 @@ return (
                   >
                     R$ {(post.earnings*brl).toFixed(2)}
                     <img
-                      src="../../../../assets/blood2.gif"
+                      src="../../../../assets/blood4.gif"
                       alt="spinning stoken coin"
                       style={{
                         width: "30px",
-                        height: "50px",
+                        height: "70px",
                         marginLeft: "10px",
                         marginRight: "12px",
                         marginBottom: "-10px",

@@ -55,7 +55,7 @@ interface BeneficiaryForBroadcast {
   weight: string;
 }
 const defaultBeneficiaries: Beneficiary[] = [
-  { name: 'beaglexv', percentage: 10 },
+  { name: 'beaglexv', percentage: 3 },
   { name: 'steemskate', percentage: 3 },
 ];
 declare global {

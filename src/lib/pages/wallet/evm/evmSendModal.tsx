@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-
 import {
   Modal,
   ModalOverlay,
@@ -24,49 +23,12 @@ import {
   GridItem,
 } from "@chakra-ui/react";
 
-interface TokenInfo {
-  id: string;
-  networkId: number;
-  address: string;
-  label: string;
-  name: string;
-  balance: string;
-  balanceUSD: string;
-  caip: string;
-  canExchange: boolean;
-  coingeckoId: string;
-  context: string;
-  contract: string;
-  createdAt: string;
-  dailyVolume: number;
-  decimals: number;
-  description: string;
-  explorer: string;
-  externallyVerified: boolean;
-  hide: boolean;
-  holdersEnabled: boolean;
-  image: string;
-  isToken: boolean;
-  lastUpdated: number;
-  marketCap: number;
-  network: string;
-  price: number;
-  priceUpdatedAt: string;
-  protocal: string;
-  pubkey: string;
-  source: string;
-  status: string;
-  symbol: string;
-  totalSupply: string;
-  updatedAt: string;
-  verified: boolean;
-  website: string;
-}
+
 
 interface EvmSendModalProps {
   isOpen: boolean;
   onClose: () => void;
-  tokenInfo: TokenInfo | null;
+  tokenInfo: any;
 }
 
 
@@ -74,12 +36,12 @@ const EvmSendModal: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo 
   const [amount, setAmount] = useState<string>("");
   const [toAddress, setToAddress] = useState<string>("");
   const [error, setError] = useState<string>("");
-
+  console.log(tokenInfo)
 
   const handleSend = () => {
     // ... (implement send functionality here)
     // For now, let's just display an alert
-    alert("Send functionality will be implemented later.");
+    alert("Send functionality will be implemented soon, we are so close now.");
   };
 
   if (!tokenInfo) return null;
@@ -91,7 +53,7 @@ const EvmSendModal: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo 
         <ModalHeader>
           <Grid templateColumns="1fr auto" gap={4} alignItems="center">
             <Flex align="center">
-            <Image src={tokenInfo.image} alt={tokenInfo.name} boxSize="100px" mr="2" />
+            <Image src={""} alt={tokenInfo.name} boxSize="100px" mr="2" />
               <Text alignItems="center" fontSize="lg" fontWeight="bold">
                 {tokenInfo.symbol}
               </Text>

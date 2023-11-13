@@ -1,8 +1,9 @@
 // Import necessary modules and components
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, Text, Table, Td, Tbody, Flex, Image, Button, Grid, GridItem, Center } from '@chakra-ui/react';
+import { Box, Text, Table, Td, Tbody, Flex, Image, Button, Grid, GridItem, Center, Tooltip} from '@chakra-ui/react';
 import { formatWalletAddress } from 'lib/pages/utils/formatWallet';
+import EvmSendModal from './evmSendModal';
 
 interface TokenInfo {
   address: string;
@@ -52,8 +53,12 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [nftvalue, setNftValue] = useState<number | null>(null);
   const [nftFormattedValue, setNftFormattedValue] = useState<number | null>(null);
+  const [selectedToken, setSelectedToken] = useState<TokenInfo['token'] | null>(null);
 
-
+  const handleTokenClick = (token: TokenInfo['token']) => {
+    setSelectedToken(token);
+    console.log(token)
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,7 +73,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
         setEthBalance(pubkeyBalanceResponse.data);
         setTotalNetWorth(response.data.totalNetWorth);
         setNftValue(Number(response.data.nftUsdNetWorth[wallet_address]));
-
+        console.log("DATA", response.data)
         setTotalBalanceUsdTokens(response.data.totalBalanceUsdTokens);
         const sortedTokens = response.data.tokens.map((token: TokenInfo) => token.token).sort((a: any, b: any) => b.balanceUSD - a.balanceUSD);
         setTokens(sortedTokens);
@@ -92,6 +97,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
         if (ethBalance !== null) {
           const ethBalanceInUsd = ethBalance * response.data.ethereum.usd;
           setEthBalanceInUsd(ethBalanceInUsd);
+          console.log(ethBalanceInUsd);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -176,9 +182,12 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
               <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
                 ETH Balance
               </Text>
+              <Tooltip border={"1px dashed limegreen"} bg={"#002240"} fontSize={"22px"} label={ethBalanceInUsd?.toFixed(2) + " USD"}>
+
               <Text color="#FFA500" fontSize="18px" marginLeft="5px">
                 {ethBalance?.toFixed(5)} ETH
               </Text>
+              </Tooltip>
             </Box>
           </GridItem>
 
@@ -235,7 +244,10 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
             {tokens?.map((token, index: number) => (
               <tr key={index}>
                 <Td>
-                  <Text fontWeight="bold">{token.symbol}</Text>
+                  <Button bg='transparent' onClick={() => handleTokenClick(token)}>
+                    
+                  <Text  fontWeight="bold">{token.symbol}</Text>
+                  </Button>
                 </Td>
                 <Td>
                   <Text fontWeight="bold">{token.balance?.toFixed(4)}</Text>
@@ -248,6 +260,9 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
           </Tbody>
         </Table>
       </Box>
+      {selectedToken && (
+        <EvmSendModal isOpen={!!selectedToken} onClose={() => setSelectedToken(null)} tokenInfo={selectedToken} />
+      )}
     </Flex>
   );
 };

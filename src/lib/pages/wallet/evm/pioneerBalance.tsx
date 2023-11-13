@@ -1,7 +1,7 @@
 // Import necessary modules and components
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, Text, Table, Td, Tbody, Flex, Image, Button, Grid, GridItem } from '@chakra-ui/react';
+import { Box, Text, Table, Td, Tbody, Flex, Image, Button, Grid, GridItem, Center } from '@chakra-ui/react';
 import { formatWalletAddress } from 'lib/pages/utils/formatWallet';
 
 interface TokenInfo {
@@ -127,79 +127,92 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
 
   return (
     <Flex flexDirection={"column"}>
-      <Box
-        border={"1px solid #7CC4FA"}
-        borderRadius={"10px"}
-        p={4}
-        display="flex"
-        alignItems="center"
-        boxShadow="0 0 10px rgba(0, 0, 0, 0.1)"
-        margin="auto"
-        background="#002240"
-        minWidth={["100%", "100%", "100%", "100%"]}
-      >
-        <Box marginRight={4}>
-          <Image src="/assets/cryptopepe.png" alt="Swaps Logo" width="200px" borderRadius="10px" />
-        </Box>
+    <Box
+  border={"1px solid #7CC4FA"}
+  borderRadius={"10px"}
+  p={4}
+  boxShadow="0 0 10px rgba(0, 0, 0, 0.1)"
+  margin="auto"
+  background="#002240"
+  minWidth={["100%", "100%", "100%", "100%"]}
+>
+  <Center> {/* Center component to horizontally center the content */}
+    <Box marginRight={"5%"}>
+      <Image src="/assets/cryptopepe.png" alt="Swaps Logo" width="200px" borderRadius="10px" />
+    </Box>
 
-        <Box>
-          <Box marginBottom={2}>
-            <Text color="#FFFFFF" fontSize="22px" fontWeight="bold">
-              Wallet address
-            </Text>
-            <Button p={0} bg={"transparent"} onClick={handleCopy}>
-              <Text color="#FFA500" fontSize="22px" marginLeft="5px">
-                {formatWalletAddress(wallet_address)}
-              </Text>
-            </Button>
-          </Box>
+    <Box>
+      <Box marginBottom={2}>
+        <center>
+        <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
+          Wallet address
+        </Text>
+        <Button p={0} bg={"transparent"} onClick={handleCopy}>
+          <Text color="#FFA500" fontSize="18px" marginLeft="5px">
+            {formatWalletAddress(wallet_address)}
+          </Text>
+        </Button>
+        </center>
 
-          {!loading && (
-            <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-              <GridItem>
-                <Box>
-                  <Text color="#FFFFFF" fontSize="22px" fontWeight="bold">
-                    Total Balance
-                  </Text>
-                  <Text color="#FFA500" fontSize="22px" marginLeft="5px">
-                    {totalBalance?.toFixed(2)} USD
-                  </Text>
-                </Box>
-              </GridItem>
-              <GridItem>
-                <Box>
-                  <Text color="#FFFFFF" fontSize="22px" fontWeight="bold">
-                    ETH Balance
-                  </Text>
-                  <Text color="#FFA500" fontSize="22px" marginLeft="5px">
-                    {ethBalance?.toFixed(5)} ETH
-                  </Text>
-                </Box>
-              </GridItem>
-              <GridItem>
-                <Box>
-                  <Text color="#FFFFFF" fontSize="22px" fontWeight="bold">
-                    Other tokens
-                  </Text>
-                  <Text color="#FFA500" fontSize="22px" marginLeft="5px">
-                    {totalNetWorth?.toFixed(2)} USD
-                  </Text>
-                </Box>
-              </GridItem>
-              <GridItem>
-                <Box>
-                  <Text color="#FFFFFF" fontSize="22px" fontWeight="bold">
-                    USD Pegged
-                  </Text>
-                  <Text color="#FFA500" fontSize="22px" marginLeft="5px">
-                    {totalBalanceUsdTokens?.toFixed(2)} USD
-                  </Text>
-                </Box>
-              </GridItem>
-            </Grid>
-          )}
-        </Box>
       </Box>
+
+      {!loading && (
+        <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+          <GridItem>
+            <Box>
+              <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
+                Total Balance
+              </Text>
+              <Text color="#FFA500" fontSize="18px" marginLeft="5px">
+                {totalBalance?.toFixed(2)} USD
+              </Text>
+            </Box>
+          </GridItem>
+          <GridItem>
+            <Box>
+              <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
+                ETH Balance
+              </Text>
+              <Text color="#FFA500" fontSize="18px" marginLeft="5px">
+                {ethBalance?.toFixed(5)} ETH
+              </Text>
+            </Box>
+          </GridItem>
+          <GridItem>
+            <Box>
+              <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
+                Other tokens
+              </Text>
+              <Text color="#FFA500" fontSize="18px" marginLeft="5px">
+                {totalNetWorth?.toFixed(2)} USD
+              </Text>
+            </Box>
+          </GridItem>
+          <GridItem>
+            <Box>
+              <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
+                USD Pegged
+              </Text>
+              <Text color="#FFA500" fontSize="18px" marginLeft="5px">
+                {totalBalanceUsdTokens?.toFixed(2)} USD
+              </Text>
+            </Box>
+          </GridItem>
+        </Grid>
+      )}
+    </Box>
+
+    <Box marginLeft={"5%"}>
+      <Image
+        src="/assets/cryptopepe.png"
+        alt="Swaps Logo"
+        width="200px"
+        borderRadius="10px"
+        style={{ transform: 'scaleX(-1)' }}
+      />
+    </Box>
+  </Center>
+</Box>
 
       <Box
         border={"1px solid #7CC4FA"}

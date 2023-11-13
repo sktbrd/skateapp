@@ -49,9 +49,12 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
   const [ethBalance, setEthBalance] = useState<number | null>(null);
   const [ethPrice, setEthPrice] = useState<number | null>(null);
   const [ethBalanceInUsd, setEthBalanceInUsd] = useState<number | null>(null);
-  const [totalBalance, setTotalBalance] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [nftvalue, setNftValue] = useState<number | null>(null);
+  const [nftFormattedValue, setNftFormattedValue] = useState<number | null>(null);
+
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -61,11 +64,11 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
         }
 
         const response = await axios.get(`https://swaps.pro/api/v1/portfolio/${wallet_address}`);
-        console.log('RESPONSE', response.data)
         const pubkeyBalanceResponse = await axios.get(`https://pioneers.dev/api/v1/getPubkeyBalance/ETH/${wallet_address}`);
         setEthBalance(pubkeyBalanceResponse.data);
         setTotalNetWorth(response.data.totalNetWorth);
-        setNftValue(response.data.nftUsdNetWorth[wallet_address]);
+        setNftValue(Number(response.data.nftUsdNetWorth[wallet_address]));
+
         setTotalBalanceUsdTokens(response.data.totalBalanceUsdTokens);
         const sortedTokens = response.data.tokens.map((token: TokenInfo) => token.token).sort((a: any, b: any) => b.balanceUSD - a.balanceUSD);
         setTokens(sortedTokens);
@@ -78,9 +81,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
     fetchData();
   }, [wallet_address]);
 
-  useEffect(() => {
-    console.log('ETH Price:', ethPrice);
-  }, [ethPrice]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,10 +91,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
   
         if (ethBalance !== null) {
           const ethBalanceInUsd = ethBalance * response.data.ethereum.usd;
-          const fullBalance = ethBalanceInUsd + (totalNetWorth ?? 0);
           setEthBalanceInUsd(ethBalanceInUsd);
-          setTotalBalance(fullBalance);
-          console.log(totalBalance);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -101,7 +99,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
     };
   
     fetchData();
-  }, [ethBalance, totalBalanceUsdTokens, totalNetWorth, ethPrice]); // Include ethPrice in the dependencies
+  }, [ethBalance, totalNetWorth, ethPrice]); // Include ethPrice in the dependencies
   
 
 
@@ -150,7 +148,6 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
 
     <Box>
       <Box marginBottom={2}>
-        <center>
         <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
           Wallet address
         </Text>
@@ -159,19 +156,18 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
             {formatWalletAddress(wallet_address)}
           </Text>
         </Button>
-        </center>
 
       </Box>
 
       {!loading && (
-        <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+        <Grid templateColumns="repeat(1, 1fr)" gap={4}>
           <GridItem>
             <Box>
               <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
                 Total Balance
               </Text>
               <Text color="#FFA500" fontSize="18px" marginLeft="5px">
-                {totalBalance?.toFixed(2)} USD
+                {totalNetWorth?.toFixed(2)} USD
               </Text>
             </Box>
           </GridItem>
@@ -185,23 +181,14 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
               </Text>
             </Box>
           </GridItem>
-          <GridItem>
-            <Box>
-              <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
-                Other tokens
-              </Text>
-              <Text color="#FFA500" fontSize="18px" marginLeft="5px">
-                {totalNetWorth?.toFixed(2)} USD
-              </Text>
-            </Box>
-          </GridItem>
+
           <GridItem>
             <Box>
               <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
                 NFTs Value
               </Text>
               <Text color="#FFA500" fontSize="18px" marginLeft="5px">
-                {nftvalue} USD
+              {nftvalue?.toFixed(2)} USD
               </Text>
             </Box>
           </GridItem>

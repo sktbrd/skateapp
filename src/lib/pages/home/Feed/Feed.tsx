@@ -15,7 +15,7 @@ import {
   ModalOverlay,
   ModalContent,
   useDisclosure,
-  Tooltip
+  Tooltip,
 } from "@chakra-ui/react";
 
 import { Client } from "@hiveio/dhive";
@@ -34,6 +34,7 @@ import EarningsModal from "./postModal/earningsModal"; // Replace with the corre
 import { MdArrowUpward } from 'react-icons/md';
 import axios from "axios";
 import { AxiosResponse } from 'axios';
+
 
 const nodes = [
   "https://rpc.ecency.com",
@@ -60,11 +61,27 @@ const randomSentences = [
 
 const PlaceholderLoadingBar = () => {
   const randomIndex = Math.floor(Math.random() * randomSentences.length);
-  const randomSentence = randomSentences[randomIndex];
+  const randomSentence = randomSentences[randomIndex]; 
+
+  useEffect(() => {
+    const audio = new Audio("/assets/audio/crowaudio.mp3");
+    audio.play();
+    
+    audio.addEventListener('ended', () => {
+      audio.currentTime = 0; 
+      audio.play();
+    });
+
+    return () => {
+      audio.pause();
+      audio.removeEventListener('ended', () => {});
+    };
+  }, []);
+  
 
   return (
-    <center>
-      <Image src="https://i.gifer.com/YzDZ.gif" width="250px"/>
+    <center onLoad={() => {}}>
+      <Image src="/assets/gifs/crows6.gif" width="250px" />
       <Text>{randomSentence}</Text>
     </center>
   );

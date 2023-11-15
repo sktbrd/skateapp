@@ -68,7 +68,7 @@ const PlaceholderLoadingBar = () => {
 
   return (
     <center>
-      <Image src="https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif" />
+      <Image boxSize="300px" src="https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif" />
       <Text>{randomSentence}</Text>
     </center>
   );

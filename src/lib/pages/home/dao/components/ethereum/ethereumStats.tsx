@@ -257,7 +257,7 @@ useEffect(() => {
       onClick={handleCopyClick}
       style={{ cursor: "pointer" }}
     >
-      Gnars Deleg: {currentVotes}
+      Delegate Your Gnars Here | Current Votes: {currentVotes}
     </ChakraLink>
     </Tooltip>
         </HStack>

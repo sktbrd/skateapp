@@ -13,9 +13,10 @@ const themeConfig = {
 export const theme = extendTheme({
   ...themeConfig,
   fonts: {
-    heading: "Terrorplate", // Use the, //not working
+    heading: "Terrorplate", 
     body: "Terrorplate",
   },
+  
 
   components: {},
 

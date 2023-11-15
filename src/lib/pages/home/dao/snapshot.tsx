@@ -103,15 +103,17 @@ const SkatehiveProposals: React.FC = () => {
     }
   }, []);
   const [isMobile] = useMediaQuery('(max-width: 768px)');
+  const borderColor = '1px solid white';
+
   return (
     <Flex flexDirection="column">
       <DaoStatus />
-      <Flex justify={"center"}>
-        <Text border="1px solid white" borderRadius="10px" padding="8px" fontSize="2xl" color="white">
-          Governance
+      <Flex justify="center">
+        <Text border={borderColor} borderRadius="10px" padding="8px" fontSize="2xl" color="white">
+          Governança
         </Text>
       </Flex>
-      <SimpleGrid mx="auto" maxWidth={"87%"} columns={{ base: 1, md: 2 }} spacing={3} mt={3}>
+      <SimpleGrid mx="auto" maxWidth="87%" columns={{ base: 1, md: 2 }} spacing={3} mt={3}>
         {loadingProposals ? (
           Array.from({ length: 10 }).map((_, index) => (
             <Flex key={index} direction="column">
@@ -120,81 +122,60 @@ const SkatehiveProposals: React.FC = () => {
           ))
         ) : (
           proposals.map((proposal) => (
-            <Flex key={proposal.id} borderWidth={1} borderRadius="md" border="2px solid orange" p={4} direction="column" backgroundColor="black" boxShadow="md" opacity={proposal.state === 'closed' ? 0.7 : 1}>
-                {!isMobile && (
-                  <Image
-                    src={findImage(proposal.body)}
-                    alt="Thumbnail"
-                    boxSize="20%"
-                    border="1px solid white"
-                    borderRadius="md"
-                    onError={(e) => {
-                      e.currentTarget.src = placeholderImage;
-                    }}
-                    mb={4}
-                  />
-                )}
-                <Flex  flexDirection={!isMobile ? "row" : "column"}>
-                  {isMobile && (
-                    
-                    <Image
-                      src={findImage(proposal.body)}
-                      alt="Thumbnail"
-                      boxSize="20%"
-                      alignSelf={"center"}
-                      paddingBottom={"10px"}
+            <Flex key={proposal.id} borderWidth={1} borderRadius="md" border="1px solid black" p={4} direction="column" backgroundColor="black" boxShadow="md" opacity={proposal.state === 'closed' ? 0.7 : 1}>
+              <Box padding={"30px"} width="100%" aspectRatio={1}>
+                <Image
+                  src={findImage(proposal.body)}
+                  alt="Thumbnail"
+                  boxSize="100%"
+                  objectFit="cover"
+                  borderRadius="md"
+                  border={borderColor}
+                  onError={(e) => {
+                    e.currentTarget.src = placeholderImage;
+                  }}
+                />
+              </Box>
+              <VStack paddingLeft="5px" align="start" width="100%">
+                <Box minWidth="100%" borderRadius="10px" border="1px solid white" mb={2} minHeight="50px"> {/* Altura mínima ajustada para garantir consistência */}
+                  <Text
+                    padding="5px"
+                    color="white"
+                    fontSize="xl"
+                    onClick={() => handleOpenModal({ body: proposal.body, title: proposal.title })}
+                    cursor="pointer"
+                  >
+                    {proposal.title}
+                  </Text>
+                </Box>
+                <HStack alignContent="center" mb={2}>
+                  <Badge
+                    variant="subtle"
+                    colorScheme={proposal.state === 'closed' ? 'red' : 'green'}
+                  >
+                    {proposal.state === 'closed' ? 'Encerrada' : 'Aberta'}
+                  </Badge>
+                  <Text color="white">Autor: {proposal.author.slice(0, 6)}...{proposal.author.slice(-4)}</Text>
+                </HStack>
+                {loadingSummaries ? (
+                  <Skeleton height="20px" width="100%" mt={2} />
+                ) : (
+                  <Box  minHeight="20px"> {/* Altura mínima ajustada para garantir consistência */}
+                    <Text
+                      padding="5px"
+                      color="aqua"
+                      borderRadius="10px"
                       border="1px solid white"
-                      borderRadius="md"
-                      onError={(e) => {
-                        e.currentTarget.src = placeholderImage;
-                      }}
-                      mr={4}
-                    />
-                  )}
-                  <VStack paddingLeft="5px" align="start">
-                    <Box minWidth="100%" borderRadius="10px" border="1px solid white">
-                      <Text
-                        padding="5px"
-                        color="white"
-                        fontSize="xl"
-                        onClick={() => handleOpenModal({ body: proposal.body, title: proposal.title })}
-                        cursor="pointer"
-                      >
-                        {proposal.title}
-                      </Text>
-                    </Box>
-                    <HStack alignContent="center">
-                      <Badge
-                        variant="subtle"
-                        colorScheme={proposal.state === 'closed' ? 'red' : 'green'}
-                        mb={2}
-                      >
-                        {proposal.state === 'closed' ? 'Closed' : 'Open'}
-                      </Badge>
-                      <Text color="white">
-                        Author: {proposal.author.slice(0, 6)}...{proposal.author.slice(-4)}
-                      </Text>
-                    </HStack>
-                    {loadingSummaries ? (
-                      <Skeleton height="20px" width="100%" mt={2} />
-                    ) : (
-                      <Box paddingBottom="5px">
-                        <Text
-                          padding="5px"
-                          color="aqua"
-                          borderRadius="10px"
-                          border="1px solid white"
-                          cursor="pointer"
-                          onClick={() => handleOpenModal({ body: proposal.body, title: proposal.title })}
-                          mt={2}
-                        >
-                          🤖 GPT-Summary: {proposal.summary}
-                        </Text>
-                      </Box>
-                    )}
-                  </VStack>
-                </Flex>
-              <Flex borderRadius="10px" flexDirection="row" justifyContent="space-between">
+                      cursor="pointer"
+                      onClick={() => handleOpenModal({ body: proposal.body, title: proposal.title })}
+                      mt={2}
+                    >
+                      🤖 GPT-Summary: {proposal.summary}
+                    </Text>
+                  </Box>
+                )}
+              </VStack>
+              <Flex borderRadius="10px" flexDirection="row" justifyContent="space-between" mt={4} minHeight="50px"> {/* Altura mínima ajustada para garantir consistência */}
                 <Flex flexDirection="row" justifyContent="center" width="100%">
                   {proposal.choices.sort().reverse().map((choice, index) => (
                     <Button
@@ -207,7 +188,7 @@ const SkatehiveProposals: React.FC = () => {
                       borderRadius="md"
                       onClick={() => {
                         if (proposal.state === 'closed') {
-                          alert("Voting is closed. You're late to vote! Lazy Ass...");
+                          alert("Votação encerrada. Você está atrasado para votar!");
                         } else {
                           window.open(
                             `https://snapshot.org/#/skatehive.eth/proposal/${proposal.id}`,
@@ -222,11 +203,14 @@ const SkatehiveProposals: React.FC = () => {
                 </Flex>
               </Flex>
             </Flex>
+            
           ))
         )}
+        
       </SimpleGrid>
       <ProposalModal isOpen={isModalOpen} onClose={handleCloseModal} proposalContent={modalContent} proposalTitle={modalTitle} />
     </Flex>
   );
 };
+
 export default SkatehiveProposals;

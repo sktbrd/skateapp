@@ -110,9 +110,10 @@ const SkatehiveProposals: React.FC = () => {
       <DaoStatus />
       <Flex justify="center">
         <Text border={borderColor} borderRadius="10px" padding="8px" fontSize="2xl" color="white">
-          Governança
+          Governance
         </Text>
       </Flex>
+
       <SimpleGrid mx="auto" maxWidth="87%" columns={{ base: 1, md: 2 }} spacing={3} mt={3}>
         {loadingProposals ? (
           Array.from({ length: 10 }).map((_, index) => (
@@ -123,37 +124,40 @@ const SkatehiveProposals: React.FC = () => {
         ) : (
           proposals.map((proposal) => (
             <Flex key={proposal.id} borderWidth={1} borderRadius="md" border="1px solid black" p={4} direction="column" backgroundColor="black" boxShadow="md" opacity={proposal.state === 'closed' ? 0.7 : 1}>
-              <Box padding={"30px"} width="100%" aspectRatio={1}>
-                <Image
-                  src={findImage(proposal.body)}
-                  alt="Thumbnail"
-                  boxSize="100%"
-                  objectFit="cover"
-                  borderRadius="md"
-                  border={borderColor}
-                  onError={(e) => {
-                    e.currentTarget.src = placeholderImage;
-                  }}
-                />
-              </Box>
-              <VStack paddingLeft="5px" align="start" width="100%">
-                <Box minWidth="100%" borderRadius="10px" border="1px solid white" mb={2} minHeight="50px"> {/* Altura mínima ajustada para garantir consistência */}
+                <Box minWidth="100%"  mb={2} minHeight="50px"> {/* Altura mínima ajustada para garantir consistência */}
                   <Text
                     padding="5px"
                     color="white"
-                    fontSize="xl"
                     onClick={() => handleOpenModal({ body: proposal.body, title: proposal.title })}
                     cursor="pointer"
+                    fontSize={'30px'} 
+                    fontStyle={'bold'}
                   >
                     {proposal.title}
                   </Text>
                 </Box>
+<Box padding={"30px"} width="400px" height={'auto'} aspectRatio={1} mx="auto">
+  <Image
+    src={findImage(proposal.body)}
+    alt="Thumbnail"
+    boxSize="100%"
+    objectFit="cover"
+    borderRadius="md"
+    border={borderColor}
+    onError={(e) => {
+      e.currentTarget.src = placeholderImage;
+    }}
+  />
+</Box>
+
+              <VStack paddingLeft="5px" align="start" width="100%">
+
                 <HStack alignContent="center" mb={2}>
                   <Badge
                     variant="subtle"
                     colorScheme={proposal.state === 'closed' ? 'red' : 'green'}
                   >
-                    {proposal.state === 'closed' ? 'Encerrada' : 'Aberta'}
+                    {proposal.state === 'closed' ? 'Closed' : 'Active'}
                   </Badge>
                   <Text color="white">Autor: {proposal.author.slice(0, 6)}...{proposal.author.slice(-4)}</Text>
                 </HStack>
@@ -179,26 +183,28 @@ const SkatehiveProposals: React.FC = () => {
                 <Flex flexDirection="row" justifyContent="center" width="100%">
                   {proposal.choices.sort().reverse().map((choice, index) => (
                     <Button
-                      key={index}
-                      color="white"
-                      backgroundColor="black"
-                      border="1px solid orange"
-                      mr={2}
-                      mb={2}
-                      borderRadius="md"
-                      onClick={() => {
-                        if (proposal.state === 'closed') {
-                          alert("Votação encerrada. Você está atrasado para votar!");
-                        } else {
-                          window.open(
-                            `https://snapshot.org/#/skatehive.eth/proposal/${proposal.id}`,
-                            '_blank'
-                          );
-                        }
-                      }}
-                    >
-                      {choice}
-                    </Button>
+  key={index}
+  color="white"
+  backgroundColor="black"
+  border="1px solid orange"
+  mr={2}
+  mb={2}
+  borderRadius="md"
+  onClick={() => {
+    if (proposal.state === 'closed') {
+      alert("Votação encerrada. Você está atrasado para votar!");
+    } else {
+      window.open(
+        `https://snapshot.org/#/skatehive.eth/proposal/${proposal.id}`,
+        '_blank'
+      );
+    }
+  }}
+  textTransform="uppercase"
+>
+  {choice}
+</Button>
+
                   ))}
                 </Flex>
               </Flex>

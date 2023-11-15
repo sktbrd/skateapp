@@ -121,7 +121,6 @@ const SkatehiveProposals: React.FC = () => {
         ) : (
           proposals.map((proposal) => (
             <Flex key={proposal.id} borderWidth={1} borderRadius="md" border="2px solid orange" p={4} direction="column" backgroundColor="black" boxShadow="md" opacity={proposal.state === 'closed' ? 0.7 : 1}>
-                
                 {!isMobile && (
                   <Image
                     src={findImage(proposal.body)}
@@ -129,7 +128,6 @@ const SkatehiveProposals: React.FC = () => {
                     boxSize="20%"
                     border="1px solid white"
                     borderRadius="md"
-                    objectFit={"cover"}
                     onError={(e) => {
                       e.currentTarget.src = placeholderImage;
                     }}
@@ -142,9 +140,9 @@ const SkatehiveProposals: React.FC = () => {
                     <Image
                       src={findImage(proposal.body)}
                       alt="Thumbnail"
-                      boxSize="50%"
+                      boxSize="20%"
                       alignSelf={"center"}
-                      marginBottom={"10px"}
+                      paddingBottom={"10px"}
                       border="1px solid white"
                       borderRadius="md"
                       onError={(e) => {
@@ -196,7 +194,6 @@ const SkatehiveProposals: React.FC = () => {
                     )}
                   </VStack>
                 </Flex>
-   
               <Flex borderRadius="10px" flexDirection="row" justifyContent="space-between">
                 <Flex flexDirection="row" justifyContent="center" width="100%">
                   {proposal.choices.sort().reverse().map((choice, index) => (

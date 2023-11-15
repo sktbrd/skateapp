@@ -16,12 +16,11 @@ import Store from "./store";
         <Tabs isFitted variant="line" width="100%" colorScheme="yellow" {...tabProps} size='sm' >
           <TabList mb="1em" width="100%">
             <Tab
-              color="white"
               fontSize="20px"
-              border="1px black solid"
-              _selected={{ backgroundColor: "#231B48",color:"white", fontWeight:"bold", border:"1px solid white",textShadow:"red 6px 8px 10px" }} // Change the background color when selected
+              border="3px #5E317A solid"
+              _selected={{ backgroundColor: "#0D0D0D", border:"3px #5E317A solid",textShadow:"red 6px 8px 10px" }} // Change the background color when selected
             >
-              <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>PORTAL 666</Text></VStack>
+              <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text color={"#b4d701"}>PORTAL 666</Text></VStack>
               
             </Tab>
             {/* <Tab
@@ -39,29 +38,26 @@ import Store from "./store";
               :video_game: PLAY
             </Tab> */}
             <Tab
-             color="white"
              fontSize="20px"
-             border="1px black solid"
-             _selected={{ backgroundColor: "#231B48",color:"white", fontWeight:"bold", border:"1px solid white", textShadow:"red 6px 8px 10px" }} // Change the background color when selected
+             border="3px #5E317A solid"
+             _selected={{ backgroundColor: "#0D0D0D", border:"3px #5E317A solid", textShadow:"red 6px 8px 10px" }} // Change the background color when selected
             >
-              <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>UPLOAD</Text></VStack>
+              <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text color={"#b4d701"}>UPLOAD</Text></VStack>
             </Tab>
             <Tab
-            color="white"
             fontSize="20px"
-            border="1px black solid"
-            _selected={{ backgroundColor: "#231B48",color:"white", fontWeight:"bold", border:"1px solid white",textShadow:"red 6px 8px 10px" }} // Change the background color when selected
+            border="3px #5E317A solid"
+            _selected={{ backgroundColor: "#0D0D0D", border:"3px #5E317A solid",textShadow:"red 6px 8px 10px" }} // Change the background color when selected
            >
-             <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>EQUIPE</Text></VStack>
+             <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text color={"#b4d701"}>EQUIPE</Text></VStack>
             </Tab>
             
             <Tab
-            color="white"
             fontSize="20px"
-            border="1px black solid"
-            _selected={{ backgroundColor: "#231B48",color:"white", fontWeight:"bold", border:"1px solid white",textShadow:"red 6px 8px 10px" }} // Change the background color when selected
+            border="3px #5E317A solid"
+            _selected={{ backgroundColor: "#0D0D0D", border:"3px #5E317A solid",textShadow:"red 6px 8px 10px" }} // Change the background color when selected
            >
-             <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text>LOJA</Text></VStack>
+             <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text color={"#b4d701"}>LOJA</Text></VStack>
             </Tab>
 
           </TabList>

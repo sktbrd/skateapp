@@ -305,7 +305,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       <Box>
       <ChakraLink as={RouterLink} to="/wallet">
       <Button
-        backgroundColor="#231B59"
+        backgroundColor="black"
         border="black 5px solid"
         color="orange"
 
@@ -321,7 +321,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
       {/* Tabs centered horizontally */}
       <Tabs
-        variant="solid-rounded" //solid-rounded
+        variant="unstyled" //solid-rounded
         colorScheme="blackAlpha" //blackAlpha
         position={{ base: "relative", md: "absolute" }}
         left="50%"
@@ -336,8 +336,8 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         }}
       >
         <TabList display="flex" alignItems="center">
-          <LinkTab to="/" color="white">Home</LinkTab>
-          <LinkTab to="/QFS" color="white">Play</LinkTab>
+          <LinkTab to="/" color="#b4d701" _selected={{ backgroundColor: "#0D0D0D", border:"3px #5E317A solid" }}>Home</LinkTab>
+          <LinkTab to="/QFS" color="#b4d701" _selected={{ backgroundColor: "#0D0D0D", border:"3px #5E317A solid" }} >Play</LinkTab>
 
           {loggedIn && <LinkTab to="/wallet" color="white">Wallet</LinkTab>} {/* Conditionally render Wallet tab */}
           {loggedIn ? (
@@ -367,7 +367,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
               </Select>
             </div>
           ) : (
-            <Tab onClick={() => setModalOpen(true)}>
+            <Tab onClick={() => setModalOpen(true)} color={"#b4d701"} _selected={{ backgroundColor: "#0D0D0D", border:"3px #5E317A solid" }} >
               Log in 
             </Tab>
             

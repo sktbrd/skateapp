@@ -1,5 +1,4 @@
-import { extendTheme } from "@chakra-ui/react";
-
+import { ChakraBaseProvider, extendTheme } from "@chakra-ui/react";
 import '@fontsource-variable/roboto-mono';
 import '@fontsource/press-start-2p';
 import '@fontsource/castoro';
@@ -14,8 +13,8 @@ const themeConfig = {
 export const theme = extendTheme({
   ...themeConfig,
   fonts: {
-    heading: "Press Start 2P, sans serif", //not working
-    body: "Roboto Mono Variable, sans serif,bold", 
+    heading: "Terrorplate", // Use the, //not working
+    body: "Terrorplate",
   },
 
   components: {},
@@ -23,7 +22,7 @@ export const theme = extendTheme({
   styles: {
     global: (props: GlobalStyleProps) => ({
       body: { 
-        background: "linear-gradient(to top, #0D0D0D, #060126, #3D278C)",
+        background: "black",
         color:  "black" ,
       },
       p: {
@@ -48,6 +47,8 @@ export const theme = extendTheme({
       // Style for Firefox scrollbars
       scrollbarWidth: "thin",
       scrollbarColor: "black black",
+
+      
     }),
   },
 });

@@ -71,7 +71,7 @@ const Equipe: React.FC = () => {
     return (
       <>
         <center>
-          <Text fontSize={"48px"}>
+          <Text fontSize={"48px"} color={"#b4d701"}>
             MONSTROS
           </Text>
         </center>

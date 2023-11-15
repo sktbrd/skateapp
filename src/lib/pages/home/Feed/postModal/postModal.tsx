@@ -277,7 +277,7 @@ const transformedContent = transformYouTubeContent(content);
 return (
   <Modal isOpen={isOpen} onClose={onClose} size="3xl">
     <ModalOverlay />
-    <ModalContent background = {'radial-gradient(circle, #0D0D0D, #060126, #3D278C)'} border={'1px solid white'}>
+    <ModalContent background = {'black'} border={'3px solid #5E317A'}>
       <ModalHeader>
         <PostHeader title={title} author={author} avatarUrl={avatarUrl} postUrl={postUrl} permlink={permlink} onClose={onClose} />
         {isUserLoggedIn && user.name === author && !isEditing && (
@@ -310,9 +310,9 @@ return (
       <Comments comments={comments} commentPosted={commentPosted} blockedUser={"hivebuzz"} permlink=''/>
       <HStack justifyContent="space-between">
         <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
-          <Button color="white" bg="black" margin="15px" border="1px solid white" onClick={handleViewFullPost}>Ver o post completo</Button>
+          <Button color="#b4d701" bg="black" margin="15px" border="1px solid #5E317A" onClick={handleViewFullPost}>Ver o post completo</Button>
         </Link>
-        <Button color="white" bg="black" border="1px solid white" margin="15px" onClick={handleCopyPostLink}>
+        <Button color="#b4d701" bg="black" border="1px solid #5E317A" margin="15px" onClick={handleCopyPostLink}>
           {postLinkCopied ? 'Link Copied!' : 'Compartilhar post'}
         </Button>
       </HStack>   
@@ -330,7 +330,7 @@ return (
         </div>
       ) : (
         <center>
-        <Button color="white" bg="black"  margin="10px" border="1px solid white" onClick={() => setShowLoginModal(true)}>Login to Comment | Vote</Button>
+        <Button color="#b4d701" bg="black"  margin="10px" border="1px solid #5E317A" onClick={() => setShowLoginModal(true)}>Login to Comment | Vote</Button>
 
         </center>
       )}

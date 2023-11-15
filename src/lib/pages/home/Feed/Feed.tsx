@@ -63,20 +63,6 @@ const PlaceholderLoadingBar = () => {
   const randomIndex = Math.floor(Math.random() * randomSentences.length);
   const randomSentence = randomSentences[randomIndex]; 
 
-  useEffect(() => {
-    const audio = new Audio("/assets/audio/crowaudio.mp3");
-    audio.play();
-    
-    audio.addEventListener('ended', () => {
-      audio.currentTime = 0; 
-      audio.play();
-    });
-
-    return () => {
-      audio.pause();
-      audio.removeEventListener('ended', () => {});
-    };
-  }, []);
   
 
   return (
@@ -268,6 +254,29 @@ const [brl, setBrl] = useState(0);
   const loadMorePosts = () => {
     fetchPosts(); // Fetch more posts when "Load More" is clicked
   };
+  useEffect(() => {
+    const audio = new Audio("/assets/audio/crowaudio.mp3");
+  
+    const playAudio = () => {
+      audio.play();
+    };
+  
+    const onEnded = () => {
+      audio.currentTime = 0;
+      audio.removeEventListener('ended', onEnded);
+    };
+  
+    audio.addEventListener('canplay', playAudio);
+    audio.addEventListener('ended', onEnded);
+  
+    return () => {
+      audio.pause();
+      audio.removeEventListener('canplay', playAudio);
+      audio.removeEventListener('ended', onEnded);
+    };
+  }, []); // Empty dependency array means this effect will run once when the component mounts
+  
+  
 
   const fetchComments = async (author: string, permlink: string): Promise<any[]> => {
     try {
@@ -391,9 +400,9 @@ return (
         >
           {loadedPosts.map((post) => (
             <Card
-              border="1px"
-              borderColor="white"
-              bg="linear-gradient(to top, #0D0D0D, #060126, #3D278C)"
+              border="2px"
+              borderColor="#5E317A"
+              bg="black"
               key={post.permlink}
               maxW="md"
               mb={2}
@@ -413,7 +422,7 @@ return (
                     alignItems="center"
                   >
                     <Box>
-                      <Heading color="#D9D5A0" size="lg">
+                      <Heading color="#b4d701" size="lg">
                         {post.author}
                       </Heading>
                     </Box>
@@ -426,7 +435,7 @@ return (
               <Box padding="10px" height="200px"> 
                 <Image 
                   objectFit="cover"
-                  border="1px solid white"
+                  border="3px solid #d7a917"
                   borderRadius="35px"
                   src={post.thumbnail}
                   alt="Post Thumbnail"
@@ -451,7 +460,7 @@ return (
                     paddingBottom: '60px', // for some reason it needs this part too?
                   }}
                 >
-                  <Text fontWeight="semibold" 
+                  <Text  
                         color="white" 
                         paddingLeft="5px"
                         paddingTop="10px"
@@ -475,7 +484,7 @@ return (
                 <Link to={`profile/${post.author}`}>
                       <Avatar
                         name={post.author}
-                        border="1px solid white"
+                        border="2px solid #d7a917"
                         borderRadius="100px"
                         src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
                         width="105%"
@@ -497,10 +506,14 @@ return (
                     ml={2}
                     style={{
                       fontFamily: 'Helvetica',
-                      fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`,
-                    }} //dynamically changes font size based on numerical value of post.earnings
+                      fontSize: `22px`,
+            
+                    }}
+                    _hover={{
+                      backgroundColor: 'transparent', // Cor de fundo ao passar o mouse
+                  }} //dynamically changes font size based on numerical value of post.earnings
                   >
-                    R$ {(post.earnings*brl).toFixed(2)}
+                   <Text marginBottom={"45px"} color={"#FA2622"} > R$ {(post.earnings*brl).toFixed(2)}</Text>
                     <img
                       src="../../../../assets/blood4.gif"
                       alt="spinning stoken coin"

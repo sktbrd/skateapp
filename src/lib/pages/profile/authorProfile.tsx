@@ -226,7 +226,7 @@ export default function AuthorProfilePage() {
             alt="profile avatar"
             borderRadius="10%"
             boxSize="192px"
-            border="2px solid white"
+            border="2px solid #5E317A"
           />
           {/* Conditional rendering for verification badge */}
           {hasVotedWitness && (

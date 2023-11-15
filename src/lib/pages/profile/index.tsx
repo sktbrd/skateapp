@@ -49,7 +49,7 @@ export default function ProfilePage() {
           top="50%"    // Center vertically
           transform="translate(-50%, -50%)"   // Center alignment
           borderRadius="50%"
-          border="2px solid white"
+          border="2px solid #5E317A"
           boxSize="100px"
           bg="white"    // Add a white background for the profile image
           boxShadow="0px 2px 6px rgba(0, 0, 0, 0.1)"   // Add a subtle shadow

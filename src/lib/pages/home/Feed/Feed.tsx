@@ -360,24 +360,18 @@ return (
             >
 
 
-              <CardHeader>
-                <Flex>
-                  <Flex
-                    css={cardStyles} /* Apply the cardStyles CSS */
-                    flex="1"
-                    gap="3"
-                    borderRadius="10px"
-                    alignItems="center"
-                  >
-                    <Box>
-                      <Heading color="white" size="lg">
-                        {post.author}
-                      </Heading>
-                    </Box>
-                  </Flex>
-
-                </Flex>
-              </CardHeader>
+<CardHeader>
+  <Flex
+    css={cardStyles} /* Apply the cardStyles CSS */
+    borderRadius="10px"
+    justifyContent="center" /* Center the content horizontally */
+    alignItems="center"
+  >
+    <Heading color="white" size="lg">
+      {post.author}
+    </Heading>
+  </Flex>
+</CardHeader>
 
               
               <Box padding="20px" height="200px"> 
@@ -455,7 +449,7 @@ return (
                       fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`,
                     }} //dynamically changes font size based on numerical value of post.earnings
                   >
-                    $ {post.earnings.toFixed(2)}
+                    <span style={{ fontFamily: 'serif' }}>$</span>{post.earnings.toFixed(2)}
                     <img
                       src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
                       alt="spinning stoken coin"

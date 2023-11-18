@@ -434,8 +434,9 @@ return (
                     </Link>
 
                     
-                <Tooltip color={"white"} backgroundColor={"black"} border={"1px dashed limegreen"} label={<div style={{color: 'limegreen'}}>45% - 🛹 Author + Benef. <br /> 50% - 🧡 Voters <br /> 5%  - 🏦 Treasure* <br /><br /> Click to Learn More  </div>} aria-label="View Voters">
-                  <Button
+                
+                <Tooltip color={"white"} backgroundColor={"black"} border={"1px dashed limegreen"} label={<div style={{color: 'limegreen'}}>45% - 🛹 Author + Benef. <br /> 50% - 🧡 Voters <br /> 5%  - 🏦 Treasury* <br /><br /> Click to Learn More  </div>} aria-label="View Voters">
+                <Button
                     position="absolute"
                     bottom="10px"
                     right="10px"
@@ -446,16 +447,30 @@ return (
                     ml={2}
                     style={{
                       fontFamily: 'Helvetica',
-                      fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`,
-                    }} //dynamically changes font size based on numerical value of post.earnings
+                      fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`, //dynamically changes font size based on numerical value of post.earnings
+                      backgroundImage: post.earnings > 30 ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/48GistmrZbXRoMMPCgNq3hWe57xwqSP3JxPYYQs9zrxCKwr6NkrRgoXwehehpbfLHg.gif')` : 'none', // Show background image only when earnings are above 30
+                      backgroundSize: 'cover', // Adjust background size as needed
+                      backgroundPosition: 'center', // Center the background image
+                      
+
+                    }} 
                   >
-                    <span style={{ fontFamily: 'serif' }}>$</span>{post.earnings.toFixed(2)}
-                    <img
+
+                    
+                    <span style={{ fontFamily: 'serif', fontSize: '0.8em', color: 'chartreuse'}}>
+                    
+                      $</span>{post.earnings.toFixed(2)}
+                    
+                    
+                    
+        
+                    <img //spinning stoken coin
                       src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
                       alt="spinning stoken coin"
                       style={{
-                        width: "18px",
-                        height: "18px",
+                        // Dynamically set the size based on earnings
+                        width: `${Math.min(250, 18 + (post.earnings * 0.6))}px`, 
+                        height: `${Math.min(250, 18 + (post.earnings * 0.6))}px`, 
                         marginLeft: "7px",
                         marginBottom: "2px",
                       }}

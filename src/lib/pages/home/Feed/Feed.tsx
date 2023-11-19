@@ -417,7 +417,17 @@ return (
               </Box>
           </CardBody>
 
-              <CardFooter>
+              <CardFooter
+              
+              style={{
+                backgroundImage: post.earnings > 30 ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EocCPiTarW3qvJ2tp67PbkHCwcpac51SkMpTqDg6HjTQZYDncJvxkikLToUUBEHWG8A.gif')` : 'none',
+                backgroundSize: post.earnings > 30 ? '100% auto' : 'initial', // Stretch horizontally, maintain original height
+                backgroundPosition: post.earnings > 30 ? 'center bottom' : 'initial',
+                backgroundRepeat: 'no-repeat',
+                
+                
+              }}
+            >
                 <Text
                   color="white"
                   marginTop = "2px"
@@ -448,9 +458,7 @@ return (
                     style={{
                       fontFamily: 'Helvetica',
                       fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`, //dynamically changes font size based on numerical value of post.earnings
-                      backgroundImage: post.earnings > 30 ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/48GistmrZbXRoMMPCgNq3hWe57xwqSP3JxPYYQs9zrxCKwr6NkrRgoXwehehpbfLHg.gif')` : 'none', // Show background image only when earnings are above 30
-                      backgroundSize: 'cover', // Adjust background size as needed
-                      backgroundPosition: 'center', // Center the background image
+                     
                       textShadow: '4px 4px 2px rgba(0, 0, 0, 1)'
                       
 

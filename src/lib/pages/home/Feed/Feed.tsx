@@ -425,7 +425,8 @@ return (
                 backgroundPosition: post.earnings > 30 ? 'center bottom' : 'initial',
                 backgroundRepeat: 'no-repeat',
                 overflow: 'hidden',
-                borderRadius: '10px'
+                borderRadius: '10px',
+                
                 
                 
               }}
@@ -442,6 +443,9 @@ return (
                         src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
                         width="105%"
                         height="105%"
+                        style={{
+                          boxShadow: '0 8px 12px rgba(0, 0, 0, 0.8)', // Adding a drop shadow
+                        }}
                       />
                     </Link>
 

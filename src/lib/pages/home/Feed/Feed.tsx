@@ -420,10 +420,7 @@ return (
               <CardFooter
               
               style={{
-                backgroundImage: post.earnings > 30 ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EocCPiTarW3qvJ2tp67PbkHCwcpac51SkMpTqDg6HjTQZYDncJvxkikLToUUBEHWG8A.gif')` : 'none',
-                backgroundSize: post.earnings > 30 ? '100% auto' : 'initial', // Stretch horizontally, maintain original height
-                backgroundPosition: post.earnings > 30 ? 'center bottom' : 'initial',
-                backgroundRepeat: 'no-repeat',
+                
                 
                 
               }}
@@ -512,6 +509,25 @@ return (
 
                  </Box>
                  
+                 {post.earnings > 30 && (
+    <div
+    style={{
+      backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EocCPiTarW3qvJ2tp67PbkHCwcpac51SkMpTqDg6HjTQZYDncJvxkikLToUUBEHWG8A.gif')`,
+      backgroundSize: '100% auto',
+      backgroundPosition: 'center bottom',
+      backgroundRepeat: 'no-repeat',
+      borderRadius: '10px', // Adjust border radius as needed
+      zIndex: -1, // Send it to the back
+      position: 'absolute', // Position it independently
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      visibility: post.earnings > 30 ? 'visible' : 'hidden', // Show or hide based on post.earnings
+      opacity: post.earnings > 30 ? 1 : 0, // Show or hide based on post.earnings
+    }}
+  />
+  )}
 
 
               </CardFooter>

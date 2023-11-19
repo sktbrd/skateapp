@@ -437,9 +437,13 @@ return (
               <CardFooter
               
               style={{
-                backgroundImage: post.earnings > 30 ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EocCPiTarW3qvJ2tp67PbkHCwcpac51SkMpTqDg6HjTQZYDncJvxkikLToUUBEHWG8A.gif')` : 'none',
-                backgroundSize: post.earnings > 30 ? '100% auto' : 'initial', // Stretch horizontally, maintain original height
-                backgroundPosition: post.earnings > 30 ? 'center bottom' : 'initial',
+                backgroundImage: post.earnings > 30
+                 ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EocCPiTarW3qvJ2tp67PbkHCwcpac51SkMpTqDg6HjTQZYDncJvxkikLToUUBEHWG8A.gif')`
+                 : post.earnings >= 10 && post.earnings <= 20
+                 ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EnymbnXgVUvtgCPCWQ6A6oxSErWw92V6pyvNJsBTs1mwUK5nD6SF3zhYh5CNcGH8pvD.gif')`
+                 : 'none',
+                backgroundSize:  '100% auto' , // Stretch horizontally, maintain original height
+                backgroundPosition:  'center bottom',
                 backgroundRepeat: 'no-repeat',
                 overflow: 'hidden',
                 borderRadius: '10px',

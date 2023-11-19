@@ -357,6 +357,15 @@ return (
               onClick={() => handleCardClick(post)}
               cursor="pointer"
               css={cardStyles} /* Apply the cardStyles CSS */
+              style={{
+                backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EoiK3LBjuqLaVD9nZEAP6So8j7LFhq9G5S68GSkB99WbwHQs37pXjXpfu5BECdazJh6.png`, // Replace 'your-image-url.jpg' with your image URL
+                backgroundSize: '100% auto',
+                backgroundPosition: 'center top',
+                backgroundRepeat: 'no-repeat',
+                
+                
+                /* Other styles as needed */
+              }}
             >
 
 
@@ -366,8 +375,16 @@ return (
     borderRadius="10px"
     justifyContent="center" /* Center the content horizontally */
     alignItems="center"
+  
   >
-    <Heading color="white" size="lg">
+    <Heading 
+    color="white"
+    size="lg"
+    style={{
+      textShadow: '0 0 20px rgba(0, 255, 0, 0.7)', // Apply a green glow behind the text
+      fontStyle: 'italic', // Make the text italic
+    }} 
+     >
       {post.author}
     </Heading>
   </Flex>

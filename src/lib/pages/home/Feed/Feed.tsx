@@ -424,6 +424,8 @@ return (
                 backgroundSize: post.earnings > 30 ? '100% auto' : 'initial', // Stretch horizontally, maintain original height
                 backgroundPosition: post.earnings > 30 ? 'center bottom' : 'initial',
                 backgroundRepeat: 'no-repeat',
+                overflow: 'hidden',
+                borderRadius: '10px'
                 
                 
               }}

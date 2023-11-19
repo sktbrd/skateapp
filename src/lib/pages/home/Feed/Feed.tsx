@@ -521,10 +521,10 @@ return (
 
                 <IconButton
                     icon={<MdArrowUpward />}
-                    backgroundColor="green"
-                    color="white"
-                    variant="ghost"
-                    size="xs"
+                    backgroundColor="black"
+                    color="blue"
+                    
+                    size="sm"
                     borderRadius="50%"
                     aria-label="Upvote"
                     border="1px"
@@ -532,7 +532,20 @@ return (
                     onClick={(e) => {
                       e.stopPropagation(); // Prevent the click event from propagating
                       handleVoteClick(post);
+                  
                     }}
+
+                    style={{ width: '10px' }} // Manually adjust the size
+
+                    _hover={{
+                      backgroundColor: 'mediumspringgreen', // Change the color on hover
+                      color: 'mediumvioletred', // Change the text color on hover
+                      boxShadow: '0 0 8px darkgoldenrod, 0 0 8px darkgoldenrod, 0 0 8px darkgoldenrod', // Add an underglow effect
+                      border: "2px solid darkgreen"
+                    }}
+
+                    
+                    
                   />
 
                                   </Tooltip>

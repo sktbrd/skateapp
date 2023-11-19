@@ -49,17 +49,17 @@ const placeholderEarnings = 69.42;
 const randomSentences = [
   // "Have a spooky Skateboarding!",
   "Don't mall grab, or do it, you do you...",
-  "'Ok to push Mongo it is (master YODA)'",
-  "Roll one and play some stoken.quest",
+  "'Ok to push Mongo, it is! -master yoda'",
+  "Roll one, and play some stoken.quest?",
   "Remember Mirc times ?",
   "Fuck instagram!",
   "Ready to grind on chain?",
   "Praise whoever made skatevideosite",
   "Loading Stokenomics...",
-  "Initiating proof of stoke...", 
-  "We will as fast as Daryl Rolls",
-  "Nobody knows who was Gnartoshi Shredmoto",
-  "We have secret sections here, try /secret"
+  "Initiating Proof of Stoke...", 
+  "We will load as fast as Daryl Rolls",
+  "Who was Gnartoshi Shredamoto?",
+  "We have secret sections here, can you find?"
 ];
 
 const PlaceholderLoadingBar = () => {
@@ -360,24 +360,18 @@ return (
             >
 
 
-              <CardHeader>
-                <Flex>
-                  <Flex
-                    css={cardStyles} /* Apply the cardStyles CSS */
-                    flex="1"
-                    gap="3"
-                    borderRadius="10px"
-                    alignItems="center"
-                  >
-                    <Box>
-                      <Heading color="white" size="lg">
-                        {post.author}
-                      </Heading>
-                    </Box>
-                  </Flex>
-
-                </Flex>
-              </CardHeader>
+<CardHeader>
+  <Flex
+    css={cardStyles} /* Apply the cardStyles CSS */
+    borderRadius="10px"
+    justifyContent="center" /* Center the content horizontally */
+    alignItems="center"
+  >
+    <Heading color="white" size="lg">
+      {post.author}
+    </Heading>
+  </Flex>
+</CardHeader>
 
               
               <Box padding="20px" height="200px"> 
@@ -423,7 +417,14 @@ return (
               </Box>
           </CardBody>
 
-              <CardFooter>
+              <CardFooter
+              
+              style={{
+                
+                
+                
+              }}
+            >
                 <Text
                   color="white"
                   marginTop = "2px"
@@ -440,8 +441,9 @@ return (
                     </Link>
 
                     
-                <Tooltip color={"white"} backgroundColor={"black"} border={"1px dashed limegreen"} label={<div style={{color: 'limegreen'}}>45% - 🛹 Author + Benef. <br /> 50% - 🧡 Voters <br /> 5%  - 🏦 Treasure* <br /><br /> Click to Learn More  </div>} aria-label="View Voters">
-                  <Button
+                
+                <Tooltip color={"white"} backgroundColor={"black"} border={"1px dashed limegreen"} label={<div style={{color: 'limegreen'}}>45% - 🛹 Author + Benef. <br /> 50% - 🧡 Voters <br /> 5%  - 🏦 Treasury* <br /><br /> Click to Learn More  </div>} aria-label="View Voters">
+                <Button
                     position="absolute"
                     bottom="10px"
                     right="10px"
@@ -452,16 +454,29 @@ return (
                     ml={2}
                     style={{
                       fontFamily: 'Helvetica',
-                      fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`,
-                    }} //dynamically changes font size based on numerical value of post.earnings
+                      fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`, //dynamically changes font size based on numerical value of post.earnings
+                     
+                      textShadow: '4px 4px 2px rgba(0, 0, 0, 1)'
+                      
+
+                    }} 
                   >
-                    $ {post.earnings.toFixed(2)}
-                    <img
+
+                    
+                    <span style={{ fontFamily: 'serif', color: 'chartreuse'}}>
+                    
+                      $</span>{post.earnings.toFixed(2)}
+                    
+                    
+                    
+        
+                    <img //spinning stoken coin
                       src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
                       alt="spinning stoken coin"
                       style={{
-                        width: "18px",
-                        height: "18px",
+                        // Dynamically set the size based on earnings
+                        width: `${Math.min(250, 18 + (post.earnings * 0.6))}px`, 
+                        height: `${Math.min(250, 18 + (post.earnings * 0.6))}px`, 
                         marginLeft: "7px",
                         marginBottom: "2px",
                       }}
@@ -494,6 +509,25 @@ return (
 
                  </Box>
                  
+                 {post.earnings > 30 && (
+    <div
+    style={{
+      backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EocCPiTarW3qvJ2tp67PbkHCwcpac51SkMpTqDg6HjTQZYDncJvxkikLToUUBEHWG8A.gif')`,
+      backgroundSize: '100% auto',
+      backgroundPosition: 'center bottom',
+      backgroundRepeat: 'no-repeat',
+      borderRadius: '10px', // Adjust border radius as needed
+      zIndex: -1, // Send it to the back
+      position: 'absolute', // Position it independently
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      visibility: post.earnings > 30 ? 'visible' : 'hidden', // Show or hide based on post.earnings
+      opacity: post.earnings > 30 ? 1 : 0, // Show or hide based on post.earnings
+    }}
+  />
+  )}
 
 
               </CardFooter>

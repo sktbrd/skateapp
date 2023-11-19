@@ -451,13 +451,14 @@ return (
                       backgroundImage: post.earnings > 30 ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/48GistmrZbXRoMMPCgNq3hWe57xwqSP3JxPYYQs9zrxCKwr6NkrRgoXwehehpbfLHg.gif')` : 'none', // Show background image only when earnings are above 30
                       backgroundSize: 'cover', // Adjust background size as needed
                       backgroundPosition: 'center', // Center the background image
+                      textShadow: '4px 4px 2px rgba(0, 0, 0, 1)'
                       
 
                     }} 
                   >
 
                     
-                    <span style={{ fontFamily: 'serif', fontSize: '0.8em', color: 'chartreuse'}}>
+                    <span style={{ fontFamily: 'serif', color: 'chartreuse'}}>
                     
                       $</span>{post.earnings.toFixed(2)}
                     

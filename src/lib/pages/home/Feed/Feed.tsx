@@ -31,6 +31,7 @@ import { css } from "@emotion/react";
 
 import EarningsModal from "./postModal/earningsModal"; // Replace with the correct path to EarningsModal
 import { MdArrowUpward } from 'react-icons/md';
+import { Style } from "util";
 
 const nodes = [
   "https://rpc.ecency.com",
@@ -435,23 +436,28 @@ return (
           </CardBody>
 
               <CardFooter
-              
+                
               style={{
-                backgroundImage: post.earnings > 30
-                 ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EocCPiTarW3qvJ2tp67PbkHCwcpac51SkMpTqDg6HjTQZYDncJvxkikLToUUBEHWG8A.gif')`
-                 : post.earnings >= 10 && post.earnings <= 20
-                 ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EnymbnXgVUtxPZPsL3n1nQRYkhnv1VBGfV3ABoPLqN5VKgdjhV9wiH9hBtz8e1iVTXF.gif')`
-                 : 'none',
-                backgroundSize:  '100% auto' , // Stretch horizontally, maintain original height
-                backgroundPosition:  'center bottom',
-                backgroundRepeat: 'no-repeat',
-                overflow: 'hidden',
-                borderRadius: '10px',
                 
-                
+                backgroundImage:
+                    post.earnings > 30
+                    ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EocCPiTarW3qvJ2tp67PbkHCwcpac51SkMpTqDg6HjTQZYDncJvxkikLToUUBEHWG8A.gif')`
+                    : post.earnings >= 10 && post.earnings <= 20
+                    ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EnymbnXgVUtxPZPsL3n1nQRYkhnv1VBGfV3ABoPLqN5VKgdjhV9wiH9hBtz8e1iVTXF.gif')`
+                    : 'none',
+                    backgroundSize: '100% auto',
+                    backgroundPosition: 'center bottom',
+                    backgroundRepeat: 'no-repeat',
+                    overflow: 'hidden',
+                    borderRadius: '10px',
+                    
                 
               }}
+
+              
             >
+              
+              
                 <Text
                   color="white"
                   marginTop = "2px"

@@ -7,7 +7,7 @@ import HiveLogin from '../../api/HiveLoginModal';
 import * as Types from '../types'
 
 const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, permlink, weight = 10000 }) => {
-  const [sliderValue, setSliderValue] = useState(0);
+  const [sliderValue, setSliderValue] = useState(10000);
   const getFeedbackText = (value: number) => {
     if (value === -10000) return "I hate it";
     if (value === -5000) return "I don't care for it";
@@ -18,6 +18,9 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
   };
   
 
+
+
+  
   const handleVote = async () => {
     // Assuming you have a DOM element for displaying error messages with an id "error-message"
     const errorMessageElement = document.getElementById("error-message");

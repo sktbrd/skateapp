@@ -11,9 +11,6 @@ const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink,
   
   const [sliderValue, setSliderValue] = useState(5000);
 
-  
-  console.log("Initial sliderValue:", sliderValue);
-
   const getFeedbackText = (value: number) => {
     if (value === -10000) return "I hate it";
     if (value === -5000) return "I don't care for it";

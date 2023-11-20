@@ -8,6 +8,7 @@ import * as Types from '../types'
 
 const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, permlink, weight = 10000 }) => {
   const [sliderValue, setSliderValue] = useState(10000);
+  
   const getFeedbackText = (value: number) => {
     if (value === -10000) return "I hate it";
     if (value === -5000) return "I don't care for it";
@@ -39,7 +40,7 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
   
       // Use a type assertion to cast 'error' to the 'Error' type
       const errorMessage = (error as Error).message || "An unknown error occurred.";
-      alert(`Voting failed: ${errorMessage}`);
+      alert(`You already Voted: ${errorMessage}`);
     }
   };
   

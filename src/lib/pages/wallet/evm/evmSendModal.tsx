@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { useEffect } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -22,7 +22,9 @@ import {
   Grid,
   GridItem,
 } from "@chakra-ui/react";
-
+//@ts-ignore
+import { usePioneer } from '@pioneer-platform/pioneer-react';
+import Web3 from 'web3';
 
 
 interface EvmSendModalProps {
@@ -36,13 +38,68 @@ const EvmSendModal: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo 
   const [amount, setAmount] = useState<string>("");
   const [toAddress, setToAddress] = useState<string>("");
   const [error, setError] = useState<string>("");
-  console.log(tokenInfo)
+  const { state } = usePioneer();
+  const [address, setAddress] = useState<string>("");
+  const { api, app } = state;
+  const [icon, setIcon] = useState<string>("");
+  const [service, setService] = useState<string>("");
+  const [chainId, setChainId] = useState<number>(1);
+  const [blockchain, setBlockchain] = useState<string>("1");
+  const [web3, setWeb3] = useState<any>(null);
+  const [networkId, setNetworkId] = useState<number>(1);
 
-  const handleSend = () => {
-    // ... (implement send functionality here)
-    // For now, let's just display an alert
-    alert("Send functionality will be implemented soon, we are so close now.");
+
+  const onStart = async function () {
+  try {
+    
+    const addressInfo = {
+      addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
+      coin: "Ethereum",
+      scriptType: "ethereum",
+      showDisplay: false,
+    };
+
+    let wallet = app.wallets[0].wallet;
+    const address = await wallet.ethGetAddress(addressInfo);
+    
+    setAddress(address);
+    console.log(tokenInfo.networkId)
+    setNetworkId(tokenInfo.networkId);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+
+  
+
+  useEffect(() => {
+    onStart(); 
+  }
+  , [app, api]);
+
+
+  const handleSend = async () => {
+    try {
+      // Make sure to include both networkId and chainId when calling the API
+      let info = await api.SearchByNetworkId({
+        chainId: chainId,
+      });
+      console.log("info data: ", info.data[0]);
+      setService(info.data[0].service);
+      setChainId(info.data[0].chainId);
+      console.log("chainId: ", info);
+      console.log("service: ", service);
+
+    } catch (e) {
+      console.error(e);
+    }
   };
+  
+  
+  
+
+
 
   if (!tokenInfo) return null;
   
@@ -124,7 +181,7 @@ const EvmSendModal: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo 
           </VStack>
         </ModalBody>
         <ModalFooter>
-          <Button variant="ghost" onClick={onClose}>
+          <Button border={"1px solid white"} color={"white"} variant="ghost" onClick={onClose}>
             Close
           </Button>
         </ModalFooter>

@@ -380,6 +380,7 @@ return (
   >
     <Heading 
     color="white"
+    paddingTop={"10px"}
     size="lg"
     style={{
       textShadow: '0 0 20px rgba(0, 255, 0, 0.7)', // Apply a green glow behind the text
@@ -480,23 +481,24 @@ return (
                 
                 <Tooltip color={"white"} backgroundColor={"black"} border={"1px dashed limegreen"} label={<div style={{color: 'limegreen'}}>45% - 🛹 Author + Benef. <br /> 50% - 🧡 Voters <br /> 5%  - 🏦 Treasury* <br /><br /> Click to Learn More  </div>} aria-label="View Voters">
                 <Button
-                    position="absolute"
-                    bottom="10px"
-                    right="10px"
-                    onClick={(e) => {e.stopPropagation(); handleVotersModalOpen(post);}}
-                    variant="ghost"
-                    colorScheme="green"
-                    size="s"
-                    ml={2}
-                    style={{
-                      fontFamily: 'Helvetica',
-                      fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`, //dynamically changes font size based on numerical value of post.earnings
-                     
-                      textShadow: '4px 4px 2px rgba(0, 0, 0, 1)'
-                      
-
-                    }} 
-                  >
+    position="absolute"
+    bottom="10px"
+    right="10px"
+    onClick={(e) => {e.stopPropagation(); handleVotersModalOpen(post);}}
+    variant="ghost"
+    colorScheme="green"
+    size="s"
+    ml={2}
+    style={{
+        fontFamily: 'Helvetica',
+        fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`,
+        textShadow: '2px 2px 1px rgba(0, 0, 0, 1)',
+        transition: 'background-color 0.3s ease-in-out' // Add a transition for a smoother effect
+    }}
+    _hover={{
+        backgroundColor: 'transparent' // Set the background color to transparent on hover
+    }}
+>
 
                     
                     <span style={{ fontFamily: 'serif', color: 'chartreuse'}}>

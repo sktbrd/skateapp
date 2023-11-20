@@ -31,6 +31,7 @@ import { css } from "@emotion/react";
 
 import EarningsModal from "./postModal/earningsModal"; // Replace with the correct path to EarningsModal
 import { MdArrowUpward } from 'react-icons/md';
+import { Style } from "util";
 
 const nodes = [
   "https://rpc.ecency.com",
@@ -357,6 +358,15 @@ return (
               onClick={() => handleCardClick(post)}
               cursor="pointer"
               css={cardStyles} /* Apply the cardStyles CSS */
+              style={{
+                backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EoiK3LBjuqLaVD9nZEAP6So8j7LFhq9G5S68GSkB99WbwHQs37pXjXpfu5BECdazJh6.png`, // Replace 'your-image-url.jpg' with your image URL
+                backgroundSize: '100% auto',
+                backgroundPosition: 'center top',
+                backgroundRepeat: 'no-repeat',
+                
+                
+                /* Other styles as needed */
+              }}
             >
 
 
@@ -366,8 +376,16 @@ return (
     borderRadius="10px"
     justifyContent="center" /* Center the content horizontally */
     alignItems="center"
+  
   >
-    <Heading color="white" size="lg">
+    <Heading 
+    color="white"
+    size="lg"
+    style={{
+      textShadow: '0 0 20px rgba(0, 255, 0, 0.7)', // Apply a green glow behind the text
+      fontStyle: 'italic', // Make the text italic
+    }} 
+     >
       {post.author}
     </Heading>
   </Flex>
@@ -418,13 +436,28 @@ return (
           </CardBody>
 
               <CardFooter
-              
+                
               style={{
                 
-                
+                backgroundImage:
+                    post.earnings > 30
+                    ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EocCPiTarW3qvJ2tp67PbkHCwcpac51SkMpTqDg6HjTQZYDncJvxkikLToUUBEHWG8A.gif')`
+                    : post.earnings >= 10 && post.earnings <= 20
+                    ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EnymbnXgVUtxPZPsL3n1nQRYkhnv1VBGfV3ABoPLqN5VKgdjhV9wiH9hBtz8e1iVTXF.gif')`
+                    : 'none',
+                    backgroundSize: '100% auto',
+                    backgroundPosition: 'center bottom',
+                    backgroundRepeat: 'no-repeat',
+                    overflow: 'hidden',
+                    borderRadius: '10px',
+                    
                 
               }}
+
+              
             >
+              
+              
                 <Text
                   color="white"
                   marginTop = "2px"
@@ -437,6 +470,9 @@ return (
                         src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
                         width="105%"
                         height="105%"
+                        style={{
+                          boxShadow: '0 8px 12px rgba(0, 0, 0, 0.8)', // Adding a drop shadow
+                        }}
                       />
                     </Link>
 
@@ -491,10 +527,10 @@ return (
 
                 <IconButton
                     icon={<MdArrowUpward />}
-                    backgroundColor="green"
-                    color="white"
-                    variant="ghost"
-                    size="xs"
+                    backgroundColor="black"
+                    color="blue"
+                    
+                    size="sm"
                     borderRadius="50%"
                     aria-label="Upvote"
                     border="1px"
@@ -502,32 +538,26 @@ return (
                     onClick={(e) => {
                       e.stopPropagation(); // Prevent the click event from propagating
                       handleVoteClick(post);
+                  
                     }}
+
+                    style={{ width: '10px' }} // Manually adjust the size
+
+                    _hover={{
+                      backgroundColor: 'mediumspringgreen', // Change the color on hover
+                      color: 'mediumvioletred', // Change the text color on hover
+                      boxShadow: '0 0 8px darkgoldenrod, 0 0 8px darkgoldenrod, 0 0 8px darkgoldenrod', // Add an underglow effect
+                      border: "2px solid darkgreen"
+                    }}
+
+                    
+                    
                   />
 
                                   </Tooltip>
 
                  </Box>
                  
-                 {post.earnings > 30 && (
-    <div
-    style={{
-      backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EocCPiTarW3qvJ2tp67PbkHCwcpac51SkMpTqDg6HjTQZYDncJvxkikLToUUBEHWG8A.gif')`,
-      backgroundSize: '100% auto',
-      backgroundPosition: 'center bottom',
-      backgroundRepeat: 'no-repeat',
-      borderRadius: '10px', // Adjust border radius as needed
-      zIndex: -1, // Send it to the back
-      position: 'absolute', // Position it independently
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      visibility: post.earnings > 30 ? 'visible' : 'hidden', // Show or hide based on post.earnings
-      opacity: post.earnings > 30 ? 1 : 0, // Show or hide based on post.earnings
-    }}
-  />
-  )}
 
 
               </CardFooter>

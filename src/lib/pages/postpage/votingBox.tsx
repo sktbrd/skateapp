@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Flex, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box, Text } from '@chakra-ui/react';
 import voteOnContent from '../home/api/voting';
 import useAuthUser from '../home/api/useAuthUser';
+
 
 import * as Types from '../home/Feed/types';
 
 const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink, weight = 10000 }) => {
   const user = useAuthUser();
+  
   const [sliderValue, setSliderValue] = useState(5000);
 
   const getFeedbackText = (value: number) => {

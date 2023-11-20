@@ -445,6 +445,8 @@ return (
                     ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EocCPiTarW3qvJ2tp67PbkHCwcpac51SkMpTqDg6HjTQZYDncJvxkikLToUUBEHWG8A.gif')`
                     : post.earnings >= 10 && post.earnings <= 20
                     ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EnymbnXgVUtxPZPsL3n1nQRYkhnv1VBGfV3ABoPLqN5VKgdjhV9wiH9hBtz8e1iVTXF.gif')`
+                    : post.earnings >= 20 && post.earnings <= 30
+                    ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23u5bNzQ1Witg6qMPYBbgxzPzAx8iR8TDYWA5goRhanYgcqTGofXvPd9vMdDVogKoSwTb.gif')`
                     : 'none',
                     backgroundSize: '100% auto',
                     backgroundPosition: 'center bottom',

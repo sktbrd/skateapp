@@ -46,8 +46,8 @@ const EvmSendModal: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo 
   const [chainId, setChainId] = useState<number>(1);
   const [blockchain, setBlockchain] = useState<string>("1");
   const [web3, setWeb3] = useState<any>(null);
-  const [networkId, setNetworkId] = useState<number>(1);
-
+  const [contract, setContract] = useState<string>("");
+  const [prescision, setPrescision] = useState('')
 
   const onStart = async function () {
   try {
@@ -63,35 +63,55 @@ const EvmSendModal: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo 
     const address = await wallet.ethGetAddress(addressInfo);
     
     setAddress(address);
-    console.log(tokenInfo.networkId)
-    setNetworkId(tokenInfo.networkId);
   } catch (e) {
     console.error(e);
   }
 };
 
 
-  
 
   useEffect(() => {
+    setContract(tokenInfo.address);
     onStart(); 
   }
   , [app, api]);
 
 
   const handleSend = async () => {
-    try {
-      // Make sure to include both networkId and chainId when calling the API
-      let info = await api.SearchByNetworkId({
-        chainId: chainId,
-      });
-      console.log("info data: ", info.data[0]);
-      setService(info.data[0].service);
-      setChainId(info.data[0].chainId);
-      console.log("chainId: ", info);
-      console.log("service: ", service);
-
-    } catch (e) {
+    try{
+      console.log("THIS IS A TOKEN SEND!");
+      if (!contract) throw Error("Invalid token contract address");
+      console.log("valuePRE: ", amount);
+      const amountSat = parseInt(
+        // @ts-ignore
+        amount * Math.pow(10, prescision)
+      ).toString();
+      console.log("valuePOST: ", amountSat);
+      let minABI = [
+        // balanceOf
+        {
+          "constant":true,
+          "inputs":[{"name":"_owner","type":"address"}],
+          "name":"balanceOf",
+          "outputs":[{"name":"balance","type":"uint256"}],
+          "type":"function"
+        },
+        // decimals
+        {
+          "constant":true,
+          "inputs":[],
+          "name":"decimals",
+          "outputs":[{"name":"","type":"uint8"}],
+          "type":"function"
+        }
+      ];
+      const newContract = new web3.eth.Contract(minABI, contract);
+      const decimals = await newContract.methods.decimals().call();
+      setPrescision(decimals)
+      const balanceBN = await newContract.methods.balanceOf(address).call()
+      console.log("balanceBN: ", balanceBN);
+    }
+    catch(e){
       console.error(e);
     }
   };

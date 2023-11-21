@@ -104,6 +104,8 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   const { user, isLoggedIn } = useAuthUser();
   const [hasVotedWitness, setHasVotedWitness] = useState<boolean>(false); // Step 4
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Track modal visibility
+  const [errorMessage, setErrorMessage] = useState<string>(""); // Track error message
+
   const fetchPostEarnings = async (
     author: string,
     permlink: string
@@ -130,7 +132,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   };
 
   
-
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const fetchPosts = async () => {
@@ -317,6 +318,8 @@ const handleVoteClick = async (post: any) => {
   if (!isLoggedIn()) {
     // Handle the case where the user is not logged in, e.g., show a login prompt
     console.log("User is not logged in. Show a login prompt.");
+    setErrorMessage("You have to login first ! Dãããã... ")
+    setIsErrorModalOpen(true)
     return;
   }
 
@@ -334,6 +337,8 @@ const handleVoteClick = async (post: any) => {
   } catch (error) {
     // Handle voting error
     console.error("Error while voting:", error);
+    setErrorMessage("You already voted with the same voting power!")
+
     setIsErrorModalOpen(true); // Open the error modal
   }
 };
@@ -351,7 +356,7 @@ return (
         <ErrorModal
           isOpen={isErrorModalOpen}
           onClose={() => setIsErrorModalOpen(false)}
-          errorMessage="You already voted with the same voting power or you are not logged in"
+          errorMessage={errorMessage}
         />
         <Box
           display="grid"
@@ -381,29 +386,29 @@ return (
             >
 
 
-<CardHeader>
-  <Flex
-    css={cardStyles} /* Apply the cardStyles CSS */
-    borderRadius="10px"
-    justifyContent="center" /* Center the content horizontally */
-    alignItems="center"
-  
-  >
-    <Heading 
-    color="white"
-    paddingTop={"10px"}
-    size="lg"
-    style={{
-      textShadow: '0 0 20px rgba(0, 255, 0, 0.7)', // Apply a green glow behind the text
-      fontStyle: 'italic', // Make the text italic
-    }} 
-     >
-      {post.author}
-    </Heading>
-  </Flex>
-</CardHeader>
+              <CardHeader>
+                <Flex
+                  css={cardStyles} /* Apply the cardStyles CSS */
+                  borderRadius="10px"
+                  justifyContent="center" /* Center the content horizontally */
+                  alignItems="center"
+                
+                >
+                  <Heading 
+                  color="white"
+                  paddingTop={"10px"}
+                  size="lg"
+                  style={{
+                    textShadow: '0 0 20px rgba(0, 255, 0, 0.7)', // Apply a green glow behind the text
+                    fontStyle: 'italic', // Make the text italic
+                  }} 
+                  >
+                    {post.author}
+                  </Heading>
+                </Flex>
+              </CardHeader>
 
-              
+                            
               <Box padding="20px" height="200px"> 
                 <Image 
                   objectFit="cover"
@@ -492,24 +497,24 @@ return (
                 
                 <Tooltip color={"white"} backgroundColor={"black"} border={"1px dashed limegreen"} label={<div style={{color: 'limegreen'}}>45% - 🛹 Author + Benef. <br /> 50% - 🧡 Voters <br /> 5%  - 🏦 Treasury* <br /><br /> Click to Learn More  </div>} aria-label="View Voters">
                 <Button
-    position="absolute"
-    bottom="10px"
-    right="10px"
-    onClick={(e) => {e.stopPropagation(); handleVotersModalOpen(post);}}
-    variant="ghost"
-    colorScheme="green"
-    size="s"
-    ml={2}
-    style={{
-        fontFamily: 'Helvetica',
-        fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`,
-        textShadow: '2px 2px 1px rgba(0, 0, 0, 1)',
-        transition: 'background-color 0.3s ease-in-out' // Add a transition for a smoother effect
-    }}
-    _hover={{
-        backgroundColor: 'transparent' // Set the background color to transparent on hover
-    }}
->
+                      position="absolute"
+                      bottom="10px"
+                      right="10px"
+                      onClick={(e) => {e.stopPropagation(); handleVotersModalOpen(post);}}
+                      variant="ghost"
+                      colorScheme="green"
+                      size="s"
+                      ml={2}
+                      style={{
+                          fontFamily: 'Helvetica',
+                          fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`,
+                          textShadow: '2px 2px 1px rgba(0, 0, 0, 1)',
+                          transition: 'background-color 0.3s ease-in-out' // Add a transition for a smoother effect
+                      }}
+                      _hover={{
+                          backgroundColor: 'transparent' // Set the background color to transparent on hover
+                      }}
+                  >
 
                     
                     <span style={{ fontFamily: 'serif', color: 'chartreuse'}}>

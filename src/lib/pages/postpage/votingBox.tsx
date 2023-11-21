@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Flex, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box, Text } from '@chakra-ui/react';
 import voteOnContent from '../home/api/voting';
 import useAuthUser from '../home/api/useAuthUser';
-
+import ErrorModal from '../home/Feed/postModal/errorModal';
 
 import * as Types from '../home/Feed/types';
 
@@ -10,6 +10,8 @@ const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink,
   const user = useAuthUser();
   
   const [sliderValue, setSliderValue] = useState(5000);
+
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Track modal visibility
 
   const getFeedbackText = (value: number) => {
     if (value === -10000) return "I hate it";
@@ -32,6 +34,7 @@ const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink,
       // handle the vote result here
     } catch (error) {
       console.error("Voting failed:", error);
+      setIsErrorModalOpen(true);
       // handle the error properly here
     }
   };
@@ -86,6 +89,11 @@ const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink,
           Vote
         </Button>
       </Flex>
+      <ErrorModal
+        isOpen={isErrorModalOpen}
+        onClose={() => setIsErrorModalOpen(false)}
+        errorMessage="You already voted with the same voting power or you are not logged in, Pepe is Confused!"
+      />
     </Flex>
   );
 }

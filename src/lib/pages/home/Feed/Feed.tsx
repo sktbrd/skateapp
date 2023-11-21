@@ -23,7 +23,7 @@ import useAuthUser from "../api/useAuthUser";
 
 import { useEffect, useState } from "react";
 import PostModal from "./postModal/postModal";
-
+import ErrorModal from "./postModal/errorModal";
 import { useNavigate, Link } from "react-router-dom";
 
 import * as Types from "./types";
@@ -32,6 +32,11 @@ import { css } from "@emotion/react";
 import EarningsModal from "./postModal/earningsModal"; // Replace with the correct path to EarningsModal
 import { MdArrowUpward } from 'react-icons/md';
 import { Style } from "util";
+interface ErrorModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  errorMessage: string;
+}
 
 const nodes = [
   "https://rpc.ecency.com",
@@ -98,7 +103,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   const [postsToLoadMore] = useState<number>(10); // Number of additional posts to load on "Load More" click
   const { user, isLoggedIn } = useAuthUser();
   const [hasVotedWitness, setHasVotedWitness] = useState<boolean>(false); // Step 4
-
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Track modal visibility
   const fetchPostEarnings = async (
     author: string,
     permlink: string
@@ -329,6 +334,7 @@ const handleVoteClick = async (post: any) => {
   } catch (error) {
     // Handle voting error
     console.error("Error while voting:", error);
+    setIsErrorModalOpen(true); // Open the error modal
   }
 };
 const cardStyleGradient = css`
@@ -342,6 +348,11 @@ return (
       <PlaceholderLoadingBar />
     ) : (
       <>
+        <ErrorModal
+          isOpen={isErrorModalOpen}
+          onClose={() => setIsErrorModalOpen(false)}
+          errorMessage="You already voted with the same voting power or you are not logged in"
+        />
         <Box
           display="grid"
           gridTemplateColumns={`repeat(${gridColumns}, minmax(280px, 1fr))`}

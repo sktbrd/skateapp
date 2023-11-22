@@ -20,7 +20,7 @@ import Store from "./store";
               border="3px #5E317A solid"
               _selected={{ backgroundColor: "#0D0D0D", border:"3px #5E317A solid",textShadow:"red 6px 8px 10px" }} // Change the background color when selected
             >
-              <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text color={"#b4d701"}>PORTAL 666</Text></VStack>
+              <VStack><Image src="" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text color={"#b4d701"}>PORTAL 666</Text></VStack>
               
             </Tab>
             {/* <Tab
@@ -42,14 +42,14 @@ import Store from "./store";
              border="3px #5E317A solid"
              _selected={{ backgroundColor: "#0D0D0D", border:"3px #5E317A solid", textShadow:"red 6px 8px 10px" }} // Change the background color when selected
             >
-              <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text color={"#b4d701"}>UPLOAD</Text></VStack>
+              <VStack><Image src="" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text color={"#b4d701"}>UPLOAD</Text></VStack>
             </Tab>
             <Tab
             fontSize="20px"
             border="3px #5E317A solid"
             _selected={{ backgroundColor: "#0D0D0D", border:"3px #5E317A solid",textShadow:"red 6px 8px 10px" }} // Change the background color when selected
            >
-             <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text color={"#b4d701"}>EQUIPE</Text></VStack>
+             <VStack><Image src="" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text color={"#b4d701"}>EQUIPE</Text></VStack>
             </Tab>
             
             <Tab
@@ -57,7 +57,7 @@ import Store from "./store";
             border="3px #5E317A solid"
             _selected={{ backgroundColor: "#0D0D0D", border:"3px #5E317A solid",textShadow:"red 6px 8px 10px" }} // Change the background color when selected
            >
-             <VStack><Image src="assets/gifs/crows2.gif" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text color={"#b4d701"}>LOJA</Text></VStack>
+             <VStack><Image src="" alt="" width="40%" height="auto" style={{margin: "-4%"}} /><Text color={"#b4d701"}>LOJA</Text></VStack>
             </Tab>
 
           </TabList>

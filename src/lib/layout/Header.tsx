@@ -25,6 +25,7 @@ import {
   Button,
   Select,
   Divider,
+  border,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { keyframes } from "@emotion/react";
@@ -339,7 +340,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           <LinkTab to="/" color="#b4d701" _selected={{ backgroundColor: "#0D0D0D", border:"3px #5E317A solid" }}>Home</LinkTab>
           <LinkTab to="/QFS" color="#b4d701" _selected={{ backgroundColor: "#0D0D0D", border:"3px #5E317A solid" }} >Play</LinkTab>
 
-          {loggedIn && <LinkTab to="/wallet" color="white">Wallet</LinkTab>} {/* Conditionally render Wallet tab */}
+          {loggedIn && <LinkTab to="/wallet" color="#b4d701" _selected={{ backgroundColor: "#0D0D0D", border:"3px #5E317A solid" }}>Wallet</LinkTab>} {/* Conditionally render Wallet tab */}
           {loggedIn ? (
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
               <Avatar 
@@ -354,15 +355,16 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
                 onChange={handleSelectChange}
                 style={{
                   backgroundColor: '',//escolher cor
-                  color: 'white',
-                  border: 'none',  
-                  cursor: 'pointer'
+                  color:"#b4d701",
+                  border: "black" 
+                  
                 }}
+    
               >
                 <option value="" disabled selected>
                   {user?.name}
                 </option>
-                <option value="profile">Profile</option>
+                <option value="profile" >Profile</option>
                 <option value="logout">Log out</option>
               </Select>
             </div>

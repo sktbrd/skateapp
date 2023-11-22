@@ -147,7 +147,7 @@ const Chat: React.FC = () => {
           "permlink": permlink,
           "title": "",
           "body": commentContent,
-          "json_metadata": JSON.stringify({ tags: ["skateboard"], app: "skatehive" })
+          "json_metadata": JSON.stringify({ tags: ["skateboard"], app: "CrowsNight" })
         }
       ]
     ];

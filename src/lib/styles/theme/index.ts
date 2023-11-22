@@ -2,6 +2,8 @@ import { ChakraBaseProvider, extendTheme } from "@chakra-ui/react";
 import '@fontsource-variable/roboto-mono';
 import '@fontsource/press-start-2p';
 import '@fontsource/castoro';
+import '/assets/fonts/Terrorplate.ttf';
+
 
 type GlobalStyleProps = { colorMode: "light" | "dark" };
 
@@ -9,6 +11,7 @@ const themeConfig = {
 
   useSystemColorMode: false,
 };
+
 
 export const theme = extendTheme({
   ...themeConfig,
@@ -48,6 +51,8 @@ export const theme = extendTheme({
       // Style for Firefox scrollbars
       scrollbarWidth: "thin",
       scrollbarColor: "black black",
+      
+  
 
       
     }),

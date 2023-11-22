@@ -125,8 +125,9 @@ const Store: React.FC = () => {
           {cardData.map((card, index) => (
             <Box
               key={index}
-              borderWidth="1px"
+              borderWidth="3px"
               borderRadius="lg"
+              borderColor={"#5E317A"}
               overflow="hidden"
               style={{ filter: 'initial' }}
               bg='black'

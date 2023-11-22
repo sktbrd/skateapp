@@ -1,8 +1,7 @@
-import { ChakraBaseProvider, extendTheme } from "@chakra-ui/react";
+import { extendTheme } from "@chakra-ui/react";
 import '@fontsource-variable/roboto-mono';
 import '@fontsource/press-start-2p';
 import '@fontsource/castoro';
-import '/assets/fonts/Terrorplate.ttf';
 
 
 type GlobalStyleProps = { colorMode: "light" | "dark" };
@@ -16,8 +15,8 @@ const themeConfig = {
 export const theme = extendTheme({
   ...themeConfig,
   fonts: {
-    heading: "Terrorplate", 
-    body: "Terrorplate",
+    heading: "Roboto Mono Variable, sans serif",
+    body: "Roboto Mono Variable, sans serif", 
   },
   
 

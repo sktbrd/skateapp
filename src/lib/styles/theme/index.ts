@@ -1,7 +1,5 @@
 import { extendTheme } from "@chakra-ui/react";
 import '@fontsource-variable/roboto-mono';
-import '@fontsource/press-start-2p';
-import '@fontsource/castoro';
 
 
 type GlobalStyleProps = { colorMode: "light" | "dark" };
@@ -15,8 +13,8 @@ const themeConfig = {
 export const theme = extendTheme({
   ...themeConfig,
   fonts: {
-    heading: "Roboto Mono Variable, sans serif",
-    body: "Roboto Mono Variable, sans serif", 
+  heading: "Terrorplate, sans-serif",
+  body: "Terrorplate, sans-serif", 
   },
   
 
@@ -27,13 +25,18 @@ export const theme = extendTheme({
       body: { 
         background: "black",
         color:  "black" ,
+        'font-family': 'Terrorplate, sans-serif',
+
       },
       p: {
         color: "white",
-      },
+        'font-family': 'Terrorplate, sans-serif',
 
+      },
+      
       heading:{
         fontSize: "75px",
+        'font-family': 'Terrorplate, sans-serif',
       },
 
       // Style for Webkit scrollbars

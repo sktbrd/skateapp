@@ -31,6 +31,13 @@ export default defineConfig(({ command, mode }) => {
         }),
       ],
     },
+    css: {
+      preprocessorOptions: {
+        css: {
+          additionalData: `@import "./src/fonts/fonts.css";`
+        } 
+      }
+    },
     define: {
       'process.env': env
       // 'process.env.OPENAI_API_KEY': JSON.stringify(process.env.OPENAI_API_KEY),

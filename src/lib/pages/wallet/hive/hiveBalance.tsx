@@ -8,6 +8,8 @@ import * as dhive from "@hiveio/dhive";
 // import WalletTransactions from "lib/pages/home/dao/components/hiveGnars/txHistory";
 import PowerUpModal from "./powerUpModal";
 import PowerDownModal from "./powerDownModal";
+import DelegationModal from "./delegationModal";
+
 import FiatBalance from "../fiat/fiat";
 
 const dhiveClient = new dhive.Client([
@@ -43,6 +45,19 @@ export function resetCache() {
   console.log("Cache reset");
 }
 // send to utils.tsx
+
+
+const styles = `
+  @keyframes glow {
+    0% {
+      opacity: 0.8;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+`;
+
 export async function fetchHbdPrice() {
   try {
     if (cache.hbdPrice !== undefined) {
@@ -95,6 +110,7 @@ export default function HiveBalanceDisplay2() {
   const [hiveMemo, setHiveMemo] = useState("");
   const [showPowerUpModal, setShowPowerUpModal] = useState(false);
   const [showPowerDownModal, setShowPowerDownModal] = useState(false);
+  const [showDelegationModal, setShowDelegationModal] = useState(false);
 
 
   const convertVestingSharesToHivePower = async (
@@ -138,6 +154,9 @@ export default function HiveBalanceDisplay2() {
   };
   const handleOpenPowerDownModal = () => {
     setShowPowerDownModal(true);
+  };
+  const handleOpenDelegationModal = () => {
+    setShowDelegationModal(true);
   };
 
   const onStart = async function () {
@@ -242,6 +261,7 @@ export default function HiveBalanceDisplay2() {
                   >
                     🔻 Power Down
                   </Button>
+                  
                 </VStack>
               </Flex>
             ) : (
@@ -354,6 +374,16 @@ export default function HiveBalanceDisplay2() {
               padding="10px" onClick={handleOpenModal}>
               SEND
             </Button>
+            <Button
+        margin="10px"
+        borderRadius="10px"
+        border="1px dashed yellow"
+        justifyContent="center"
+        padding="10px"
+        onClick={handleOpenDelegationModal}
+      >
+        Delegate Hive Power to SkateHive
+      </Button>
           </>
         )}
       </VStack>
@@ -371,6 +401,7 @@ export default function HiveBalanceDisplay2() {
       {/* <WalletTransactions wallet={user?.name || ""} /> */}
       <PowerUpModal isOpen={showPowerUpModal} onClose={() => setShowPowerUpModal(false)} user={user} />
       <PowerDownModal isOpen={showPowerDownModal} onClose={() => setShowPowerDownModal(false)} user={user} />
+      <DelegationModal isOpen={showDelegationModal} onClose={() => setShowDelegationModal(false)} user={user} />
     </Box>
   );
   

@@ -3,6 +3,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
 import SendHiveModal from "./sendHiveModal";
+import SendHBDModal from "./sendHBDmodal";
 import useAuthUser from "lib/pages/home/api/useAuthUser";
 import * as dhive from "@hiveio/dhive";
 // import WalletTransactions from "lib/pages/home/dao/components/hiveGnars/txHistory";
@@ -111,7 +112,7 @@ export default function HiveBalanceDisplay2() {
   const [showPowerUpModal, setShowPowerUpModal] = useState(false);
   const [showPowerDownModal, setShowPowerDownModal] = useState(false);
   const [showDelegationModal, setShowDelegationModal] = useState(false);
-
+  const [sendHBDmodal, setSendHBDmodal] = useState(false);
 
   const convertVestingSharesToHivePower = async (
     vestingShares: string,
@@ -158,6 +159,9 @@ export default function HiveBalanceDisplay2() {
   const handleOpenDelegationModal = () => {
     setShowDelegationModal(true);
   };
+  const handleOpenSendHBDModal = () => {
+    setSendHBDmodal(true);
+  }
 
   const onStart = async function () {
     if (user) {
@@ -296,7 +300,7 @@ export default function HiveBalanceDisplay2() {
                 balanceTooltip="Hive tokens are like digital coins on the Hive blockchain, and they have different uses. You can vote on stuff, get premium features, and help with the network and decision-making by staking them. They also reward content makers, keep users engaged, and you can trade them elsewhere. They basically keep Hive running, adding value and community vibes. 🛹🚀"
               ></BalanceDisplay>
               <BalanceDisplay
-                label="Hive Power"
+                label="Hive Power" 
                 balance={hivePower}
                 labelTooltip="Hive Power signifies influence, voting, and status within Hive blockchain. 🚀🤝"
                 balanceTooltip="Hive Power represents a user's influence and engagement within the Hive blockchain. It's like your reputation and impact score on the platform. When you ´power up Hive tokens by converting liquid Hive into Hive Power, you increase your ability to vote on content and participate in network governance. This boosts your say in decision-making and supports the Hive ecosystem's stability and decentralization. It's like investing in your standing and community involvement on Hive. 🚀🤝s"
@@ -372,24 +376,42 @@ export default function HiveBalanceDisplay2() {
               border="1px dashed yellow"
               justifyContent="center"
               padding="10px" onClick={handleOpenModal}>
-              SEND
+              SEND HIVE
             </Button>
             <Button
-        margin="10px"
-        borderRadius="10px"
-        border="1px dashed yellow"
-        justifyContent="center"
-        padding="10px"
-        onClick={handleOpenDelegationModal}
-      >
-        Delegate Hive Power to SkateHive
-      </Button>
+              margin="10px"
+              borderRadius="10px"
+              border="1px dashed yellow"
+              justifyContent="center"
+              padding="10px" onClick={handleOpenSendHBDModal}>
+              SEND HBD
+            </Button>
+            <Button
+              margin="10px"
+              borderRadius="10px"
+              border="1px dashed yellow"
+              justifyContent="center"
+              padding="10px"
+              onClick={handleOpenDelegationModal}
+            >
+             👑 Delegate Hive Power to SkateHive 👑
+            </Button>
           </>
         )}
       </VStack>
       <SendHiveModal
         showModal={showModal}
         setShowModal={setShowModal}
+        toAddress={toAddress}
+        setToAddress={setToAddress}
+        amount={amount}
+        setAmount={setAmount}
+        hiveMemo={hiveMemo} // Make sure to pass hiveMemo here
+        setHiveMemo={setHiveMemo}
+      />
+            <SendHBDModal
+        showModal={sendHBDmodal}
+        setShowModal={setSendHBDmodal}  
         toAddress={toAddress}
         setToAddress={setToAddress}
         amount={amount}

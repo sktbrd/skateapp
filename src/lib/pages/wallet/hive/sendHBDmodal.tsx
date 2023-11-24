@@ -15,6 +15,7 @@ import {
 
 // Import the KeychainSDK
 import { KeychainSDK } from "keychain-sdk";
+import sendHBD from "lib/pages/utils/hiveFunctions/sendHBD";
 
 interface SendHiveModalProps {
   showModal: boolean;
@@ -26,11 +27,10 @@ interface SendHiveModalProps {
   hiveMemo: string;
   setHiveMemo: React.Dispatch<React.SetStateAction<string>>;
 }
-const HIVE_LOGO_URL = "https://cryptologos.cc/logos/hive-blockchain-hive-logo.png";
 
-import sendHive from "lib/pages/utils/hiveFunctions/sendHive";
+const HBD_LOGO_URL = "https://i.ibb.co/C6TPhs3/HBD.png";
 
-const SendHiveModal: React.FC<SendHiveModalProps> = ({
+const SendHBDModal: React.FC<SendHiveModalProps> = ({
   showModal,
   setShowModal,
   toAddress,
@@ -41,20 +41,23 @@ const SendHiveModal: React.FC<SendHiveModalProps> = ({
   setHiveMemo,
 }) => {
 
-  const handleSendHive = async () => {
+  const handleTransfer = async () => {
     // Call sendHive with the required arguments
-    await sendHive(amount, toAddress, hiveMemo);
+    await sendHBD(amount, toAddress, hiveMemo);
   };
+
   return (
     <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="md">
       <ModalOverlay opacity={0.2}/>
       <ModalContent backgroundColor="black" border="1px dashed limegreen">
-      <Box marginTop={"20px"} display="flex" justifyContent="center">
-          <Image boxSize={"128px"} src={HIVE_LOGO_URL}></Image>
+        <Box marginTop={"20px"} display="flex" justifyContent="center">
+          <Image boxSize={"128px"} src={HBD_LOGO_URL}></Image>
         </Box>
         <center>
-        <ModalHeader>SEND Hive</ModalHeader>
-        </center>        <ModalCloseButton />
+        <ModalHeader>SEND HBD</ModalHeader>
+        </center>
+
+        <ModalCloseButton />
         <ModalBody>
           <Box border="1px solid orange" padding="10px">
             <Input
@@ -75,10 +78,10 @@ const SendHiveModal: React.FC<SendHiveModalProps> = ({
           </Box>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={handleSendHive}>
+          <Button colorScheme="green" mr={3} onClick={handleTransfer}>
             Send
           </Button>
-          <Button variant="ghost" onClick={() => setShowModal(false)}>
+          <Button variant="solid" backgroundColor={"red"} color="black" onClick={() => setShowModal(false)}>
             Close
           </Button>
         </ModalFooter>
@@ -87,4 +90,4 @@ const SendHiveModal: React.FC<SendHiveModalProps> = ({
   );
 };
 
-export default SendHiveModal;
+export default SendHBDModal;

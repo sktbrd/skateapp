@@ -86,11 +86,11 @@ dependencies:
   '@pioneer-platform/pioneer-react':
     specifier: 0.2.39
     version: >-
-      0.2.39(@babel/core@7.23.3)(@babel/runtime@7.23.2)(@chakra-ui/system@2.6.2)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/properties@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/strings@5.7.0)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@pioneer-platform/helpers@3.0.1)(@pioneer-platform/swapkit-entities@3.0.1)(@scure/base@1.1.3)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/bchaddrjs@0.4.0)(@types/node@20.9.0)(@types/react@18.2.37)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(axios@1.6.1)(base64-js@1.5.1)(bchaddrjs@0.5.2)(bignumber.js@9.1.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(esbuild@0.19.5)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(js-yaml@4.1.0)(long@4.0.0)(webpack@5.89.0)
+      0.2.39(@babel/core@7.23.3)(@babel/runtime@7.23.2)(@chakra-ui/system@2.6.2)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/properties@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/strings@5.7.0)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@pioneer-platform/helpers@3.0.1)(@pioneer-platform/swapkit-entities@3.0.1)(@scure/base@1.1.3)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/bchaddrjs@0.4.0)(@types/node@20.9.0)(@types/react@18.2.37)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(axios@1.6.2)(base64-js@1.5.1)(bchaddrjs@0.5.2)(bignumber.js@9.1.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(esbuild@0.19.5)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(js-yaml@4.1.0)(long@4.0.0)(webpack@5.89.0)
   '@pioneer-sdk/pioneer-react':
     specifier: 0.0.25
     version: >-
-      0.0.25(@babel/core@7.23.3)(@babel/runtime@7.23.2)(@chakra-ui/system@2.6.2)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@scure/base@1.1.3)(@scure/bip39@1.2.1)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/node@20.9.0)(@types/react@18.2.37)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(bchaddrjs@0.5.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(esbuild@0.19.5)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(ethers@5.7.2)(rollup@4.3.0)(webpack@5.89.0)
+      0.0.25(@babel/core@7.23.3)(@babel/runtime@7.23.2)(@chakra-ui/system@2.6.2)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@scure/base@1.1.3)(@scure/bip39@1.2.1)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/node@20.9.0)(@types/react@18.2.37)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(bchaddrjs@0.5.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(esbuild@0.19.5)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(ethers@5.7.2)(rollup@4.5.1)(webpack@5.89.0)
   '@react-google-maps/api':
     specifier: ^2.19.2
     version: 2.19.2(react-dom@18.2.0)(react@18.2.0)
@@ -100,15 +100,12 @@ dependencies:
   '@snapshot-labs/snapshot.js':
     specifier: ^0.5.8
     version: 0.5.8
-  '@types/react-dropzone':
-    specifier: ^5.1.0
-    version: 5.1.0(react@18.2.0)
   '@vercel/analytics':
     specifier: ^1.1.1
     version: 1.1.1
   axios:
-    specifier: ^1.5.0
-    version: 1.6.1
+    specifier: ^1.6.2
+    version: 1.6.2
   cors:
     specifier: ^2.8.5
     version: 2.8.5
@@ -189,7 +186,7 @@ dependencies:
     version: 3.0.1
   rollup-plugin-node-resolve:
     specifier: ^5.2.0
-    version: 5.2.0(rollup@4.3.0)
+    version: 5.2.0(rollup@4.5.1)
   typed.js:
     specifier: ^2.0.16
     version: 2.1.0
@@ -209,10 +206,7 @@ devDependencies:
     version: 2.6.2(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(react@18.2.0)
   '@rollup/plugin-inject':
     specifier: ^5.0.3
-    version: 5.0.5(rollup@4.3.0)
-  '@types/axios':
-    specifier: ^0.14.0
-    version: 0.14.0
+    version: 5.0.5(rollup@4.5.1)
   '@types/cors':
     specifier: ^2.8.13
     version: 2.8.16
@@ -485,6 +479,13 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.14.0
+
+  /@babel/runtime@7.23.4:
+    resolution: {integrity: sha512-2Yv65nlWnWlSpe3fXEyX5i7fx5kIKo4Qbcj+hMO0odwaneFjfXw5fdum+4yL20O0QiaHpia0cYQ9xpNMqrBwHg==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.14.0
+    dev: false
 
   /@babel/template@7.22.15:
     resolution: {integrity: sha512-QPErUVm4uyJa60rkI73qneDacvdvzxshT3kksGqlGWYdOTIUOwJ7RDUL8sGqslY1uXWSL6xMFKEXDS3ox2uF0w==}
@@ -1746,68 +1747,62 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@coinmasters/api@2.1.0:
-    resolution: {integrity: sha512-ZmVg1CUXEghqNj7x54BKFOlnag92QKf3vg4yqGSgJW7UIEK3K+d0uCqHR0iF1kEBgeKV707I19f8vquhjvaaEA==}
+  /@coinmasters/api@3.0.1:
+    resolution: {integrity: sha512-B9c6BkUPaFPeoNCwRXTFZSbBQN0gmgqewmvI6gwcDQFFvtAnxOaeHpKTTctzvSCm/mRQw2IRzLvmrRszGyT+NQ==}
     dependencies:
-      '@coinmasters/types': 2.1.0
+      '@coinmasters/types': 4.0.0
     dev: false
 
-  /@coinmasters/api@3.0.0:
-    resolution: {integrity: sha512-wNbP+bDwOwnQbyX7EubFhmylVZmWG7HhXCYrAywuolVTFX2VzvCGRMaXTgur14/MWaRkepKxbMPRzEC2kpryZg==}
-    dependencies:
-      '@coinmasters/types': 3.0.0
-    dev: false
-
-  /@coinmasters/core@3.0.0(@coinmasters/api@3.0.0)(@coinmasters/tokens@3.0.0)(@coinmasters/toolbox-cosmos@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@coinmasters/toolbox-utxo@3.0.0):
-    resolution: {integrity: sha512-Ik5AcqmUE9wsDLa5DWuI9lVbmO6pYKMoojbUHy7XuEK9Yn4B3g0jBaH06J3u7+pYxtyYABGeVJQ9MEaz27kLmQ==}
+  /@coinmasters/core@4.0.0(@coinmasters/api@3.0.1)(@coinmasters/tokens@3.0.0)(@coinmasters/toolbox-cosmos@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@coinmasters/toolbox-utxo@4.0.0):
+    resolution: {integrity: sha512-PEZE68wLXvJKFDPvQ/D6sPvQk+xKb3x2sjIAtC+tK00P0kFI2rFCkXUpXzUm1R59q9wjhPNPZRq+Iv47kKiNig==}
     peerDependencies:
-      '@coinmasters/api': 2.1.0
-      '@coinmasters/tokens': 2.1.0
-      '@coinmasters/toolbox-cosmos': 3.0.0
-      '@coinmasters/toolbox-evm': 3.0.0
-      '@coinmasters/toolbox-utxo': 3.0.0
-    dependencies:
-      '@coinmasters/api': 3.0.0
-      '@coinmasters/helpers': 3.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@2.1.0)
+      '@coinmasters/api': 3.0.1
       '@coinmasters/tokens': 3.0.0
-      '@coinmasters/toolbox-cosmos': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-evm': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-utxo': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/types': 2.1.0
+      '@coinmasters/toolbox-cosmos': 4.0.0
+      '@coinmasters/toolbox-evm': 4.0.0
+      '@coinmasters/toolbox-utxo': 4.0.0
+    dependencies:
+      '@coinmasters/api': 3.0.1
+      '@coinmasters/helpers': 4.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@4.0.0)
+      '@coinmasters/tokens': 3.0.0
+      '@coinmasters/toolbox-cosmos': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-evm': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-utxo': 4.0.0(@coinmasters/helpers@4.0.0)(@types/node@20.9.0)
+      '@coinmasters/types': 4.0.0
     dev: false
 
-  /@coinmasters/helpers@3.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@2.1.0):
-    resolution: {integrity: sha512-RCNI7LrthDurKEUU2bgTlSnB6rORO4NtCjgEEPxtgQOGYQ1GMlwYXP//VnP4KliBZHLEO3Pc561Sgpt+8fc8fg==}
+  /@coinmasters/helpers@4.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@1.0.0):
+    resolution: {integrity: sha512-c/EYqz3xSkttfNgT4A8NMAZ+BP/jsmOG2jxpZucY+toybKGDVh+B+R9mLBS8rxXcwJjYfGzewPgr78o/NWTPNQ==}
     peerDependencies:
-      '@coinmasters/tokens': 2.1.0
-      '@coinmasters/types': 2.1.0
+      '@coinmasters/tokens': 3.0.0
+      '@coinmasters/types': 4.0.0
     dependencies:
       '@coinmasters/tokens': 3.0.0
-      '@coinmasters/types': 2.1.0
+      '@coinmasters/types': 1.0.0
     dev: false
 
-  /@coinmasters/helpers@3.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@3.0.0):
-    resolution: {integrity: sha512-RCNI7LrthDurKEUU2bgTlSnB6rORO4NtCjgEEPxtgQOGYQ1GMlwYXP//VnP4KliBZHLEO3Pc561Sgpt+8fc8fg==}
+  /@coinmasters/helpers@4.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@4.0.0):
+    resolution: {integrity: sha512-c/EYqz3xSkttfNgT4A8NMAZ+BP/jsmOG2jxpZucY+toybKGDVh+B+R9mLBS8rxXcwJjYfGzewPgr78o/NWTPNQ==}
     peerDependencies:
-      '@coinmasters/tokens': 2.1.0
-      '@coinmasters/types': 2.1.0
+      '@coinmasters/tokens': 3.0.0
+      '@coinmasters/types': 4.0.0
     dependencies:
       '@coinmasters/tokens': 3.0.0
-      '@coinmasters/types': 3.0.0
+      '@coinmasters/types': 4.0.0
     dev: false
 
   /@coinmasters/tokens@3.0.0:
     resolution: {integrity: sha512-Y0SpO47yVmASnmcvANmo1Sy0P2S01Ofs9CJTXbVIIyWQz54Wj0vNbo6RCDzNkKXlcEYMDm5kJ0Neh9B2u+rXNg==}
     dev: false
 
-  /@coinmasters/toolbox-cosmos@3.0.0(@coinmasters/helpers@3.0.0):
-    resolution: {integrity: sha512-O486htrXpZ3KmQsJMWik6sWGGz5uDSRXTDAVm0PiH89jCH1yKaWQvC7rJhwbciftzLllu/R3MakLcu7hSB5A5A==}
+  /@coinmasters/toolbox-cosmos@4.0.0(@coinmasters/helpers@4.0.0):
+    resolution: {integrity: sha512-4AYQOagu17M8RSMGhnmYVPpK3kxK4k/l6dujyC7S/zXu6K3Ei0RRTWQRDYvTFGWZ2EoiSBZyNZAVSwqe7uQMYA==}
     peerDependencies:
-      '@coinmasters/helpers': 3.0.0
+      '@coinmasters/helpers': 4.0.0
     dependencies:
-      '@coinmasters/api': 2.1.0
-      '@coinmasters/helpers': 3.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@3.0.0)
-      '@coinmasters/types': 2.1.0
+      '@coinmasters/api': 3.0.1
+      '@coinmasters/helpers': 4.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@1.0.0)
+      '@coinmasters/types': 4.0.0
       '@cosmjs/amino': 0.31.1
       '@cosmjs/crypto': 0.31.1
       '@cosmjs/encoding': 0.31.1
@@ -1829,26 +1824,27 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@coinmasters/toolbox-evm@3.0.0(@coinmasters/helpers@3.0.0):
-    resolution: {integrity: sha512-pyDvlRgH/FlniEuN97QjFRT/lDBSx5ZkOk9CC1cj5ZJ+HBub5HhtzLrCL86AVog9+MP8jVZqwMqTvTilSrz6QA==}
+  /@coinmasters/toolbox-evm@4.0.0(@coinmasters/helpers@4.0.0):
+    resolution: {integrity: sha512-Sl03is4oL3rb1UdKRWD72P5UmQOSZCN3UghJlUWbfkVPqKCD0aS2zuShJi/NIuNt3Q/eZNQJHEPk45A28pWU9Q==}
     peerDependencies:
-      '@coinmasters/helpers': 3.0.0
+      '@coinmasters/helpers': 4.0.0
     dependencies:
-      '@coinmasters/helpers': 3.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@3.0.0)
-      '@coinmasters/types': 2.1.0
+      '@coinmasters/helpers': 4.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@1.0.0)
+      '@coinmasters/types': 4.0.0
       ethers: 6.7.1
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
     dev: false
 
-  /@coinmasters/toolbox-utxo@3.0.0(@coinmasters/helpers@3.0.0):
-    resolution: {integrity: sha512-rm2zvXiGrGywcg6Jfj8mrUCJxK/ziv21+CKrtySI+NesnDFrGIAhCkrDcmPm2hFWc+O2S7QBRiDQgmlGeBP4Jg==}
+  /@coinmasters/toolbox-utxo@4.0.0(@coinmasters/helpers@4.0.0)(@types/node@20.9.0):
+    resolution: {integrity: sha512-tRIldr2N1myiZFMp2I9/nkP/fhnruGyvzYpaaVz2cgKc2FEBtqxozOmP3Tw67sjWLQgieWp4XFUP3DTNYeut8w==}
     peerDependencies:
-      '@coinmasters/helpers': 3.0.0
+      '@coinmasters/helpers': 4.0.0
     dependencies:
-      '@coinmasters/helpers': 3.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@3.0.0)
-      '@coinmasters/types': 2.1.0
+      '@coinmasters/helpers': 4.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@1.0.0)
+      '@coinmasters/types': 4.0.0
+      '@pioneer-platform/pioneer-coins': 8.1.90(@types/node@20.9.0)
       '@psf/bitcoincashjs-lib': 4.0.3
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
@@ -1857,50 +1853,50 @@ packages:
       coininfo: 5.2.1
       ecpair: 2.0.1
       tiny-secp256k1: 1.1.6
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
     dev: false
 
   /@coinmasters/types@1.0.0:
     resolution: {integrity: sha512-Wb0t86IWsz6cIEZ7xEUaIpE4H21RrhNEQbU1jBCXGObRBNW8DeFhtpMCWRPrgk8JCK+UZq+UqpXpEswptI9PsA==}
     dev: false
 
-  /@coinmasters/types@2.1.0:
-    resolution: {integrity: sha512-RK3O+eQfQ4ivQ/DBEiwhREe8fabpch5gOs5m3Y9GGn2vR+b/cLFJryYA+AwEcbAT0WUavX+kv0yFIiqjGT9LvA==}
+  /@coinmasters/types@4.0.0:
+    resolution: {integrity: sha512-lalnZ+ZMB9d8mbodWQhIgLhDHSy/ieagqxE7aiTio7GBlEsIQN+7MFbKgF6o6+LLnJpmhpU7yCgDA/X+uB/6CQ==}
     dev: false
 
-  /@coinmasters/types@3.0.0:
-    resolution: {integrity: sha512-yJDz8OY8UnKJmS1CsksdqP9ImuV3KkUZ48YAVbAvx6Ei9Qx0JrrHqi7mWabY5Hq996FDtCwZpGvBhTFl8QmS6g==}
-    dev: false
-
-  /@coinmasters/wallet-evm-extensions@3.0.0(@coinmasters/toolbox-evm@3.0.0)(ethers@5.7.2):
-    resolution: {integrity: sha512-LOrqQPjmg57cE7MZv1u9l9bSa8Sx/NU3WrawHk1j35Y0B+9iKD6FhHeX8bYdnN8lo1j4wXZUlEQ8zm8XpTF0dw==}
+  /@coinmasters/wallet-evm-extensions@4.0.0(@coinmasters/toolbox-evm@4.0.0)(ethers@5.7.2):
+    resolution: {integrity: sha512-kqcOd/vo2d4LMnf7TRB8UzuLotDfGK3a6N5CwecCOf4rg2UJCvz4Z9VWdDgg2bNs5i5q/cCFtlJDOn7u5ZRRzQ==}
     peerDependencies:
-      '@coinmasters/toolbox-evm': 3.0.0
+      '@coinmasters/toolbox-evm': 4.0.0
       ethers: ^6.7.1
     dependencies:
-      '@coinmasters/toolbox-evm': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/types': 2.1.0
+      '@coinmasters/toolbox-evm': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/types': 4.0.0
       ethers: 5.7.2
     dev: false
 
-  /@coinmasters/wallet-keepkey@5.0.0(@coinmasters/helpers@3.0.0)(@coinmasters/toolbox-cosmos@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@coinmasters/toolbox-utxo@3.0.0)(@coinmasters/types@3.0.0)(@cosmjs/stargate@0.31.1)(@types/node@20.9.0)(bitcoinjs-lib@5.2.0):
-    resolution: {integrity: sha512-o7+dWBim7A8T6Be/RaIUDuaaslE2vEVYoh9Zuk7Q90m03Oml1EXsgtSNBI3FYn1fvz3sgyfFmx2mXZgaUsjjpg==}
+  /@coinmasters/wallet-keepkey@6.0.0(@coinmasters/helpers@4.0.0)(@coinmasters/toolbox-cosmos@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@coinmasters/toolbox-utxo@4.0.0)(@coinmasters/types@1.0.0)(@cosmjs/stargate@0.31.1)(@types/node@20.9.0)(bitcoinjs-lib@5.2.0):
+    resolution: {integrity: sha512-tc+odPYeOtNAIHD5iZXbO187z/7Vuc2Jg49DWeaiLmx/PCkQ+e4Nr1zyZ/oZ3lMly+j2Z/4HGAvhgIUxSsI80A==}
     peerDependencies:
-      '@coinmasters/helpers': 3.0.0
-      '@coinmasters/toolbox-cosmos': 3.0.0
-      '@coinmasters/toolbox-evm': 3.0.0
-      '@coinmasters/toolbox-utxo': 3.0.0
-      '@coinmasters/types': 2.1.0
+      '@coinmasters/helpers': 4.0.0
+      '@coinmasters/toolbox-cosmos': 4.0.0
+      '@coinmasters/toolbox-evm': 4.0.0
+      '@coinmasters/toolbox-utxo': 4.0.0
+      '@coinmasters/types': 4.0.0
       '@cosmjs/stargate': 0.31.1
       bitcoinjs-lib: 5.2.0
     dependencies:
-      '@coinmasters/helpers': 3.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@3.0.0)
-      '@coinmasters/toolbox-cosmos': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-evm': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-utxo': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/types': 3.0.0
+      '@coinmasters/helpers': 4.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@1.0.0)
+      '@coinmasters/toolbox-cosmos': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-evm': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-utxo': 4.0.0(@coinmasters/helpers@4.0.0)(@types/node@20.9.0)
+      '@coinmasters/types': 1.0.0
       '@cosmjs/stargate': 0.31.1
       '@keepkey/keepkey-sdk': 0.2.52
-      '@pioneer-platform/pioneer-coins': 8.1.86(@types/node@20.9.0)
+      '@pioneer-platform/pioneer-coins': 8.1.90(@types/node@20.9.0)
       bitcoinjs-lib: 5.2.0
       ethers: 6.8.1
     transitivePeerDependencies:
@@ -1911,34 +1907,34 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@coinmasters/wallet-keplr@3.0.0(@coinmasters/helpers@3.0.0)(@coinmasters/toolbox-cosmos@3.0.0):
-    resolution: {integrity: sha512-YN0PSy+5RsrF7X0TFCHhBVwt/dV2SezUz+oFULDvq3y3EcEcgQIRq4+vhNxpsJvyCPbAYZAzfEsK+8Dz1GNfjQ==}
+  /@coinmasters/wallet-keplr@4.0.0(@coinmasters/helpers@4.0.0)(@coinmasters/toolbox-cosmos@4.0.0):
+    resolution: {integrity: sha512-/i8aK7FmnpOEMRfoHsXySdlFrkGtoxnjsniwnIKR07VK4iIatmBC41g2L84CEAG0ulNLSF8BZHrfi2nPtKhgaQ==}
     peerDependencies:
-      '@coinmasters/helpers': 3.0.0
-      '@coinmasters/toolbox-cosmos': 3.0.0
+      '@coinmasters/helpers': 4.0.0
+      '@coinmasters/toolbox-cosmos': 4.0.0
     dependencies:
-      '@coinmasters/helpers': 3.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@3.0.0)
-      '@coinmasters/toolbox-cosmos': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/types': 2.1.0
+      '@coinmasters/helpers': 4.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@1.0.0)
+      '@coinmasters/toolbox-cosmos': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/types': 4.0.0
     dev: false
 
-  /@coinmasters/wallet-keystore@3.0.0(@coinmasters/helpers@3.0.0)(@coinmasters/toolbox-cosmos@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@coinmasters/toolbox-utxo@3.0.0)(@scure/bip39@1.2.1)(bitcoinjs-lib@5.2.0)(ethers@5.7.2)(rollup@4.3.0):
-    resolution: {integrity: sha512-PlfVAjwMmur4Fmluj0je4aBuBgppeQqJO91Kp3AXYJ4p9NM23mg7CTK6CWySASKyJXYoy9GxzHKeugV19ksXew==}
+  /@coinmasters/wallet-keystore@4.0.0(@coinmasters/helpers@4.0.0)(@coinmasters/toolbox-cosmos@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@coinmasters/toolbox-utxo@4.0.0)(@scure/bip39@1.2.1)(bitcoinjs-lib@5.2.0)(ethers@5.7.2)(rollup@4.5.1):
+    resolution: {integrity: sha512-7cVAAe0HM1GF59caMiWhfCMs7LJsSynz4zsjifIIGHjNujik2p1B6NZSWKdwx1GaPdYJonZkSjX3jQACnArZfQ==}
     peerDependencies:
-      '@coinmasters/helpers': 3.0.0
-      '@coinmasters/toolbox-cosmos': 3.0.0
-      '@coinmasters/toolbox-evm': 3.0.0
-      '@coinmasters/toolbox-utxo': 3.0.0
+      '@coinmasters/helpers': 4.0.0
+      '@coinmasters/toolbox-cosmos': 4.0.0
+      '@coinmasters/toolbox-evm': 4.0.0
+      '@coinmasters/toolbox-utxo': 4.0.0
       '@scure/bip39': 1.2.1
       bitcoinjs-lib: ^5.2.0
       ethers: ^6.7.1
     dependencies:
-      '@coinmasters/helpers': 3.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@3.0.0)
-      '@coinmasters/toolbox-cosmos': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-evm': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-utxo': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/types': 2.1.0
-      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.3.0)
+      '@coinmasters/helpers': 4.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@1.0.0)
+      '@coinmasters/toolbox-cosmos': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-evm': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-utxo': 4.0.0(@coinmasters/helpers@4.0.0)(@types/node@20.9.0)
+      '@coinmasters/types': 4.0.0
+      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.5.1)
       '@scure/bip39': 1.2.1
       bitcoinjs-lib: 5.2.0
       blakejs: 1.2.1
@@ -1948,13 +1944,13 @@ packages:
       - rollup
     dev: false
 
-  /@coinmasters/wallet-ledger@3.0.0(@coinmasters/helpers@3.0.0)(@coinmasters/toolbox-cosmos@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@coinmasters/toolbox-utxo@3.0.0)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@scure/base@1.1.3)(bchaddrjs@0.5.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(ethers@5.7.2)(rollup@4.3.0):
-    resolution: {integrity: sha512-ds6HGNoW9aLVzRfGjLdDI4lnSPd+vcqTV6D5rT8wP8m08iCg/hK1vdQfPB5vLXlHVA1aTj27ghX6hKR+x+wCLQ==}
+  /@coinmasters/wallet-ledger@4.0.0(@coinmasters/helpers@4.0.0)(@coinmasters/toolbox-cosmos@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@coinmasters/toolbox-utxo@4.0.0)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@scure/base@1.1.3)(bchaddrjs@0.5.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(ethers@5.7.2)(rollup@4.5.1):
+    resolution: {integrity: sha512-biKCtIvnJmmRShJwCrrAtNlrciXQFJgbve9qerTPcR+MT7wP5WkYS7NB1ecqsU3Qj5QlmVIGmR/ulb4Aj8AyPQ==}
     peerDependencies:
-      '@coinmasters/helpers': 3.0.0
-      '@coinmasters/toolbox-cosmos': 3.0.0
-      '@coinmasters/toolbox-evm': 3.0.0
-      '@coinmasters/toolbox-utxo': 3.0.0
+      '@coinmasters/helpers': 4.0.0
+      '@coinmasters/toolbox-cosmos': 4.0.0
+      '@coinmasters/toolbox-evm': 4.0.0
+      '@coinmasters/toolbox-utxo': 4.0.0
       '@cosmjs/amino': 0.31.1
       '@cosmjs/encoding': 0.31.1
       '@cosmjs/math': 0.31.1
@@ -1970,11 +1966,11 @@ packages:
       elliptic: 6.5.4
       ethers: ^6.7.1
     dependencies:
-      '@coinmasters/helpers': 3.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@3.0.0)
-      '@coinmasters/toolbox-cosmos': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-evm': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-utxo': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/types': 2.1.0
+      '@coinmasters/helpers': 4.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@1.0.0)
+      '@coinmasters/toolbox-cosmos': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-evm': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-utxo': 4.0.0(@coinmasters/helpers@4.0.0)(@types/node@20.9.0)
+      '@coinmasters/types': 4.0.0
       '@cosmjs/amino': 0.31.1
       '@cosmjs/encoding': 0.31.1
       '@cosmjs/math': 0.31.1
@@ -1987,7 +1983,7 @@ packages:
       '@ledgerhq/hw-app-eth': 6.34.5
       '@ledgerhq/hw-transport': 6.28.8
       '@ledgerhq/hw-transport-webusb': 6.27.19
-      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.3.0)
+      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.5.1)
       '@scure/base': 1.1.3
       bchaddrjs: 0.5.2
       bitcoinjs-lib: 5.2.0
@@ -2005,27 +2001,27 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@coinmasters/wallet-metamask@2.0.0(@babel/core@7.23.3)(@coinmasters/toolbox-cosmos@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@coinmasters/toolbox-utxo@3.0.0)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/node@20.9.0)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(bitcoinjs-lib@5.2.0)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(webpack@5.89.0):
-    resolution: {integrity: sha512-JaF6ifTJ9XBGTUkVtfYPT7WR5+F0jd212g2mFLFJXpV/9UJ+MS16AhicNE6wOKs5F2gcN6vFMtBqsI4WxgkkqQ==}
+  /@coinmasters/wallet-metamask@3.0.0(@babel/core@7.23.3)(@coinmasters/toolbox-cosmos@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@coinmasters/toolbox-utxo@4.0.0)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/node@20.9.0)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(bitcoinjs-lib@5.2.0)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(webpack@5.89.0):
+    resolution: {integrity: sha512-nLnjjuGt8u1Sl5dzWSnkplxaSXxqxRhNwXx2Doz7UlNRFND9a0fOSq3I+EOEEfU/+8RYdk0WNUena3tJHv5fkA==}
     peerDependencies:
-      '@coinmasters/toolbox-cosmos': 3.0.0
-      '@coinmasters/toolbox-evm': 3.0.0
-      '@coinmasters/toolbox-utxo': 3.0.0
+      '@coinmasters/toolbox-cosmos': 4.0.0
+      '@coinmasters/toolbox-evm': 4.0.0
+      '@coinmasters/toolbox-utxo': 4.0.0
       '@ethersproject/abstract-signer': 5.7.0
       '@ethersproject/bignumber': 5.7.0
       '@ethersproject/providers': ^5.7.0
       '@ethersproject/transactions': 5.7.0
       bitcoinjs-lib: 5.2.0
     dependencies:
-      '@coinmasters/toolbox-cosmos': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-evm': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-utxo': 3.0.0(@coinmasters/helpers@3.0.0)
+      '@coinmasters/toolbox-cosmos': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-evm': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-utxo': 4.0.0(@coinmasters/helpers@4.0.0)(@types/node@20.9.0)
       '@cosmjs/stargate': 0.31.1
       '@ethersproject/abstract-signer': 5.7.0
       '@ethersproject/bignumber': 5.7.0
       '@ethersproject/providers': 5.7.2
       '@ethersproject/transactions': 5.7.0
-      '@pioneer-platform/pioneer-coins': 8.1.86(@types/node@20.9.0)
+      '@pioneer-platform/pioneer-coins': 8.1.90(@types/node@20.9.0)
       '@shapeshiftoss/hdwallet-core': 1.52.12
       '@shapeshiftoss/hdwallet-shapeshift-multichain': 1.50.5-alpha.72(@babel/core@7.23.3)(@ethersproject/abi@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/providers@5.7.2)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(webpack@5.89.0)
       '@shapeshiftoss/metamask-snaps-adapter': 1.0.8(@babel/core@7.23.3)(@ethersproject/abi@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/types@8.6.0)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(webpack@5.89.0)
@@ -2061,39 +2057,39 @@ packages:
       - webpack
     dev: false
 
-  /@coinmasters/wallet-okx@3.0.0(@coinmasters/helpers@3.0.0)(@coinmasters/toolbox-cosmos@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@coinmasters/toolbox-utxo@3.0.0)(bitcoinjs-lib@5.2.0)(ethers@5.7.2):
-    resolution: {integrity: sha512-rl0NRULG7JQV+Guudvlku3cFjKa7HK9hXABDHZ1Qf8XKWMFYfqjNwdd7wAU5DDrBECBv8MpbsF/cfbOhj9j0SQ==}
+  /@coinmasters/wallet-okx@4.0.0(@coinmasters/helpers@4.0.0)(@coinmasters/toolbox-cosmos@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@coinmasters/toolbox-utxo@4.0.0)(bitcoinjs-lib@5.2.0)(ethers@5.7.2):
+    resolution: {integrity: sha512-xc6xHcVaBKVZPUlh7pWj3/EPVpgOdkP2pKgqsvZDOeLOBH9to2repVSYUaiwvhxB9lPmqC78PS/pNAfPp5wpKw==}
     peerDependencies:
-      '@coinmasters/helpers': 3.0.0
-      '@coinmasters/toolbox-cosmos': 3.0.0
-      '@coinmasters/toolbox-evm': 3.0.0
-      '@coinmasters/toolbox-utxo': 3.0.0
+      '@coinmasters/helpers': 4.0.0
+      '@coinmasters/toolbox-cosmos': 4.0.0
+      '@coinmasters/toolbox-evm': 4.0.0
+      '@coinmasters/toolbox-utxo': 4.0.0
       bitcoinjs-lib: 5.2.0
       ethers: ^6.7.1
     dependencies:
-      '@coinmasters/helpers': 3.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@3.0.0)
-      '@coinmasters/toolbox-cosmos': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-evm': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-utxo': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/types': 2.1.0
+      '@coinmasters/helpers': 4.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@1.0.0)
+      '@coinmasters/toolbox-cosmos': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-evm': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-utxo': 4.0.0(@coinmasters/helpers@4.0.0)(@types/node@20.9.0)
+      '@coinmasters/types': 4.0.0
       bitcoinjs-lib: 5.2.0
       ethers: 5.7.2
     dev: false
 
-  /@coinmasters/wallet-trezor@3.0.0(@coinmasters/helpers@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@coinmasters/toolbox-utxo@3.0.0)(@types/node@20.9.0)(bitcoinjs-lib@5.2.0)(ethers@5.7.2):
-    resolution: {integrity: sha512-wCGXGb6Lsw85Gy5ntla4TXE7fU5ihwSCYYyi7RpdAOBfIwW8mbqFV2HFDMM84qEC4ZWxORBL3JGCJuyq7I6n0A==}
+  /@coinmasters/wallet-trezor@4.0.0(@coinmasters/helpers@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@coinmasters/toolbox-utxo@4.0.0)(@types/node@20.9.0)(bitcoinjs-lib@5.2.0)(ethers@5.7.2):
+    resolution: {integrity: sha512-e37oEGyUjbVrUns720SVimMp1EwCNsMVmWbHIBSodAOSPUeockV8xagyxttgKg3t2KMglTsPSH6CS9/dM84tFA==}
     peerDependencies:
-      '@coinmasters/helpers': 3.0.0
-      '@coinmasters/toolbox-evm': 3.0.0
-      '@coinmasters/toolbox-utxo': 3.0.0
+      '@coinmasters/helpers': 4.0.0
+      '@coinmasters/toolbox-evm': 4.0.0
+      '@coinmasters/toolbox-utxo': 4.0.0
       bitcoinjs-lib: 5.2.0
       ethers: ^6.7.1
     dependencies:
-      '@coinmasters/helpers': 3.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@3.0.0)
-      '@coinmasters/toolbox-evm': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-utxo': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/types': 2.1.0
-      '@pioneer-platform/pioneer-coins': 8.1.86(@types/node@20.9.0)
+      '@coinmasters/helpers': 4.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@1.0.0)
+      '@coinmasters/toolbox-evm': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-utxo': 4.0.0(@coinmasters/helpers@4.0.0)(@types/node@20.9.0)
+      '@coinmasters/types': 4.0.0
+      '@pioneer-platform/pioneer-coins': 8.1.90(@types/node@20.9.0)
       '@trezor/connect-web': 9.1.2
       bitcoinjs-lib: 5.2.0
       ethers: 5.7.2
@@ -2110,11 +2106,11 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@coinmasters/wallet-wc@3.0.0(@coinmasters/toolbox-cosmos@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@types/react@18.2.37)(cosmjs-types@0.8.0)(ethers@5.7.2)(react@18.2.0):
-    resolution: {integrity: sha512-Ptfy8ebb8TdPcQu45fLjbhnTgVNLxoboHJW0tKjUtgr6D/kUg+03ixOOB173oCAEK3PsszCO/FsIMPq85qpKjQ==}
+  /@coinmasters/wallet-wc@4.0.0(@coinmasters/toolbox-cosmos@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@types/react@18.2.37)(cosmjs-types@0.8.0)(ethers@5.7.2)(react@18.2.0):
+    resolution: {integrity: sha512-mzxCHXy2Hfexe9hC7x1S0aDDMhbHQ5NSIm1yt4A1CMFtecYJaDuPaUFrBy3q8w0Ru/4qGTgz4kU+jk/PPmvjtw==}
     peerDependencies:
-      '@coinmasters/toolbox-cosmos': 3.0.0
-      '@coinmasters/toolbox-evm': 3.0.0
+      '@coinmasters/toolbox-cosmos': 4.0.0
+      '@coinmasters/toolbox-evm': 4.0.0
       '@cosmjs/amino': 0.31.1
       '@cosmjs/encoding': 0.31.1
       '@cosmjs/math': 0.31.1
@@ -2123,9 +2119,9 @@ packages:
       cosmjs-types: ^0.8.0
       ethers: ^6.7.1
     dependencies:
-      '@coinmasters/toolbox-cosmos': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-evm': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/types': 2.1.0
+      '@coinmasters/toolbox-cosmos': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-evm': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/types': 4.0.0
       '@cosmjs/amino': 0.31.1
       '@cosmjs/encoding': 0.31.1
       '@cosmjs/math': 0.31.1
@@ -2153,20 +2149,20 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@coinmasters/wallet-xdefi@3.0.0(@coinmasters/helpers@3.0.0)(@coinmasters/toolbox-cosmos@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@coinmasters/toolbox-utxo@3.0.0)(ethers@5.7.2):
-    resolution: {integrity: sha512-8ss9Ig6jnkF3HcYEiakvDFp1J16eL+m5F2expIzmQ9ou4fhafhoXOxZ32XcZpvb30NWovE5LecRjtwlkkosL2g==}
+  /@coinmasters/wallet-xdefi@4.0.0(@coinmasters/helpers@4.0.0)(@coinmasters/toolbox-cosmos@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@coinmasters/toolbox-utxo@4.0.0)(ethers@5.7.2):
+    resolution: {integrity: sha512-8fmEpZ5fy629LQkclc/hf6WKmIvbsKemg/H9M6SHqwLp+jweQKyDUrdHV2RLN69q0Rd9EX6zCospgE/hF4DzPg==}
     peerDependencies:
-      '@coinmasters/helpers': 3.0.0
-      '@coinmasters/toolbox-cosmos': 3.0.0
-      '@coinmasters/toolbox-evm': 3.0.0
-      '@coinmasters/toolbox-utxo': 3.0.0
+      '@coinmasters/helpers': 4.0.0
+      '@coinmasters/toolbox-cosmos': 4.0.0
+      '@coinmasters/toolbox-evm': 4.0.0
+      '@coinmasters/toolbox-utxo': 4.0.0
       ethers: ^6.7.1
     dependencies:
-      '@coinmasters/helpers': 3.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@3.0.0)
-      '@coinmasters/toolbox-cosmos': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-evm': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-utxo': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/types': 2.1.0
+      '@coinmasters/helpers': 4.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@1.0.0)
+      '@coinmasters/toolbox-cosmos': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-evm': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-utxo': 4.0.0(@coinmasters/helpers@4.0.0)(@types/node@20.9.0)
+      '@coinmasters/types': 4.0.0
       ethers: 5.7.2
     dev: false
 
@@ -4076,7 +4072,7 @@ packages:
       '@ledgerhq/errors': 6.15.0
       '@ledgerhq/logs': 6.11.0
       '@ledgerhq/types-live': 6.42.0
-      axios: 1.6.1
+      axios: 1.6.2
       eip55: 2.1.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -4161,7 +4157,7 @@ packages:
       '@ledgerhq/hw-transport-mocker': 6.27.20
       '@ledgerhq/logs': 6.11.0
       '@ledgerhq/types-live': 6.42.0
-      axios: 1.6.1
+      axios: 1.6.2
       bignumber.js: 9.1.2
     transitivePeerDependencies:
       - bufferutil
@@ -4182,7 +4178,7 @@ packages:
       '@ledgerhq/hw-transport-mocker': 6.27.20
       '@ledgerhq/logs': 6.11.0
       '@ledgerhq/types-live': 6.42.0
-      axios: 1.6.1
+      axios: 1.6.2
       bignumber.js: 9.1.2
     transitivePeerDependencies:
       - bufferutil
@@ -4870,6 +4866,7 @@ packages:
     dependencies:
       is-glob: 4.0.3
       micromatch: 4.0.5
+      napi-wasm: 1.1.0
     dev: false
     bundledDependencies:
       - napi-wasm
@@ -5253,6 +5250,30 @@ packages:
       - '@types/node'
     dev: false
 
+  /@pioneer-platform/pioneer-coins@8.1.90(@types/node@20.9.0):
+    resolution: {integrity: sha512-78FqMZTQ3irrjQw19weyUzG3ot+sDD0DFvYwMGR6Fk7BZlTBn3Y/ge3xPxElG5/YaXAhWOAzH7uM7YoY9w7Zyw==}
+    dependencies:
+      '@pioneer-platform/loggerdog': 8.1.31(@types/node@20.9.0)
+      bech32: 1.1.4
+      bignumber.js: 9.1.2
+      bitcoin-regex: 2.0.0
+      bitcoincash-regex: 1.1.9
+      bs58check: 3.0.1
+      crypto-js: 4.2.0
+      dash-regex: 1.0.11
+      dogecoin-regex: 1.0.10
+      ethereum-regex: 1.1.13
+      ethereum-tx-decoder: 3.0.0
+      litecoin-regex: 1.0.9
+      monero-regex: 1.0.9
+      neo-regex: 1.0.8
+      ripple-regex: 1.1.8
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+    dev: false
+
   /@pioneer-platform/pioneer-events@8.1.52:
     resolution: {integrity: sha512-BqGYJN2rI13nbZ8YUhzLxicLfA/RVBz/O7VJirG6X8S6+e4B9m+UKcBAgMkp5J7ZM/tyKrBV6ZYvqI5DlU6FlQ==}
     dependencies:
@@ -5269,7 +5290,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@pioneer-platform/pioneer-invoke@8.1.50(axios@1.6.1)(js-yaml@4.1.0):
+  /@pioneer-platform/pioneer-invoke@8.1.50(axios@1.6.2)(js-yaml@4.1.0):
     resolution: {integrity: sha512-fRZA8erdGrVwGLmaf5WXqTs5gex0hTFgRqJI7RFrnNjH8hyN4eKQY6ziM4bmNc3JRYicPJtGWQnZUeyoqMX+jA==}
     dependencies:
       '@pioneer-platform/loggerdog': 8.1.31(@types/node@18.18.9)
@@ -5277,7 +5298,7 @@ packages:
       '@pioneer-platform/pioneer-types': 8.1.56
       '@types/node': 18.18.9
       dotenv: 8.6.0
-      openapi-client-axios: 6.1.5(axios@1.6.1)(js-yaml@4.1.0)
+      openapi-client-axios: 6.1.5(axios@1.6.2)(js-yaml@4.1.0)
       ts-node: 8.10.2(typescript@5.2.2)
       typescript: 5.2.2
     transitivePeerDependencies:
@@ -5288,7 +5309,7 @@ packages:
       - js-yaml
     dev: false
 
-  ? /@pioneer-platform/pioneer-react@0.2.39(@babel/core@7.23.3)(@babel/runtime@7.23.2)(@chakra-ui/system@2.6.2)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/properties@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/strings@5.7.0)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@pioneer-platform/helpers@3.0.1)(@pioneer-platform/swapkit-entities@3.0.1)(@scure/base@1.1.3)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/bchaddrjs@0.4.0)(@types/node@20.9.0)(@types/react@18.2.37)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(axios@1.6.1)(base64-js@1.5.1)(bchaddrjs@0.5.2)(bignumber.js@9.1.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(esbuild@0.19.5)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(js-yaml@4.1.0)(long@4.0.0)(webpack@5.89.0)
+  ? /@pioneer-platform/pioneer-react@0.2.39(@babel/core@7.23.3)(@babel/runtime@7.23.2)(@chakra-ui/system@2.6.2)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/properties@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/strings@5.7.0)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@pioneer-platform/helpers@3.0.1)(@pioneer-platform/swapkit-entities@3.0.1)(@scure/base@1.1.3)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/bchaddrjs@0.4.0)(@types/node@20.9.0)(@types/react@18.2.37)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(axios@1.6.2)(base64-js@1.5.1)(bchaddrjs@0.5.2)(bignumber.js@9.1.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(esbuild@0.19.5)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(js-yaml@4.1.0)(long@4.0.0)(webpack@5.89.0)
   : resolution: {integrity: sha512-52ZiuDODl5c3tlfkmf4aCXcyyocd9iA/WOoYNV4QsYimGpK58Yz+KzMHlsmN1AROsbasA7Gp7BGtrpcq9ftg3g==}
     dependencies:
       '@chakra-ui/icons': 2.1.1(@chakra-ui/system@2.6.2)(react@18.2.0)
@@ -5301,9 +5322,9 @@ packages:
       '@keepkey/hdwallet-keepkey-rest': 1.40.40(@shapeshiftoss/hdwallet-core@1.52.12)
       '@keepkey/keepkey-sdk': 0.2.52
       '@pioneer-platform/pioneer-client': 9.0.6
-      '@pioneer-sdk/sdk': 1.1.160(@types/node@20.9.0)(axios@1.6.1)(js-yaml@4.1.0)
+      '@pioneer-sdk/sdk': 1.1.160(@types/node@20.9.0)(axios@1.6.2)(js-yaml@4.1.0)
       '@pioneer-sdk/sdk-v2': >-
-        0.0.3(@babel/core@7.23.3)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/properties@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/strings@5.7.0)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@pioneer-platform/helpers@3.0.1)(@pioneer-platform/swapkit-entities@3.0.1)(@scure/base@1.1.3)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/bchaddrjs@0.4.0)(@types/node@20.9.0)(@types/react@18.2.37)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(axios@1.6.1)(base64-js@1.5.1)(bchaddrjs@0.5.2)(bignumber.js@9.1.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(js-yaml@4.1.0)(long@4.0.0)(react@18.2.0)(webpack@5.89.0)
+        0.0.3(@babel/core@7.23.3)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/properties@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/strings@5.7.0)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@pioneer-platform/helpers@3.0.1)(@pioneer-platform/swapkit-entities@3.0.1)(@scure/base@1.1.3)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/bchaddrjs@0.4.0)(@types/node@20.9.0)(@types/react@18.2.37)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(axios@1.6.2)(base64-js@1.5.1)(bchaddrjs@0.5.2)(bignumber.js@9.1.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(js-yaml@4.1.0)(long@4.0.0)(react@18.2.0)(webpack@5.89.0)
       '@shapeshiftoss/hdwallet-core': 1.52.12
       '@shapeshiftoss/hdwallet-metamask': 1.52.12
       '@shapeshiftoss/hdwallet-native': 1.52.12
@@ -5619,7 +5640,7 @@ packages:
       '@pioneer-platform/types': 3.0.1
     dev: false
 
-  ? /@pioneer-sdk/pioneer-react@0.0.25(@babel/core@7.23.3)(@babel/runtime@7.23.2)(@chakra-ui/system@2.6.2)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@scure/base@1.1.3)(@scure/bip39@1.2.1)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/node@20.9.0)(@types/react@18.2.37)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(bchaddrjs@0.5.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(esbuild@0.19.5)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(ethers@5.7.2)(rollup@4.3.0)(webpack@5.89.0)
+  ? /@pioneer-sdk/pioneer-react@0.0.25(@babel/core@7.23.3)(@babel/runtime@7.23.2)(@chakra-ui/system@2.6.2)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@scure/base@1.1.3)(@scure/bip39@1.2.1)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/node@20.9.0)(@types/react@18.2.37)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(bchaddrjs@0.5.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(esbuild@0.19.5)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(ethers@5.7.2)(rollup@4.5.1)(webpack@5.89.0)
   : resolution: {integrity: sha512-puSPCRD6ZKBa58FHrBFCMP68AJww7WcwcLS9zOdz41mxFfwM1GWiA3gZoUC12pvofZkq/MIQiz8gex6SU5lgwA==}
     dependencies:
       '@chakra-ui/icons': 2.1.1(@chakra-ui/system@2.6.2)(react@18.2.0)
@@ -5631,7 +5652,7 @@ packages:
       '@esbuild-plugins/node-modules-polyfill': 0.2.2(esbuild@0.19.5)
       '@fontsource/plus-jakarta-sans': 4.5.11
       '@pioneer-sdk/sdk': >-
-        1.2.4(@babel/core@7.23.3)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@scure/base@1.1.3)(@scure/bip39@1.2.1)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/node@20.9.0)(@types/react@18.2.37)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(bchaddrjs@0.5.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(ethers@5.7.2)(react@18.2.0)(rollup@4.3.0)(webpack@5.89.0)
+        1.2.6(@babel/core@7.23.3)(@coinmasters/types@1.0.0)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@scure/base@1.1.3)(@scure/bip39@1.2.1)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/node@20.9.0)(@types/react@18.2.37)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(bchaddrjs@0.5.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(ethers@5.7.2)(react@18.2.0)(rollup@4.5.1)(webpack@5.89.0)
       '@types/ramda': 0.28.23
       '@types/uuid': 9.0.7
       assert: 2.1.0
@@ -5720,7 +5741,7 @@ packages:
       - webpack
     dev: false
 
-  ? /@pioneer-sdk/sdk-v2@0.0.3(@babel/core@7.23.3)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/properties@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/strings@5.7.0)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@pioneer-platform/helpers@3.0.1)(@pioneer-platform/swapkit-entities@3.0.1)(@scure/base@1.1.3)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/bchaddrjs@0.4.0)(@types/node@20.9.0)(@types/react@18.2.37)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(axios@1.6.1)(base64-js@1.5.1)(bchaddrjs@0.5.2)(bignumber.js@9.1.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(js-yaml@4.1.0)(long@4.0.0)(react@18.2.0)(webpack@5.89.0)
+  ? /@pioneer-sdk/sdk-v2@0.0.3(@babel/core@7.23.3)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/properties@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/strings@5.7.0)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@pioneer-platform/helpers@3.0.1)(@pioneer-platform/swapkit-entities@3.0.1)(@scure/base@1.1.3)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/bchaddrjs@0.4.0)(@types/node@20.9.0)(@types/react@18.2.37)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(axios@1.6.2)(base64-js@1.5.1)(bchaddrjs@0.5.2)(bignumber.js@9.1.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(js-yaml@4.1.0)(long@4.0.0)(react@18.2.0)(webpack@5.89.0)
   : resolution: {integrity: sha512-y9QjRMjC93G3tk1pcE+ho29W+sttyHeC/8iZUxdYDPPU6iNER4OzDgvR557DSwr8oDShVyqaxb+f0UxTvqcMxQ==}
     dependencies:
       '@keepkey/keepkey-sdk': 0.2.52
@@ -5735,7 +5756,7 @@ packages:
       '@pioneer-platform/pioneer-client': 9.0.19
       '@pioneer-platform/pioneer-coins': 8.1.86(@types/node@20.9.0)
       '@pioneer-platform/pioneer-events': 8.1.52
-      '@pioneer-platform/pioneer-invoke': 8.1.50(axios@1.6.1)(js-yaml@4.1.0)
+      '@pioneer-platform/pioneer-invoke': 8.1.50(axios@1.6.2)(js-yaml@4.1.0)
       '@pioneer-platform/swapkit-core': 3.0.2(@ethersproject/bignumber@5.7.0)
       '@pioneer-platform/toolbox-cosmos': 3.0.1(@ethersproject/bignumber@5.7.0)(bignumber.js@9.1.2)
       '@pioneer-platform/toolbox-evm': 3.0.1(bignumber.js@9.1.2)
@@ -5819,7 +5840,7 @@ packages:
       - webpack
     dev: false
 
-  /@pioneer-sdk/sdk@1.1.160(@types/node@20.9.0)(axios@1.6.1)(js-yaml@4.1.0):
+  /@pioneer-sdk/sdk@1.1.160(@types/node@20.9.0)(axios@1.6.2)(js-yaml@4.1.0):
     resolution: {integrity: sha512-PWewfmGLazabNCOMwqmJO9q41greJ3uTXmZsN6nTmJeCG93TBMF+sTIj+N27NkrxnnMqUYjD1SZOi0GYhB1Szg==}
     dependencies:
       '@keepkey/keepkey-sdk': 0.2.52
@@ -5827,7 +5848,7 @@ packages:
       '@pioneer-platform/pioneer-client': 9.0.19
       '@pioneer-platform/pioneer-coins': 8.1.86(@types/node@20.9.0)
       '@pioneer-platform/pioneer-events': 8.1.52
-      '@pioneer-platform/pioneer-invoke': 8.1.50(axios@1.6.1)(js-yaml@4.1.0)
+      '@pioneer-platform/pioneer-invoke': 8.1.50(axios@1.6.2)(js-yaml@4.1.0)
       '@pioneer-sdk/tx-builder': 1.0.18(@types/node@20.9.0)
       rango-sdk: 0.1.41
       stable: 0.1.8
@@ -5844,29 +5865,28 @@ packages:
       - utf-8-validate
     dev: false
 
-  ? /@pioneer-sdk/sdk@1.2.4(@babel/core@7.23.3)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@scure/base@1.1.3)(@scure/bip39@1.2.1)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/node@20.9.0)(@types/react@18.2.37)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(bchaddrjs@0.5.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(ethers@5.7.2)(react@18.2.0)(rollup@4.3.0)(webpack@5.89.0)
-  : resolution: {integrity: sha512-91pekszPY2qtB8oVkJOzMUXcdFxhQ/Tyk++tiDLZPAhrGfXOys2JlxCU8SnEuE6jjUmcu4PyNF6avqBjS8FmGg==}
+  ? /@pioneer-sdk/sdk@1.2.6(@babel/core@7.23.3)(@coinmasters/types@1.0.0)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@scure/base@1.1.3)(@scure/bip39@1.2.1)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/node@20.9.0)(@types/react@18.2.37)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(bchaddrjs@0.5.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(ethers@5.7.2)(react@18.2.0)(rollup@4.5.1)(webpack@5.89.0)
+  : resolution: {integrity: sha512-o2SIn5hxfy2IOGRZ7buYOf5V7HHeVZV/prMIlOD+Cz0RpgOX1nc9axbA9Y0/LDGl+EKQcXty+7qLErdh/VponA==}
     dependencies:
-      '@coinmasters/api': 3.0.0
-      '@coinmasters/core': 3.0.0(@coinmasters/api@3.0.0)(@coinmasters/tokens@3.0.0)(@coinmasters/toolbox-cosmos@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@coinmasters/toolbox-utxo@3.0.0)
-      '@coinmasters/helpers': 3.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@3.0.0)
+      '@coinmasters/api': 3.0.1
+      '@coinmasters/core': 4.0.0(@coinmasters/api@3.0.1)(@coinmasters/tokens@3.0.0)(@coinmasters/toolbox-cosmos@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@coinmasters/toolbox-utxo@4.0.0)
+      '@coinmasters/helpers': 4.0.0(@coinmasters/tokens@3.0.0)(@coinmasters/types@1.0.0)
       '@coinmasters/tokens': 3.0.0
-      '@coinmasters/toolbox-cosmos': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-evm': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/toolbox-utxo': 3.0.0(@coinmasters/helpers@3.0.0)
-      '@coinmasters/types': 3.0.0
-      '@coinmasters/wallet-evm-extensions': 3.0.0(@coinmasters/toolbox-evm@3.0.0)(ethers@5.7.2)
-      '@coinmasters/wallet-keepkey': 5.0.0(@coinmasters/helpers@3.0.0)(@coinmasters/toolbox-cosmos@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@coinmasters/toolbox-utxo@3.0.0)(@coinmasters/types@3.0.0)(@cosmjs/stargate@0.31.1)(@types/node@20.9.0)(bitcoinjs-lib@5.2.0)
-      '@coinmasters/wallet-keplr': 3.0.0(@coinmasters/helpers@3.0.0)(@coinmasters/toolbox-cosmos@3.0.0)
-      '@coinmasters/wallet-keystore': 3.0.0(@coinmasters/helpers@3.0.0)(@coinmasters/toolbox-cosmos@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@coinmasters/toolbox-utxo@3.0.0)(@scure/bip39@1.2.1)(bitcoinjs-lib@5.2.0)(ethers@5.7.2)(rollup@4.3.0)
-      '@coinmasters/wallet-ledger': 3.0.0(@coinmasters/helpers@3.0.0)(@coinmasters/toolbox-cosmos@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@coinmasters/toolbox-utxo@3.0.0)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@scure/base@1.1.3)(bchaddrjs@0.5.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(ethers@5.7.2)(rollup@4.3.0)
-      '@coinmasters/wallet-metamask': 2.0.0(@babel/core@7.23.3)(@coinmasters/toolbox-cosmos@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@coinmasters/toolbox-utxo@3.0.0)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/node@20.9.0)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(bitcoinjs-lib@5.2.0)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(webpack@5.89.0)
-      '@coinmasters/wallet-okx': 3.0.0(@coinmasters/helpers@3.0.0)(@coinmasters/toolbox-cosmos@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@coinmasters/toolbox-utxo@3.0.0)(bitcoinjs-lib@5.2.0)(ethers@5.7.2)
-      '@coinmasters/wallet-trezor': 3.0.0(@coinmasters/helpers@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@coinmasters/toolbox-utxo@3.0.0)(@types/node@20.9.0)(bitcoinjs-lib@5.2.0)(ethers@5.7.2)
-      '@coinmasters/wallet-wc': 3.0.0(@coinmasters/toolbox-cosmos@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@types/react@18.2.37)(cosmjs-types@0.8.0)(ethers@5.7.2)(react@18.2.0)
-      '@coinmasters/wallet-xdefi': 3.0.0(@coinmasters/helpers@3.0.0)(@coinmasters/toolbox-cosmos@3.0.0)(@coinmasters/toolbox-evm@3.0.0)(@coinmasters/toolbox-utxo@3.0.0)(ethers@5.7.2)
+      '@coinmasters/toolbox-cosmos': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-evm': 4.0.0(@coinmasters/helpers@4.0.0)
+      '@coinmasters/toolbox-utxo': 4.0.0(@coinmasters/helpers@4.0.0)(@types/node@20.9.0)
+      '@coinmasters/wallet-evm-extensions': 4.0.0(@coinmasters/toolbox-evm@4.0.0)(ethers@5.7.2)
+      '@coinmasters/wallet-keepkey': 6.0.0(@coinmasters/helpers@4.0.0)(@coinmasters/toolbox-cosmos@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@coinmasters/toolbox-utxo@4.0.0)(@coinmasters/types@1.0.0)(@cosmjs/stargate@0.31.1)(@types/node@20.9.0)(bitcoinjs-lib@5.2.0)
+      '@coinmasters/wallet-keplr': 4.0.0(@coinmasters/helpers@4.0.0)(@coinmasters/toolbox-cosmos@4.0.0)
+      '@coinmasters/wallet-keystore': 4.0.0(@coinmasters/helpers@4.0.0)(@coinmasters/toolbox-cosmos@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@coinmasters/toolbox-utxo@4.0.0)(@scure/bip39@1.2.1)(bitcoinjs-lib@5.2.0)(ethers@5.7.2)(rollup@4.5.1)
+      '@coinmasters/wallet-ledger': 4.0.0(@coinmasters/helpers@4.0.0)(@coinmasters/toolbox-cosmos@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@coinmasters/toolbox-utxo@4.0.0)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@scure/base@1.1.3)(bchaddrjs@0.5.2)(bitcoinjs-lib@5.2.0)(bn.js@5.2.1)(coininfo@5.2.1)(cosmjs-types@0.8.0)(crypto-js@4.1.1)(elliptic@6.5.4)(ethers@5.7.2)(rollup@4.5.1)
+      '@coinmasters/wallet-metamask': 3.0.0(@babel/core@7.23.3)(@coinmasters/toolbox-cosmos@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@coinmasters/toolbox-utxo@4.0.0)(@ethersproject/abi@5.7.0)(@ethersproject/abstract-signer@5.7.0)(@ethersproject/address@5.7.0)(@ethersproject/bignumber@5.7.0)(@ethersproject/bytes@5.7.0)(@ethersproject/contracts@5.7.0)(@ethersproject/providers@5.7.2)(@ethersproject/transactions@5.7.0)(@metamask/approval-controller@3.5.2)(@metamask/eslint-config@12.2.0)(@shapeshiftoss/caip@8.15.0)(@shapeshiftoss/logger@1.1.3)(@shapeshiftoss/types@8.6.0)(@types/node@20.9.0)(@typescript-eslint/eslint-plugin@6.10.0)(@typescript-eslint/parser@6.10.0)(bitcoinjs-lib@5.2.0)(eslint-plugin-jest@27.6.0)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-prettier@5.0.1)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint@8.53.0)(webpack@5.89.0)
+      '@coinmasters/wallet-okx': 4.0.0(@coinmasters/helpers@4.0.0)(@coinmasters/toolbox-cosmos@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@coinmasters/toolbox-utxo@4.0.0)(bitcoinjs-lib@5.2.0)(ethers@5.7.2)
+      '@coinmasters/wallet-trezor': 4.0.0(@coinmasters/helpers@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@coinmasters/toolbox-utxo@4.0.0)(@types/node@20.9.0)(bitcoinjs-lib@5.2.0)(ethers@5.7.2)
+      '@coinmasters/wallet-wc': 4.0.0(@coinmasters/toolbox-cosmos@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@cosmjs/amino@0.31.1)(@cosmjs/encoding@0.31.1)(@cosmjs/math@0.31.1)(@cosmjs/proto-signing@0.31.1)(@cosmjs/stargate@0.31.1)(@types/react@18.2.37)(cosmjs-types@0.8.0)(ethers@5.7.2)(react@18.2.0)
+      '@coinmasters/wallet-xdefi': 4.0.0(@coinmasters/helpers@4.0.0)(@coinmasters/toolbox-cosmos@4.0.0)(@coinmasters/toolbox-evm@4.0.0)(@coinmasters/toolbox-utxo@4.0.0)(ethers@5.7.2)
       '@pioneer-platform/loggerdog': 8.1.31(@types/node@20.9.0)
-      '@types/elliptic': 6.4.17
+      '@types/elliptic': 6.4.18
       stable: 0.1.8
       typescript: 5.2.2
     transitivePeerDependencies:
@@ -5878,6 +5898,7 @@ packages:
       - '@azure/storage-blob'
       - '@babel/core'
       - '@capacitor/preferences'
+      - '@coinmasters/types'
       - '@cosmjs/amino'
       - '@cosmjs/encoding'
       - '@cosmjs/math'
@@ -6226,7 +6247,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dev: false
 
-  /@rollup/plugin-inject@5.0.5(rollup@4.3.0):
+  /@rollup/plugin-inject@5.0.5(rollup@4.5.1):
     resolution: {integrity: sha512-2+DEJbNBoPROPkgTDNe8/1YXWcqxbN5DTjASVIOx8HS+pITXushyNiBV56RB08zuptzz8gT3YfkqriTBVycepg==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -6235,13 +6256,13 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5(rollup@4.3.0)
+      '@rollup/pluginutils': 5.0.5(rollup@4.5.1)
       estree-walker: 2.0.2
       magic-string: 0.30.5
-      rollup: 4.3.0
+      rollup: 4.5.1
     dev: true
 
-  /@rollup/plugin-node-resolve@15.2.3(rollup@4.3.0):
+  /@rollup/plugin-node-resolve@15.2.3(rollup@4.5.1):
     resolution: {integrity: sha512-j/lym8nf5E21LwBT4Df1VD6hRO2L2iwUeUmP7litikRsVp1H6NWx20NEp0Y7su+7XGc476GnXXc4kFeZNGmaSQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -6250,13 +6271,13 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5(rollup@4.3.0)
+      '@rollup/pluginutils': 5.0.5(rollup@4.5.1)
       '@types/resolve': 1.20.2
       deepmerge: 4.3.1
       is-builtin-module: 3.2.1
       is-module: 1.0.0
       resolve: 1.22.8
-      rollup: 4.3.0
+      rollup: 4.5.1
     dev: false
 
   /@rollup/pluginutils@4.2.1:
@@ -6267,7 +6288,7 @@ packages:
       picomatch: 2.3.1
     dev: false
 
-  /@rollup/pluginutils@5.0.5(rollup@4.3.0):
+  /@rollup/pluginutils@5.0.5(rollup@4.5.1):
     resolution: {integrity: sha512-6aEYR910NyP73oHiJglti74iRyOwgFU4x3meH/H8OJx6Ry0j6cOVZ5X/wTvub7G7Ao6qaHBEaNsV3GLJkSsF+Q==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -6279,87 +6300,87 @@ packages:
       '@types/estree': 1.0.5
       estree-walker: 2.0.2
       picomatch: 2.3.1
-      rollup: 4.3.0
+      rollup: 4.5.1
 
-  /@rollup/rollup-android-arm-eabi@4.3.0:
-    resolution: {integrity: sha512-/4pns6BYi8MXdwnXM44yoGAcFYVHL/BYlB2q1HXZ6AzH++LaiEVWFpBWQ/glXhbMbv3E3o09igrHFbP/snhAvA==}
+  /@rollup/rollup-android-arm-eabi@4.5.1:
+    resolution: {integrity: sha512-YaN43wTyEBaMqLDYeze+gQ4ZrW5RbTEGtT5o1GVDkhpdNcsLTnLRcLccvwy3E9wiDKWg9RIhuoy3JQKDRBfaZA==}
     cpu: [arm]
     os: [android]
     requiresBuild: true
     optional: true
 
-  /@rollup/rollup-android-arm64@4.3.0:
-    resolution: {integrity: sha512-nLO/JsL9idr416vzi3lHm3Xm+QZh4qHij8k3Er13kZr5YhL7/+kBAx84kDmPc7HMexLmwisjDCeDIKNFp8mDlQ==}
+  /@rollup/rollup-android-arm64@4.5.1:
+    resolution: {integrity: sha512-n1bX+LCGlQVuPlCofO0zOKe1b2XkFozAVRoczT+yxWZPGnkEAKTTYVOGZz8N4sKuBnKMxDbfhUsB1uwYdup/sw==}
     cpu: [arm64]
     os: [android]
     requiresBuild: true
     optional: true
 
-  /@rollup/rollup-darwin-arm64@4.3.0:
-    resolution: {integrity: sha512-dGhVBlllt4iHwTGy21IEoMOTN5wZoid19zEIxsdY29xcEiOEHqzDa7Sqrkh5OE7LKCowL61eFJXxYe/+pYa7ZQ==}
+  /@rollup/rollup-darwin-arm64@4.5.1:
+    resolution: {integrity: sha512-QqJBumdvfBqBBmyGHlKxje+iowZwrHna7pokj/Go3dV1PJekSKfmjKrjKQ/e6ESTGhkfPNLq3VXdYLAc+UtAQw==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     optional: true
 
-  /@rollup/rollup-darwin-x64@4.3.0:
-    resolution: {integrity: sha512-h8wRfHeLEbU3NzaP1Oku7BYXCJQiTRr+8U0lklyOQXxXiEpHLL8tk1hFl+tezoRKLcPJD7joKaK74ASsqt3Ekg==}
+  /@rollup/rollup-darwin-x64@4.5.1:
+    resolution: {integrity: sha512-RrkDNkR/P5AEQSPkxQPmd2ri8WTjSl0RYmuFOiEABkEY/FSg0a4riihWQGKDJ4LnV9gigWZlTMx2DtFGzUrYQw==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     optional: true
 
-  /@rollup/rollup-linux-arm-gnueabihf@4.3.0:
-    resolution: {integrity: sha512-wP4VgR/gfV18sylTuym3sxRTkAgUR2vh6YLeX/GEznk5jCYcYSlx585XlcUcl0c8UffIZlRJ09raWSX3JDb4GA==}
+  /@rollup/rollup-linux-arm-gnueabihf@4.5.1:
+    resolution: {integrity: sha512-ZFPxvUZmE+fkB/8D9y/SWl/XaDzNSaxd1TJUSE27XAKlRpQ2VNce/86bGd9mEUgL3qrvjJ9XTGwoX0BrJkYK/A==}
     cpu: [arm]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  /@rollup/rollup-linux-arm64-gnu@4.3.0:
-    resolution: {integrity: sha512-v/14JCYVkqRSJeQbxFx4oUkwVQQw6lFMN7bd4vuARBc3X2lmomkxBsc+BFiIDL/BK+CTx5AOh/k9XmqDnKWRVg==}
+  /@rollup/rollup-linux-arm64-gnu@4.5.1:
+    resolution: {integrity: sha512-FEuAjzVIld5WVhu+M2OewLmjmbXWd3q7Zcx+Rwy4QObQCqfblriDMMS7p7+pwgjZoo9BLkP3wa9uglQXzsB9ww==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  /@rollup/rollup-linux-arm64-musl@4.3.0:
-    resolution: {integrity: sha512-tNhfYqFH5OxtRzfkTOKdgFYlPSZnlDLNW4+leNEvQZhwTJxoTwsZAAhR97l3qVry/kkLyJPBK+Q8EAJLPinDIg==}
+  /@rollup/rollup-linux-arm64-musl@4.5.1:
+    resolution: {integrity: sha512-f5Gs8WQixqGRtI0Iq/cMqvFYmgFzMinuJO24KRfnv7Ohi/HQclwrBCYkzQu1XfLEEt3DZyvveq9HWo4bLJf1Lw==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  /@rollup/rollup-linux-x64-gnu@4.3.0:
-    resolution: {integrity: sha512-pw77m8QywdsoFdFOgmc8roF1inBI0rciqzO8ffRUgLoq7+ee9o5eFqtEcS6hHOOplgifAUUisP8cAnwl9nUYPw==}
+  /@rollup/rollup-linux-x64-gnu@4.5.1:
+    resolution: {integrity: sha512-CWPkPGrFfN2vj3mw+S7A/4ZaU3rTV7AkXUr08W9lNP+UzOvKLVf34tWCqrKrfwQ0NTk5GFqUr2XGpeR2p6R4gw==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  /@rollup/rollup-linux-x64-musl@4.3.0:
-    resolution: {integrity: sha512-tJs7v2MnV2F8w6X1UpPHl/43OfxjUy9SuJ2ZPoxn79v9vYteChVYO/ueLHCpRMmyTUIVML3N9z4azl9ENH8Xxg==}
+  /@rollup/rollup-linux-x64-musl@4.5.1:
+    resolution: {integrity: sha512-ZRETMFA0uVukUC9u31Ed1nx++29073goCxZtmZARwk5aF/ltuENaeTtRVsSQzFlzdd4J6L3qUm+EW8cbGt0CKQ==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  /@rollup/rollup-win32-arm64-msvc@4.3.0:
-    resolution: {integrity: sha512-OKGxp6kATQdTyI2DF+e9s+hB3/QZB45b6e+dzcfW1SUqiF6CviWyevhmT4USsMEdP3mlpC9zxLz3Oh+WaTMOSw==}
+  /@rollup/rollup-win32-arm64-msvc@4.5.1:
+    resolution: {integrity: sha512-ihqfNJNb2XtoZMSCPeoo0cYMgU04ksyFIoOw5S0JUVbOhafLot+KD82vpKXOurE2+9o/awrqIxku9MRR9hozHQ==}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
     optional: true
 
-  /@rollup/rollup-win32-ia32-msvc@4.3.0:
-    resolution: {integrity: sha512-DDZ5AH68JJ2ClQFEA1aNnfA7Ybqyeh0644rGbrLOdNehTmzfICHiWSn0OprzYi9HAshTPQvlwrM+bi2kuaIOjQ==}
+  /@rollup/rollup-win32-ia32-msvc@4.5.1:
+    resolution: {integrity: sha512-zK9MRpC8946lQ9ypFn4gLpdwr5a01aQ/odiIJeL9EbgZDMgbZjjT/XzTqJvDfTmnE1kHdbG20sAeNlpc91/wbg==}
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
     optional: true
 
-  /@rollup/rollup-win32-x64-msvc@4.3.0:
-    resolution: {integrity: sha512-dMvGV8p92GQ8jhNlGIKpyhVZPzJlT258pPrM5q2F8lKcc9Iv9BbfdnhX1OfinYWnb9ms5zLw6MlaMnqLfUkKnQ==}
+  /@rollup/rollup-win32-x64-msvc@4.5.1:
+    resolution: {integrity: sha512-5I3Nz4Sb9TYOtkRwlH0ow+BhMH2vnh38tZ4J4mggE48M/YyJyp/0sPSxhw1UeS1+oBgQ8q7maFtSeKpeRJu41Q==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
@@ -7403,7 +7424,7 @@ packages:
       '@babel/runtime-corejs3': 7.23.2
       '@swagger-api/apidom-core': 0.83.0
       '@types/ramda': 0.29.8
-      axios: 1.6.1
+      axios: 1.6.2
       minimatch: 7.4.6
       process: 0.11.10
       ramda: 0.29.1
@@ -7956,7 +7977,7 @@ packages:
       '@trezor/utils': 9.0.12
       bytebuffer: 5.0.1
       cross-fetch: 3.1.8
-      json-stable-stringify: 1.0.2
+      json-stable-stringify: 1.1.0
       long: 4.0.0
       protobufjs: 7.2.4
       usb: 2.11.0
@@ -8070,15 +8091,6 @@ packages:
       validator: 13.11.0
     dev: false
 
-  /@types/axios@0.14.0:
-    resolution: {integrity: sha512-KqQnQbdYE54D7oa/UmYVMZKq7CO4l8DEENzOKc4aBRwxCXSlJXGz83flFx5L7AWrOQnmuN3kVsRdt+GZPPjiVQ==}
-    deprecated: This is a stub types definition for axios (https://github.com/mzabriskie/axios). axios provides its own type definitions, so you don't need @types/axios installed!
-    dependencies:
-      axios: 1.6.1
-    transitivePeerDependencies:
-      - debug
-    dev: true
-
   /@types/babel__core@7.20.4:
     resolution: {integrity: sha512-mLnSC22IC4vcWiuObSRjrLd9XcBTGf59vUSoq2jkQDJ/QQ8PMI9rSuzE+aEV8karUMbskw07bKYoUJCKTUaygg==}
     dependencies:
@@ -8163,8 +8175,8 @@ packages:
     resolution: {integrity: sha512-VvMETBojHvhX4f+ocYTySQlXMZfxKV3Jyb7iCWlWaC+exbedkv6Iv2bZZqI736qXjVguH6IH7bzwMBMfTT+zuQ==}
     dev: false
 
-  /@types/elliptic@6.4.17:
-    resolution: {integrity: sha512-+NOzUIq9aenYuaIFS+8Gmv72r72zb12jttZsAsu4zEJ3QmQfGo958Kh0jQ+GJp5+uflE14KI4BcZqcsGCxTNFA==}
+  /@types/elliptic@6.4.18:
+    resolution: {integrity: sha512-UseG6H5vjRiNpQvrhy4VF/JXdA3V/Fp5amvveaL+fs28BZ6xIKJBPnUPRlEaZpysD9MbpfaLi8lbl7PGUAkpWw==}
     dependencies:
       '@types/bn.js': 5.1.5
     dev: false
@@ -8337,6 +8349,12 @@ packages:
     dependencies:
       undici-types: 5.26.5
 
+  /@types/node@20.9.3:
+    resolution: {integrity: sha512-nk5wXLAXGBKfrhLB0cyHGbSqopS+nz0BUgZkUQqSHSSgdee0kssp1IAqlQOu333bW+gMNs2QREx7iynm19Abxw==}
+    dependencies:
+      undici-types: 5.26.5
+    dev: false
+
   /@types/nodemailer@6.4.14:
     resolution: {integrity: sha512-fUWthHO9k9DSdPCSPRqcu6TWhYyxTBg382vlNIttSe9M7XfsT06y0f24KHXtbnijPGGRIcVvdKHTNikOI6qiHA==}
     dependencies:
@@ -8397,15 +8415,6 @@ packages:
       '@types/react': 18.2.37
     dev: true
 
-  /@types/react-dropzone@5.1.0(react@18.2.0):
-    resolution: {integrity: sha512-VCdDCwSsr1MT2frsVl5p8qH+LWwUGzsaNtGkEQekHviZqK0dmTbiIp2Pzfb8lTkH4oTE2JtBbWnbuM6B4FH80A==}
-    deprecated: This is a stub types definition. react-dropzone provides its own type definitions, so you do not need this installed.
-    dependencies:
-      react-dropzone: 14.2.3(react@18.2.0)
-    transitivePeerDependencies:
-      - react
-    dev: false
-
   /@types/react-google-recaptcha@2.1.8:
     resolution: {integrity: sha512-nYI3ZDoteZ0g4FYusyKWqz7AZqRdu70R3wDkosCcN0peb2WLn57i0Alm4IPiCRIx59yTUVPTiOELZH08gV1wXA==}
     dependencies:
@@ -8452,6 +8461,10 @@ packages:
 
   /@types/semver@7.5.5:
     resolution: {integrity: sha512-+d+WYC1BxJ6yVOgUgzK8gWvp5qF8ssV5r4nsDcZWKRWcDQLQ619tvWAxJQYGgBrO1MnLJC7a5GtiYsAoQ47dJg==}
+
+  /@types/semver@7.5.6:
+    resolution: {integrity: sha512-dn1l8LaMea/IjDoHNd9J52uBbInB796CDffS6VdIxvqYCPSG0V0DzHp76GpaWnlhg88uYyPbXCDIowa86ybd5A==}
+    dev: false
 
   /@types/send@0.17.4:
     resolution: {integrity: sha512-x2EM6TJOybec7c52BX0ZspPodMsQUd5L6PRwOunVyVUhXiBSKf3AezDL8Dgvgt5o0UfKNfuA0eMLr2wLT4AiBA==}
@@ -8655,7 +8668,7 @@ packages:
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@8.53.0)
       '@types/json-schema': 7.0.15
-      '@types/semver': 7.5.5
+      '@types/semver': 7.5.6
       '@typescript-eslint/scope-manager': 5.62.0
       '@typescript-eslint/types': 5.62.0
       '@typescript-eslint/typescript-estree': 5.62.0(typescript@5.2.2)
@@ -9765,6 +9778,7 @@ packages:
 
   /asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
+    dev: false
 
   /at-least-node@1.0.0:
     resolution: {integrity: sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==}
@@ -9832,14 +9846,15 @@ packages:
       - debug
     dev: false
 
-  /axios@1.6.1:
-    resolution: {integrity: sha512-vfBmhDpKafglh0EldBEbVuoe7DyAavGSLWhuSm5ZSEKQnHhBf0xAAwybbNH1IkrJNGnS/VG4I5yxig1pCEXE4g==}
+  /axios@1.6.2:
+    resolution: {integrity: sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==}
     dependencies:
       follow-redirects: 1.15.3
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
+    dev: false
 
   /axobject-query@3.2.1:
     resolution: {integrity: sha512-jsyHu61e6N4Vbz/v18DHwWYKK0bSWLqn47eeDSKPB7m8tqMHF9YJ+mhIk2lVteyZrY8tnSj/jHOv4YiTCuCJgg==}
@@ -10692,6 +10707,7 @@ packages:
     engines: {node: '>= 0.8'}
     dependencies:
       delayed-stream: 1.0.0
+    dev: false
 
   /comma-separated-tokens@2.0.3:
     resolution: {integrity: sha512-Fu4hJdvzeylCfQPp9SGWidpzrMs7tTrlu6Vb8XGaRGck8QSNZJJp538Wrb60Lax4fPwR64ViY468OIUTbRlGZg==}
@@ -11365,6 +11381,7 @@ packages:
   /delayed-stream@1.0.0:
     resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
     engines: {node: '>=0.4.0'}
+    dev: false
 
   /delegates@1.0.0:
     resolution: {integrity: sha512-bd2L678uiWATM6m5Z1VzNCErI3jiGzt6HGY8OVICs40JQq/HALfbyNJmp0UDakEY4pMMaN0Ly5om/B1VI/+xfQ==}
@@ -11840,8 +11857,8 @@ packages:
       safe-array-concat: 1.0.1
     dev: false
 
-  /es-module-lexer@1.4.0:
-    resolution: {integrity: sha512-lcCr3v3OLezdfFyx9r5NRYHOUTQNnFEQ9E87Mx8Kc+iqyJNkO7MJoB4GQRTlIMw9kLLTwGw0OAkm4BQQud/d9g==}
+  /es-module-lexer@1.4.1:
+    resolution: {integrity: sha512-cXLGjP0c4T3flZJKQSuziYoq7MlT+rnvfZjfp7h+I7K9BNX54kP9nyWvdbwjQ4u1iWbOL4u96fgeZLToQlZC7w==}
     dev: false
 
   /es-set-tostringtag@2.0.2:
@@ -12309,7 +12326,7 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
     dependencies:
-      '@babel/runtime': 7.23.2
+      '@babel/runtime': 7.23.4
       aria-query: 5.3.0
       array-includes: 3.1.7
       array.prototype.flatmap: 1.3.2
@@ -13109,6 +13126,7 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: false
 
   /for-each@0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -13144,6 +13162,7 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
+    dev: false
 
   /formdata-node@4.4.1:
     resolution: {integrity: sha512-0iirZp3uVDjVGt9p49aTaqjk84TrglENEDuqfdlZQ1roC9CWlPk6Avf8EEnZNcAqPonwkG35x4n3ww/1THYAeQ==}
@@ -14472,7 +14491,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 20.9.0
+      '@types/node': 20.9.3
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: false
@@ -14579,6 +14598,16 @@ packages:
       jsonify: 0.0.1
     dev: false
 
+  /json-stable-stringify@1.1.0:
+    resolution: {integrity: sha512-zfA+5SuwYN2VWqN1/5HZaDzQKLJHaBVMZIIM+wuYjdptkaQsqzDdqjqf+lZZJUuJq1aanHiY8LhH8LmH+qBYJA==}
+    engines: {node: '>= 0.4'}
+    dependencies:
+      call-bind: 1.0.5
+      isarray: 2.0.5
+      jsonify: 0.0.1
+      object-keys: 1.1.1
+    dev: false
+
   /json-stringify-safe@5.0.1:
     resolution: {integrity: sha512-ZClg6AaYvamvYEE82d3Iyd3vSSIjQ+odgjaTzRuO3s7toCdFKczob2i0zCh7JE8kWn17yvAWhUVxvqGwUalsRA==}
 
@@ -14668,7 +14697,7 @@ packages:
     dependencies:
       '@hiveio/dhive': 1.2.8
       '@types/node': 18.18.9
-      axios: 1.6.1
+      axios: 1.6.2
       hive-keychain-commons: 1.2.3
       uuid: 9.0.1
     transitivePeerDependencies:
@@ -15504,12 +15533,14 @@ packages:
   /mime-db@1.52.0:
     resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
     engines: {node: '>= 0.6'}
+    dev: false
 
   /mime-types@2.1.35:
     resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
     engines: {node: '>= 0.6'}
     dependencies:
       mime-db: 1.52.0
+    dev: false
 
   /mime@1.6.0:
     resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}
@@ -15776,6 +15807,10 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /napi-wasm@1.1.0:
+    resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
+    dev: false
 
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
@@ -16173,14 +16208,14 @@ packages:
       - encoding
     dev: false
 
-  /openapi-client-axios@6.1.5(axios@1.6.1)(js-yaml@4.1.0):
+  /openapi-client-axios@6.1.5(axios@1.6.2)(js-yaml@4.1.0):
     resolution: {integrity: sha512-QNwB6czTFZZ/DdWmU+Ids64kwjFVN0TAzZFNvs2qlAAnCtGvkUje8rjbvwUv+64eo12QYNuKbtdEPg/hao1yQQ==}
     peerDependencies:
       axios: ^0.25.0 || ^1.1.3
       js-yaml: ^4.1.0
     dependencies:
       '@anttiviljami/json-schema-ref-parser': 9.2.2
-      axios: 1.6.1
+      axios: 1.6.2
       bath-es5: 3.0.3
       copy-anything: 3.0.5
       js-yaml: 4.1.0
@@ -16902,6 +16937,7 @@ packages:
 
   /proxy-from-env@1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
+    dev: false
 
   /psl@1.9.0:
     resolution: {integrity: sha512-E/ZsdU4HLs/68gYzgGTkMicWTLPdAftJLfJFlLUAAKZGkStNU72sZjT66SnMDVOfOWY/YAoiD7Jxa9iHvngcag==}
@@ -17065,7 +17101,7 @@ packages:
   /rango-sdk@0.1.41:
     resolution: {integrity: sha512-xDLWCAN6nBHlb1rGMi9EWMYqSwl3dcAnpCMZ08kQl5dGSWxgNG3K72bSgEOrmFjuY9UXmPQXsVQyQIL0WSrZFQ==}
     dependencies:
-      axios: 1.6.1
+      axios: 1.6.2
       bignumber.js: 9.1.2
       rango-types: 0.1.55
       uuid-random: 1.3.2
@@ -17829,7 +17865,7 @@ packages:
     dependencies:
       rollup-plugin-inject: 3.0.2
 
-  /rollup-plugin-node-resolve@5.2.0(rollup@4.3.0):
+  /rollup-plugin-node-resolve@5.2.0(rollup@4.5.1):
     resolution: {integrity: sha512-jUlyaDXts7TW2CqQ4GaO5VJ4PwwaV8VUGA7+km3n6k6xtOEacf61u0VXwN80phY/evMcaS+9eIeJ9MOyDxt5Zw==}
     deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-node-resolve.
     peerDependencies:
@@ -17839,7 +17875,7 @@ packages:
       builtin-modules: 3.3.0
       is-module: 1.0.0
       resolve: 1.22.8
-      rollup: 4.3.0
+      rollup: 4.5.1
       rollup-pluginutils: 2.8.2
     dev: false
 
@@ -17856,23 +17892,23 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /rollup@4.3.0:
-    resolution: {integrity: sha512-scIi1NrKLDIYSPK66jjECtII7vIgdAMFmFo8h6qm++I6nN9qDSV35Ku6erzGVqYjx+lj+j5wkusRMr++8SyDZg==}
+  /rollup@4.5.1:
+    resolution: {integrity: sha512-0EQribZoPKpb5z1NW/QYm3XSR//Xr8BeEXU49Lc/mQmpmVVG5jPUVrpc2iptup/0WMrY9mzas0fxH+TjYvG2CA==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
-      '@rollup/rollup-android-arm-eabi': 4.3.0
-      '@rollup/rollup-android-arm64': 4.3.0
-      '@rollup/rollup-darwin-arm64': 4.3.0
-      '@rollup/rollup-darwin-x64': 4.3.0
-      '@rollup/rollup-linux-arm-gnueabihf': 4.3.0
-      '@rollup/rollup-linux-arm64-gnu': 4.3.0
-      '@rollup/rollup-linux-arm64-musl': 4.3.0
-      '@rollup/rollup-linux-x64-gnu': 4.3.0
-      '@rollup/rollup-linux-x64-musl': 4.3.0
-      '@rollup/rollup-win32-arm64-msvc': 4.3.0
-      '@rollup/rollup-win32-ia32-msvc': 4.3.0
-      '@rollup/rollup-win32-x64-msvc': 4.3.0
+      '@rollup/rollup-android-arm-eabi': 4.5.1
+      '@rollup/rollup-android-arm64': 4.5.1
+      '@rollup/rollup-darwin-arm64': 4.5.1
+      '@rollup/rollup-darwin-x64': 4.5.1
+      '@rollup/rollup-linux-arm-gnueabihf': 4.5.1
+      '@rollup/rollup-linux-arm64-gnu': 4.5.1
+      '@rollup/rollup-linux-arm64-musl': 4.5.1
+      '@rollup/rollup-linux-x64-gnu': 4.5.1
+      '@rollup/rollup-linux-x64-musl': 4.5.1
+      '@rollup/rollup-win32-arm64-msvc': 4.5.1
+      '@rollup/rollup-win32-ia32-msvc': 4.5.1
+      '@rollup/rollup-win32-x64-msvc': 4.5.1
       fsevents: 2.3.3
 
   /rope-sequence@1.3.4:
@@ -20856,7 +20892,7 @@ packages:
       browserslist: 4.22.1
       chrome-trace-event: 1.0.3
       enhanced-resolve: 5.15.0
-      es-module-lexer: 1.4.0
+      es-module-lexer: 1.4.1
       eslint-scope: 5.1.1
       events: 3.3.0
       glob-to-regexp: 0.4.1

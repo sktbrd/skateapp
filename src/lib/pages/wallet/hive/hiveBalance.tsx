@@ -6,7 +6,7 @@ import SendHiveModal from "./sendHiveModal";
 import useAuthUser from "lib/pages/home/api/useAuthUser";
 import * as dhive from "@hiveio/dhive";
 // import WalletTransactions from "lib/pages/home/dao/components/hiveGnars/txHistory";
-
+import PowerUpModal from "./powerUpModal";
 import FiatBalance from "../fiat/fiat";
 
 const dhiveClient = new dhive.Client([
@@ -94,6 +94,7 @@ export default function HiveBalanceDisplay2() {
   const [totalWorth, setTotalWorth] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
   const [hiveMemo, setHiveMemo] = useState("");
+  const [showPowerUpModal, setShowPowerUpModal] = useState(false);
 
 
 
@@ -133,7 +134,9 @@ export default function HiveBalanceDisplay2() {
     };
   };
 
-  
+  const handleOpenPowerUpModal = () => {
+    setShowPowerUpModal(true);
+  };
 
   const onStart = async function () {
     if (user) {
@@ -205,6 +208,8 @@ export default function HiveBalanceDisplay2() {
         alignItems="center"
       >
         {user ? (
+          <Flex>
+
           <>
             <Image
               src={`https://images.hive.blog/u/${user.name}/avatar`}
@@ -217,6 +222,21 @@ export default function HiveBalanceDisplay2() {
               {user.name}
             </Text>
           </>
+                                      <Button
+                                      margin="10px"
+                                      borderRadius="10px"
+                                      border="1px dashed yellow"
+                                      justifyContent="center"
+                                      padding="10px"
+                                      bg={"black"}
+                                      color={"white"}
+                                      _hover={{ bg: "grey" }}
+                                      onClick={handleOpenPowerUpModal}
+                                    >
+                                      🔺 Power Up
+                                    </Button>
+                                    </Flex>
+
         ) : (
           <>
             <Image
@@ -339,7 +359,8 @@ export default function HiveBalanceDisplay2() {
 />
 
       {/* <WalletTransactions wallet={user?.name || ""} /> */}
-      
+      <PowerUpModal isOpen={showPowerUpModal} onClose={() => setShowPowerUpModal(false)} user={user}  />
+
     </Box>
 
     
@@ -415,6 +436,7 @@ return (
       <Text style={balanceStyle}>{balance || "Loading..."}</Text>
     )
   )}
+
 </Box>
 );
 };

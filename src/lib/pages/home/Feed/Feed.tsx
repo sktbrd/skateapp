@@ -23,7 +23,7 @@ import useAuthUser from "../api/useAuthUser";
 
 import { useEffect, useState } from "react";
 import PostModal from "./postModal/postModal";
-
+import ErrorModal from "./postModal/errorModal";
 import { useNavigate, Link } from "react-router-dom";
 
 import * as Types from "./types";
@@ -32,6 +32,11 @@ import { css } from "@emotion/react";
 import EarningsModal from "./postModal/earningsModal"; // Replace with the correct path to EarningsModal
 import { MdArrowUpward } from 'react-icons/md';
 import { Style } from "util";
+interface ErrorModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  errorMessage: string;
+}
 
 const nodes = [
   "https://rpc.ecency.com",
@@ -98,6 +103,8 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   const [postsToLoadMore] = useState<number>(10); // Number of additional posts to load on "Load More" click
   const { user, isLoggedIn } = useAuthUser();
   const [hasVotedWitness, setHasVotedWitness] = useState<boolean>(false); // Step 4
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Track modal visibility
+  const [errorMessage, setErrorMessage] = useState<string>(""); // Track error message
 
   const fetchPostEarnings = async (
     author: string,
@@ -125,7 +132,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   };
 
   
-
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const fetchPosts = async () => {
@@ -312,6 +318,8 @@ const handleVoteClick = async (post: any) => {
   if (!isLoggedIn()) {
     // Handle the case where the user is not logged in, e.g., show a login prompt
     console.log("User is not logged in. Show a login prompt.");
+    setErrorMessage("You have to login first ! Dãããã... ")
+    setIsErrorModalOpen(true)
     return;
   }
 
@@ -329,6 +337,9 @@ const handleVoteClick = async (post: any) => {
   } catch (error) {
     // Handle voting error
     console.error("Error while voting:", error);
+    setErrorMessage("You already voted with the same voting power!")
+
+    setIsErrorModalOpen(true); // Open the error modal
   }
 };
 const cardStyleGradient = css`
@@ -342,6 +353,11 @@ return (
       <PlaceholderLoadingBar />
     ) : (
       <>
+        <ErrorModal
+          isOpen={isErrorModalOpen}
+          onClose={() => setIsErrorModalOpen(false)}
+          errorMessage={errorMessage}
+        />
         <Box
           display="grid"
           gridTemplateColumns={`repeat(${gridColumns}, minmax(280px, 1fr))`}
@@ -370,29 +386,29 @@ return (
             >
 
 
-<CardHeader>
-  <Flex
-    css={cardStyles} /* Apply the cardStyles CSS */
-    borderRadius="10px"
-    justifyContent="center" /* Center the content horizontally */
-    alignItems="center"
-  
-  >
-    <Heading 
-    color="white"
-    paddingTop={"10px"}
-    size="lg"
-    style={{
-      textShadow: '0 0 20px rgba(0, 255, 0, 0.7)', // Apply a green glow behind the text
-      fontStyle: 'italic', // Make the text italic
-    }} 
-     >
-      {post.author}
-    </Heading>
-  </Flex>
-</CardHeader>
+              <CardHeader>
+                <Flex
+                  css={cardStyles} /* Apply the cardStyles CSS */
+                  borderRadius="10px"
+                  justifyContent="center" /* Center the content horizontally */
+                  alignItems="center"
+                
+                >
+                  <Heading 
+                  color="white"
+                  paddingTop={"10px"}
+                  size="lg"
+                  style={{
+                    textShadow: '0 0 20px rgba(0, 255, 0, 0.7)', // Apply a green glow behind the text
+                    fontStyle: 'italic', // Make the text italic
+                  }} 
+                  >
+                    {post.author}
+                  </Heading>
+                </Flex>
+              </CardHeader>
 
-              
+                            
               <Box padding="20px" height="200px"> 
                 <Image 
                   objectFit="cover"
@@ -483,24 +499,24 @@ return (
                 
                 <Tooltip color={"white"} backgroundColor={"black"} border={"1px dashed limegreen"} label={<div style={{color: 'limegreen'}}>45% - 🛹 Author + Benef. <br /> 50% - 🧡 Voters <br /> 5%  - 🏦 Treasury* <br /><br /> Click to Learn More  </div>} aria-label="View Voters">
                 <Button
-    position="absolute"
-    bottom="10px"
-    right="10px"
-    onClick={(e) => {e.stopPropagation(); handleVotersModalOpen(post);}}
-    variant="ghost"
-    colorScheme="green"
-    size="s"
-    ml={2}
-    style={{
-        fontFamily: 'Helvetica',
-        fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`,
-        textShadow: '2px 2px 1px rgba(0, 0, 0, 1)',
-        transition: 'background-color 0.3s ease-in-out' // Add a transition for a smoother effect
-    }}
-    _hover={{
-        backgroundColor: 'transparent' // Set the background color to transparent on hover
-    }}
->
+                      position="absolute"
+                      bottom="10px"
+                      right="10px"
+                      onClick={(e) => {e.stopPropagation(); handleVotersModalOpen(post);}}
+                      variant="ghost"
+                      colorScheme="green"
+                      size="s"
+                      ml={2}
+                      style={{
+                          fontFamily: 'Helvetica',
+                          fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`,
+                          textShadow: '2px 2px 1px rgba(0, 0, 0, 1)',
+                          transition: 'background-color 0.3s ease-in-out' // Add a transition for a smoother effect
+                      }}
+                      _hover={{
+                          backgroundColor: 'transparent' // Set the background color to transparent on hover
+                      }}
+                  >
 
                     
                     <span style={{ fontFamily: 'serif', color: 'chartreuse'}}>

@@ -3,12 +3,14 @@ import { Button, Flex, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box,
 import voteOnContent from '../../api/voting';
 import { useState } from 'react';
 import HiveLogin from '../../api/HiveLoginModal';
-
+import ErrorModal from './errorModal';
 import * as Types from '../types'
 
 const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, permlink, weight = 10000 }) => {
   const [sliderValue, setSliderValue] = useState(10000);
-  
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); // Track error message
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Track modal visibility
+
   const getFeedbackText = (value: number) => {
     if (value === -10000) return "I hate it";
     if (value === -5000) return "I don't care for it";
@@ -21,11 +23,7 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
 
 
 
-  
   const handleVote = async () => {
-    // Assuming you have a DOM element for displaying error messages with an id "error-message"
-    const errorMessageElement = document.getElementById("error-message");
-  
     if (!user || !user.name) {
       console.error("User not logged in or missing username");
       return;
@@ -39,10 +37,14 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
       console.error("Voting failed:", error);
   
       // Use a type assertion to cast 'error' to the 'Error' type
-      const errorMessage = (error as Error).message || "An unknown error occurred.";
-      alert(`You already Voted: ${errorMessage}`);
+      const errorMessage = (error as Error).message ;
+  
+      // Set the error message and open the modal
+      setErrorMessage(`You already voted with the same voting power or ${errorMessage}`);
+      setIsErrorModalOpen(true);
     }
   };
+  
   
   
   
@@ -90,6 +92,8 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
       >
         Vote
       </Button>
+      <ErrorModal isOpen={isErrorModalOpen} onClose={() => setIsErrorModalOpen(false)} errorMessage={errorMessage || ''} />
+
     </Flex>
   );
   

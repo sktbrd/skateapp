@@ -18,6 +18,10 @@ import { KeychainSDK } from "keychain-sdk";
 interface SendHiveModalProps {
   showModal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  endereco: string;
+  setEndereco: React.Dispatch<React.SetStateAction<string>>;
+  email: string;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
   toAddress: string;
   setToAddress: React.Dispatch<React.SetStateAction<string>>;
   amount: string;
@@ -29,22 +33,37 @@ interface SendHiveModalProps {
 const BuyModal: React.FC<SendHiveModalProps> = ({
   showModal,
   setShowModal,
+  endereco,
+  setEndereco,
+  email,
+  setEmail,
   toAddress,
   setToAddress,
   amount,
   setAmount,
   hiveMemo,
   setHiveMemo,
+
 }) => {
 
   const handleTransfer = async () => {
     try {
       // Parse the amount to a float with 3 decimal places
       const parsedAmount = parseFloat(amount).toFixed(3);
-  
+      function criarHiveMemo(email: string, endereco: string): string {
+        // Combine os valores de e-mail e endereço em uma única string
+        const hivememo: string = `E-mail: ${email} | Endereço: ${endereco}`;
+        setHiveMemo(hivememo)
+        console.log("HiveMEMO:", hiveMemo)
+        return hivememo;
+      }
+
       // Initialize the KeychainSDK
       const keychain = new KeychainSDK(window);
-  
+      console.log(endereco)
+      console.log("Email:" , email)
+      criarHiveMemo(email,endereco)
+      console.log(hiveMemo)
       // Define the transfer parameters
       const transferParams = {
         data: {
@@ -57,6 +76,8 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
         },
       };
 
+
+      
       // Perform the transfer using Keychain's transfer method
       const transfer = await keychain.transfer(transferParams.data);
 
@@ -79,19 +100,31 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
         <ModalBody>
           <Box border="1px solid white" padding="10px">
             <Input
-              placeholder="Enviar para"
+              placeholder="crowsnight"
               value={toAddress}
               onChange={(e) => setToAddress(e.target.value)}
+              color={'white'}
             />
             <Input
               placeholder="Valor"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
+              color={'white'}
             />
           <Input 
-            placeholder="Mensagem (opcional)"
-            value={hiveMemo}
-            onChange={(e) => setHiveMemo(e.target.value) }
+            placeholder="Endereço"
+            value={endereco}
+            onChange={(e) => setEndereco(e.target.value) }
+            color={'white'}
+            
+          />
+
+         <Input 
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value) }
+            color={'white'}
+            
           />
           </Box>
         </ModalBody>

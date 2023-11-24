@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Terrorplate';
-    src: url('./Terrorplate.ttf') format('truetype');
+    src: url('./Terrorplate.woff2') format('Woff2');
     font-weight: normal;
     font-style: normal;
   }

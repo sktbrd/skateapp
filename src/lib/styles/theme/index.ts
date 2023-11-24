@@ -1,7 +1,6 @@
 import { extendTheme } from "@chakra-ui/react";
 import '@fontsource-variable/roboto-mono';
 
-
 type GlobalStyleProps = { colorMode: "light" | "dark" };
 
 const themeConfig = {

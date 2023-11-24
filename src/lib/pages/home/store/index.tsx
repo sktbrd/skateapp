@@ -97,6 +97,8 @@ const Store: React.FC = () => {
     const [toAddress, setToAddress] = useState("");
     const [amount, setAmount] = useState("");
     const [hiveMemo, setHiveMemo] = useState("");
+    const [endereco, setEndereco] = useState(""); // Make sure these are declared
+const [email, setEmail] = useState("");
     const handleOpenModal = () => {
       setShowModal(true);
       console.log(showModal)
@@ -194,14 +196,21 @@ const Store: React.FC = () => {
                 </center>
                 </VStack>
                 <BuyModal 
-        showModal={showModal}
-        setShowModal={setShowModal}
-        toAddress={toAddress}
-        setToAddress={setToAddress}
-        amount={amount}
-        setAmount={setAmount}
-        hiveMemo={hiveMemo} // Make sure to pass hiveMemo here
-        setHiveMemo={setHiveMemo}/>
+  showModal={showModal}
+  email={email}
+  setShowModal={setShowModal}
+  toAddress={toAddress}
+  setToAddress={setToAddress}
+  amount={amount}
+  setAmount={setAmount}
+  hiveMemo={hiveMemo}
+  setHiveMemo={setHiveMemo}
+  endereco={endereco}
+  setEndereco={setEndereco}
+setEmail={setEmail}
+
+/>
+
             </Box>
           ))}
         </Grid>

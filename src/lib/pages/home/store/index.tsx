@@ -94,6 +94,7 @@ const cardData: Card[] = [
 const Store: React.FC = () => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const [showModal, setShowModal] = useState(false);
+    const [buyingIndex, setBuyingIndex] = useState<number | null>(null); 
     const [toAddress, setToAddress] = useState("");
     const [amount, setAmount] = useState("");
     const [hiveMemo, setHiveMemo] = useState("");
@@ -104,7 +105,8 @@ const [email, setEmail] = useState("");
       console.log(showModal)
     };
     const handleBuy = (index: number) => {
-      handleOpenModal()
+      setBuyingIndex(index);
+      handleOpenModal();
       console.log(`Compra do item ${index + 1}`);
   }
 
@@ -207,7 +209,10 @@ const [email, setEmail] = useState("");
   setHiveMemo={setHiveMemo}
   endereco={endereco}
   setEndereco={setEndereco}
-setEmail={setEmail}
+  setEmail={setEmail}
+  buyingIndex={buyingIndex}
+  cardData={cardData}  
+
 
 />
 

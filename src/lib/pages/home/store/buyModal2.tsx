@@ -10,10 +10,21 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  Image
 } from "@chakra-ui/react";
 
 // Import the KeychainSDK
 import { KeychainSDK } from "keychain-sdk";
+import { Card } from "@chakra-ui/react";
+
+interface Card {
+  imageUrl: string;
+  subtitle: string;
+  url?: string;
+  hoverImageUrl?: string;
+  price?: string;
+}
+
 
 interface SendHiveModalProps {
   showModal: boolean;
@@ -28,6 +39,9 @@ interface SendHiveModalProps {
   setAmount: React.Dispatch<React.SetStateAction<string>>;
   hiveMemo: string;
   setHiveMemo: React.Dispatch<React.SetStateAction<string>>;
+  buyingIndex: number | null;
+  cardData: Card[];
+
 }
 
 const BuyModal: React.FC<SendHiveModalProps> = ({
@@ -37,12 +51,13 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
   setEndereco,
   email,
   setEmail,
-  toAddress,
-  setToAddress,
   amount,
   setAmount,
   hiveMemo,
   setHiveMemo,
+  buyingIndex,
+  cardData,  
+
 
 }) => {
 
@@ -126,6 +141,15 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
             color={'white'}
             
           />
+          {buyingIndex !== null && (
+            <Image
+              src={cardData[buyingIndex].imageUrl}
+              alt={`Image ${buyingIndex + 1}`}
+              style={{ width: "50%", marginTop: "10px", maxWidth: "100%", display: "block", margin: "auto" }}
+
+            />
+          )}
+
           </Box>
         </ModalBody>
         <ModalFooter>

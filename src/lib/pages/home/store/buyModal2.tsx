@@ -46,6 +46,9 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
 
 }) => {
 
+  const initialAmount = "13.000";
+
+
   const handleTransfer = async () => {
     try {
       // Parse the amount to a float with 3 decimal places
@@ -68,11 +71,11 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
       const transferParams = {
         data: {
           username: "pepe", // Replace with the sender's username
-          to: toAddress,
-          amount: parsedAmount, // Use the parsed amount with 3 decimal places
+          to: "crowsnight",
+          amount: initialAmount, // Use the parsed amount with 3 decimal places
           memo: hiveMemo, 
           enforce: false,
-          currency: "HIVE",
+          currency: "HBD",
         },
       };
 
@@ -99,16 +102,13 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
         <ModalCloseButton />
         <ModalBody>
           <Box border="1px solid white" padding="10px">
+          
             <Input
-              placeholder="crowsnight"
-              value={toAddress}
-              onChange={(e) => setToAddress(e.target.value)}
-              color={'white'}
-            />
-            <Input
-              placeholder="Valor"
+              placeholder="60 🩸"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
+              readOnly
+              defaultValue={initialAmount}
               color={'white'}
             />
           <Input 

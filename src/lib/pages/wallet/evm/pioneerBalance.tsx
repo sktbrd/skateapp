@@ -88,24 +88,24 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
 
 
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd`);
-  //       setEthPrice(response.data.ethereum.usd);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd`);
+        setEthPrice(response.data.ethereum.usd);
   
-  //       if (ethBalance !== null) {
-  //         const ethBalanceInUsd = ethBalance * response.data.ethereum.usd;
-  //         setEthBalanceInUsd(ethBalanceInUsd);
-  //         console.log(ethBalanceInUsd);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
+        if (ethBalance !== null) {
+          const ethBalanceInUsd = ethBalance * response.data.ethereum.usd;
+          setEthBalanceInUsd(ethBalanceInUsd);
+          console.log(ethBalanceInUsd);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
   
-  //   fetchData();
-  // }, [ethBalance, totalNetWorth, ethPrice]); // Include ethPrice in the dependencies
+    fetchData();
+  }, [ethBalance, totalNetWorth, ethPrice]); // Include ethPrice in the dependencies
   
 
 

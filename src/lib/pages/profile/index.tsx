@@ -44,22 +44,22 @@ export default function ProfilePage() {
     <Box
       borderRadius="12px"
       fontFamily="'Courier New', monospace"
-      position="relative" // Add position relative to the container
-      overflow="hidden"   // Hide overflow
+      position="relative" 
+      overflow="hidden"   
     >
       <Image src={coverImageUrl} alt="Cover Image" w="100%" h="auto" position="relative" zIndex="-1" />
 
       <Flex alignItems="center" justifyContent="center" padding="10px" position="relative" zIndex="1">
         <Box
           position="absolute"
-          left="50%"   // Center horizontally
-          top="50%"    // Center vertically
-          transform="translate(-50%, -50%)"   // Center alignment
+          left="50%" 
+          top="50%"    
+          transform="translate(-50%, -50%)"   
           borderRadius="50%"
           border="2px solid limegreen"
           boxSize="100px"
-          bg="white"    // Add a white background for the profile image
-          boxShadow="0px 2px 6px rgba(0, 0, 0, 0.1)"   // Add a subtle shadow
+          bg="white"    
+          boxShadow="0px 2px 6px rgba(0, 0, 0, 0.1)"   
         >
           {user ? (
             <Image
@@ -67,7 +67,6 @@ export default function ProfilePage() {
               alt="profile avatar"
               borderRadius="50%"
               boxSize="96px" 
-                // Adjust size to fit within the circle border
             />
           ) : (
             <Image

@@ -11,6 +11,8 @@ import {
   Input,
   FormControl,
   FormLabel,
+  Box,
+  Image
 } from "@chakra-ui/react";
 
 import { KeychainSDK } from "keychain-sdk";
@@ -22,20 +24,22 @@ interface User {
   vesting_shares: string;
   delegated_vesting_shares: string;
   received_vesting_shares: string;
-  name?: string;
+  user?: { name: string } | null;
 }
 
 interface PowerUpModalProps {
   isOpen: boolean;
   onClose: () => void;
-  user: User | null;
+  user?: Partial<User & { name: string }> | null;
 }
+
 
 interface PowerUp {
   username: string;
   recipient: string;
   hive: string;
 }
+const HIVE_POWER_LOGO_URL = "https://i.ibb.co/C9bCZBp/hive-power.png";
 
 const PowerUpModal: React.FC<PowerUpModalProps> = ({ isOpen, onClose, user }) => {
   const [amount, setAmount] = useState<string>("");
@@ -65,7 +69,6 @@ const PowerUpModal: React.FC<PowerUpModalProps> = ({ isOpen, onClose, user }) =>
       console.log("Sending transaction...");
 
       const powerup = await keychain.powerUp(formParamsAsObject.data as PowerUp);
-      console.log({ powerup });
 
       // Additional logic after successful transaction, if needed
 
@@ -90,7 +93,12 @@ const PowerUpModal: React.FC<PowerUpModalProps> = ({ isOpen, onClose, user }) =>
         background="rgba(0, 0, 0, 0.5)"
       />
       <ModalContent bg={"black"} border={"1px solid limegreen"} borderRadius="8px">
-        <ModalHeader>Power Up</ModalHeader>
+        <center>
+
+      <ModalHeader>Power Up</ModalHeader>
+
+        <Image src={HIVE_POWER_LOGO_URL} alt="Hive Power Logo" boxSize="100px" mx="auto" mt={5} />
+        </center>
         <ModalCloseButton />
         <ModalBody>
           <FormControl>

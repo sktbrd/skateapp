@@ -44,11 +44,17 @@ export default function ProfilePage() {
     if (user) {
       const metadata = JSON.parse(user.posting_json_metadata || '');
       const about = metadata.profile.about;
-      return about;
+      
+      return (
+        <Box border={"1px solid limegreen"} p={10} borderRadius={20}>
+          <Text fontSize={32} color={"white"}>{about}</Text>
+        </Box>
+      );
     } else {
       return "No user";
     }
   }
+  
 
   return (
     <Box
@@ -66,7 +72,7 @@ export default function ProfilePage() {
           position="absolute"
           left="50%"
           transform="translate(-50%, -65%)"
-          borderRadius="20%"
+          borderRadius="10%"
           boxSize="162px"
           bg="white"
           boxShadow="0px 2px 6px rgba(0, 0, 0, 0.1)"

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { KeychainSDK } from "keychain-sdk";
+
 import {
   Modal,
   ModalOverlay,
@@ -13,7 +15,6 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 
-import { KeychainSDK } from "keychain-sdk";
 
 interface User {
   balance: string;
@@ -72,9 +73,7 @@ const PowerDownModal: React.FC<PowerUpModalProps> = ({ isOpen, onClose, user }) 
     }
   };
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(e.target.value);

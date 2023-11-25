@@ -20,6 +20,8 @@ import Web3 from 'web3'; // Ensure you have this imported
 import * as Types from './nft/types';
 import TestEvm from './testEvm/testEvm';
 import PortfolioPage from './evm/pioneerBalance';
+import SwapComponent from './hive/hiveSwapModal';
+
 
 const Wallet = () => {
 
@@ -68,6 +70,7 @@ const Wallet = () => {
     width={{ base: '100%', md: '50%' }} // Full width on small screens, 50% width on medium and larger
   >
     <HiveBalanceDisplay2 />
+    {/* <SwapComponent /> */}
   </Box>
 
   <Box

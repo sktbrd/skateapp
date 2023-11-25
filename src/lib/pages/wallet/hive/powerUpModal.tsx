@@ -76,9 +76,6 @@ const PowerUpModal: React.FC<PowerUpModalProps> = ({ isOpen, onClose, user }) =>
     }
   };
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(e.target.value);

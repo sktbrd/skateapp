@@ -122,7 +122,7 @@ export default function AuthorProfilePage() {
     >
       <Center>
         <Text fontWeight="700" fontSize="24px" color="limegreen" mb="10px">
-          Hive Quests Dashboard
+         Are you a Cool SkateHiver? 
         </Text>
       </Center>
 
@@ -133,20 +133,24 @@ export default function AuthorProfilePage() {
         textAlign="center"
       >
         <GridItem>
+          <VStack>
+
           <Badge
             borderRadius="12px"
             fontWeight="700"
             fontSize="18px"
             colorScheme={hasVotedWitness ? "green" : "red"}
             p="10px"
-          >
-            Witness Voting: {hasVotedWitness ? "Completed" : "Incomplete"}
+            >
+            Witness Voting: {hasVotedWitness ? "Voted ✅" : "Incomplete"}
           </Badge>
           {!hasVotedWitness && (
-            <Button onClick={handleVoteClick} colorScheme="teal" mt="2">
+            <Button onClick={handleVoteClick} colorScheme="teal" >
               Vote !
             </Button>
           )}
+          
+          </VStack>
         </GridItem>
 
         <GridItem>
@@ -158,7 +162,7 @@ export default function AuthorProfilePage() {
               colorScheme={hasMoreThan500HP ? "green" : "red"}
               p="10px"
             >
-              HivePower: {hivePower} {hasMoreThan500HP ? "Sufficient" : "Insufficient"}
+              HivePower: {hivePower} HP {hasMoreThan500HP ? "✅" : "Insufficient"}
             </Badge>
             {!hasMoreThan500HP && (
               <Button onClick={handlePowerUpClick} colorScheme="blue">
@@ -189,18 +193,7 @@ export default function AuthorProfilePage() {
         </GridItem>
       </Grid>
 
-      {witnessVotes.length > 0 && (
-        <VStack mt="4">
-          <Text fontSize="18px" fontWeight="bold" mb="10px">
-            Witness Votes:
-          </Text>
-          <ul>
-            {witnessVotes.map((vote, index) => (
-              <li key={index}>{vote}</li>
-            ))}
-          </ul>
-        </VStack>
-      )}
+
     </Box>
   );
 }

@@ -112,11 +112,21 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
   return (
     <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="md">
       <ModalOverlay opacity={0.2}/>
-      <ModalContent bg="linear-gradient(to top, #0D0D0D, #060126, #3D278C)" border="1px solid white">
-        <ModalHeader color="white">Enviar Hive</ModalHeader>
+      <ModalContent bg="black" border="3px solid #5e317a">
+        <ModalHeader color="#b4d701" margin={"auto"}>{buyingIndex !== null ? cardData[buyingIndex].subtitle : ""}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Box border="1px solid white" padding="10px">
+          <Box border="3px solid #5e317a" padding="10px">
+
+          {buyingIndex !== null && (
+            <Image
+              src={cardData[buyingIndex].imageUrl}
+              alt={`Image ${buyingIndex + 1}`}
+              style={{ width: "50%", marginTop: "10px", maxWidth: "100%", display: "block", margin: "auto" }}
+
+            />
+          )}
+
           
             <Input
               placeholder="60 🩸"
@@ -141,20 +151,12 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
             color={'white'}
             
           />
-          {buyingIndex !== null && (
-            <Image
-              src={cardData[buyingIndex].imageUrl}
-              alt={`Image ${buyingIndex + 1}`}
-              style={{ width: "50%", marginTop: "10px", maxWidth: "100%", display: "block", margin: "auto" }}
-
-            />
-          )}
-
+          
           </Box>
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter margin={"auto"}>
           <Button colorScheme="purple" mr={3} onClick={handleTransfer}>
-            Enviar
+            Comprar
           </Button>
           <Button colorScheme="purple" onClick={() => setShowModal(false)}>
             Fechar

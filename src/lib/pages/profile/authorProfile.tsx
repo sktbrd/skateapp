@@ -154,10 +154,8 @@ export default function AuthorProfilePage() {
   
     const follower = user.user?.name;
   
-    // Check if the user is already following the author
     const isAlreadyFollowing = isFollowing;
   
-    // Determine the follow type based on the current following status
     const followType = isAlreadyFollowing ? "" : 'blog';
     
     try {
@@ -187,10 +185,6 @@ export default function AuthorProfilePage() {
     } catch (error) {
       console.log({ error });
     }
-    
-
-  
-  
   
   };
   

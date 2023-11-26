@@ -7,6 +7,7 @@ import {
   useMediaQuery,
   Button,
   Textarea,
+  Spinner,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { Client } from '@hiveio/dhive';
@@ -17,7 +18,7 @@ import { MarkdownRenderersComments } from './MarkdownRenderersComments';
 import { CommentProps } from '../Feed/types';
 import { CSSProperties } from 'react';
 import { FaRedo } from 'react-icons/fa';
-import { Spinner } from '@chakra-ui/react';
+import useAuthUser from '../api/useAuthUser';
 
 type User = {
   name: string;
@@ -34,24 +35,22 @@ const Chat: React.FC = () => {
   const [commentsUpdated, setCommentsUpdated] = useState(false);
   const [commentContent, setCommentContent] = useState('');
   const [username, setUsername] = useState<string | null>(null);
-  const [parentId, setParentId] = useState<string | null>(null); // New state to store the parent comment ID
-  const [isChatVisible, setIsChatVisible] = useState(false); // or false based on preference
+  const [parentId, setParentId] = useState<string | null>(null);
+  const [isChatVisible, setIsChatVisible] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const [isLoadingComments, setIsLoadingComments] = useState(false);
   const [isPostingComment, setIsPostingComment] = useState(false);
   const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(null);
+  const user = useAuthUser();
 
   const client = new Client('https://api.hive.blog');
 
-  const [loadedCommentsCount, setLoadedCommentsCount] = useState(5); // start by loading 5
-  
+  const [loadedCommentsCount, setLoadedCommentsCount] = useState(5);
+
   const fetchComments = async () => {
     try {
       const allComments: CommentProps[] = await client.database.call("get_content_replies", [URLAuthor, URLPermlink]);
-
-      // 2. Only slice the number of comments we've loaded
       const displayedComments = allComments.slice(-loadedCommentsCount);
-
       setComments(displayedComments);
     } catch (error) {
       console.error('Error fetching comments:', error);
@@ -70,39 +69,27 @@ const Chat: React.FC = () => {
       }
     };
 
-
-
     fetchPostData();
     fetchComments();
   }, [URLAuthor, URLPermlink, commentsUpdated]);
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem("user");
-    if (storedUser) {
-      const userObject = JSON.parse(storedUser);
-      const storedUsername = userObject.name;
-      setUsername(storedUsername);
-    }
-  
-    // Start polling for comments when the modal is open
     if (isChatVisible) {
-      const intervalId = setInterval(fetchComments, 5000); // Fetch comments every 5 seconds
+      const intervalId = setInterval(fetchComments, 5000);
       setPollingInterval(intervalId);
     } else {
-      // Clear the polling interval when the modal is closed
       if (pollingInterval) {
         clearInterval(pollingInterval);
       }
     }
-  
-    // Cleanup the interval when the component unmounts
+
     return () => {
       if (pollingInterval) {
         clearInterval(pollingInterval);
       }
     };
   }, [isChatVisible]);
-  
+
   const commentTitleStyle = {
     fontWeight: 'bold',
     color: 'yellow',
@@ -115,17 +102,17 @@ const Chat: React.FC = () => {
       console.error("Hive Keychain extension not found!");
       return;
     }
-  
+
     if (!username) {
       console.error("Username is missing");
       return;
     }
-  
+
     const permlink = new Date().toISOString().replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-  
+
     let parentAuthor = '';
     let parentPermlink = '';
-  
+
     if (parentId) {
       const parentComment = comments.find((comment) => comment.id === parentId);
       if (parentComment) {
@@ -136,7 +123,7 @@ const Chat: React.FC = () => {
       parentAuthor = URLAuthor;
       parentPermlink = URLPermlink;
     }
-  
+
     const operations = [
       ["comment",
         {
@@ -150,15 +137,13 @@ const Chat: React.FC = () => {
         }
       ]
     ];
-  
-    setIsPostingComment(true); // Set posting state to true
-  
+
+    setIsPostingComment(true);
+
     window.hive_keychain.requestBroadcast(username, operations, "posting", async (response: any) => {
       try {
         if (response.success) {
           setCommentContent('');
-          
-          // Fetch comments immediately after posting a comment
           fetchComments();
         } else {
           console.error("Error posting comment:", response.message);
@@ -166,26 +151,16 @@ const Chat: React.FC = () => {
       } catch (error) {
         console.error("Error handling post comment response:", error);
       } finally {
-        setIsPostingComment(false); // Clear posting state
+        setIsPostingComment(false);
       }
     });
   };
-  
-  
-  
-  
 
   const [isDesktop] = useMediaQuery("(min-width: 768px)");
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem("user");
-    if (storedUser) {
-      const userObject = JSON.parse(storedUser);
-      const storedUsername = userObject.name;
-      setUsername(storedUsername);
-      console.log(post);
-    }
-  }, []);
+    setUsername(user?.user?.name || null);
+  }, [user]);
 
   const commentCardStyle = {
     border: '1px solid teal',
@@ -198,14 +173,15 @@ const Chat: React.FC = () => {
       width: '100px',
     },
   };
+
   const [isSmallScreen] = useMediaQuery("(max-width: 600px)");
 
   const containerStyle: CSSProperties = {
     position: 'fixed',
     bottom: '40px',
     right: '20px',
-    maxHeight: '100%', // Increase this value
-    width: isSmallScreen ? '90%' : '40%',  // If it's a small screen, set width to 80%
+    maxHeight: '100%',
+    width: isSmallScreen ? '90%' : '40%',
     overflowY: 'auto',
     border: '1px solid white',
     borderRadius: '10px',
@@ -213,28 +189,22 @@ const Chat: React.FC = () => {
     background: 'black',
     zIndex: 1000,
   };
-  
+
   useEffect(() => {
-    function handleClickOutside(event:any) {
-        // Check if the target is inside the chat container
-        if (chatContainerRef.current && !chatContainerRef.current.contains(event.target)) {
-            setIsChatVisible(false);
-        }
+    function handleClickOutside(event: any) {
+      if (chatContainerRef.current && !chatContainerRef.current.contains(event.target)) {
+        setIsChatVisible(false);
+      }
     }
 
-    // Attach the click outside listener
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-        // Remove the listener when the component is unmounted
-        document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-}, []);
-
-
+  }, []);
 
   const userFromSession = sessionStorage.getItem("user");
-  const user: User = userFromSession ? JSON.parse(userFromSession) : null;
   const toggleChat = () => {
     setIsChatVisible(!isChatVisible);
   };
@@ -243,10 +213,11 @@ const Chat: React.FC = () => {
     bottom: '30px',
     right: isSmallScreen ? '5px' : '20px',
     backgroundColor: 'black',
-    border:'1px solid limegreen',
+    border: '1px solid limegreen',
     zIndex: 2000,
     borderRadius: '100%',
   };
+
   return (
     <>
       <Button style={chatToggleButtonStyle} onClick={toggleChat}>
@@ -256,7 +227,6 @@ const Chat: React.FC = () => {
       {isChatVisible && (
         <div ref={chatContainerRef} style={containerStyle}>
           
-          {/* ModalHeader */}
           <div style={{ padding: '0px', borderBottom: '1px solid white', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
   
             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -264,24 +234,19 @@ const Chat: React.FC = () => {
               <p style={commentTitleStyle}>Troll Box</p>
             </div>
             
-            <FaRedo onClick={fetchComments} style={{ cursor: 'pointer' }} /> {/* Refresh icon with click event */}
+            <FaRedo onClick={fetchComments} style={{ cursor: 'pointer' }} />
             
           </div>
           
-          {/* ModalBody */}
           <div style={{ borderRadius:'10px', overflowY: 'auto', maxHeight: 'calc(500px - 100px)' }}>
             {isLoadingComments ? (
-              // Render a loading spinner or message while comments are loading
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
                 Loading comments...
-                {/* You can use a spinner component here if you have one */}
               </div>
             ) : (
-              // Render the comments as you were doing before
               <Flex border="1px solid white" borderRadius="10px" padding="10px" direction="column" style={{ width: '100%' }}>
                 {comments.map((comment) => (
                   <div key={comment.id} style={{ marginBottom: '10px' }}>
-                    {/* User avatar and name as a header */}
                     <Flex alignItems="center" justifyContent="start" bg="black" paddingLeft="10px">
                       <Image
                         src={`https://images.ecency.com/webp/u/${comment.author}/avatar/small`}
@@ -293,7 +258,6 @@ const Chat: React.FC = () => {
                       <span>{comment.author}</span>
                     </Flex>
   
-                    {/* Message content */}
                     <Box style={commentCardStyle}>
                       <VStack align="end">
                         <ReactMarkdown
@@ -304,7 +268,6 @@ const Chat: React.FC = () => {
                         />
                       </VStack>
   
-                      {/* Reply and Like buttons */}
                       <Flex justifyContent="flex-end" mt="4">
                         <Button 
                           onClick={() => setParentId(comment.id)}
@@ -326,7 +289,6 @@ const Chat: React.FC = () => {
             )}
           </div>
           
-          {/* ModalFooter */}
           <div style={{ borderTop: '1px solid white', padding: '10px' }}>
             <Button
               style={{ 
@@ -362,13 +324,11 @@ const Chat: React.FC = () => {
                       height="20px"
                       border="1px solid red"
                       onClick={handlePostComment}
-                      disabled={isPostingComment} // Disable the button while posting
+                      disabled={isPostingComment}
                     >
                       {isPostingComment ? (
-                        // Render a loading spinner here, or any loading message you prefer
                         <Spinner size="sm" />
                       ) : (
-                        // Render the normal button content
                         "🗣 Speak up !"
                       )}
                     </Button>
@@ -381,11 +341,6 @@ const Chat: React.FC = () => {
       )}
     </>
   );
-  
-  
-
-
-  
 };
 
 export default Chat;

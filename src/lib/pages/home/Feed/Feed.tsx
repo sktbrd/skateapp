@@ -416,7 +416,7 @@ const getVotedHoverProperties = (post: any) => {
     // red hover
     return {
       backgroundColor: 'mediumvioletred', // Change the color on hover
-      color: 'mediumspringgreen', // Change the text color on hover
+      color: 'black', // Change the text color on hover
       boxShadow: '0 0 8px red, 0 0 8px red, 0 0 8px red', // Add an underglow effect
       border: "2px solid red"
     };
@@ -631,8 +631,7 @@ return (
                 <IconButton
                     icon={<MdArrowUpward />}
                     backgroundColor="black"
-                    color="blue"
-                    
+                    color="white"
                     size="sm"
                     borderRadius="50%"
                     aria-label="Upvote"

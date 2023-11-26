@@ -4,7 +4,6 @@ import {
   Flex,
   HStack,
   Text,
-  Spacer,
   Tabs,
   TabList,
   Tab,
@@ -13,18 +12,15 @@ import {
   Image,
   Avatar,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
   Menu,
   MenuButton,
+  MenuGroup,
   MenuList,
   MenuItem,
   Button,
   Select,
-  Divider,
+  MenuDivider,
+  Tooltip,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { keyframes } from "@emotion/react";
@@ -38,7 +34,12 @@ import HiveLogin from "lib/pages/home/api/HiveLoginModal";
 
 import { fetchHbdPrice } from "lib/pages/wallet/hive/hiveBalance";
 import { fetchConversionRate } from "lib/pages/wallet/hive/hiveBalance";
-// Custom LinkTab component
+
+import axios from "axios";
+//@ts-ignore
+import { usePioneer } from '@pioneer-platform/pioneer-react';
+import { MdTapAndPlay } from "react-icons/md";
+
 type LinkTabProps = TabProps & RouterLinkProps;
 
 interface User {
@@ -55,16 +56,64 @@ const LinkTab: React.FC<LinkTabProps> = ({ to, children, ...tabProps }) => (
 );
 
 const HeaderNew = () => {
+  const { state } = usePioneer();
+
   const fontSize = useBreakpointValue({ base: "2xl", md: "3xl" });
   const tabSize = useBreakpointValue({ base: "sm", md: "md" });
   const flexDirection = useBreakpointValue<"row" | "column">({ base: "column", md: "column" });
   const DEFAULT_AVATAR_URL = "https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif";
+
 
   const { user, loginWithHive, logout, isLoggedIn } = useAuthUser();
   const [isModalOpen, setModalOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(isLoggedIn());
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [totalNetWorth, setTotalNetWorth] = useState<number | null>(0.00);
+  const [ evmWallet, setEvmWallet ] = useState<string | null>(null);
+  const { api, app, context, assetContext, blockchainContext, pubkeyContext, status } = state;
+
+  const [wallet_address, setWalletAddress] = useState<string | null>(null);
+
+  const onLoad = async function () {
+    try {
+      if (app && app.wallets && app.wallets.length > 0 && app.wallets[0].wallet && app.wallets[0].wallet.accounts) {
+        const currentAddress = app.wallets[0].wallet.accounts[0];
+        setWalletAddress(currentAddress);
+      } else {
+        console.error("Some properties are undefined or null");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  
+  useEffect(() => {
+    onLoad();
+  }, [app, api, app?.wallets, status, pubkeyContext]);
+
+
+  useEffect(() => {
+      const fetchData = async () => {
+          try {
+              if (!wallet_address === null) {
+                  console.error("Wallet prop is undefined or null");
+                  return;
+              }
+              else {
+
+                const response = await axios.get(`https://swaps.pro/api/v1/portfolio/${wallet_address}`);
+                setTotalNetWorth(response.data.totalNetWorth)
+              }
+              } catch (error) {
+                console.error('Error fetching data:', error);
+              }
+      };
+
+      fetchData();
+  }, [wallet_address]);
+
+
 
   useEffect(() => {
     setLoggedIn(isLoggedIn());
@@ -218,8 +267,6 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       alignItems="center"
       justifyContent="space-between"
       p={6}
-      bg="black"
-      border="1px solid limegreen"
       position="relative"
       borderRadius="10px"
       marginBottom="10px"
@@ -227,71 +274,83 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
       <Flex width="100%" justifyContent="space-between" alignItems="center" mb={{ base: 2, md: 0 }}>
       <Menu>
-      <MenuButton
-          as={Button}
-          backgroundColor="black"
-          border="limegreen 1px solid"
-          color="limegreen"
-          size="l"
-          css={{
-            animation: `${glow} 2s infinite alternate , ${moveUpAndDown} 3s infinite` ,
-            "&:hover": {
-              animation: `${enlargeOnHover} 0.2s forwards, ${glow} 2s infinite alternate,${moveUpAndDown} 0s infinite`,
-            },
-          }}
-        >
-          <Image
-            src="/assets/skatehive.jpeg"
-            alt="Dropdown Image"
-            boxSize="48px" // Adjust the size as needed
-            borderRadius="10px"
-          />
-        </MenuButton>
-        <MenuList border="1px solid limegreen" backgroundColor="black" color="white">
-          <Link to="https://snapshot.org/#/skatehive.eth" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
-            >
-              	🏛 Governance
-            </MenuItem>
-          </Link>
-          <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
-            >
-              🔗 Curation Trail
-            </MenuItem>
-          </Link>
-          <Link to="https://docs.skatehive.app" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
-            >
-              	📖 Docs
-            </MenuItem>
-          </Link>
-          <Link to="https:/github.com/sktbrd/skateapp" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
-            >
-              	💻 Contribute
-            </MenuItem>
-          </Link>
-          {/* <Link to="/becool" style={{ textDecoration: 'none' }}>
-            <MenuItem
-              _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
-              backgroundColor="black"
-            >
-             	🛹 How to be Cool
-            </MenuItem>
-          </Link> */}
-          {/* Add more external links as needed */}
-        </MenuList>
+  <MenuButton
+    as={Button}
+    backgroundColor="black"
+    border="limegreen 1px solid"
+    color="limegreen"
+    size="l"
+    css={{
+      animation: `${glow} 2s infinite alternate , ${moveUpAndDown} 3s infinite`,
+      "&:hover": {
+        animation: `${enlargeOnHover} 0.2s forwards, ${glow} 2s infinite alternate,${moveUpAndDown} 0s infinite`,
+      },
+    }}
+  >
+    <Image
+      src="/assets/skatehive.jpeg"
+      alt="Dropdown Image"
+      boxSize="48px" // Adjust the size as needed
+      borderRadius="10px"
+    />
+  </MenuButton>
+  <MenuList border="1px solid limegreen" backgroundColor="black" color="white">
+    <Link to="https://snapshot.org/#/skatehive.eth" target="_blank" style={{ textDecoration: 'none' }}>
+      <MenuItem
+        _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+        backgroundColor="black"
+      >
+        🏛 Governance
+      </MenuItem>
+    </Link>
+    <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" target="_blank" style={{ textDecoration: 'none' }}>
+      <MenuItem
+        _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+        backgroundColor="black"
+      >
+        🔗 Curation Trail
+      </MenuItem>
+    </Link>
+    <Link to="https://docs.skatehive.app" target="_blank" style={{ textDecoration: 'none' }}>
+      <MenuItem
+        _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+        backgroundColor="black"
+      >
+        📖 Docs
+      </MenuItem>
+    </Link>
+    <Link to="/secret" style={{ textDecoration: 'none' }}>
+      <MenuItem
+        _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+        backgroundColor="black"
+      >
+        ㊙ Secret Spot
+      </MenuItem>
+    </Link>
+    <Link to="https:/github.com/sktbrd/skateapp" target="_blank" style={{ textDecoration: 'none' }}>
+      <MenuItem
+        _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+        backgroundColor="black"
+      >
+        💻 Contribute
+      </MenuItem>
+    </Link>
+    <MenuDivider />
 
-      </Menu>
+    <MenuGroup title="Forks">
+    <Link to="https://crowsnight.vercel.app" target="_blank" style={{ textDecoration: 'none' }}>
+
+      <MenuItem
+        _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+        backgroundColor="black"
+      >
+        	💀 CrowsNight
+      </MenuItem>
+      </Link>
+    </MenuGroup>
+  </MenuList>
+</Menu>
+
       <Text 
         fontSize={fontSize} 
         fontWeight="medium" 
@@ -302,23 +361,35 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       {/* Dropdown button */}
       <Box>
       <ChakraLink as={RouterLink} to="/wallet">
+      <Tooltip label="Total Networth counting tokens + NFT Value" aria-label="EVM Wallet">
       <Button
         backgroundColor="black"
         border="limegreen 2px solid"
         color="orange"
-
-
         >
-          {totalWorth.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
+          <Image marginRight={"10px"} boxSize={"22px"} src="https://cdn.freebiesupply.com/logos/large/2x/ethereum-1-logo-png-transparent.png"></Image> {totalNetWorth?.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
+      </Button>
+      </Tooltip>
+      <Tooltip label="Wallet" aria-label="Wallet">
+      <Button
+        backgroundColor="black"
+        border="limegreen 2px solid"
+        color="orange"
+        >
+           <Image 
+           marginRight={"10px"} 
+           boxSize={"22px"} 
+           src="https://cryptologos.cc/logos/hive-blockchain-hive-logo.png?v=026"
+           >
+            </Image> {totalWorth.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
           </Button>
+          </Tooltip>
     </ChakraLink>
       </Box>
     
       </Flex>
-
-      {/* Tabs centered horizontally */}
       <Tabs
-        variant="soft-rounded"
+        variant="unstyled"
         colorScheme="whiteAlpha"
         position={{ base: "relative", md: "absolute" }}
         left="50%"
@@ -354,13 +425,27 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
                   color: 'white',
                   border: 'none',  
                   cursor: 'pointer'
+
                 }}
               >
-                <option style={{ backgroundColor: 'black' }} value="" disabled selected>
+                <option 
+                  value=""
+                  disabled
+                  style={{backgroundColor: 'black', color: 'white' ,}}
+                  >
                   {user?.name}
                 </option>
-                <option style={{ backgroundColor: 'black' }} value="profile">Profile</option>
-                <option style={{ backgroundColor: 'black' }} value="logout">Log out</option>
+                <option
+                  style={{backgroundColor: 'black', color: 'white' }}
+                  value="profile"
+                  >
+                  Profile
+                  </option>
+                <option  
+                  value="logout"
+                  style={{backgroundColor: 'black', color: 'white' }}
+                  >Log out
+                </option>
               </Select>
             </div>
           ) : (

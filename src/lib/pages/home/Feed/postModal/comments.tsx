@@ -9,81 +9,118 @@ import voteOnContent from '../../api/voting';
 
 import * as Types from '../types'; 
 
-
-
-
 const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_votes, permlink }) => {
     const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
     const { user } = useAuthUser();
-
+    const [localNetVotes, setNetVotes] = useState(net_votes);
+    
     const handleVote = async () => {
         if (!user || !user.name) {
-            console.error("Username is missing");
-            return;
+          console.error("Username is missing");
+          return;
         }
-
+      
         try {
-            await voteOnContent(user.name, permlink, author, 10000);
-        } catch (error) {
-            console.error("Error voting:", error);
+          // Perform the vote operation
+          await voteOnContent(user.name, permlink, author, 10000);
+      
+          if (author) {
+            const author_alert = author;
+            alert("You just voted on " + author_alert + "'s comment! 🛹");
+          }
+      
+          // Update the net_votes only if the vote operation is successful
+          setNetVotes(net_votes + 1);
+        } catch (error:any) {
+          console.error("Error voting:", error);
+      
+          // Check if the error code is -32003 and handle it differently
+          if (error.code === -32003) {
+            // Handle this specific error case (optional)
+            // You can add custom logic here if needed
+            await voteOnContent(user.name, permlink, author, 0);
+            setNetVotes(localNetVotes-1);
+          } else {
+            // Handle other errors (if any)
+            // You can add custom error handling logic here
+          }
         }
     };
 
     return (
-        <Box border="1px solid white" borderRadius="5px" padding="15px" margin="10px">
+        <Box border="1px solid gray" borderRadius="10px" padding="15px" margin="10px">
             <Flex padding="5px" alignItems="center">
                 <Image src={avatarUrl} borderRadius="full" boxSize="40px" mr="3" />
                 <Text fontWeight="bold">@{author}</Text>
             </Flex>
             <ReactMarkdown 
-        children={body}
-        rehypePlugins={[rehypeRaw]}
-        remarkPlugins={[remarkGfm]}
-        components={{
-          img: ({ node, alt, src, title, ...props }) => (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <img {...props} alt={alt} src={src} title={title} style={{ maxWidth: '100%', height: 'auto', borderRadius:"10px", border:'1px solid limegreen' }} />
-            </div>
-          ),
-          a: ({node, children, ...props}) => <a {...props} style={{ color: 'yellow' }}>{children}</a>,
-          p: ({node, children, ...props}) => <p {...props} style={{ color: 'white' }}>{children}</p>,
-          h1: ({node, children, ...props}) => <h1 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '24px' }}>{children}</h1>,
-          h2: ({node, children, ...props}) => <h2 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '20px' }}>{children}</h2>,
-          h3: ({node, children, ...props}) => <h3 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '18px' }}>{children}</h3>,
-          blockquote: ({node, children, ...props}) => <blockquote {...props} style={{ borderLeft: '3px solid limegreen', paddingLeft: '10px', fontStyle: 'italic' }}>{children}</blockquote>,
-          ol: ({node, children, ...props}) => <ol {...props} style={{ paddingLeft: '20px' }}>{children}</ol>,
-          ul: ({node, children, ...props}) => <ul {...props} style={{ paddingLeft: '20px' }}>{children}</ul>,
-        }}
-      />
+                children={body}
+                rehypePlugins={[rehypeRaw]}
+                remarkPlugins={[remarkGfm]}
+                components={{
+                    img: ({ node, alt, src, title, ...props }) => (
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <img {...props} alt={alt} src={src} title={title} style={{ maxWidth: '100%', height: 'auto', borderRadius:"10px", border:'1px solid limegreen' }} />
+                        </div>
+                    ),
+                    a: ({node, children, ...props}) => <a {...props} style={{ color: 'yellow' }}>{children}</a>,
+                    p: ({node, children, ...props}) => <p {...props} style={{ color: 'white' }}>{children}</p>,
+                    h1: ({node, children, ...props}) => <h1 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '24px' }}>{children}</h1>,
+                    h2: ({node, children, ...props}) => <h2 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '20px' }}>{children}</h2>,
+                    h3: ({node, children, ...props}) => <h3 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '18px' }}>{children}</h3>,
+                    blockquote: ({node, children, ...props}) => <blockquote {...props} style={{ borderLeft: '3px solid limegreen', paddingLeft: '10px', fontStyle: 'italic' }}>{children}</blockquote>,
+                    ol: ({node, children, ...props}) => <ol {...props} style={{ paddingLeft: '20px' }}>{children}</ol>,
+                    ul: ({node, children, ...props}) => <ul {...props} style={{ paddingLeft: '20px' }}>{children}</ul>,
+                }}
+            />
             <Flex justifyContent="space-between" alignItems="center">
                 <Text fontSize="sm">{new Date(created).toLocaleString()}</Text>
-                <Button leftIcon={<span>🛹</span>} variant="outline" size="sm" onClick={handleVote}>
-                    {net_votes}
+                <Button leftIcon={<span></span>} variant="outline" size="sm" onClick={handleVote}>
+                    <img
+                        src='https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless'
+                        alt="Vote"
+                        style={{
+                            maxWidth: '24px', // Set a maximum width for the image
+                            maxHeight: '24px', // Set a maximum height for the image
+                            marginRight: '5px', // Add some spacing between the image and text
+                        }}
+                    />
+                    <p>{localNetVotes}</p>
                 </Button>
             </Flex>
         </Box>
     );
 };
 
-const Comments: React.FC<Types.CommentsProps> = ({ comments, commentPosted }) => {
-    const [localComments, setLocalComments] = useState<Types.CommentProps[]>(comments);
+const Comments: React.FC<Types.CommentsProps> = ({ comments, commentPosted, blockedUser }) => {
+  const [localComments, setLocalComments] = useState<Types.CommentProps[]>(comments);
+  const blockedUsersList = Array.isArray(blockedUser) ? blockedUser : [blockedUser]; // Convert to an array if it's not already
 
-    useEffect(() => {
-        if (commentPosted) {
-            // Logic to re-fetch comments when a new one is posted
-            // For now, I'm just simulating a re-fetch by setting the local state
-            // Replace this with your actual fetch logic
-            setLocalComments(comments);
-        }
-    }, [commentPosted, comments]);
+  useEffect(() => {
+      if (commentPosted) {
+          // Logic to re-fetch comments when a new one is posted
+          // For now, I'm just simulating a re-fetch by setting the local state
+          // Replace this with your actual fetch logic
+          setLocalComments(comments);
+      }
+  }, [commentPosted, comments]);
 
-    return (
-        <Box>
-            {localComments.map((comment, index) => (
-                <Comment key={index} {...comment} />
-            ))}
-        </Box>
-    );
+  const filterBlockedUserComments = (comments: Types.CommentProps[], blockedUsers: string[]): Types.CommentProps[] => {
+    const filteredComments = comments.filter((comment: Types.CommentProps) => !blockedUsers.includes(comment.author));
+    return filteredComments;
 };
+
+  // Filter comments based on blockedUser
+  const filteredComments = filterBlockedUserComments(localComments, blockedUsersList);
+
+  return (
+      <Box>
+          {filteredComments.map((comment, index) => (
+              <Comment key={index} {...comment} />
+          ))}
+      </Box>
+  );
+};
+
 
 export default Comments;

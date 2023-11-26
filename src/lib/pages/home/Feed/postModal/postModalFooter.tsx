@@ -3,11 +3,14 @@ import { Button, Flex, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box,
 import voteOnContent from '../../api/voting';
 import { useState } from 'react';
 import HiveLogin from '../../api/HiveLoginModal';
-
+import ErrorModal from './errorModal';
 import * as Types from '../types'
 
 const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, permlink, weight = 10000 }) => {
-  const [sliderValue, setSliderValue] = useState(0);
+  const [sliderValue, setSliderValue] = useState(10000);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); // Track error message
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Track modal visibility
+
   const getFeedbackText = (value: number) => {
     if (value === -10000) return "I hate it";
     if (value === -5000) return "I don't care for it";
@@ -18,10 +21,9 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
   };
   
 
+
+
   const handleVote = async () => {
-    // Assuming you have a DOM element for displaying error messages with an id "error-message"
-    const errorMessageElement = document.getElementById("error-message");
-  
     if (!user || !user.name) {
       console.error("User not logged in or missing username");
       return;
@@ -35,22 +37,26 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
       console.error("Voting failed:", error);
   
       // Use a type assertion to cast 'error' to the 'Error' type
-      const errorMessage = (error as Error).message || "An unknown error occurred.";
-      alert(`Voting failed: ${errorMessage}`);
+      const errorMessage = (error as Error).message ;
+  
+      // Set the error message and open the modal
+      setErrorMessage(`You already voted with the same voting power or ${errorMessage}`);
+      setIsErrorModalOpen(true);
     }
   };
   
   
   
+  
   return (
-    <Flex border="1px white solid" padding="20px" justify="space-between" >
+    <Flex borderRadius={"10px"}  padding="20px" justify="space-between" >
       <Button
-        bg="#121212"
+        bg="black"
         color="#fff"
         borderRadius="4px"
         p={2}
         onClick={onClose}
-        _hover={{ bg: 'white', color: '#020202' }}
+        _hover={{ bg: 'black', color: 'red' }}
         border={"1px solid white"}
       >
         Close
@@ -76,16 +82,18 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
         </Text>
       </Box>
       <Button
-        bg="white"
-        color="#020202"
+        bg="black"
+        color="white"
         borderRadius="4px"
         border="1px solid limegreen"
         p={2}
         onClick={handleVote}
-        _hover={{ bg: 'yellow', color: 'black' }}
+        _hover={{ bg: 'black', color: 'orange' }}
       >
         Vote
       </Button>
+      <ErrorModal isOpen={isErrorModalOpen} onClose={() => setIsErrorModalOpen(false)} errorMessage={errorMessage || ''} />
+
     </Flex>
   );
   

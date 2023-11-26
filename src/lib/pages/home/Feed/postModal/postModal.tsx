@@ -276,8 +276,8 @@ const transformedContent = transformYouTubeContent(content);
 
 return (
   <Modal isOpen={isOpen} onClose={onClose} size="3xl">
-    <ModalOverlay />
-    <ModalContent backgroundColor={'black'} border={'3px solid white'}>
+  <ModalOverlay style={{ background: 'rgba(0, 0, 0, 0.8)' }} /> {/* Adjust the opacity as needed */}
+    <ModalContent backgroundColor={'black'}  boxShadow="0px 0px 10px 5px rgba(128,128,128,0.1)">
       <ModalHeader>
         <PostHeader title={title} author={author} avatarUrl={avatarUrl} postUrl={postUrl} permlink={permlink} onClose={onClose} />
         {isUserLoggedIn && user.name === author && !isEditing && (
@@ -307,7 +307,7 @@ return (
         )}
         
       </ModalBody>
-      <Comments comments={comments} commentPosted={commentPosted} />
+      <Comments comments={comments} commentPosted={commentPosted} blockedUser={"hivebuzz"} permlink='' />
       <HStack justifyContent="space-between">
         <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
           <Button color="white" bg="black" margin="15px" border="1px solid orange" onClick={handleViewFullPost}>View Full Post</Button>
@@ -336,7 +336,7 @@ return (
       )}
 
 
-    </ModalContent>
+    </ModalContent>   
 
 
     <HiveLogin isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />

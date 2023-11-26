@@ -74,6 +74,9 @@ declare global {
     hive_keychain: any;
   }
 }
+const defaultTags = ["skatehive", "skateboarding" , "leofinance" ,"sportstalk", "hive-engine"];
+
+
 const NewUpload: React.FC = () => {
   const [markdownText, setMarkdownText] = useState<string>("");
   const [progress, setProgress] = useState<number>(0);
@@ -89,6 +92,7 @@ const NewUpload: React.FC = () => {
   const [tags, setTags] = useState<string[]>([]); // State to store tags
   const [includeFooter, setIncludeFooter] = useState<boolean>(false); // New state for the checkbox
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+  const [postLink , setPostLink] = useState<string>("");
 
   // 3Speak state
   const { connected, username } = get3SpeakAuthStatus();
@@ -98,12 +102,24 @@ const NewUpload: React.FC = () => {
   const [videoFile, setVideoFile] = useState<File | null>(null); // for viewing in editor
   const [videoThumbnailUrl, setVideoThumbnailUrl] = useState<string | null>(null);
 
+  useEffect(() => {
+    setTags(defaultTags);
+  }, []);
+
   const handleMarkdownChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdownText(event.target.value);
   };
-
+  const buildPostLink = () => {
+    const username = user?.name;
+    if (username) {
+      const permlink = slugify(title.toLowerCase());
+      const link = `https://skatehive.app/post/hive-173115/@${username}/${permlink}`;
+      setPostLink(link);
+    }
+  }
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    buildPostLink();
   };
 
   const handleImageUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -189,6 +205,8 @@ const NewUpload: React.FC = () => {
     }
   };
   
+  
+
 
   const onDropImages = async (acceptedFiles: File[]) => {
     setIsUploading(true);
@@ -499,7 +517,6 @@ const NewUpload: React.FC = () => {
   
         // Construct the operations array
         const operations = [postOperation, commentOptionsOperation];
-  
         // Request the broadcast using Hive Keychain
         window.hive_keychain.requestBroadcast(username, operations, 'posting', async (response: any) => {
           if (response.success) {
@@ -526,24 +543,29 @@ const NewUpload: React.FC = () => {
   };
   
   
-// Function to handle changes in the tags input field
-const handleTagsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  const inputValue = event.target.value;
-  // Check if the last character is a comma or space
-  if (inputValue.endsWith(',') || inputValue.endsWith(' ')) {
-    // Extract the new tag without the comma or space
-    const newTag = inputValue.slice(0, -1).trim();
-    if (newTag) {
-      // Add the new tag to the tags list
-      setTags([...tags, newTag]);
-      // Clear the input field
-      setTagsInput('');
+  const handleTagsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    // Check if the last character is a comma or space
+    if (inputValue.endsWith(',') || inputValue.endsWith(' ')) {
+      // Extract the new tag without the comma or space
+      const newTag = inputValue.slice(0, -1).trim();
+      if (newTag) {
+        // Check if the number of tags is less than 10 before adding a new tag
+        if (tags.length < 10) {
+          // Add the new tag to the tags list
+          setTags([...tags, newTag]);
+          // Clear the input field
+          setTagsInput('');
+        } else {
+          alert('You can only add up to 10 tags.');
+        }
+      }
+    } else {
+      // Update the input field with the current value
+      setTagsInput(inputValue);
     }
-  } else {
-    // Update the input field with the current value
-    setTagsInput(inputValue);
-  }
-};
+  };
+  
 
 // Function to render the tags as badges
     const renderTags = () => {
@@ -597,22 +619,29 @@ const handleTagsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const handleTagsSubmit = () => {
       // Split the input value by commas and trim whitespace
       const newTags = tagsInput.split(",").map((tag) => tag.trim());
-      setTags(newTags);
+      setTags( newTags);
       // Clear the input field
       setTagsInput("");
     };
   
 // Function to handle the checkbox change
 const handleIncludeFooterChange = () => {
+  const username = user?.name;
+  if (username) {
+    const permlink = slugify(title.toLowerCase());
+    const link = `https://skatehive.app/post/hive-173115/@${username}/${permlink}`;
+    setPostLink(link);
+  }
+  let newFooter = defaultFooter +  "\n" + "> **Check this post on** " + `[Skatehive App](${postLink})`
   setIncludeFooter((prevIncludeFooter) => !prevIncludeFooter);
   if (includeFooter) {
     // If the toggle is turned off, remove the default footer from Markdown text
     setMarkdownText((prevMarkdown) =>
-      prevMarkdown.replace(defaultFooter, "")
+      prevMarkdown.replace(newFooter,  "")
     );
   } else {
     // If the toggle is turned on, add the default footer to Markdown text
-    setMarkdownText((prevMarkdown) => prevMarkdown + defaultFooter);
+    setMarkdownText((prevMarkdown) => prevMarkdown + newFooter);
   }
 };
 
@@ -702,6 +731,8 @@ const handleIncludeFooterChange = () => {
           >
             <Box flex={isMobile ? "auto" : 1} p={4}>
               <Box marginBottom={4}>
+
+                  
                 <Input
                   value={title}
                   onChange={handleTitleChange}
@@ -710,6 +741,7 @@ const handleIncludeFooterChange = () => {
                   fontWeight="bold"
                 />
               </Box>
+
               <Flex flexDirection={isMobile ? "column" : "row"}>
                 <Box flex={1} marginRight={isMobile ? 0 : 4}>
                   <VStack
@@ -766,7 +798,7 @@ const handleIncludeFooterChange = () => {
                     </Checkbox>
                     <Box marginTop={4}>
                     <Text fontSize="lg" fontWeight="bold">
-                      Post Thumbnail Options
+                      Thumbnail Options (select at least one)
                     </Text>
                     <Flex flexWrap="wrap">{renderThumbnailOptions()}</Flex>
                   </Box>
@@ -807,7 +839,7 @@ const handleIncludeFooterChange = () => {
                     </Box>
                     <Box marginTop={4}>
                       <Text fontSize="lg" fontWeight="bold">
-                        Tags
+                        Split rewards with your photographer/videomaker 
                       </Text>
                       <Flex alignItems="center">
                         <Input
@@ -832,16 +864,16 @@ const handleIncludeFooterChange = () => {
             <Box
               flex={isMobile ? "auto" : 1}
               p={4}
-              border="1px solid limegreen"
+              border="1px solid white"
               margin={"15px"}
               borderRadius={"10px"}
               maxWidth={{ base: "100%", md: "50%" }}
               overflowWrap="break-word"
             >
               <Box>
-                <Flex padding="1%" borderRadius="10px" border="1px solid limegreen" align="center" mb={4}>
+                <Flex padding="1%" borderRadius="10px" border="1px solid white" align="center" mb={4}>
                   <Avatar border="1px solid limegreen" src={avatarUrl} size="sm" />
-                  <Text ml={2} fontWeight="bold">
+                  <Text ml={2} fontWeight="bold" color={"orange"}>
                     {user?.name}
                   </Text> 
                   <Text  marginLeft={"10px"} fontSize={"36px"} fontWeight={"bold"}> | </Text>

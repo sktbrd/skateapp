@@ -33,7 +33,6 @@ const WalletTransactions: React.FC<WalletTransactionsProps> = ({ wallet }) => {
     const fetchTransactions = async () => {
       try {
         const accountHistory = await dhiveClient.database.getAccountHistory(wallet, -1, batchSize * 2);
-        console.log("accountHistory", accountHistory);
 
         setTransactions(accountHistory.slice(0, batchSize));
         setIsLoading(false);

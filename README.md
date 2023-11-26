@@ -9,8 +9,8 @@
 
 ### Check the Full tutorial of [How to Fork](https://docs.skatehive.app/docs/tutorial-extras/fork-skatehive)
 
-- Install : `yarn`
-- Run : `yarn dev`
+- Install : `pnpm i`
+- Run : `pnpm dev`
 
 ### Create .env file 
 
@@ -18,7 +18,7 @@
 ### Deployment
 
 
-- build command: `yarn build:turbo`
+- build command: `pnpm build:turbo`
 - output directory: `dist`
 
 

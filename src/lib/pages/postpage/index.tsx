@@ -28,11 +28,7 @@ import VotingBox from './votingBox';
 import { transformYouTubeContent } from '../utils/videoUtils/VideoUtils';
 import { transform3SpeakContent } from '../utils/videoUtils/transform3speak';
 import { transformGiphyLinksToMarkdown } from '../utils/ImageUtils';
-
-
-type User = {
-  name: string;
-} | null;
+import useAuthUser from '../home/api/useAuthUser';
 
 
 const PostPage: React.FC = () => {
@@ -46,9 +42,9 @@ const PostPage: React.FC = () => {
   const [comments, setComments] = useState<CommentProps[]>([]);
   const [commentsUpdated, setCommentsUpdated] = useState(false);
   const [commentContent, setCommentContent] = useState('');
-  const [username, setUsername] = useState<string | null>(null);
   const [sliderValue, setSliderValue] = useState(0);
-
+  const [username, setUsername] = useState<string | null>(null);
+  const user = useAuthUser();
   useEffect(() => {
     const client = new Client('https://api.hive.blog');
 
@@ -81,7 +77,12 @@ const PostPage: React.FC = () => {
   }, [URLAuthor, URLPermlink, commentsUpdated]);
 
 
-
+  useEffect(() => {
+    if (user && user.user?.name) {
+      setUsername(user.user.name);
+    }
+  }
+  , [user]);
 
 
   const commentTitleStyle = {
@@ -132,16 +133,7 @@ const PostPage: React.FC = () => {
 
   const [isDesktop] = useMediaQuery("(min-width: 768px)");
 
-  useEffect(() => {
-    const storedUser = sessionStorage.getItem("user");
-    if (storedUser) {
-      const userObject = JSON.parse(storedUser);
-      const storedUsername = userObject.name;
-      setUsername(storedUsername);
-      console.log('username:', storedUsername);
 
-    }
-  }, []);
 
   const commentCardStyle = {
     border: '1px solid teal',
@@ -176,8 +168,6 @@ const PostPage: React.FC = () => {
     padding: '20px',
     borderRadius: '10px',
   };
-  const userFromSession = sessionStorage.getItem("user");
-  const user: User = userFromSession ? JSON.parse(userFromSession) : null;
 
   return (
     <div style={containerStyle}>
@@ -210,7 +200,7 @@ const PostPage: React.FC = () => {
         >
           <VotingBox
             onClose={() => {}}
-            user={user}
+            user={username}
             author={URLAuthor}
             permlink={URLPermlink}
             weight={sliderValue}

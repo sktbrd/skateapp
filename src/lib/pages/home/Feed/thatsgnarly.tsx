@@ -21,7 +21,6 @@ const ThatsGnarly = () => {
                 );
                 const data = response.data;
                 setSubmissions(data);
-                console.log(response);
             } catch (error) {
                 console.error("Error fetching submissions:", error);
             }

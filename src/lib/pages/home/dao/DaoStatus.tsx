@@ -5,6 +5,7 @@ import { Tabs, Tab, TabList, TabPanel, TabPanels, Flex } from "@chakra-ui/react"
 import HiveStats from './components/steemskate/hiveStats';
 import EthereumStats from './components/ethereum/ethereumStats';
 import GnarsStats from './components/hiveGnars/gnars';
+import CommunityStats from './communityStats';
 
 const DaoStatus = () => {
   // Define hooks
@@ -12,29 +13,47 @@ const DaoStatus = () => {
   const [activeTab, setActiveTab] = useState("skatehive"); // Default active tab
 
   return (
-    <Flex flexDirection="column" paddingBottom="30px" width="100%">
-      <Tabs variant='soft-rounded' colorScheme='green' isFitted>
-        <TabList>
+    <Flex  flexDirection="column" paddingBottom="10px" width="100%">
+
+      <Tabs variant='enclosed' >
+    
+
+      <TabList justifyContent="center">
           <Tab
             onClick={() => setActiveTab("skatehive")}
-            color={activeTab === "skatehive" ? "blue.500" : "gray.500"}
+            color={activeTab === "skatehive" ? "orange" : "gray.500"}
           >
             Skatehive
           </Tab>
           <Tab
             onClick={() => setActiveTab("gnars")}
-            color={activeTab === "gnars" ? "blue.500" : "gray.500"}
+            color={activeTab === "gnars" ? "yellow" : "gray.500"}
           >
             Gnars
           </Tab>
         </TabList>
-        <TabPanels>
-          <TabPanel>
+        <center>
+
+        <TabPanels  justifyContent={'center'}>
+          <TabPanel >
             {activeTab === "skatehive" && (
-              <Flex flexDirection="row" paddingBottom="30px" width="100%">
-                <EthereumStats />
+              <div>
+
+              <CommunityStats communityTag="skatehive" />
+              <center>
+
+              <Flex maxWidth={"90%"}
+                flexDirection={{ base: 'column', md: 'row' }} // Use 'column' on small screens and 'row' on medium and larger screens
+                >
+                
+
+                <EthereumStats  />
                 <HiveStats wallet="steemskate" />
+                
               </Flex>
+                </center>
+
+              </div>
             )}
           </TabPanel>
           <TabPanel>
@@ -42,7 +61,10 @@ const DaoStatus = () => {
             
           </TabPanel>
         </TabPanels>
+            </center>
+
       </Tabs>
+
     </Flex>
   );
 }

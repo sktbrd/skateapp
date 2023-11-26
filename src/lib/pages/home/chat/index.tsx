@@ -82,7 +82,6 @@ const Chat: React.FC = () => {
       const userObject = JSON.parse(storedUser);
       const storedUsername = userObject.name;
       setUsername(storedUsername);
-      console.log(post);
     }
   
     // Start polling for comments when the modal is open
@@ -158,8 +157,7 @@ const Chat: React.FC = () => {
       try {
         if (response.success) {
           setCommentContent('');
-          console.log("Comment posted successfully");
-  
+          
           // Fetch comments immediately after posting a comment
           fetchComments();
         } else {

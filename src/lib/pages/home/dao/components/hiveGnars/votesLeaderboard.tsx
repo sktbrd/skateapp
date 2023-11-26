@@ -19,7 +19,7 @@ interface UniqueAuthors {
 const VotesLeaderboard: React.FC<votesLeaderboardProps> = ({ username }) => {
   const [voteHistory, setVoteHistory] = useState([] as any);
   const [uniqueAuthors, setUniqueAuthors] = useState([] as UniqueAuthors[]);
-  const [batchSize, setBatchSize] = useState(10);
+  const [batchSize, setBatchSize] = useState(30);
   const [isLoading, setIsLoading] = useState(true);
 
   const getVoteHistory = async () => {
@@ -153,7 +153,7 @@ const VotesLeaderboard: React.FC<votesLeaderboardProps> = ({ username }) => {
                   @{author.username}
                 </ChakraLink>
               </Text>
-              <Text
+              {/* <Text
                 textAlign="center"
                 borderRadius="12px"
                 fontWeight="700"
@@ -162,7 +162,7 @@ const VotesLeaderboard: React.FC<votesLeaderboardProps> = ({ username }) => {
                 padding="10px"
               >
                 {author.totalVotes} votes
-              </Text>
+              </Text> */}
               <Text
                 textAlign="center"
                 borderRadius="12px"

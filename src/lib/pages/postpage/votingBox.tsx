@@ -1,42 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Flex, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box, Text } from '@chakra-ui/react';
 import voteOnContent from '../home/api/voting';
-import { useState } from 'react';
+import useAuthUser from '../home/api/useAuthUser';
+import ErrorModal from '../home/Feed/postModal/errorModal';
 
+import * as Types from '../home/Feed/types';
 
-import * as Types from '../home/Feed/types'
+const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink, weight = 10000 }) => {
+  const user = useAuthUser();
+  
+  const [sliderValue, setSliderValue] = useState(5000);
 
-const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, user, author, permlink, weight = 10000 }) => {
-  const [sliderValue, setSliderValue] = useState(0);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Track modal visibility
+
   const getFeedbackText = (value: number) => {
     if (value === -10000) return "I hate it";
     if (value === -5000) return "I don't care for it";
     if (value === 0) return "Skaters can do better";
     if (value === 5000) return "That's kind of cool";
-    if (value === 10000) return "That's fucking awesome";
+    if (value === 10000) return "That's awesome";
     return "";
   };
-  
 
   const handleVote = async () => {
-    
-    if (!user || !user.name) {
+    if (!user || !user.user?.name) {
       console.error("User not logged in or missing username");
       return;
     }
-  
+
     try {
-      await voteOnContent(user.name, permlink, author, sliderValue);
+      await voteOnContent(user.user.name, permlink, author, sliderValue);
       console.log("Voting successful!");
       // handle the vote result here
     } catch (error) {
       console.error("Voting failed:", error);
+      setIsErrorModalOpen(true);
       // handle the error properly here
     }
   };
-  
-  
-   
+
   const emojiByAmount: { [key: string]: string } = {
     "-10000": "💩",
     "-5000": "💀",
@@ -44,16 +46,16 @@ const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, user, author, per
     "5000": "🙂",
     "10000": "🛹",
   };
-  
-  const skateEmojiStyle = {
+
+  const skateEmojiStyle: React.CSSProperties = {
     fontSize: '2em',
     position: 'absolute',
     top: '50%',
     left: `${(sliderValue + 10000) / 20000 * 100}%`,
     transform: 'translate(-50%, -50%)',
     cursor: 'grab',
-  } as React.CSSProperties; // Type assertion
-  
+  };
+
   return (
     <Flex flexDirection="column" alignItems="center" minWidth="100%" borderRadius="10px" border="1px white solid" padding="20px">
       <Box width="100%" marginBottom="20px" position="relative">
@@ -87,6 +89,11 @@ const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, user, author, per
           Vote
         </Button>
       </Flex>
+      <ErrorModal
+        isOpen={isErrorModalOpen}
+        onClose={() => setIsErrorModalOpen(false)}
+        errorMessage="You already voted with the same voting power or you are not logged in, Pepe is Confused!"
+      />
     </Flex>
   );
 }

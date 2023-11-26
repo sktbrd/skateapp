@@ -3,11 +3,8 @@ import { useEffect, useState } from 'react';
 //@ts-ignore
 import { usePioneer } from '@pioneer-platform/pioneer-react';
 import NFTWallet from './nft/nftWallet';
-import EvmBalance from './evm/evmWallet';
-import FiatBalance from './fiat/fiat';
 import POAPsNFTWallet from './nft/poapWallet';
 import HiveBalanceDisplay2 from './hive/hiveBalance';
-
 import {
   useMediaQuery,
   Box,
@@ -22,20 +19,35 @@ import {
 import Web3 from 'web3'; // Ensure you have this imported
 import * as Types from './nft/types';
 import TestEvm from './testEvm/testEvm';
+import PortfolioPage from './evm/pioneerBalance';
+import SwapComponent from './hive/hiveSwapModal';
+
 
 const Wallet = () => {
-  const { state } = usePioneer();
-  const { api, app, context, assetContext, blockchainContext, pubkeyContext } = state;
-  const [address, setAddress] = useState('');
-  const [totalWorth, setTotalWorth] = useState<number>(0);
-  const [nftList, setNftList] = useState<Types.NFT[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
+  const { state } = usePioneer();
+  const { api, app, context, assetContext, blockchainContext, pubkeyContext, status } = state;
+  const [ETHaddress, setETHAddress] = useState("");
+  const [userPortfolios, setUserPortfolios] = useState<Types.NFT[]>([]); // Provide a type annotation for userPortfolios
+  const [loading, setLoading] = useState(true);
+  const defaultImageUrl = "../../../assets/loading.gif"; // Replace with the actual URL of your default image
+  
+  const onStart = async function () {
+    try {
+      if (app && app.wallets && app.wallets.length > 0 && app.wallets[0].wallet && app.wallets[0].wallet.accounts) {
+        const currentAddress = app.wallets[0].wallet.accounts[0];
+        setETHAddress(currentAddress);
+      } else {
+        console.error("Some properties are undefined or null");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  
   useEffect(() => {
-    console.log('pubkeyContext: ', pubkeyContext);
-    setAddress(pubkeyContext.master || pubkeyContext.pubkey);
-  }, [pubkeyContext]);
+    onStart();
+  }, [app, api, app?.wallets, status, pubkeyContext]);
 
   return (
     <Tabs color="limegreen" variant="enclosed">
@@ -46,18 +58,30 @@ const Wallet = () => {
 
       <TabPanels>
       <TabPanel>
-        <center>
 
-  <Flex maxWidth={"30%"} direction={["column", "row"]}>
+      <Flex
+  direction={{ base: 'column', md: 'row' }}
+  justify="space-between"
+  align="stretch"
+>
 
-    <Box  flex={1} mb={[4, 0]}>
-      <HiveBalanceDisplay2 />
-    </Box>
-    {/* <Box flex={1} ml={[0, 4]}>
-      <TestEvm />
-    </Box> */}
-  </Flex>
-    </center>
+  <Box
+    mb={{ base: 4, md: 0 }}
+    width={{ base: '100%', md: '50%' }} // Full width on small screens, 50% width on medium and larger
+  >
+    <HiveBalanceDisplay2 />
+    {/* <SwapComponent /> */}
+  </Box>
+
+  <Box
+    ml={{ base: 0, md: 4 }}
+    width={{ base: '100%', md: '50%' }} // Full width on small screens, 50% width on medium and larger
+  >
+    <PortfolioPage wallet_address={ETHaddress} />
+  </Box>
+
+</Flex>
+
   
 </TabPanel>
 

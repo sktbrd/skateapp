@@ -15,15 +15,15 @@ import {
   ModalOverlay,
   ModalContent,
   useDisclosure,
+  Tooltip,
 } from "@chakra-ui/react";
-
 import { Client } from "@hiveio/dhive";
 import voteOnContent from "../api/voting";
 import useAuthUser from "../api/useAuthUser";
 
 import { useEffect, useState } from "react";
 import PostModal from "./postModal/postModal";
-
+import ErrorModal from "./postModal/errorModal";
 import { useNavigate, Link } from "react-router-dom";
 
 import * as Types from "./types";
@@ -31,6 +31,12 @@ import { css } from "@emotion/react";
 
 import EarningsModal from "./postModal/earningsModal"; // Replace with the correct path to EarningsModal
 import { MdArrowUpward } from 'react-icons/md';
+import { Style } from "util";
+interface ErrorModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  errorMessage: string;
+}
 
 const nodes = [
   "https://rpc.ecency.com",
@@ -47,18 +53,19 @@ const defaultThumbnail =
 const placeholderEarnings = 69.42;
 
 const randomSentences = [
+  // "Have a spooky Skateboarding!",
   "Don't mall grab, or do it, you do you...",
-  "'Ok to push Mongo it is (master YODA)'",
-  "Roll one and play some stoken.quest",
+  "'Ok to push Mongo, it is! -master yoda'",
+  "Roll one, and play some stoken.quest?",
   "Remember Mirc times ?",
   "Fuck instagram!",
   "Ready to grind on chain?",
   "Praise whoever made skatevideosite",
   "Loading Stokenomics...",
-  "Initiating proof of stoke...", 
-  "We will as fast as Daryl on a hill",
-  "Nobody knows who was Gnartoshi Shredmoto",
-  "We have secret sections here, try /411"
+  "Initiating Proof of Stoke...", 
+  "We will load as fast as Daryl Rolls",
+  "Who was Gnartoshi Shredamoto?",
+  "We have secret sections here, can you find?"
 ];
 
 const PlaceholderLoadingBar = () => {
@@ -67,7 +74,7 @@ const PlaceholderLoadingBar = () => {
 
   return (
     <center>
-      <Image src="https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif" />
+      <Image boxSize="300px" src="https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif" />
       <Text>{randomSentence}</Text>
     </center>
   );
@@ -91,10 +98,14 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     null
   );
   const [postUrl, setPostUrl] = useState<string | null>(null);
-  const [displayedPosts, setDisplayedPosts] = useState<number>(15 );
-  const [postsToLoadInitially] = useState<number>(15); // Number of posts to load initially
+  const [displayedPosts, setDisplayedPosts] = useState<number>(20 );
+  const [postsToLoadInitially] = useState<number>(20); // Number of posts to load initially
   const [postsToLoadMore] = useState<number>(10); // Number of additional posts to load on "Load More" click
   const { user, isLoggedIn } = useAuthUser();
+  const [hasVotedWitness, setHasVotedWitness] = useState<boolean>(false); // Step 4
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Track modal visibility
+  const [errorMessage, setErrorMessage] = useState<string>(""); // Track error message
+
   const fetchPostEarnings = async (
     author: string,
     permlink: string
@@ -115,12 +126,12 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
       const newIndex = (nodeIndex + 1) % nodes.length;
       setNodeIndex(newIndex);
       setClient(new Client(nodes[newIndex]));
-      console.log(`Switched to node: ${nodes[newIndex]}`);
       // Retry the request with the new node
       return fetchPostEarnings(author, permlink);
     }
   };
 
+  
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const fetchPosts = async () => {
@@ -231,7 +242,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
       const newIndex = (nodeIndex + 1) % nodes.length;
       setNodeIndex(newIndex);
       setClient(new Client(nodes[newIndex]));
-      console.log(`Switched to node: ${nodes[newIndex]}`);
       // Retry the request with the new node
       return fetchComments(author, permlink);
     }
@@ -292,7 +302,7 @@ const cardStyles = css`
   }
 `;
 
-const truncateTitle = (title:any, maxCharacters = 110) => {
+const truncateTitle = (title:any, maxCharacters = 60) => {
   // full caps for title of post
   title = title.toUpperCase();
 
@@ -308,6 +318,8 @@ const handleVoteClick = async (post: any) => {
   if (!isLoggedIn()) {
     // Handle the case where the user is not logged in, e.g., show a login prompt
     console.log("User is not logged in. Show a login prompt.");
+    setErrorMessage("You have to login first ! Dãããã... ")
+    setIsErrorModalOpen(true)
     return;
   }
 
@@ -325,8 +337,15 @@ const handleVoteClick = async (post: any) => {
   } catch (error) {
     // Handle voting error
     console.error("Error while voting:", error);
+    setErrorMessage("You already voted with the same voting power!")
+
+    setIsErrorModalOpen(true); // Open the error modal
   }
 };
+const cardStyleGradient = css`
+background-color: "linear-gradient(to top, #0D0D0D, #1C1C1C, #000000)",
+`;
+
 
 return (
   <Box>
@@ -334,6 +353,11 @@ return (
       <PlaceholderLoadingBar />
     ) : (
       <>
+        <ErrorModal
+          isOpen={isErrorModalOpen}
+          onClose={() => setIsErrorModalOpen(false)}
+          errorMessage={errorMessage}
+        />
         <Box
           display="grid"
           gridTemplateColumns={`repeat(${gridColumns}, minmax(280px, 1fr))`}
@@ -343,41 +367,53 @@ return (
             <Card
               //border="1px"
               //borderColor="limegreen"
-              bg="black"
+              bg="linear-gradient(to top,  black, #070807, black)"
               key={post.permlink}
               maxW="md"
               mb={2}
               onClick={() => handleCardClick(post)}
               cursor="pointer"
               css={cardStyles} /* Apply the cardStyles CSS */
+              style={{
+                backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EoiK3LBjuqLaVD9nZEAP6So8j7LFhq9G5S68GSkB99WbwHQs37pXjXpfu5BECdazJh6.png`, // Replace 'your-image-url.jpg' with your image URL
+                backgroundSize: '100% auto',
+                backgroundPosition: 'center top',
+                backgroundRepeat: 'no-repeat',
+                
+                
+                /* Other styles as needed */
+              }}
             >
 
 
               <CardHeader>
-                <Flex>
-                  <Flex
-                    css={cardStyles} /* Apply the cardStyles CSS */
-                    flex="1"
-                    gap="3"
-                    borderRadius="10px"
-                    alignItems="center"
+                <Flex
+                  css={cardStyles} /* Apply the cardStyles CSS */
+                  borderRadius="10px"
+                  justifyContent="center" /* Center the content horizontally */
+                  alignItems="center"
+                
+                >
+                  <Heading 
+                  color="white"
+                  paddingTop={"10px"}
+                  size="lg"
+                  style={{
+                    textShadow: '0 0 20px rgba(0, 255, 0, 0.7)', // Apply a green glow behind the text
+                    fontStyle: 'italic', // Make the text italic
+                  }} 
                   >
-                    <Box>
-                      <Heading color="white" size="lg">
-                        {post.author}
-                      </Heading>
-                    </Box>
-                  </Flex>
-
+                    {post.author}
+                  </Heading>
                 </Flex>
               </CardHeader>
 
-              
-              <Box padding="10px" height="200px"> 
+                            
+              <Box padding="20px" height="200px"> 
                 <Image 
                   objectFit="cover"
                   border="1px solid limegreen"
-                  borderRadius="35px"
+                  borderRadius="20px"
                   src={post.thumbnail}
                   alt="Post Thumbnail"
                   height="100%"
@@ -416,68 +452,130 @@ return (
               </Box>
           </CardBody>
 
-              <CardFooter>
+              <CardFooter
+                
+              style={{
+                
+                backgroundImage:
+                    post.earnings > 30
+                    ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EocCPiTarW3qvJ2tp67PbkHCwcpac51SkMpTqDg6HjTQZYDncJvxkikLToUUBEHWG8A.gif')`
+                    : post.earnings >= 10 && post.earnings <= 20
+                    ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EnymbnXgVUtxPZPsL3n1nQRYkhnv1VBGfV3ABoPLqN5VKgdjhV9wiH9hBtz8e1iVTXF.gif')`
+                    : 'none',
+                    backgroundSize: '100% auto',
+                    backgroundPosition: 'center bottom',
+                    backgroundRepeat: 'no-repeat',
+                    overflow: 'hidden',
+                    borderRadius: '10px',
+                    
+                
+              }}
+
+              
+            >
+              
+              
                 <Text
                   color="white"
                   marginTop = "2px"
                   style={{ display: "flex", alignItems: "center" }} >
 
                 <Link to={`profile/${post.author}`}>
-                      <Avatar
-                        name={post.author}
+                      <Image
                         border="1px solid limegreen"
-                        borderRadius="100px"
+                        borderRadius="10px"
                         src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
                         width="105%"
                         height="105%"
+                        style={{
+                          boxShadow: '0 8px 12px rgba(0, 0, 0, 0.8)', // Adding a drop shadow
+                        }}
                       />
                     </Link>
 
                     
+                
+                <Tooltip color={"white"} backgroundColor={"black"} border={"1px dashed limegreen"} label={<div style={{color: 'limegreen'}}>45% - 🛹 Author + Benef. <br /> 50% - 🧡 Voters <br /> 5%  - 🏦 Treasury* <br /><br /> Click to Learn More  </div>} aria-label="View Voters">
+                <Button
+                      position="absolute"
+                      bottom="10px"
+                      right="10px"
+                      onClick={(e) => {e.stopPropagation(); handleVotersModalOpen(post);}}
+                      variant="ghost"
+                      colorScheme="green"
+                      size="s"
+                      ml={2}
+                      style={{
+                          fontFamily: 'Helvetica',
+                          fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`,
+                          textShadow: '2px 2px 1px rgba(0, 0, 0, 1)',
+                          transition: 'background-color 0.3s ease-in-out' // Add a transition for a smoother effect
+                      }}
+                      _hover={{
+                          backgroundColor: 'transparent' // Set the background color to transparent on hover
+                      }}
+                  >
 
-                  <Button
-                    position="absolute"
-                    bottom="10px"
-                    right="10px"
-                    onClick={(e) => {e.stopPropagation(); handleVotersModalOpen(post);}}
-                    variant="ghost"
-                    colorScheme="green"
-                    size="s"
-                    ml={2}
-                    style={{ fontFamily: 'Helvetica', 
-                            fontSize: `${Math.min(46, 13 + (post.earnings * 1.2))}px`, }} //dynamically changes font size based on numerical value of post.earnings
-                            > 
-                              
-                    $ {post.earnings.toFixed(2)}
-                    <img
+                    
+                    <span style={{ fontFamily: 'serif', color: 'chartreuse'}}>
+                    
+                      $</span>{post.earnings.toFixed(2)}
+                    
+                    
+                    
+        
+                    <img //spinning stoken coin
                       src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
                       alt="spinning stoken coin"
                       style={{
-                        width: "18px",
-                        height: "18px",
+                        // Dynamically set the size based on earnings
+                        width: `${Math.min(250, 18 + (post.earnings * 0.6))}px`, 
+                        height: `${Math.min(250, 18 + (post.earnings * 0.6))}px`, 
                         marginLeft: "7px",
                         marginBottom: "2px",
                       }}
                     />
                   </Button>
+                </Tooltip>
+
                 </Text>
-                
+
                 <Box marginLeft="auto">
+                <Tooltip backgroundColor={"black"} border={"1px dashed limegreen"} label={<div style={{color: 'orange'}}>Wow!</div>} aria-label="View Voters">
+
                 <IconButton
-              icon={<MdArrowUpward />}
-              backgroundColor="green"
-              color="white"
-              variant="ghost"
-              size="xs"
-              borderRadius="50%"
-              aria-label="Upvote"
-              border="1px"
-              borderColor="limegreen"
-              onClick={() => handleVoteClick(post)}
-            />
+                    icon={<MdArrowUpward />}
+                    backgroundColor="black"
+                    color="blue"
+                    
+                    size="sm"
+                    borderRadius="50%"
+                    aria-label="Upvote"
+                    border="1px"
+                    borderColor="limegreen"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent the click event from propagating
+                      handleVoteClick(post);
+                  
+                    }}
+
+                    style={{ width: '10px' }} // Manually adjust the size
+
+                    _hover={{
+                      backgroundColor: 'mediumspringgreen', // Change the color on hover
+                      color: 'mediumvioletred', // Change the text color on hover
+                      boxShadow: '0 0 8px darkgoldenrod, 0 0 8px darkgoldenrod, 0 0 8px darkgoldenrod', // Add an underglow effect
+                      border: "2px solid darkgreen"
+                    }}
+
+                    
+                    
+                  />
+
+                                  </Tooltip>
+
                  </Box>
                  
-
 
 
               </CardFooter>

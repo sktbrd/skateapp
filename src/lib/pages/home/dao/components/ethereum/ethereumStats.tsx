@@ -106,7 +106,6 @@ async function getBalance(wallet: string) {
   
   
       if (response.data.status === '1') {
-        console.log(response)
         const balance = ethers.utils.formatEther(response.data.result);
         return balance;
       } else {
@@ -129,7 +128,6 @@ async function getBalance(wallet: string) {
           const multisigBalanceAsNumber = parseFloat(eth_multisig);
   
           setmultisigETHBalance(multisigBalanceAsNumber);
-          console.log("MULTISIG", multisigBalanceAsNumber);
           
         } else {
           console.error("Eth_multisig is undefined");
@@ -140,7 +138,6 @@ async function getBalance(wallet: string) {
         if (eth_hotwallet !== undefined) {
           const hotWalletBalanceAsNumber = parseFloat(eth_hotwallet);
           setHotWalletBalance(hotWalletBalanceAsNumber);
-          console.log("HOT WALLETT", hotWalletBalanceAsNumber);
         } else {
           console.error("Eth_hotwallet is undefined");
         }
@@ -187,7 +184,8 @@ useEffect(() => {
       borderRadius="12px"
       padding="10px"
       margin="10px"
-      width={['100%', '50%']} // Set width to 100% on mobile, 50% on other screen sizes
+      minWidth={['50%']} 
+      // Set width to 100% on mobile, 50% on other screen sizes
     >
       <VStack spacing={4} align="stretch">
 
@@ -211,7 +209,9 @@ useEffect(() => {
         <Divider backgroundColor="#7CC4FA" />
 
         <Flex alignItems="center" justifyContent="center">
-          <Text fontWeight="bold" color="#7CC4FA">Total Worth: {totalWorthof2wallets}</Text>
+        <Text fontSize={"2xl"} fontWeight="bold" color="#7CC4FA">
+  Total Worth: <Text style={{ fontSize: '48px' }}>{totalWorthof2wallets}</Text>
+</Text>
         </Flex>
         <Divider backgroundColor="#7CC4FA" />
         <HStack spacing={4} align="stretch">
@@ -257,7 +257,7 @@ useEffect(() => {
       onClick={handleCopyClick}
       style={{ cursor: "pointer" }}
     >
-      Gnars Deleg: {currentVotes}
+      Delegate Your Gnars Here | Current Votes: {currentVotes}
     </ChakraLink>
     </Tooltip>
         </HStack>
@@ -303,7 +303,7 @@ const BalanceDisplay = ({
     <Box
       borderRadius="5px"
       border="1px solid #7CC4FA"
-      width="50%"
+      width="100%"
       padding="10px"
       textAlign="center"
     >

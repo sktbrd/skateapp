@@ -1,4 +1,4 @@
-import { Image, Box, Text, Flex, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
+import { Image, Box, Text, Flex, Tabs, TabList, TabPanels, Tab, TabPanel, Button, Modal, ModalBody, ModalCloseButton, ModalOverlay, ModalContent,ModalFooter, ModalHeader } from "@chakra-ui/react";
 import useAuthUser from "../home/api/useAuthUser";
 import React, { useEffect, useState } from 'react';
 import HiveBlog from "../home/Feed/Feed";
@@ -21,17 +21,51 @@ interface Following {
 const DEFAULT_AVATAR_URL = "https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif";
 const DEFAULT_COVER_IMAGE_URL = 'https://i.ibb.co/r20bWsF/You-forgot-to-add-a-cover.gif';
 
+
+interface EditProfileModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose }) => {
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} size="md">
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Edit Profile</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          {/* Add your form or content for editing the profile here */}
+          <Text>Modal content goes here...</Text>
+        </ModalBody>
+        <ModalFooter>
+          <Button colorScheme="blue" mr={3} onClick={onClose}>
+            Close
+          </Button>
+          {/* Add save or update button as needed */}
+          <Button variant="ghost">Save Changes</Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+};
+
+
+
 export default function ProfilePage() {
   const { user } = useAuthUser() as { user: User | null };
   const [coverImageUrl, setCoverImageUrl] = useState<string>(DEFAULT_COVER_IMAGE_URL);
-
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   useEffect(() => {
     const fetchCoverImage = async () => {
       if (user) {
         try {
         const metadata = JSON.parse(user.posting_json_metadata || '');
         const coverImage = metadata.profile.cover_image;
-        setCoverImageUrl(coverImage);
+
+        if (coverImage) {
+          setCoverImageUrl(coverImage);
+          return;
+        }
         } catch (error) {
           console.error('Error parsing JSON metadata:', error);
         }
@@ -42,12 +76,24 @@ export default function ProfilePage() {
   }, [user]);
   const UserAbout = () => {
     if (user) {
-      const metadata = JSON.parse(user.posting_json_metadata || '');
-      const about = metadata.profile.about;
-      return about;
+      try {
+        const metadata = JSON.parse(user.posting_json_metadata || '');
+        const about = metadata.profile.about;
+        
+        return (
+          <Box border={"1px solid limegreen"} p={10} borderRadius={20}>
+            <Text fontSize={32} color={"white"}>{about}</Text>
+          </Box>
+        );
+      } catch (error) {
+        return <Text>Can't find a description.</Text>;
+      }
     } else {
       return "No user";
     }
+  }
+  const editClick = () => {
+    setIsEditModalOpen(true);
   }
 
   return (
@@ -59,14 +105,14 @@ export default function ProfilePage() {
     margin="0 auto"  
     backgroundColor={"transparent"}
     >
-      <Image src={coverImageUrl} alt="Cover Image" maxH="340px" width="100%" objectFit="cover" />
+      <Image src={coverImageUrl} alt="Cover Image" maxH="340px" width="100%" objectFit="cover"  border={"1px solid "} />
 
       <Flex alignItems="center" justifyContent="center" padding="10px" position="relative" zIndex="1">
         <Box
           position="absolute"
           left="50%"
           transform="translate(-50%, -65%)"
-          borderRadius="20%"
+          borderRadius="10%"
           boxSize="162px"
           bg="white"
           boxShadow="0px 2px 6px rgba(0, 0, 0, 0.1)"
@@ -89,6 +135,9 @@ export default function ProfilePage() {
             />
           )}
         </Box>
+        <Button>
+          Edit Profile
+        </Button>
       </Flex>
 
       <Tabs variant={"unstyled"}  colorScheme="green">
@@ -111,6 +160,8 @@ export default function ProfilePage() {
             </TabPanel>
         </TabPanels>
       </Tabs>
+      {isEditModalOpen && <EditProfileModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} />}
+
     </Box>
   );
 }

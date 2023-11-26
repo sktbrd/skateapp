@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Box, Text, Button, Center, Badge, VStack, Grid, GridItem, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Text, Button, Center, Badge, VStack, Grid, GridItem, useBreakpointValue, Tooltip } from "@chakra-ui/react";
 import useAuthUser from "lib/pages/home/api/useAuthUser";
 import * as dhive from "@hiveio/dhive";
+import UserReputation from "../utils/hiveFunctions/usersReputation";
+import { KeychainSDK } from "keychain-sdk";
+import PowerUpModal from "../wallet/hive/powerUpModal";
+
 
 const dhiveClient = new dhive.Client([
   "https://api.hive.blog",
@@ -18,6 +22,11 @@ interface User {
     hive_power?: number;
   };
 }
+export interface WitnessVote {
+  username: string;
+  witness: string;
+  vote: boolean;
+}
 
 export default function AuthorProfilePage() {
   const user = useAuthUser() as User;
@@ -30,6 +39,8 @@ export default function AuthorProfilePage() {
   const [received_vesting_shares, setReceivedVestingShares] = useState<string>("");
   const [hivePower, setHivePower] = useState<string>("");
   const [hasFollowCurationTrail, setHasFollowCurationTrail] = useState<boolean>(false);
+  const [hasPostedLastMonth, setHasPostedLastMonth] = useState<boolean>(false);
+  const [showPowerUpModal, setShowPowerUpModal] = useState<boolean>(false);
 
   const convertVestingSharesToHivePower = async (
     vestingShares: string,
@@ -79,34 +90,64 @@ export default function AuthorProfilePage() {
         setDelegatedVestingShares(String(account[0]?.delegated_vesting_shares || ""));
         setReceivedVestingShares(String(account[0]?.received_vesting_shares || ""));
         setHasVotedWitness(hasVotedWitness);
-
+  
         // Update state values before calling convertVestingSharesToHivePower
         const result = await convertVestingSharesToHivePower(
           String(account[0]?.vesting_shares || ""),
           String(account[0]?.delegated_vesting_shares || ""),
           String(account[0]?.received_vesting_shares || "")
         );
-
+  
         if (parseFloat(result.hivePower) > 500) {
           setHasMoreThan500HP(true);
         }
+  
+        // Check if the last account update was made in the last month
+        const lastAccountUpdateDate = new Date(account[0]?.last_post || "");
+        const oneMonthAgo = new Date();
+        oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+  
+        setHasPostedLastMonth(lastAccountUpdateDate > oneMonthAgo);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
+  
     if (user.user?.name) {
       setUsername(user.user.name);
       fetchData();
     }
   }, [user.user?.name, username]);
-
-  const handleVoteClick = async () => {
-    console.log("Voting for skatehive witness");
+  
+  const handleWitnessVote = async () => {
+    try {
+      const keychain = new KeychainSDK(window);
+  
+      const formParamsAsObject = {
+        "data": {
+          "username": username, // Use the current username
+          "witness": "skatehive", // Specify the witness you want to vote for
+          "vote": true
+        }
+      };
+  
+      const witnessVoteResult = await keychain.witnessVote(formParamsAsObject.data as WitnessVote);
+      console.log({ witnessVoteResult });
+  
+      // Update state to reflect the witness vote
+      setHasVotedWitness(true);
+    } catch (error) {
+      console.error("Error voting for witness:", error);
+    }
   };
+  const handleWitnessClick = async () => {
+    await handleWitnessVote();
+  };
+  
+
 
   const handlePowerUpClick = async () => {
-    console.log("Powering up");
+    setShowPowerUpModal(true);
   }
 
   const numColumns = useBreakpointValue({ base: 1, md: 3 });
@@ -115,16 +156,25 @@ export default function AuthorProfilePage() {
     <Box
       className="hive_box"
       borderRadius="12px"
-      border="1px solid red"
+      border="1px solid limegreen"
       padding="20px"
       fontFamily="'Courier New', monospace"
       boxShadow="md"
     >
       <Center>
-        <Text fontWeight="700" fontSize="24px" color="limegreen" mb="10px">
-         Are you a Cool SkateHiver? 
+        <Text fontWeight="700" fontSize="24px" color="white" mb="10px">
+        Are you a Cool SkateHiver?&nbsp;
+        <Tooltip
+          label="This is your Hive Blockchain Reputation"
+          aria-label="A tooltip"
+          >
+
+          <UserReputation username={username} />
+          </Tooltip> 
         </Text>
+
       </Center>
+
 
       <Grid
         templateColumns={`repeat(${numColumns}, 1fr)`}
@@ -145,7 +195,7 @@ export default function AuthorProfilePage() {
             Witness Voting: {hasVotedWitness ? "Voted ✅" : "Incomplete"}
           </Badge>
           {!hasVotedWitness && (
-            <Button onClick={handleVoteClick} colorScheme="teal" >
+            <Button onClick={handleWitnessClick} colorScheme="teal" >
               Vote !
             </Button>
           )}
@@ -172,7 +222,7 @@ export default function AuthorProfilePage() {
           </VStack>
         </GridItem>
 
-        <GridItem>
+        {/* <GridItem>
           <VStack>
 
           <Badge
@@ -189,9 +239,29 @@ export default function AuthorProfilePage() {
               Follow Curation Trail
             </Button>
           )}
+
+
           </VStack>
-        </GridItem>
+        </GridItem> */}
+        <GridItem>
+  <VStack>
+    <Badge
+      borderRadius="12px"
+      fontWeight="700"
+      fontSize="18px"
+      colorScheme={hasPostedLastMonth ? "green" : "red"}
+      p="10px"
+    >
+      Last Post: {hasPostedLastMonth ? "Within Last Month ✅" : "More Than a Month Ago"}
+    </Badge>
+  </VStack>
+</GridItem>
+
       </Grid>
+      {showPowerUpModal && (
+  <PowerUpModal isOpen={showPowerUpModal} onClose={() => setShowPowerUpModal(false)} user={{ name: username }} />
+)}
+
 
 
     </Box>

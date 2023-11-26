@@ -180,51 +180,51 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     setIsLoadingMore(false); // Clear loading state after new posts are loaded
   };
 
+  const fetchInitialPosts = async () => {
+    setIsLoadingInitial(true); // Set loading state for initial posts
+
+    try {
+      const query = {
+        tag: currentTag,
+        limit: postsToLoadInitially, // Load initial posts
+      };
+      const result = await client.database.getDiscussions(queryType, query);
+
+      const postsWithThumbnails = result.map((post) => {
+        const metadata = JSON.parse(post.json_metadata);
+        const thumbnail =
+          Array.isArray(metadata?.image) && metadata.image.length > 0
+            ? metadata.image[0]
+            : defaultThumbnail;
+        return { ...post, thumbnail, earnings: 0 }; // Initialize earnings to 0
+      });
+
+      // Fetch earnings for each initial post concurrently
+      const earningsPromises = postsWithThumbnails.map((post) =>
+        fetchPostEarnings(post.author, post.permlink).catch((error) => {
+          console.log(error);
+          return placeholderEarnings; // Use placeholder value if fetching actual earnings fails
+        })
+      );
+      const earnings = await Promise.all(earningsPromises);
+
+      // Update earnings for each initial post
+      const updatedPostsWithEarnings = postsWithThumbnails.map(
+        (post, index) => ({ ...post, earnings: earnings[index] })
+      );
+
+      // Set the initial loaded posts
+      setLoadedPosts(updatedPostsWithEarnings);
+    } catch (error) {
+      console.log(error);
+    }
+
+    setIsLoadingInitial(false); // Clear loading state for initial posts
+  };
+
   useEffect(() => {
-    const fetchInitialPosts = async () => {
-      setIsLoadingInitial(true); // Set loading state for initial posts
-
-      try {
-        const query = {
-          tag: currentTag,
-          limit: postsToLoadInitially, // Load initial posts
-        };
-        const result = await client.database.getDiscussions(queryType, query);
-
-        const postsWithThumbnails = result.map((post) => {
-          const metadata = JSON.parse(post.json_metadata);
-          const thumbnail =
-            Array.isArray(metadata?.image) && metadata.image.length > 0
-              ? metadata.image[0]
-              : defaultThumbnail;
-          return { ...post, thumbnail, earnings: 0 }; // Initialize earnings to 0
-        });
-
-        // Fetch earnings for each initial post concurrently
-        const earningsPromises = postsWithThumbnails.map((post) =>
-          fetchPostEarnings(post.author, post.permlink).catch((error) => {
-            console.log(error);
-            return placeholderEarnings; // Use placeholder value if fetching actual earnings fails
-          })
-        );
-        const earnings = await Promise.all(earningsPromises);
-
-        // Update earnings for each initial post
-        const updatedPostsWithEarnings = postsWithThumbnails.map(
-          (post, index) => ({ ...post, earnings: earnings[index] })
-        );
-
-        // Set the initial loaded posts
-        setLoadedPosts(updatedPostsWithEarnings);
-      } catch (error) {
-        console.log(error);
-      }
-
-      setIsLoadingInitial(false); // Clear loading state for initial posts
-    };
-
     fetchInitialPosts(); // Fetch initial posts when the component mounts
-  }, [tag]);
+  }, [currentTag]);
 
   const loadMorePosts = () => {
     fetchPosts(); // Fetch more posts when "Load More" is clicked
@@ -327,17 +327,29 @@ const handleVoteClick = async (post: any) => {
   try {
     // You may need to retrieve the user's username and other information here
     const username = user?.name || ""; // Replace with the actual username
-    const weight = 10000; // Replace with the desired voting weight
+    let weight = 10000; // Replace with the desired voting weight
+
+    if (isVoted(post)) {
+      weight = 0; // If the post has been voted on, set the weight to 0 to remove the vote
+    }
 
     // Call the voteOnContent function to vote on the post
     await voteOnContent(username, post.permlink, post.author, weight);
 
     // Handle successful vote
     console.log("Vote successful!");
+
+    // set loading and then rerender the component
+    setIsLoadingInitial(true);
+    setLoadedPosts([]);
+    setDisplayedPosts(20);
+    setTimeout(() => {
+      fetchInitialPosts();
+    }, 3000);
   } catch (error) {
     // Handle voting error
     console.error("Error while voting:", error);
-    setErrorMessage("You already voted with the same voting power!")
+    setErrorMessage("Error While Voting!")
 
     setIsErrorModalOpen(true); // Open the error modal
   }
@@ -345,6 +357,79 @@ const handleVoteClick = async (post: any) => {
 const cardStyleGradient = css`
 background-color: "linear-gradient(to top, #0D0D0D, #1C1C1C, #000000)",
 `;
+
+const isVoted = (post: any) => {
+  // check for user in active_votes
+  const userVote = post.active_votes.find((vote: any) => vote.voter === user?.name);
+  const percentage = parseInt(userVote?.percent);
+
+  if (userVote && (percentage > 0 || percentage < 0)) {
+    return true;
+  }
+
+  return false;
+}
+
+const getUserVote = (post: any) => {
+  // check for user in active_votes
+  const userVote = post.active_votes.find((vote: any) => vote.voter === user?.name);
+  const percentage = parseInt(userVote?.percent);
+
+  if (userVote && (percentage > 0 || percentage < 0)) {
+    const vote = {
+      isVoted: true,
+      rshares: userVote.rshares,
+      percent: percentage,
+    };
+
+    console.log(vote, post.permlink)
+
+    return vote;
+  }
+
+  return {
+    isVoted: false,
+    rshares: 0,
+    percent: 0,
+  };
+}
+
+const getVotedProperties = (post: any) => {
+  // If the post has been voted on, return the voted properties
+  if (isVoted(post)) {
+    return {
+      width: '10px',
+      backgroundColor: 'mediumspringgreen', // Change the background color
+      color: 'mediumvioletred', // Change the text color
+    };
+  }
+
+  // If the post has not been voted on, return an empty object
+  return {
+    width: '10px'
+  };
+}
+
+const getVotedHoverProperties = (post: any) => {
+  // If the post has been voted on, return the voted properties
+  if (isVoted(post)) {
+    // red hover
+    return {
+      backgroundColor: 'mediumvioletred', // Change the color on hover
+      color: 'black', // Change the text color on hover
+      boxShadow: '0 0 8px red, 0 0 8px red, 0 0 8px red', // Add an underglow effect
+      border: "2px solid red"
+    };
+  }
+
+  // If the post has not been voted on, return normal hover properties
+  return {
+    backgroundColor: 'mediumspringgreen', // Change the color on hover
+    color: 'mediumvioletred', // Change the text color on hover
+    boxShadow: '0 0 8px darkgoldenrod, 0 0 8px darkgoldenrod, 0 0 8px darkgoldenrod', // Add an underglow effect
+    border: "2px solid darkgreen"
+  };
+}
 
 
 return (
@@ -548,8 +633,7 @@ return (
                 <IconButton
                     icon={<MdArrowUpward />}
                     backgroundColor="black"
-                    color="blue"
-                    
+                    color="white"
                     size="sm"
                     borderRadius="50%"
                     aria-label="Upvote"
@@ -561,23 +645,17 @@ return (
                   
                     }}
 
-                    style={{ width: '10px' }} // Manually adjust the size
+                    style={getVotedProperties(post)} // Apply the voted properties
 
-                    _hover={{
-                      backgroundColor: 'mediumspringgreen', // Change the color on hover
-                      color: 'mediumvioletred', // Change the text color on hover
-                      boxShadow: '0 0 8px darkgoldenrod, 0 0 8px darkgoldenrod, 0 0 8px darkgoldenrod', // Add an underglow effect
-                      border: "2px solid darkgreen"
-                    }}
 
-                    
+                    _hover={getVotedHoverProperties(post)} // Apply the hover properties
                     
                   />
 
                                   </Tooltip>
 
-                 </Box>
-                 
+                </Box>
+                
 
 
               </CardFooter>
@@ -606,6 +684,7 @@ return (
           isOpen={isOpen}
           comments={comments}
           postUrl={selectedPost?.url}
+          userVote={selectedPost ? getUserVote(selectedPost) : null}
         />
       </ModalContent>
     </Modal>

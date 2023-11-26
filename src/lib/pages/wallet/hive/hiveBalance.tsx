@@ -122,8 +122,7 @@ export default function HiveBalanceDisplay2() {
     const vestingSharesFloat = parseFloat(vestingShares.split(" ")[0]);
     const delegatedVestingSharesFloat = parseFloat(delegatedVestingShares.split(" ")[0]);
     const receivedVestingSharesFloat = parseFloat(receivedVestingShares.split(" ")[0]);
-    const availableVESTS =
-      vestingSharesFloat - delegatedVestingSharesFloat + receivedVestingSharesFloat;
+    const availableVESTS = vestingSharesFloat - delegatedVestingSharesFloat + receivedVestingSharesFloat;
 
     const response = await fetch('https://api.hive.blog', {
       method: 'POST',
@@ -300,7 +299,7 @@ export default function HiveBalanceDisplay2() {
                 balanceTooltip="Hive tokens are like digital coins on the Hive blockchain, and they have different uses. You can vote on stuff, get premium features, and help with the network and decision-making by staking them. They also reward content makers, keep users engaged, and you can trade them elsewhere. They basically keep Hive running, adding value and community vibes. 🛹🚀"
               ></BalanceDisplay>
               <BalanceDisplay
-                label="Hive Power" 
+                label="Hive Power"
                 balance={hivePower}
                 labelTooltip="Hive Power signifies influence, voting, and status within Hive blockchain. 🚀🤝"
                 balanceTooltip="Hive Power represents a user's influence and engagement within the Hive blockchain. It's like your reputation and impact score on the platform. When you ´power up Hive tokens by converting liquid Hive into Hive Power, you increase your ability to vote on content and participate in network governance. This boosts your say in decision-making and supports the Hive ecosystem's stability and decentralization. It's like investing in your standing and community involvement on Hive. 🚀🤝s"

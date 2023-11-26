@@ -24,14 +24,15 @@ const [numberOfAuthors, setNumberOfAuthors] = useState<number | null>(null);
         const response = await axios.post('https://api.hive.blog', {
           jsonrpc: '2.0',
           method: 'bridge.get_payout_stats',
-          params: { limit: 100 },
+          params: { limit: 150 },
           id: 1,
         });
 
         const items = response.data.result.items;
-
+        console.log(items);
         // Find the SkateHive community stats
         const skateHiveStats = items.find((item: any) => item[1].toLowerCase() === 'skatehive');
+        console.log(skateHiveStats);
         if (skateHiveStats) {
           const [communityName, , totalPayout, numberOfPosts, numberOfAuthors] = skateHiveStats;
           setCommunityStats({

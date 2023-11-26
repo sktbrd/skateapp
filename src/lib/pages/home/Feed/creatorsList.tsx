@@ -174,6 +174,8 @@ const GnarsBlog = ({ tags }: Types.GnarsBlogProps) => {
               isOpen={isOpen}
               comments={comments}
               postUrl={selectedPost.url}
+              userVote={selectedPost.userVote}
+              
             />
           )}
         </ModalContent>

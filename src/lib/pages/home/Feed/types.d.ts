@@ -91,6 +91,7 @@ weight: number;
 earnings: number;
 postUrl: string;
 url: string;
+userVote: any;
 }
 
 export interface PostFooterProps {

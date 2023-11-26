@@ -145,6 +145,7 @@ const HiveVideos: React.FC = () => {
               isOpen={isOpen}
               comments={[]} // Replace with the actual comments if needed
               postUrl={selectedPost.url}
+              userVote={0} // Replace with the actual user vote if needed
             />
           )}
         </ModalContent>

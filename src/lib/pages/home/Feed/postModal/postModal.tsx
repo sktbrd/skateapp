@@ -11,6 +11,7 @@ import {
   Button,
   Textarea,
   HStack,
+  Flex,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
@@ -280,12 +281,14 @@ return (
     <ModalContent backgroundColor={'black'}  boxShadow="0px 0px 10px 5px rgba(128,128,128,0.1)">
       <ModalHeader>
         <PostHeader title={title} author={author} avatarUrl={avatarUrl} postUrl={postUrl} permlink={permlink} onClose={onClose} />
-        {isUserLoggedIn && user.name === author && !isEditing && (
-          <Button id="editButton" onClick={handleEditClick}>Edit</Button>
-        )}
-        {isUserLoggedIn && isEditing && (
-          <Button id="saveButton" onClick={handleSaveClick}>Save</Button>
-        )}
+        <Flex justifyContent={'flex-end'} marginTop={3}>
+          {isUserLoggedIn && user.name === author && !isEditing && (
+            <Button id="editButton" onClick={handleEditClick}>Edit</Button>
+          )}
+          {isUserLoggedIn && isEditing && (
+            <Button id="saveButton" onClick={handleSaveClick}>Save</Button>
+          )}
+        </Flex>
       </ModalHeader>
       
       <ModalBody ref={modalContainerRef}>
@@ -293,6 +296,7 @@ return (
           <Textarea
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
+            height={500}
           />
         ) : (
           

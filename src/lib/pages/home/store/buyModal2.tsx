@@ -61,7 +61,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
 
 }) => {
 
-  const initialAmount = "1.000";
+  const initialAmount = "13.000";
 
 
   const handleTransfer = async () => {
@@ -72,7 +72,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
 
       function criarHiveMemo(email: string, endereco: string, card: Card): string {
         // Combine os valores de e-mail e endereço em uma única string
-        const hivememo: string = `E-mail: ${email} | Endereço: ${endereco} | Imagem: [${card.subtitle}](${card.imageUrl}) | Nome da Meia: ${card.subtitle}`;
+        const hivememo: string = `E-mail: ${email} | Endereço: ${endereco} | Nome da Meia: ${card.subtitle}`;
         setHiveMemo(hivememo)
         console.log("HiveMEMO:", hiveMemo)
         return hivememo;

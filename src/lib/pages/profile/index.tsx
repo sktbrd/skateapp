@@ -61,7 +61,11 @@ export default function ProfilePage() {
         try {
         const metadata = JSON.parse(user.posting_json_metadata || '');
         const coverImage = metadata.profile.cover_image;
-        setCoverImageUrl(coverImage);
+
+        if (coverImage) {
+          setCoverImageUrl(coverImage);
+          return;
+        }
         } catch (error) {
           console.error('Error parsing JSON metadata:', error);
         }
@@ -72,14 +76,18 @@ export default function ProfilePage() {
   }, [user]);
   const UserAbout = () => {
     if (user) {
-      const metadata = JSON.parse(user.posting_json_metadata || '');
-      const about = metadata.profile.about;
-      
-      return (
-        <Box border={"1px solid limegreen"} p={10} borderRadius={20}>
-          <Text fontSize={32} color={"white"}>{about}</Text>
-        </Box>
-      );
+      try {
+        const metadata = JSON.parse(user.posting_json_metadata || '');
+        const about = metadata.profile.about;
+        
+        return (
+          <Box border={"1px solid limegreen"} p={10} borderRadius={20}>
+            <Text fontSize={32} color={"white"}>{about}</Text>
+          </Box>
+        );
+      } catch (error) {
+        return <Text>Can't find a description.</Text>;
+      }
     } else {
       return "No user";
     }

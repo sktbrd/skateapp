@@ -350,25 +350,24 @@ export default function QFS() {
             Leaderboard
           </Text>
           <Table
-  variant="striped"
   width="100%"
   border="1px solid green" 
 >
   <Thead>
     <Tr>
-      <Th>#</Th>
-      <Th>User</Th>
-      <Th>Username</Th>
-      <Th w="20%" textAlign="center">Highscore</Th> {/* Set width and center align */}
+      <Th border="0px">#</Th>
+      <Th border="0px">User</Th>
+      <Th border="0px">Username</Th>
+      <Th border="0px" w="20%" textAlign="center">Highscore</Th> {/* Set width and center align */}
     </Tr>
   </Thead>
   <Tbody>
     {leaderboard.map((user, index) => (
-      <Tr key={index} bg="black"> {/* Set background color for the row */}
-        <Td bg="black"> {/* Set background color for the cell */}
+      <Tr key={index} bg={(index+1)%2 === 0 ? 'black' : 'rgba(83, 206, 63, 0.3)'} color="white"> {/* Set background color for the row */}
+        <Td border="0px"> {/* Set background color for the cell */}
           {index + 1}
         </Td>
-        <Td bg="black"> {/* Set background color for the cell */}
+        <Td border="0px"> {/* Set background color for the cell */}
           <Image
             src={`https://images.hive.blog/u/${user.username}/avatar`}
             alt="profile avatar"
@@ -377,12 +376,12 @@ export default function QFS() {
             boxSize="35px"
           />
         </Td>
-        <Td bg="black"> {/* Set background color for the cell */}
+        <Td border="0px"> {/* Set background color for the cell */}
           <Link style={{ textDecoration: 'none' }} href={"https://skatehive.app/profile/" + user.username} isExternal>
             @{user.username}
           </Link>
         </Td>
-        <Td isNumeric textAlign="center" bg="black"> {/* Set background color for the cell */}
+        <Td isNumeric textAlign="center" border="0px"> {/* Set background color for the cell */}
           {user.highscore.toFixed(2)}
         </Td>
       </Tr>
@@ -408,7 +407,6 @@ export default function QFS() {
     Best Times
   </Text>
   <Table
-  variant="striped"
   bg="black" // Set background color for the entire table
   width="100%"
   border="1px solid green" // Add a border to the table
@@ -416,19 +414,19 @@ export default function QFS() {
 >
   <Thead>
     <Tr>
-      <Th>#</Th>
-      <Th>Avatar</Th>
-      <Th>Username</Th>
-      <Th w="20%" textAlign="center">Time</Th> {/* Set width and center align */}
+      <Th border="none">#</Th>
+      <Th border="none">Avatar</Th>
+      <Th border="none">Username</Th>
+      <Th border="none" w="20%" textAlign="center">Time</Th> {/* Set width and center align */}
     </Tr>
   </Thead>
   <Tbody>
     {bestTimes.map((user, index) => (
-      <Tr key={index} bg="black"> {/* Set background color for the row */}
-        <Td bg="black"> {/* Set background color for the cell */}
+      <Tr key={index} bg={(index+1)%2 === 0 ? 'black' : 'rgba(83, 206, 63, 0.3)'} color="white"> {/* Set background color for the row */}
+        <Td border="none"> {/* Set background color for the cell */}
           {index + 1}
         </Td>
-        <Td bg="black"> {/* Set background color for the cell */}
+        <Td border="none"> {/* Set background color for the cell */}
           <Image
             src={`https://images.hive.blog/u/${user.username}/avatar`}
             alt="profile avatar"
@@ -437,12 +435,12 @@ export default function QFS() {
             boxSize="35px"
           />
         </Td>
-        <Td bg="black"> {/* Set background color for the cell */}
+        <Td border="none"> {/* Set background color for the cell */}
           <Link style={{ textDecoration: 'none' }} href={"https://skatehive.app/profile/" + user.username} isExternal>
             @{user.username}
           </Link>
         </Td>
-        <Td isNumeric textAlign="center" bg="black"> {/* Set background color for the cell */}
+        <Td isNumeric textAlign="center" border="none"> {/* Set background color for the cell */}
           {user.time}
         </Td>
       </Tr>

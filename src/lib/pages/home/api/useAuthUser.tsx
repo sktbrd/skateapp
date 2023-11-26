@@ -86,6 +86,11 @@ export default function useAuthUser(): AuthUser {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
+
+    // remove 3speak auth data
+    localStorage.removeItem("3SpeakUser");
+    localStorage.removeItem("3SpeakToken");
+
     window.location.reload();
   };
 

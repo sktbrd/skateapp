@@ -3,6 +3,7 @@ import HiveStats from "../steemskate/hiveStats";
 import AccSummary from "./accSummary";
 import VotesLeaderboard from "./votesLeaderboard";
 import WalletTransactions from "./txHistory";
+import GnarsChart from "./gnarschart";
 import { Box } from "@chakra-ui/react";
 import EthereumStats from "../ethereum/ethereumStats";
 
@@ -15,6 +16,7 @@ const GnarsStats = () => {
         {/* <EthereumStats /> */}
       </Box>
       <VotesLeaderboard username="gnars" />
+      <GnarsChart />
       <WalletTransactions wallet="gnars" />
     </Box>
   );

@@ -95,6 +95,7 @@ const NewUpload: React.FC = () => {
   const [postLink , setPostLink] = useState<string>("");
 
   // 3Speak state
+  const [ is3speakPost, setIs3speakPost ] = useState<boolean>(false);
   const { connected, username } = get3SpeakAuthStatus();
   const [isVideoUploaded, setIsVideoUploaded] = useState(false);
   const [videoUploadProgress, setVideoUploadProgress] = useState(0);
@@ -221,8 +222,18 @@ const NewUpload: React.FC = () => {
       return;
     }
 
-    // if it is a video, upload to 3Speak
+    // if it is a video
     if (acceptedFiles[0].type.startsWith("video/")) {
+      // if is3speakPost is false, then upload to IPFS
+      if (!is3speakPost) {
+        for (const file of acceptedFiles) {
+          await uploadFileToIPFS(file);
+        }
+  
+        setIsUploading(false);
+        return;
+      }
+
       // if 3Speak is not connected, then connect
       if (!connected || !username) {
         alert("Please connect your 3Speak account first to upload videos.");
@@ -350,6 +361,7 @@ const NewUpload: React.FC = () => {
 
     return options;
   };
+  
   const handleHiveUpload = async () => {
     if (!user) {
       alert("You have to log in with Hive Keychain to use this feature...");
@@ -761,7 +773,14 @@ const handleIncludeFooterChange = () => {
                     <Text> Drop images{isVideoUploaded ? '' : '/video'} or click to select</Text>
                     
                   </VStack>
-                    <Box marginTop={4}>
+                  <Flex flexDirection={isMobile ? "column" : "row"} justifyContent={'space-between'} alignItems={'center'} marginTop={4}>
+                    <Checkbox isDisabled={videoFile || uploadedVideo ? true : false } isChecked={is3speakPost} onChange={() => setIs3speakPost(!is3speakPost)}>
+                      Upload on 3Speak
+                    </Checkbox>
+                    
+                    <Connect3Speak />
+                  </Flex>
+                    <Box marginTop={0}>
                       <center>
                         {isUploading ? (
                           <Spinner
@@ -792,7 +811,7 @@ const handleIncludeFooterChange = () => {
                     <Checkbox
                       isChecked={includeFooter}
                       onChange={handleIncludeFooterChange}
-                      marginLeft={2}
+                      marginTop={2}
                     >
                       Include Skatehive Footer
                     </Checkbox>
@@ -808,7 +827,6 @@ const handleIncludeFooterChange = () => {
               <Button onClick={toggleAdvancedOptions} colorScheme="teal" size="sm" marginTop={2} marginRight={2}>
                   {showAdvancedOptions ? 'Hide Advanced Options' : ' Advanced Options'}
                 </Button>
-                <Connect3Speak />
               </Flex>
                 {showAdvancedOptions && (
                   <>

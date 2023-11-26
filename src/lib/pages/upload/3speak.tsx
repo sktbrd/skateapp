@@ -146,7 +146,7 @@ export const Connect3Speak = () => {
 
   return (
     <Box>
-      <Button onClick={connect} colorScheme={connected ? 'green' : 'teal'} size="sm" marginTop={2} marginRight={2}>
+      <Button onClick={connect} colorScheme={connected ? 'green' : 'teal'} size="sm">
         {connected ? '3Speak Connected' : 'Connect 3Speak'}
       </Button>
     </Box>

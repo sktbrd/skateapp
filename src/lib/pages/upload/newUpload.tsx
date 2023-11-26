@@ -378,10 +378,10 @@ const NewUpload: React.FC = () => {
       return;
     }
 
-    if (!thumbnailUrl) {
-      alert("Please select a thumbnail for your post...");
-      return;
-    }
+    // if (!thumbnailUrl) {
+    //   alert("Please select a thumbnail for your post...");
+    //   return;
+    // }
 
     if (!tags.length) {
       alert("Please enter some tags for your post...");
@@ -502,7 +502,15 @@ const NewUpload: React.FC = () => {
   
         // Add defaultFooter to the markdown if includeFooter is true
         if (includeFooter) {
-          finalMarkdown += "\n" + defaultFooter;
+          let finalPermlink = videoPermlink ? videoPermlink : permlink;
+          const link = `https://skatehive.app/post/hive-173115/@${username}/${finalPermlink}`;
+
+          let newFooter = "\n" + "> **Check this post on** " + `[Skatehive App](${link})`
+
+          // set the final markdown text again
+          finalMarkdown = markdownText + newFooter;
+
+          setMarkdownText((prevMarkdown) => prevMarkdown + newFooter);
         }
   
         // Define the post operation
@@ -638,22 +646,26 @@ const NewUpload: React.FC = () => {
   
 // Function to handle the checkbox change
 const handleIncludeFooterChange = () => {
-  const username = user?.name;
-  if (username) {
-    const permlink = slugify(title.toLowerCase());
-    const link = `https://skatehive.app/post/hive-173115/@${username}/${permlink}`;
-    setPostLink(link);
-  }
-  let newFooter = defaultFooter +  "\n" + "> **Check this post on** " + `[Skatehive App](${postLink})`
+  // const username = user?.name;
+  // if (username) {
+  //   const permlink = slugify(title.toLowerCase());
+  //   const link = `https://skatehive.app/post/hive-173115/@${username}/${permlink}`;
+  //   setPostLink(link);
+  // }
+  // let newFooter = "\n" + "> **Check this post on** " + `[Skatehive App](${link})`
   setIncludeFooter((prevIncludeFooter) => !prevIncludeFooter);
   if (includeFooter) {
     // If the toggle is turned off, remove the default footer from Markdown text
+    // setMarkdownText((prevMarkdown) =>
+    //   prevMarkdown.replace(newFooter,  "")
+    // );
+
     setMarkdownText((prevMarkdown) =>
-      prevMarkdown.replace(newFooter,  "")
+      prevMarkdown.replace(defaultFooter,  "")
     );
   } else {
     // If the toggle is turned on, add the default footer to Markdown text
-    setMarkdownText((prevMarkdown) => prevMarkdown + newFooter);
+    setMarkdownText((prevMarkdown) => prevMarkdown + defaultFooter);
   }
 };
 

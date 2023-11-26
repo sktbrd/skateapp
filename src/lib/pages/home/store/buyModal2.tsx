@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { useEffect } from "react";
 import {
   Modal,
   Button,
@@ -63,6 +63,10 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
 
   const initialAmount = "13.000";
 
+  useEffect(() => {
+    console.log("HiveMEMO:", hiveMemo);
+  }, [hiveMemo]);
+
 
   const handleTransfer = async () => {
     try {
@@ -81,10 +85,19 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
       if (selectedCard) {
         // Initialize the KeychainSDK
         const keychain = new KeychainSDK(window);
-        console.log(endereco);
-        console.log("Email:", email);
-        criarHiveMemo(email, endereco, selectedCard);
-        console.log(hiveMemo);
+
+        // Criar hiveMemo temporário
+        const tempHiveMemo = criarHiveMemo(email, endereco, selectedCard);
+
+        // Atualizar o estado hiveMemo
+        setHiveMemo((prevHiveMemo) => {
+          if (prevHiveMemo !== tempHiveMemo) {
+            console.log("HiveMEMO atualizado:", tempHiveMemo);
+            return tempHiveMemo;
+          }
+          return prevHiveMemo;
+        });
+
   
         // Define the transfer parameters
         const transferParams = {
@@ -98,19 +111,19 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
           },
         };
   
-        // Perform the transfer using Keychain's transfer method
         const transfer = await keychain.transfer(transferParams.data);
-  
-        // Check if the transfer was successful and handle the response
         console.log({ transfer });
-        // Você pode lidar com o sucesso e mostrar uma mensagem de confirmação ao usuário
       }
     } catch (error) {
-      // Handle errors, such as if Keychain is not available, the user denies the transfer, etc.
       console.error("Transfer error:", error);
-      // Você pode exibir uma mensagem de erro ao usuário
     }
   };
+
+  const criarHiveMemo = (email: string, endereco: string, card: Card): string => {
+    const hivememo: string = `E-mail: ${email} | Endereço: ${endereco} | Nome da Meia: ${card.subtitle}`;
+    return hivememo;
+  };
+
 
   return (
     <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="md">

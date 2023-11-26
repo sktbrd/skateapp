@@ -169,12 +169,12 @@ export const uploadTo3Speak = async (file: File, setIsUploading: Function, setVi
       filename: file.name,
       filetype: file.type
     },
-    onError: function(error) {
+    onError: function(error: Error) {
       console.log("Failed because: " + error);
       setIsUploading(false);
       setIsVideoUploaded(false);
     },
-    onProgress: function(bytesUploaded, bytesTotal) {
+    onProgress: function(bytesUploaded: number, bytesTotal: number) {
       const percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
       console.log(bytesUploaded, bytesTotal, percentage + "%");
       setVideoUploadProgress(percentage);
@@ -215,11 +215,11 @@ export const uploadThumbnailTo3Speak = (file: File, setIsUploading: Function, vi
       filename: file.name,
       filetype: file.type
     },
-    onError: function(error) {
+    onError: function(error: Error) {
       console.log("Failed because: " + error);
       setIsUploading(false);
     },
-    onProgress: function(bytesUploaded, bytesTotal) {
+    onProgress: function(bytesUploaded: number, bytesTotal: number) {
       const percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
       console.log(bytesUploaded, bytesTotal, percentage + "%");
     },

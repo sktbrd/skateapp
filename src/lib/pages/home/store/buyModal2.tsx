@@ -61,51 +61,54 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
 
 }) => {
 
-  const initialAmount = "13.000";
+  const initialAmount = "1.000";
 
 
   const handleTransfer = async () => {
     try {
       // Parse the amount to a float with 3 decimal places
       const parsedAmount = parseFloat(amount).toFixed(3);
-      function criarHiveMemo(email: string, endereco: string): string {
+      const selectedCard = buyingIndex !== null ? cardData[buyingIndex] : null;
+
+      function criarHiveMemo(email: string, endereco: string, card: Card): string {
         // Combine os valores de e-mail e endereço em uma única string
-        const hivememo: string = `E-mail: ${email} | Endereço: ${endereco}`;
+        const hivememo: string = `E-mail: ${email} | Endereço: ${endereco} | Imagem: [${card.subtitle}](${card.imageUrl}) | Nome da Meia: ${card.subtitle}`;
         setHiveMemo(hivememo)
         console.log("HiveMEMO:", hiveMemo)
         return hivememo;
       }
 
-      // Initialize the KeychainSDK
-      const keychain = new KeychainSDK(window);
-      console.log(endereco)
-      console.log("Email:" , email)
-      criarHiveMemo(email,endereco)
-      console.log(hiveMemo)
-      // Define the transfer parameters
-      const transferParams = {
-        data: {
-          username: "pepe", // Replace with the sender's username
-          to: "crowsnight",
-          amount: initialAmount, // Use the parsed amount with 3 decimal places
-          memo: hiveMemo, 
-          enforce: false,
-          currency: "HBD",
-        },
-      };
-
-
-      
-      // Perform the transfer using Keychain's transfer method
-      const transfer = await keychain.transfer(transferParams.data);
-
-      // Check if the transfer was successful and handle the response
-      console.log({ transfer });
-      // You can handle success and show a confirmation message to the user
+      if (selectedCard) {
+        // Initialize the KeychainSDK
+        const keychain = new KeychainSDK(window);
+        console.log(endereco);
+        console.log("Email:", email);
+        criarHiveMemo(email, endereco, selectedCard);
+        console.log(hiveMemo);
+  
+        // Define the transfer parameters
+        const transferParams = {
+          data: {
+            username: "pepe", // Replace with the sender's username
+            to: "crowsnight",
+            amount: initialAmount, // Use the parsed amount with 3 decimal places
+            memo: hiveMemo,
+            enforce: false,
+            currency: "HBD",
+          },
+        };
+  
+        // Perform the transfer using Keychain's transfer method
+        const transfer = await keychain.transfer(transferParams.data);
+  
+        // Check if the transfer was successful and handle the response
+        console.log({ transfer });
+        // Você pode lidar com o sucesso e mostrar uma mensagem de confirmação ao usuário
+      }
     } catch (error) {
       // Handle errors, such as if Keychain is not available, the user denies the transfer, etc.
       console.error("Transfer error:", error);
-      // You can display an error message to the user
+      // Você pode exibir uma mensagem de erro ao usuário
     }
   };
 

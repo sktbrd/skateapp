@@ -775,7 +775,7 @@ const handleIncludeFooterChange = () => {
                   </VStack>
                   <Flex flexDirection={isMobile ? "column" : "row"} justifyContent={'space-between'} alignItems={'center'} marginTop={4}>
                     <Checkbox isDisabled={videoFile || uploadedVideo ? true : false } isChecked={is3speakPost} onChange={() => setIs3speakPost(!is3speakPost)}>
-                      Upload on 3Speak
+                      Upload on 3Speak (experimental)
                     </Checkbox>
                     
                     <Connect3Speak />

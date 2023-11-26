@@ -6,10 +6,13 @@ import ErrorModal from '../home/Feed/postModal/errorModal';
 
 import * as Types from '../home/Feed/types';
 
-const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink, weight = 10000 }) => {
+const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink, weight = 10000, userVote }) => {
   const user = useAuthUser();
   
   const [sliderValue, setSliderValue] = useState(5000);
+
+  const [feedbackText, setFeedbackText] = useState(''); // Track feedback text
+  const [voteMessage, setVoteMessage] = useState('Vote'); // Track vote button text
 
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Track modal visibility
 
@@ -32,6 +35,12 @@ const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink,
       await voteOnContent(user.user.name, permlink, author, sliderValue);
       console.log("Voting successful!");
       // handle the vote result here
+      userVote.isVoted = true;
+      userVote.percent = sliderValue;
+
+      setVoteMessage('Already Voted');
+      const feedback = getFeedbackText(sliderValue);
+      setFeedbackText(feedback);
     } catch (error) {
       console.error("Voting failed:", error);
       setIsErrorModalOpen(true);
@@ -56,6 +65,34 @@ const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink,
     cursor: 'grab',
   };
 
+  useEffect(() => {
+    // if the current vote is equal to slider, vote message is Already Voted
+    if (userVote.isVoted && userVote.percent === sliderValue) {
+      setVoteMessage('Already Voted');
+    }
+
+    if (userVote.isVoted && userVote.percent !== sliderValue) {
+      setVoteMessage('Change Vote');
+    }
+
+    const feedback = getFeedbackText(sliderValue);
+    setFeedbackText(feedback);
+  }, [sliderValue]);
+
+    // if user has already voted, set the slider
+    useEffect(() => {
+      // if the user has voted
+      if (userVote.isVoted) {
+        // set the slider to current percent
+        setSliderValue(userVote.percent);
+        setVoteMessage('Already Voted');
+      }
+
+      // update the feedback text
+      const feedback = getFeedbackText(userVote.percent);
+      setFeedbackText(feedback);
+    }, [userVote]);
+
   return (
     <Flex flexDirection="column" alignItems="center" minWidth="100%" borderRadius="10px" border="1px white solid" padding="20px">
       <Box width="100%" marginBottom="20px" position="relative">
@@ -73,7 +110,7 @@ const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink,
           <span role="img" aria-label="Skateboard" style={skateEmojiStyle}>{emojiByAmount[sliderValue.toString()]}</span>
         </Slider>
         <Text color="yellow" mt={2} textAlign="center">
-          {getFeedbackText(sliderValue)}
+          {feedbackText}
         </Text>
       </Box>
       <Flex justifyContent="flex-end" width="100%" alignItems="flex-end">
@@ -85,14 +122,15 @@ const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink,
           p={2}
           onClick={handleVote}
           _hover={{ bg: 'yellow', color: 'black' }}
+          isDisabled={userVote.isVoted && userVote.percent === sliderValue}
         >
-          Vote
+          {voteMessage}
         </Button>
       </Flex>
       <ErrorModal
         isOpen={isErrorModalOpen}
         onClose={() => setIsErrorModalOpen(false)}
-        errorMessage="You already voted with the same voting power or you are not logged in, Pepe is Confused!"
+        errorMessage="Voting Error, Pepe is Confused!"
       />
     </Flex>
   );

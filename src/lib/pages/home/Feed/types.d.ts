@@ -65,6 +65,7 @@ permlink: string;
 weight: number;
 comments: CommentProps[];
 postUrl: string;
+userVote: any;
 }
 
 export interface PostProps {
@@ -98,6 +99,7 @@ user: any;
 author: string; 
 permlink: string; 
 weight?: number; 
+userVote: any;
 }
 
 export interface EarningsModalProps {

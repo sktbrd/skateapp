@@ -76,6 +76,29 @@ const PostPage: React.FC = () => {
     fetchComments();
   }, [URLAuthor, URLPermlink, commentsUpdated]);
 
+  const getUserVote = (post: any) => {
+    // check for user in active_votes
+    const userVote = post.active_votes.find((vote: any) => vote.voter === username);
+    const percentage = parseInt(userVote?.percent);
+  
+    if (userVote && (percentage > 0 || percentage < 0)) {
+      const vote = {
+        isVoted: true,
+        rshares: userVote.rshares,
+        percent: percentage,
+      };
+  
+      console.log(vote, post.permlink)
+  
+      return vote;
+    }
+  
+    return {
+      isVoted: false,
+      rshares: 0,
+      percent: 0,
+    };
+  }
 
   useEffect(() => {
     if (user && user.user?.name) {
@@ -204,6 +227,7 @@ const PostPage: React.FC = () => {
             author={URLAuthor}
             permlink={URLPermlink}
             weight={sliderValue}
+            userVote={post ? getUserVote(post) : { isVoted: false, rshares: 0, percent: 0 }}
           />
           <center>
             <h1 style={commentTitleStyle}>Say something about it 💬</h1>

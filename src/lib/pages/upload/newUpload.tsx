@@ -816,7 +816,7 @@ const handleIncludeFooterChange = () => {
                     <Box marginTop={4}>
                       <div ref={searchBarRef}>
                         <Text fontSize="lg" fontWeight="bold">
-                          Set Beneficiaries
+                          Split rewards with your photographer/videomaker
                         </Text>
                         <AuthorSearchBar onSearch={handleAuthorSearch} />
                         {beneficiaries.map((beneficiary, index) => (
@@ -839,7 +839,7 @@ const handleIncludeFooterChange = () => {
                     </Box>
                     <Box marginTop={4}>
                       <Text fontSize="lg" fontWeight="bold">
-                        Split rewards with your photographer/videomaker 
+                        Enter Tags
                       </Text>
                       <Flex alignItems="center">
                         <Input

@@ -163,8 +163,8 @@ export default function AuthorProfilePage() {
     >
       <Center>
         <Text fontWeight="700" fontSize="24px" color="white" mb="10px">
-         Are you a Cool SkateHiver?          
-         <Tooltip
+        Are you a Cool SkateHiver?&nbsp;
+        <Tooltip
           label="This is your Hive Blockchain Reputation"
           aria-label="A tooltip"
           >

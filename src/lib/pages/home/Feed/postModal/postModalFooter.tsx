@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Flex, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box, Text } from '@chakra-ui/react';
 import voteOnContent from '../../api/voting';
 import { useState } from 'react';
@@ -6,10 +6,12 @@ import HiveLogin from '../../api/HiveLoginModal';
 import ErrorModal from './errorModal';
 import * as Types from '../types'
 
-const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, permlink, weight = 10000 }) => {
+const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, permlink, weight = 10000, userVote }) => {
   const [sliderValue, setSliderValue] = useState(10000);
   const [errorMessage, setErrorMessage] = useState<string | null>(null); // Track error message
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Track modal visibility
+  const [feedbackText, setFeedbackText] = useState(''); // Track feedback text
+  const [voteMessage, setVoteMessage] = useState('Vote'); // Track vote button text
 
   const getFeedbackText = (value: number) => {
     if (value === -10000) return "I hate it";
@@ -19,9 +21,6 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
     if (value === 10000) return "That's fucking awesome";
     return "";
   };
-  
-
-
 
   const handleVote = async () => {
     if (!user || !user.name) {
@@ -33,6 +32,13 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
       await voteOnContent(user.name, permlink, author, sliderValue);
       console.log("Voting successful!");
       // handle the vote result here
+      // handle the vote result here
+      userVote.isVoted = true;
+      userVote.percent = sliderValue;
+
+      setVoteMessage('Already Voted');
+      const feedback = getFeedbackText(sliderValue);
+      setFeedbackText(feedback);
     } catch (error) {
       console.error("Voting failed:", error);
   
@@ -40,14 +46,38 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
       const errorMessage = (error as Error).message ;
   
       // Set the error message and open the modal
-      setErrorMessage(`You already voted with the same voting power or ${errorMessage}`);
+      setErrorMessage(`Error While Voting!`);
       setIsErrorModalOpen(true);
     }
   };
+
+  useEffect(() => {
+    const feedback = getFeedbackText(sliderValue);
+    setFeedbackText(feedback);
+
+    // if the current vote is equal to slider, vote message is Already Voted
+    if (userVote.isVoted && userVote.percent === sliderValue) {
+      setVoteMessage('Already Voted');
+    }
+
+    if (userVote.isVoted && userVote.percent !== sliderValue) {
+      setVoteMessage('Change Vote');
+    }
+  }, [sliderValue]);
   
-  
-  
-  
+  // if user has already voted, set the slider
+  useEffect(() => {
+    // if the user has voted
+    if (userVote.isVoted) {
+      // set the slider to current percent
+      setSliderValue(userVote.percent);
+    }
+    
+    // update the feedback text
+    const feedback = getFeedbackText(userVote.percentage);
+    setFeedbackText(feedback);
+  }, [userVote]);
+
   return (
     <Flex borderRadius={"10px"}  padding="20px" justify="space-between" >
       <Button
@@ -78,7 +108,7 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
         </Slider>
         
         <Text color="yellow" mt={2} textAlign="center">
-          {getFeedbackText(sliderValue)}
+          {feedbackText}
         </Text>
       </Box>
       <Button
@@ -89,8 +119,9 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
         p={2}
         onClick={handleVote}
         _hover={{ bg: 'black', color: 'orange' }}
+        isDisabled={voteMessage === 'Already Voted'}
       >
-        Vote
+        {voteMessage}
       </Button>
       <ErrorModal isOpen={isErrorModalOpen} onClose={() => setIsErrorModalOpen(false)} errorMessage={errorMessage || ''} />
 

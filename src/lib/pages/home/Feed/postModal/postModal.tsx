@@ -52,7 +52,8 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   permlink,
   weight,
   comments = [],
-  postUrl
+  postUrl,
+  userVote
 }) => {
   
   const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
@@ -64,13 +65,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   const [editedContent, setEditedContent] = useState(content);
   const [client, setClient] = useState(new Client(nodes[0]));
   const [nodeIndex, setNodeIndex] = useState(0);
-  console.log(postUrl)
   const [showLoginModal, setShowLoginModal] = useState(false); // State to control the login modal visibility
-
-
-
-
-
 
   function transformYouTubeContent(content: string): string {
     // Regular expression to match YouTube video URLs
@@ -200,9 +195,6 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   
   
 
- 
-
-
 //  ---------------------------------------Voting Button -------------------------------
 
   const [sliderValue, setSliderValue] = useState(0);
@@ -253,7 +245,7 @@ const handleViewFullPost = (event:any) => {
   console.log("Post data before navigation:", postData);
 
 };
-const cleanUrl = 'post' + postData.postUrl;
+const cleanUrl = generatePostUrl().replace(window.location.origin, '');
 
 const postLink = window.location.protocol + '//' + postUrl;
 
@@ -329,7 +321,7 @@ return (
         parentPermlink={permlink}
         onCommentPosted={() => setCommentPosted(!commentPosted)}
       />
-          <PostFooter onClose={onClose} user={user} author={author} permlink={permlink} weight={weight} />
+          <PostFooter onClose={onClose} user={user} author={author} permlink={permlink} weight={weight} userVote={userVote}  />
 
         </div>
       ) : (

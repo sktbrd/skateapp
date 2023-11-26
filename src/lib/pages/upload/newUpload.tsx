@@ -224,6 +224,10 @@ const NewUpload: React.FC = () => {
 
     // if it is a video
     if (acceptedFiles[0].type.startsWith("video/")) {
+      // focus on the markdown editor
+      const markdownEditor = document.getElementById("markdown-editor");
+      markdownEditor?.focus();
+
       // if is3speakPost is false, then upload to IPFS
       if (!is3speakPost) {
         for (const file of acceptedFiles) {
@@ -310,18 +314,6 @@ const NewUpload: React.FC = () => {
 
       // upload the thumbnail to 3Speak
       uploadThumbnailTo3Speak(file, setIsUploading, videoInfo, setVideoInfo, setVideoThumbnailUrl, setThumbnailUrl);
-
-      // // set the thumbnail URL
-      // setVideoThumbnailUrl(thumbnailUrl);
-      // setThumbnailUrl(thumbnailUrl);
-
-      // // upload the thumbnail to IPFS
-      // await uploadFileToIPFS(file);
-
-      // // set the thumbnail URL again (this time from IPFS)
-      // const url = uploadedFiles[uploadedFiles.length - 1];
-      // setVideoThumbnailUrl(thumbnailUrl);
-      // setThumbnailUrl(url);
     }
   };
 
@@ -461,9 +453,6 @@ const NewUpload: React.FC = () => {
           weight: encoderBeneficiary.weight,
         });
       }
-
-      // set the new benefeciaries along with the default benefeciaries
-      // setBeneficiaries(updatedBeneficiaries); // doesn't work because the component is unmounted
     }
 
     if (user && title) {
@@ -508,7 +497,7 @@ const NewUpload: React.FC = () => {
           let newFooter = "\n" + "> **Check this post on** " + `[Skatehive App](${link})`
 
           // set the final markdown text again
-          finalMarkdown = markdownText + newFooter;
+          finalMarkdown = finalMarkdown + newFooter;
 
           setMarkdownText((prevMarkdown) => prevMarkdown + newFooter);
         }
@@ -553,6 +542,7 @@ const NewUpload: React.FC = () => {
               window.alert('Video successfully published on 3Speak! It will be available soon!');
             }
           } else {
+            alert('Error publishing post on Hive');
             console.error('Error publishing post on Hive:', response.message);
           }
         });
@@ -646,20 +636,9 @@ const NewUpload: React.FC = () => {
   
 // Function to handle the checkbox change
 const handleIncludeFooterChange = () => {
-  // const username = user?.name;
-  // if (username) {
-  //   const permlink = slugify(title.toLowerCase());
-  //   const link = `https://skatehive.app/post/hive-173115/@${username}/${permlink}`;
-  //   setPostLink(link);
-  // }
-  // let newFooter = "\n" + "> **Check this post on** " + `[Skatehive App](${link})`
   setIncludeFooter((prevIncludeFooter) => !prevIncludeFooter);
   if (includeFooter) {
     // If the toggle is turned off, remove the default footer from Markdown text
-    // setMarkdownText((prevMarkdown) =>
-    //   prevMarkdown.replace(newFooter,  "")
-    // );
-
     setMarkdownText((prevMarkdown) =>
       prevMarkdown.replace(defaultFooter,  "")
     );

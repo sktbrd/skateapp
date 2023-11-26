@@ -66,9 +66,6 @@ const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink,
   };
 
   useEffect(() => {
-    const feedback = getFeedbackText(sliderValue);
-    setFeedbackText(feedback);
-
     // if the current vote is equal to slider, vote message is Already Voted
     if (userVote.isVoted && userVote.percent === sliderValue) {
       setVoteMessage('Already Voted');
@@ -77,6 +74,9 @@ const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink,
     if (userVote.isVoted && userVote.percent !== sliderValue) {
       setVoteMessage('Change Vote');
     }
+
+    const feedback = getFeedbackText(sliderValue);
+    setFeedbackText(feedback);
   }, [sliderValue]);
 
     // if user has already voted, set the slider
@@ -85,10 +85,11 @@ const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink,
       if (userVote.isVoted) {
         // set the slider to current percent
         setSliderValue(userVote.percent);
+        setVoteMessage('Already Voted');
       }
-      
+
       // update the feedback text
-      const feedback = getFeedbackText(userVote.percentage);
+      const feedback = getFeedbackText(userVote.percent);
       setFeedbackText(feedback);
     }, [userVote]);
 

@@ -363,7 +363,7 @@ export default function QFS() {
   </Thead>
   <Tbody>
     {leaderboard.map((user, index) => (
-      <Tr key={index} bg={(index+1)%2 === 0 ? 'black' : 'lightgray'} color={(index+1)%2 === 0 ? 'white' : 'black'}> {/* Set background color for the row */}
+      <Tr key={index} bg={(index+1)%2 === 0 ? 'black' : 'rgba(83, 206, 63, 0.3)'} color="white"> {/* Set background color for the row */}
         <Td border="0px"> {/* Set background color for the cell */}
           {index + 1}
         </Td>
@@ -422,7 +422,7 @@ export default function QFS() {
   </Thead>
   <Tbody>
     {bestTimes.map((user, index) => (
-      <Tr key={index} bg={(index+1)%2 === 0 ? 'black' : 'lightgray'} color={(index+1)%2 === 0 ? 'white' : 'black'}> {/* Set background color for the row */}
+      <Tr key={index} bg={(index+1)%2 === 0 ? 'black' : 'rgba(83, 206, 63, 0.3)'} color="white"> {/* Set background color for the row */}
         <Td border="none"> {/* Set background color for the cell */}
           {index + 1}
         </Td>

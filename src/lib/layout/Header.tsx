@@ -347,6 +347,15 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         	💀 CrowsNight
       </MenuItem>
       </Link>
+      <Link to="https://soma-ten.vercel.app" target="_blank" style={{ textDecoration: 'none' }}>
+
+      <MenuItem
+        _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+        backgroundColor="black"
+      >
+          ➕ Soma Skate
+      </MenuItem>
+      </Link>
     </MenuGroup>
   </MenuList>
 </Menu>

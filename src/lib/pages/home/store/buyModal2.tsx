@@ -63,6 +63,8 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
 }) => {
 
   const [cep, setCep] = useState("");
+  const [complemento, setComplemento] = useState("");
+
 
   const [address, setAddress] = useState({
     street: "",
@@ -92,7 +94,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
 
       function criarHiveMemo(email: string, endereco: string, card: Card, address: any): string {
         // Combine os valores de e-mail e endereço em uma única string
-        const hivememo: string = `E-mail: ${email} | Nome: ${nome} | Nome da Meia: ${card.subtitle}| Logradouro: ${address.street} | Cidade: ${address.city} | Estado: ${address.state}`;
+        const hivememo: string = `E-mail: ${email} | Nome: ${nome} | Nome da Meia: ${card.subtitle}| Logradouro: ${address.street} | Cidade: ${address.city} | Estado: ${address.state}| Complemento: ${complemento}`;
         setHiveMemo(hivememo)
         console.log("HiveMEMO:", hiveMemo)
         return hivememo;
@@ -103,7 +105,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
         const keychain = new KeychainSDK(window);
 
         // Criar hiveMemo temporário
-        const tempHiveMemo = criarHiveMemo(email, nome, selectedCard, address);
+        const tempHiveMemo = criarHiveMemo(email, nome, selectedCard, address,);
 
         // Atualizar o estado hiveMemo
         setHiveMemo((prevHiveMemo) => {
@@ -136,7 +138,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
   };
 
   const criarHiveMemo = (email: string, nome: string, card: Card): string => {
-    const hivememo: string = `E-mail: ${email} | Endereço: ${nome} | Nome da Meia: ${card.subtitle}`;
+    const hivememo: string = `E-mail: ${email} | Nome: ${nome} | Nome da Meia: ${card.subtitle}`;
     return hivememo;
   };
   // Seu componente React
@@ -192,6 +194,13 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
              color={"white"}
              maxLength={8}
             />
+            <Input
+            placeholder="Complemento"
+            value={complemento}
+            onChange={(e) => setComplemento(e.target.value)}
+            color={"white"}
+            />
+
 
           <Input 
             placeholder="Nome completo"

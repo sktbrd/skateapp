@@ -1,4 +1,4 @@
-import { Button, Table, Thead, Tbody, Tr, Th, Td, Text , Image} from "@chakra-ui/react";
+import { Button, Table, Thead, Tbody, Tr, Th, Td, Text , Image, VStack, Box,HStack} from "@chakra-ui/react";
 import { ethers } from "ethers";
 import React, { useState, useEffect } from "react";
 
@@ -50,15 +50,18 @@ const walletsList = [
   { username: 'keepskating420', walletAddress: '0x22376c76d120BF033651c931E9Ff23f240173637' },
   { username: 'beaglexv', walletAddress: '0xfCAE6D6b1517799330DF14BeE26e2DD90C6dd200' },
   {username: 'thesmith', walletAddress: '0x6abaDe6569f03841a0d5233d23f175Eeeb3253c4'},
-  {username: 'howweroll', walletAddress: '0x892e297c9d412feb1Bc8D8fDb506DA458f15D961'},
+  {username: 'howweroll', walletAddress: '0x09e938e239803c78507abd5687a97acfea1188ea'},
   
 ];
 
 
 
+
 const GnarsDelegation: React.FC = () => {
   const [walletData, setWalletData] = useState<WalletData[]>([]);
-  const [totalDelegatedVotes, setTotalDelegatedVotes] = useState<string | undefined>(undefined);
+  const [totalDelegatedVotes, setTotalDelegatedVotes] = useState<string | undefined>(
+    undefined
+  );
 
   const provider = new ethers.providers.JsonRpcProvider(
     "https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik"
@@ -68,14 +71,18 @@ const GnarsDelegation: React.FC = () => {
   useEffect(() => {
     async function fetchWalletData() {
       try {
-        const delegatedVotes = await contract.getCurrentVotes("0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c");
+        const delegatedVotes = await contract.getCurrentVotes(
+          "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c"
+        );
         const totalSupply = await contract.totalSupply();
         setTotalDelegatedVotes(ethers.utils.formatUnits(delegatedVotes, 0));
 
         const updatedWalletsList: WalletData[] = await Promise.all(
           walletsList.map(async (wallet) => {
             const votes = await contract.getCurrentVotes(wallet.walletAddress);
-            const isDelegated = (await contract.delegates(wallet.walletAddress)) === "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c";
+            const isDelegated =
+              (await contract.delegates(wallet.walletAddress)) ===
+              "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c";
             const balance = await contract.balanceOf(wallet.walletAddress);
 
             return {
@@ -89,7 +96,9 @@ const GnarsDelegation: React.FC = () => {
         );
 
         // Sort the array based on the Gnars balance in descending order
-        const sortedWalletData = updatedWalletsList.sort((a, b) => parseFloat(b.balance!) - parseFloat(a.balance!));
+        const sortedWalletData = updatedWalletsList.sort(
+          (a, b) => parseFloat(b.balance!) - parseFloat(a.balance!)
+        );
 
         setWalletData(sortedWalletData);
       } catch (error) {
@@ -98,57 +107,65 @@ const GnarsDelegation: React.FC = () => {
     }
 
     fetchWalletData();
-  }, []); 
+  }, []);
 
   return (
-    <div>
-      <Text>Gnars Total Supply</Text>
-      <Text>{walletData[0]?.totalSupply}</Text>
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            <Th>Avatar</Th>
-            <Th>Username</Th>
-            <Th>Wallet Address</Th>
-            <Th>Gnars Balance</Th> {/* New column for Gnars balance */}
-            <Th>Delegated to SkateHive</Th>
-          </Tr>
-        </Thead>
-        <Tr>
-            <Td colSpan={5}></Td> 
-            
-            <Td>Total Delegated Votes: {totalDelegatedVotes}</Td>
-          </Tr>
-        <Tbody>
-          {walletData.map((wallet) => (
-            
-            <Tr key={wallet.walletAddress}>
-
-              <Td>
-                <Image
-                  border="1px solid limegreen"
-                  borderRadius="10px"
-                  src={`https://images.ecency.com/webp/u/${wallet.username}/avatar/small`}
-                  width="105%"
-                  height="105%"
-                  style={{
-                    boxShadow: '0 8px 12px rgba(0, 0, 0, 0.8)', // Adding a drop shadow
-                  }}
-                />
-              </Td>
-              <Td>{wallet.username}</Td>
-              <Td>{wallet.walletAddress}</Td>
-              <Td>{wallet.balance}</Td> {/* Display Gnars balance */}
-              <Td style={{ color: wallet.isDelegated ? 'green' : 'red' }}>{wallet.isDelegated ? "Yes" : "No"}</Td>
+    <VStack spacing={4} align="stretch">
+      <Box textAlign="center">
+      
+      <Text fontSize="xl" fontWeight="bold">
+        Gnars Total Supply
+      </Text>
+      <Text fontSize="xl" fontWeight="bold">
+        {walletData[0]?.totalSupply}
+      </Text>
+      </Box>
+      <Box>
+        <Table variant="simple" size="md">
+          <Thead>
+            <Tr>
+              <Th>Avatar</Th>
+              <Th>Username</Th>
+              <Th>Wallet Address</Th>
+              <Th>Gnars Balance</Th>
+              <Th>Delegated to SkateHive</Th>
+              
             </Tr>
-          ))}
-
-        </Tbody>
-      </Table>
-      <Button onClick={() => console.log("Fetch data")}>Fetch Data</Button>
-    </div>
+          </Thead>
+          <Tbody>
+            {walletData.map((wallet) => (
+              <Tr key={wallet.walletAddress}>
+                <Td>
+                  <Image
+                    border="1px solid limegreen"
+                    borderRadius="10px"
+                    src={`https://images.ecency.com/webp/u/${wallet.username}/avatar/small`}
+                    width="50px"
+                    height="50px"
+                    style={{
+                      boxShadow: "0 8px 12px rgba(0, 0, 0, 0.8)",
+                    }}
+                  />
+                </Td>
+                <Td>{wallet.username}</Td>
+                <Td>{wallet.walletAddress}</Td>
+                <Td>{wallet.balance}</Td>
+                <Td style={{ color: wallet.isDelegated ? "green" : "red" }}>
+                  {wallet.isDelegated ? "Yes" : "No"}
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </Box>
+      <HStack spacing={4} justify="center">
+        <Button colorScheme="teal" onClick={() => console.log("Fetch data")}>
+          Fetch Data
+        </Button>
+      </HStack>
+      <Text>Total Delegated Votes: {totalDelegatedVotes}</Text>
+    </VStack>
   );
 };
 
 export default GnarsDelegation;
-

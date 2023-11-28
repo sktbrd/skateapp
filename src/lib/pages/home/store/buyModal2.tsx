@@ -105,7 +105,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
             username: "pepe", // Replace with the sender's username
             to: "crowsnight",
             amount: initialAmount, // Use the parsed amount with 3 decimal places
-            memo: hiveMemo,
+            memo: tempHiveMemo,
             enforce: false,
             currency: "HBD",
           },

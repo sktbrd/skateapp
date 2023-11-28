@@ -98,7 +98,7 @@ const Store: React.FC = () => {
     const [toAddress, setToAddress] = useState("");
     const [amount, setAmount] = useState("");
     const [hiveMemo, setHiveMemo] = useState("");
-    const [endereco, setEndereco] = useState(""); // Make sure these are declared
+    const [nome, setNome] = useState(""); // Make sure these are declared
 const [email, setEmail] = useState("");
     const handleOpenModal = () => {
       setShowModal(true);
@@ -207,8 +207,8 @@ const [email, setEmail] = useState("");
   setAmount={setAmount}
   hiveMemo={hiveMemo}
   setHiveMemo={setHiveMemo}
-  endereco={endereco}
-  setEndereco={setEndereco}
+  nome={nome}
+  setNome={setNome}
   setEmail={setEmail}
   buyingIndex={buyingIndex}
   cardData={cardData}  

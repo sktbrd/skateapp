@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Modal,
   Button,
@@ -29,8 +30,8 @@ interface Card {
 interface SendHiveModalProps {
   showModal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  endereco: string;
-  setEndereco: React.Dispatch<React.SetStateAction<string>>;
+  nome: string;
+  setNome: React.Dispatch<React.SetStateAction<string>>;
   email: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   toAddress: string;
@@ -47,8 +48,8 @@ interface SendHiveModalProps {
 const BuyModal: React.FC<SendHiveModalProps> = ({
   showModal,
   setShowModal,
-  endereco,
-  setEndereco,
+  nome,
+  setNome,
   email,
   setEmail,
   amount,
@@ -61,11 +62,26 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
 
 }) => {
 
+  const [cep, setCep] = useState("");
+
+  const [address, setAddress] = useState({
+    street: "",
+    city: "",
+    state: "",
+  });
+
   const initialAmount = "13.000";
 
   useEffect(() => {
     console.log("HiveMEMO:", hiveMemo);
   }, [hiveMemo]);
+
+  useEffect(() => {
+    if (cep.length === 8) {
+      fetchAddressByCep();
+    }
+}, [cep]);
+
 
 
   const handleTransfer = async () => {
@@ -74,9 +90,9 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
       const parsedAmount = parseFloat(amount).toFixed(3);
       const selectedCard = buyingIndex !== null ? cardData[buyingIndex] : null;
 
-      function criarHiveMemo(email: string, endereco: string, card: Card): string {
+      function criarHiveMemo(email: string, endereco: string, card: Card, address: any): string {
         // Combine os valores de e-mail e endereço em uma única string
-        const hivememo: string = `E-mail: ${email} | Endereço: ${endereco} | Nome da Meia: ${card.subtitle}`;
+        const hivememo: string = `E-mail: ${email} | Nome: ${nome} | Nome da Meia: ${card.subtitle}| Logradouro: ${address.street} | Cidade: ${address.city} | Estado: ${address.state}`;
         setHiveMemo(hivememo)
         console.log("HiveMEMO:", hiveMemo)
         return hivememo;
@@ -87,7 +103,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
         const keychain = new KeychainSDK(window);
 
         // Criar hiveMemo temporário
-        const tempHiveMemo = criarHiveMemo(email, endereco, selectedCard);
+        const tempHiveMemo = criarHiveMemo(email, nome, selectedCard, address);
 
         // Atualizar o estado hiveMemo
         setHiveMemo((prevHiveMemo) => {
@@ -119,10 +135,27 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
     }
   };
 
-  const criarHiveMemo = (email: string, endereco: string, card: Card): string => {
-    const hivememo: string = `E-mail: ${email} | Endereço: ${endereco} | Nome da Meia: ${card.subtitle}`;
+  const criarHiveMemo = (email: string, nome: string, card: Card): string => {
+    const hivememo: string = `E-mail: ${email} | Endereço: ${nome} | Nome da Meia: ${card.subtitle}`;
     return hivememo;
   };
+  // Seu componente React
+  const fetchAddressByCep = async () => {
+    try {
+      const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+      const { logradouro, localidade, uf } = response.data;
+
+      setAddress({
+        street: logradouro,
+        city: localidade,
+        state: uf,
+      });
+    } catch (error) {
+      console.error("Error fetching address:", error);
+    }
+};
+
+
 
 
   return (
@@ -152,10 +185,18 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
               defaultValue={initialAmount}
               color={'white'}
             />
+                <Input
+             placeholder="CEP"
+             value={cep}
+             onChange={(e) => setCep(e.target.value)}
+             color={"white"}
+             maxLength={8}
+            />
+
           <Input 
-            placeholder="Endereço"
-            value={endereco}
-            onChange={(e) => setEndereco(e.target.value) }
+            placeholder="Nome completo"
+            value={nome}
+            onChange={(e) => setNome(e.target.value) }
             color={'white'}
             
           />

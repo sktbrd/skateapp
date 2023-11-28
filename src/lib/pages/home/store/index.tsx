@@ -194,7 +194,7 @@ const [email, setEmail] = useState("");
                     </ChakraLink>
                     </Flex>
                     {card.price && <Text fontSize="md" color="white">{card.price}</Text>}
-                    <Button onClick={() => handleBuy(index)}>Comprar</Button>
+                    <Button onClick={() => handleBuy(index)} background={"purple"} color={"white"}>Comprar</Button>
                 </center>
                 </VStack>
                 <BuyModal 

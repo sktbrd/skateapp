@@ -1,5 +1,5 @@
 import { extendTheme } from "@chakra-ui/react";
-import '@fontsource-variable/roboto-mono';
+import '@fontsource/creepster';
 
 type GlobalStyleProps = { colorMode: "light" | "dark" };
 
@@ -12,8 +12,8 @@ const themeConfig = {
 export const theme = extendTheme({
   ...themeConfig,
   fonts: {
-  heading: "Terrorplate, sans-serif",
-  body: "Terrorplate, sans-serif", 
+  heading: "Creepster, sans-serif",
+  body: "Creepster, sans-serif", 
   },
   
 
@@ -24,18 +24,18 @@ export const theme = extendTheme({
       body: { 
         background: "black",
         color:  "black" ,
-        'font-family': 'Terrorplate, sans-serif',
+        'font-family': 'Creepster, sans-serif',
 
       },
       p: {
         color: "white",
-        'font-family': 'Terrorplate, sans-serif',
+        'font-family': 'Creepster, sans-serif',
 
       },
       
       heading:{
         fontSize: "75px",
-        'font-family': 'Terrorplate, sans-serif',
+        'font-family': 'Creepster, sans-serif',
       },
 
       // Style for Webkit scrollbars

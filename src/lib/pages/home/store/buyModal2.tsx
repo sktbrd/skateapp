@@ -88,6 +88,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
 
   const handleTransfer = async () => {
     try {
+      
       // Parse the amount to a float with 3 decimal places
       const parsedAmount = parseFloat(amount).toFixed(3);
       const selectedCard = buyingIndex !== null ? cardData[buyingIndex] : null;
@@ -115,6 +116,13 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
           }
           return prevHiveMemo;
         });
+        
+        if (!cep || !complemento || !nome || !email) {
+          alert("Por favor, preencha todos os campos obrigatórios.");
+          return;
+        }
+
+
 
   
         // Define the transfer parameters

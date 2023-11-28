@@ -67,6 +67,8 @@ const randomSentences = [
   "Who was Gnartoshi Shredamoto?",
   "We have secret sections here, can you find?"
 ];
+const SPECIAL_TAG = "crowsnight666";
+
 
 const PlaceholderLoadingBar = () => {
   const randomIndex = Math.floor(Math.random() * randomSentences.length);
@@ -416,7 +418,7 @@ const getVotedHoverProperties = (post: any) => {
     // red hover
     return {
       backgroundColor: 'mediumvioletred', // Change the color on hover
-      color: 'black', // Change the text color on hover
+      color: 'mediumspringgreen', // Change the text color on hover
       boxShadow: '0 0 8px red, 0 0 8px red, 0 0 8px red', // Add an underglow effect
       border: "2px solid red"
     };
@@ -427,7 +429,7 @@ const getVotedHoverProperties = (post: any) => {
     backgroundColor: 'mediumspringgreen', // Change the color on hover
     color: 'mediumvioletred', // Change the text color on hover
     boxShadow: '0 0 8px darkgoldenrod, 0 0 8px darkgoldenrod, 0 0 8px darkgoldenrod', // Add an underglow effect
-    border: "2px solid darkgreen"
+    border: "2px solid darkgreen" 
   };
 }
 
@@ -466,7 +468,6 @@ return (
                 backgroundRepeat: 'no-repeat',
                 
                 
-                /* Other styles as needed */
               }}
             >
 

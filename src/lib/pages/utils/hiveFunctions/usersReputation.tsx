@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Text, Badge } from '@chakra-ui/react';
+import { Text, Badge, Tooltip } from '@chakra-ui/react';
 
 interface UserReputationProps {
     username: string;
@@ -55,8 +55,10 @@ function UserReputation({ username }: UserReputationProps) {
     const humanReadableReputation = calculateHumanReadableReputation(reputation);
 
     return (
-        <Badge bg={'orange'}>
+        <Badge bg={'transparent'}>
+            <Tooltip label={`Hive Reputation`} aria-label="Reputation">
             <Text color={"white"} fontSize={"28px"}> {humanReadableReputation}</Text>
+            </Tooltip>
         </Badge>
     );
 }

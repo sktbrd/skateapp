@@ -1,7 +1,7 @@
 import { Button, Table, Thead, Tbody, Tr, Th, Td, Text , Image, VStack, Box,HStack} from "@chakra-ui/react";
 import { ethers } from "ethers";
 import React, { useState, useEffect } from "react";
-
+import UserReputation from "lib/pages/utils/hiveFunctions/usersReputation";
 const gnars_contract = "0x558BFFF0D583416f7C4e380625c7865821b8E95C";
 import ERC721_ABI from "./gnars_abi.json";
 interface WalletData {
@@ -51,6 +51,8 @@ const walletsList = [
   { username: 'beaglexv', walletAddress: '0xfCAE6D6b1517799330DF14BeE26e2DD90C6dd200' },
   {username: 'thesmith', walletAddress: '0x6abaDe6569f03841a0d5233d23f175Eeeb3253c4'},
   {username: 'howweroll', walletAddress: '0x09e938e239803c78507abd5687a97acfea1188ea'},
+  {username: 'skatehacker', walletAddress: '0x5746396dfE7025190a7775dF94b6E89310DDd238'},
+  {username: 'keepkey', walletAddress: '0x4A0A41f0278C732562E2A09008dfb0E4B9189eb3'},
   
 ];
 
@@ -119,6 +121,12 @@ const GnarsDelegation: React.FC = () => {
       <Text fontSize="xl" fontWeight="bold">
         {walletData[0]?.totalSupply}
       </Text>
+      <Text fontSize="xl" fontWeight="bold">
+        Total Delegated Votes
+        </Text>
+        <Text fontSize="xl" fontWeight="bold">
+         {totalDelegatedVotes}
+         </Text>
       </Box>
       <Box>
         <Table variant="simple" size="md">
@@ -132,7 +140,7 @@ const GnarsDelegation: React.FC = () => {
               
             </Tr>
           </Thead>
-          <Tbody>
+          <Tbody fontSize={24}>
             {walletData.map((wallet) => (
               <Tr key={wallet.walletAddress}>
                 <Td>
@@ -147,7 +155,7 @@ const GnarsDelegation: React.FC = () => {
                     }}
                   />
                 </Td>
-                <Td>{wallet.username}</Td>
+                <Td>{wallet.username} <UserReputation  username={wallet.username}></UserReputation></Td>
                 <Td>{wallet.walletAddress}</Td>
                 <Td>{wallet.balance}</Td>
                 <Td style={{ color: wallet.isDelegated ? "green" : "red" }}>
@@ -163,7 +171,6 @@ const GnarsDelegation: React.FC = () => {
           Fetch Data
         </Button>
       </HStack>
-      <Text>Total Delegated Votes: {totalDelegatedVotes}</Text>
     </VStack>
   );
 };

@@ -1,4 +1,4 @@
-import { Flex, Button, Table, Thead, Tbody, Tr, Th, Td, Text , Image, VStack, Box,HStack} from "@chakra-ui/react";
+import { Flex, Button, Table, Thead, Grid, Tbody, Tr, Th, Td, Text , Image, VStack, Box,HStack} from "@chakra-ui/react";
 import { ethers } from "ethers";
 import React, { useState, useEffect } from "react";
 import UserReputation from "lib/pages/utils/hiveFunctions/usersReputation";
@@ -27,6 +27,7 @@ interface WalletData {
   balance?: string;
   balanceOfSkthv?: string;
   hasVotedForSkateHive?: boolean; 
+  hasHiveAccount?: boolean;
 }
 interface WalletListElement {
   username: string;
@@ -76,7 +77,7 @@ const walletsList: WalletListElement[] = [
   { username: 'gnarip12345', walletAddress: '0x4355EC7423Ee3b045917092CBF8F8BFd3233da27' },
   { username: 'keepskating420', walletAddress: '0x22376c76d120BF033651c931E9Ff23f240173637' },
   { username: 'beaglexv', walletAddress: '0xfCAE6D6b1517799330DF14BeE26e2DD90C6dd200' },
-  { username: 'thesmith', walletAddress: '0x6abaDe6569f03841a0d5233d23f175Eeeb3253c4'},
+  { username: 'smithfinance', walletAddress: '0x6abaDe6569f03841a0d5233d23f175Eeeb3253c4'},
   { username: 'howweroll', walletAddress: '0x09e938e239803c78507abd5687a97acfea1188ea'},
   { username: 'skatehacker', walletAddress: '0x5746396dfE7025190a7775dF94b6E89310DDd238'},
   { username: 'keepkey', walletAddress: '0x4A0A41f0278C732562E2A09008dfb0E4B9189eb3'},
@@ -85,16 +86,14 @@ const walletsList: WalletListElement[] = [
   { username: 'doblershiva', walletAddress: '0x0DF34E36ef3a793871442EB5a08b08adB74E7006'},
   { username: 'paralela', walletAddress: '0x0F7318E9D1EAfe53C3bFD7EE774ce33020Cf53F3'},
   { username: 'willdias', walletAddress: '0xDdB4938755C243a4f60a2f2f8f95dF4F894c58Cc'},
+  { username: 'pharra', walletAddress: '0x735135Ff4152b3Ae255cA708EB37D83B0A8853F8'},
 ];
-
-
 const GnarsDelegation: React.FC = () => {
   const [walletData, setWalletData] = useState<WalletData[]>([]);
   const [totalDelegatedVotes, setTotalDelegatedVotes] = useState<string | undefined>(
     undefined
   );
   const [isLoading, setIsLoading] = useState(true);
-
 
   useEffect(() => {
     async function fetchWalletData() {
@@ -106,27 +105,25 @@ const GnarsDelegation: React.FC = () => {
           "https://api.openhive.network",
           "https://hived.privex.io",
           "https://rpc.ausbit.dev",
-          "https://techcoderx.com"
+          "https://techcoderx.com",
         ]);
 
-    
         const provider = new ethers.providers.JsonRpcProvider(
           "https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik"
         );
         const contract = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
         const skthvProxyContract = new ethers.Contract(skthv_proxy_contract, ERC1155_ABI, provider);
         const usernames = walletsList.map((wallet) => wallet.username);
-        console.log(usernames)
-          // for each username check if the hive acccount of that username has voted for skatehivw
-          const hasVotedForSkateHive = await Promise.all(
-            usernames.map(async (username) => {
-              const account = await client.database.getAccounts([username]);
-          
-              // Add null check here
-              const hasVotedForSkateHive = account[0]?.witness_votes?.includes("skatehive") || false;
-              return hasVotedForSkateHive;
-            })
-          );
+
+        const hasVotedForSkateHive = await Promise.all(
+          usernames.map(async (username) => {
+            const account = await client.database.getAccounts([username]);
+            const hasVotedForSkateHive =
+              account[0]?.witness_votes?.includes("skatehive") || false;
+            const hasHiveAccount = !!account[0];
+            return { hasVotedForSkateHive, hasHiveAccount };
+          })
+        );
 
         const delegatedVotes = await contract.getCurrentVotes(
           "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c"
@@ -136,9 +133,11 @@ const GnarsDelegation: React.FC = () => {
 
         const updatedWalletsList: WalletData[] = await Promise.all(
           walletsList.map(async (wallet, index) => {
-            
             const votes = await contract.getCurrentVotes(wallet.walletAddress);
-            const balanceOfSkthv = await skthvProxyContract.balanceOf(wallet.walletAddress, 1);
+            const balanceOfSkthv = await skthvProxyContract.balanceOf(
+              wallet.walletAddress,
+              1
+            );
 
             const isDelegated =
               (await contract.delegates(wallet.walletAddress)) ===
@@ -152,8 +151,8 @@ const GnarsDelegation: React.FC = () => {
               totalSupply: ethers.utils.formatUnits(totalSupply, 0),
               balance: ethers.utils.formatUnits(balance, 0),
               balanceOfSkthv: ethers.utils.formatUnits(balanceOfSkthv, 0),
-              hasVotedForSkateHive: hasVotedForSkateHive[index],
-  
+              hasVotedForSkateHive: hasVotedForSkateHive[index].hasVotedForSkateHive,
+              hasHiveAccount: hasVotedForSkateHive[index].hasHiveAccount,
             };
           })
         );
@@ -164,7 +163,6 @@ const GnarsDelegation: React.FC = () => {
 
         setWalletData(sortedWalletData);
         setIsLoading(false);
-
       } catch (error) {
         console.error("Error:", error);
       }
@@ -175,79 +173,74 @@ const GnarsDelegation: React.FC = () => {
 
   const handleCopy = (walletAddress: string) => {
     navigator.clipboard.writeText(walletAddress);
-  }
+  };
 
-  const handleWitnessVote = async (wallet_username:string) => {
+  const handleWitnessVote = async (wallet_username: string) => {
     try {
       const keychain = new KeychainSDK(window);
       console.log(wallet_username);
       const formParamsAsObject = {
-        "data": {
-          "username": wallet_username, // Use the current username
-          "witness": "skatehive", // Specify the witness you want to vote for
-          "vote": true
-        }
+        data: {
+          username: wallet_username,
+          witness: "skatehive",
+          vote: true,
+        },
       };
-  
+
       const witnessVoteResult = await keychain.witnessVote(formParamsAsObject.data as WitnessVote);
       console.log({ witnessVoteResult });
-  
     } catch (error) {
       console.error("Error voting for witness:", error);
     }
   };
-  const handleWitnessClick = async (wallet_username:string) => {
+
+  const handleWitnessClick = async (wallet_username: string) => {
     console.log("Username:", wallet_username);
     await handleWitnessVote(wallet_username);
   };
 
-  // Lets create a function that triggers metamask to delegate a gnar nft to skatehive wallet address using gnrs contract 
-  // const handleDelegation = async () => {
-  //   try {
-  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //     const signer = provider.getSigner();
-  //     const gnarsContract = new ethers.Contract(gnars_contract, ERC721_ABI, signer);
-  //     const gnarsContractWithSigner = gnarsContract.connect(signer);
-  //     console.log(gnarsContractWithSigner);
-  
-  //     // Corrected: Use the correct method to delegate votes, for example, "delegate"
-  //     const gnarsContractWithSignerDelegate = await gnarsContractWithSigner.delegate(
-  //       "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c"
-  //     );
-  
-  //     await gnarsContractWithSignerDelegate.wait();
-  //     console.log("Delegation successful");
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-  // }
-  
   return (
     <VStack spacing={4} align="stretch">
-      <Box textAlign="center">
-      
-      <Text fontSize="xl" fontWeight="bold">
-        Gnars Total Supply
-      </Text>
-      <Text fontSize="xl" fontWeight="bold">
-        {walletData[0]?.totalSupply}
-      </Text>
-      <Text fontSize="xl" fontWeight="bold">
-        Total Delegated Votes
-        </Text>
-        <Text fontSize="xl" fontWeight="bold">
-         {totalDelegatedVotes}
-         </Text>
-         {/* <Button colorScheme="teal" onClick={handleDelegation}>
-          Delegate 
-        </Button> */}
-      </Box>
+      <Grid
+        templateColumns="repeat(auto-fit, minmax(300px, 1fr))" // Adjust the column width as needed
+        gap={4}
+        justifyItems="center"
+      >
+        {/* First Box */}
+        <Box textAlign="center" borderWidth="1px" borderRadius="lg" p={4}>
+          <center>
+          <Image src="https://www.gnars.wtf/images/logo.png" boxSize={28} align={"center"} />
+          </center>
+          <Text fontSize="xl" fontWeight="bold">
+            Gnars Supply
+          </Text>
+          <Text color={"orange"} fontSize="xl" fontWeight="bold">
+            {walletData[0]?.totalSupply}
+          </Text>
+        </Box>
+
+        {/* Second Box */}
+        <Box textAlign="center" borderWidth="1px" borderRadius="lg" p={4}>
+        <center>
+          <Image src="assets/skatehive-logo.png" boxSize={28} align={"center"} />
+          </center>
+          <Text fontSize="xl" fontWeight="bold">
+            Skatehive Gnars 
+          </Text>
+          <Text color={"orange"} fontSize="xl" fontWeight="bold">
+            {totalDelegatedVotes}
+          </Text>
+        </Box>
+      </Grid>
       {isLoading ? (
         <Flex justifyContent="center" alignItems="center" flexDirection={"column"}>
-          <Image boxSize={"60px"} src='https://64.media.tumblr.com/12da5f52c1491f392676d1d6edb9b055/870d8bca33241f31-7b/s400x600/fda9322a446d8d833f53467be19fca3811830c26.gif'></Image>
+          <Image
+            boxSize={"60px"}
+            src="https://64.media.tumblr.com/12da5f52c1491f392676d1d6edb9b055/870d8bca33241f31-7b/s400x600/fda9322a446d8d833f53467be19fca3811830c26.gif"
+          ></Image>
 
           <Text fontSize="xl" fontWeight="bold">
-            Loading...
+            ...
           </Text>
         </Flex>
       ) : null}
@@ -267,27 +260,50 @@ const GnarsDelegation: React.FC = () => {
           <Tbody fontSize={24}>
             {walletData.map((wallet) => (
               <Tr key={wallet.walletAddress}>
-            <Td>
-              <a href={`https://skatehive.app/profile/${wallet.username}`} target="_blank" rel="noopener noreferrer">
-                <Image
-                  border="2px solid white"
-                  borderRadius="10px"
-                  src={`https://images.ecency.com/webp/u/${wallet.username}/avatar/small`}
-                  width="50px"
-                  height="50px"
-                  style={{
-                    boxShadow: "0 8px 12px rgba(0, 0, 0, 0.8)",
-                    filter: wallet.balanceOfSkthv && parseFloat(wallet.balanceOfSkthv) > 0 ? "drop-shadow(0 0 8px gold)" : "none",
-                  }}
-                />
-              </a>
-            </Td>
-            <Td>
-              <a href={`https://skatehive.app/profile/${wallet.username}`} target="_blank" rel="noopener noreferrer">
-                {wallet.username} <UserReputation username={wallet.username} />
-              </a>
-            </Td>
-
+                <Td>
+                  <a
+                    href={`https://skatehive.app/profile/${wallet.username}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {wallet.hasHiveAccount ? (
+                      <Image
+                        border="0px solid transparent"
+                        borderRadius="10px"
+                        src={`https://images.ecency.com/webp/u/${wallet.username}/avatar/small`}
+                        width="50px"
+                        height="50px"
+                        style={{
+                          boxShadow: "0 8px 12px rgba(0, 0, 0, 0.8)",
+                          filter:
+                            wallet.balanceOfSkthv && parseFloat(wallet.balanceOfSkthv) > 0
+                              ? "drop-shadow(0 0 8px limegreen)"
+                              : "none",
+                        }}
+                      />
+                    ) : (
+                      <Image
+                        border="2px solid white"
+                        borderRadius="10px"
+                        src={`https://i.gifer.com/XwI7.gif`}
+                        width="50px"
+                        height="50px"
+                        style={{
+                          boxShadow: "0 8px 12px rgba(0, 0, 0, 0.8)",
+                        }}
+                      />
+                    )}
+                  </a>
+                </Td>
+                <Td>
+                  <a
+                    href={`https://skatehive.app/profile/${wallet.username}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {wallet.username} <UserReputation username={wallet.username} />
+                  </a>
+                </Td>
                 <Td>{wallet.balanceOfSkthv}</Td>
                 <Td
                   color={"white"}
@@ -297,19 +313,18 @@ const GnarsDelegation: React.FC = () => {
                   {formatWalletAddress(wallet.walletAddress)}
                 </Td>
                 <Td>{wallet.balance}</Td>
-                <Td   style={{ color: wallet.isDelegated ? "green" : "red" }}>  
+                <Td style={{ color: wallet.isDelegated ? "green" : "red" }}>
                   {wallet.isDelegated ? "Yes" : "No"}
                 </Td>
                 <Td>
-  {wallet.hasVotedForSkateHive ? (
-    <span style={{ color: "green" }}>Voted</span>
-  ) : (
-    <Button onClick={() => handleWitnessClick(wallet.username)} colorScheme="red">
-      Vote
-    </Button>
-  )}
-</Td>
-
+                  {wallet.hasVotedForSkateHive ? (
+                    <span style={{ color: "green" }}>Voted</span>
+                  ) : (
+                    <Button onClick={() => handleWitnessClick(wallet.username)} colorScheme="red">
+                      Vote
+                    </Button>
+                  )}
+                </Td>
               </Tr>
             ))}
           </Tbody>

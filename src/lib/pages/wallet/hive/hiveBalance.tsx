@@ -195,7 +195,7 @@ export default function HiveBalanceDisplay2() {
   return (
     <Box
         borderRadius="12px"
-        border="2px solid red"
+        border="3px solid #5e317a"
         padding="10px"
         maxWidth={{ base: "100%", md: "50%" }}
         >
@@ -213,10 +213,10 @@ export default function HiveBalanceDisplay2() {
               src={`https://images.hive.blog/u/${user.name}/avatar`}
               alt="profile avatar"
               borderRadius="20px"
-              border="2px solid limegreen"
+              border="4px solid #d7a917"
               boxSize="80px"
             />
-            <Text fontSize="32px" padding="10px" color="white">
+            <Text fontSize="32px" padding="10px" color="#b4d701">
               {user.name}
             </Text>
           </>
@@ -240,18 +240,20 @@ export default function HiveBalanceDisplay2() {
             ) : (
                 <>
                     <Flex alignItems="center" justifyContent="center">
-                        <Text fontWeight="bold" color="orange">Wallet Worth: ${totalWorth.toFixed(2)}</Text>
+                        <Text color="#b4d701">Wallet Worth: ${totalWorth.toFixed(2)}</Text>
                     </Flex>
                     <Divider backgroundColor="red" />
                     <HStack spacing={4} align="stretch">
                         <BalanceDisplay 
-                          label="Hive" 
+                          label="Hive"
+                          labelStyle={{ color: "#b4b701" }} 
                           balance={hiveBalance} 
                           labelTooltip="Native Token of Hive Blockchain"
                           balanceTooltip="Hive tokens are like digital coins on the Hive blockchain, and they have different uses. You can vote on stuff, get premium features, and help with the network and decision-making by staking them. They also reward content makers, keep users engaged, and you can trade them elsewhere. They basically keep Hive running, adding value and community vibes. 🛹🚀
                          " ></BalanceDisplay>
                         <BalanceDisplay 
-                          label="Hive Power" 
+                          label="Hive Power"
+                          labelStyle={{ color: "#b4b701" }} 
                           balance={hivePower} 
                           labelTooltip="Hive Power signifies influence, voting, and status within Hive blockchain. 🚀🤝"
                           balanceTooltip="Hive Power represents a user's influence and engagement within the Hive blockchain. It's like your reputation and impact score on the platform. When you ´power up Hive tokens by converting liquid Hive into Hive Power, you increase your ability to vote on content and participate in network governance. This boosts your say in decision-making and supports the Hive ecosystem's stability and decentralization. It's like investing in your standing and community involvement on Hive. 🚀🤝s"
@@ -261,7 +263,8 @@ export default function HiveBalanceDisplay2() {
                     <HStack spacing={4} align="stretch">
                         <BalanceDisplay 
                           label="Dollar Savings" 
-                          balance={savingsBalance} 
+                          balance={savingsBalance}
+                          labelStyle={{ color: "#b4b701" }} 
                           labelTooltip="Hive Savings are like a savings account for your HBD tokens. 🚀🤝"
                           balanceTooltip="Picture it like planting some Hive coins, but in this case, they're Hive Backed Dollars (HBD), kind of like specialized cannabis strains. You nurture them over time, and they steadily grow. With a 20% increase each year, it's like cultivating a thriving HBD garden. You're investing your time and care, and eventually, you'll have a bountiful harvest of HBD, just like some potent homegrown herb. So, you're tending to your HBD crop, man, and it's growing just as nicely as your favorite buds. 🌱💵🚀"
                           />
@@ -278,13 +281,13 @@ export default function HiveBalanceDisplay2() {
                         bg="black" 
                         color="white" 
                         borderRadius="10px" 
-                        border="1px dashed limegreen" 
+                        border="1px dashed #5e317a" 
                         label="Buy hive using other crypto">
 
                     <HStack
                         margin="10px"
                         borderRadius="10px"
-                        border="1px dashed orange"
+                        border="1px dashed #5e317a"
                         justifyContent="center"
                         padding="10px"
                     >
@@ -294,7 +297,7 @@ export default function HiveBalanceDisplay2() {
                             width="20px"
                             height="20px"
                         />
-                        <ChakraLink target="_blank" href="https://simpleswap.io/" fontSize="16px">Buy HIVE </ChakraLink>
+                        <ChakraLink target="_blank" href="https://simpleswap.io/" fontSize="16px" color={"#b4d701"} >Buy HIVE </ChakraLink>
                     </HStack>
                     </Tooltip>
 
@@ -307,7 +310,7 @@ export default function HiveBalanceDisplay2() {
                     <HStack
                         margin="10px"
                         borderRadius="10px"
-                        border="1px dashed orange"
+                        border="1px dashed #5e317a"
                         justifyContent="center"
                         padding="10px"
                     >
@@ -317,15 +320,16 @@ export default function HiveBalanceDisplay2() {
                             width="20px"
                             height="20px"
                         />
-                        <ChakraLink target="_blank" href="https://simpleswap.io/" fontSize="16px">Sell Hive  </ChakraLink>
+                        <ChakraLink target="_blank" href="https://simpleswap.io/" fontSize="16px" color={"#b4d701"}>Sell Hive  </ChakraLink>
                     </HStack>
                     </Tooltip>
-                    <Button                         margin="10px"
+                    <Button                          margin="10px"
+                        colorScheme="purple"
+                        color={"#b4d701"}
                         borderRadius="10px"
-                        border="1px dashed yellow"
                         justifyContent="center"
                         padding="10px" onClick={handleOpenModal}>
-                            SEND
+                            Enviar
                           </Button>
                 </>
             )}
@@ -371,7 +375,7 @@ balanceStyle?: React.CSSProperties;
 return (
 <Box
   borderRadius="5px"
-  border="1px solid red"
+  border="3px solid #5e317a"
   width="50%"
   padding="10px"
   textAlign="center"
@@ -379,7 +383,7 @@ return (
   {labelTooltip ? (
     <Tooltip label={labelTooltip} bg="black" color="white" borderRadius="10px" border="1px dashed limegreen">
       {labelLink ? (
-        <ChakraLink color="white" fontWeight="bold"  href={labelLink} isExternal style={labelStyle}>
+        <ChakraLink color="#b4d701" href={labelLink} isExternal style={labelStyle}>
           {label}
         </ChakraLink>
       ) : (
@@ -390,11 +394,11 @@ return (
     </Tooltip>
   ) : (
     labelLink ? (
-      <ChakraLink color="white" fontWeight="bold"  href={labelLink} isExternal style={labelStyle}>
+      <ChakraLink color="#b4d701" fontWeight="bold"  href={labelLink} isExternal style={labelStyle}>
         {label}
       </ChakraLink>
     ) : (
-      <Text color="white" fontWeight="bold" style={labelStyle}>
+      <Text color="#b4d701" style={labelStyle}>
         {label}
       </Text>
     )

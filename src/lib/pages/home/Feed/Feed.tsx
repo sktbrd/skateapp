@@ -506,7 +506,7 @@ return (
                     ml={2}
                     style={{
                       fontFamily: 'Helvetica',
-                      fontSize: `22px`,
+                      fontSize: `35px`,
             
                     }}
                     _hover={{

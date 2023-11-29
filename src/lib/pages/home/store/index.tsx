@@ -3,6 +3,7 @@ import { Flex, Box, Grid, Image, Text, VStack, Link as ChakraLink, Button } from
 import { Link as RouterLink } from 'react-router-dom';
 import { useState } from 'react';
 import BuyModal from './buyModal2';
+import { color } from 'framer-motion';
 interface Card {
   imageUrl: string;
   subtitle: string;
@@ -27,17 +28,17 @@ const cardData: Card[] = [
 
   {
     imageUrl: '/assets/meias/listradesanguebranco.png',
-    subtitle: 'Listra de Sangue B',
+    subtitle: 'Listra de Sangue Branca',
     price: 'Valor: 60,00'
   },
   {
     imageUrl: '/assets/meias/listradesanguepreto.png',
-    subtitle: 'Listra de Sangue P',
+    subtitle: 'Listra de Sangue Preta',
     price: 'Valor: 60,00'
   },
   {
     imageUrl: '/assets/meias/listraroxa.png',
-    subtitle: 'Listra Roxa',
+    subtitle: 'Listrada Roxa',
     hoverImageUrl: '',
     price: 'Valor: 60,00'
   },
@@ -50,12 +51,12 @@ const cardData: Card[] = [
   },
   {
     imageUrl: '/assets/meias/pdsb.png',
-    subtitle: 'Pé de Esqueleto B',
+    subtitle: 'Pé de Esqueleto Branca',
     price: 'Valor: 60,00'
   },
   {
     imageUrl: '/assets/meias/pdsp.png',
-    subtitle: 'Pé de Esqueleto P',
+    subtitle: 'Pé de Esqueleto Preta',
     url: '',
     price: 'Valor: 60,00'
     
@@ -194,7 +195,7 @@ const [email, setEmail] = useState("");
                     </ChakraLink>
                     </Flex>
                     {card.price && <Text fontSize="md" color="white">{card.price}</Text>}
-                    <Button onClick={() => handleBuy(index)} background={"purple"} color={"white"}>Comprar</Button>
+                    <Button onClick={() => handleBuy(index)} background={"purple"} color={"#b4d701"}>Comprar</Button>
                 </center>
                 </VStack>
                 <BuyModal 

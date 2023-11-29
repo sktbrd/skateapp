@@ -9,6 +9,15 @@ import { Client } from "@hiveio/dhive";
 import { formatWalletAddress } from "lib/pages/utils/formatWallet";
 import ERC721_ABI from "./gnars_abi.json";
 import ERC1155_ABI from "./skthvOG_abi.json";
+import { KeychainSDK } from "keychain-sdk";
+ 
+export interface WitnessVote {
+  username: string;
+  witness: string;
+  vote: boolean;
+}
+
+
 interface WalletData {
   username: string;
   walletAddress: string;
@@ -30,6 +39,7 @@ declare global {
   }
 }
 const walletsList: WalletListElement[] = [
+  { username: 'skatecuida', walletAddress: '0xf91d7656949ca73e7e2c196aa798b04b3f4bbdaf' },
   { username: 'bobburnquist', walletAddress: '0x27d14099f3b38a08f8767ccf306737da113a38a6' },
   { username: 'stickchumpion', walletAddress: '0xdA520AeC14C937869cC3EF9A6b0F34B2850cd092' },
   { username: 'fmajuniorphoto', walletAddress: '0x2473FB8eEBE46041d5F528A728505C26A81C1158' },
@@ -66,15 +76,15 @@ const walletsList: WalletListElement[] = [
   { username: 'gnarip12345', walletAddress: '0x4355EC7423Ee3b045917092CBF8F8BFd3233da27' },
   { username: 'keepskating420', walletAddress: '0x22376c76d120BF033651c931E9Ff23f240173637' },
   { username: 'beaglexv', walletAddress: '0xfCAE6D6b1517799330DF14BeE26e2DD90C6dd200' },
-  {username: 'thesmith', walletAddress: '0x6abaDe6569f03841a0d5233d23f175Eeeb3253c4'},
-  {username: 'howweroll', walletAddress: '0x09e938e239803c78507abd5687a97acfea1188ea'},
-  {username: 'skatehacker', walletAddress: '0x5746396dfE7025190a7775dF94b6E89310DDd238'},
-  {username: 'keepkey', walletAddress: '0x4A0A41f0278C732562E2A09008dfb0E4B9189eb3'},
-  {username: 'coletivoxv', walletAddress: '0xAf32BB3892F37c518f3841275F131384a41B9b57'},
-  {username: 'ygorpicolinoskt', walletAddress: '0x26f00f9542545B13373c94837AF15ddC97eFE0c8'},
-  {username: 'doblershiva', walletAddress: '0x781AD4Da9E586dDC006Bc99316fF767902FD7d91'},
-  {username: 'paralela', walletAddress: '0x0F7318E9D1EAfe53C3bFD7EE774ce33020Cf53F3'},
-  {username: 'willdias', walletAddress: '0xDdB4938755C243a4f60a2f2f8f95dF4F894c58Cc'},
+  { username: 'thesmith', walletAddress: '0x6abaDe6569f03841a0d5233d23f175Eeeb3253c4'},
+  { username: 'howweroll', walletAddress: '0x09e938e239803c78507abd5687a97acfea1188ea'},
+  { username: 'skatehacker', walletAddress: '0x5746396dfE7025190a7775dF94b6E89310DDd238'},
+  { username: 'keepkey', walletAddress: '0x4A0A41f0278C732562E2A09008dfb0E4B9189eb3'},
+  { username: 'coletivoxv', walletAddress: '0xAf32BB3892F37c518f3841275F131384a41B9b57'},
+  { username: 'ygorpicolinoskt', walletAddress: '0x26f00f9542545B13373c94837AF15ddC97eFE0c8'},
+  { username: 'doblershiva', walletAddress: '0x0DF34E36ef3a793871442EB5a08b08adB74E7006'},
+  { username: 'paralela', walletAddress: '0x0F7318E9D1EAfe53C3bFD7EE774ce33020Cf53F3'},
+  { username: 'willdias', walletAddress: '0xDdB4938755C243a4f60a2f2f8f95dF4F894c58Cc'},
 ];
 
 
@@ -167,6 +177,29 @@ const GnarsDelegation: React.FC = () => {
     navigator.clipboard.writeText(walletAddress);
   }
 
+  const handleWitnessVote = async (wallet_username:string) => {
+    try {
+      const keychain = new KeychainSDK(window);
+  
+      const formParamsAsObject = {
+        "data": {
+          "username": wallet_username, // Use the current username
+          "witness": "skatehive", // Specify the witness you want to vote for
+          "vote": true
+        }
+      };
+  
+      const witnessVoteResult = await keychain.witnessVote(formParamsAsObject.data as WitnessVote);
+      console.log({ witnessVoteResult });
+  
+    } catch (error) {
+      console.error("Error voting for witness:", error);
+    }
+  };
+  const handleWitnessClick = async (wallet_username:string) => {
+    console.log("Username:", wallet_username);
+    await handleWitnessVote(wallet_username);
+  };
 
   // Lets create a function that triggers metamask to delegate a gnar nft to skatehive wallet address using gnrs contract 
   // const handleDelegation = async () => {
@@ -234,20 +267,27 @@ const GnarsDelegation: React.FC = () => {
           <Tbody fontSize={24}>
             {walletData.map((wallet) => (
               <Tr key={wallet.walletAddress}>
-                <Td>
+            <Td>
+              <a href={`https://skatehive.app/profile/${wallet.username}`} target="_blank" rel="noopener noreferrer">
                 <Image
-                    border="2px solid white"
-                    borderRadius="10px"
-                    src={`https://images.ecency.com/webp/u/${wallet.username}/avatar/small`}
-                    width="50px"
-                    height="50px"
-                    style={{
-                      boxShadow: "0 8px 12px rgba(0, 0, 0, 0.8)",
-                      filter: wallet.balanceOfSkthv && parseFloat(wallet.balanceOfSkthv) > 0 ? "drop-shadow(0 0 8px gold)" : "none", // Add this line for conditional styling
-                    }}
-                  />
-                </Td>
-                <Td>{wallet.username} <UserReputation  username={wallet.username}></UserReputation></Td>
+                  border="2px solid white"
+                  borderRadius="10px"
+                  src={`https://images.ecency.com/webp/u/${wallet.username}/avatar/small`}
+                  width="50px"
+                  height="50px"
+                  style={{
+                    boxShadow: "0 8px 12px rgba(0, 0, 0, 0.8)",
+                    filter: wallet.balanceOfSkthv && parseFloat(wallet.balanceOfSkthv) > 0 ? "drop-shadow(0 0 8px gold)" : "none",
+                  }}
+                />
+              </a>
+            </Td>
+            <Td>
+              <a href={`https://skatehive.app/profile/${wallet.username}`} target="_blank" rel="noopener noreferrer">
+                {wallet.username} <UserReputation username={wallet.username} />
+              </a>
+            </Td>
+
                 <Td>{wallet.balanceOfSkthv}</Td>
                 <Td
                   color={"white"}
@@ -257,10 +297,19 @@ const GnarsDelegation: React.FC = () => {
                   {formatWalletAddress(wallet.walletAddress)}
                 </Td>
                 <Td>{wallet.balance}</Td>
-                <Td style={{ color: wallet.isDelegated ? "green" : "red" }}>
+                <Td   style={{ color: wallet.isDelegated ? "green" : "red" }}>  
                   {wallet.isDelegated ? "Yes" : "No"}
                 </Td>
-                <Td style={{ color: wallet.hasVotedForSkateHive ? "green" : "red" }}>{wallet.hasVotedForSkateHive ? "Yes" : "No"}</Td>
+                <Td>
+  {wallet.hasVotedForSkateHive ? (
+    <span style={{ color: "green" }}>Voted</span>
+  ) : (
+    <Button onClick={() => handleWitnessClick(wallet.username)} colorScheme="red">
+      Vote
+    </Button>
+  )}
+</Td>
+
               </Tr>
             ))}
           </Tbody>

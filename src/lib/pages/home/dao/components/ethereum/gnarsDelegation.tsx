@@ -74,6 +74,7 @@ const walletsList: WalletListElement[] = [
   {username: 'ygorpicolinoskt', walletAddress: '0x26f00f9542545B13373c94837AF15ddC97eFE0c8'},
   {username: 'doblershiva', walletAddress: '0x781AD4Da9E586dDC006Bc99316fF767902FD7d91'},
   {username: 'paralela', walletAddress: '0x0F7318E9D1EAfe53C3bFD7EE774ce33020Cf53F3'},
+  {username: 'willdias', walletAddress: '0xDdB4938755C243a4f60a2f2f8f95dF4F894c58Cc'},
 ];
 
 

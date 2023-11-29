@@ -85,6 +85,7 @@ export default function AuthorProfilePage() {
         const account = await dhiveClient.database.getAccounts([username]);
         const userWitnessVotes = account[0]?.witness_votes || [];
         const hasVotedWitness = userWitnessVotes.includes("skatehive");
+        console.log(hasVotedWitness)
         setWitnessVotes(userWitnessVotes);
         setVestingShares(String(account[0]?.vesting_shares || ""));
         setDelegatedVestingShares(String(account[0]?.delegated_vesting_shares || ""));

@@ -26,16 +26,16 @@ interface WalletData {
   totalSupply?: string;
   balance?: string;
   balanceOfSkthv?: string;
-  hasVotedForSkateHive?: boolean; // Corrected property name
+  hasVotedForSkateHive?: boolean; 
 }
 interface WalletListElement {
   username: string;
   walletAddress: string;
-  hasVotedForSkateHive?: boolean; // Add the property here
+  hasVotedForSkateHive?: boolean; 
 }
 declare global {
   interface Window {
-    ethereum?: any; // Change the type accordingly based on your needs
+    ethereum?: any;
   }
 }
 const walletsList: WalletListElement[] = [
@@ -109,25 +109,24 @@ const GnarsDelegation: React.FC = () => {
           "https://techcoderx.com"
         ]);
 
-        // Declare contract and skthvProxyContract here
+    
         const provider = new ethers.providers.JsonRpcProvider(
           "https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik"
         );
         const contract = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
         const skthvProxyContract = new ethers.Contract(skthv_proxy_contract, ERC1155_ABI, provider);
-
-        const accounts = await client.database.getAccounts(walletsList.map((wallet) => wallet.username));
-
-        const witnessVotesPromises = accounts.map((account) =>
-          account.witness_votes.includes("skatehive")
-        );
-
-        const hasVotedForSkateHive = await Promise.all(witnessVotesPromises);
-        console.log(hasVotedForSkateHive);
-        // append vote data to walletsList
-        walletsList.forEach((wallet, index) => {
-          wallet.hasVotedForSkateHive = hasVotedForSkateHive[index];
-        });
+        const usernames = walletsList.map((wallet) => wallet.username);
+        console.log(usernames)
+          // for each username check if the hive acccount of that username has voted for skatehivw
+          const hasVotedForSkateHive = await Promise.all(
+            usernames.map(async (username) => {
+              const account = await client.database.getAccounts([username]);
+          
+              // Add null check here
+              const hasVotedForSkateHive = account[0]?.witness_votes?.includes("skatehive") || false;
+              return hasVotedForSkateHive;
+            })
+          );
 
         const delegatedVotes = await contract.getCurrentVotes(
           "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c"
@@ -137,6 +136,7 @@ const GnarsDelegation: React.FC = () => {
 
         const updatedWalletsList: WalletData[] = await Promise.all(
           walletsList.map(async (wallet, index) => {
+            
             const votes = await contract.getCurrentVotes(wallet.walletAddress);
             const balanceOfSkthv = await skthvProxyContract.balanceOf(wallet.walletAddress, 1);
 
@@ -180,7 +180,7 @@ const GnarsDelegation: React.FC = () => {
   const handleWitnessVote = async (wallet_username:string) => {
     try {
       const keychain = new KeychainSDK(window);
-  
+      console.log(wallet_username);
       const formParamsAsObject = {
         "data": {
           "username": wallet_username, // Use the current username

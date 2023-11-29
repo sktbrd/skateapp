@@ -3,7 +3,11 @@ import { ethers } from "ethers";
 import React, { useState, useEffect } from "react";
 import UserReputation from "lib/pages/utils/hiveFunctions/usersReputation";
 const gnars_contract = "0x558BFFF0D583416f7C4e380625c7865821b8E95C";
+const skthv_contract = "0x3dEd025e441730e26AB28803353E4471669a3065";
+const skthv_proxy_contract = "0x3ded025e441730e26ab28803353e4471669a3065";
+
 import ERC721_ABI from "./gnars_abi.json";
+import ERC1155_ABI from "./skthvOG_abi.json";
 interface WalletData {
   username: string;
   walletAddress: string;
@@ -53,7 +57,8 @@ const walletsList = [
   {username: 'howweroll', walletAddress: '0x09e938e239803c78507abd5687a97acfea1188ea'},
   {username: 'skatehacker', walletAddress: '0x5746396dfE7025190a7775dF94b6E89310DDd238'},
   {username: 'keepkey', walletAddress: '0x4A0A41f0278C732562E2A09008dfb0E4B9189eb3'},
-  
+  {username: 'coletivoxv', walletAddress: '0xAf32BB3892F37c518f3841275F131384a41B9b57'},
+  {username: 'ygorpicolinoskt', walletAddress: '0x26f00f9542545B13373c94837AF15ddC97eFE0c8'},
 ];
 
 
@@ -69,6 +74,7 @@ const GnarsDelegation: React.FC = () => {
     "https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik"
   );
   const contract = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
+  const skthvProxyContract = new ethers.Contract(skthv_proxy_contract, ERC1155_ABI, provider);
 
   useEffect(() => {
     async function fetchWalletData() {
@@ -78,7 +84,8 @@ const GnarsDelegation: React.FC = () => {
         );
         const totalSupply = await contract.totalSupply();
         setTotalDelegatedVotes(ethers.utils.formatUnits(delegatedVotes, 0));
-
+        const skthv_contract = await skthvProxyContract.name();
+        console.log(skthv_contract)
         const updatedWalletsList: WalletData[] = await Promise.all(
           walletsList.map(async (wallet) => {
             const votes = await contract.getCurrentVotes(wallet.walletAddress);

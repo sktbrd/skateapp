@@ -1,10 +1,11 @@
-import { Button, Table, Thead, Tbody, Tr, Th, Td, Text , Image, VStack, Box,HStack} from "@chakra-ui/react";
+import { Flex, Button, Table, Thead, Tbody, Tr, Th, Td, Text , Image, VStack, Box,HStack} from "@chakra-ui/react";
 import { ethers } from "ethers";
 import React, { useState, useEffect } from "react";
 import UserReputation from "lib/pages/utils/hiveFunctions/usersReputation";
 const gnars_contract = "0x558BFFF0D583416f7C4e380625c7865821b8E95C";
 const skthv_contract = "0x3dEd025e441730e26AB28803353E4471669a3065";
 const skthv_proxy_contract = "0x3ded025e441730e26ab28803353e4471669a3065";
+import { Client } from "@hiveio/dhive";
 
 import ERC721_ABI from "./gnars_abi.json";
 import ERC1155_ABI from "./skthvOG_abi.json";
@@ -14,9 +15,16 @@ interface WalletData {
   votes?: string;
   isDelegated?: boolean;
   totalSupply?: string;
-  balance?: string; // Add balance to the WalletData interface
+  balance?: string;
+  balanceOfSkthv?: string;
+  hasVotedForSkateHive?: boolean; // Corrected property name
 }
-const walletsList = [
+interface WalletListElement {
+  username: string;
+  walletAddress: string;
+  hasVotedForSkateHive?: boolean; // Add the property here
+}
+const walletsList: WalletListElement[] = [
   { username: 'bobburnquist', walletAddress: '0x27d14099f3b38a08f8767ccf306737da113a38a6' },
   { username: 'stickchumpion', walletAddress: '0xdA520AeC14C937869cC3EF9A6b0F34B2850cd092' },
   { username: 'fmajuniorphoto', walletAddress: '0x2473FB8eEBE46041d5F528A728505C26A81C1158' },
@@ -69,26 +77,53 @@ const GnarsDelegation: React.FC = () => {
   const [totalDelegatedVotes, setTotalDelegatedVotes] = useState<string | undefined>(
     undefined
   );
+  const [isLoading, setIsLoading] = useState(true);
 
-  const provider = new ethers.providers.JsonRpcProvider(
-    "https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik"
-  );
-  const contract = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
-  const skthvProxyContract = new ethers.Contract(skthv_proxy_contract, ERC1155_ABI, provider);
 
   useEffect(() => {
     async function fetchWalletData() {
       try {
+        const client = new Client([
+          "https://api.hive.blog/",
+          "https://api.hivekings.com",
+          "https://anyx.io",
+          "https://api.openhive.network",
+          "https://hived.privex.io",
+          "https://rpc.ausbit.dev",
+          "https://techcoderx.com"
+        ]);
+
+        // Declare contract and skthvProxyContract here
+        const provider = new ethers.providers.JsonRpcProvider(
+          "https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik"
+        );
+        const contract = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
+        const skthvProxyContract = new ethers.Contract(skthv_proxy_contract, ERC1155_ABI, provider);
+
+        const accounts = await client.database.getAccounts(walletsList.map((wallet) => wallet.username));
+
+        const witnessVotesPromises = accounts.map((account) =>
+          account.witness_votes.includes("skatehive")
+        );
+
+        const hasVotedForSkateHive = await Promise.all(witnessVotesPromises);
+        console.log(hasVotedForSkateHive);
+        // append vote data to walletsList
+        walletsList.forEach((wallet, index) => {
+          wallet.hasVotedForSkateHive = hasVotedForSkateHive[index];
+        });
+
         const delegatedVotes = await contract.getCurrentVotes(
           "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c"
         );
         const totalSupply = await contract.totalSupply();
         setTotalDelegatedVotes(ethers.utils.formatUnits(delegatedVotes, 0));
-        const skthv_contract = await skthvProxyContract.name();
-        console.log(skthv_contract)
+
         const updatedWalletsList: WalletData[] = await Promise.all(
-          walletsList.map(async (wallet) => {
+          walletsList.map(async (wallet, index) => {
             const votes = await contract.getCurrentVotes(wallet.walletAddress);
+            const balanceOfSkthv = await skthvProxyContract.balanceOf(wallet.walletAddress, 1);
+
             const isDelegated =
               (await contract.delegates(wallet.walletAddress)) ===
               "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c";
@@ -100,16 +135,20 @@ const GnarsDelegation: React.FC = () => {
               isDelegated,
               totalSupply: ethers.utils.formatUnits(totalSupply, 0),
               balance: ethers.utils.formatUnits(balance, 0),
+              balanceOfSkthv: ethers.utils.formatUnits(balanceOfSkthv, 0),
+              hasVotedForSkateHive: hasVotedForSkateHive[index],
+  
             };
           })
         );
 
-        // Sort the array based on the Gnars balance in descending order
         const sortedWalletData = updatedWalletsList.sort(
           (a, b) => parseFloat(b.balance!) - parseFloat(a.balance!)
         );
 
         setWalletData(sortedWalletData);
+        setIsLoading(false);
+
       } catch (error) {
         console.error("Error:", error);
       }
@@ -117,6 +156,7 @@ const GnarsDelegation: React.FC = () => {
 
     fetchWalletData();
   }, []);
+
 
   return (
     <VStack spacing={4} align="stretch">
@@ -135,39 +175,52 @@ const GnarsDelegation: React.FC = () => {
          {totalDelegatedVotes}
          </Text>
       </Box>
+      {isLoading ? (
+        <Flex justifyContent="center" alignItems="center" flexDirection={"column"}>
+          <Image boxSize={"60px"} src='https://64.media.tumblr.com/12da5f52c1491f392676d1d6edb9b055/870d8bca33241f31-7b/s400x600/fda9322a446d8d833f53467be19fca3811830c26.gif'></Image>
+
+          <Text fontSize="xl" fontWeight="bold">
+            Loading...
+          </Text>
+        </Flex>
+      ) : null}
       <Box>
         <Table variant="simple" size="md">
           <Thead>
             <Tr>
               <Th>Avatar</Th>
               <Th>Username</Th>
+              <Th> skthv OG</Th>
               <Th>Wallet Address</Th>
               <Th>Gnars Balance</Th>
               <Th>Delegated to SkateHive</Th>
-              
+              <Th> Witness Vote</Th>
             </Tr>
           </Thead>
           <Tbody fontSize={24}>
             {walletData.map((wallet) => (
               <Tr key={wallet.walletAddress}>
                 <Td>
-                  <Image
-                    border="1px solid limegreen"
+                <Image
+                    border="2px solid white"
                     borderRadius="10px"
                     src={`https://images.ecency.com/webp/u/${wallet.username}/avatar/small`}
                     width="50px"
                     height="50px"
                     style={{
                       boxShadow: "0 8px 12px rgba(0, 0, 0, 0.8)",
+                      filter: wallet.balanceOfSkthv && parseFloat(wallet.balanceOfSkthv) > 0 ? "drop-shadow(0 0 8px gold)" : "none", // Add this line for conditional styling
                     }}
                   />
                 </Td>
                 <Td>{wallet.username} <UserReputation  username={wallet.username}></UserReputation></Td>
+                <Td>{wallet.balanceOfSkthv}</Td>
                 <Td>{wallet.walletAddress}</Td>
                 <Td>{wallet.balance}</Td>
                 <Td style={{ color: wallet.isDelegated ? "green" : "red" }}>
                   {wallet.isDelegated ? "Yes" : "No"}
                 </Td>
+                <Td style={{ color: wallet.hasVotedForSkateHive ? "green" : "red" }}>{wallet.hasVotedForSkateHive ? "Yes" : "No"}</Td>
               </Tr>
             ))}
           </Tbody>

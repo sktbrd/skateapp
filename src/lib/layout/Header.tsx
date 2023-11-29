@@ -338,7 +338,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     <MenuDivider />
 
     <MenuGroup title="Forks">
-    <Link to="https://crowsnight.vercel.app" target="_blank" style={{ textDecoration: 'none' }}>
+    <Link to="https://crowsnight.com" target="_blank" style={{ textDecoration: 'none' }}>
 
       <MenuItem
         _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover

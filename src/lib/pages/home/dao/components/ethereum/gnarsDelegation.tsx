@@ -6,7 +6,7 @@ const gnars_contract = "0x558BFFF0D583416f7C4e380625c7865821b8E95C";
 const skthv_contract = "0x3dEd025e441730e26AB28803353E4471669a3065";
 const skthv_proxy_contract = "0x3ded025e441730e26ab28803353e4471669a3065";
 import { Client } from "@hiveio/dhive";
-
+import { formatWalletAddress } from "lib/pages/utils/formatWallet";
 import ERC721_ABI from "./gnars_abi.json";
 import ERC1155_ABI from "./skthvOG_abi.json";
 interface WalletData {
@@ -23,6 +23,11 @@ interface WalletListElement {
   username: string;
   walletAddress: string;
   hasVotedForSkateHive?: boolean; // Add the property here
+}
+declare global {
+  interface Window {
+    ethereum?: any; // Change the type accordingly based on your needs
+  }
 }
 const walletsList: WalletListElement[] = [
   { username: 'bobburnquist', walletAddress: '0x27d14099f3b38a08f8767ccf306737da113a38a6' },
@@ -67,9 +72,9 @@ const walletsList: WalletListElement[] = [
   {username: 'keepkey', walletAddress: '0x4A0A41f0278C732562E2A09008dfb0E4B9189eb3'},
   {username: 'coletivoxv', walletAddress: '0xAf32BB3892F37c518f3841275F131384a41B9b57'},
   {username: 'ygorpicolinoskt', walletAddress: '0x26f00f9542545B13373c94837AF15ddC97eFE0c8'},
+  {username: 'doblershiva', walletAddress: '0x781AD4Da9E586dDC006Bc99316fF767902FD7d91'},
+  {username: 'paralela', walletAddress: '0x0F7318E9D1EAfe53C3bFD7EE774ce33020Cf53F3'},
 ];
-
-
 
 
 const GnarsDelegation: React.FC = () => {
@@ -157,7 +162,32 @@ const GnarsDelegation: React.FC = () => {
     fetchWalletData();
   }, []);
 
+  const handleCopy = (walletAddress: string) => {
+    navigator.clipboard.writeText(walletAddress);
+  }
 
+
+  // Lets create a function that triggers metamask to delegate a gnar nft to skatehive wallet address using gnrs contract 
+  // const handleDelegation = async () => {
+  //   try {
+  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //     const signer = provider.getSigner();
+  //     const gnarsContract = new ethers.Contract(gnars_contract, ERC721_ABI, signer);
+  //     const gnarsContractWithSigner = gnarsContract.connect(signer);
+  //     console.log(gnarsContractWithSigner);
+  
+  //     // Corrected: Use the correct method to delegate votes, for example, "delegate"
+  //     const gnarsContractWithSignerDelegate = await gnarsContractWithSigner.delegate(
+  //       "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c"
+  //     );
+  
+  //     await gnarsContractWithSignerDelegate.wait();
+  //     console.log("Delegation successful");
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // }
+  
   return (
     <VStack spacing={4} align="stretch">
       <Box textAlign="center">
@@ -174,6 +204,9 @@ const GnarsDelegation: React.FC = () => {
         <Text fontSize="xl" fontWeight="bold">
          {totalDelegatedVotes}
          </Text>
+         {/* <Button colorScheme="teal" onClick={handleDelegation}>
+          Delegate 
+        </Button> */}
       </Box>
       {isLoading ? (
         <Flex justifyContent="center" alignItems="center" flexDirection={"column"}>
@@ -215,7 +248,13 @@ const GnarsDelegation: React.FC = () => {
                 </Td>
                 <Td>{wallet.username} <UserReputation  username={wallet.username}></UserReputation></Td>
                 <Td>{wallet.balanceOfSkthv}</Td>
-                <Td>{wallet.walletAddress}</Td>
+                <Td
+                  color={"white"}
+                  onClick={() => handleCopy(wallet.walletAddress)}
+                  style={{ cursor: "pointer", textDecoration: "underline" }}
+                >
+                  {formatWalletAddress(wallet.walletAddress)}
+                </Td>
                 <Td>{wallet.balance}</Td>
                 <Td style={{ color: wallet.isDelegated ? "green" : "red" }}>
                   {wallet.isDelegated ? "Yes" : "No"}

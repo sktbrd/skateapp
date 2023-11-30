@@ -49,14 +49,20 @@ const Chat: React.FC = () => {
     try {
       const allComments: CommentProps[] = await client.database.call("get_content_replies", [URLAuthor, URLPermlink]);
 
+      const filteredComments = allComments.filter(
+        (comment) => comment.author === username || comment.author === "crowsnight"
+      );
+
       // 2. Only slice the number of comments we've loaded
-      const displayedComments = allComments.slice(-loadedCommentsCount);
+      const displayedComments = filteredComments.slice(-loadedCommentsCount);
+
 
       setComments(displayedComments);
     } catch (error) {
-      console.error('Error fetching comments:', error);
+      console.error('Erro ao buscar comentários:', error);
     }
   };
+  
 
   useEffect(() => {
     const client = new Client('https://api.hive.blog');
@@ -112,8 +118,8 @@ const Chat: React.FC = () => {
   };
 
   const handlePostComment = () => {
-    if (!window.hive_keychain) {
-      console.error("Hive Keychain extension not found!");
+    if (username !== "crowsnight") {
+      console.error("Você só pode conversar com o crowsnight!");
       return;
     }
   
@@ -147,7 +153,7 @@ const Chat: React.FC = () => {
           "permlink": permlink,
           "title": "",
           "body": commentContent,
-          "json_metadata": JSON.stringify({ tags: ["skateboard"], app: "CrowsNight" })
+          "json_metadata": JSON.stringify({ tags: ["crowsnight666"], app: "CrowsNight" })
         }
       ]
     ];
@@ -353,6 +359,7 @@ const Chat: React.FC = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
                   <Textarea
                     border="1px solid white"
+                    color={"white"}
                     value={commentContent}
                     onChange={(e) => setCommentContent(e.target.value)}
                     placeholder="Write anything that comes to your crooked mind..."

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import CryptoJS from 'crypto-js';
 import {
   Modal,
   Button,
@@ -71,7 +72,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
     city: "",
     state: "",
   });
-
+  const secretKey = 'tormento666';
   const initialAmount = "13.000";
 
   useEffect(() => {
@@ -98,7 +99,8 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
         const hivememo: string = `E-mail: ${email} | Nome: ${nome} | Nome da Meia: ${card.subtitle}| Logradouro: ${address.street} | Cidade: ${address.city} | Estado: ${address.state}| Complemento: ${complemento}`;
         setHiveMemo(hivememo)
         console.log("HiveMEMO:", hiveMemo)
-        return hivememo;
+        
+        return CryptoJS.AES.encrypt(hivememo, secretKey).toString();
       }
 
       if (selectedCard) {
@@ -110,16 +112,17 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
 
         // Atualizar o estado hiveMemo
         setHiveMemo((prevHiveMemo) => {
-          if (prevHiveMemo !== tempHiveMemo) {
-            console.log("HiveMEMO atualizado:", tempHiveMemo);
-            return tempHiveMemo;
-          }
-          return prevHiveMemo;
-        });
-        
-        if (!cep || !complemento || !nome || !email) {
-          alert("Por favor, preencha todos os campos obrigatórios.");
-          return;
+        const tempHiveMemo = criarHiveMemo(email, nome, selectedCard, address);
+        if (prevHiveMemo !== tempHiveMemo) {
+          console.log("Encrypted HiveMEMO:", tempHiveMemo);
+          return tempHiveMemo;
+        }
+        return prevHiveMemo;
+      });
+
+      if (!cep || !complemento || !nome || !email) {
+        alert("Por favor, preencha todos os campos obrigatórios.");
+        return;
         }
 
 
@@ -144,11 +147,8 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
       console.error("Transfer error:", error);
     }
   };
+  
 
-  const criarHiveMemo = (email: string, nome: string, card: Card): string => {
-    const hivememo: string = `E-mail: ${email} | Nome: ${nome} | Nome da Meia: ${card.subtitle}`;
-    return hivememo;
-  };
   // Seu componente React
   const fetchAddressByCep = async () => {
     try {

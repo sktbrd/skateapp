@@ -6,7 +6,7 @@ import { Client } from "@hiveio/dhive";
 interface WalletData {
     username: string;
     walletAddress: string;
-    vesting_shares?: string;
+    vestingShares?: string;
     hasVotedForSkateHive?: boolean; 
   }
 
@@ -85,7 +85,7 @@ const GnarsHolders: React.FC = () => {
                 for (const username of usernames) {
                     const account = await client.database.getAccounts([username]);
                     const vestingShares =
-                        account[0]?.vesting_shares || 0; // Adjust the default value as needed
+                        account[0]?.vesting_shares || '0'; // Adjust the default value as needed
 
                     const hasVotedForSkateHive =
                         account[0]?.witness_votes?.includes('skatehive') || false;
@@ -96,11 +96,12 @@ const GnarsHolders: React.FC = () => {
                             walletAddress:
                                 walletsList.find((wallet) => wallet.username === username)
                                     ?.walletAddress || '',
-                            vestingShares: vestingShares,
+                            vestingShares: vestingShares.toString(),
                             hasVotedForSkateHive: hasVotedForSkateHive,
                         },
                     ]);
                 }
+
             } catch (error) {
                 console.error('Error fetching wallet data:', error);
             }
@@ -126,9 +127,50 @@ const GnarsHolders: React.FC = () => {
     , []);
 
     return (
-        <div>
-            {/* Render your UI using walletData */}
-        </div>
+        // return updated walletList with new atributes
+        <Flex
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            width="100%"
+            height="100%"
+            backgroundColor="black"
+            color="white"
+            padding="1rem"
+            overflow="auto"
+        >
+            <Box
+                width="100%"
+                height="100%"
+                backgroundColor="black"
+                color="white"
+                padding="1rem"
+                overflow="auto"
+            >
+                <Table variant="simple" colorScheme="whiteAlpha" color="white">
+                    <Thead>
+                        <Tr>
+                            <Th>Username</Th>
+                            <Th>Wallet Address</Th>
+                            <Th>Vesting Shares</Th>
+                            <Th>Has Voted for SkateHive</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {walletData.map((wallet) => (
+                            <Tr key={wallet.username}>
+                                <Td>{wallet.username}</Td>
+                                <Td>{wallet.walletAddress}</Td>
+                                <Td>{wallet.vestingShares}</Td>
+                                <Td>{wallet.hasVotedForSkateHive ? 'Yes' : 'No'}</Td>
+                            </Tr>
+                        ))}
+
+                    </Tbody>
+                </Table>
+            </Box>
+        </Flex>
+
     );
 };
 

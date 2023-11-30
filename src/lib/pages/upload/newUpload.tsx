@@ -707,7 +707,7 @@ const handleIncludeFooterChange = () => {
       
       return (
         <Box>
-          <Box mt={5}>
+          <Box mt={0}>
 
             <VStack>
 

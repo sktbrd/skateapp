@@ -486,7 +486,7 @@ return (
                   size="lg"
                   style={{
                     textShadow: '0 0 20px rgba(0, 255, 0, 0.7)', // Apply a green glow behind the text
-                    fontStyle: 'italic', // Make the text italic
+                    fontStyle: '', // Make the text italic
                   }} 
                   >
                     {post.author}

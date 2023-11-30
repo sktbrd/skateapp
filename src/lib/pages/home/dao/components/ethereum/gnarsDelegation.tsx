@@ -33,6 +33,7 @@ interface WalletListElement {
   username: string;
   walletAddress: string;
   hasVotedForSkateHive?: boolean; 
+  hasHivePower?: string;
 }
 declare global {
   interface Window {
@@ -114,16 +115,30 @@ const GnarsDelegation: React.FC = () => {
         const contract = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
         const skthvProxyContract = new ethers.Contract(skthv_proxy_contract, ERC1155_ABI, provider);
         const usernames = walletsList.map((wallet) => wallet.username);
-
+        const hasHivePower = await Promise.all(
+          usernames.map(async (username) => {
+            const account = await client.database.getAccounts([username]);
+            const hivePower = account[0]?.vesting_shares || 0;
+            console.log(hivePower)
+            return hivePower;
+          })
+        );
+        
         const hasVotedForSkateHive = await Promise.all(
           usernames.map(async (username) => {
             const account = await client.database.getAccounts([username]);
+            
             const hasVotedForSkateHive =
               account[0]?.witness_votes?.includes("skatehive") || false;
             const hasHiveAccount = !!account[0];
-            return { hasVotedForSkateHive, hasHiveAccount };
+            const hivePower = account[0]?.vesting_shares || 0;
+        
+            return { hasVotedForSkateHive, hasHiveAccount, hivePower };
           })
         );
+        
+        
+
 
         const delegatedVotes = await contract.getCurrentVotes(
           "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c"
@@ -232,18 +247,7 @@ const GnarsDelegation: React.FC = () => {
           </Text>
         </Box>
       </Grid>
-      {isLoading ? (
-        <Flex justifyContent="center" alignItems="center" flexDirection={"column"}>
-          <Image
-            boxSize={"60px"}
-            src="https://64.media.tumblr.com/12da5f52c1491f392676d1d6edb9b055/870d8bca33241f31-7b/s400x600/fda9322a446d8d833f53467be19fca3811830c26.gif"
-          ></Image>
 
-          <Text fontSize="xl" fontWeight="bold">
-            ...
-          </Text>
-        </Flex>
-      ) : null}
       <Box>
         <Table variant="simple" size="md">
           <Thead>
@@ -255,6 +259,7 @@ const GnarsDelegation: React.FC = () => {
               <Th>Gnars Balance</Th>
               <Th>Delegated to SkateHive</Th>
               <Th> Witness Vote</Th>
+              <Th> Hive Power</Th>
             </Tr>
           </Thead>
           <Tbody fontSize={24}>
@@ -325,15 +330,22 @@ const GnarsDelegation: React.FC = () => {
                     </Button>
                   )}
                 </Td>
+                <Td>  </Td>
               </Tr>
             ))}
           </Tbody>
         </Table>
       </Box>
       <HStack spacing={4} justify="center">
-        <Button colorScheme="teal" onClick={() => console.log("Fetch data")}>
-          Fetch Data
-        </Button>
+      {isLoading ? (
+        <Flex justifyContent="center" alignItems="center" flexDirection={"column"}>
+          <Image
+            boxSize={"60px"}
+            src="https://64.media.tumblr.com/12da5f52c1491f392676d1d6edb9b055/870d8bca33241f31-7b/s400x600/fda9322a446d8d833f53467be19fca3811830c26.gif"
+          ></Image>
+
+        </Flex>
+      ) : null}
       </HStack>
     </VStack>
   );

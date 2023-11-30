@@ -536,7 +536,11 @@ const NewUpload: React.FC = () => {
             //   window.alert('Video successfully published on 3Speak!');
             // }
 
-            window.alert('Post successfully published on Hive!');
+            // reload the page
+            // wait 5 seconds and the reload the page
+            setTimeout(() => {
+              window.location.reload();
+            }, 5000);
             
             if (isVideoUploaded) {
               window.alert('Video successfully published on 3Speak! It will be available soon!');
@@ -703,7 +707,8 @@ const handleIncludeFooterChange = () => {
       
       return (
         <Box>
-          <center>
+          <Box mt={5}>
+
             <VStack>
 
             <img
@@ -711,10 +716,10 @@ const handleIncludeFooterChange = () => {
                 style={{
                   width: '100px', 
                   height: 'auto', 
-                  margin: '-50px'
+                  margin: '-50px',
                 }}
                 alt="Smart Pepe"
-              />
+                />
             <Badge color="black" bg={"yellow"} marginTop={"15px"}>
               First time? Check our{" "}
               <a
@@ -726,13 +731,19 @@ const handleIncludeFooterChange = () => {
               First
             </Badge>
           </VStack>
-          </center>
-          <Flex
+          </Box>
+          <Flex minWidth={"100%"}
             flexDirection={isMobile ? "column" : "row"}
-            justifyContent="center"
-            alignItems="stretch"
           >
-            <Box flex={isMobile ? "auto" : 1} p={4}>
+            <Box 
+              flex={isMobile ? "auto" : 1}
+              p={4}
+              border="1px solid white"
+              margin={"15px"}
+              borderRadius={"10px"}
+              maxWidth={{ base: "100%", md: "50%" }}
+              overflowWrap="break-word"
+            >
               <Box marginBottom={4}>
 
                   
@@ -746,7 +757,7 @@ const handleIncludeFooterChange = () => {
               </Box>
 
               <Flex flexDirection={isMobile ? "column" : "row"}>
-                <Box flex={1} marginRight={isMobile ? 0 : 4}>
+                <Box flex={1}>
                   <VStack
                     {...getImagesRootProps()}
                     cursor="pointer"

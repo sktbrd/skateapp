@@ -269,7 +269,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       p={6}
       position="relative"
       borderRadius="10px"
-      marginBottom="10px"
+      marginBottom="0px"
     >
 
       <Flex width="100%" justifyContent="space-between" alignItems="center" mb={{ base: 2, md: 0 }}>

@@ -1,12 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Flex,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  useTabs,
+  Box,
+  Button,
+  useDisclosure,
 } from '@chakra-ui/react';
 import HiveBlog from './Feed/Feed';
 import HiveVideos from './videos/FeedVideo';
@@ -16,74 +13,65 @@ import QFS from '../qfs';
 import UploadPage from '../upload';
 
 const Home = () => {
-  const { selectedIndex, ...tabProps } = useTabs({});
+  const [selectedTab, setSelectedTab] = useState('feed');
+  const { isOpen, onToggle } = useDisclosure();
 
-  const isBigScreen = window.innerWidth >= 768; // Define a breakpoint for big screens
+  const handleTabChange = (tab:any) => {
+    setSelectedTab(tab);
+    onToggle(); // Close the side menu after selecting a tab
+  };
 
   return (
     <Flex
-      direction="column"
+      direction={'column'} // Column for small screens, row for large screens
       alignItems="center"
-      justifyContent="center"
+      justifyContent="space-between"
     >
-      <Tabs isFitted variant="enclosed" width="100%"  {...tabProps}>
-        <TabList justifyContent={"center"} mb="1em" width="100%" >
-          <Tab
-            color="white"
-            _selected={{
-              backgroundColor: 'limegreen',
-              color: 'black',
-              fontWeight: 'bold',
-              border: '1px solid white',
-            }} // Change the background color when selected
-          >
-            📜 FEED
-          </Tab>
+      <Box bg="transparent" color="white">
+        <Button
+          onClick={() => handleTabChange('feed')}
+          mb={2}
+          variant="outline"
+          width={"250px"}
+          colorScheme={selectedTab === 'feed' ? '2px solid limegreen' : '2px solid white'}
+          border={selectedTab === 'feed' ? '2px solid limegreen' : '2px solid white'}
+        >
+          📜 FEED
+        </Button>
+        <Button
+          onClick={() => handleTabChange('upload')}
+          mb={2}
+          variant="outline"
+          width={"250px"}
+          colorScheme={selectedTab === 'upload' ? '2px solid limegreen' : '2px solid white'}
+          border={selectedTab === 'upload' ? '2px solid limegreen' : '2px solid white'}
+        >
+          🛹 UPLOAD
+        </Button>
+        <Button
+          onClick={() => handleTabChange('daos')}
+          mb={2}
+          variant="outline"
+          width={"250px"}
+          colorScheme={selectedTab === 'daos' ? '2px solid limegreen' : '2px solid  white'}
+          border={selectedTab === 'daos' ? '2px solid limegreen' : '2px solid white'}
+        >
+          🏛 INFO
+        </Button>
+      </Box>
 
-          <Tab
-            color="white"
-            _selected={{
-              backgroundColor: 'limegreen',
-              color: 'black',
-              fontWeight: 'bold',
-              border: '1px solid white'
+      {/* Content */}
+      <Flex direction="column" minW={"100%"} justifyContent="center">
+        {/* Main Content */}
+        {selectedTab === 'feed' && <HiveBlog />}
+        {selectedTab === 'upload' && <UploadPage />}
+        {selectedTab === 'daos' && <SkatehiveProposals />}
+      </Flex>
 
-            }} // Change the background color when selected
-          >
-            🛹 UPLOAD
-          </Tab>
-          <Tab
-            color="white"
-            _selected={{
-              backgroundColor: 'limegreen',
-              color: 'black',
-              fontWeight: 'bold',
-              border: '1px solid white',
-
-            }} // Change the background color when selected
-          >
-            🏛 DAOs
-          </Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel>
-            <HiveBlog />
-          </TabPanel>
-          {/* <TabPanel>
-            <HiveVideos />
-          </TabPanel> */}
-          {/* <TabPanel>
-            <QFS />
-          </TabPanel> */}
-          <TabPanel>
-            <UploadPage />
-          </TabPanel>
-          <TabPanel>
-            <SkatehiveProposals />
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-      {isBigScreen && <Chat />} {/* Render Chat component only on big screens */}
+      {/* Chat (Render Chat component only on large screens) */}
+      <Box display={{ base: 'none', lg: 'block' }}>
+        <Chat />
+      </Box>
     </Flex>
   );
 };

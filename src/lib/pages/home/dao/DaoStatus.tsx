@@ -7,6 +7,7 @@ import EthereumStats from './components/ethereum/ethereumStats';
 import GnarsStats from './components/hiveGnars/gnars';
 import CommunityStats from './communityStats';
 
+
 const DaoStatus = () => {
   // Define hooks
   const [loading, setLoading] = useState(true);
@@ -46,7 +47,6 @@ const DaoStatus = () => {
                 flexDirection={{ base: 'column', md: 'row' }} // Use 'column' on small screens and 'row' on medium and larger screens
                 >
                 
-
                 <EthereumStats  />
                 <HiveStats wallet="steemskate" />
                 

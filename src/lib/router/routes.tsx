@@ -13,7 +13,7 @@ const BeCool = React.lazy(() => import("lib/pages/profile/beCool"));
 const TutorialPage = React.lazy(() => import("lib/pages/home/tutorialPage"));  
 const PostPage = React.lazy(() => import("lib/pages/postpage"));  
 const QFS = React.lazy(() => import("lib/pages/qfs"));  
-const Test = React.lazy(() => import("lib/pages/home/dao/components/ethereum/testContract"));  
+const Test = React.lazy(() => import("lib/pages/home/dao/components/ethereum/gnarsDelegation"));  
 const GnarsStats = React.lazy(() => import("lib/pages/home/dao/components/hiveGnars/gnars"));  
 const ThatsGnarly = React.lazy(() => import("lib/pages/home/Feed/thatsgnarly"));  
 const PepeCaptcha = React.lazy(() => import("lib/pages/secret-spot"));  
@@ -21,6 +21,7 @@ const NewUpload = React.lazy(() => import("lib/pages/upload/newUpload"));
 const Shelf = React.lazy(() => import("lib/pages/home/videos/lbry"));    
 const Maps = React.lazy(() => import("lib/pages/home/dao/map"));
 const Members = React.lazy(() => import("lib/pages/home/dao/components/steemskate/subscribers"));
+const GnarsDelegation = React.lazy(() => import("lib/pages/home/dao/components/ethereum/gnarsDelegation"));
 
 export const routes: Array<PathRouteProps> = [
   {
@@ -98,8 +99,11 @@ export const routes: Array<PathRouteProps> = [
 {
   path: "/members",
   element: <SubscriberList />,  
+},
+{
+  path: "/delegation",
+  element: <GnarsDelegation />,
 }
-
 ];
 
 export const privateRoutes: Array<PathRouteProps> = [];

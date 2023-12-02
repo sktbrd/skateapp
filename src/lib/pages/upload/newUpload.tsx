@@ -28,6 +28,16 @@ import { KeychainSDK } from 'keychain-sdk';
 import { Spinner } from "@chakra-ui/react";
 import { defaultFooter } from "./defaultFooter";
 import AuthorSearchBar from "./searchBar";
+import captureVideoFrame from "./captureFrame";
+
+import {
+  get3SpeakAuthStatus,
+  Connect3Speak,
+  uploadTo3Speak,
+  uploadThumbnailTo3Speak,
+  setVideoInfoOn3Speak,
+  setAsPublishedOn3Speak,
+} from "./3speak";
 
 const apiEndpoints = [
   "https://api.hive.blog",
@@ -78,14 +88,34 @@ const NewUpload: React.FC = () => {
   const [tags, setTags] = useState<string[]>(["crowsnight666"]); // State to store tags
   const [includeFooter, setIncludeFooter] = useState<boolean>(false); // New state for the checkbox
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
-  const [postLink , setPostLink] = useState<string>("");  
+  const [postLink , setPostLink] = useState<string>("");
+
+  // 3Speak state
+  const [ is3speakPost, setIs3speakPost ] = useState<boolean>(false);
+  const { connected, username } = get3SpeakAuthStatus();
+  const [isVideoUploaded, setIsVideoUploaded] = useState(false);
+  const [videoUploadProgress, setVideoUploadProgress] = useState(0);
+  const [videoInfo, setVideoInfo] = useState<any>(null);
+  const [videoFile, setVideoFile] = useState<File | null>(null); // for viewing in editor
+  const [videoThumbnailUrl, setVideoThumbnailUrl] = useState<string | null>(null);
+
+  
+
   const handleMarkdownChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdownText(event.target.value);
   };
-  
+  const buildPostLink = () => {
+    const username = user?.name;
+    if (username) {
+      const permlink = slugify(title.toLowerCase());
+      const link = `https://skatehive.app/post/hive-173115/@${username}/${permlink}`;
+      setPostLink(link);
+    }
+  }
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-      };
+    buildPostLink();
+  };
 
   const handleImageUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setImageUrl(event.target.value);
@@ -171,14 +201,59 @@ const NewUpload: React.FC = () => {
   };
   
   
+
+
   const onDropImages = async (acceptedFiles: File[]) => {
     setIsUploading(true);
 
-    for (const file of acceptedFiles) {
-      await uploadFileToIPFS(file);
+    // if it is a photo, upload to IPFS
+    if (acceptedFiles[0].type.startsWith("image/")) {
+      for (const file of acceptedFiles) {
+        await uploadFileToIPFS(file);
+      }
+
+      setIsUploading(false);
+      return;
     }
 
-    setIsUploading(false);
+    // if it is a video
+    if (acceptedFiles[0].type.startsWith("video/")) {
+      // focus on the markdown editor
+      const markdownEditor = document.getElementById("markdown-editor");
+      markdownEditor?.focus();
+
+      // if is3speakPost is false, then upload to IPFS
+      if (!is3speakPost) {
+        for (const file of acceptedFiles) {
+          await uploadFileToIPFS(file);
+        }
+  
+        setIsUploading(false);
+        return;
+      }
+
+      // if 3Speak is not connected, then connect
+      if (!connected || !username) {
+        alert("Please connect your 3Speak account first to upload videos.");
+        setIsUploading(false);
+        return;
+      }
+
+      // if already uploaded a video, then alert
+      if (isVideoUploaded) {
+        alert("You can only upload one video per post. Video will be uploaded on 3Speak.");
+        setIsUploading(false);
+        return;
+      }
+      
+      // upload video to 3Speak
+      const video = acceptedFiles[0];
+
+      setVideoFile(video);
+      
+      uploadTo3Speak(video, setIsUploading, setVideoUploadProgress, setVideoInfo, setIsVideoUploaded);
+    }
+
   };
 
   const onDropVideos = async (acceptedFiles: File[]) => {
@@ -220,12 +295,32 @@ const NewUpload: React.FC = () => {
     return imageUrls;
   };
 
+  const setVideoThumbnail = async () => {
+    const frame = captureVideoFrame("main-video", "jpeg");
+    if (frame) {
+      const thumbnailUrl = frame.dataUri;
+
+      // convert blob to file
+      const blob = frame.blob;
+      const file = new File([blob], "thumbnail.jpeg", { type: "image/jpeg" });
+
+      setIsUploading(true);
+
+      // upload the thumbnail to 3Speak
+      uploadThumbnailTo3Speak(file, setIsUploading, videoInfo, setVideoInfo, setVideoThumbnailUrl, setThumbnailUrl);
+    }
+  };
+
   const renderThumbnailOptions = () => {
     const selectedThumbnailStyle = {
       border: '2px solid limegreen',
     };
 
     const imageUrls = extractImageUrls(markdownText);
+
+    if (videoThumbnailUrl) {
+      imageUrls.push(videoThumbnailUrl);
+    }
 
     const options = imageUrls.map((imageUrl, index) => (
       <Box
@@ -252,35 +347,153 @@ const NewUpload: React.FC = () => {
 
     return options;
   };
-  const handleHiveUpload = () => {
+  
+  const handleHiveUpload = async () => {
+    if (!user) {
+      alert("You have to log in with Hive Keychain to use this feature...");
+      return;
+    }
+    
+    if (!title) {
+      alert("Please enter a title for your post...");
+      return;
+    }
+
+    if (!markdownText) {
+      alert("Please enter some content for your post...");
+      return;
+    }
+
+    // if (!thumbnailUrl) {
+    //   alert("Please select a thumbnail for your post...");
+    //   return;
+    // }
+
+    if (!tags.length) {
+      alert("Please enter some tags for your post...");
+      return;
+    }
+
+    // disable the publish button
+    const publishButton = document.getElementById("publish-button");
+    if (publishButton) {
+      publishButton.setAttribute("disabled", "true");
+    }
+
+    // 3speak video info that is used to publish the post
+    let videoId = '';
+    let videoPermlink = null;
+    let finalMarkdown = markdownText;
+    let finalThumbnailUrl = thumbnailUrl;
+    let videoBeneficiaries = [
+      { account: 'spk.beneficiary', weight: 900 },
+      { account: 'threespeakleader', weight: 100 },
+    ];
+
+    // if video is uploaded on 3Speak and thumbnail is not uploaded, then alert
+    if (isVideoUploaded) {
+      if (!videoThumbnailUrl) {
+        alert("Please upload video thumbnail on 3Speak first. You can do this by clicking the 'Set Video Thumbnail' after sleeking to any point in the video button.");
+        return;
+      }
+    }
+
+    // set video info on 3Speak if video is uploaded
+    if (isVideoUploaded) {
+      const videoInstance = await setVideoInfoOn3Speak(videoInfo);
+      console.log("Video instance:", videoInstance);
+
+      // at this point the video is uploaded on 3Speak
+      // get the hive post permlink from the video instance and use it to create the hive post
+      // also update the video info on 3Speak with title, description, tags, etc.
+      videoId = videoInstance._id;
+      videoPermlink = videoInstance.permlink;
+
+      // update the markdown text with the video URL and thumbnail URL from 3Speak
+      const videoURL = `https://3speak.tv/watch?v=${username}/${videoPermlink}`;
+      const ipfs3Speak = 'https://ipfs-3speak.b-cdn.net/ipfs/'; // default IPFS 3Speak URL
+      const newThumbnailURL = `${ipfs3Speak}${videoInstance.thumbnail.replace('ipfs://', '')}/`;
+
+      // if the current selected thumbnail is the video thumbnail, then update the thumbnail URL
+      // update the video thumbnail ~ done by tiddi
+      if (thumbnailUrl === videoThumbnailUrl) {
+        finalThumbnailUrl = newThumbnailURL;
+      }
+
+      // update the video info on 3Speak
+      const updateObject = {
+        videoId,
+        title,
+        description: markdownText,
+        tags: tags.toString(), // Pass the 'tags' array as string here separated by commas
+      };
+
+      const updatedVideoInstance = await setVideoInfoOn3Speak(updateObject, true); // true means update
+      console.log("Updated video instance:", updatedVideoInstance);
+
+      // update the markdown text with the video URL and thumbnail URL
+      const videoMarkdown = `<center>\n\n[![](${newThumbnailURL})](${videoURL})\n\n</center>\n`;
+      // video goes on top of the markdown
+      finalMarkdown = videoMarkdown + finalMarkdown;
+      
+      // get the encoder benefeciary from video info
+      const encoderBeneficiaries = JSON.parse(updatedVideoInstance.beneficiaries);
+      const encoderBeneficiary = encoderBeneficiaries.find((b: any) => b.src === 'ENCODER_PAY');
+
+      // add the encoder benefeciary along with the default 3Speak and other benefeciaries
+      if (encoderBeneficiary) {
+        videoBeneficiaries.push({
+          account: encoderBeneficiary.account,
+          weight: encoderBeneficiary.weight,
+        });
+      }
+    }
 
     if (user && title) {
       const username = user?.name;
       if (username) {
         const permlink = slugify(title.toLowerCase());
+
+        // Define the beneficiaries
+        let finalBeneficiaries = beneficiariesArray.map(b => ({
+            account: b.account,
+            weight: parseInt(b.weight, 10) // Convert the weight string to an integer
+        }));
+
+        // Add the video benefeciaries if video is uploaded on 3Speak
+        if (isVideoUploaded) {
+          finalBeneficiaries.push(...videoBeneficiaries);
+        }
+
+        // sort the beneficiaries by account name ascending
+        finalBeneficiaries = finalBeneficiaries.sort((a: any, b: any) => a.account.localeCompare(b.account));
   
         // Define your comment options (e.g., max_accepted_payout, beneficiaries, etc.)
         const commentOptions = {
           author: username,
-          permlink: permlink,
+          permlink: videoPermlink ? videoPermlink : permlink, // Use the video permlink if video is uploaded on 3Speak
           max_accepted_payout: '10000.000 HBD',
           percent_hbd: 10000,
           allow_votes: true,
           allow_curation_rewards: true,
           extensions: [
             [0, {
-                beneficiaries: beneficiariesArray.map(b => ({
-                    account: b.account,
-                    weight: parseInt(b.weight, 10) // Convert the weight string to an integer
-                }))
+                beneficiaries: finalBeneficiaries
             }]
         ]
         };
   
-// Add defaultFooter to the markdown if includeFooter is true
-        let finalMarkdown = markdownText;
-if (includeFooter) {
-          finalMarkdown += "\n" + defaultFooter;
+        // Add defaultFooter to the markdown if includeFooter is true
+        if (includeFooter) {
+          let finalPermlink = videoPermlink ? videoPermlink : permlink;
+          const link = `https://skatehive.app/post/hive-173115/@${username}/${finalPermlink}`;
+
+          let newFooter = "\n" + "> **Check this post on** " + `[Skatehive App](${link})`
+
+          // set the final markdown text again
+          finalMarkdown = finalMarkdown + newFooter;
+
+          setMarkdownText((prevMarkdown) => prevMarkdown + newFooter);
         }
   
         // Define the post operation
@@ -291,7 +504,7 @@ if (includeFooter) {
             // parent_permlink: 'testing67',
             parent_permlink: process.env.COMMUNITY || 'hive-173115',
             author: username,
-            permlink: permlink,
+            permlink: videoPermlink ? videoPermlink : permlink, // Use the video permlink if video is uploaded on 3Speak
             title: title,
             body: finalMarkdown, // Use the complete post body here
             json_metadata: JSON.stringify({
@@ -307,12 +520,27 @@ if (includeFooter) {
   
         // Construct the operations array
         const operations = [postOperation, commentOptionsOperation];
-
         // Request the broadcast using Hive Keychain
-        window.hive_keychain.requestBroadcast(username, operations, 'posting', (response: any) => {
+        window.hive_keychain.requestBroadcast(username, operations, 'posting', async (response: any) => {
           if (response.success) {
-            window.alert('Post successfully published on Hive!');
+
+            // // set the status of the video to published on 3Speak (if uploaded)
+            // if (isVideoUploaded) {
+            //   await setAsPublishedOn3Speak(videoId);
+            //   window.alert('Video successfully published on 3Speak!');
+            // }
+
+            // reload the page
+            // wait 5 seconds and the reload the page
+            setTimeout(() => {
+              window.location.reload();
+            }, 5000);
+            
+            if (isVideoUploaded) {
+              window.alert('Video successfully published on 3Speak! It will be available soon!');
+            }
           } else {
+            alert('Error publishing post on Hive');
             console.error('Error publishing post on Hive:', response.message);
           }
         });
@@ -323,7 +551,6 @@ if (includeFooter) {
   };
   
   
-// Function to handle changes in the tags input field
   const handleTagsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
     // Check if the last character is a comma or space
@@ -331,17 +558,23 @@ if (includeFooter) {
       // Extract the new tag without the comma or space
       const newTag = inputValue.slice(0, -1).trim();
       if (newTag) {
-                  // Add the new tag to the tags list
+        // Check if the number of tags is less than 10 before adding a new tag
+        if (tags.length < 10) {
+          // Add the new tag to the tags list
           setTags([...tags, newTag]);
           // Clear the input field
           setTagsInput('');
-              }
+        } else {
+          alert('You can only add up to 10 tags.');
+        }
+      }
     } else {
       // Update the input field with the current value
       setTagsInput(inputValue);
     }
   };
   
+
 // Function to render the tags as badges
     const renderTags = () => {
     return tags.map((tag, index) => (
@@ -394,19 +627,18 @@ if (includeFooter) {
     };
 
 
-
     // Function to parse and set the tags
     const handleTagsSubmit = () => {
       // Split the input value by commas and trim whitespace
       const newTags = tagsInput.split(",").map((tag) => tag.trim());
-      setTags(newTags);
+      setTags( newTags);
       // Clear the input field
       setTagsInput("");
     };
   
 // Function to handle the checkbox change
 const handleIncludeFooterChange = () => {
-  const username = user?.name;
+const username = user?.name;
   if (username) {
     const permlink = slugify(title.toLowerCase());
     const link = `https://skatehive.app/post/testing67/@${username}/${permlink}`;
@@ -418,11 +650,11 @@ const handleIncludeFooterChange = () => {
   if (includeFooter) {
     // If the toggle is turned off, remove the default footer from Markdown text
     setMarkdownText((prevMarkdown) =>
-      prevMarkdown.replace(newFooter,  "")
+      prevMarkdown.replace(defaultFooter,  "")
     );
   } else {
     // If the toggle is turned on, add the default footer to Markdown text
-    setMarkdownText((prevMarkdown) => prevMarkdown + newFooter);
+    setMarkdownText((prevMarkdown) => prevMarkdown + defaultFooter);
   }
 };
 
@@ -492,10 +724,10 @@ const handleIncludeFooterChange = () => {
               </a>{" "}
               primeiro
             </Badge>
-                    </center>
+          </center>
           <Flex
             flexDirection={isMobile ? "column" : "row"}
-            justifyContent="center"
+          justifyContent="center"
             alignItems="stretch"
           >
             <Box flex={isMobile ? "auto" : 1} p={4}>
@@ -505,13 +737,14 @@ const handleIncludeFooterChange = () => {
                   onChange={handleTitleChange}
                   placeholder="Escreva o seu título..."
                   fontSize="xl"
-                  color={'white'}
+color={'white'}
                   fontWeight="bold"
-                  borderColor="#5E317A"
+borderColor="#5E317A"
                 />
               </Box>
+
               <Flex flexDirection={isMobile ? "column" : "row"}>
-                <Box flex={1} marginRight={isMobile ? 0 : 4}>
+                <Box flex={1}>
                   <VStack
                     {...getImagesRootProps()}
                     cursor="pointer"
@@ -529,7 +762,14 @@ const handleIncludeFooterChange = () => {
                     <Text color={"#b4d701"}> Clique aqui para adicionar uma imagem ou video</Text>
                     
                   </VStack>
-                    <Box marginTop={4}>
+                  <Flex flexDirection={isMobile ? "column" : "row"} justifyContent={'space-between'} alignItems={'center'} marginTop={4}>
+                    <Checkbox color={"white"} isDisabled={videoFile || uploadedVideo ? true : false } isChecked={is3speakPost} onChange={() => setIs3speakPost(!is3speakPost)}>
+                      Upload on 3Speak (experimental)
+                    </Checkbox>
+                    
+                    <Connect3Speak />
+                  </Flex>
+                    <Box marginTop={0}>
                       <center>
                         {isUploading ? (
                           <Spinner
@@ -539,6 +779,12 @@ const handleIncludeFooterChange = () => {
                             color="limegreen"
                             size="xl"
                           />
+                        ) : null}
+                        {videoUploadProgress > 0 && videoUploadProgress < 100 ? (
+                          <Text>{videoUploadProgress}%</Text>
+                        ) : null}
+                        {isVideoUploaded ? (
+                          <Text>Video uploaded on 3Speak Servers!</Text>
                         ) : null}
                       </center>
                     </Box>
@@ -556,7 +802,7 @@ const handleIncludeFooterChange = () => {
                       isChecked={includeFooter}
                       onChange={handleIncludeFooterChange}
                       marginLeft={2}
-                
+
                     >
                       <p>Divulgue a Crow's Night App</p>
                     </Checkbox>
@@ -569,54 +815,54 @@ const handleIncludeFooterChange = () => {
                 </Box>
               </Flex>
               <Button onClick={toggleAdvancedOptions} colorScheme="purple" size="sm" marginTop={2} marginRight={2} color={"#b4d701"} >
-                {showAdvancedOptions ? 'Opções Avançadas' : 'Opções Avançadas'}
-              </Button>
-              {showAdvancedOptions && (
-                <>
+                  {showAdvancedOptions ? 'Opções Avançadas' : 'Opções Avançadas'}
+                </Button>
+                              {showAdvancedOptions && (
+                  <>
 
-                  <Box marginTop={4}>
-                    <div ref={searchBarRef}>
+                    <Box marginTop={4}>
+                      <div ref={searchBarRef}>
+                        <Text fontSize="lg" fontWeight="bold">
+                          Valor destinado para o fotógrafo
+                        </Text>
+                        <AuthorSearchBar onSearch={handleAuthorSearch} />
+                        {beneficiaries.map((beneficiary, index) => (
+                          <div key={index}>
+                            <p>
+                              {beneficiary.name} - {beneficiary.percentage}%
+                            </p>
+                            <input
+                              type="range"
+                              min="0"
+                              max="100"
+                              value={beneficiary.percentage}
+                              onChange={(e) =>
+                                handleBeneficiaryPercentageChange(index, parseFloat(e.target.value))
+                              }
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </Box>
+                    <Box marginTop={4}>
                       <Text fontSize="lg" fontWeight="bold">
-                        Valor destinado para o fotógrafo 
+                        #hashtags
                       </Text>
-                      <AuthorSearchBar onSearch={handleAuthorSearch}/>
-                      {beneficiaries.map((beneficiary, index) => (
-                        <div key={index}>
-                          <p>
-                            {beneficiary.name} - {beneficiary.percentage}%
-                          </p>
-                          <input
-                            type="range"
-                            min="0" 
-                            max="100"
-                            value={beneficiary.percentage}
-                            onChange={(e) =>
-                              handleBeneficiaryPercentageChange(index, parseFloat(e.target.value))
-                            }
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </Box>
-                  <Box marginTop={4}>
-                    <Text fontSize="lg" fontWeight="bold">
-                      #hashtags
-                    </Text>
-                    <Flex alignItems="center">
-                      <Input
-                        value={tagsInput}
-                        onChange={handleTagsChange}
-                        placeholder="Inclua hastags e separe com vírgulas"
-                        marginRight={2}
-                        color={"white"}
-                      />
+                      <Flex alignItems="center">
+                        <Input
+                          value={tagsInput}
+                          onChange={handleTagsChange}
+                          placeholder="Inclua hastags e separe com vírgulas"
+                          marginRight={2}
+color={"white"}
+                        />
 
-                    </Flex>
+                      </Flex>
 
-                  </Box>
+                    </Box>
 
-                </>
-              )}
+                  </>
+                )}
                                 <Flex alignItems="center">{renderTags()}</Flex>
 
               <Button onClick={handleHiveUpload} colorScheme="purple" 
@@ -648,6 +894,49 @@ const handleIncludeFooterChange = () => {
                 </Flex>
                 <Divider />
               </Box>
+              {isVideoUploaded ? (
+                <Box
+                  display={"flex"}
+                  alignItems="center"
+                  justifyContent="center"
+                  flexDirection={"column"}
+                >
+                  <Button
+                    onClick={setVideoThumbnail}
+                    colorScheme="purple"
+                    size="xs"
+                    marginTop={2}
+                    marginBottom={2}
+                  >
+                    Set Video Thumbnail
+                  </Button>
+                  <video
+                    src={videoFile ? URL.createObjectURL(videoFile) : ''}
+                    controls
+                    onLoadedData={async () => {
+                      // when the video is ready to play, focus on it
+                      
+                      // current focused element
+                      const focused = document.activeElement as HTMLElement;
+                      
+                      // focus on the video
+                      // this is needed to capture the frame without manually playing the video
+                      const video = document.getElementById("main-video") as HTMLVideoElement;
+                      video?.focus();
+
+                      // now focus on the previous element
+                      focused?.focus();
+                    }}
+                    style={{
+                      width: "auto",
+                      height: "auto",
+                      maxWidth: "100%",
+                      maxHeight: "600px",
+                    }}
+                    id="main-video"
+                  />                  
+                </Box>
+              ) : ''}
               <ReactMarkdown
                 children={markdownText}
                 components={{

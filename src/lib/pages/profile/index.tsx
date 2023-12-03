@@ -7,6 +7,8 @@ import BeCool from "./beCool";
 interface User {
   name?: string;
   posting_json_metadata?: string;
+  created?: string;
+  post_count?: string;
 }
 interface Follower {
   follower: string;
@@ -79,10 +81,22 @@ export default function ProfilePage() {
       try {
         const metadata = JSON.parse(user.posting_json_metadata || '');
         const about = metadata.profile.about;
+        console.log(metadata)
+        const website = metadata.profile.website;
+        const created = user.created;
+        const postings = user.post_count;
+        const location = metadata.profile.location;
+        const displayname = metadata.profile.name;
         
         return (
           <Box border={"1px solid limegreen"} p={10} borderRadius={20}>
+            <Text fontSize={32} color={"white"}>{displayname}</Text>
             <Text fontSize={32} color={"white"}>{about}</Text>
+            <Text fontSize={32} color={"white"}>{website}</Text>
+            <Text fontSize={32} color={"white"}>Account created: {created}</Text>
+            <Text fontSize={32} color={"white"}>Posts and Comments: {postings}</Text>
+            <Text fontSize={32} color={"white"}>Country: {location}</Text>
+            
           </Box>
         );
       } catch (error) {
@@ -114,16 +128,17 @@ export default function ProfilePage() {
           transform="translate(-50%, -65%)"
           borderRadius="10%"
           boxSize="162px"
-          bg="white"
+          bg="transparent"
           boxShadow="0px 2px 6px rgba(0, 0, 0, 0.1)"
         >
           {user ? (
             <Image
               src={`https://images.hive.blog/u/${user.name}/avatar`}
               alt="profile avatar"
-              borderRadius="10%"
+              borderRadius="50%"
               boxSize="162px"
-              border="2px solid limegreen"
+              border="10px solid limegreen"
+              
             />
           ) : (
             <Image
@@ -135,9 +150,9 @@ export default function ProfilePage() {
             />
           )}
         </Box>
-        <Button>
+        {/* <Button>
           Edit Profile
-        </Button>
+        </Button> */}
       </Flex>
 
       <Tabs variant={"unstyled"}  colorScheme="green">

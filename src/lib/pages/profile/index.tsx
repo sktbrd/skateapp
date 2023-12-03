@@ -158,7 +158,7 @@ export default function ProfilePage() {
       <Tabs variant={"unstyled"}  colorScheme="green">
   <TabList  color={"white"} justifyContent="center">
     <Tab borderRadius={"10px"} border={"1px solid "}>Posts</Tab>
-    <Tab borderRadius={"10px"} border={"1px solid "}>Aboutt</Tab>
+    <Tab borderRadius={"10px"} border={"1px solid "}>About</Tab>
     <Tab borderRadius={"10px"} border={"1px solid "}>Stats</Tab>
 
 

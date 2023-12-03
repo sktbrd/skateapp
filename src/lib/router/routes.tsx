@@ -22,7 +22,7 @@ const Shelf = React.lazy(() => import("lib/pages/home/videos/lbry"));
 const Maps = React.lazy(() => import("lib/pages/home/dao/map"));
 const Members = React.lazy(() => import("lib/pages/home/dao/components/steemskate/subscribers"));
 const GnarsDelegation = React.lazy(() => import("lib/pages/home/dao/components/ethereum/gnarsDelegation"));
-
+const GnarsHolders = React.lazy(() => import("lib/pages/home/dao/components/ethereum/gnarsDelegation2"));
 export const routes: Array<PathRouteProps> = [
   {
     path: "/",
@@ -103,7 +103,12 @@ export const routes: Array<PathRouteProps> = [
 {
   path: "/delegation",
   element: <GnarsDelegation />,
-}
+},
+{
+  path: "/delegation2",
+  element: <GnarsHolders />,
+},
+
 ];
 
 export const privateRoutes: Array<PathRouteProps> = [];

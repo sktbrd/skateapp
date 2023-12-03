@@ -1,5 +1,5 @@
 
-export function formatWalletAddress(address: string): string {
+export function formatWalletAddress(address: any): string {
     // Display the first 4 characters
     const firstPart = address.slice(0, 6);
   

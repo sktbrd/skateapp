@@ -36,6 +36,7 @@ const Wallet = () => {
     try {
       if (app && app.wallets && app.wallets.length > 0 && app.wallets[0].wallet && app.wallets[0].wallet.accounts) {
         const currentAddress = app.wallets[0].wallet.accounts[0];
+        console.log(currentAddress)
         setETHAddress(currentAddress);
       } else {
         console.error("Some properties are undefined or null");

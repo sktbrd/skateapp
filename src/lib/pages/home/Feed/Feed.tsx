@@ -486,7 +486,7 @@ return (
                   size="lg"
                   style={{
                     textShadow: '0 0 20px rgba(0, 255, 0, 0.7)', // Apply a green glow behind the text
-                    fontStyle: 'italic', // Make the text italic
+                    fontStyle: '', // Make the text italic
                   }} 
                   >
                     {post.author}
@@ -502,7 +502,7 @@ return (
                   borderRadius="20px"
                   src={post.thumbnail}
                   alt="Post Thumbnail"
-                  height="100%"
+                  height="200px"
                   width="100%"
                 />
               </Box>

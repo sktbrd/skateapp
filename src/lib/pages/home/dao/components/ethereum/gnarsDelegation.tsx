@@ -1,18 +1,47 @@
-import { Button, Table, Thead, Tbody, Tr, Th, Td, Text , Image} from "@chakra-ui/react";
+import { Flex, Button, Table, Thead, Grid, Tbody, Tr, Th, Td, Text , Image, VStack, Box,HStack} from "@chakra-ui/react";
 import { ethers } from "ethers";
 import React, { useState, useEffect } from "react";
-
+import UserReputation from "lib/pages/utils/hiveFunctions/usersReputation";
 const gnars_contract = "0x558BFFF0D583416f7C4e380625c7865821b8E95C";
+const skthv_contract = "0x3dEd025e441730e26AB28803353E4471669a3065";
+const skthv_proxy_contract = "0x3ded025e441730e26ab28803353e4471669a3065";
+import { Client } from "@hiveio/dhive";
+import { formatWalletAddress } from "lib/pages/utils/formatWallet";
 import ERC721_ABI from "./gnars_abi.json";
+import ERC1155_ABI from "./skthvOG_abi.json";
+import { KeychainSDK } from "keychain-sdk";
+ 
+export interface WitnessVote {
+  username: string;
+  witness: string;
+  vote: boolean;
+}
+
+
 interface WalletData {
   username: string;
   walletAddress: string;
   votes?: string;
   isDelegated?: boolean;
   totalSupply?: string;
-  balance?: string; // Add balance to the WalletData interface
+  balance?: string;
+  balanceOfSkthv?: string;
+  hasVotedForSkateHive?: boolean; 
+  hasHiveAccount?: boolean;
 }
-const walletsList = [
+interface WalletListElement {
+  username: string;
+  walletAddress: string;
+  hasVotedForSkateHive?: boolean; 
+  hasHivePower?: string;
+}
+declare global {
+  interface Window {
+    ethereum?: any;
+  }
+}
+const walletsList: WalletListElement[] = [
+  { username: 'skatecuida', walletAddress: '0xf91d7656949ca73e7e2c196aa798b04b3f4bbdaf' },
   { username: 'bobburnquist', walletAddress: '0x27d14099f3b38a08f8767ccf306737da113a38a6' },
   { username: 'stickchumpion', walletAddress: '0xdA520AeC14C937869cC3EF9A6b0F34B2850cd092' },
   { username: 'fmajuniorphoto', walletAddress: '0x2473FB8eEBE46041d5F528A728505C26A81C1158' },
@@ -49,33 +78,85 @@ const walletsList = [
   { username: 'gnarip12345', walletAddress: '0x4355EC7423Ee3b045917092CBF8F8BFd3233da27' },
   { username: 'keepskating420', walletAddress: '0x22376c76d120BF033651c931E9Ff23f240173637' },
   { username: 'beaglexv', walletAddress: '0xfCAE6D6b1517799330DF14BeE26e2DD90C6dd200' },
-  {username: 'thesmith', walletAddress: '0x6abaDe6569f03841a0d5233d23f175Eeeb3253c4'},
-  {username: 'howweroll', walletAddress: '0x892e297c9d412feb1Bc8D8fDb506DA458f15D961'},
-  
+  { username: 'smithfinance', walletAddress: '0x6abaDe6569f03841a0d5233d23f175Eeeb3253c4'},
+  { username: 'howweroll', walletAddress: '0x09e938e239803c78507abd5687a97acfea1188ea'},
+  { username: 'skatehacker', walletAddress: '0x5746396dfE7025190a7775dF94b6E89310DDd238'},
+  { username: 'keepkey', walletAddress: '0x4A0A41f0278C732562E2A09008dfb0E4B9189eb3'},
+  { username: 'coletivoxv', walletAddress: '0xAf32BB3892F37c518f3841275F131384a41B9b57'},
+  { username: 'ygorpicolinoskt', walletAddress: '0x26f00f9542545B13373c94837AF15ddC97eFE0c8'},
+  { username: 'doblershiva', walletAddress: '0x0DF34E36ef3a793871442EB5a08b08adB74E7006'},
+  { username: 'paralela', walletAddress: '0x0F7318E9D1EAfe53C3bFD7EE774ce33020Cf53F3'},
+  { username: 'willdias', walletAddress: '0xDdB4938755C243a4f60a2f2f8f95dF4F894c58Cc'},
+  { username: 'pharra', walletAddress: '0x735135Ff4152b3Ae255cA708EB37D83B0A8853F8'},
 ];
-
-
-
 const GnarsDelegation: React.FC = () => {
   const [walletData, setWalletData] = useState<WalletData[]>([]);
-  const [totalDelegatedVotes, setTotalDelegatedVotes] = useState<string | undefined>(undefined);
-
-  const provider = new ethers.providers.JsonRpcProvider(
-    "https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik"
+  const [totalDelegatedVotes, setTotalDelegatedVotes] = useState<string | undefined>(
+    undefined
   );
-  const contract = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchWalletData() {
       try {
-        const delegatedVotes = await contract.getCurrentVotes("0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c");
+        const client = new Client([
+          "https://api.hive.blog/",
+          "https://api.hivekings.com",
+          "https://anyx.io",
+          "https://api.openhive.network",
+          "https://hived.privex.io",
+          "https://rpc.ausbit.dev",
+          "https://techcoderx.com",
+        ]);
+
+        const provider = new ethers.providers.JsonRpcProvider(
+          "https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik"
+        );
+        const contract = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
+        const skthvProxyContract = new ethers.Contract(skthv_proxy_contract, ERC1155_ABI, provider);
+        const usernames = walletsList.map((wallet) => wallet.username);
+        const hasHivePower = await Promise.all(
+          usernames.map(async (username) => {
+            const account = await client.database.getAccounts([username]);
+            const hivePower = account[0]?.vesting_shares || 0;
+            console.log(hivePower)
+            return hivePower;
+          })
+        );
+        
+        const hasVotedForSkateHive = await Promise.all(
+          usernames.map(async (username) => {
+            const account = await client.database.getAccounts([username]);
+            
+            const hasVotedForSkateHive =
+              account[0]?.witness_votes?.includes("skatehive") || false;
+            const hasHiveAccount = !!account[0];
+            const hivePower = account[0]?.vesting_shares || 0;
+        
+            return { hasVotedForSkateHive, hasHiveAccount, hivePower };
+          })
+        );
+        
+        
+
+
+        const delegatedVotes = await contract.getCurrentVotes(
+          "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c"
+        );
         const totalSupply = await contract.totalSupply();
         setTotalDelegatedVotes(ethers.utils.formatUnits(delegatedVotes, 0));
 
         const updatedWalletsList: WalletData[] = await Promise.all(
-          walletsList.map(async (wallet) => {
+          walletsList.map(async (wallet, index) => {
             const votes = await contract.getCurrentVotes(wallet.walletAddress);
-            const isDelegated = (await contract.delegates(wallet.walletAddress)) === "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c";
+            const balanceOfSkthv = await skthvProxyContract.balanceOf(
+              wallet.walletAddress,
+              1
+            );
+
+            const isDelegated =
+              (await contract.delegates(wallet.walletAddress)) ===
+              "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c";
             const balance = await contract.balanceOf(wallet.walletAddress);
 
             return {
@@ -84,71 +165,190 @@ const GnarsDelegation: React.FC = () => {
               isDelegated,
               totalSupply: ethers.utils.formatUnits(totalSupply, 0),
               balance: ethers.utils.formatUnits(balance, 0),
+              balanceOfSkthv: ethers.utils.formatUnits(balanceOfSkthv, 0),
+              hasVotedForSkateHive: hasVotedForSkateHive[index].hasVotedForSkateHive,
+              hasHiveAccount: hasVotedForSkateHive[index].hasHiveAccount,
             };
           })
         );
 
-        // Sort the array based on the Gnars balance in descending order
-        const sortedWalletData = updatedWalletsList.sort((a, b) => parseFloat(b.balance!) - parseFloat(a.balance!));
+        const sortedWalletData = updatedWalletsList.sort(
+          (a, b) => parseFloat(b.balance!) - parseFloat(a.balance!)
+        );
 
         setWalletData(sortedWalletData);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error:", error);
       }
     }
 
     fetchWalletData();
-  }, []); 
+  }, []);
+
+  const handleCopy = (walletAddress: string) => {
+    navigator.clipboard.writeText(walletAddress);
+  };
+
+  const handleWitnessVote = async (wallet_username: string) => {
+    try {
+      const keychain = new KeychainSDK(window);
+      console.log(wallet_username);
+      const formParamsAsObject = {
+        data: {
+          username: wallet_username,
+          witness: "skatehive",
+          vote: true,
+        },
+      };
+
+      const witnessVoteResult = await keychain.witnessVote(formParamsAsObject.data as WitnessVote);
+      console.log({ witnessVoteResult });
+    } catch (error) {
+      console.error("Error voting for witness:", error);
+    }
+  };
+
+  const handleWitnessClick = async (wallet_username: string) => {
+    console.log("Username:", wallet_username);
+    await handleWitnessVote(wallet_username);
+  };
 
   return (
-    <div>
-      <Text>Gnars Total Supply</Text>
-      <Text>{walletData[0]?.totalSupply}</Text>
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            <Th>Avatar</Th>
-            <Th>Username</Th>
-            <Th>Wallet Address</Th>
-            <Th>Gnars Balance</Th> {/* New column for Gnars balance */}
-            <Th>Delegated to SkateHive</Th>
-          </Tr>
-        </Thead>
-        <Tr>
-            <Td colSpan={5}></Td> 
-            
-            <Td>Total Delegated Votes: {totalDelegatedVotes}</Td>
-          </Tr>
-        <Tbody>
-          {walletData.map((wallet) => (
-            
-            <Tr key={wallet.walletAddress}>
+    <VStack spacing={4} align="stretch">
+      <Grid
+        templateColumns="repeat(auto-fit, minmax(300px, 1fr))" // Adjust the column width as needed
+        gap={4}
+        justifyItems="center"
+      >
+        {/* First Box */}
+        <Box textAlign="center" borderWidth="1px" borderRadius="lg" p={4}>
+          <center>
+          <Image src="https://www.gnars.wtf/images/logo.png" boxSize={28} align={"center"} />
+          </center>
+          <Text fontSize="xl" fontWeight="bold">
+            Gnars Supply
+          </Text>
+          <Text color={"orange"} fontSize="xl" fontWeight="bold">
+            {walletData[0]?.totalSupply}
+          </Text>
+        </Box>
 
-              <Td>
-                <Image
-                  border="1px solid limegreen"
-                  borderRadius="10px"
-                  src={`https://images.ecency.com/webp/u/${wallet.username}/avatar/small`}
-                  width="105%"
-                  height="105%"
-                  style={{
-                    boxShadow: '0 8px 12px rgba(0, 0, 0, 0.8)', // Adding a drop shadow
-                  }}
-                />
-              </Td>
-              <Td>{wallet.username}</Td>
-              <Td>{wallet.walletAddress}</Td>
-              <Td>{wallet.balance}</Td> {/* Display Gnars balance */}
-              <Td style={{ color: wallet.isDelegated ? 'green' : 'red' }}>{wallet.isDelegated ? "Yes" : "No"}</Td>
+        {/* Second Box */}
+        <Box textAlign="center" borderWidth="1px" borderRadius="lg" p={4}>
+        <center>
+          <Image src="assets/skatehive-logo.png" boxSize={28} align={"center"} />
+          </center>
+          <Text fontSize="xl" fontWeight="bold">
+            Skatehive Gnars 
+          </Text>
+          <Text color={"orange"} fontSize="xl" fontWeight="bold">
+            {totalDelegatedVotes}
+          </Text>
+        </Box>
+      </Grid>
+
+      <Box>
+        <Table variant="simple" size="md">
+          <Thead>
+            <Tr>
+              <Th>Avatar</Th>
+              <Th>Username</Th>
+              <Th> skthv OG</Th>
+              <Th>Wallet Address</Th>
+              <Th>Gnars Balance</Th>
+              <Th>Delegated to SkateHive</Th>
+              <Th> Witness Vote</Th>
+              <Th> Hive Power</Th>
             </Tr>
-          ))}
+          </Thead>
+          <Tbody fontSize={24}>
+            {walletData.map((wallet) => (
+              <Tr key={wallet.walletAddress}>
+                <Td>
+                  <a
+                    href={`https://skatehive.app/profile/${wallet.username}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {wallet.hasHiveAccount ? (
+                      <Image
+                        border="0px solid transparent"
+                        borderRadius="10px"
+                        src={`https://images.ecency.com/webp/u/${wallet.username}/avatar/small`}
+                        width="50px"
+                        height="50px"
+                        style={{
+                          boxShadow: "0 8px 12px rgba(0, 0, 0, 0.8)",
+                          filter:
+                            wallet.balanceOfSkthv && parseFloat(wallet.balanceOfSkthv) > 0
+                              ? "drop-shadow(0 0 8px limegreen)"
+                              : "none",
+                        }}
+                      />
+                    ) : (
+                      <Image
+                        border="2px solid white"
+                        borderRadius="10px"
+                        src={`https://i.gifer.com/XwI7.gif`}
+                        width="50px"
+                        height="50px"
+                        style={{
+                          boxShadow: "0 8px 12px rgba(0, 0, 0, 0.8)",
+                        }}
+                      />
+                    )}
+                  </a>
+                </Td>
+                <Td>
+                  <a
+                    href={`https://skatehive.app/profile/${wallet.username}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {wallet.username} <UserReputation username={wallet.username} />
+                  </a>
+                </Td>
+                <Td>{wallet.balanceOfSkthv}</Td>
+                <Td
+                  color={"white"}
+                  onClick={() => handleCopy(wallet.walletAddress)}
+                  style={{ cursor: "pointer", textDecoration: "underline" }}
+                >
+                  {formatWalletAddress(wallet.walletAddress)}
+                </Td>
+                <Td>{wallet.balance}</Td>
+                <Td style={{ color: wallet.isDelegated ? "green" : "red" }}>
+                  {wallet.isDelegated ? "Yes" : "No"}
+                </Td>
+                <Td>
+                  {wallet.hasVotedForSkateHive ? (
+                    <span style={{ color: "green" }}>Voted</span>
+                  ) : (
+                    <Button onClick={() => handleWitnessClick(wallet.username)} colorScheme="red">
+                      Vote
+                    </Button>
+                  )}
+                </Td>
+                <Td>  </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </Box>
+      <HStack spacing={4} justify="center">
+      {isLoading ? (
+        <Flex justifyContent="center" alignItems="center" flexDirection={"column"}>
+          <Image
+            boxSize={"60px"}
+            src="https://64.media.tumblr.com/12da5f52c1491f392676d1d6edb9b055/870d8bca33241f31-7b/s400x600/fda9322a446d8d833f53467be19fca3811830c26.gif"
+          ></Image>
 
-        </Tbody>
-      </Table>
-      <Button onClick={() => console.log("Fetch data")}>Fetch Data</Button>
-    </div>
+        </Flex>
+      ) : null}
+      </HStack>
+    </VStack>
   );
 };
 
 export default GnarsDelegation;
-

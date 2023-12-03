@@ -1,7 +1,12 @@
 import { Flex, Button, Table, Thead, Grid, Tbody, Tr, Th, Td, Text , Image, VStack, Box,HStack} from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import { Client } from "@hiveio/dhive";
-
+import { ethers } from "ethers";
+const gnars_contract = "0x558BFFF0D583416f7C4e380625c7865821b8E95C";
+const skthv_contract = "0x3dEd025e441730e26AB28803353E4471669a3065";
+const skthv_proxy_contract = "0x3ded025e441730e26ab28803353e4471669a3065";
+import ERC721_ABI from "./gnars_abi.json";
+import ERC1155_ABI from "./skthvOG_abi.json";
 
 interface WalletData {
     username: string;
@@ -68,7 +73,7 @@ const GnarsHolders: React.FC = () => {
 
 
     useEffect(() => {
-        async function fetchHiveData() {
+        async function fetchData() {
             try {
                 const client = new Client([
                     "https://api.hive.blog/",
@@ -105,26 +110,24 @@ const GnarsHolders: React.FC = () => {
             } catch (error) {
                 console.error('Error fetching wallet data:', error);
             }
+            try {
+
+
+        const provider = new ethers.providers.JsonRpcProvider(
+            "https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik"
+          );
+          const contract = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
+          const skthvProxyContract = new ethers.Contract(skthv_proxy_contract, ERC1155_ABI, provider);
+            }
+            catch (error) {
+                console.error('Error fetching wallet data:', error);
+            }
         }
 
-        fetchHiveData();
-        console.log(walletData)
+        fetchData();
     }, []);
 
 
-    useEffect(() => {
-        async function fetchEthereumData() {
-            try {
-                // ... (code to fetch Ethereum data)
-            }
-            catch (error) {
-                console.error('Error fetching Ethereum data:', error);
-            }
-            
-        }
-        fetchEthereumData();
-    }
-    , []);
 
     return (
         // return updated walletList with new atributes

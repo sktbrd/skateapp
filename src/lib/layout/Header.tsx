@@ -22,12 +22,11 @@ import {
   MenuDivider,
   Tooltip,
 } from "@chakra-ui/react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
 import { keyframes } from "@emotion/react";
 import { Link as ChakraLink  } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
-
+import { FaGift } from "react-icons/fa";
 import { Link, LinkProps as RouterLinkProps } from "react-router-dom";
 import useAuthUser from "lib/pages/home/api/useAuthUser";
 import HiveLogin from "lib/pages/home/api/HiveLoginModal";
@@ -46,6 +45,7 @@ interface User {
   name?: string;
   avatar?: string;
   balance: string;
+
 }
 
 
@@ -151,6 +151,58 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
   const [conversionRate, setConversionRate] = useState<number>(0);
   const [totalWorth, setTotalWorth] = useState<number>(0);
 
+  const handleGiftClick = async () => {
+    try {
+      console.log(user?.name)
+      console.log(user?.reward_hive_balance)
+      console.log(user?.reward_hbd_balance)
+      console.log(user?.reward_vesting_balance)
+      const response = await axios.post(
+        "https://api.hive.blog",
+        {
+          jsonrpc: "2.0",
+          id: 1,
+          method: "condenser_api.claim_reward_balance",
+          params: {
+            account: user?.name,
+            reward_hive: {
+              amount: user?.reward_hive_balance,
+              precision: 3,
+              nai: "@@000000021",
+            },
+            reward_hbd: {
+              amount: user?.reward_hbd_balance,
+              precision: 3,
+              nai: "@@000000013",
+            },
+            reward_vests: {
+              amount: user?.reward_vesting_balance,
+              precision: 6,
+              nai: "@@000000037",
+            },
+          },
+        },
+        { headers: { "Content-Type": "application/json" } }
+      );
+        console.log(response.data)
+        console.log(response)
+        console.log(response.data.result)
+      if (response.data.result) {
+        // Claim operation was successful
+        console.log("Rewards claimed successfully!");
+      } else if (response.data.error) {
+        // Log the detailed error message
+        console.error("Error claiming rewards:", response.data.error);
+      } else {
+        console.error("Unexpected response format:", response.data);
+      }
+    } catch (error:any) {
+      // Log any network or unexpected errors
+      console.error("Error claiming rewards:", error.message);
+    }
+  };
+  
+
 
 
   const convertVestingSharesToHivePower = async (
@@ -227,7 +279,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
   }
   , [user]);
 
-    
+  
 
   const glow = keyframes`
     0% {
@@ -359,7 +411,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     </MenuGroup>
   </MenuList>
 </Menu>
-
+    <FaGift onClick={handleGiftClick}></FaGift>
       <Text 
         fontSize={fontSize} 
         fontWeight="medium" 

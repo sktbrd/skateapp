@@ -9,11 +9,10 @@ import {
   useTabs,
 } from '@chakra-ui/react';
 import HiveBlog from './Feed/Feed';
-import HiveVideos from './videos/FeedVideo';
 import SkatehiveProposals from './dao/snapshot';
 import Chat from './chat';
-import QFS from '../qfs';
 import UploadPage from '../upload';
+import RewardsButton from './rewardsButton';
 
 const Home = () => {
   const { selectedIndex, ...tabProps } = useTabs({});
@@ -65,6 +64,7 @@ const Home = () => {
             🏛 DAOs
           </Tab>
         </TabList>
+        <RewardsButton />
         <TabPanels>
           <TabPanel>
             <HiveBlog />

@@ -10,7 +10,7 @@ import { formatWalletAddress } from "lib/pages/utils/formatWallet";
 import ERC721_ABI from "./gnars_abi.json";
 import ERC1155_ABI from "./skthvOG_abi.json";
 import { KeychainSDK } from "keychain-sdk";
- 
+
 export interface WitnessVote {
   username: string;
   witness: string;
@@ -28,6 +28,7 @@ interface WalletData {
   balanceOfSkthv?: string;
   hasVotedForSkateHive?: boolean; 
   hasHiveAccount?: boolean;
+  hivePower?: string;
 }
 interface WalletListElement {
   username: string;
@@ -115,25 +116,17 @@ const GnarsDelegation: React.FC = () => {
         const contract = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
         const skthvProxyContract = new ethers.Contract(skthv_proxy_contract, ERC1155_ABI, provider);
         const usernames = walletsList.map((wallet) => wallet.username);
-        const hasHivePower = await Promise.all(
-          usernames.map(async (username) => {
-            const account = await client.database.getAccounts([username]);
-            const hivePower = account[0]?.vesting_shares || 0;
-            console.log(hivePower)
-            return hivePower;
-          })
-        );
+
         
         const hasVotedForSkateHive = await Promise.all(
           usernames.map(async (username) => {
             const account = await client.database.getAccounts([username]);
-            
+
             const hasVotedForSkateHive =
               account[0]?.witness_votes?.includes("skatehive") || false;
             const hasHiveAccount = !!account[0];
-            const hivePower = account[0]?.vesting_shares || 0;
         
-            return { hasVotedForSkateHive, hasHiveAccount, hivePower };
+            return { hasVotedForSkateHive, hasHiveAccount };
           })
         );
         
@@ -153,12 +146,14 @@ const GnarsDelegation: React.FC = () => {
               wallet.walletAddress,
               1
             );
+            const account = await client.database.getAccounts([wallet.username]);
+            const hivePower = account[0]?.vesting_shares || 0;
+
 
             const isDelegated =
               (await contract.delegates(wallet.walletAddress)) ===
               "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c";
             const balance = await contract.balanceOf(wallet.walletAddress);
-
             return {
               ...wallet,
               votes: ethers.utils.formatUnits(votes, 0),
@@ -222,7 +217,7 @@ const GnarsDelegation: React.FC = () => {
         justifyItems="center"
       >
         {/* First Box */}
-        <Box textAlign="center" borderWidth="1px" borderRadius="lg" p={4}>
+        <Box textAlign="center" borderWidth="0px" borderRadius="lg" p={4}>
           <center>
           <Image src="https://www.gnars.wtf/images/logo.png" boxSize={28} align={"center"} />
           </center>
@@ -235,12 +230,12 @@ const GnarsDelegation: React.FC = () => {
         </Box>
 
         {/* Second Box */}
-        <Box textAlign="center" borderWidth="1px" borderRadius="lg" p={4}>
+        <Box textAlign="center" borderWidth="0px" borderRadius="lg" p={4}>
         <center>
           <Image src="assets/skatehive-logo.png" boxSize={28} align={"center"} />
           </center>
           <Text fontSize="xl" fontWeight="bold">
-            Skatehive Gnars 
+            Delegated Gnars    
           </Text>
           <Text color={"orange"} fontSize="xl" fontWeight="bold">
             {totalDelegatedVotes}
@@ -330,7 +325,9 @@ const GnarsDelegation: React.FC = () => {
                     </Button>
                   )}
                 </Td>
-                <Td>  </Td>
+                    
+                <Td>{wallet.hivePower}</Td>
+
               </Tr>
             ))}
           </Tbody>

@@ -10,7 +10,12 @@ interface HiveKeychainResponse {
 // Define the Account type
 interface Account {
   name: string;
+  reward_hbd_balance: string | dhive.Asset; 
+  reward_hive_balance: string | dhive.Asset;
+  reward_vesting_balance: string | dhive.Asset;
+  reward_vesting_hive: string | dhive.Asset;
 }
+
 
 export type AuthUser = {
   user: Account | null;

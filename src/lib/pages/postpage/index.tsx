@@ -30,6 +30,8 @@ import { transform3SpeakContent } from '../utils/videoUtils/transform3speak';
 import { transformGiphyLinksToMarkdown } from '../utils/ImageUtils';
 import useAuthUser from '../home/api/useAuthUser';
 
+import Comments from '../home/Feed/postModal/comments';
+
 
 const PostPage: React.FC = () => {
   const pathname = window.location.pathname;
@@ -65,8 +67,53 @@ const PostPage: React.FC = () => {
 
     const fetchComments = async () => {
       try {
-        const commentsData: CommentProps[] = await client.database.call("get_content_replies", [URLAuthor, URLPermlink]);
-        setComments(commentsData);
+        const author = URLAuthor;
+        const permlink = URLPermlink;
+        
+        let comments = await client.call("bridge", "get_discussion",
+          { 
+            author,
+            permlink,
+            observer: user?.user?.name || "",
+          }
+        );
+
+        // delete the original post from the comments object
+        // its key is @username/permlink
+        const originalPostKey = `${author}/${permlink}`;
+        delete comments[originalPostKey];
+
+        // loop through the comments and add the sub replies to comments in its repliesFetched property
+        for (const commentKey in comments) {
+          const comment = comments[commentKey];
+          const subComments = comment.replies;
+
+          // add a repliesFetched property to the comment
+          comments[commentKey].repliesFetched = [];
+
+          // add the sub comments to the repliesFetched property of this comment
+          for (let i = 0; i < subComments.length; i++) {
+            const subComment = subComments[i];
+            comments[commentKey].repliesFetched.push(comments[subComment]);
+          }
+
+          // set net_votes of the comment with active_votes.length
+          comments[commentKey].net_votes = comments[commentKey].active_votes.length;
+        }
+
+        const commentsArray = [];
+
+        // add the comments to the commentsArray
+        for (const commentKey in comments) {
+          const comment = comments[commentKey];
+          
+          // push the comment to the comments array only if its a reply to the original post
+          if (comment.parent_author === author && comment.parent_permlink === permlink) {
+            commentsArray.push(comments[commentKey]);
+          }
+        }
+
+        setComments(commentsArray);
       } catch (error) {
         console.error('Error fetching comments:', error);
       }
@@ -247,7 +294,7 @@ const PostPage: React.FC = () => {
             <center>
               <h1 style={commentTitleStyle}>Comments</h1>
             </center>
-            {comments.map((comment, index) => (
+            {/* comments.map((comment, index) => (
               <div key={index}>
                 <Box
                   style={{
@@ -273,7 +320,20 @@ const PostPage: React.FC = () => {
                   />
                 </Box>
               </div>
-            ))}
+            )) */}
+            {comments && comments.length > 0 ? (
+              <Comments
+                comments={comments}
+                commentPosted={false}
+                blockedUser={'hivebuzz'}
+                permlink={URLPermlink}
+              />
+            ) : (
+              <center>
+                <h1>No comments yet</h1>
+              </center>
+            )}
+            
           </Flex>
         </VStack>
       </Flex>

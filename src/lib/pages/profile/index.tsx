@@ -3,7 +3,7 @@ import useAuthUser from "../home/api/useAuthUser";
 import React, { useEffect, useState } from 'react';
 import HiveBlog from "../home/Feed/Feed";
 import BeCool from "./beCool";
-
+import HiveBalanceDisplay2 from "../wallet/hive/hiveBalance";
 interface User {
   name?: string;
   posting_json_metadata?: string;
@@ -81,7 +81,7 @@ export default function ProfilePage() {
       try {
         const metadata = JSON.parse(user.posting_json_metadata || '');
         const about = metadata.profile.about;
-        console.log(metadata)
+        console.log("zacks brain: " , user)
         const website = metadata.profile.website;
         const created = user.created;
         const postings = user.post_count;
@@ -118,8 +118,10 @@ export default function ProfilePage() {
     maxWidth="100%"  
     margin="0 auto"  
     backgroundColor={"transparent"}
-    >
-      <Image src={coverImageUrl} alt="Cover Image" maxH="340px" width="100%" objectFit="cover"  border={"1px solid "} />
+    > 
+   
+
+      <Image src={coverImageUrl} alt="Cover Image" maxH="340px" width="100%" objectFit="cover"  border={"0px solid "} />
 
       <Flex alignItems="center" justifyContent="center" padding="10px" position="relative" zIndex="1">
         <Box
@@ -137,7 +139,7 @@ export default function ProfilePage() {
               alt="profile avatar"
               borderRadius="50%"
               boxSize="162px"
-              border="10px solid limegreen"
+              border="7px solid limegreen"
               
             />
           ) : (
@@ -153,14 +155,18 @@ export default function ProfilePage() {
         {/* <Button>
           Edit Profile
         </Button> */}
+
+        
       </Flex>
 
-      <Tabs variant={"unstyled"}  colorScheme="green">
-  <TabList  color={"white"} justifyContent="center">
-    <Tab borderRadius={"10px"} border={"1px solid "}>Posts</Tab>
-    <Tab borderRadius={"10px"} border={"1px solid "}>About</Tab>
-    <Tab borderRadius={"10px"} border={"1px solid "}>Stats</Tab>
-
+      <Tabs isLazy variant={"unstyled"}  colorScheme="green" >
+  <TabList  color={"white"} justifyContent="center"  >
+  
+    <Tab borderRadius={"10px"} border={"2px solid "} _selected={{ color: 'black', bg: 'green.500' }}>Posts</Tab>
+    <Tab borderRadius={"10px"} border={"2px solid "} _selected={{ color: 'black', bg: 'green.500' }}>About</Tab>
+    <Tab borderRadius={"10px"} border={"2px solid "} _selected={{ color: 'black', bg: 'green.500' }}>Stats</Tab>
+    <Tab borderRadius={"10px"} border={"2px solid "} _selected={{ color: 'black', bg: 'green.500' }}>Wallet</Tab>
+    
 
   </TabList>
         <TabPanels>
@@ -173,6 +179,10 @@ export default function ProfilePage() {
             <TabPanel>
             <BeCool/>
             </TabPanel>
+            <TabPanel display="flex" justifyContent="center">
+            <HiveBalanceDisplay2/>
+            </TabPanel>
+            
         </TabPanels>
       </Tabs>
       {isEditModalOpen && <EditProfileModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} />}

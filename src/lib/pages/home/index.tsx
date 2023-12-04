@@ -16,7 +16,7 @@ import QFS from '../qfs';
 import UploadPage from '../upload';
 
 const Home = () => {
-  const { selectedIndex, ...tabProps } = useTabs({});
+  const { selectedIndex, ...tabProps } = useTabs({isLazy: true});
 
   const isBigScreen = window.innerWidth >= 768; // Define a breakpoint for big screens
 

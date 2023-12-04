@@ -21,13 +21,12 @@ url: string;
 parentId: string; // Add this field to store the parent ID
 id: string; // Add this field to store the unique identifier of the comment
 replies: CommentProps[]; 
+repliesFetched?: []; // for child comments
 limit: number;
 blockedUser: string;
 parent_permlink: string;
-
-
-
 }
+
 export interface CommentsProps {
 comments: CommentProps[];
 commentPosted: boolean;

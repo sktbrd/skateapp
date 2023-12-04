@@ -7,9 +7,12 @@ import rehypeRaw from 'rehype-raw';
 import useAuthUser from '../../api/useAuthUser';
 import voteOnContent from '../../api/voting';
 
-import * as Types from '../types'; 
+import * as Types from '../types';
 
-const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_votes, permlink }) => {
+// import comment box
+import CommentBox from './commentBox';
+
+const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_votes, permlink, repliesFetched }) => {
     const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
     const { user } = useAuthUser();
     const [localNetVotes, setNetVotes] = useState(net_votes);
@@ -47,47 +50,88 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
         }
     };
 
+    // add a comment box below the comment on click of reply button
+    const [showCommentBox, setShowCommentBox] = useState(false);
+    const handleReplyClick = () => {
+        setShowCommentBox(!showCommentBox);
+    };
+
     return (
-        <Box border="1px solid gray" borderRadius="10px" padding="15px" margin="10px">
-            <Flex padding="5px" alignItems="center">
-                <Image src={avatarUrl} borderRadius="full" boxSize="40px" mr="3" />
-                <Text fontWeight="bold">@{author}</Text>
-            </Flex>
-            <ReactMarkdown 
-                children={body}
-                rehypePlugins={[rehypeRaw]}
-                remarkPlugins={[remarkGfm]}
-                components={{
-                    img: ({ node, alt, src, title, ...props }) => (
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <img {...props} alt={alt} src={src} title={title} style={{ maxWidth: '100%', height: 'auto', borderRadius:"10px", border:'1px solid limegreen' }} />
-                        </div>
-                    ),
-                    a: ({node, children, ...props}) => <a {...props} style={{ color: 'yellow' }}>{children}</a>,
-                    p: ({node, children, ...props}) => <p {...props} style={{ color: 'white' }}>{children}</p>,
-                    h1: ({node, children, ...props}) => <h1 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '24px' }}>{children}</h1>,
-                    h2: ({node, children, ...props}) => <h2 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '20px' }}>{children}</h2>,
-                    h3: ({node, children, ...props}) => <h3 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '18px' }}>{children}</h3>,
-                    blockquote: ({node, children, ...props}) => <blockquote {...props} style={{ borderLeft: '3px solid limegreen', paddingLeft: '10px', fontStyle: 'italic' }}>{children}</blockquote>,
-                    ol: ({node, children, ...props}) => <ol {...props} style={{ paddingLeft: '20px' }}>{children}</ol>,
-                    ul: ({node, children, ...props}) => <ul {...props} style={{ paddingLeft: '20px' }}>{children}</ul>,
-                }}
-            />
-            <Flex justifyContent="space-between" alignItems="center">
-                <Text fontSize="sm">{new Date(created).toLocaleString()}</Text>
-                <Button leftIcon={<span></span>} variant="outline" size="sm" onClick={handleVote}>
-                    <img
-                        src='https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless'
-                        alt="Vote"
-                        style={{
-                            maxWidth: '24px', // Set a maximum width for the image
-                            maxHeight: '24px', // Set a maximum height for the image
-                            marginRight: '5px', // Add some spacing between the image and text
-                        }}
+        <Box>
+            <Box border="1px solid gray" borderRadius="10px" padding="15px" margin="10px">
+                <Flex padding="5px" alignItems="center">
+                    <Image src={avatarUrl} borderRadius="full" boxSize="40px" mr="3" />
+                    <Text fontWeight="bold">@{author}</Text>
+                </Flex>
+                <ReactMarkdown 
+                    children={body}
+                    rehypePlugins={[rehypeRaw]}
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                        img: ({ node, alt, src, title, ...props }) => (
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <img {...props} alt={alt} src={src} title={title} style={{ maxWidth: '100%', height: 'auto', borderRadius:"10px", border:'1px solid limegreen' }} />
+                            </div>
+                        ),
+                        a: ({node, children, ...props}) => <a {...props} style={{ color: 'yellow' }}>{children}</a>,
+                        p: ({node, children, ...props}) => <p {...props} style={{ color: 'white' }}>{children}</p>,
+                        h1: ({node, children, ...props}) => <h1 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '24px' }}>{children}</h1>,
+                        h2: ({node, children, ...props}) => <h2 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '20px' }}>{children}</h2>,
+                        h3: ({node, children, ...props}) => <h3 {...props} style={{ fontWeight: 'bold',color: 'yellow', fontSize: '18px' }}>{children}</h3>,
+                        blockquote: ({node, children, ...props}) => <blockquote {...props} style={{ borderLeft: '3px solid limegreen', paddingLeft: '10px', fontStyle: 'italic' }}>{children}</blockquote>,
+                        ol: ({node, children, ...props}) => <ol {...props} style={{ paddingLeft: '20px' }}>{children}</ol>,
+                        ul: ({node, children, ...props}) => <ul {...props} style={{ paddingLeft: '20px' }}>{children}</ul>,
+                    }}
+                />
+                <Flex justifyContent="space-between" alignItems="center">
+                    <Text fontSize="sm">{new Date(created).toLocaleString()}</Text>
+                    <Flex gap={3}>
+                        {/* reply button */}
+                        <Button leftIcon={<span></span>} variant="outline" size="sm" onClick={handleReplyClick}>
+                            <p>Reply</p>
+                        </Button>
+                        
+                        <Button leftIcon={<span></span>} variant="outline" size="sm" onClick={handleVote}>
+                            <img
+                                src='https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless'
+                                alt="Vote"
+                                style={{
+                                    maxWidth: '24px', // Set a maximum width for the image
+                                    maxHeight: '24px', // Set a maximum height for the image
+                                    marginRight: '5px', // Add some spacing between the image and text
+                                }}
+                            />
+                            <p>{localNetVotes}</p>
+                        </Button>
+                    </Flex>
+                </Flex>
+
+                {/* comment box */}
+                {showCommentBox && (
+                    <CommentBox
+                        user={user}
+                        parentAuthor={author}
+                        parentPermlink={permlink}
+                        onCommentPosted={() => setShowCommentBox(false)}
                     />
-                    <p>{localNetVotes}</p>
-                </Button>
-            </Flex>
+                )}
+            </Box>
+            
+            {/* if any sub replies are present, render them recursively */}
+            {repliesFetched && repliesFetched.length > 0 && (
+                <Box style={{
+                        borderLeft: '1px solid gray',
+                        paddingLeft: '10px',
+                        marginLeft: '30px',
+                    }}>
+                    <Comments
+                        comments={repliesFetched}
+                        commentPosted={false}
+                        blockedUser=""
+                        permlink=''
+                    />
+                </Box>
+            )}
         </Box>
     );
 };

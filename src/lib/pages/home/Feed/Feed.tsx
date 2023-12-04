@@ -234,11 +234,50 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
 
   const fetchComments = async (author: string, permlink: string): Promise<any[]> => {
     try {
-      const comments = await client.database.call("get_content_replies", [
-        author,
-        permlink,
-      ]);
-      return comments;
+      let comments = await client.call("bridge", "get_discussion",
+        { 
+          author,
+          permlink,
+          observer: user?.name || "",
+        }
+      );
+
+      // delete the original post from the comments object
+      // its key is @username/permlink
+      const originalPostKey = `${author}/${permlink}`;
+      delete comments[originalPostKey];
+
+      // loop through the comments and add the sub replies to comments in its repliesFetched property
+      for (const commentKey in comments) {
+        const comment = comments[commentKey];
+        const subComments = comment.replies;
+
+        // add a repliesFetched property to the comment
+        comments[commentKey].repliesFetched = [];
+
+        // add the sub comments to the repliesFetched property of this comment
+        for (let i = 0; i < subComments.length; i++) {
+          const subComment = subComments[i];
+          comments[commentKey].repliesFetched.push(comments[subComment]);
+        }
+
+        // set net_votes of the comment with active_votes.length
+        comments[commentKey].net_votes = comments[commentKey].active_votes.length;
+      }
+
+      const commentsArray = [];
+
+      // add the comments to the commentsArray
+      for (const commentKey in comments) {
+        const comment = comments[commentKey];
+        
+        // push the comment to the comments array only if its a reply to the original post
+        if (comment.parent_author === author && comment.parent_permlink === permlink) {
+          commentsArray.push(comments[commentKey]);
+        }
+      }
+
+      return commentsArray;
     } catch (error) {
       // If a request fails, switch to the next node
       const newIndex = (nodeIndex + 1) % nodes.length;

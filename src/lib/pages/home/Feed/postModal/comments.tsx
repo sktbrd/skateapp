@@ -9,6 +9,9 @@ import voteOnContent from '../../api/voting';
 
 import * as Types from '../types';
 
+// import comment box
+import CommentBox from './commentBox';
+
 const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_votes, permlink, repliesFetched }) => {
     const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
     const { user } = useAuthUser();
@@ -47,6 +50,12 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
         }
     };
 
+    // add a comment box below the comment on click of reply button
+    const [showCommentBox, setShowCommentBox] = useState(false);
+    const handleReplyClick = () => {
+        setShowCommentBox(!showCommentBox);
+    };
+
     return (
         <Box>
             <Box border="1px solid gray" borderRadius="10px" padding="15px" margin="10px">
@@ -76,19 +85,36 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
                 />
                 <Flex justifyContent="space-between" alignItems="center">
                     <Text fontSize="sm">{new Date(created).toLocaleString()}</Text>
-                    <Button leftIcon={<span></span>} variant="outline" size="sm" onClick={handleVote}>
-                        <img
-                            src='https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless'
-                            alt="Vote"
-                            style={{
-                                maxWidth: '24px', // Set a maximum width for the image
-                                maxHeight: '24px', // Set a maximum height for the image
-                                marginRight: '5px', // Add some spacing between the image and text
-                            }}
-                        />
-                        <p>{localNetVotes}</p>
-                    </Button>
+                    <Flex gap={3}>
+                        {/* reply button */}
+                        <Button leftIcon={<span></span>} variant="outline" size="sm" onClick={handleReplyClick}>
+                            <p>Reply</p>
+                        </Button>
+                        
+                        <Button leftIcon={<span></span>} variant="outline" size="sm" onClick={handleVote}>
+                            <img
+                                src='https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless'
+                                alt="Vote"
+                                style={{
+                                    maxWidth: '24px', // Set a maximum width for the image
+                                    maxHeight: '24px', // Set a maximum height for the image
+                                    marginRight: '5px', // Add some spacing between the image and text
+                                }}
+                            />
+                            <p>{localNetVotes}</p>
+                        </Button>
+                    </Flex>
                 </Flex>
+
+                {/* comment box */}
+                {showCommentBox && (
+                    <CommentBox
+                        user={user}
+                        parentAuthor={author}
+                        parentPermlink={permlink}
+                        onCommentPosted={() => setShowCommentBox(false)}
+                    />
+                )}
             </Box>
             
             {/* if any sub replies are present, render them recursively */}

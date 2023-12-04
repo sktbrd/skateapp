@@ -234,10 +234,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
 
   const fetchComments = async (author: string, permlink: string): Promise<any[]> => {
     try {
-      // const comments = await client.database.call("get_content_replies", [
-      //   author,
-      //   permlink,
-      // ]);
       let comments = await client.call("bridge", "get_discussion",
         { 
           author,

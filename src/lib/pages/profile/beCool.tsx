@@ -5,6 +5,8 @@ import * as dhive from "@hiveio/dhive";
 import UserReputation from "../utils/hiveFunctions/usersReputation";
 import { KeychainSDK } from "keychain-sdk";
 import PowerUpModal from "../wallet/hive/powerUpModal";
+import { FaEdit, FaSuperpowers, FaThinkPeaks, FaVoteYea } from "react-icons/fa";
+import { AiOutlineThunderbolt } from "react-icons/ai";
 
 
 const dhiveClient = new dhive.Client([
@@ -185,7 +187,7 @@ export default function AuthorProfilePage() {
       >
         <GridItem>
           <VStack>
-
+          <FaVoteYea size={"52px"} color="white"/>
           <Badge
             borderRadius="12px"
             fontWeight="700"
@@ -206,6 +208,7 @@ export default function AuthorProfilePage() {
 
         <GridItem>
           <VStack>
+          <AiOutlineThunderbolt size={"52px"} color="white"/>
             <Badge
               borderRadius="12px"
               fontWeight="700"
@@ -246,6 +249,7 @@ export default function AuthorProfilePage() {
         </GridItem> */}
         <GridItem>
   <VStack>
+    <FaEdit size={"52px"} color="white"/>
     <Badge
       borderRadius="12px"
       fontWeight="700"

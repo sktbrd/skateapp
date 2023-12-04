@@ -282,7 +282,10 @@ export default function HiveBalanceDisplay2() {
         <Divider backgroundColor="red" />
   
         {isLoading ? (
-          <Text color="white">Loading...</Text>
+          <center>
+            <Image width="60px" src="https://i.gifer.com/ZZ5H.gif" alt="loading" />
+            <Text color="white">Loading...</Text>
+          </center>
         ) : (
           <>
             <Flex alignItems="center" justifyContent="center">

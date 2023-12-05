@@ -385,7 +385,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           <Image marginRight={"10px"} boxSize={"22px"} src="https://cdn.freebiesupply.com/logos/large/2x/ethereum-1-logo-png-transparent.png"></Image> {totalNetWorth?.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
       </Button>
       </Tooltip>
-      <Tooltip label="Wallet" aria-label="Wallet">
+      <Tooltip label="Wallet + Delegations" aria-label="Wallet">
       <Button
         backgroundColor="black"
         border="limegreen 2px solid"

@@ -875,7 +875,7 @@ const handleIncludeFooterChange = () => {
 
                   </>
                 )}
-                                <Flex alignItems="center">{renderTags()}</Flex>
+                                <Flex alignItems="center" wrap="wrap">{renderTags()}</Flex>
 
               <Button onClick={handleHiveUpload} colorScheme="teal" size="sm" marginTop={2} id="publish-button">
                 Publish!
@@ -954,7 +954,7 @@ const handleIncludeFooterChange = () => {
                 rehypePlugins={[rehypeRaw]}
                 remarkPlugins={[remarkGfm]} 
               />
-              <Flex alignItems="center">{renderTags()}</Flex>
+              <Flex alignItems="center" wrap="wrap">{renderTags()}</Flex>
             </Box>
           </Flex>
         </Box>

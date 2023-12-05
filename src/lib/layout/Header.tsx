@@ -145,7 +145,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
   const avatarUrl = user ? `https://images.hive.blog/u/${user.name}/avatar` : DEFAULT_AVATAR_URL;
 
   const [hiveBalance, setHiveBalance] = useState<string>("0");
-  const [hivePower, setHivePower] = useState<string>("0");
+  const [hivePowerText, setHivePowerText] = useState<string>("0");
   const [hbdBalance, setHbdBalance] = useState<string>("0");
   const [savingsBalance, setSavingsBalance] = useState<string>("0");
   const [conversionRate, setConversionRate] = useState<number>(0);
@@ -203,19 +203,25 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         ]);
   
         const hiveWorth = parseFloat(user.balance.split(" ")[0]) * conversionRate;
+        
         const hivePowerWorth =
           (parseFloat(vestingSharesData.hivePower) + parseFloat(vestingSharesData.delegatedHivePower)) *
           conversionRate;
+
+
         const hbdWorth = parseFloat(user.hbd_balance.split(" ")[0]) * hbdPrice;
         const savingsWorth = parseFloat(user.savings_hbd_balance.split(" ")[0]) * hbdPrice;
-  
+        
+        
         const total = hiveWorth + hivePowerWorth + hbdWorth + savingsWorth;
+        const total_Owned = Number(hiveWorth) + Number(savingsWorth) + Number(hbdWorth) + Number(hivePowerWorth) ;
+
         setConversionRate(conversionRate);
         setHbdBalance(user.hbd_balance);
         setHiveBalance(user.balance);
         setSavingsBalance(user.savings_hbd_balance);
-        setHivePower(`${vestingSharesData.hivePower} + ${vestingSharesData.delegatedHivePower} (delegated)`);
-        setTotalWorth(total);
+        setHivePowerText(`${vestingSharesData.hivePower} + ${vestingSharesData.delegatedHivePower} (delegated)`);
+        setTotalWorth(total_Owned);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -389,8 +395,8 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
            marginRight={"10px"} 
            boxSize={"22px"} 
            src="https://cryptologos.cc/logos/hive-blockchain-hive-logo.png?v=026"
-           >
-            </Image> {totalWorth.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
+           />
+             {totalWorth.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
           </Button>
           </Tooltip>
     </ChakraLink>

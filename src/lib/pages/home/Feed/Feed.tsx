@@ -502,7 +502,7 @@ return (
                   borderRadius="20px"
                   src={post.thumbnail}
                   alt="Post Thumbnail"
-                  height="200px"
+                  height="100%"
                   width="100%"
                 />
               </Box>

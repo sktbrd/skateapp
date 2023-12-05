@@ -92,36 +92,35 @@ export default function ProfilePage() {
             p={8}
             borderRadius={20}
             boxShadow="lg"
-            bgGradient="linear(to-b, limegreen, white)"
             
           >
             <Flex justifyContent="space-between">
-            <Text color={"black"} fontSize="4xl" fontWeight="bold" mb={4}>{displayname}</Text>
-            {location && <Text color={"black"} fontSize="lg" fontWeight={"bold"} mb={4}>Country: {location}</Text>}
+            <Text color={"white"} fontSize="4xl" fontWeight="bold" mb={4}>{displayname}</Text>
+            {location && <Text color={"white"} fontSize="lg" fontWeight={"bold"} mb={4}>Country: {location}</Text>}
 
             </Flex>
 
-            <Box border={"1px solid black"} padding={"5px"} borderRadius={"10px"}>
+            <Box border={"1px solid white"} padding={"5px"} borderRadius={"10px"}>
 
-            <Text color={"black"} fontSize="xl" fontWeight={"bold"} mb={4}>{about}</Text>
+            <Text color={"white"} fontSize="xl" fontWeight={"bold"} mb={4}>{about}</Text>
             </Box>
 
             <Flex justifyContent="space-between">
               <VStack margin={"20px"}>
 
-              <FaEdit  color="black"/>
-            <Text fontSize="lg" mb={4} fontWeight={"bold"}  color={"black"}>Posts and Comments: {postings}</Text>
+              <FaEdit  color="white"/>
+            <Text fontSize="lg" mb={4} fontWeight={"bold"}  color={"white"}>Posts and Comments: {postings}</Text>
               </VStack>
             <VStack margin={"20px"}>
-              <TbWorld  color="black"/> 
-              <Text ml="2" fontSize="lg" fontWeight={"bold"} color="black" >
+              <TbWorld  color="white"/> 
+              <Text ml="2" fontSize="lg" fontWeight={"bold"} color="white" >
                 {website}
               </Text>
             </VStack>
             <VStack margin={"20px"}>
 
-            <FaCalendar color="black"/>
-            <Text fontSize="lg" fontWeight={"bold"} mb={4} color={"black"} >Account created: {formatCreatedDate(created)}</Text>
+            <FaCalendar color="white"/>
+            <Text fontSize="lg" fontWeight={"bold"} mb={4} color={"white"} >Account created: {formatCreatedDate(created)}</Text>
             </VStack>
             </Flex>
 

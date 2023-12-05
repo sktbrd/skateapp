@@ -11,7 +11,6 @@ import PowerUpModal from "./powerUpModal";
 import PowerDownModal from "./powerDownModal";
 import DelegationModal from "./delegationModal";
 
-import FiatBalance from "../fiat/fiat";
 
 const dhiveClient = new dhive.Client([
   "https://api.hive.blog",
@@ -113,6 +112,7 @@ export default function HiveBalanceDisplay2() {
   const [showPowerDownModal, setShowPowerDownModal] = useState(false);
   const [showDelegationModal, setShowDelegationModal] = useState(false);
   const [sendHBDmodal, setSendHBDmodal] = useState(false);
+  const [ownedTotal, setOwnedTotal] = useState<number>(0);
 
   const convertVestingSharesToHivePower = async (
     vestingShares: string,
@@ -120,9 +120,13 @@ export default function HiveBalanceDisplay2() {
     receivedVestingShares: string
   ) => {
     const vestingSharesFloat = parseFloat(vestingShares.split(" ")[0]);
+    console.log("vestingSharesFloat", vestingSharesFloat)
     const delegatedVestingSharesFloat = parseFloat(delegatedVestingShares.split(" ")[0]);
+    console.log("delegatedVestingSharesFloat", delegatedVestingSharesFloat)
     const receivedVestingSharesFloat = parseFloat(receivedVestingShares.split(" ")[0]);
-    const availableVESTS = vestingSharesFloat - delegatedVestingSharesFloat + receivedVestingSharesFloat;
+    console.log("receivedVestingSharesFloat", receivedVestingSharesFloat)
+    const availableVESTS = vestingSharesFloat - delegatedVestingSharesFloat ;
+    console.log("availableVESTS", availableVESTS)
 
     const response = await fetch('https://api.hive.blog', {
       method: 'POST',
@@ -138,15 +142,21 @@ export default function HiveBalanceDisplay2() {
     const vestHive =
       (parseFloat(result.result.total_vesting_fund_hive) * availableVESTS) /
       parseFloat(result.result.total_vesting_shares);
-
-    const delegatedHivePower =
+    
+    const DelegatedToSomeoneHivePower =
       (parseFloat(result.result.total_vesting_fund_hive) * delegatedVestingSharesFloat) /
       parseFloat(result.result.total_vesting_shares);
+    console.log("vestHive1", vestHive);
 
+    const DelegatedToUser = (parseFloat(result.result.total_vesting_fund_hive) * receivedVestingSharesFloat) /
+    parseFloat(result.result.total_vesting_shares);
+    console.log("DelegatedToUser", DelegatedToUser);
     return {
-      hivePower: vestHive.toFixed(3),
-      delegatedHivePower: delegatedHivePower.toFixed(3),
+      hivePower: vestHive.toFixed(3), 
+      DelegatedToSomeoneHivePower: DelegatedToSomeoneHivePower.toFixed(3),
+      DelegatedToUser: DelegatedToUser.toFixed(3),
     };
+
   };
 
   const handleOpenPowerUpModal = () => {
@@ -174,22 +184,33 @@ export default function HiveBalanceDisplay2() {
             user.received_vesting_shares
           ),
         ]);
-  
+        
+        console.log("vestingSharesData", user.vesting_shares);
+        console.log("DelegatedSharesData", user.delegated_vesting_shares);
+        console.log("received_vesting_shares", user.received_vesting_shares);
+
         const hiveWorth = parseFloat(user.balance.split(" ")[0]) * conversionRate;
         const hivePowerWorth =
-          (parseFloat(vestingSharesData.hivePower) + parseFloat(vestingSharesData.delegatedHivePower)) *
+          (parseFloat(vestingSharesData.hivePower) + parseFloat(vestingSharesData.DelegatedToSomeoneHivePower)) *
           conversionRate;
+        console.log("hivePowerWorth", hivePowerWorth);
         const hbdWorth = parseFloat(user.hbd_balance.split(" ")[0]) * hbdPrice;
+        const DelegatedToUser = parseFloat(vestingSharesData.DelegatedToUser) * conversionRate;
         const savingsWorth = parseFloat(user.savings_hbd_balance.split(" ")[0]) * hbdPrice;
-  
-        const total = hiveWorth + hivePowerWorth + hbdWorth + savingsWorth;
+
+        const total = hiveWorth + hivePowerWorth + hbdWorth + savingsWorth + DelegatedToUser; 
+        console.log("All", hiveWorth, hivePowerWorth, hbdWorth, savingsWorth)
+        const total_Owned = Number(hiveWorth) + Number(savingsWorth) + Number(hbdWorth) + Number(hivePowerWorth) ;
+        console.log("total_Owned=", total_Owned , "hiveWorth= ",hiveWorth, "Savings= " ,savingsBalance, "hbdWorth: ", hbdWorth ) ;
         setConversionRate(conversionRate);
+        console.log("conversionRate", conversionRate);
         setHbdBalance(user.hbd_balance);
         setHiveBalance(user.balance);
         setSavingsBalance(user.savings_hbd_balance);
-        setHivePower(`${vestingSharesData.hivePower} + ${vestingSharesData.delegatedHivePower} (delegated)`);
+        setHivePower(`${vestingSharesData.DelegatedToSomeoneHivePower}+${vestingSharesData.hivePower} (not delegated)`);
         setTotalWorth(total);
         setIsLoading(false);
+        setOwnedTotal(total_Owned);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -289,9 +310,15 @@ export default function HiveBalanceDisplay2() {
         ) : (
           <>
             <Flex alignItems="center" justifyContent="center">
+              <VStack>
+
+              <Text fontWeight="bold" color="orange">
+                Total Owned: ${ownedTotal.toFixed(2)}
+              </Text>
               <Text fontWeight="bold" color="orange">
                 Wallet Worth: ${totalWorth.toFixed(2)}
               </Text>
+              </VStack>
             </Flex>
             <Divider backgroundColor="red" />
             <HStack spacing={4} align="stretch">

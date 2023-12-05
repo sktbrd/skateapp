@@ -178,11 +178,9 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const availableHP =
       (parseFloat(result.result.total_vesting_fund_hive) * availableVESTS) /
       parseFloat(result.result.total_vesting_shares);
-    console.log("Available: ",availableHP)
     const HPdelegatedToOthers =
       (parseFloat(result.result.total_vesting_fund_hive) * delegatedVestingSharesFloat) /
       parseFloat(result.result.total_vesting_shares);
-    console.log("Delegated to Others: ",HPdelegatedToOthers)
     return {
       availableHivePower: availableHP.toFixed(3),
       HPdelegatedToOthers: HPdelegatedToOthers.toFixed(3),
@@ -385,7 +383,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
           <Image marginRight={"10px"} boxSize={"22px"} src="https://cdn.freebiesupply.com/logos/large/2x/ethereum-1-logo-png-transparent.png"></Image> {totalNetWorth?.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
       </Button>
       </Tooltip>
-      <Tooltip label="Wallet + Delegations" aria-label="Wallet">
+      <Tooltip label="Hive Wallet Tokens in USD" aria-label="Wallet">
       <Button
         backgroundColor="black"
         border="limegreen 2px solid"

@@ -161,8 +161,8 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const vestingSharesFloat = parseFloat(vestingShares.split(" ")[0]);
     const delegatedVestingSharesFloat = parseFloat(delegatedVestingShares.split(" ")[0]);
     const receivedVestingSharesFloat = parseFloat(receivedVestingShares.split(" ")[0]);
-    const availableVESTS =
-      vestingSharesFloat - delegatedVestingSharesFloat + receivedVestingSharesFloat;
+    const availableVESTS = vestingSharesFloat - delegatedVestingSharesFloat ;
+
 
     const response = await fetch('https://api.hive.blog', {
       method: 'POST',
@@ -175,17 +175,17 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       headers: { 'Content-Type': 'application/json' },
     });
     const result = await response.json();
-    const vestHive =
+    const availableHP =
       (parseFloat(result.result.total_vesting_fund_hive) * availableVESTS) /
       parseFloat(result.result.total_vesting_shares);
-
-    const delegatedHivePower =
+    console.log("Available: ",availableHP)
+    const HPdelegatedToOthers =
       (parseFloat(result.result.total_vesting_fund_hive) * delegatedVestingSharesFloat) /
       parseFloat(result.result.total_vesting_shares);
-
+    console.log("Delegated to Others: ",HPdelegatedToOthers)
     return {
-      hivePower: vestHive.toFixed(3),
-      delegatedHivePower: delegatedHivePower.toFixed(3),
+      availableHivePower: availableHP.toFixed(3),
+      HPdelegatedToOthers: HPdelegatedToOthers.toFixed(3),
     };
   };
 
@@ -205,7 +205,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const hiveWorth = parseFloat(user.balance.split(" ")[0]) * conversionRate;
         
         const hivePowerWorth =
-          (parseFloat(vestingSharesData.hivePower) + parseFloat(vestingSharesData.delegatedHivePower)) *
+          (parseFloat(vestingSharesData.availableHivePower) + parseFloat(vestingSharesData.HPdelegatedToOthers)) *
           conversionRate;
 
 
@@ -220,7 +220,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setHbdBalance(user.hbd_balance);
         setHiveBalance(user.balance);
         setSavingsBalance(user.savings_hbd_balance);
-        setHivePowerText(`${vestingSharesData.hivePower} + ${vestingSharesData.delegatedHivePower} (delegated)`);
+        setHivePowerText(`${vestingSharesData.availableHivePower} + ${vestingSharesData.HPdelegatedToOthers} (delegated)`);
         setTotalWorth(total_Owned);
       } catch (error) {
         console.error("Error fetching data:", error);

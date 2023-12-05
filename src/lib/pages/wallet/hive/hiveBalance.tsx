@@ -146,11 +146,9 @@ export default function HiveBalanceDisplay2() {
     const DelegatedToSomeoneHivePower =
       (parseFloat(result.result.total_vesting_fund_hive) * delegatedVestingSharesFloat) /
       parseFloat(result.result.total_vesting_shares);
-    console.log("vestHive1", vestHive);
 
     const DelegatedToUser = (parseFloat(result.result.total_vesting_fund_hive) * receivedVestingSharesFloat) /
     parseFloat(result.result.total_vesting_shares);
-    console.log("DelegatedToUser", DelegatedToUser);
     return {
       hivePower: vestHive.toFixed(3), 
       DelegatedToSomeoneHivePower: DelegatedToSomeoneHivePower.toFixed(3),
@@ -159,18 +157,7 @@ export default function HiveBalanceDisplay2() {
 
   };
 
-  const handleOpenPowerUpModal = () => {
-    setShowPowerUpModal(true);
-  };
-  const handleOpenPowerDownModal = () => {
-    setShowPowerDownModal(true);
-  };
-  const handleOpenDelegationModal = () => {
-    setShowDelegationModal(true);
-  };
-  const handleOpenSendHBDModal = () => {
-    setSendHBDmodal(true);
-  }
+
 
   const onStart = async function () {
     if (user) {
@@ -185,25 +172,19 @@ export default function HiveBalanceDisplay2() {
           ),
         ]);
         
-        console.log("vestingSharesData", user.vesting_shares);
-        console.log("DelegatedSharesData", user.delegated_vesting_shares);
-        console.log("received_vesting_shares", user.received_vesting_shares);
+
 
         const hiveWorth = parseFloat(user.balance.split(" ")[0]) * conversionRate;
         const hivePowerWorth =
           (parseFloat(vestingSharesData.hivePower) + parseFloat(vestingSharesData.DelegatedToSomeoneHivePower)) *
           conversionRate;
-        console.log("hivePowerWorth", hivePowerWorth);
         const hbdWorth = parseFloat(user.hbd_balance.split(" ")[0]) * hbdPrice;
         const DelegatedToUser = parseFloat(vestingSharesData.DelegatedToUser) * conversionRate;
         const savingsWorth = parseFloat(user.savings_hbd_balance.split(" ")[0]) * hbdPrice;
 
         const total = hiveWorth + hivePowerWorth + hbdWorth + savingsWorth + DelegatedToUser; 
-        console.log("All", hiveWorth, hivePowerWorth, hbdWorth, savingsWorth)
         const total_Owned = Number(hiveWorth) + Number(savingsWorth) + Number(hbdWorth) + Number(hivePowerWorth) ;
-        console.log("total_Owned=", total_Owned , "hiveWorth= ",hiveWorth, "Savings= " ,savingsBalance, "hbdWorth: ", hbdWorth ) ;
         setConversionRate(conversionRate);
-        console.log("conversionRate", conversionRate);
         setHbdBalance(user.hbd_balance);
         setHiveBalance(user.balance);
         setSavingsBalance(user.savings_hbd_balance);
@@ -230,7 +211,18 @@ export default function HiveBalanceDisplay2() {
   const handleLogoClick = (balanceType: string) => {
     console.log(`Clicked ${balanceType} logo`);
   };
-  
+  const handleOpenPowerUpModal = () => {
+    setShowPowerUpModal(true);
+  };
+  const handleOpenPowerDownModal = () => {
+    setShowPowerDownModal(true);
+  };
+  const handleOpenDelegationModal = () => {
+    setShowDelegationModal(true);
+  };
+  const handleOpenSendHBDModal = () => {
+    setSendHBDmodal(true);
+  }
   return (
     <Box
       borderRadius="12px"

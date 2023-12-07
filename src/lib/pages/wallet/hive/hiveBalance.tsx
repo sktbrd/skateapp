@@ -117,7 +117,8 @@ export default function HiveBalanceDisplay2() {
   const [sendHBDmodal, setSendHBDmodal] = useState(false);
   const [ownedTotal, setOwnedTotal] = useState<number>(0);
   const [profileImage, setProfileImage] = useState<string>("https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif");
-  const [DelegatedToUser, setDelegatedToUser] = useState<string>("0");
+  const [delegatedToUserInUSD, setDelegatedToUserInUSD] = useState<string>("0");
+  const [HPdelegatedToUser, setHPdelegatedToUser] = useState<string>("0");
 
   const convertVestingSharesToHivePower = async (
     vestingShares: string,
@@ -152,12 +153,15 @@ export default function HiveBalanceDisplay2() {
       (parseFloat(result.result.total_vesting_fund_hive) * delegatedVestingSharesFloat) /
       parseFloat(result.result.total_vesting_shares);
 
-    const DelegatedToUser = (parseFloat(result.result.total_vesting_fund_hive) * receivedVestingSharesFloat) /
+    const delegatedToUserInUSD = (parseFloat(result.result.total_vesting_fund_hive) * receivedVestingSharesFloat) /
+    parseFloat(result.result.total_vesting_shares);
+    const HPdelegatedToUser = (parseFloat(result.result.total_vesting_fund_hive) * receivedVestingSharesFloat) /
     parseFloat(result.result.total_vesting_shares);
     return {
       hivePower: vestHive.toFixed(3), 
       DelegatedToSomeoneHivePower: DelegatedToSomeoneHivePower.toFixed(3),
-      DelegatedToUser: DelegatedToUser.toFixed(3),
+      delegatedToUserInUSD: delegatedToUserInUSD.toFixed(3),
+      HPdelegatedToUser: HPdelegatedToUser.toFixed(3),
     };
 
   };
@@ -196,10 +200,10 @@ export default function HiveBalanceDisplay2() {
           (parseFloat(vestingSharesData.hivePower) + parseFloat(vestingSharesData.DelegatedToSomeoneHivePower)) *
           conversionRate;
         const hbdWorth = parseFloat(user.hbd_balance.split(" ")[0]) * hbdPrice;
-        const DelegatedToUser = parseFloat(vestingSharesData.DelegatedToUser) * conversionRate;
+        const delegatedToUserInUSD = parseFloat(vestingSharesData.delegatedToUserInUSD) * conversionRate;
         const savingsWorth = parseFloat(user.savings_hbd_balance.split(" ")[0]) * hbdPrice;
-
-        const total = hiveWorth + hivePowerWorth + hbdWorth + savingsWorth + DelegatedToUser; 
+        const HPdelegatedToUser = parseFloat(vestingSharesData.HPdelegatedToUser) 
+        const total = hiveWorth + hivePowerWorth + hbdWorth + savingsWorth + delegatedToUserInUSD; 
         const total_Owned = Number(hiveWorth) + Number(savingsWorth) + Number(hbdWorth) + Number(hivePowerWorth) ;
         setConversionRate(conversionRate);
         setHbdBalance(user.hbd_balance);
@@ -209,7 +213,8 @@ export default function HiveBalanceDisplay2() {
         setTotalWorth(total);
         setIsLoading(false);
         setOwnedTotal(total_Owned);
-        setDelegatedToUser(`${DelegatedToUser.toFixed(3).toString()} USD worth in HP`); 
+        setDelegatedToUserInUSD(`${delegatedToUserInUSD.toFixed(3).toString()} USD worth in HP`); 
+        setHPdelegatedToUser(`${HPdelegatedToUser.toFixed(3).toString()} HP delegated to you`);
 
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -366,8 +371,8 @@ export default function HiveBalanceDisplay2() {
             <Divider backgroundColor="red" />
             <BalanceDisplay
               label="Delegated to You"
-              balance={DelegatedToUser}
-              labelTooltip="Hive Power signifies influence, voting, and status within Hive blockchain. 🚀🤝"
+              balance={HPdelegatedToUser}
+              labelTooltip="How much HivePower People is delegating to You 🚀🤝"
               
               ></BalanceDisplay>
             

@@ -275,34 +275,9 @@ export default function HiveBalanceDisplay2() {
                   <Text fontSize="32px" padding="10px" color="white">
                     {user.name}
                   </Text>
+
                 </>
-                <VStack>
-                  <Button
-                    width="170px"
-                    borderRadius="10px"
-                    border="1px dashed yellow"
-                    justifyContent="center"
-                    bg={"black"}
-                    color={"white"}
-                    _hover={{ bg: "grey" }}
-                    onClick={handleOpenPowerUpModal}
-                  >
-                    🔺 Power Up
-                  </Button>
-                  <Button
-                    width="170px"
-                    borderRadius="10px"
-                    border="1px dashed yellow"
-                    justifyContent="center"
-                    bg={"black"}
-                    color={"white"}
-                    _hover={{ bg: "grey" }}
-                    onClick={handleOpenPowerDownModal}
-                  >
-                    🔻 Power Down
-                  </Button>
-                  
-                </VStack>
+
               </Flex>
             ) : (
               <>
@@ -317,7 +292,33 @@ export default function HiveBalanceDisplay2() {
           </Box>
         </Flex>
         <Divider backgroundColor="red" />
-  
+        <VStack>
+                  <Button
+                    width="100%"
+                    borderRadius="10px"
+                    border="1px dashed yellow"
+                    justifyContent="center"
+                    bg={"black"}
+                    color={"white"}
+                    _hover={{ bg: "grey" }}
+                    onClick={handleOpenPowerUpModal}
+                  >
+                    🔺 Power Up
+                  </Button>
+                  <Button
+                    width="100%"
+                    borderRadius="10px"
+                    border="1px dashed yellow"
+                    justifyContent="center"
+                    bg={"black"}
+                    color={"white"}
+                    _hover={{ bg: "grey" }}
+                    onClick={handleOpenPowerDownModal}
+                  >
+                    🔻 Power Down
+                  </Button>
+                  
+                </VStack>
         {isLoading ? (
           <center>
             <Image width="60px" src="https://i.gifer.com/ZZ5H.gif" alt="loading" />

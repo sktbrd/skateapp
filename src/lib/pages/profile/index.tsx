@@ -37,6 +37,7 @@ export default function ProfilePage() {
       if (user) {
         try {
           const metadata = JSON.parse(user.posting_json_metadata || '');
+          console.log({ metadata });
           const coverImage = metadata.profile.cover_image;
 
           if (coverImage) {
@@ -167,7 +168,7 @@ export default function ProfilePage() {
         >
           {user ? (
             <Image
-              src={`https://images.hive.blog/u/${user.name}/avatar`}
+              src={user.posting_json_metadata ? JSON.parse(user.posting_json_metadata).profile.profile_image : DEFAULT_AVATAR_URL}
               alt="profile avatar"
               borderRadius="50%"
               boxSize="162px"

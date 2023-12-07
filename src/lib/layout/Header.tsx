@@ -142,7 +142,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 };
 
 
-  const avatarUrl = user ? `https://images.hive.blog/u/${user.name}/avatar` : DEFAULT_AVATAR_URL;
+  const avatarUrl = user ? JSON.parse(user.posting_json_metadata).profile.profile_image : DEFAULT_AVATAR_URL;
 
   const [hiveBalance, setHiveBalance] = useState<string>("0");
   const [hivePowerText, setHivePowerText] = useState<string>("0");
@@ -425,6 +425,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
               <Avatar 
                 src={avatarUrl} 
+                borderRadius={"10%"}
                 size="sm" 
                 mr={2} 
                 w="24px"

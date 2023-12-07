@@ -31,8 +31,8 @@ interface EditProfileModalProps {
                     profile: {
                       name: name,
                       about: about,
-                      avatarUrl: avatarUrl, // Include the new fields here
-                      coverImageUrl: coverImageUrl, // Include the new fields here
+                      cover_image: coverImageUrl,
+                      profile_image: avatarUrl, // Include the new fields here
                       // Add other profile fields here
                     },
                   }),

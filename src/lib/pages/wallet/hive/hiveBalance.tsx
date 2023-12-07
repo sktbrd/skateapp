@@ -10,6 +10,7 @@ import * as dhive from "@hiveio/dhive";
 import PowerUpModal from "./powerUpModal";
 import PowerDownModal from "./powerDownModal";
 import DelegationModal from "./delegationModal";
+import { useFetcher } from "react-router-dom";
 
 
 const dhiveClient = new dhive.Client([
@@ -33,6 +34,8 @@ interface User {
   delegated_vesting_shares: string;
   received_vesting_shares: string;
   name?: string;
+  posting_json_metadata?: string;
+  metadata: any;
 }
 
 // send to utils.tsx
@@ -113,7 +116,7 @@ export default function HiveBalanceDisplay2() {
   const [showDelegationModal, setShowDelegationModal] = useState(false);
   const [sendHBDmodal, setSendHBDmodal] = useState(false);
   const [ownedTotal, setOwnedTotal] = useState<number>(0);
-
+  const [profileImage, setProfileImage] = useState<string>("https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif");
   const convertVestingSharesToHivePower = async (
     vestingShares: string,
     delegatedVestingShares: string,
@@ -157,6 +160,21 @@ export default function HiveBalanceDisplay2() {
 
   };
 
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      if (user) {
+        try {
+          const metadata = JSON.parse(user.posting_json_metadata || '');
+          console.log("user", metadata.profile.profile_image)
+          setProfileImage(metadata.profile.profile_image);
+        } catch (error) {
+          console.error('Error parsing JSON metadata:', error);
+        }
+      }
+    };
+    fetchProfileImage();
+  }
+  , [user]);
 
 
   const onStart = async function () {
@@ -171,8 +189,6 @@ export default function HiveBalanceDisplay2() {
             user.received_vesting_shares
           ),
         ]);
-        
-
 
         const hiveWorth = parseFloat(user.balance.split(" ")[0]) * conversionRate;
         const hivePowerWorth =
@@ -242,7 +258,7 @@ export default function HiveBalanceDisplay2() {
               <Flex>
                 <>
                   <Image
-                    src={`https://images.hive.blog/u/${user.name}/avatar`}
+                    src={profileImage}
                     alt="profile avatar"
                     borderRadius="20px"
                     border="2px solid limegreen"

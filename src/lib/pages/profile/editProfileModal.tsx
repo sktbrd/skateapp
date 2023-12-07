@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react';
+import { Textarea, Button, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react';
 import { KeychainSDK, KeychainKeyTypes, Broadcast } from 'keychain-sdk';
+import { css } from '@emotion/react'; // Add this line
 
 interface EditProfileModalProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
     const [about, setAbout] = useState<string>(user.profile?.about || '');
     const [avatarUrl, setAvatarUrl] = useState<string>(user.profile?.profile_image || '');
     const [coverImageUrl, setCoverImageUrl] = useState<string>(user.profile?.cover_image || '');
+    const [website, setWebsite] = useState<string>(user.profile?.website || '');
 
   useEffect(() => {
     if (user && user.posting_json_metadata) {
@@ -23,6 +25,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
         setAbout(about => about || metadata.profile.about || '');
         setAvatarUrl(avatarUrl => avatarUrl || metadata.profile.profile_image || '');
         setCoverImageUrl(coverImageUrl => coverImageUrl || metadata.profile.cover_image || '');
+        setWebsite(website => website || metadata.profile.website || '');
+        console.log(metadata);
       } catch (error) {
         console.error('Error parsing JSON metadata:', error);
       }
@@ -48,6 +52,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
                     about: about,
                     cover_image: coverImageUrl,
                     profile_image: avatarUrl,
+                    website: website,
                   },
                 }),
                 extensions: [],
@@ -60,7 +65,6 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
 
       // Convert 'formParamsAsObject' to 'unknown' first
       const broadcast = await keychain.broadcast(formParamsAsObject.data as unknown as Broadcast);
-      console.log({ broadcast });
 
 
     } catch (error) {
@@ -81,12 +85,17 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <Text> About</Text>
-          <Input
-            placeholder="About"
-            value={about}
-            onChange={(e) => setAbout(e.target.value)}
-          />
+            <Text> About</Text>
+            <Textarea
+                placeholder="About"
+                value={about}
+                onChange={(e) => setAbout(e.target.value)}
+                css={css`
+                    white-space: wrap;
+                    min-height: 150px; // Adjust the minHeight value as needed
+                `}
+                />
+
           <Text> Avatar URL</Text>
           <Input
             placeholder="Avatar URL"
@@ -99,7 +108,12 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
             value={coverImageUrl}
             onChange={(e) => setCoverImageUrl(e.target.value)}
           />
-          {/* Add other input fields for additional profile information */}
+            <Text> Website</Text>
+            <Input
+                placeholder="Website"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+            />
         </ModalBody>
         <ModalFooter>
           <Button colorScheme="red" mr={3} onClick={onClose}>

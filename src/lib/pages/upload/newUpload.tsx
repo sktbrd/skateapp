@@ -160,7 +160,7 @@ const NewUpload: React.FC = () => {
   
           setUploadedVideo(ipfsUrl);
   
-          const transformedLink = `<iframe src="${ipfsUrl}"></iframe>` + " ";
+          const transformedLink = `<iframe src="${ipfsUrl}" allowfullscreen></iframe>` + " ";
   
           setMarkdownText((prevMarkdown) => prevMarkdown + `\n${transformedLink}` + '\n');
           setUploadedFiles((prevFiles) => [...prevFiles, ipfsUrl]);

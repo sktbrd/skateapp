@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Text, Grid,Flex, Image, VStack, Button } from "@chakra-ui/react";
 //@ts-ignore
 import { Pioneer } from "@pioneer-platform/pioneer-react";
+import { FaGear } from "react-icons/fa6";
 
 import {
   usePioneer,
@@ -98,7 +99,6 @@ useEffect(() => {
           borderRadius="10px"
         />
         
-        
       ) : (
         <Image
           src={defaultImageUrl}
@@ -108,13 +108,14 @@ useEffect(() => {
           height="100%"
           borderRadius="10px"
         />
-      )}
-              {/* Check if last offer exists and display it */}
-              {nft.token.lastSaleEth && (
-                <Text>Last Sale  {Number(nft.token.lastSaleEth).toFixed(2)} ETH</Text>
-              )}
-              {/* Add any additional information you want to display for each NFT here */}
-            </VStack>
+      )}  
+
+        {/* Check if last offer exists and display it */}
+        {nft.token.lastSaleEth && (
+          <Text>Last Sale  {Number(nft.token.lastSaleEth).toFixed(2)} ETH</Text>
+        )}
+        {/* Add any additional information you want to display for each NFT here */}
+      </VStack>
     </Flex>
   ))}
       </Grid>

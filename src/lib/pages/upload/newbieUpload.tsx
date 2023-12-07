@@ -74,7 +74,7 @@ declare global {
     hive_keychain: any;
   }
 }
-const defaultTags = ["skatehive", "skateboarding" ,"Appreciattor", "OCD", "introduction" , "introducemyself", "sportstalk", "hive-engine", "hive-engine", "neoxian"];
+const defaultTags = ["skatehive", "skateboarding" ,"Appreciattor", "OCD", "introduction" , "introducemyself", "sportstalk", "hive-engine", "neoxian"];
 
 
 const IntroductionPost: React.FC = () => {
@@ -553,13 +553,13 @@ const IntroductionPost: React.FC = () => {
       const newTag = inputValue.slice(0, -1).trim();
       if (newTag) {
         // Check if the number of tags is less than 10 before adding a new tag
-        if (tags.length < 10) {
+        if (tags.length < 15) {
           // Add the new tag to the tags list
           setTags([...tags, newTag]);
           // Clear the input field
           setTagsInput('');
         } else {
-          alert('You can only add up to 10 tags.');
+          alert('You can only add up to 15 tags.');
         }
       }
     } else {

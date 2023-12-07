@@ -6,6 +6,8 @@ import BeCool from "./beCool";
 import HiveBalanceDisplay2 from "../wallet/hive/hiveBalance";
 import { TbWorld } from "react-icons/tb";
 import { FaCalendar, FaEdit } from "react-icons/fa";
+import EditProfileModal from "./editProfileModal";
+
 
 interface User {
   name?: string;
@@ -22,28 +24,8 @@ interface EditProfileModalProps {
 const DEFAULT_AVATAR_URL = "https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif";
 const DEFAULT_COVER_IMAGE_URL = 'https://i.ibb.co/r20bWsF/You-forgot-to-add-a-cover.gif';
 
-const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose }) => {
-  return (
-    <Modal isOpen={isOpen} onClose={onClose} size="md">
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Edit Profile</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          {/* Add your form or content for editing the profile here */}
-          <Text>Modal content goes here...</Text>
-        </ModalBody>
-        <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
-            Close
-          </Button>
-          {/* Add save or update button as needed */}
-          <Button variant="ghost">Save Changes</Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
-  );
-};
+
+
 
 export default function ProfilePage() {
   const { user } = useAuthUser() as { user: User | null };
@@ -201,6 +183,9 @@ export default function ProfilePage() {
             />
           )}
         </Box>
+        <Button onClick={editClick} position="absolute" right="10px" top="10px" colorScheme="green" variant="outline" size="sm">
+          Edit Profile
+        </Button>
       </Flex>
 
       <Tabs isLazy variant="unstyled" colorScheme="green">
@@ -225,7 +210,7 @@ export default function ProfilePage() {
           </TabPanel>
         </TabPanels>
       </Tabs>
-      {isEditModalOpen && <EditProfileModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} />}
+      {isEditModalOpen && <EditProfileModal isOpen={isEditModalOpen} user={user} onClose={() => setIsEditModalOpen(false)} />}
     </Box>
   );
 }

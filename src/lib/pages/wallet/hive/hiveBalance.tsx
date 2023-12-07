@@ -117,6 +117,8 @@ export default function HiveBalanceDisplay2() {
   const [sendHBDmodal, setSendHBDmodal] = useState(false);
   const [ownedTotal, setOwnedTotal] = useState<number>(0);
   const [profileImage, setProfileImage] = useState<string>("https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif");
+  const [DelegatedToUser, setDelegatedToUser] = useState<string>("0");
+
   const convertVestingSharesToHivePower = async (
     vestingShares: string,
     delegatedVestingShares: string,
@@ -165,7 +167,6 @@ export default function HiveBalanceDisplay2() {
       if (user) {
         try {
           const metadata = JSON.parse(user.posting_json_metadata || '');
-          console.log("user", metadata.profile.profile_image)
           setProfileImage(metadata.profile.profile_image);
         } catch (error) {
           console.error('Error parsing JSON metadata:', error);
@@ -204,10 +205,12 @@ export default function HiveBalanceDisplay2() {
         setHbdBalance(user.hbd_balance);
         setHiveBalance(user.balance);
         setSavingsBalance(user.savings_hbd_balance);
-        setHivePower(`${vestingSharesData.DelegatedToSomeoneHivePower}+${vestingSharesData.hivePower} (not delegated)`);
+        setHivePower(`${vestingSharesData.DelegatedToSomeoneHivePower} (delegated to others)  + ${vestingSharesData.hivePower} (not delegated)`);
         setTotalWorth(total);
         setIsLoading(false);
         setOwnedTotal(total_Owned);
+        setDelegatedToUser(`${DelegatedToUser.toFixed(3).toString()} USD worth in HP`); 
+
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -360,6 +363,14 @@ export default function HiveBalanceDisplay2() {
   
               />
             </HStack>
+            <Divider backgroundColor="red" />
+            <BalanceDisplay
+              label="Delegated to You"
+              balance={DelegatedToUser}
+              labelTooltip="Hive Power signifies influence, voting, and status within Hive blockchain. 🚀🤝"
+              
+              ></BalanceDisplay>
+            
             <Tooltip
               bg="black"
               color="white"
@@ -489,7 +500,7 @@ return (
 <Box
   borderRadius="5px"
   border="1px solid red"
-  width="50%"
+  width="100%"
   padding="10px"
   textAlign="center"
 >

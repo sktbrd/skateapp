@@ -1,4 +1,4 @@
-import { Box, Text, Image, Flex, Tabs, TabList, TabPanels, Tab, TabPanel, Button, Modal, ModalBody, ModalCloseButton, ModalOverlay, ModalContent, ModalFooter, ModalHeader, VStack } from "@chakra-ui/react";
+import { AspectRatio, Box, Text, Image, Flex, Tabs, TabList, TabPanels, Tab, TabPanel, Button, Modal, ModalBody, ModalCloseButton, ModalOverlay, ModalContent, ModalFooter, ModalHeader, VStack } from "@chakra-ui/react";
 import useAuthUser from "../home/api/useAuthUser";
 import React, { useEffect, useState } from 'react';
 import HiveBlog from "../home/Feed/Feed";
@@ -7,6 +7,7 @@ import HiveBalanceDisplay2 from "../wallet/hive/hiveBalance";
 import { TbWorld } from "react-icons/tb";
 import { FaCalendar, FaEdit } from "react-icons/fa";
 import EditProfileModal from "./editProfileModal";
+import { useMediaQuery } from "@chakra-ui/react";
 
 
 interface User {
@@ -31,7 +32,8 @@ export default function ProfilePage() {
   const { user } = useAuthUser() as { user: User | null };
   const [coverImageUrl, setCoverImageUrl] = useState<string>(DEFAULT_COVER_IMAGE_URL);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
-
+  const [isMobile] = useMediaQuery("(max-width: 600px)");
+  const coverAspectRatio = isMobile ? 2 : 19 / 6;
   useEffect(() => {
     const fetchCoverImage = async () => {
       if (user) {
@@ -147,14 +149,15 @@ export default function ProfilePage() {
   return (
     <Box
       fontFamily="'Courier New', monospace"
-      position="relative"
       overflow="hidden"
       maxWidth="100%"
-      margin="0 auto"
+      margin="0"
       backgroundColor="transparent"
     >
 
-      <Image src={coverImageUrl} alt="Cover Image" maxH="340px" width="100%" objectFit="cover" border="0px solid" />
+<AspectRatio ratio={coverAspectRatio}>
+        <Image src={coverImageUrl} alt="Cover Image" objectFit="cover" border="0px solid" />
+      </AspectRatio>
 
       <Flex alignItems="center" justifyContent="center" padding="10px" position="relative" zIndex="1">
         <Box

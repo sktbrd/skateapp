@@ -1,4 +1,4 @@
-import { AspectRatio, Box, Text, Image, Flex, Tabs, TabList, TabPanels, Tab, TabPanel, Button, Modal, ModalBody, ModalCloseButton, ModalOverlay, ModalContent, ModalFooter, ModalHeader, VStack } from "@chakra-ui/react";
+import { Tooltip, AspectRatio, Box, Text, Image, Flex, Tabs, TabList, TabPanels, Tab, TabPanel, Button, Modal, ModalBody, ModalCloseButton, ModalOverlay, ModalContent, ModalFooter, ModalHeader, VStack } from "@chakra-ui/react";
 import useAuthUser from "../home/api/useAuthUser";
 import React, { useEffect, useState } from 'react';
 import HiveBlog from "../home/Feed/Feed";
@@ -8,7 +8,7 @@ import { TbWorld } from "react-icons/tb";
 import { FaCalendar, FaEdit } from "react-icons/fa";
 import EditProfileModal from "./editProfileModal";
 import { useMediaQuery } from "@chakra-ui/react";
-
+import { FaGear } from "react-icons/fa6";
 
 interface User {
   name?: string;
@@ -34,12 +34,13 @@ export default function ProfilePage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isMobile] = useMediaQuery("(max-width: 600px)");
   const coverAspectRatio = isMobile ? 2 : 19 / 6;
+
+
   useEffect(() => {
     const fetchCoverImage = async () => {
       if (user) {
         try {
           const metadata = JSON.parse(user.posting_json_metadata || '');
-          console.log({ metadata });
           const coverImage = metadata.profile.cover_image;
 
           if (coverImage) {
@@ -105,7 +106,7 @@ export default function ProfilePage() {
             <VStack margin={"20px"}>
 
             <FaCalendar color="white"/>
-            <Text fontSize="lg" fontWeight={"bold"} mb={4} color={"white"} >Account created: {formatCreatedDate(created)}</Text>
+            <Text fontSize="lg" fontWeight={"bold"} mb={4} color={"white"} > {formatCreatedDate(created)}</Text>
             </VStack>
             </Flex>
 
@@ -145,7 +146,11 @@ export default function ProfilePage() {
   const editClick = () => {
     setIsEditModalOpen(true);
   }
-
+  const glowStyle = {
+    ":hover": {
+      filter: "drop-shadow(0 0 5px rgba(255, 255, 255, 0.9))",
+    },
+  };
   return (
     <Box
       fontFamily="'Courier New', monospace"
@@ -155,10 +160,10 @@ export default function ProfilePage() {
       backgroundColor="transparent"
     >
 
-<AspectRatio ratio={coverAspectRatio}>
+      <AspectRatio ratio={coverAspectRatio}>
         <Image src={coverImageUrl} alt="Cover Image" objectFit="cover" border="0px solid" />
       </AspectRatio>
-
+      
       <Flex alignItems="center" justifyContent="center" padding="10px" position="relative" zIndex="1">
         <Box
           position="absolute"
@@ -186,10 +191,13 @@ export default function ProfilePage() {
               border="2px solid limegreen"
             />
           )}
+          <Box position="absolute" bottom="0" right="0" p="1">
+
+
+            <FaGear onClick={editClick} color="white" size="2em"  />
+          </Box>
         </Box>
-        <Button onClick={editClick} position="absolute" right="10px" top="10px" colorScheme="green" variant="outline" size="sm">
-          Edit Profile
-        </Button>
+
       </Flex>
 
       <Tabs isLazy variant="unstyled" colorScheme="green">

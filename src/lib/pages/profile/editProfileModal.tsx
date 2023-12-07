@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Textarea, Button, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react';
+import { Textarea, Button, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, HStack } from '@chakra-ui/react';
 import { KeychainSDK, KeychainKeyTypes, Broadcast } from 'keychain-sdk';
 import { css } from '@emotion/react';
-import axios from 'axios';
-
+import { FaUpload } from 'react-icons/fa';
 interface EditProfileModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -154,25 +153,16 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
             `}
           />
           <Text> Avatar URL</Text>
+          <HStack>
           <Input
             placeholder="Avatar URL"
             value={avatarUrl}
             onChange={(e) => setAvatarUrl(e.target.value)}
           />
-          <Text> Cover Image URL</Text>
-          <Input
-            placeholder="Cover Image URL"
-            value={coverImageUrl}
-            onChange={(e) => setCoverImageUrl(e.target.value)}
-          />
-          <Text> Website</Text>
-          <Input
-            placeholder="Website"
-            value={website}
-            onChange={(e) => setWebsite(e.target.value)}
-          />
-          <Button color={"limegreen"} border={"1px dashed limegreen"} variant="ghost">
-            <label htmlFor="profileFileInput">Choose Profile Image</label>
+          <Button color={"limegreen"} border={"1px dashed limegreen"} variant="ghost" mt={2} mb={2}>
+            <label htmlFor="profileFileInput">
+              <FaUpload />
+            </label>
             <input
               type="file"
               id="profileFileInput"
@@ -183,24 +173,42 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
           </Button>
           {selectedProfileFile && (
             <div>
-              Selected Profile Image: {selectedProfileFile.name}
+               {selectedProfileFile.name}
             </div>
           )}
-          <Button color={"limegreen"} border={"1px dashed limegreen"} variant="ghost">
-            <label htmlFor="coverFileInput">Choose Cover Image</label>
+            </HStack>
+          <Text> Cover Image URL</Text>
+          <HStack>
+
+          <Input
+            placeholder="Cover Image URL"
+            value={coverImageUrl}
+            onChange={(e) => setCoverImageUrl(e.target.value)}
+            />
+          <Button color={"limegreen"} border={"1px dashed limegreen"} variant="ghost" mt={2} mb={2}>
+            <label htmlFor="coverFileInput">
+              <FaUpload /> 
+            </label>
             <input
               type="file"
               id="coverFileInput"
               accept="image/*"
               style={{ display: 'none' }}
               onChange={handleCoverFileInputChange}
-            />
+              />
           </Button>
+          </HStack>
           {selectedCoverFile && (
-            <div>
-              Selected Cover Image: {selectedCoverFile.name}
+              <div>
+              {selectedCoverFile.name}
             </div>
           )}
+          <Text> Website</Text>
+          <Input
+            placeholder="Website"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+          />
         </ModalBody>
         <ModalFooter>
           <Button colorScheme="red" mr={3} onClick={onClose}>

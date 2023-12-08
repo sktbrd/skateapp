@@ -42,6 +42,7 @@ export default function ProfilePage() {
         try {
           const metadata = JSON.parse(user.posting_json_metadata || '');
           const coverImage = metadata.profile.cover_image;
+          console.log(metadata)
 
           if (coverImage) {
             setCoverImageUrl(coverImage);
@@ -65,6 +66,7 @@ export default function ProfilePage() {
     if (user) {
       try {
         const metadata = JSON.parse(user.posting_json_metadata || '');
+        
         const about = metadata.profile.about;
         const website = metadata.profile.website;
         const created = user.created;

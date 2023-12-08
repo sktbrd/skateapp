@@ -3,6 +3,7 @@ import { Textarea, Button, Input, Modal, ModalBody, ModalCloseButton, ModalConte
 import { KeychainSDK, KeychainKeyTypes, Broadcast } from 'keychain-sdk';
 import { css } from '@emotion/react';
 import { FaUpload } from 'react-icons/fa';
+
 interface EditProfileModalProps {
   isOpen: boolean;
   onClose: () => void;

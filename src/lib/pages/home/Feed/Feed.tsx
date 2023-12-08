@@ -390,7 +390,7 @@ const handleVoteClick = async (post: any) => {
   } catch (error) {
     // Handle voting error
     console.error("Error while voting:", error);
-    setErrorMessage("Error While Voting!")
+    setErrorMessage("Error While Voting! May be you already voted with the same weight. Try refreshing the page!")
 
     setIsErrorModalOpen(true); // Open the error modal
   }

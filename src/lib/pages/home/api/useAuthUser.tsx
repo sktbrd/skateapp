@@ -25,7 +25,7 @@ export type AuthUser = {
   isLoggedIn: () => boolean;
 };
 
-export default function useAuthUser(): AuthUser {
+function useAuthUser(): AuthUser {
   const dhiveClient = new dhive.Client([
     "https://api.hive.blog",
     "https://api.hivekings.com",
@@ -89,6 +89,7 @@ export default function useAuthUser(): AuthUser {
     );
   };
 
+  
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
@@ -111,3 +112,5 @@ export default function useAuthUser(): AuthUser {
     isLoggedIn,
   };
 }
+
+export default useAuthUser;

@@ -329,10 +329,10 @@ export default function HiveBalanceDisplay2() {
             <Flex alignItems="center" justifyContent="center">
               <VStack>
 
-              <Text fontWeight="bold" color="orange">
+              <Text fontSize={"36px"} fontWeight="bold" color="orange">
                 Total Owned: ${ownedTotal.toFixed(2)}
               </Text>
-              <Text fontWeight="bold" color="orange">
+              <Text fontSize={"36px"} fontWeight="bold" color="orange">
                 Wallet Worth: ${totalWorth.toFixed(2)}
               </Text>
               </VStack>

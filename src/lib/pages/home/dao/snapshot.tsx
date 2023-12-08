@@ -37,11 +37,9 @@ const SkatehiveProposals: React.FC = () => {
       messages: [{ role: 'user', content: `Summarize the following proposal in 3 sentences: ${body}` }],
       model: 'gpt-3.5-turbo',
     });
-    console.log('response', response);
     const summary = response.choices[0]?.message?.content || 'No summary available.';
     localStorage.setItem(body, summary);
-    console.log('summary', summary);
-    console.log('Summary fetched and cached.');
+
     return summary;
   };
   const transformIpfsUrl = (ipfsUrl: string) => {
@@ -60,16 +58,13 @@ const SkatehiveProposals: React.FC = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: proposalsQuery }),
       });
-      console.log('response2', response);
       if (response.ok) {
         const data = await response.json();
-        console.log('data', data);
         if (data.errors) {
           console.error('GraphQL Proposals Error:', data.errors);
           return;
         }
         const fetchedProposals = data.data.proposals;
-        console.log('fetchedProposals', fetchedProposals);
         setProposals(fetchedProposals);
         setLoadingProposals(false);
         setLoadingSummaries(true);

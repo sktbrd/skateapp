@@ -27,6 +27,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
     if (user && user.posting_json_metadata) {
       try {
         const metadata = JSON.parse(user.posting_json_metadata);
+        console.log(user)
+        console.log(metadata)
         setName(name => name || metadata.profile.name || '');
         setAbout(about => about || metadata.profile.about || '');
         setAvatarUrl(avatarUrl => avatarUrl || metadata.profile.profile_image || '');
@@ -42,7 +44,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   const sendEditTransaction = async () => {
     try {
       const keychain = new KeychainSDK(window);
-
+  
       const formParamsAsObject = {
         data: {
           username: user.name,
@@ -51,7 +53,15 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
               'account_update2',
               {
                 account: user.name,
-                json_metadata: '',
+                json_metadata: JSON.stringify({
+                  profile: {
+                    name: name,
+                    about: about,
+                    cover_image: coverImageUrl,
+                    profile_image: avatarUrl,
+                    website: website,
+                  },
+                }),
                 posting_json_metadata: JSON.stringify({
                   profile: {
                     name: name,
@@ -68,13 +78,14 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
           method: KeychainKeyTypes.active,
         },
       };
-
+  
       const broadcast = await keychain.broadcast(formParamsAsObject.data as unknown as Broadcast);
-
+  
     } catch (error) {
       console.error(error);
     }
   };
+  
 
   const uploadFileToIPFS = async (file: File) => {
     try {

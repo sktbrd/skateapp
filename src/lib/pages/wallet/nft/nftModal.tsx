@@ -73,37 +73,46 @@ interface NFTModalProps {
         try {
           const keychain = new KeychainSDK(window);
         console.log(user)
-          const formParamsAsObject = {
-            data: {
-              username: user.user?.name,
-              operations: [
-                [
-                  'account_update2',
-                  {
-                    account: user.user?.name,
-                    json_metadata: '',
-                    posting_json_metadata: JSON.stringify({
-                      profile: {
-                        name: name,
-                        about: about,
-                        cover_image: coverImageUrl,
-                        profile_image: nftImageUrl ,
-                        website: website,
-                      },
-                    }),
-                    extensions: [],
-                  },
-                ],
+        const formParamsAsObject = {
+          data: {
+            username: user.user?.name,
+            operations: [
+              [
+                'account_update2',
+                {
+                  account: user.user?.name,
+                  json_metadata: JSON.stringify({
+                    profile: {
+                      name: name,
+                      about: about,
+                      cover_image: coverImageUrl,
+                      profile_image: nftImageUrl,
+                      website: website,
+                    },
+                  }),
+                  posting_json_metadata: JSON.stringify({
+                    profile: {
+                      name: name,
+                      about: about,
+                      cover_image: coverImageUrl,
+                      profile_image: nftImageUrl,
+                      website: website,
+                    },
+                  }),
+                  extensions: [],
+                },
               ],
-              method: KeychainKeyTypes.active,
-            },
-          };
-          const broadcast = await keychain.broadcast(formParamsAsObject.data as unknown as Broadcast);
-
-        } catch (error) {
-          console.error(error);
-        }
-      };
+            ],
+            method: KeychainKeyTypes.active,
+          },
+        };
+        const broadcast = await keychain.broadcast(formParamsAsObject.data as unknown as Broadcast);
+  
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
     
       const handleClickSetAvatar = () => {
         sendEditTransaction();

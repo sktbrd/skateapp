@@ -1,7 +1,6 @@
 import {useMediaQuery,AspectRatio, Image, Box, Flex, Tabs, TabList, TabPanels, Tab, TabPanel, Text, Tooltip, Button, List, ListItem, Avatar } from "@chakra-ui/react";
 import React, { useEffect, useState } from 'react';
 import HiveBlog from "../home/Feed/Feed";
-import HiveBalanceDisplay2 from "../wallet/hive/hiveBalance";
 import { useParams } from 'react-router-dom';
 import { Client } from "@hiveio/dhive";
 import styled from "@emotion/styled";
@@ -286,6 +285,7 @@ export default function AuthorProfilePage() {
   <TabPanels>
     <TabPanel>
       <HiveBlog tag={username} queryType={"blog"} />
+      
     </TabPanel>
     <TabPanel>
       <p>Account : {account}</p>

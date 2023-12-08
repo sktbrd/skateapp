@@ -42,7 +42,8 @@ export default function ProfilePage() {
         try {
           const metadata = JSON.parse(user.posting_json_metadata || '');
           const coverImage = metadata.profile.cover_image;
-          console.log(metadata)
+          console.log("8=======D", metadata)
+          console.log("8=======D",user)
 
           if (coverImage) {
             setCoverImageUrl(coverImage);

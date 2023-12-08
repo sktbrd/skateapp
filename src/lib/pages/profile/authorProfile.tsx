@@ -1,4 +1,4 @@
-import { Image, Box, Flex, Tabs, TabList, TabPanels, Tab, TabPanel, Text, Tooltip, Button, List, ListItem, Avatar } from "@chakra-ui/react";
+import {useMediaQuery,AspectRatio, Image, Box, Flex, Tabs, TabList, TabPanels, Tab, TabPanel, Text, Tooltip, Button, List, ListItem, Avatar } from "@chakra-ui/react";
 import React, { useEffect, useState } from 'react';
 import HiveBlog from "../home/Feed/Feed";
 import HiveBalanceDisplay2 from "../wallet/hive/hiveBalance";
@@ -23,6 +23,7 @@ interface Following {
 interface AuthorProfile {
   about?: string;
   cover_image?: string;
+  profile_image?: string;
   location?: string;
   name?: string;
 }
@@ -47,7 +48,9 @@ export default function AuthorProfilePage() {
   const [isFollowing, setIsFollowing] = useState(false);
   const [followers, setFollowers] = useState<Follower[]>([]); // Specify the type as Follower[]
   const [followings, setFollowings] = useState<Following[]>([]);
-  
+  const [isMobile] = useMediaQuery("(max-width: 600px)");
+  const coverAspectRatio = isMobile ? 2 : 19 / 6;
+  const [profile_image, setProfile_image] = useState<string>("https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif");
 
 
   useEffect(() => {
@@ -64,10 +67,10 @@ export default function AuthorProfilePage() {
           const coverImage = metadata.profile?.cover_image || DEFAULT_COVER_IMAGE_URL;
           setCoverImageUrl(coverImage);
           setAuthorAbout(authorAbout);
+          setProfile_image(metadata.profile?.profile_image || DEFAULT_COVER_IMAGE_URL);
           const witnessVotes = author_account[0].witness_votes;
           const hasVotedWitness = witnessVotes.includes('skatehive');
           setHasVotedWitness(hasVotedWitness);
-          const response = await client.database.getAccounts([authorName])
 
         } catch (error) {
           console.error('Error fetching author metadata:', error);
@@ -76,7 +79,7 @@ export default function AuthorProfilePage() {
     };
 
     fetchAccountInfo();
-  }, [username]);
+  }, [user]);
 
   async function getRelationshipBetweenAccounts(account1:any, account2:any) {
     try {
@@ -123,10 +126,7 @@ export default function AuthorProfilePage() {
   
 
 
-  useEffect(() => {
-    const loggeduser = user?.user?.name;
 
-  }, [user]);
   useEffect(() => {
     // Fetch the relationship between the author and the logged-in user
     if (user && authorName) {
@@ -176,7 +176,7 @@ export default function AuthorProfilePage() {
               ]
             }
           ]),
-          "display_msg": "Follow pharra"
+          "display_msg": "Follow User"
         }
       }
     
@@ -191,52 +191,78 @@ export default function AuthorProfilePage() {
 
   return (
     <Box
-      fontFamily="'Courier New', monospace"
-      position="relative"
-      overflow="hidden"
-      maxWidth="100%"  
-      margin="0 auto"     
-    >
-      <Image src={coverImageUrl} alt="Cover Image" maxH="340px" width="100%" objectFit="cover" />
+    fontFamily="'Courier New', monospace"
+    overflow="hidden"
+    maxWidth="100%"
+    margin="0"
+    backgroundColor="transparent"
+  >
+
+<AspectRatio ratio={coverAspectRatio}>
+        <Image src={coverImageUrl} alt="Cover Image" objectFit="cover" border="0px solid" />
+      </AspectRatio>
+
       <Flex alignItems="center" justifyContent="center" padding="10px" position="relative" zIndex="1">
-      <Button marginLeft="75%"  border={"1px solid white"} bg={"transparent"} color={"white"} zIndex="1" position="absolute" _hover={{bg:"black"}} onClick={handleFollow}>
-        {isFollowing ? "Unfollow" : "Follow"}
-      </Button>
-      <Box
+        <Button marginLeft="75%" border={"1px solid white"} bg={"transparent"} color={"white"} zIndex="1" position="absolute" _hover={{ bg: "black" }} onClick={handleFollow}>
+          {isFollowing ? "Unfollow" : "Follow"}
+        </Button>
+        <Box
           position="absolute"
           left="50%"
           transform="translate(-50%, -65%)"
-          borderRadius="20%"
-          boxSize="192px"
-          bg="white"
-          boxShadow="0px 2px 6px rgba(0, 0, 0, 0.1)"
+          zIndex="1" // Set the z-index on the container
         >
-
-          <Image
-            src={`https://images.hive.blog/u/${authorName}/avatar`}
-            alt="profile avatar"
-            borderRadius="10%"
+          <Box
+            borderRadius={profile_image.includes('storage.googleapis.com/zapper-fi-assets/nfts') ? '20%' : '50%'}
+            clipPath={profile_image.includes('storage.googleapis.com/zapper-fi-assets/nfts') ?
+            'polygon(50% 0%, 100% 15%, 100% 85%, 50% 100%, 0% 85%, 0% 15%)' : ''}
             boxSize="192px"
-            border="2px solid limegreen"
-          />
-          {/* Conditional rendering for verification badge */}
-          {hasVotedWitness && (
-            <Tooltip label="This person knows stuff! (S)he Voted on our Hive Validator" aria-label="Verified Badge">
+            overflow="hidden"
+            border={profile_image.includes('storage.googleapis.com/zapper-fi-assets/nfts') ? '0px solid lightblue' : '2px solid limegreen'}
+            position="relative" // Ensure the positioning context
+          >
+            {/* "NFT" string for NFT profile pictures */}
+
             <Image
-              src="https://www.stoken.quest/images/coinspin.gif"
-              alt="Verified Badge"
-              position="absolute"
-              right="-4"
-              bottom="-3"
-              boxSize="48px" 
+              src={profile_image}
+              alt="profile avatar"
+              boxSize="100%"
+              objectFit="cover"
             />
-            </Tooltip>
-          )}
+          </Box>
+          {/* Direct rendering of the GIF */}
+
+                      {profile_image.includes('storage.googleapis.com/zapper-fi-assets/nfts') && (
+              <Box
+                position="absolute"
+                right="80%" // Set the left side to be the right side of the profile picture
+                top="70%"
+                transform="translate(-50%, -50%)" // Center vertically
+                backgroundColor="black"
+                color="white"
+                padding="2px 4px"
+                borderRadius="4px"
+                zIndex="2" // Ensure it's above the profile picture
+              >
+                NFT
+              </Box>
+            )}
         </Box>
+
+
+
         <center>
           <Text  fontSize={"26px"}> {authorName}</Text>
         </center>
-
+        {hasVotedWitness && (
+            <Image
+              src="https://www.stoken.quest/images/coinspin.gif"
+              alt="Verified Badge"
+              boxSize="48px"
+              position="absolute"
+              left={isMobile ? "60%" : "55%"}
+            />
+          )}
       </Flex>
       <Box marginTop={"10px"}>
 

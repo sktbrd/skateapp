@@ -72,8 +72,9 @@ const HeaderNew = () => {
   const [totalNetWorth, setTotalNetWorth] = useState<number | null>(0.00);
   const [ evmWallet, setEvmWallet ] = useState<string | null>(null);
   const { api, app, context, assetContext, blockchainContext, pubkeyContext, status } = state;
-
+  const [gnarsNFTsCount, setGnarsNFTsCount] = useState<number | null>(0);
   const [wallet_address, setWalletAddress] = useState<string | null>(null);
+  const isDesktop = useBreakpointValue({ base: false, md: true });
 
   const onLoad = async function () {
     try {
@@ -94,25 +95,46 @@ const HeaderNew = () => {
 
 
   useEffect(() => {
-      const fetchData = async () => {
-          try {
-              if (!wallet_address === null) {
-                  console.error("Wallet prop is undefined or null");
-                  return;
-              }
-              else {
-
-                const response = await axios.get(`https://swaps.pro/api/v1/portfolio/${wallet_address}`);
-                setTotalNetWorth(response.data.totalNetWorth)
-              }
-              } catch (error) {
-                console.error('Error fetching data:', error);
-              }
-      };
-
-      fetchData();
+    const fetchData = async () => {
+      try {
+        if (!wallet_address) {
+          console.error("Wallet prop is undefined or null");
+          return;
+        }
+  
+        const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address}`);
+        console.log("Header response", response.data.nfts);
+  
+        // Count the number of NFTs from the "Gnars" collection
+        const gnarsNFTsCount = response.data.nfts.reduce((count: any, nft: any) => {
+          if (
+            nft.token &&
+            nft.token.collection &&
+            nft.token.collection.address === "0x558bfff0d583416f7c4e380625c7865821b8e95c" &&
+            nft.token.collection.name === "Gnars"
+          ) {
+            console.log("Matching NFT:", nft.token);
+            return count + 1;
+          } else {
+            console.log("Non-matching NFT:", nft.token);
+          }
+          return count;
+        }, 0);
+  
+        console.log("Number of Gnars NFTs:", gnarsNFTsCount);
+  
+        setTotalNetWorth(response.data.totalNetWorth);
+        setGnarsNFTsCount(gnarsNFTsCount);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    fetchData();
   }, [wallet_address]);
+  
 
+  
 
 
   useEffect(() => {
@@ -374,30 +396,21 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       {/* Dropdown button */}
       <Box>
       <ChakraLink as={RouterLink} to="/wallet">
-      <Tooltip label="Total Networth counting tokens + NFT Value" aria-label="EVM Wallet">
-      <Button
-        backgroundColor="black"
-        border="limegreen 2px solid"
-        color="orange"
-        >
-          <Image marginRight={"10px"} boxSize={"22px"} src="https://www.gnars.wtf/images/logo.png"></Image> {totalNetWorth?.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>Gnars</Text>
+  {isDesktop && (
+    <Tooltip label="Total Networth counting tokens + NFT Value" aria-label="EVM Wallet">
+      <Button backgroundColor="black" border="limegreen 2px solid" color="orange">
+        <Image marginRight={"10px"} boxSize={"22px"} src="https://www.gnars.wtf/images/logo.png"></Image> {gnarsNFTsCount} <Text color="white" style={{ marginLeft: '5px' }}>Gnars</Text>
       </Button>
-      </Tooltip>
-      <Tooltip label="Hive Wallet Tokens in USD" aria-label="Wallet">
-      <Button
-        backgroundColor="black"
-        border="limegreen 2px solid"
-        color="orange"
-        >
-           <Image 
-           marginRight={"10px"} 
-           boxSize={"22px"} 
-           src="https://cryptologos.cc/logos/hive-blockchain-hive-logo.png?v=026"
-           />
-             {totalWorth.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
-          </Button>
-          </Tooltip>
-    </ChakraLink>
+    </Tooltip>
+  )}
+  <Tooltip label="Hive Wallet Tokens in USD" aria-label="Wallet">
+    <Button backgroundColor="black" border="limegreen 2px solid" color="orange">
+      <Image marginRight={"10px"} boxSize={"22px"} src="https://cryptologos.cc/logos/hive-blockchain-hive-logo.png?v=026" />
+      {totalWorth.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
+    </Button>
+  </Tooltip>
+</ChakraLink>
+
       </Box>
     
       </Flex>

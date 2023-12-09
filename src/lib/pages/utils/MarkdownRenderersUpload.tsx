@@ -117,7 +117,7 @@ pre: ({ children, ...props }: RendererProps) => (
     <iframe
       {...props}
       src={src}
-      style={{ borderRadius: '10px', marginBottom: '20px', border:'1px yellow solid', minWidth: '600px', minHeight: '400px'}}
+      style={{ borderRadius: '10px', marginBottom: '20px', border:'1px yellow solid', width: '400px', height: '200px'}}
     />
     </span>
   ),
@@ -131,7 +131,7 @@ video: ({ src, ...props }: RendererProps) => (
     <video
       {...props}
       src={src}
-      style={{ borderRadius: '10px', marginBottom: '20px', border:'2px yellow solid', minWidth: '60%', minHeight: '40%'}}
+      style={{ borderRadius: '10px', marginBottom: '20px', border:'2px yellow solid', minWidth: '600px', minHeight: '400px'}}
     />
   </div>
 ),

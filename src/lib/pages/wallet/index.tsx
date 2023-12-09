@@ -21,6 +21,7 @@ import * as Types from './nft/types';
 import TestEvm from './testEvm/testEvm';
 import PortfolioPage from './evm/pioneerBalance';
 import SwapComponent from './hive/hiveSwapModal';
+import GnarsNfts from './nft/gnarsNfts';
 
 
 const Wallet = () => {
@@ -54,7 +55,7 @@ const Wallet = () => {
     <Tabs color="limegreen" variant="enclosed">
       <TabList justifyContent="center">
         <Tab>Tokens</Tab>
-        <Tab>NFTs</Tab>
+        <Tab>All NFTs</Tab>
       </TabList>
 
       <TabPanels>
@@ -78,7 +79,8 @@ const Wallet = () => {
     ml={{ base: 0, md: 4 }}
     width={{ base: '100%', md: '50%' }} // Full width on small screens, 50% width on medium and larger
   >
-    <PortfolioPage wallet_address={ETHaddress} />
+    <GnarsNfts />
+    {/* <PortfolioPage wallet_address={ETHaddress} /> */}
   </Box>
 
 </Flex>

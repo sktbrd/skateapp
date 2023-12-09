@@ -380,7 +380,7 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         border="limegreen 2px solid"
         color="orange"
         >
-          <Image marginRight={"10px"} boxSize={"22px"} src="https://cdn.freebiesupply.com/logos/large/2x/ethereum-1-logo-png-transparent.png"></Image> {totalNetWorth?.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>USD</Text>
+          <Image marginRight={"10px"} boxSize={"22px"} src="https://www.gnars.wtf/images/logo.png"></Image> {totalNetWorth?.toFixed(2)} <Text color="white" style={{ marginLeft: '5px' }}>Gnars</Text>
       </Button>
       </Tooltip>
       <Tooltip label="Hive Wallet Tokens in USD" aria-label="Wallet">

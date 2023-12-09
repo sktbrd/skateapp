@@ -197,61 +197,62 @@ export default function AuthorProfilePage() {
       </AspectRatio>
 
       <Flex alignItems="center" justifyContent="center" padding="10px" position="relative" zIndex="1">
-  <Button marginLeft="75%" border={"1px solid white"} bg={"transparent"} color={"white"} zIndex="1" position="absolute" _hover={{ bg: "black" }} onClick={handleFollow}>
-    {isFollowing ? "Unfollow" : "Follow"}
-  </Button>
+        <Button marginLeft="75%" border={"1px solid white"} bg={"transparent"} color={"white"} zIndex="1" position="absolute" _hover={{ bg: "black" }} onClick={handleFollow}>
+          {isFollowing ? "Unfollow" : "Follow"}
+        </Button>
 
-  {/* Move the NFT GIF here */}
-  <Image 
-    src={"https://i.gifer.com/origin/a9/a95ef9bce2a1d53accc6a8018df04ff6_w200.gif"}
-    alt="NFT background"
-    boxSize="320px"
-    zIndex={"0"}
-    left={"58%"}
-    transform={"translate(-100%, -65%)"}
-    position="absolute"
-  />
+        {/* Check if it's an NFT profile before rendering the NFT background */}
+        {profile_image.includes('storage.googleapis.com/zapper-fi-assets/nfts') && (
+          <Image 
+            src={"https://i.gifer.com/origin/a9/a95ef9bce2a1d53accc6a8018df04ff6_w200.gif"}
+            alt="NFT background"
+            boxSize="320px"
+            zIndex={"0"}
+            left={"58%"}
+            transform={"translate(-100%, -65%)"}
+            position="absolute"
+          />
+        )}
 
-  <Box
-    position="absolute"
-    left="50%"
-    transform="translate(-50%, -65%)"
-    zIndex="1"
-  >
+        <Box
+          position="absolute"
+          left="50%"
+          transform="translate(-50%, -65%)"
+          zIndex="1"
+        >
 
-    <Box
-      borderRadius={profile_image.includes('storage.googleapis.com/zapper-fi-assets/nfts') ? '20%' : '50%'}
-      clipPath={profile_image.includes('storage.googleapis.com/zapper-fi-assets/nfts') ?
-        'polygon(50% 0%, 100% 15%, 100% 85%, 50% 100%, 0% 85%, 0% 15%)' : ''}
-      boxSize="192px"
-      overflow="hidden"
-      border={profile_image.includes('storage.googleapis.com/zapper-fi-assets/nfts') ? '0px solid lightblue' : '2px solid limegreen'}
-      position="relative"
-    >
-      <Image
-        src={profile_image}
-        alt="profile avatar"
-        boxSize="100%"
-        objectFit="cover"
-      />
-    </Box>
-    {profile_image.includes('storage.googleapis.com/zapper-fi-assets/nfts') && (
-      <Box
-        position="absolute"
-        right="80%"
-        top="70%"
-        transform="translate(-50%, -50%)"
-        backgroundColor="black"
-        color="white"
-        padding="2px 4px"
-        borderRadius="4px"
-        zIndex="2"
-      >
-        NFT
-      </Box>
-    )}
-  </Box>
-
+          <Box
+            borderRadius={profile_image.includes('storage.googleapis.com/zapper-fi-assets/nfts') ? '20%' : '50%'}
+            clipPath={profile_image.includes('storage.googleapis.com/zapper-fi-assets/nfts') ?
+              'polygon(50% 0%, 100% 15%, 100% 85%, 50% 100%, 0% 85%, 0% 15%)' : ''}
+            boxSize="192px"
+            overflow="hidden"
+            border={profile_image.includes('storage.googleapis.com/zapper-fi-assets/nfts') ? '0px solid lightblue' : '2px solid limegreen'}
+            position="relative"
+          >
+            <Image
+              src={profile_image}
+              alt="profile avatar"
+              boxSize="100%"
+              objectFit="cover"
+            />
+          </Box>
+          {profile_image.includes('storage.googleapis.com/zapper-fi-assets/nfts') && (
+            <Box
+              position="absolute"
+              right="80%"
+              top="70%"
+              transform="translate(-50%, -50%)"
+              backgroundColor="black"
+              color="white"
+              padding="2px 4px"
+              borderRadius="4px"
+              zIndex="2"
+            >
+              NFT
+            </Box>
+          )}
+        </Box>
 
         <center>
           <Text fontSize={"26px"}> {authorName}</Text>

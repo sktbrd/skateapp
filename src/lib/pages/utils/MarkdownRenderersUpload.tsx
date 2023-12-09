@@ -126,7 +126,15 @@ pre: ({ children, ...props }: RendererProps) => (
       <table {...props}>{children}</table>
     </div>
 ),
-
+video: ({ src, ...props }: RendererProps) => (
+  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop:'10px' , minWidth: '100%', minHeight: 'auto'}}>
+    <video
+      {...props}
+      src={src}
+      style={{ borderRadius: '10px', marginBottom: '20px', border:'2px yellow solid', minWidth: '60%', minHeight: '40%'}}
+    />
+  </div>
+),
 
 tbody: ({ children, ...props }: RendererProps) => (
   <tbody {...props}>{children}</tbody>

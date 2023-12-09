@@ -16,6 +16,7 @@ import {
   ModalContent,
   useDisclosure,
   Tooltip,
+  HStack,
 } from "@chakra-ui/react";
 import { Client } from "@hiveio/dhive";
 import voteOnContent from "../api/voting";
@@ -29,9 +30,13 @@ import { useNavigate, Link } from "react-router-dom";
 import * as Types from "./types";
 import { css } from "@emotion/react";
 
-import EarningsModal from "./postModal/earningsModal"; // Replace with the correct path to EarningsModal
+import EarningsModal from "./postModal/earningsModal"; 
+import CommunityTotalPayout from "../dao/commmunityPayout";
+import CommunityStats from "../dao/communityStats";
 import { MdArrowUpward } from 'react-icons/md';
-import { Style } from "util";
+
+import { useBreakpointValue } from "@chakra-ui/react";
+
 interface ErrorModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -471,10 +476,12 @@ const getVotedHoverProperties = (post: any) => {
     border: "2px solid darkgreen" 
   };
 }
+const isMobile = useBreakpointValue({ base: true, md: false });
 
 
 return (
-  <Box>
+  <Box
+  marginTop={"0"}>
     {isLoadingInitial ? (
       <PlaceholderLoadingBar />
     ) : (
@@ -484,6 +491,12 @@ return (
           onClose={() => setIsErrorModalOpen(false)}
           errorMessage={errorMessage}
         />
+          <HStack justifyContent="center" marginBottom="10px">
+            <CommunityTotalPayout communityTag={tag} />
+            {/* Conditionally render CommunityStats based on the current breakpoint */}
+            {!isMobile && <CommunityStats communityTag="hive-173115" />}
+          </HStack>
+
         <Box
           display="grid"
           gridTemplateColumns={`repeat(${gridColumns}, minmax(280px, 1fr))`}
@@ -692,7 +705,7 @@ return (
                     
                   />
 
-                                  </Tooltip>
+                  </Tooltip>
 
                 </Box>
                 

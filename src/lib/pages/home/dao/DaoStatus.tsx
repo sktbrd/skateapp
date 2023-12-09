@@ -40,7 +40,6 @@ const DaoStatus = () => {
             {activeTab === "skatehive" && (
               <div>
 
-              <CommunityStats communityTag="hive-173115" />
               <center>
 
               <Flex maxWidth={"90%"}

@@ -19,6 +19,7 @@ import UploadPage from '../upload';
 import CommunityStats from './dao/communityStats';
 import CommunityTotalPayout from './dao/commmunityPayout'
 import { useBreakpointValue } from '@chakra-ui/react';
+import NewFeature from './dao/newFeature';
 const Home = () => {
   const { selectedIndex, ...tabProps } = useTabs({isLazy: true});
 
@@ -75,6 +76,7 @@ const Home = () => {
           <HStack justifyContent="center" marginBottom="10px">
             <CommunityTotalPayout communityTag={"hive-173115"} />
             {!isMobile && <CommunityStats communityTag="hive-173115" />}
+            {!isMobile && <NewFeature  />}
           </HStack>
 
             <HiveBlog />

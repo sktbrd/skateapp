@@ -7,6 +7,8 @@ import {
   Tab,
   TabPanel,
   useTabs,
+  HStack,
+  
 } from '@chakra-ui/react';
 import HiveBlog from './Feed/Feed';
 import HiveVideos from './videos/FeedVideo';
@@ -14,11 +16,14 @@ import SkatehiveProposals from './dao/snapshot';
 import Chat from './chat';
 import QFS from '../qfs';
 import UploadPage from '../upload';
-
+import CommunityStats from './dao/communityStats';
+import CommunityTotalPayout from './dao/commmunityPayout'
+import { useBreakpointValue } from '@chakra-ui/react';
 const Home = () => {
   const { selectedIndex, ...tabProps } = useTabs({isLazy: true});
 
   const isBigScreen = window.innerWidth >= 768; // Define a breakpoint for big screens
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
     <Flex
@@ -67,6 +72,11 @@ const Home = () => {
         </TabList>
         <TabPanels>
           <TabPanel>
+          <HStack justifyContent="center" marginBottom="10px">
+            <CommunityTotalPayout communityTag={"hive-173115"} />
+            {!isMobile && <CommunityStats communityTag="hive-173115" />}
+          </HStack>
+
             <HiveBlog />
           </TabPanel>
           {/* <TabPanel>

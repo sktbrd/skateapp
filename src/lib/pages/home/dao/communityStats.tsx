@@ -86,7 +86,7 @@ const CommunityStats: React.FC<{ communityTag: string }> = ({ communityTag }) =>
 
                 <Text m="-2px" fontSize="28px">📜</Text>
                 <Text fontSize={"18px"} fontWeight="bold"  color="black">{communityStats.numberOfPosts}</Text>
-                <Text fontSize="8px" marginLeft={"-5px"} marginTop={"8px"} color={"black"}> Posts this Round</Text>
+                <Text fontSize="8px" marginLeft={"-5px"} marginTop={"8px"} color={"black"}> Posts/Comments this Round</Text>
                 </HStack>
               </center>
             </Flex>

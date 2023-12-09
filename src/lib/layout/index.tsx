@@ -17,7 +17,7 @@ const Layout = ({ children }: LayoutProps) => {
       <HeaderNew />
         <Meta />
 
-        <Flex wrap="wrap" margin="0" >
+        <Flex wrap="wrap" margin="0" minHeight="90vh">
           <Box  width="full" as="main" marginY={-5}>
             {children}
             <Analytics />

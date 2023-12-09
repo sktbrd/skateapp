@@ -476,7 +476,6 @@ const getVotedHoverProperties = (post: any) => {
     border: "2px solid darkgreen" 
   };
 }
-const isMobile = useBreakpointValue({ base: true, md: false });
 
 
 return (
@@ -491,11 +490,6 @@ return (
           onClose={() => setIsErrorModalOpen(false)}
           errorMessage={errorMessage}
         />
-          <HStack justifyContent="center" marginBottom="10px">
-            <CommunityTotalPayout communityTag={tag} />
-            {/* Conditionally render CommunityStats based on the current breakpoint */}
-            {!isMobile && <CommunityStats communityTag="hive-173115" />}
-          </HStack>
 
         <Box
           display="grid"

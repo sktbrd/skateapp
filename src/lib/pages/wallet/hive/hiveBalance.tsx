@@ -126,13 +126,9 @@ export default function HiveBalanceDisplay2() {
     receivedVestingShares: string
   ) => {
     const vestingSharesFloat = parseFloat(vestingShares.split(" ")[0]);
-    console.log("vestingSharesFloat", vestingSharesFloat)
     const delegatedVestingSharesFloat = parseFloat(delegatedVestingShares.split(" ")[0]);
-    console.log("delegatedVestingSharesFloat", delegatedVestingSharesFloat)
     const receivedVestingSharesFloat = parseFloat(receivedVestingShares.split(" ")[0]);
-    console.log("receivedVestingSharesFloat", receivedVestingSharesFloat)
     const availableVESTS = vestingSharesFloat - delegatedVestingSharesFloat ;
-    console.log("availableVESTS", availableVESTS)
 
     const response = await fetch('https://api.hive.blog', {
       method: 'POST',

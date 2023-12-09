@@ -33,7 +33,8 @@ const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose }) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await loginWithHive(username);
+    const lowerCaseUsername = username.toLowerCase();
+    await loginWithHive(lowerCaseUsername);
     setUsername("");
     onClose();
   };
@@ -99,7 +100,7 @@ const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose }) => {
                   Login
                 </Button>
                 <Button border="1px solid orange" type="button" onClick={handleSignUp}>
-                  Ask Help
+                  Help me
                 </Button>
               </Flex>
             </>

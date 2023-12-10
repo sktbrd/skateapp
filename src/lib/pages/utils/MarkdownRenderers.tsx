@@ -105,20 +105,20 @@ pre: ({ children, ...props }: RendererProps) => (
 ),
 
 
-  iframe: ({ src, ...props }: RendererProps) => (
-    <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop:'10px' }}>
+iframe: ({ src, ...props }: RendererProps) => (
+  <span style={{ display: 'flex', justifyContent: 'center',  alignItems: 'center', paddingTop:'10px',minWidth: '100%', minHeight:"100%" }}>
 
-    <iframe
-      {...props}
-      src={src}
-      style={{ borderRadius: '10px', marginBottom: '10px',  minWidth: '100%', maxWidth: '100%', minHeight: '400px', maxHeight: '400px' }}
-    />
-    </span>
-  ),
-  table: ({ children, ...props }: RendererProps) => (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <table {...props}>{children}</table>
-    </div>
+  <iframe
+    {...props}
+    src={src}
+    style={{ borderRadius: '20px', marginBottom: '10px',  minWidth: '100%', minHeight: '352px'  }}
+  />
+  </span>
+),
+table: ({ children, ...props }: RendererProps) => (
+  <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <table {...props}>{children}</table>
+  </div>
 ),
 video: ({ src, ...props }: RendererProps) => (
   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop:'10px' , minWidth: '100%', minHeight: 'auto'}}>

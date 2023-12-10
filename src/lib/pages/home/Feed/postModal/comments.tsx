@@ -72,7 +72,7 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
                     color={"yellow"}
                     border={"1px dashed yellow"}
                 >
-                <Badge marginBottom={"27px"} colorScheme="yellow" fontSize="sm">  {(payout)} HBD</Badge>
+                <Badge marginBottom={"27px"} colorScheme="yellow" fontSize="sm">  {(payout)} USD</Badge>
                 </Tooltip>
                 </Flex>
                 <ReactMarkdown 

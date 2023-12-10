@@ -4,11 +4,13 @@ import { Box, Text, Grid, Flex, Image, VStack, Button } from "@chakra-ui/react";
 import { Pioneer } from "@pioneer-platform/pioneer-react";
 import NFTModal from "./nftModal";
 import useAuthUser from "../hive/useAuthUser";
-
+import { formatWalletAddress } from "lib/pages/utils/formatWallet";
 import {
   usePioneer,
   // @ts-ignore
 } from "@pioneer-platform/pioneer-react";
+
+import SkatehiveOG from "./skatehiveOG";
 
 type NFT = {
   token: {
@@ -39,21 +41,32 @@ const GnarsNfts = () => {
   const [selectedNFTName, setSelectedNFTName] = useState<string>("");
   const [selectedNFTCollection, setSelectedNFTCollection] = useState<string>("");
   const user = useAuthUser();
-  console.log("USEEER: ", user)
+  const [totalNetWorth, setTotalNetWorth] = useState<number | null>(null);
+  const [selectedWallet, setSelectedWallet] = useState<string>("");
+
+
   const onStart = async function () {
     try {
       if (app) {
         const currentAddress = app.wallets[0].wallet.accounts[0];
+        setSelectedWallet(app.wallets[0].type)
         setETHAddress(currentAddress);
       }
       if (ETHaddress) {
         const portfolio = await api.GetPortfolio({ address: ETHaddress.toUpperCase() });
-        setUserPortfolios(portfolio.data.nfts);
+        if (portfolio && portfolio.data) {
+          setTotalNetWorth(portfolio.data.totalNetWorth);
+          console.log(portfolio.data)
+          setUserPortfolios(portfolio.data.nfts);
+        } else {
+          console.error("Invalid portfolio response:", portfolio);
+        }
       }
     } catch (e) {
       console.error(e);
     }
   };
+  
 
   useEffect(() => {
     onStart();
@@ -61,14 +74,13 @@ const GnarsNfts = () => {
 
   useEffect(() => {
     onStart();
-    console.log("loaded");
   }, [ETHaddress]);
 
   const handleClickNFT = (nft: NFT) => {
     setIsModalOpen(true);
-    setSelectedNFTImageUrl(nft.token.medias[0]?.originalUrl || ""); // Set the selectedNFTImageUrl
-    setSelectedNFTName(nft.token.collection.name || ""); // Set the selectedNFTName
-    setSelectedNFTCollection(nft.token.collection.address || ""); // Set the selectedNFTCollection
+    setSelectedNFTImageUrl(nft.token.medias[0]?.originalUrl || ""); 
+    setSelectedNFTName(nft.token.collection.name || ""); 
+    setSelectedNFTCollection(nft.token.collection.address || "");
   };
 
   return (
@@ -82,14 +94,16 @@ const GnarsNfts = () => {
           nftCollection={selectedNFTCollection}
         />
       )}
-
-      <Box>
+<Box>
+  <SkatehiveOG wallet={ETHaddress} />
+      <Box border={"1px solid white"} marginBottom={"10px"} p={"5px"} borderRadius={"10px"}>
         <center>
           <Pioneer />
           <p>Selected Wallet</p>
-          <p>{ETHaddress}</p>
+          <Text color="yellow">{formatWalletAddress(ETHaddress)}</Text>
+          <Text color="white">Total Net Worth: {totalNetWorth?.toFixed(2)} USD in your {selectedWallet} </Text>
         </center>
-
+        </Box>
         <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={4}>
           {userPortfolios
             .filter((nft) => nft.token.collection.name === "Gnars")

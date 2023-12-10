@@ -103,7 +103,6 @@ const HeaderNew = () => {
         }
   
         const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address}`);
-        console.log("Header response", response.data.nfts);
   
         // Count the number of NFTs from the "Gnars" collection
         const gnarsNFTsCount = response.data.nfts.reduce((count: any, nft: any) => {
@@ -113,15 +112,11 @@ const HeaderNew = () => {
             nft.token.collection.address === "0x558bfff0d583416f7c4e380625c7865821b8e95c" &&
             nft.token.collection.name === "Gnars"
           ) {
-            console.log("Matching NFT:", nft.token);
             return count + 1;
-          } else {
-            console.log("Non-matching NFT:", nft.token);
           }
           return count;
         }, 0);
   
-        console.log("Number of Gnars NFTs:", gnarsNFTsCount);
   
         setTotalNetWorth(response.data.totalNetWorth);
         setGnarsNFTsCount(gnarsNFTsCount);

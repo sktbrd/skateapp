@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Text, Image, Flex, Button, Tooltip } from '@chakra-ui/react';
+import { Box, Text, Image, Flex, Button, Tooltip, Badge } from '@chakra-ui/react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
@@ -12,7 +12,7 @@ import * as Types from '../types';
 // import comment box
 import CommentBox from './commentBox';
 
-const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_votes, permlink, repliesFetched }) => {
+const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_votes, permlink, repliesFetched,payout }) => {
     const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
     const { user } = useAuthUser();
     const [localNetVotes, setNetVotes] = useState(net_votes);
@@ -59,9 +59,21 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
     return (
         <Box>
             <Box border="1px solid gray" borderRadius="10px" padding="15px" margin="10px">
+                <Flex justifyContent="space-between" alignItems="">
                 <Flex padding="5px" alignItems="center">
                     <Image src={avatarUrl} borderRadius="full" boxSize="40px" mr="3" />
                     <Text fontWeight="bold">@{author}</Text>
+                </Flex>
+                <Tooltip
+                    label="Yes you can earn $ by commenting, make sure you comment cool stuff that people will fire up!"
+                    aria-label="A tooltip"
+                    placement="top"
+                    bg={"black"}
+                    color={"yellow"}
+                    border={"1px dashed yellow"}
+                >
+                <Badge marginBottom={"27px"} colorScheme="yellow" fontSize="sm">  {(payout)} HBD</Badge>
+                </Tooltip>
                 </Flex>
                 <ReactMarkdown 
                     children={body}
@@ -92,6 +104,7 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
                         </Button>
                         
                         <Button leftIcon={<span></span>} variant="outline" size="sm" onClick={handleVote}>
+
                             <img
                                 src='https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless'
                                 alt="Vote"
@@ -102,6 +115,7 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
                                 }}
                             />
                             <p>{localNetVotes}</p>
+
                         </Button>
                     </Flex>
                 </Flex>

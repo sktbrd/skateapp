@@ -42,7 +42,7 @@ const nodes = [
 
 import { transformGiphyLinksToMarkdown } from 'lib/pages/utils/ImageUtils';
 import { transform3SpeakContent } from 'lib/pages/utils/videoUtils/transform3speak';
-
+import { slugify } from 'lib/pages/utils/videoUtils/slugify';
 const PostModal: React.FC<Types.PostModalProps> = ({
   isOpen,
   onClose,
@@ -82,8 +82,6 @@ const PostModal: React.FC<Types.PostModalProps> = ({
         return transformedContent;
   }
   
-
-
   // Save edited content handler
   const handleSaveClick = () => {
     // TODO: Implement the logic to save the edited content to Hive
@@ -140,17 +138,8 @@ const PostModal: React.FC<Types.PostModalProps> = ({
     setEditedContent(content); // Reset to original content
   };  
   
-  function slugify(text: string) {
-    return text
-        .toString()
-        .toLowerCase()
-        .replace(/\s+/g, '-')           // Replace spaces with -
-        .replace(/[^\w\-]+/g, '')       // Remove all non-word characters
-        .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-        .replace(/^-+/, '')             // Trim - from start of text
-        .replace(/-+$/, '');            // Trim - from end of text
-  };
-// TO DO : Add the tags and the parent permlink to the post
+
+// TODO : Add the tags and the parent permlink to the post
   const handleSaveEdit = () => {
     const username = user?.name; // Get the username from the authenticated user
     if (username && window.hive_keychain) {
@@ -248,13 +237,12 @@ const handleViewFullPost = (event:any) => {
 const cleanUrl = generatePostUrl().replace(window.location.origin, '');
 
 const postLink = window.location.protocol + '//' + postUrl;
-
+console.log("POSTDATA: ",postData)
 const [postLinkCopied, setPostLinkCopied] = useState(false);
 
 const handleCopyPostLink = () => {
   try {
     const postPageUrl = generatePostUrl();
-    console.log(postPageUrl)
     navigator.clipboard.writeText(postPageUrl);
     setPostLinkCopied(true);
     //wait 3 seconds

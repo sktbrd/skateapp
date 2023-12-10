@@ -25,6 +25,8 @@ repliesFetched?: []; // for child comments
 limit: number;
 blockedUser: string;
 parent_permlink: string;
+payout: number;
+
 }
 
 export interface CommentsProps {

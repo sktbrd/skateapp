@@ -67,9 +67,11 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
           ) : (
             <>
               <Text fontSize="lg" fontWeight="bold" color="gray.500" mb="2">
-                NFT Balance
+                Skatehive OG Balance : {userBalance} 
               </Text>
-              <Text color="gray.500">{`Balance: ${userBalance}`}</Text>
+              <Text>
+                Total Votes: 50 + Gnars (gonna code that later, for now, just hardcode it, I am sleepy)
+              </Text>
             </>
           )}
         </Box>

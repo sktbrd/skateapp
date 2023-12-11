@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { Box, Text, Flex, Image, Button } from "@chakra-ui/react";
+import { Box, Text, Flex, Image, Button, Tooltip } from "@chakra-ui/react";
 import ERC1155_ABI from "./skthvOG_abi.json";
-
+import ERC721_ABI from "./gnars_abi.json";
 const skthv_contract = "0x3dEd025e441730e26AB28803353E4471669a3065";
 const skthv_proxy_contract = "0x3ded025e441730e26ab28803353e4471669a3065";
+// Gnars Contract 
+const gnars_contract = "0x558BFFF0D583416f7C4e380625c7865821b8E95C";
 
 const SkatehiveOG = ({ wallet }: { wallet: string }) => {
   const [totalDelegatedVotes, setTotalDelegatedVotes] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
   const [userBalance, setUserBalance] = useState<string | undefined>(undefined);
+  const [userGnarsBalance, setUserGnarsBalance] = useState<string | undefined>(undefined);
+  const [userVotes, setUserVotes] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     async function fetchWalletData() {
@@ -19,9 +23,15 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
         );
         const skthvProxyContract = new ethers.Contract(skthv_proxy_contract, ERC1155_ABI, provider);
 
-        const balance = await skthvProxyContract.balanceOf(wallet, 1);
-        const readableBalance = ethers.utils.formatUnits(balance, 0);
-        setUserBalance(readableBalance);
+        const gnarsContract = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
+        const gnarsBalance = await gnarsContract.balanceOf(wallet);
+        const readableGnarsBalance = ethers.utils.formatUnits(gnarsBalance, 0);
+        const skatehiveOGbalance = await skthvProxyContract.balanceOf(wallet, 1);
+        const readableOGBalance = ethers.utils.formatUnits(skatehiveOGbalance, 0);
+        setUserVotes(50*parseFloat(readableOGBalance) + parseFloat(readableGnarsBalance));
+        setUserGnarsBalance(readableGnarsBalance);
+        setUserBalance(readableOGBalance);
+        console.log(userVotes);  
       } catch (error) {
         console.error(error);
       }
@@ -36,13 +46,14 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
   };
 
   return (
-    <Flex key={wallet} align="center" marginBottom="10px">
+    <Flex key={wallet} align="center">
       <Box
         width="100%"
         border="1px solid yellow"
         borderRadius="lg"
         overflow="hidden"
         display="flex"
+        p="4"
         alignItems="center" // Center the content vertically
       >
         <Image
@@ -69,9 +80,11 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
               <Text fontSize="lg" fontWeight="bold" color="gray.500" mb="2">
                 Skatehive OG Balance : {userBalance} 
               </Text>
+              <Tooltip label="50 votes per Skatehive OG + 1 vote per Gnar">
               <Text>
-                Total Votes: 50 + Gnars (gonna code that later, for now, just hardcode it, I am sleepy)
+                Total Votes: {userVotes}
               </Text>
+              </Tooltip>
             </>
           )}
         </Box>

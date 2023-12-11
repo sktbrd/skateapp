@@ -67,6 +67,7 @@ weight: number;
 comments: CommentProps[];
 postUrl: string;
 userVote: any;
+json_metadata: any;
 }
 
 export interface PostProps {

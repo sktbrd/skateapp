@@ -43,6 +43,10 @@ const nodes = [
 import { transformGiphyLinksToMarkdown } from 'lib/pages/utils/ImageUtils';
 import { transform3SpeakContent } from 'lib/pages/utils/videoUtils/transform3speak';
 import { slugify } from 'lib/pages/utils/videoUtils/slugify';
+import { json } from 'stream/consumers';
+import { diff_match_patch } from 'diff-match-patch';
+
+
 const PostModal: React.FC<Types.PostModalProps> = ({
   isOpen,
   onClose,
@@ -53,7 +57,8 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   weight,
   comments = [],
   postUrl,
-  userVote
+  userVote,
+  json_metadata,
 }) => {
   
   const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
@@ -82,55 +87,109 @@ const PostModal: React.FC<Types.PostModalProps> = ({
         return transformedContent;
   }
   
+
+  useEffect(() => {
+    // log the post json_metadata
+    console.log("JSONMETADA: ", json_metadata)
+    const parsedMetadata = JSON.parse(json_metadata);
+    console.log("PARSED: ", parsedMetadata)
+    // log the post author
+    console.log(author)
+    // log the post permlink
+    console.log(permlink)
+    // log the post title
+    console.log(title)
+  }
+  ,[]);
+
+  const dmp = new diff_match_patch();
+  const createPatch = (originalContent: string, editedContent: string) => {
+    // Create a patch
+    const patch = dmp.patch_make(originalContent, editedContent);
+  
+    // Check if the patch contains changes
+    if (patch.length > 0) {
+      // Convert the patch to a string
+      const patchString = dmp.patch_toText(patch);
+  
+      // Check if the patched content is not longer than the original content
+      const patchedContent = dmp.patch_apply(patch, originalContent);
+      if (!patchedContent[1].some((change: boolean) => !change)) {
+        return patchString;
+      }
+    }
+  
+    return null;
+  };
+  
+
+  // Save edited content handler
   // Save edited content handler
   const handleSaveClick = () => {
-    // TODO: Implement the logic to save the edited content to Hive
-    // I want to check the body of content that is being saved using a console.log but I don't know how to do it
-    console.log(editedContent)
-    const username = user?.name; // Get the username from the authenticated user
-    // get post details that wont change from Feed component and pass it to this component like permlink, tags, title, etc
-    console.log(title)
-    console.log(permlink)
-    console.log(author)
-        // Ok we are getting the edited content now we have to save it to the blockchain, lets do in the same way we do with the upload function in upload folder   
+    console.log("Original Content:", content);
+    console.log("Edited Content:", editedContent);
+  
+    const username = user?.name;
+  
     if (username && window.hive_keychain) {
+      // Extract taglist from json_metadata
+      const parsedMetadata = JSON.parse(json_metadata);
+      const taglist = parsedMetadata.tags || []; // Use an empty array if tags are not present
+  
+      // Create a patch
+      const patch = createPatch(content, editedContent);
+  
+      if (patch) {
+        // Check if the patch size is smaller than the original content
+        const patchedContent =
+          patch.length < new TextEncoder().encode(content).length
+            ? dmp.patch_apply(dmp.patch_fromText(patch), content)[0]
+            : editedContent;
+  
+        const operations = [
+          [
+            'comment',
+            {
+              parent_author: '', // Leave as an empty string for a new post
+              parent_permlink: taglist[0] || '', // Use the first tag as parent_permlink or an empty string if tags are not present
+              author: username,
+              permlink: permlink,
+              title: title,
+              body: patchedContent,
+              json_metadata: json_metadata,
+            },
+          ],
+        ];
+  
+        window.hive_keychain.requestBroadcast(
+          username,
+          operations,
+          'posting',
+          (response: any) => {
+            if (response.success) {
+              setIsEditing(false);
+              setEditedContent(patchedContent); // Update state after a successful broadcast
+            } else {
+              console.error('Error updating the post:', response.message);
+              // Handle the error further or show an error message
+            }
+          }
+        );
+      } else {
+        console.log('No patch needed. Submitting edited content as is.');
+        // Continue with your logic to save to the blockchain using editedContent
+      }
+    } else {
+      console.error('Hive Keychain extension not found or user not authenticated!');
+    }
+  
+    setIsEditing(false);
+  };
+  
+  
 
-      const operations = [
-        ["comment",
-                  {
-                      "parent_author": author,
-                      "parent_permlink": "hive-173115",
-                      "author": username,
-                      "permlink": permlink,
-                      "title": title,
-                      "body": editedContent,
-                      "json_metadata": JSON.stringify({
-                          app: "skatehive",
-                      })
-                  }
-              ],
-      ];
-      window.hive_keychain
-      .requestBroadcast(username, operations, "posting")
-      .then((response:any) => {
-        if (response.success) {
-          setIsEditing(false);
-          setEditedContent(editedContent); // Update state after successful broadcast
-        } else {
-          console.error("Error updating the post:", response.message);
-          // Handle the error further or show an error message
-        }
-      })
-      .catch((error:any) => {
-        console.error("Error during broadcasting:", error);
-        // Handle the error or log it for further investigation
-      });
-  } else {
-    console.error("Hive Keychain extension not found or user not authenticated!");
-  }
-
-  setIsEditing(false);
-};
+  
+  
 
   // Cancel edit handler
   const handleCancelClick = () => {
@@ -139,42 +198,12 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   };  
   
 
-// TODO : Add the tags and the parent permlink to the post
-  const handleSaveEdit = () => {
-    const username = user?.name; // Get the username from the authenticated user
-    if (username && window.hive_keychain) {
-      const permlink = slugify(title.toLowerCase()); // Generate the permlink from the title
-      const operations = [
-        [
-          "comment",
-          {
-            parent_author: "", // Provide the correct parent author
-            parent_permlink: "your-tag", // Replace with the correct parent permlink
-            author: username,
-            permlink: permlink,
-            title: title,
-            body: editedContent,
-            json_metadata: JSON.stringify({ tags: ['your-tags'] }), // Update with the correct metadata
-          },
-        ],
-      ];
-  
-      window.hive_keychain.requestBroadcast(username, operations, "posting", (response: any) => {
-        if (response.success) {
-          setIsEditing(false);
-          // Update the content in the UI
-          content = editedContent;
-        } else {
-          console.error('Error updating the post:', response.message);
-        }
-      });
-    } else {
-      console.error("Hive Keychain extension not found or user not authenticated!");
-    }
-  };
 
   // Edit button handler
   const handleEditClick = () => {
+        console.log(title)
+    console.log(permlink)
+    console.log(author)
     setIsEditing(true);
   };
   

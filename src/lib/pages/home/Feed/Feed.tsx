@@ -363,7 +363,6 @@ const handleVoteClick = async (post: any) => {
   // Check if the user is logged in before allowing them to vote
   if (!isLoggedIn()) {
     // Handle the case where the user is not logged in, e.g., show a login prompt
-    console.log("User is not logged in. Show a login prompt.");
     setErrorMessage("You have to login first ! Dãããã... ")
     setIsErrorModalOpen(true)
     return;
@@ -382,8 +381,6 @@ const handleVoteClick = async (post: any) => {
     // Call the voteOnContent function to vote on the post
     await voteOnContent(username, post.permlink, post.author, weight);
 
-    // Handle successful vote
-    console.log("Vote successful!");
 
     // set loading and then rerender the component
     setIsLoadingInitial(true);
@@ -732,6 +729,7 @@ return (
           comments={comments}
           postUrl={selectedPost?.url}
           userVote={selectedPost ? getUserVote(selectedPost) : null}
+          json_metadata={selectedPost?.json_metadata}
         />
       </ModalContent>
     </Modal>

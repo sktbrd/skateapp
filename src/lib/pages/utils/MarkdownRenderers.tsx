@@ -38,7 +38,7 @@ export const MarkdownRenderers = {
       
 // create a renderer for paragraphs <p>
 
-p: ({ children, ...props }: RendererProps) => <p {...props} style={{ color: 'white', fontSize: '18px', paddingBottom: '15px' }}>{children}</p>,
+p: ({ children, ...props }: RendererProps) => <div {...props} style={{ color: 'white', fontSize: '18px', paddingBottom: '15px' }}>{children}</div>,
       
 a: ({ children, ...props }: RendererProps) => <a {...props} style={{ color: 'orange' }}> {children}  </a>,
 

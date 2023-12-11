@@ -45,6 +45,7 @@ import { transform3SpeakContent } from 'lib/pages/utils/videoUtils/transform3spe
 import { slugify } from 'lib/pages/utils/videoUtils/slugify';
 import { json } from 'stream/consumers';
 import { diff_match_patch } from 'diff-match-patch';
+import { FaPencil } from 'react-icons/fa6';
 
 
 const PostModal: React.FC<Types.PostModalProps> = ({
@@ -290,14 +291,31 @@ return (
     <ModalContent backgroundColor={'black'}  boxShadow="0px 0px 10px 5px rgba(128,128,128,0.1)">
       <ModalHeader>
         <PostHeader title={title} author={author} avatarUrl={avatarUrl} postUrl={postUrl} permlink={permlink} onClose={onClose} />
-        <Flex justifyContent={'flex-end'} marginTop={3}>
-          {isUserLoggedIn && user.name === author && !isEditing && (
-            <Button id="editButton" onClick={handleEditClick}>Edit</Button>
-          )}
-          {isUserLoggedIn && isEditing && (
-            <Button id="saveButton" onClick={handleSaveClick}>Save</Button>
-          )}
-        </Flex>
+        <Flex marginLeft={"20px"} justifyContent="flex-start" marginTop={3}>
+  {isUserLoggedIn && user.name === author && !isEditing && (
+    <Button
+      id="editButton"
+      onClick={handleEditClick}
+      leftIcon={<FaPencil />}
+      colorScheme="red" // Choose a color scheme that fits your design
+      variant="outline" // You can use "solid" for a solid background
+      mr={2} // Margin right for spacing
+    >
+      Edit
+    </Button>
+  )}
+  {isUserLoggedIn && isEditing && (
+    <Button
+      id="saveButton"
+      onClick={handleSaveClick}
+      colorScheme="red" // Choose a color scheme that fits your design
+      variant="solid" // You can use "outline" for an outlined button
+    >
+      Save
+    </Button>
+  )}
+</Flex>
+
       </ModalHeader>
       
       <ModalBody ref={modalContainerRef}>

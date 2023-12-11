@@ -510,7 +510,6 @@ return (
                 backgroundPosition: 'center top',
                 backgroundRepeat: 'no-repeat',
                 
-                
               }}
             >
 
@@ -538,7 +537,7 @@ return (
               </CardHeader>
 
                             
-              <Box padding="20px" height="200px"> 
+              <Box zIndex={1} padding="20px" height="200px"> 
                 <Image 
                   objectFit="cover"
                   border="1px solid limegreen"
@@ -547,6 +546,7 @@ return (
                   alt="Post Thumbnail"
                   height="100%"
                   width="100%"
+                  bg={"black"}
                 />
               </Box>
               <CardBody>

@@ -46,7 +46,7 @@ import { slugify } from 'lib/pages/utils/videoUtils/slugify';
 import { json } from 'stream/consumers';
 import { diff_match_patch } from 'diff-match-patch';
 import { FaPencil } from 'react-icons/fa6';
-
+import { FaShare, FaEye } from 'react-icons/fa';
 
 const PostModal: React.FC<Types.PostModalProps> = ({
   isOpen,
@@ -308,7 +308,7 @@ return (
     <Button
       id="saveButton"
       onClick={handleSaveClick}
-      colorScheme="red" // Choose a color scheme that fits your design
+      colorScheme="green" // Choose a color scheme that fits your design
       variant="solid" // You can use "outline" for an outlined button
     >
       Save
@@ -341,9 +341,9 @@ return (
       <Comments comments={comments} commentPosted={commentPosted} blockedUser={"hivebuzz"} permlink='' />
       <HStack justifyContent="space-between">
         <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
-          <Button color="white" bg="black" margin="15px" border="1px solid orange" onClick={handleViewFullPost}>View Full Post</Button>
+          <Button leftIcon={<FaEye/>} color="white" bg="black" margin="15px" border="1px solid orange" onClick={handleViewFullPost}>View Full Post</Button>
         </Link>
-        <Button color="white" bg="black" border="1px solid orange" margin="15px" onClick={handleCopyPostLink}>
+        <Button leftIcon={<FaShare/>} color="white" bg="black" border="1px solid orange" margin="15px" onClick={handleCopyPostLink}>
           {postLinkCopied ? 'Link Copied!' : 'Share Post'}
         </Button>
       </HStack>   

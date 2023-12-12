@@ -279,22 +279,23 @@ return (
     <ModalContent backgroundColor={'black'} boxShadow="0px 0px 10px 5px rgba(128,128,128,0.1)">
       <ModalHeader>
         <PostHeader title={title} author={author} avatarUrl={avatarUrl} postUrl={postUrl} permlink={permlink} onClose={onClose} />
-        <Flex marginLeft={"20px"} justifyContent="flex-start" marginTop={3}>
-          {isUserLoggedIn && user.name === author && !isEditing && (
-            // lets render the current images of hte post here
+      </ModalHeader>
 
-            <Button
-              id="editButton"
-              onClick={handleEditClick}
-              leftIcon={<FaPencil />}
-              colorScheme="red"
-              variant="outline"
-              mr={2}
-            >
-              Edit
-            </Button>
-          )}
-          {isUserLoggedIn && isEditing && (
+      <Flex marginLeft={"20px"} justifyContent="flex-start" marginTop={3}>
+        {isUserLoggedIn && user.name === author && !isEditing && (
+          <Button
+            id="editButton"
+            onClick={handleEditClick}
+            leftIcon={<FaPencil />}
+            colorScheme="red"
+            variant="outline"
+            mr={2}
+          >
+            Edit
+          </Button>
+        )}
+        {/* {isUserLoggedIn && isEditing && (
+          <Flex marginLeft={"20px"} justifyContent="flex-start" marginTop={3}>
             <Button
               id="saveButton"
               onClick={handleSaveClick}
@@ -303,60 +304,45 @@ return (
             >
               Save
             </Button>
-          )}
-        </Flex>
-        <Flex marginLeft={"20px"} justifyContent="flex-start" marginTop={3}>
-          
-          <Button
-            onClick={isEditing ? handleCancelClick : handleViewFullPost}
+            <Button
+              onClick={isEditing ? handleCancelClick : handleViewFullPost}
             >
               Close
             </Button>
-        </Flex>
-      </ModalHeader>
-      <Text>
-      Select Thumbnail
-    </Text>
-    <Flex alignItems="center" marginTop={4}>
-  {postImages && postImages.length > 0 && (
-    <Flex alignItems="center" marginTop={4}>
-  {postImages && postImages.length > 0 && (
-    <Flex alignItems="center" marginTop={4}>
-  {postImages && postImages.length > 0 && (
-    <Flex direction="row" alignItems="center" flexWrap="wrap">
-      {isEditing ? (
-        postImages.map((image: string, index: number) => (
-          <React.Fragment key={index}>
-            <img
-              src={image}
-              alt={`Thumbnail ${index + 1}`}
-              style={{
-                objectFit: 'cover',
-                cursor: 'pointer',
-                border: selectedThumbnail === image ? '2px solid teal' : 'none',
-                width: '148px',
-                marginRight: (index + 1) % 4 === 0 ? 0 : '10px', // Add margin-right for every 4th image
-                marginBottom: '10px', // Add margin-bottom to create space between rows
-              }}
-              onClick={() => setSelectedThumbnail(image)}
-            />
-            {(index + 1) % 4 === 0 && <br />} {/* Add line break after every 4 images */}
-          </React.Fragment>
-        ))
-      ) : null}
-    </Flex>
-  )}
-</Flex>
+            <Text>
+              Select Thumbnail
+            </Text>
+          </Flex>
+        )} */}
+      </Flex>
 
-  )}
-</Flex>
+      <Flex alignItems="center" marginTop={4}>
+        {postImages && postImages.length > 0 && (
+          <Flex direction="row" alignItems="center" flexWrap="wrap">
+            {isEditing ? (
+              postImages.map((image: string, index: number) => (
+                <React.Fragment key={index}>
+                  <img
+                    src={image}
+                    alt={`Thumbnail ${index + 1}`}
+                    style={{
+                      objectFit: 'cover',
+                      cursor: 'pointer',
+                      border: selectedThumbnail === image ? '2px solid teal' : 'none',
+                      width: '148px',
+                      marginRight: (index + 1) % 4 === 0 ? 0 : '10px',
+                      marginBottom: '10px',
+                    }}
+                    onClick={() => setSelectedThumbnail(image)}
+                  />
+                  {(index + 1) % 4 === 0 && <br />}
+                </React.Fragment>
+              ))
+            ) : null}
+          </Flex>
+        )}
+      </Flex>
 
-  )}
-
-
-
-
-            </Flex>
       <ModalBody ref={modalContainerRef}>
         {isEditing ? (
           <Textarea
@@ -373,9 +359,6 @@ return (
             >
               {(transformedContent)}
             </ReactMarkdown>
-
-            {/* Display and select thumbnails */}
-
           </React.Fragment>
         )}
       </ModalBody>
@@ -387,33 +370,29 @@ return (
         <Button leftIcon={<FaShare/>} color="white" bg="black" border="1px solid orange" margin="15px" onClick={handleCopyPostLink}>
           {postLinkCopied ? 'Link Copied!' : 'Share Post'}
         </Button>
-      </HStack>   
-      {/* Render comment box or login button */}
+      </HStack>
+
       {isUserLoggedIn ? (
         <div>
-                <CommentBox
-        user={user}
-        parentAuthor={author}
-        parentPermlink={permlink}
-        onCommentPosted={() => setCommentPosted(!commentPosted)}
-      />
-          <PostFooter onClose={onClose} user={user} author={author} permlink={permlink} weight={weight} userVote={userVote}  />
-
+          <CommentBox
+            user={user}
+            parentAuthor={author}
+            parentPermlink={permlink}
+            onCommentPosted={() => setCommentPosted(!commentPosted)}
+          />
+          <PostFooter onClose={onClose} user={user} author={author} permlink={permlink} weight={weight} userVote={userVote} />
         </div>
       ) : (
         <center>
-        <Button color="white" bg="black"  margin="10px" border="1px solid yellow" onClick={() => setShowLoginModal(true)}>Login to Comment | Vote</Button>
-
+          <Button color="white" bg="black"  margin="10px" border="1px solid yellow" onClick={() => setShowLoginModal(true)}>Login to Comment | Vote</Button>
         </center>
       )}
 
-
-    </ModalContent>   
-
-    {/* HiveLogin modal */}
-    <HiveLogin isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
+      <HiveLogin isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
+    </ModalContent>
   </Modal>
 );
+
 
 
 

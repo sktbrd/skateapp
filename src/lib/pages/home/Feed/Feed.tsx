@@ -323,10 +323,16 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     setSelectedPostForModal(post);
     setVotersModalOpen(true);
   };
+  const findImagesInContent = (content: string): string[] => {
+    const regex = /!\[.*?\]\((.*?)\)/g; // Regular expression to match Markdown image syntax
+    const matches = content.match(regex) || [];
+    return matches.map((match) => match.replace(/!\[.*?\]\((.*?)\)/, '$1'));
+  };
 
   const handleCardClick = async (post: any) => {
     console.log(post)
-
+    // Check if the post has images
+    const images = findImagesInContent(post.body);
     setSelectedPost(post);
     const comments = await fetchComments(post.author, post.permlink);
     setComments(comments);
@@ -425,7 +431,6 @@ const getUserVote = (post: any) => {
       percent: percentage,
     };
 
-    console.log(vote, post.permlink)
 
     return vote;
   }
@@ -730,6 +735,7 @@ return (
           postUrl={selectedPost?.url}
           userVote={selectedPost ? getUserVote(selectedPost) : null}
           json_metadata={selectedPost?.json_metadata}
+          images={selectedPost?.images}
         />
       </ModalContent>
     </Modal>

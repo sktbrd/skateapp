@@ -18,7 +18,6 @@ import {
 } from '@chakra-ui/react';
 import Web3 from 'web3'; // Ensure you have this imported
 import * as Types from './nft/types';
-import TestEvm from './testEvm/testEvm';
 import PortfolioPage from './evm/pioneerBalance';
 import SwapComponent from './hive/hiveSwapModal';
 import GnarsNfts from './nft/gnarsNfts';

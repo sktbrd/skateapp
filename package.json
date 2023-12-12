@@ -37,7 +37,7 @@
     "@ethersproject/providers": "^5.7.2",
     "@ethersproject/signing-key": "^5.7.0",
     "@fontsource-variable/bodoni-moda": "^5.0.9",
-    "@fontsource-variable/inconsolata": "^5.0.12",
+    "@fontsource-variable/inconsolata": "^5.0.16",
     "@fontsource-variable/roboto-mono": "^5.0.13",
     "@fontsource/bangers": "^5.0.14",
     "@fontsource/castoro": "^5.0.8",
@@ -54,7 +54,7 @@
     "@react-google-maps/api": "^2.19.2",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@safe-global/protocol-kit": "^1.3.0",
-    "@snapshot-labs/snapshot.js": "^0.5.8",
+    "@snapshot-labs/snapshot.js": "^0.9.6",
     "@vercel/analytics": "^1.1.1",
     "axios": "^1.6.2",
     "chart.js": "^4.4.0",
@@ -113,8 +113,8 @@
     "prettier": "^3.0.2",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "standard-version": "^9.5.0",
-    "typescript": "^5.2.2",
-    "vite": "^4.4.9"
+    "typescript": "^5.3.3",
+    "vite": "^5.0.8"
   },
   "packageManager": "pnpm@8.1.0"
 }

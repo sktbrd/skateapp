@@ -146,6 +146,8 @@ const HiveVideos: React.FC = () => {
               comments={[]} // Replace with the actual comments if needed
               postUrl={selectedPost.url}
               userVote={0} // Replace with the actual user vote if needed
+              json_metadata={selectedPost.json_metadata}
+              images={[]}
             />
           )}
         </ModalContent>

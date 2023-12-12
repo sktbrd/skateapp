@@ -12,6 +12,7 @@ import {
   Textarea,
   HStack,
   Flex,
+  Text,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
@@ -60,18 +61,21 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   postUrl,
   userVote,
   json_metadata,
+  images, 
 }) => {
   
   const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
   const { user } = useAuthUser();
-  const isUserLoggedIn = !!user; // Check if the user is logged in
+  const isUserLoggedIn = !!user;
   const username = user ? user.name : null
   const modalContainerRef = useRef<HTMLDivElement>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(content);
   const [client, setClient] = useState(new Client(nodes[0]));
   const [nodeIndex, setNodeIndex] = useState(0);
-  const [showLoginModal, setShowLoginModal] = useState(false); // State to control the login modal visibility
+  const [showLoginModal, setShowLoginModal] = useState(false); 
+  const [selectedThumbnail, setSelectedThumbnail] = useState<string | null>(null);
+  const [postImages, setPostImages] = useState<string[]>([]); 
 
   function transformYouTubeContent(content: string): string {
     // Regular expression to match YouTube video URLs
@@ -87,23 +91,21 @@ const PostModal: React.FC<Types.PostModalProps> = ({
         transformedContent = transformGiphyLinksToMarkdown(transformedContent);
         return transformedContent;
   }
-  
+
 
   useEffect(() => {
-    // log the post json_metadata
-    console.log("JSONMETADA: ", json_metadata)
     const parsedMetadata = JSON.parse(json_metadata);
-    console.log("PARSED: ", parsedMetadata)
-    // log the post author
-    console.log(author)
-    // log the post permlink
-    console.log(permlink)
-    // log the post title
-    console.log(title)
-  }
-  ,[]);
+    
+
+      const post_images = parsedMetadata.image;
+      setPostImages(post_images)
+      console.log("IMAGESPM:",postImages)
+      console.log(post_images)
+    }
+  , [json_metadata]);
 
   const dmp = new diff_match_patch();
+
   const createPatch = (originalContent: string, editedContent: string) => {
     // Create a patch
     const patch = dmp.patch_make(originalContent, editedContent);
@@ -124,11 +126,9 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   };
   
 
-  // Save edited content handler
-  // Save edited content handler
   const handleSaveClick = () => {
-    console.log("Original Content:", content);
-    console.log("Edited Content:", editedContent);
+    console.log('Original Content:', content);
+    console.log('Edited Content:', editedContent);
   
     const username = user?.name;
   
@@ -147,6 +147,9 @@ const PostModal: React.FC<Types.PostModalProps> = ({
             ? dmp.patch_apply(dmp.patch_fromText(patch), content)[0]
             : editedContent;
   
+        // Determine the thumbnail to use
+        const thumbnailToUse = selectedThumbnail || parsedMetadata.thumbnail || null;
+  
         const operations = [
           [
             'comment',
@@ -157,25 +160,23 @@ const PostModal: React.FC<Types.PostModalProps> = ({
               permlink: permlink,
               title: title,
               body: patchedContent,
-              json_metadata: json_metadata,
+              json_metadata: JSON.stringify({
+                ...parsedMetadata,
+                thumbnail: thumbnailToUse, // Use the selected thumbnail or the current one
+              }),
             },
           ],
         ];
   
-        window.hive_keychain.requestBroadcast(
-          username,
-          operations,
-          'posting',
-          (response: any) => {
-            if (response.success) {
-              setIsEditing(false);
-              setEditedContent(patchedContent); // Update state after a successful broadcast
-            } else {
-              console.error('Error updating the post:', response.message);
-              // Handle the error further or show an error message
-            }
+        window.hive_keychain.requestBroadcast(username, operations, 'posting', (response: any) => {
+          if (response.success) {
+            setIsEditing(false);
+            setEditedContent(patchedContent); // Update state after a successful broadcast
+          } else {
+            console.error('Error updating the post:', response.message);
+            // Handle the error further or show an error message
           }
-        );
+        });
       } else {
         console.log('No patch needed. Submitting edited content as is.');
         // Continue with your logic to save to the blockchain using editedContent
@@ -188,19 +189,11 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   };
   
   
-
-  
-  
-
-  // Cancel edit handler
   const handleCancelClick = () => {
     setIsEditing(false);
     setEditedContent(content); // Reset to original content
   };  
   
-
-
-  // Edit button handler
   const handleEditClick = () => {
         console.log(title)
     console.log(permlink)
@@ -211,7 +204,6 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   const generatePostUrl = () => {
     return `${window.location.origin}/post${postUrl}`;
   };
-  
   
 
 //  ---------------------------------------Voting Button -------------------------------
@@ -258,16 +250,12 @@ const postData = {
 };    
 const handleViewFullPost = (event:any) => {
   event.stopPropagation(); // Prevent event from bubbling up to the parent
-  // Gather all the post data you want to pass
-  // Navigate to the PostPage and pass the post data via state
   console.log(window.location.protocol + '//' + postUrl);
-  console.log("Post data before navigation:", postData);
 
 };
 const cleanUrl = generatePostUrl().replace(window.location.origin, '');
 
 const postLink = window.location.protocol + '//' + postUrl;
-console.log("POSTDATA: ",postData)
 const [postLinkCopied, setPostLinkCopied] = useState(false);
 
 const handleCopyPostLink = () => {
@@ -287,37 +275,88 @@ const transformedContent = transformYouTubeContent(content);
 
 return (
   <Modal isOpen={isOpen} onClose={onClose} size="3xl">
-  <ModalOverlay style={{ background: 'rgba(0, 0, 0, 0.8)' }} /> {/* Adjust the opacity as needed */}
-    <ModalContent backgroundColor={'black'}  boxShadow="0px 0px 10px 5px rgba(128,128,128,0.1)">
+    <ModalOverlay style={{ background: 'rgba(0, 0, 0, 0.8)' }} />
+    <ModalContent backgroundColor={'black'} boxShadow="0px 0px 10px 5px rgba(128,128,128,0.1)">
       <ModalHeader>
         <PostHeader title={title} author={author} avatarUrl={avatarUrl} postUrl={postUrl} permlink={permlink} onClose={onClose} />
         <Flex marginLeft={"20px"} justifyContent="flex-start" marginTop={3}>
-  {isUserLoggedIn && user.name === author && !isEditing && (
-    <Button
-      id="editButton"
-      onClick={handleEditClick}
-      leftIcon={<FaPencil />}
-      colorScheme="red" // Choose a color scheme that fits your design
-      variant="outline" // You can use "solid" for a solid background
-      mr={2} // Margin right for spacing
-    >
-      Edit
-    </Button>
-  )}
-  {isUserLoggedIn && isEditing && (
-    <Button
-      id="saveButton"
-      onClick={handleSaveClick}
-      colorScheme="green" // Choose a color scheme that fits your design
-      variant="solid" // You can use "outline" for an outlined button
-    >
-      Save
-    </Button>
+          {isUserLoggedIn && user.name === author && !isEditing && (
+            // lets render the current images of hte post here
+
+            <Button
+              id="editButton"
+              onClick={handleEditClick}
+              leftIcon={<FaPencil />}
+              colorScheme="red"
+              variant="outline"
+              mr={2}
+            >
+              Edit
+            </Button>
+          )}
+          {isUserLoggedIn && isEditing && (
+            <Button
+              id="saveButton"
+              onClick={handleSaveClick}
+              colorScheme="green"
+              variant="solid"
+            >
+              Save
+            </Button>
+          )}
+        </Flex>
+        <Flex marginLeft={"20px"} justifyContent="flex-start" marginTop={3}>
+          
+          <Button
+            onClick={isEditing ? handleCancelClick : handleViewFullPost}
+            >
+              Close
+            </Button>
+        </Flex>
+      </ModalHeader>
+      <Text>
+      Select Thumbnail
+    </Text>
+    <Flex alignItems="center" marginTop={4}>
+  {postImages && postImages.length > 0 && (
+    <Flex alignItems="center" marginTop={4}>
+  {postImages && postImages.length > 0 && (
+    <Flex alignItems="center" marginTop={4}>
+  {postImages && postImages.length > 0 && (
+    <Flex direction="row" alignItems="center" flexWrap="wrap">
+      {isEditing ? (
+        postImages.map((image: string, index: number) => (
+          <React.Fragment key={index}>
+            <img
+              src={image}
+              alt={`Thumbnail ${index + 1}`}
+              style={{
+                objectFit: 'cover',
+                cursor: 'pointer',
+                border: selectedThumbnail === image ? '2px solid teal' : 'none',
+                width: '148px',
+                marginRight: (index + 1) % 4 === 0 ? 0 : '10px', // Add margin-right for every 4th image
+                marginBottom: '10px', // Add margin-bottom to create space between rows
+              }}
+              onClick={() => setSelectedThumbnail(image)}
+            />
+            {(index + 1) % 4 === 0 && <br />} {/* Add line break after every 4 images */}
+          </React.Fragment>
+        ))
+      ) : null}
+    </Flex>
   )}
 </Flex>
 
-      </ModalHeader>
-      
+  )}
+</Flex>
+
+  )}
+
+
+
+
+            </Flex>
       <ModalBody ref={modalContainerRef}>
         {isEditing ? (
           <Textarea
@@ -326,53 +365,30 @@ return (
             height={500}
           />
         ) : (
-          
-          <ReactMarkdown
-            components={MarkdownRenderers}
-            rehypePlugins={[rehypeRaw]}
-            remarkPlugins={[remarkGfm]}
-          >
-            {(transformedContent)}
-          </ReactMarkdown>
-          
+          <React.Fragment>
+            <ReactMarkdown
+              components={MarkdownRenderers}
+              rehypePlugins={[rehypeRaw]}
+              remarkPlugins={[remarkGfm]}
+            >
+              {(transformedContent)}
+            </ReactMarkdown>
+
+            {/* Display and select thumbnails */}
+
+          </React.Fragment>
         )}
-        
       </ModalBody>
-      <Comments comments={comments} commentPosted={commentPosted} blockedUser={"hivebuzz"} permlink='' />
-      <HStack justifyContent="space-between">
-        <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
-          <Button leftIcon={<FaEye/>} color="white" bg="black" margin="15px" border="1px solid orange" onClick={handleViewFullPost}>View Full Post</Button>
-        </Link>
-        <Button leftIcon={<FaShare/>} color="white" bg="black" border="1px solid orange" margin="15px" onClick={handleCopyPostLink}>
-          {postLinkCopied ? 'Link Copied!' : 'Share Post'}
-        </Button>
-      </HStack>   
-      {/* Render comment box or login button */}
-      {isUserLoggedIn ? (
-        <div>
-                <CommentBox
-        user={user}
-        parentAuthor={author}
-        parentPermlink={permlink}
-        onCommentPosted={() => setCommentPosted(!commentPosted)}
-      />
-          <PostFooter onClose={onClose} user={user} author={author} permlink={permlink} weight={weight} userVote={userVote}  />
 
-        </div>
-      ) : (
-        <center>
-        <Button color="white" bg="black"  margin="10px" border="1px solid yellow" onClick={() => setShowLoginModal(true)}>Login to Comment | Vote</Button>
+      {/* Rest of the modal content */}
+    </ModalContent>
 
-        </center>
-      )}
-
-
-    </ModalContent>   
-
-
+    {/* HiveLogin modal */}
     <HiveLogin isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
   </Modal>
 );
+
+
 
 
 };

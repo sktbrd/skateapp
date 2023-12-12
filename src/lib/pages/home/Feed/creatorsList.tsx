@@ -156,7 +156,6 @@ const GnarsBlog = ({ tags }: Types.GnarsBlogProps) => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
   return (
     <Box>
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
@@ -175,6 +174,8 @@ const GnarsBlog = ({ tags }: Types.GnarsBlogProps) => {
               comments={comments}
               postUrl={selectedPost.url}
               userVote={selectedPost.userVote}
+              json_metadata={selectedPost?.json_metadata}
+              images={[]}
               
             />
           )}

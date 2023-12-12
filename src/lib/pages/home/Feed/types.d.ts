@@ -68,6 +68,8 @@ comments: CommentProps[];
 postUrl: string;
 userVote: any;
 json_metadata: any;
+images: string[];
+
 }
 
 export interface PostProps {
@@ -94,6 +96,7 @@ earnings: number;
 postUrl: string;
 url: string;
 userVote: any;
+json_metadata: any;
 }
 
 export interface PostFooterProps {

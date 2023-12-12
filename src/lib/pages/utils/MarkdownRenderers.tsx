@@ -167,6 +167,8 @@ td: ({ children, ...props }: RendererProps) => (
   
 ),
 
-
+strong: ({ children, ...props }: RendererProps) => (
+  <strong {...props} style={{ color: 'orange' }}>{children}</strong>
+),
 };
 

@@ -379,9 +379,36 @@ return (
           </React.Fragment>
         )}
       </ModalBody>
+      <Comments comments={comments} commentPosted={commentPosted} blockedUser={"hivebuzz"} permlink='' />
+      <HStack justifyContent="space-between">
+        <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
+          <Button leftIcon={<FaEye/>} color="white" bg="black" margin="15px" border="1px solid orange" onClick={handleViewFullPost}>View Full Post</Button>
+        </Link>
+        <Button leftIcon={<FaShare/>} color="white" bg="black" border="1px solid orange" margin="15px" onClick={handleCopyPostLink}>
+          {postLinkCopied ? 'Link Copied!' : 'Share Post'}
+        </Button>
+      </HStack>   
+      {/* Render comment box or login button */}
+      {isUserLoggedIn ? (
+        <div>
+                <CommentBox
+        user={user}
+        parentAuthor={author}
+        parentPermlink={permlink}
+        onCommentPosted={() => setCommentPosted(!commentPosted)}
+      />
+          <PostFooter onClose={onClose} user={user} author={author} permlink={permlink} weight={weight} userVote={userVote}  />
 
-      {/* Rest of the modal content */}
-    </ModalContent>
+        </div>
+      ) : (
+        <center>
+        <Button color="white" bg="black"  margin="10px" border="1px solid yellow" onClick={() => setShowLoginModal(true)}>Login to Comment | Vote</Button>
+
+        </center>
+      )}
+
+
+    </ModalContent>   
 
     {/* HiveLogin modal */}
     <HiveLogin isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />

@@ -2,7 +2,6 @@ import { extendTheme } from "@chakra-ui/react";
 
 import '@fontsource-variable/roboto-mono';
 import '@fontsource/press-start-2p';
-import '@fontsource/castoro';
 
 type GlobalStyleProps = { colorMode: "light" | "dark" };
 

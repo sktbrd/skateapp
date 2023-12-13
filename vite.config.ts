@@ -1,5 +1,5 @@
-require('dotenv').config(); 
-
+import dotenv from 'dotenv';
+dotenv.config();
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 import { defineConfig, loadEnv } from "vite";

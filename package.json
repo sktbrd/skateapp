@@ -1,6 +1,7 @@
 {
   "name": "skatehive",
   "version": "0.1.1",
+  "type": "module", 
   "engines": {
     "node": ">=16.0.0",
     "pnpm": ">=8.0.0"
@@ -79,7 +80,6 @@
     "remark-gfm": "^3.0.1",
     "tus-js-client": "^3.1.1",
     "typed.js": "^2.0.16",
-    "vercel": "^32.1.0",
     "web3": "^4.1.0"
   },
   "devDependencies": {

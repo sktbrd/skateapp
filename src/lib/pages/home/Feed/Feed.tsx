@@ -542,7 +542,7 @@ return (
               </CardHeader>
 
                             
-              <Box zIndex={1} padding="20px" height="200px"> 
+              <Box zIndex={0} padding="20px" height="200px"> 
                 <Image 
                   objectFit="cover"
                   border="1px solid limegreen"

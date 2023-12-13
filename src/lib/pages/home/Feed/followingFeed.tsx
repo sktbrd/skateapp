@@ -88,6 +88,7 @@ import {
 
     const { user, isLoggedIn } = useAuthUser();
     console.log(user)
+    
 
     return(
         <></>

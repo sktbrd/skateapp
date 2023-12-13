@@ -11,15 +11,15 @@ import {
   
 } from '@chakra-ui/react';
 import HiveBlog from './Feed/Feed';
-import HiveVideos from './videos/FeedVideo';
 import SkatehiveProposals from './dao/snapshot';
 import Chat from './chat';
-import QFS from '../qfs';
 import UploadPage from '../upload';
 import CommunityStats from './dao/communityStats';
 import CommunityTotalPayout from './dao/commmunityPayout'
 import { useBreakpointValue } from '@chakra-ui/react';
 import NewFeature from './dao/newFeature';
+
+
 const Home = () => {
   const { selectedIndex, ...tabProps } = useTabs({isLazy: true});
 

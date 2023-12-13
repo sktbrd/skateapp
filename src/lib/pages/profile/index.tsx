@@ -193,9 +193,7 @@ export default function ProfilePage() {
               border="2px solid limegreen"
             />
           )}
-          <Box position="absolute" bottom="0" right="0" p="1">
-
-
+          <Box position="absolute" bottom="0" right="0" p="1" cursor="pointer" _hover={{transform: "scale(1.1)"}}>
             <FaGear onClick={editClick} color="white" size="2em"  />
           </Box>
         </Box>

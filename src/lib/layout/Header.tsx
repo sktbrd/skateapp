@@ -159,7 +159,10 @@ const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 };
 
 
-  const avatarUrl = user ? JSON.parse(user.posting_json_metadata).profile.profile_image : DEFAULT_AVATAR_URL;
+const avatarUrl = user && user.posting_json_metadata !== ""
+? JSON.parse(user.posting_json_metadata).profile.profile_image
+: DEFAULT_AVATAR_URL;
+
 
   const [hiveBalance, setHiveBalance] = useState<string>("0");
   const [hivePowerText, setHivePowerText] = useState<string>("0");

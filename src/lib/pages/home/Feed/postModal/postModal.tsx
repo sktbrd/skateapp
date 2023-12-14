@@ -13,6 +13,9 @@ import {
   HStack,
   Flex,
   Text,
+  Box,
+  VStack,
+  Tooltip,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
@@ -307,8 +310,9 @@ return (
         <PostHeader title={title} author={author} avatarUrl={avatarUrl} postUrl={postUrl} permlink={permlink} onClose={onClose} />
       </ModalHeader>
 
-      <Flex marginLeft={"20px"} justifyContent="flex-start" marginTop={3}>
         {isUserLoggedIn && user.name === author && !isEditing && (
+                <Flex marginRight={"40px"} justifyContent="flex-end" marginTop={3}>
+
           <Button
             id="editButton"
             onClick={handleEditClick}
@@ -319,16 +323,30 @@ return (
           >
             Edit
           </Button>
+          </Flex>
+
         )}
 
+      <Flex marginLeft={"20px"} justifyContent="flex-start" marginTop={3}>
+        {/* Add any content here if needed */}
       </Flex>
-        <Flex marginLeft={"20px"} justifyContent="flex-start" marginTop={3}>
-          <Button onClick={handleSaveClick} colorScheme='green' variant='solid' marginRight={2}>
-            Save
-          </Button>
-          </Flex>
-      <Flex alignItems="center" marginTop={4}>
-        {postImages && postImages.length > 0 && (
+
+      {isEditing ? (
+        <center>
+          <Tooltip
+            label="Optional. Select a thumbnail only if you wish to change the current one"
+            aria-label="A tooltip"
+          >
+          <Text fontSize={"42px"}>
+            Select New Thumbnail
+          </Text>
+          </Tooltip>
+
+        </center>
+      ) : null}
+
+      {postImages && postImages.length > 0 && (
+        <Flex borderRadius={"10px"} m="25px" marginBottom={"-25px"} padding={"10px"} alignItems="center" marginTop={4}>
           <Flex direction="row" alignItems="center" flexWrap="wrap">
             {isEditing ? (
               postImages.map((image: string, index: number) => (
@@ -343,6 +361,7 @@ return (
                       width: '148px',
                       marginRight: (index + 1) % 4 === 0 ? 0 : '10px',
                       marginBottom: '10px',
+                      borderRadius: '5px',
                     }}
                     onClick={() => setSelectedThumbnail(image)}
                   />
@@ -351,16 +370,22 @@ return (
               ))
             ) : null}
           </Flex>
-        )}
-      </Flex>
+        </Flex>
+      )}
 
       <ModalBody ref={modalContainerRef}>
         {isEditing ? (
+         <VStack>
+          <Text fontSize={"42px"}>
+            Change your Post
+          </Text>
           <Textarea
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
             height={500}
-          />
+            />
+            </VStack>
+            
         ) : (
           <React.Fragment>
             <ReactMarkdown
@@ -372,11 +397,29 @@ return (
             </ReactMarkdown>
           </React.Fragment>
         )}
+              {isUserLoggedIn && user.name === author && isEditing && (
+        <Flex marginTop={"10px"}  justifyContent={"center"}>
+
+          <HStack>
+
+          <Button onClick={handleSaveClick} colorScheme='green' variant='solid' marginRight={2}>
+            Save
+          </Button>
+          <Button onClick={handleCancelClick} colorScheme='red' variant='solid'>
+            Cancel 
+          </Button>
+          </HStack>
+        </Flex>
+      )}
       </ModalBody>
+
       <Comments comments={comments} commentPosted={commentPosted} blockedUser={"hivebuzz"} permlink='' />
+
       <HStack justifyContent="space-between">
         <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
-          <Button leftIcon={<FaEye/>} color="white" bg="black" margin="15px" border="1px solid orange" onClick={handleViewFullPost}>View Full Post</Button>
+          <Button leftIcon={<FaEye/>} color="white" bg="black" margin="15px" border="1px solid orange" onClick={handleViewFullPost}>
+            View Full Post
+          </Button>
         </Link>
         <Button leftIcon={<FaShare/>} color="white" bg="black" border="1px solid orange" margin="15px" onClick={handleCopyPostLink}>
           {postLinkCopied ? 'Link Copied!' : 'Share Post'}
@@ -395,7 +438,9 @@ return (
         </div>
       ) : (
         <center>
-          <Button color="white" bg="black"  margin="10px" border="1px solid yellow" onClick={() => setShowLoginModal(true)}>Login to Comment | Vote</Button>
+          <Button color="white" bg="black"  margin="10px" border="1px solid yellow" onClick={() => setShowLoginModal(true)}>
+            Login to Comment | Vote
+          </Button>
         </center>
       )}
 
@@ -403,6 +448,7 @@ return (
     </ModalContent>
   </Modal>
 );
+
 
 
 

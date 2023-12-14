@@ -542,7 +542,7 @@ return (
               </CardHeader>
 
                             
-              <Box zIndex={0} padding="20px" height="200px"> 
+              <Box zIndex={1} padding="20px" height="200px"> 
                 <Image 
                   objectFit="cover"
                   border="1px solid limegreen"
@@ -596,7 +596,7 @@ return (
                     : post.earnings >= 10 && post.earnings <= 20
                     ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EnymbnXgVUtxPZPsL3n1nQRYkhnv1VBGfV3ABoPLqN5VKgdjhV9wiH9hBtz8e1iVTXF.gif')`
                     : post.earnings >= 20 && post.earnings <= 30
-                    ? `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23u5bNzQ1Witg6qMPYBbgxzPzAx8iR8TDYWA5goRhanYgcqTGofXvPd9vMdDVogKoSwTb.gif')`
+                    ? `url('/assets/money.gif')`
                     : 'none',
                     backgroundSize: '100% auto',
                     backgroundPosition: 'center bottom',

@@ -331,6 +331,8 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
 
   const handleCardClick = async (post: any) => {
     console.log(post)
+    console.log(post.json_metadata)
+
     // Check if the post has images
     const images = findImagesInContent(post.body);
     setSelectedPost(post);
@@ -479,7 +481,6 @@ const getVotedHoverProperties = (post: any) => {
   };
 }
 
-
 return (
   <Box
   marginTop={"0"}>
@@ -547,7 +548,7 @@ return (
                   objectFit="cover"
                   border="1px solid limegreen"
                   borderRadius="20px"
-                  src={post.posting_json_metadata?.thumbnail || post.thumbnail}
+                  src={post.json_metadata.thumbnail || post.thumbnail}
                   alt="Post Thumbnail"
                   height="100%"
                   width="100%"

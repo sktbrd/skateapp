@@ -144,8 +144,8 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   
 
   const handleSaveClick = () => {
-    console.log(selectedThumbnail)
-    
+    console.log(selectedThumbnail);
+  
     const username = user?.name;
   
     if (username && window.hive_keychain) {
@@ -165,6 +165,17 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   
         // Determine the thumbnail to use
         const thumbnailToUse = selectedThumbnail || thumbnail || null;
+        console.log(thumbnailToUse);
+  
+        // Update the postImages array with the new thumbnail
+        const updatedImages = [...postImages, selectedThumbnail];
+  
+        // Update JSON metadata with the new thumbnail
+        const updatedJsonMetadata = {
+          ...parsedMetadata,
+          thumbnail: thumbnailToUse,
+          image: updatedImages,
+        };
   
         const operations = [
           [
@@ -177,15 +188,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
               title: title,
               body: patchedContent,
               thumbnail: thumbnailToUse,
-              json_metadata: JSON.stringify({
-                ...parsedMetadata,
-                // append thumnail to use in images array 
-                image: [...postImages, thumbnailToUse].filter((image) => !!image),
-                
-                thumbnail: thumbnailToUse, // Update the thumbnail property in the metadata
-              
-                    
-              }),
+              json_metadata: JSON.stringify(updatedJsonMetadata),
             },
           ],
         ];
@@ -200,7 +203,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
           }
         });
       } else {
-        alert('No changes detected, if you are trying to change the thumbnail, change at least one caracter on the post.');
+        alert('No changes detected, if you are trying to change the thumbnail, change at least one character on the post.');
         // Continue with your logic to save to the blockchain using editedContent
       }
     } else {
@@ -209,6 +212,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   
     setIsEditing(false);
   };
+  
   
   
   const handleCancelClick = () => {

@@ -69,9 +69,7 @@ export default function AuthorProfilePage() {
           setAuthorHiveBalance(hive_balance);
           setAuthorHbdBalance(hbd_balance);
           setAuthorVestingShares(vesting_shares);
-          console.log(authorHiveBalance)
-          console.log(authorHbdBalance)
-          console.log(authorHivePower)
+
           const metadata = JSON.parse(author_account[0].posting_json_metadata) as Author;
           const authorAbout = metadata.profile?.about || null;
           const coverImage = metadata.profile?.cover_image || DEFAULT_COVER_IMAGE_URL;

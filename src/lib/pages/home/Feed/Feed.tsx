@@ -547,7 +547,7 @@ return (
                   objectFit="cover"
                   border="1px solid limegreen"
                   borderRadius="20px"
-                  src={post.thumbnail}
+                  src={post.posting_json_metadata?.thumbnail || post.thumbnail}
                   alt="Post Thumbnail"
                   height="100%"
                   width="100%"
@@ -736,6 +736,7 @@ return (
           userVote={selectedPost ? getUserVote(selectedPost) : null}
           json_metadata={selectedPost?.json_metadata}
           images={selectedPost?.images}
+          thumbnail={selectedPost?.thumbnail}
         />
       </ModalContent>
     </Modal>

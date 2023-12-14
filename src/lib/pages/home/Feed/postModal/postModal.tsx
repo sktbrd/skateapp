@@ -62,6 +62,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   userVote,
   json_metadata,
   images, 
+  thumbnail,
 }) => {
   
   const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
@@ -76,6 +77,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   const [showLoginModal, setShowLoginModal] = useState(false); 
   const [selectedThumbnail, setSelectedThumbnail] = useState<string | null>(null);
   const [postImages, setPostImages] = useState<string[]>([]); 
+  const [originalThumb, setOriginalThumb] = useState<string | null>(null);
 
   function transformYouTubeContent(content: string): string {
     // Regular expression to match YouTube video URLs
@@ -91,18 +93,33 @@ const PostModal: React.FC<Types.PostModalProps> = ({
         transformedContent = transformGiphyLinksToMarkdown(transformedContent);
         return transformedContent;
   }
-
-
+  const extractImagesFromContent = (content: string): string[] => {
+    const imageRegex = /!\[.*?\]\((.*?)\)/g;
+    const matches = content.match(imageRegex);
+  
+    if (matches) {
+      return matches.map((match) => {
+        const urlMatch = match.match(/\((.*?)\)/);
+        return urlMatch ? urlMatch[1] : '';
+      });
+    }
+  
+    return [];
+  };
+  
   useEffect(() => {
     const parsedMetadata = JSON.parse(json_metadata);
-    
-
-      const post_images = parsedMetadata.image;
-      setPostImages(post_images)
-      console.log("IMAGESPM:",postImages)
-      console.log(post_images)
-    }
-  , [json_metadata]);
+    const postImagesFromMetadata = parsedMetadata.images || [];
+  
+    // Extract images from the post content
+    const imagesFromContent = extractImagesFromContent(content);
+  
+    // Merge the images from metadata and content, removing duplicates
+    const mergedImages = Array.from(new Set([...postImagesFromMetadata, ...imagesFromContent]));
+  
+    setPostImages(mergedImages);
+  }, [json_metadata, content]);
+  
 
   const dmp = new diff_match_patch();
 
@@ -127,9 +144,8 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   
 
   const handleSaveClick = () => {
-    console.log('Original Content:', content);
-    console.log('Edited Content:', editedContent);
-  
+    console.log(selectedThumbnail)
+    
     const username = user?.name;
   
     if (username && window.hive_keychain) {
@@ -148,7 +164,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
             : editedContent;
   
         // Determine the thumbnail to use
-        const thumbnailToUse = selectedThumbnail || parsedMetadata.thumbnail || null;
+        const thumbnailToUse = selectedThumbnail || thumbnail || null;
   
         const operations = [
           [
@@ -160,9 +176,15 @@ const PostModal: React.FC<Types.PostModalProps> = ({
               permlink: permlink,
               title: title,
               body: patchedContent,
+              thumbnail: thumbnailToUse,
               json_metadata: JSON.stringify({
                 ...parsedMetadata,
-                thumbnail: thumbnailToUse, // Use the selected thumbnail or the current one
+                // append thumnail to use in images array 
+                image: [...postImages, thumbnailToUse].filter((image) => !!image),
+                
+                thumbnail: thumbnailToUse, // Update the thumbnail property in the metadata
+              
+                    
               }),
             },
           ],
@@ -178,7 +200,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
           }
         });
       } else {
-        console.log('No patch needed. Submitting edited content as is.');
+        alert('No changes detected, if you are trying to change the thumbnail, change at least one caracter on the post.');
         // Continue with your logic to save to the blockchain using editedContent
       }
     } else {
@@ -294,28 +316,13 @@ return (
             Edit
           </Button>
         )}
-        {/* {isUserLoggedIn && isEditing && (
-          <Flex marginLeft={"20px"} justifyContent="flex-start" marginTop={3}>
-            <Button
-              id="saveButton"
-              onClick={handleSaveClick}
-              colorScheme="green"
-              variant="solid"
-            >
-              Save
-            </Button>
-            <Button
-              onClick={isEditing ? handleCancelClick : handleViewFullPost}
-            >
-              Close
-            </Button>
-            <Text>
-              Select Thumbnail
-            </Text>
-          </Flex>
-        )} */}
-      </Flex>
 
+      </Flex>
+        <Flex marginLeft={"20px"} justifyContent="flex-start" marginTop={3}>
+          <Button onClick={handleSaveClick} colorScheme='green' variant='solid' marginRight={2}>
+            Save
+          </Button>
+          </Flex>
       <Flex alignItems="center" marginTop={4}>
         {postImages && postImages.length > 0 && (
           <Flex direction="row" alignItems="center" flexWrap="wrap">

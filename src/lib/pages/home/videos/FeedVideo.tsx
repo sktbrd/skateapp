@@ -148,6 +148,7 @@ const HiveVideos: React.FC = () => {
               userVote={0} // Replace with the actual user vote if needed
               json_metadata={selectedPost.json_metadata}
               images={[]}
+              thumbnail=''
             />
           )}
         </ModalContent>

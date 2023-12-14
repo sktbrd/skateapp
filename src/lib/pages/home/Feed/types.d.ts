@@ -69,6 +69,7 @@ postUrl: string;
 userVote: any;
 json_metadata: any;
 images: string[];
+thumbnail: string;
 
 }
 

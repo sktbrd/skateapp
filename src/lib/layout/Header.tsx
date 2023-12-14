@@ -412,75 +412,37 @@ const avatarUrl = user && user.posting_json_metadata !== ""
       </Box>
     
       </Flex>
-      <Tabs
-        variant="unstyled"
-        colorScheme="whiteAlpha"
-        position={{ base: "relative", md: "absolute" }}
-        left="50%"
-        bottom={0}
-        transform="translateX(-50%)"
-        size={tabSize}
-        mb={6}
-        css={{
-          border: "2px solid limegreen",
-          borderRadius: "10px",
-          overflow: "hidden",
-        }}
-      >
-        <TabList display="flex" alignItems="center">
-          <LinkTab to="/">Home</LinkTab>
-          <LinkTab to="/QFS">Play</LinkTab>
-
-          {loggedIn && <LinkTab to="/wallet">Wallet</LinkTab>} {/* Conditionally render Wallet tab */}
-          {loggedIn ? (
-            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-              <Avatar 
-                src={avatarUrl} 
-                borderRadius={"10%"}
-                size="sm" 
-                mr={2} 
-                w="24px"
-                h="24px"
-              />
-              <Select 
-                value="" 
-                onChange={handleSelectChange}
-                style={{
-                  backgroundColor: 'black',
-                  color: 'white',
-                  border: 'none',  
-                  cursor: 'pointer'
-
-                }}
-              >
-                <option 
-                  value=""
-                  disabled
-                  style={{backgroundColor: 'black', color: 'white' ,}}
-                  >
+      <Flex gap={{base: 4, md: 8}} padding={{base: "6px 18px", md: "8px 20px"}} borderRadius="6px" position={{md: "absolute"}} border="2px solid limegreen">
+        <Button variant="link" color="white" as={Link} to="/">Home</Button>
+        <Button variant="link" color="white" as={Link} to="/QFS">Play</Button>
+        {
+          // Se não tiver logado
+          !loggedIn ?
+            // Exibe o botão de login
+            <Button variant="link" color="white" onClick={() => setModalOpen(true)}>Log In</Button> :
+            // Se estiver logado, exibe o menu de profile
+            <Menu>
+              <MenuButton _hover={{textDecoration: "underline"}} fontWeight="medium">
+                <Flex alignItems={"center"} gap={2}>
+                  <Avatar
+                    src={avatarUrl} 
+                    borderRadius={"100%"}
+                    size="sm" 
+                    w="20px"
+                    h="20px"
+                  />
                   {user?.name}
-                </option>
-                <option
-                  style={{backgroundColor: 'black', color: 'white' }}
-                  value="profile"
-                  >
-                  Profile
-                  </option>
-                <option  
-                  value="logout"
-                  style={{backgroundColor: 'black', color: 'white' }}
-                  >Log out
-                </option>
-              </Select>
-            </div>
-          ) : (
-            <Tab onClick={() => setModalOpen(true)}>
-              Log in 
-            </Tab>
-            
-          )}
-        </TabList>
-      </Tabs>
+                  <ChevronDownIcon />
+                </Flex>
+              </MenuButton>
+              <MenuList border="1px solid limegreen" backgroundColor="black" color="white" minWidth="120px">
+                <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} as={RouterLink} to="/wallet">🔑 Wallet</MenuItem>
+                <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} as={RouterLink} to="/profile">🛹 Profile</MenuItem>
+                <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} onClick={() => loggedIn && logout()}>🚩 Log Out</MenuItem>
+              </MenuList>
+            </Menu>
+        }
+      </Flex>
       
 
       {/* Hive Login Modal */}

@@ -102,28 +102,47 @@ const HeaderNew = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isNotificationModalOpen, setNotificationModalOpen] = useState(false);
 
-  const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, notifications }) => {
-    return (
-      <Popover isOpen={isOpen} onClose={onClose} >
-        <PopoverTrigger  >
-          <Text></Text>
-        </PopoverTrigger>
-        <PopoverContent minW={"80%"} bg="black" color="white" borderColor="limegreen">
-          <PopoverCloseButton />
-          <PopoverHeader>Notifications</PopoverHeader>
-          <PopoverBody>
-            {notifications.map((notification) => (
-              <Box key={notification.id} mb={0}>
-                  <Text fontSize="sm" fontWeight="bold">
-                    {notification.msg}
-                  </Text>
-              </Box>
-            ))}
-          </PopoverBody>
-        </PopoverContent>
-      </Popover>
-    );
+
+const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, notifications }) => {
+  // Define a regex pattern to extract the author and message text
+  const msgRegex = /@(\w+)\s(.+)/;
+
+  // Function to extract author and message text using regex
+  const extractMsgDetails = (msg: string) => {
+    const match = msg.match(msgRegex);
+    return match ? { author: match[1], text: match[2] } : { author: 'Unknown', text: msg };
   };
+
+  return (
+    <Popover isOpen={isOpen} onClose={onClose}>
+      <PopoverTrigger>
+        <Text></Text>
+      </PopoverTrigger>
+      <PopoverContent minW={"80%"} bg="black" color="white" borderColor="limegreen">
+        <PopoverCloseButton />
+        <PopoverHeader>Notifications</PopoverHeader>
+        <PopoverBody>
+          {notifications.map((notification) => (
+            <Box key={notification.id} mb={4} p={4} borderWidth="1px" borderRadius="md">
+              <Text fontSize="sm" fontWeight="bold">
+                Type: {notification.type}
+              </Text>
+              <Text fontSize="sm" fontWeight="bold">
+                Author: {extractMsgDetails(notification.msg).author}
+              </Text>
+              <Text fontSize="sm">
+                Message: {extractMsgDetails(notification.msg).text}
+              </Text>
+            </Box>
+          ))}
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
+  );
+};
+
+
+
 
   const fetchNotifications = async () => {
     try {
@@ -134,7 +153,7 @@ const HeaderNew = () => {
           method: 'bridge.account_notifications',
           params: {
             account: user?.name, // Assuming `user?.name` contains the account name
-            limit: 30, // Adjust the limit as needed
+            limit: 20, // Adjust the limit as needed
           },
           id: 1,
         }
@@ -150,6 +169,7 @@ const HeaderNew = () => {
   useEffect(() => {
     if (loggedIn) {
       fetchNotifications();
+      console.log(notifications)
     }
   }, [loggedIn, user]);
   const handleNotificationClick = () => {

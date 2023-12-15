@@ -229,7 +229,6 @@ export default function HiveBalanceDisplay2() {
   };
   
   const handleLogoClick = (balanceType: string) => {
-    console.log(`Clicked ${balanceType} logo`);
   };
   const handleOpenPowerUpModal = () => {
     setShowPowerUpModal(true);

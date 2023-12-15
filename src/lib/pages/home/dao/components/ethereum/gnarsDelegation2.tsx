@@ -108,7 +108,6 @@ const GnarsHolders: React.FC = () => {
         }
 
         fetchHiveData();
-        console.log(walletData)
     }, []);
 
 

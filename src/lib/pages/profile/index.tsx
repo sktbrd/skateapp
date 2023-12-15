@@ -9,6 +9,7 @@ import { FaCalendar, FaEdit } from "react-icons/fa";
 import EditProfileModal from "./editProfileModal";
 import { useMediaQuery } from "@chakra-ui/react";
 import { FaGear } from "react-icons/fa6";
+import { FaEthereum } from 'react-icons/fa';  // Import Ethereum logo
 
 
 interface User {
@@ -16,6 +17,7 @@ interface User {
   posting_json_metadata?: string;
   created?: string;
   post_count?: string;
+  json_metadata?: string;
 }
 
 interface EditProfileModalProps {
@@ -35,22 +37,32 @@ export default function ProfilePage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
   const [isMobile] = useMediaQuery("(max-width: 600px)");
   const coverAspectRatio = isMobile ? 2 : 19 / 6;
+  const [isEthAddressPresent, setIsEthAddressPresent] = useState(false);
+  const [ethAddress, setEthAddress] = useState<string>('');
+  const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
     const fetchCoverImage = async () => {
-      if (user) {
-        try {
+      try {
+        if (user) {
           const metadata = JSON.parse(user.posting_json_metadata || '');
           const coverImage = metadata.profile.cover_image;
-       
-
+          const jsonMetadata = JSON.parse(user?.json_metadata || '' );
+          const ethAddress = jsonMetadata.extensions?.eth_address;
+          if (ethAddress) {
+            console.log('eth_address:', ethAddress);
+            setIsEthAddressPresent(true);
+            setEthAddress(ethAddress);
+          }
           if (coverImage) {
             setCoverImageUrl(coverImage);
           }
-        } catch (error) {
-          console.error('Error parsing JSON metadata:', error);
         }
+      } catch (error) {
+        console.error('Error fetching cover image:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -86,7 +98,18 @@ export default function ProfilePage() {
             <Flex justifyContent="space-between">
             <Text color={"white"} fontSize="4xl" fontWeight="bold" mb={4}>{displayname}</Text>
             {location && <Text color={"white"} fontSize="lg" fontWeight={"bold"} mb={4}>Country: {location}</Text>}
-
+            {isEthAddressPresent && (
+            <Tooltip label="Copy Ethereum Address" hasArrow>
+              <FaEthereum
+                onClick={() => {
+                  navigator.clipboard.writeText(ethAddress); // Copy Ethereum address to clipboard
+                }}
+                color="white"
+                size="2em"
+                cursor="pointer"
+              />
+            </Tooltip>
+          )}
             </Flex>
 
             <Box border={"1px solid white"} padding={"5px"} borderRadius={"10px"}>

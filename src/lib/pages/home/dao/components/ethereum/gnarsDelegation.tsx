@@ -119,7 +119,6 @@ const GnarsDelegation: React.FC = () => {
           usernames.map(async (username) => {
             const account = await client.database.getAccounts([username]);
             const hivePower = account[0]?.vesting_shares || 0;
-            console.log(hivePower)
             return hivePower;
           })
         );
@@ -193,7 +192,6 @@ const GnarsDelegation: React.FC = () => {
   const handleWitnessVote = async (wallet_username: string) => {
     try {
       const keychain = new KeychainSDK(window);
-      console.log(wallet_username);
       const formParamsAsObject = {
         data: {
           username: wallet_username,
@@ -203,14 +201,12 @@ const GnarsDelegation: React.FC = () => {
       };
 
       const witnessVoteResult = await keychain.witnessVote(formParamsAsObject.data as WitnessVote);
-      console.log({ witnessVoteResult });
     } catch (error) {
       console.error("Error voting for witness:", error);
     }
   };
 
   const handleWitnessClick = async (wallet_username: string) => {
-    console.log("Username:", wallet_username);
     await handleWitnessVote(wallet_username);
   };
 

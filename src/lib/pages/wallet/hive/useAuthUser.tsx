@@ -57,7 +57,6 @@ export default function useAuthUser(): AuthUser {
       "Posting",
       async (response: HiveKeychainResponse) => {
         if (response.success === true) {
-          console.log(response);
           const publicKey = response.publicKey;
           try {
             const val = await dhiveClient.keys.getKeyReferences([publicKey]);

@@ -147,7 +147,6 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   
 
   const handleSaveClick = () => {
-    console.log(selectedThumbnail);
   
     const username = user?.name;
   
@@ -168,7 +167,6 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   
         // Determine the thumbnail to use
         const thumbnailToUse = selectedThumbnail || thumbnail || null;
-        console.log(thumbnailToUse);
   
         // Update the postImages array with the new thumbnail
   
@@ -194,10 +192,8 @@ const PostModal: React.FC<Types.PostModalProps> = ({
             },
           ],
         ];
-        console.log(operations);
         window.hive_keychain.requestBroadcast(username, operations, 'posting', (response: any) => {
           if (response.success) {
-            console.log(response)
             setIsEditing(false);
             setEditedContent(patchedContent); // Update state after a successful broadcast
           } else {
@@ -224,9 +220,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   };  
   
   const handleEditClick = () => {
-        console.log(title)
-    console.log(permlink)
-    console.log(author)
+
     setIsEditing(true);
   };
   

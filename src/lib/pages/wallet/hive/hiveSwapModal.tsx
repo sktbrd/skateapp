@@ -20,7 +20,6 @@ const SwapComponent: React.FC = () => {
   useEffect(() => {
     const keychain = new KeychainSDK(window);
 
-    console.log(keychain);
   }, []); // Only fetch estimation on component mount
 
   const handleSwap = async () => {

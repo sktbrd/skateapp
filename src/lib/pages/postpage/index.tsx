@@ -112,7 +112,6 @@ const PostPage: React.FC = () => {
             commentsArray.push(comments[commentKey]);
           }
         }
-        console.log(commentsArray)
         setComments(commentsArray);
       } catch (error) {
         console.error('Error fetching comments:', error);

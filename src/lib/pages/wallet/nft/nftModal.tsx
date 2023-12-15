@@ -72,7 +72,6 @@ interface NFTModalProps {
       const sendEditTransaction = async () => {
         try {
           const keychain = new KeychainSDK(window);
-        console.log(user)
         const formParamsAsObject = {
           data: {
             username: user.user?.name,

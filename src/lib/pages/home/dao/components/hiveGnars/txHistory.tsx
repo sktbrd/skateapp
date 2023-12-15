@@ -61,7 +61,6 @@ const WalletTransactions: React.FC<WalletTransactionsProps> = ({ wallet }) => {
           (entry) => entry[1].op[0] === "transfer"
         );
 
-        console.log("transferTransactions", transferTransactions);
 
         // Merge transfer transactions with existing transactions
         setTransactions((prevTransactions) => [...prevTransactions, ...transferTransactions]);

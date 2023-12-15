@@ -9,7 +9,6 @@ import { FaCalendar, FaEdit } from "react-icons/fa";
 import EditProfileModal from "./editProfileModal";
 import { useMediaQuery } from "@chakra-ui/react";
 import { FaGear } from "react-icons/fa6";
-import EthSetup from "./ethSetup";
 
 
 interface User {
@@ -113,7 +112,6 @@ export default function ProfilePage() {
             <Text fontSize="lg" fontWeight={"bold"} mb={4} color={"white"} > {formatCreatedDate(created)}</Text>
             </VStack>
             </Flex>
-            <EthSetup />
           </Box>
           
         );

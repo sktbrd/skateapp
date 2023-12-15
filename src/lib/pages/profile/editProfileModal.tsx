@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Textarea, Button, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, HStack } from '@chakra-ui/react';
+import { Textarea, Button, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, HStack, Flex } from '@chakra-ui/react';
 import { KeychainSDK, KeychainKeyTypes, Broadcast } from 'keychain-sdk';
 import { css } from '@emotion/react';
 import { FaUpload } from 'react-icons/fa';
+//@ts-ignore
+import { usePioneer } from '@pioneer-platform/pioneer-react';
+
 
 interface EditProfileModalProps {
   isOpen: boolean;
@@ -22,13 +25,62 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   const [website, setWebsite] = useState<string>(user.profile?.website || '');
   const [selectedProfileFile, setSelectedProfileFile] = useState<File | null>(null);
   const [selectedCoverFile, setSelectedCoverFile] = useState<File | null>(null);
+  const [connectedAddress, setConnectedAddress] = useState<string>('');
+  const [ethAddress, setEthAddress] = useState<string>('');
+  const { state } = usePioneer();
+  const { app, status } = state;
+  const [isEthSetupModalOpen, setIsEthSetupModalOpen] = useState(false);
+
+  const onStart = async function () {
+    try {
+      if (app && app.wallets && app.wallets.length > 0 && app.wallets[0].wallet && app.wallets[0].wallet.accounts) {
+        const connected_address = app.wallets[0].wallet.accounts[0];
+        setConnectedAddress(connected_address);
+      } else {
+        console.error("Some properties are undefined or null");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    onStart();
+  }
+  , [app, status]);
+
+  const handleClickaddEthAddress = async () => {
+    setEthAddress(connectedAddress);
+    setIsEthSetupModalOpen(false);
+  }
+
+  const EthSetupModal = () => {
+    return (
+      <Modal isOpen={isEthSetupModalOpen} onClose={() => setIsEthSetupModalOpen(false)} size="md">
+        <ModalOverlay />
+        <ModalContent bg={"black"} border={"1px solid limegreen"}>
+          <ModalHeader>Connect Ethereum Wallet</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text> Confirm Address </Text>
+            <Text> {connectedAddress} </Text>
+            <Button onClick={handleClickaddEthAddress}> Add Address </Button>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    )
+  }
+  
+
+    
+
 
   useEffect(() => {
     if (user && user.posting_json_metadata) {
       try {
         const metadata = JSON.parse(user.posting_json_metadata);
         console.log(user)
-        console.log(metadata)
+
         setName(name => name || metadata.profile.name || '');
         setAbout(about => about || metadata.profile.about || '');
         setAvatarUrl(avatarUrl => avatarUrl || metadata.profile.profile_image || '');
@@ -61,6 +113,10 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
                     profile_image: avatarUrl,
                     website: website,
                   },
+                  extensions: {
+                    //add ethAddress to json_metadata
+                    eth_address: ethAddress,
+                  },
                 }),
                 posting_json_metadata: JSON.stringify({
                   profile: {
@@ -78,6 +134,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
           method: KeychainKeyTypes.active,
         },
       };
+      
   
       const broadcast = await keychain.broadcast(formParamsAsObject.data as unknown as Broadcast);
   
@@ -221,8 +278,14 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
           />
+
         </ModalBody>
+        <Flex align="center" justify="center" direction="column">
+        <Button onClick={() => setIsEthSetupModalOpen(true)}> Add Ethereum Wallet Address </Button>
+          <Text> {ethAddress} </Text>
+        </Flex>
         <ModalFooter>
+          <EthSetupModal />
           <Button colorScheme="red" mr={3} onClick={onClose}>
             Close
           </Button>

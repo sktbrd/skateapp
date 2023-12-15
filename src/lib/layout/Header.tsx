@@ -118,10 +118,10 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, 
       <PopoverTrigger>
         <Text></Text>
       </PopoverTrigger>
-      <PopoverContent minW={"80%"} bg="black" color="white" borderColor="limegreen">
+      <PopoverContent maxH={"756px"} minW={"80%"} bg="black" color="white" borderColor="limegreen">
         <PopoverCloseButton />
         <PopoverHeader>Notifications</PopoverHeader>
-        <PopoverBody>
+        <PopoverBody overflow={"auto"} >
           {notifications.map((notification) => (
             <Box key={notification.id} mb={4} p={4} borderWidth="1px" borderRadius="md">
               <Text fontSize="sm" fontWeight="bold">

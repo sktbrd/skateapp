@@ -171,13 +171,12 @@ const PostModal: React.FC<Types.PostModalProps> = ({
         console.log(thumbnailToUse);
   
         // Update the postImages array with the new thumbnail
-        const updatedImages = [...postImages, selectedThumbnail];
   
         // Update JSON metadata with the new thumbnail
         const updatedJsonMetadata = {
           ...parsedMetadata,
           thumbnail: thumbnailToUse,
-          image: updatedImages,
+          image: postImages,
         };
   
         const operations = [

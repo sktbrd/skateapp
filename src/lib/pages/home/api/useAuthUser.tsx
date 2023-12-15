@@ -15,6 +15,7 @@ interface Account {
   reward_vesting_balance: string | dhive.Asset;
   reward_vesting_hive: string | dhive.Asset;
   posting_json_metadata: string;
+  json_metadata: string;
 }
 
 

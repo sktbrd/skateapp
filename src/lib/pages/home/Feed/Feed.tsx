@@ -550,17 +550,20 @@ return (
 
                             
               <Box zIndex={1} padding="20px" height="200px"> 
-              <Image 
-    key={post.id}  // Make sure to use a unique key for each image in a list
-    objectFit="cover"
-    border="1px solid limegreen"
-    borderRadius="20px"
-    src={post.thumbnail}
-    alt="Post Thumbnail"
-    height="100%"
-    width="100%"
-    bg={"black"}
-  />
+              <Image
+                key={post.id}
+                objectFit="cover"
+                border="1px solid limegreen"
+                borderRadius="20px"
+                src={post.thumbnail || defaultThumbnail}
+                alt="Post Thumbnail"
+                height="100%"
+                width="100%"
+                bg={"black"}
+                onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+                  e.currentTarget.src = defaultThumbnail; // Replace with the default thumbnail on error
+                }}
+              />
               </Box>
               <CardBody>
                 

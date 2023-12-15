@@ -31,11 +31,9 @@ const NewFeature: React.FC = () => {
             <Text fontSize="28px" marginBottom="5px">
             🗣
             </Text>
-            <Text color={"black"} fontSize="18px" fontWeight="bold" marginBottom="5px">
-              New !!! 
-            </Text>
+
             <a href='http://skatehive.app/wallet'>
-            <Text color={"black"} fontSize="12px"> Set your Gnars NFT as PFP ! </Text>
+            <Text color={"black"} fontSize="12px"> We are having some trouble with 3speak Thumbnails, fix soon </Text>
             </a>
             </HStack>
             

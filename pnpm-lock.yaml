@@ -96,9 +96,6 @@ dependencies:
   events:
     specifier: ^3.3.0
     version: 3.3.0
-  express:
-    specifier: ^4.18.2
-    version: 4.18.2
   framer-motion:
     specifier: ^10.16.4
     version: 10.16.16(react-dom@18.2.0)(react@18.2.0)
@@ -1832,9 +1829,9 @@ packages:
   /@cosmjs/amino@0.32.0:
     resolution: {integrity: sha512-i1ehEZLQo8HUGY78eum+1ZrDQ48QSkHKy0zOTBOMqce6TiwACIC5kOjRSOWdRQDILcPFzPVrbS2dIgtrdd0ykg==}
     dependencies:
-      '@cosmjs/crypto': 0.32.0
-      '@cosmjs/encoding': 0.32.0
-      '@cosmjs/math': 0.32.0
+      '@cosmjs/crypto': 0.32.1
+      '@cosmjs/encoding': 0.32.1
+      '@cosmjs/math': 0.32.1
       '@cosmjs/utils': 0.32.1
     dev: false
 
@@ -1889,8 +1886,8 @@ packages:
   /@cosmjs/crypto@0.32.0:
     resolution: {integrity: sha512-h8Fuff9QtHeHAZXB8Mjpk8sYQSqOd484GtD1NAJRCqfXifanNUeZOaXAQkcHbA0eg/IYa+ev7+gOPxm9HkSshQ==}
     dependencies:
-      '@cosmjs/encoding': 0.32.0
-      '@cosmjs/math': 0.32.0
+      '@cosmjs/encoding': 0.32.1
+      '@cosmjs/math': 0.32.1
       '@cosmjs/utils': 0.32.1
       '@noble/hashes': 1.3.3
       bn.js: 5.2.1
@@ -2053,9 +2050,9 @@ packages:
     resolution: {integrity: sha512-9401CI0U5rvKMmYrEN4DAl7wvRd5PwfOTPgxoee+O0d3LzK4FUbTjnNIM7DeUi0zaQw/qU3vSbA3ZcMqPifSbQ==}
     dependencies:
       '@cosmjs/amino': 0.32.0
-      '@cosmjs/crypto': 0.32.0
-      '@cosmjs/encoding': 0.32.0
-      '@cosmjs/math': 0.32.0
+      '@cosmjs/crypto': 0.32.1
+      '@cosmjs/encoding': 0.32.1
+      '@cosmjs/math': 0.32.1
       '@cosmjs/utils': 0.32.1
       cosmjs-types: 0.9.0
     dev: false
@@ -2164,8 +2161,8 @@ packages:
     dependencies:
       '@confio/ics23': 0.6.8
       '@cosmjs/amino': 0.32.0
-      '@cosmjs/encoding': 0.32.0
-      '@cosmjs/math': 0.32.0
+      '@cosmjs/encoding': 0.32.1
+      '@cosmjs/math': 0.32.1
       '@cosmjs/proto-signing': 0.32.0
       '@cosmjs/stream': 0.32.1
       '@cosmjs/tendermint-rpc': 0.32.1
@@ -4219,6 +4216,7 @@ packages:
     dependencies:
       is-glob: 4.0.3
       micromatch: 4.0.5
+      napi-wasm: 1.1.0
     dev: false
     bundledDependencies:
       - napi-wasm
@@ -13518,6 +13516,10 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /napi-wasm@1.1.0:
+    resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
+    dev: false
 
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}

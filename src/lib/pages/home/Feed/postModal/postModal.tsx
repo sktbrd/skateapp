@@ -195,9 +195,10 @@ const PostModal: React.FC<Types.PostModalProps> = ({
             },
           ],
         ];
-  
+        console.log(operations);
         window.hive_keychain.requestBroadcast(username, operations, 'posting', (response: any) => {
           if (response.success) {
+            console.log(response)
             setIsEditing(false);
             setEditedContent(patchedContent); // Update state after a successful broadcast
           } else {

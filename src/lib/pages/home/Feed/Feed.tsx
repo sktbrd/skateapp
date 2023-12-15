@@ -112,6 +112,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   const [hasVotedWitness, setHasVotedWitness] = useState<boolean>(false); // Step 4
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Track modal visibility
   const [errorMessage, setErrorMessage] = useState<string>(""); // Track error message
+  const [currentThumbnail, setCurrentThumbnail] = useState<string>(""); // Track error message
 
   const fetchPostEarnings = async (
     author: string,
@@ -199,12 +200,15 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
 
       const postsWithThumbnails = result.map((post) => {
         const metadata = JSON.parse(post.json_metadata);
-        const thumbnail =
-          Array.isArray(metadata?.image) && metadata.image.length > 0
-            ? metadata.image[0]
-            : defaultThumbnail;
-        return { ...post, thumbnail, earnings: 0 }; // Initialize earnings to 0
+        
+        const thumbnail = metadata.thumbnail || 
+                          (Array.isArray(metadata.image) && metadata.image.length > 0
+                            ? metadata.image[0]
+                            : defaultThumbnail);
+      
+        return { ...post, thumbnail, earnings: 0 };
       });
+      
 
       // Fetch earnings for each initial post concurrently
       const earningsPromises = postsWithThumbnails.map((post) =>
@@ -219,7 +223,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
       const updatedPostsWithEarnings = postsWithThumbnails.map(
         (post, index) => ({ ...post, earnings: earnings[index] })
       );
-
+      
       // Set the initial loaded posts
       setLoadedPosts(updatedPostsWithEarnings);
     } catch (error) {
@@ -332,6 +336,8 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   const handleCardClick = async (post: any) => {
     console.log(post)
     console.log(post.json_metadata)
+
+    
 
     // Check if the post has images
     const images = findImagesInContent(post.body);
@@ -544,16 +550,17 @@ return (
 
                             
               <Box zIndex={1} padding="20px" height="200px"> 
-                <Image 
-                  objectFit="cover"
-                  border="1px solid limegreen"
-                  borderRadius="20px"
-                  src={post.json_metadata.thumbnail || post.thumbnail}
-                  alt="Post Thumbnail"
-                  height="100%"
-                  width="100%"
-                  bg={"black"}
-                />
+              <Image 
+    key={post.id}  // Make sure to use a unique key for each image in a list
+    objectFit="cover"
+    border="1px solid limegreen"
+    borderRadius="20px"
+    src={post.thumbnail}
+    alt="Post Thumbnail"
+    height="100%"
+    width="100%"
+    bg={"black"}
+  />
               </Box>
               <CardBody>
                 

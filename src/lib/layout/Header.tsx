@@ -11,8 +11,19 @@ import {
   useBreakpointValue,
   Image,
   Avatar,
-  Modal,
-  Menu,
+  Modal ,
+  ModalOverlay,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
+
+     Menu,
+
+  VStack,
   MenuButton,
   MenuGroup,
   MenuList,
@@ -39,6 +50,7 @@ import axios from "axios";
 //@ts-ignore
 import { usePioneer } from '@pioneer-platform/pioneer-react';
 import { MdTapAndPlay } from "react-icons/md";
+import { FaBell } from "react-icons/fa";
 
 type LinkTabProps = TabProps & RouterLinkProps;
 
@@ -47,7 +59,19 @@ interface User {
   avatar?: string;
   balance: string;
 }
-
+interface Notification {
+  date: string;
+  id: number;
+  msg: string;
+  score: number;
+  type: string;
+  url: string;
+}
+interface NotificationModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  notifications: Notification[];
+}
 
 const LinkTab: React.FC<LinkTabProps> = ({ to, children, ...tabProps }) => (
   <Link to={to}>
@@ -75,14 +99,69 @@ const HeaderNew = () => {
   const [gnarsNFTsCount, setGnarsNFTsCount] = useState<number | null>(0);
   const [wallet_address, setWalletAddress] = useState<string | null>(null);
   const isDesktop = useBreakpointValue({ base: false, md: true });
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [isNotificationModalOpen, setNotificationModalOpen] = useState(false);
 
+  const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, notifications }) => {
+    return (
+      <Popover isOpen={isOpen} onClose={onClose} >
+        <PopoverTrigger  >
+          <Text></Text>
+        </PopoverTrigger>
+        <PopoverContent minW={"80%"} bg="black" color="white" borderColor="limegreen">
+          <PopoverCloseButton />
+          <PopoverHeader>Notifications</PopoverHeader>
+          <PopoverBody>
+            {notifications.map((notification) => (
+              <Box key={notification.id} mb={0}>
+                  <Text fontSize="sm" fontWeight="bold">
+                    {notification.msg}
+                  </Text>
+              </Box>
+            ))}
+          </PopoverBody>
+        </PopoverContent>
+      </Popover>
+    );
+  };
+
+  const fetchNotifications = async () => {
+    try {
+      const response = await axios.post(
+        'https://api.hive.blog', // Update the API endpoint as needed
+        {
+          jsonrpc: '2.0',
+          method: 'bridge.account_notifications',
+          params: {
+            account: user?.name, // Assuming `user?.name` contains the account name
+            limit: 30, // Adjust the limit as needed
+          },
+          id: 1,
+        }
+      );
+
+      setNotifications(response.data.result); // Assuming the notifications are in `result` property
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    }
+  };
+  
+
+  useEffect(() => {
+    if (loggedIn) {
+      fetchNotifications();
+    }
+  }, [loggedIn, user]);
+  const handleNotificationClick = () => {
+    setNotificationModalOpen(true);
+    console.log("Notifications clicked:", notifications);
+  };
   const onLoad = async function () {
     try {
       if (app && app.wallets && app.wallets.length > 0 && app.wallets[0].wallet && app.wallets[0].wallet.accounts) {
+
         const currentAddress = app.wallets[0].wallet.accounts[0];
         setWalletAddress(currentAddress);
-      } else {
-        console.error("Some properties are undefined or null");
       }
     } catch (e) {
       console.error(e);
@@ -384,15 +463,10 @@ const avatarUrl = user && user.posting_json_metadata !== ""
   </MenuList>
 </Menu>
 
-      <Text 
-        fontSize={fontSize} 
-        fontWeight="medium" 
-        color="#f0c33f" 
-        style={{ marginTop: '2px' }}
-      >
-      </Text>
-      {/* Dropdown button */}
-      <Box>
+      <Box >
+        <HStack spacing={3} alignItems="center">
+
+
       <ChakraLink as={RouterLink} to="/wallet">
   {isDesktop && (
     <Tooltip label="Total Networth counting tokens + NFT Value" aria-label="EVM Wallet">
@@ -408,7 +482,14 @@ const avatarUrl = user && user.posting_json_metadata !== ""
     </Button>
   </Tooltip>
 </ChakraLink>
+<FaBell
+  size={24}
+  style={{ color: 'red', cursor: 'pointer' }}
+  onClick={() => setNotificationModalOpen(true)}
+/>
+<NotificationModal isOpen={isNotificationModalOpen} onClose={() => setNotificationModalOpen(false)} notifications={notifications} />
 
+    </HStack>
       </Box>
     
       </Flex>
@@ -445,7 +526,6 @@ const avatarUrl = user && user.posting_json_metadata !== ""
       </Flex>
       
 
-      {/* Hive Login Modal */}
       <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
         <HiveLogin isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
       </Modal>   

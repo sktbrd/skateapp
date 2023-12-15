@@ -33,7 +33,7 @@ const NewFeature: React.FC = () => {
             </Text>
 
             <a href='http://skatehive.app/wallet'>
-            <Text color={"black"} fontSize="12px"> We are having some trouble with 3speak Thumbnails, fix soon </Text>
+            <Text color={"black"} fontSize="12px"> 3speak back up! And we have notifications now! So Fancy!  </Text>
             </a>
             </HStack>
             

@@ -52,6 +52,7 @@
   import { MdTapAndPlay } from "react-icons/md";
   import { FaBell } from "react-icons/fa";
   import { profile } from "console";
+  import { FaLink } from "react-icons/fa";
 
   type LinkTabProps = TabProps & RouterLinkProps;
 
@@ -107,7 +108,7 @@ const [authorProfiles, setAuthorProfiles] = useState<Record<string, string>>({})
 
 
 const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, notifications }) => {
-  const msgRegex = /@(\w+)\s(.+)/;
+  const msgRegex = /@([\w-]+)\s(.+)/;
 
   const extractMsgDetails = (msg: string) => {
     const match = msg.match(msgRegex);
@@ -134,9 +135,10 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, 
       setAvatarSrcMap(prevMap => ({
         ...prevMap,
         [author]: profileImage,
-      }));
+      })
+      );
+
     } catch (error) {
-      console.error('Error fetching avatar:', error);
       // Fallback to default avatar
       setAvatarSrcMap(prevMap => ({
         ...prevMap,
@@ -152,7 +154,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, 
       fetchAvatarAndFallback(author);
     });
   }, [notifications]);
-
+  console.log(notifications)
   return (
     <Popover isOpen={isOpen} onClose={onClose}>
       <PopoverTrigger>
@@ -169,7 +171,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, 
             return (
               <Box key={notification.id} mb={4} p={4} borderWidth="1px" borderRadius="md">
                 <HStack spacing={4}>
-                  <Box boxSize={"54px"}>
+                  <Box boxSize={"56px"}>
 
                 <VStack>
 
@@ -192,8 +194,16 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, 
                 </Text>
                   </VStack>
                   </Box>
+                  
                 <Text fontSize="sm">{extractMsgDetails(notification.msg).text}</Text>
+                // assemble link with https://skatehive.app/post/hive-173115/{notification.url}
+                <Link to={`https://skatehive.app/post/hive-173115/${notification.url}`} style={{ textDecoration: 'none' }}>
+
+                    <FaLink/>
+                  </Link>
+
                 </HStack>
+
               </Box>
             );
           })}

@@ -196,6 +196,8 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, 
                 <Box key={notification.id} mb={4} p={4} borderWidth="1px" borderRadius="md">
                   <HStack spacing={4}>
                     <Box boxSize={'56px'}>
+                      <Link to={`https://skatehive.app/profile/${author}`} style={{ cursor:'pointer', textDecoration: 'none' }}>
+
                       <VStack>
                         {avatarSrc && (
                           <Image
@@ -215,6 +217,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, 
                           {extractMsgDetails(notification.msg).author}
                         </Text>
                       </VStack>
+                      </Link>
                     </Box>
 
                     <Text fontSize="sm">{extractMsgDetails(notification.msg).text}</Text>

@@ -51,7 +51,6 @@ export default function ProfilePage() {
           const jsonMetadata = JSON.parse(user?.json_metadata || '' );
           const ethAddress = jsonMetadata.extensions?.eth_address;
           if (ethAddress) {
-            console.log('eth_address:', ethAddress);
             setIsEthAddressPresent(true);
             setEthAddress(ethAddress);
           }

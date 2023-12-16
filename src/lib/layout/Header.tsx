@@ -166,6 +166,36 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, 
         [author]: DEFAULT_AVATAR_URL,
       }));
     }
+    const fetchNotifications = async () => {
+      try {
+        const response = await axios.post(
+          'https://api.hive.blog', // Update the API endpoint as needed
+          {
+            jsonrpc: '2.0',
+            method: 'bridge.account_notifications',
+            params: {
+              account: user?.name, // Assuming `user?.name` contains the account name
+              limit: 15, // Adjust the limit as needed
+            },
+            id: 1,
+          }
+        );
+
+        setNotifications(response.data.result); // Assuming the notifications are in `result` property
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+    
+
+    useEffect(() => {
+      if (loggedIn) {
+        fetchNotifications();
+      }
+    }, [loggedIn, user]);
+    const handleNotificationClick = () => {
+      setNotificationModalOpen(true);
+    };
   };
 
   useEffect(() => {
@@ -242,36 +272,6 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, 
 
 
 
-    const fetchNotifications = async () => {
-      try {
-        const response = await axios.post(
-          'https://api.hive.blog', // Update the API endpoint as needed
-          {
-            jsonrpc: '2.0',
-            method: 'bridge.account_notifications',
-            params: {
-              account: user?.name, // Assuming `user?.name` contains the account name
-              limit: 15, // Adjust the limit as needed
-            },
-            id: 1,
-          }
-        );
-
-        setNotifications(response.data.result); // Assuming the notifications are in `result` property
-      } catch (error) {
-        console.error('Error fetching notifications:', error);
-      }
-    };
-    
-
-    useEffect(() => {
-      if (loggedIn) {
-        fetchNotifications();
-      }
-    }, [loggedIn, user]);
-    const handleNotificationClick = () => {
-      setNotificationModalOpen(true);
-    };
     const onLoad = async function () {
       try {
         if (app && app.wallets && app.wallets.length > 0 && app.wallets[0].wallet && app.wallets[0].wallet.accounts) {

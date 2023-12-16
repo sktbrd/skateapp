@@ -116,7 +116,28 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, 
   };
 
   const [avatarSrcMap, setAvatarSrcMap] = useState<Record<string, string | null>>({});
-
+  const calculateTimeAgo = (timestamp: string) => {
+    const notificationTime = new Date(timestamp);
+  
+    // Get the user's local time zone offset in minutes
+    const userTimeZoneOffset = new Date().getTimezoneOffset();
+  
+    // Adjust the notification time to the user's local time zone
+    const notificationTimeLocal = new Date(notificationTime.getTime() - userTimeZoneOffset * 60 * 1000);
+  
+    const timeDifference = new Date().getTime() - notificationTimeLocal.getTime();
+    const minutesAgo = Math.floor(timeDifference / (1000 * 60));
+  
+    // If the notification time is more than 24 hours ago, show the full date
+    if (minutesAgo > 24 * 60) {
+      return notificationTimeLocal.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+    }
+  
+    // Otherwise, show the time difference in a user-friendly manner
+    return `${Math.abs(minutesAgo)} ${Math.abs(minutesAgo) === 1 ? 'minute' : 'minutes'} ago`;
+  };
+  
+  
   const fetchAvatarAndFallback = async (author: string): Promise<void> => {
     try {
       const response = await axios.post(
@@ -155,63 +176,66 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, 
     });
   }, [notifications]);
   console.log(notifications)
-  return (
-    <Popover isOpen={isOpen} onClose={onClose}>
-      <PopoverTrigger>
-        <Text></Text>
-      </PopoverTrigger>
-      <PopoverContent maxH={'756px'} minW={'80%'} bg="black" color="white" borderColor="limegreen">
-        <PopoverCloseButton />
-        <PopoverHeader>Notifications</PopoverHeader>
-        <PopoverBody overflow={'auto'}>
-          {notifications.map((notification) => {
-            const author = extractMsgDetails(notification.msg).author;
-            const avatarSrc = avatarSrcMap[author];
 
-            return (
-              <Box key={notification.id} mb={4} p={4} borderWidth="1px" borderRadius="md">
-                <HStack spacing={4}>
-                  <Box boxSize={"56px"}>
+      return (
+      <Popover isOpen={isOpen} onClose={onClose}>
+        <PopoverTrigger>
+          <Text></Text>
+        </PopoverTrigger>
+        <PopoverContent maxH={'756px'} minW={'80%'} bg="black" color="white" borderColor="limegreen">
+          <PopoverCloseButton />
+          <PopoverHeader>Notifications</PopoverHeader>
+          <PopoverBody overflow={'auto'}>
+            {notifications.map((notification) => {
+              const author = extractMsgDetails(notification.msg).author;
+              const avatarSrc = avatarSrcMap[author];
 
-                <VStack>
+              return (
+                <Box key={notification.id} mb={4} p={4} borderWidth="1px" borderRadius="md">
+                  <HStack spacing={4}>
+                    <Box boxSize={'56px'}>
+                      <VStack>
+                        {avatarSrc && (
+                          <Image
+                            src={String(avatarSrc)}
+                            alt="Author Avatar"
+                            boxSize="40px"
+                            borderRadius="full"
+                            objectFit="cover"
+                            mr={2}
+                            onError={(e) => {
+                              console.error('Error loading image:', e);
+                              e.currentTarget.src = DEFAULT_AVATAR_URL; // Fallback to default avatar
+                            }}
+                          />
+                        )}
+                        <Text color="orange" fontSize="10px" fontWeight="bold">
+                          {extractMsgDetails(notification.msg).author}
+                        </Text>
+                      </VStack>
+                    </Box>
 
-                {avatarSrc && (
-                  <Image
-                  src={String(avatarSrc)}
-                  alt="Author Avatar"
-                  boxSize="40px"
-                  borderRadius="full"
-                  objectFit="cover"
-                  mr={2}
-                  onError={(e) => {
-                    console.error('Error loading image:', e);
-                    e.currentTarget.src = DEFAULT_AVATAR_URL; // Fallback to default avatar
-                  }}
-                  />
-                  )}
-                <Text color="orange" fontSize="10px" fontWeight="bold">
-                  {extractMsgDetails(notification.msg).author}
-                </Text>
-                  </VStack>
-                  </Box>
-                  
-                <Text fontSize="sm">{extractMsgDetails(notification.msg).text}</Text>
-                // assemble link with https://skatehive.app/post/hive-173115/{notification.url}
-                <Link to={`https://skatehive.app/post/hive-173115/${notification.url}`} style={{ textDecoration: 'none' }}>
+                    <Text fontSize="sm">{extractMsgDetails(notification.msg).text}</Text>
 
-                    <FaLink/>
-                  </Link>
-
-                </HStack>
-
-              </Box>
-            );
-          })}
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
-  );
-};
+                    {/* assemble link with https://skatehive.app/post/hive-173115/{notification.url} */}
+                    <Link
+                      to={`https://skatehive.app/post/hive-173115/${notification.url}`}
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <FaLink />
+                    </Link>
+                  </HStack>
+                  <Text align={"right"} fontSize="xs" color="gray.500">
+                      {calculateTimeAgo(notification.date)}
+                    </Text>
+                </Box>
+              );
+            })}
+          </PopoverBody>
+        </PopoverContent>
+      </Popover>
+    );
+  };
 
 
 
@@ -579,7 +603,7 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, 
   </ChakraLink>
   <FaBell
     size={24}
-    style={{ color: 'red', cursor: 'pointer' }}
+    style={{ color: 'darkorange', cursor: 'pointer' }}
     onClick={() => setNotificationModalOpen(true)}
   />
   <NotificationModal isOpen={isNotificationModalOpen} onClose={() => setNotificationModalOpen(false)} notifications={notifications} />

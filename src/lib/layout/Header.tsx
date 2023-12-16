@@ -175,7 +175,6 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, 
       fetchAvatarAndFallback(author);
     });
   }, [notifications]);
-  console.log(notifications)
 
       return (
       <Popover isOpen={isOpen} onClose={onClose}>
@@ -268,12 +267,10 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, 
     useEffect(() => {
       if (loggedIn) {
         fetchNotifications();
-        console.log(notifications)
       }
     }, [loggedIn, user]);
     const handleNotificationClick = () => {
       setNotificationModalOpen(true);
-      console.log("Notifications clicked:", notifications);
     };
     const onLoad = async function () {
       try {

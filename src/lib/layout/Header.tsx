@@ -53,6 +53,7 @@
   import { FaBell } from "react-icons/fa";
   import { profile } from "console";
   import { FaLink } from "react-icons/fa";
+  import * as dhive from "@hiveio/dhive";
 
   type LinkTabProps = TabProps & RouterLinkProps;
 
@@ -140,17 +141,19 @@ const NotificationModal: React.FC<NotificationModalProps> = ({ isOpen, onClose, 
   
   const fetchAvatarAndFallback = async (author: string): Promise<void> => {
     try {
-      const response = await axios.post(
+
+
+      const dhiveClient = new dhive.Client([
         'https://api.hive.blog',
-        {
-          jsonrpc: '2.0',
-          method: 'condenser_api.get_accounts',
-          params: [[author]],
-          id: 1,
-        }
-      );
-      const result = JSON.parse(response.data.result[0].json_metadata);
-      const profileImage = result.profile.profile_image;
+        'https://api.hivekings.com',
+        'https://anyx.io',
+        'https://api.openhive.network',
+      ]);
+      const dhive_profile = await dhiveClient.database.getAccounts([author]);
+      const profile = dhive_profile[0];
+      const json_metadata = JSON.parse(profile.posting_json_metadata);
+      const profileImage = json_metadata.profile.profile_image;
+
 
       // Use the callback form to ensure the state is updated correctly
       setAvatarSrcMap(prevMap => ({

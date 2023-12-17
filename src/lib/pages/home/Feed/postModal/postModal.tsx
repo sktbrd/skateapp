@@ -51,6 +51,7 @@ import { json } from 'stream/consumers';
 import { diff_match_patch } from 'diff-match-patch';
 import { FaPencil } from 'react-icons/fa6';
 import { FaShare, FaEye } from 'react-icons/fa';
+import { FaXTwitter } from "react-icons/fa6";
 
 const PostModal: React.FC<Types.PostModalProps> = ({
   isOpen,
@@ -294,6 +295,31 @@ const handleCopyPostLink = () => {
     console.error('Failed to copy the link:', error);
   }
 };
+
+const handleShareWarpCast = () => {
+  try {
+    const postPageUrl = generatePostUrl();
+    // apen a new tab https://warpcast.com/~/compose?text= + postPageUrl
+    window.open('https://warpcast.com/~/compose?text=' + "I am shredding on my last SkateHive post, check it out: " + postPageUrl, '_blank');
+
+  }
+  catch (error) {
+    console.error('Failed to share in WarpCast:', error);
+  }
+}
+
+const handleShareTwitter = () => {
+  try {
+    const postPageUrl = generatePostUrl();
+    // apen a new tab https://warpcast.com/~/compose?text= + postPageUrl
+    window.open('https://twitter.com/intent/tweet?text=' + "I am shredding on my last SkateHive post, check it out: " + postPageUrl, '_blank');
+
+  }
+  catch (error) {
+    console.error('Failed to share in WarpCast:', error);
+  }
+}
+
 const transformedContent = transformYouTubeContent(content);
 
 return (
@@ -302,6 +328,23 @@ return (
     <ModalContent backgroundColor={'black'} boxShadow="0px 0px 10px 5px rgba(128,128,128,0.1)">
       <ModalHeader>
         <PostHeader title={title} author={author} avatarUrl={avatarUrl} postUrl={postUrl} permlink={permlink} onClose={onClose} />
+        <HStack justifyContent="space-between">
+
+          <Button leftIcon={<FaShare />} color="white" bg="black" border="1px solid orange" margin="15px" display={{ base: 'none', md: 'flex' }} onClick={handleCopyPostLink}>
+            {postLinkCopied ? 'Link Copied!' : 'Share Post'}
+          </Button>
+          <Button leftIcon={<img src="/assets/warpcast.png" alt="WarpCast" style={{ width: '20px', marginRight: '5px' }} />} color="white" bg="black" border="1px solid orange" margin="15px" display={{ base: 'none', md: 'flex' }} onClick={handleShareWarpCast}>
+            {postLinkCopied ? 'Share it' : 'WarpCast'}
+          </Button>
+          <Button leftIcon={<FaXTwitter />} color="white" bg="black" border="1px solid orange" margin="15px" display={{ base: 'none', md: 'flex' }} onClick={handleShareTwitter}>
+            {postLinkCopied ? 'Share it!' : 'Twitter'}
+          </Button>
+          <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
+            <Button leftIcon={<FaEye />} color="white" bg="black" margin="15px" border="1px solid orange">
+              View Page
+            </Button>
+          </Link>
+        </HStack>
       </ModalHeader>
 
         {isUserLoggedIn && user.name === author && !isEditing && (
@@ -409,16 +452,7 @@ return (
 
       <Comments comments={comments} commentPosted={commentPosted} blockedUser={"hivebuzz"} permlink='' />
 
-      <HStack justifyContent="space-between">
-        <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
-          <Button leftIcon={<FaEye/>} color="white" bg="black" margin="15px" border="1px solid orange" onClick={handleViewFullPost}>
-            View Full Post
-          </Button>
-        </Link>
-        <Button leftIcon={<FaShare/>} color="white" bg="black" border="1px solid orange" margin="15px" onClick={handleCopyPostLink}>
-          {postLinkCopied ? 'Link Copied!' : 'Share Post'}
-        </Button>
-      </HStack>
+
 
       {isUserLoggedIn ? (
         <div>

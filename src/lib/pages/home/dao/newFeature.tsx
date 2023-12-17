@@ -33,7 +33,7 @@ const NewFeature: React.FC = () => {
             </Text>
 
             <a href='http://skatehive.app/post/hive-173115/@skatehive/stoken-art-contest-round-1-create-and-earn'>
-            <Text color={"black"} fontSize="12px"> Dont Miss : "Stoken Art" Contest Round 1 - Create and Earn!  </Text>
+            <Text color={"black"} fontSize="12px"> WE ARE NOT DOING ANY AIRDROP DONT CLICK IN FALSE WEBSITES  </Text>
             </a>
             </HStack>
             

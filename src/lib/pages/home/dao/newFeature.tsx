@@ -32,8 +32,8 @@ const NewFeature: React.FC = () => {
             🗣
             </Text>
 
-            <a href='http://skatehive.app/post/hive-173115/@skatehive/stoken-art-contest-round-1-create-and-earn'>
-            <Text color={"black"} fontSize="12px"> WE ARE NOT DOING ANY AIRDROP DONT CLICK IN FALSE WEBSITES  </Text>
+            <a href='https://discord.gg/skateboard'>
+            <Text color={"black"} fontSize="12px"> Our Discord is secured again! Join at discord.gg/skatehive  </Text>
             </a>
             </HStack>
             

@@ -15,7 +15,7 @@ export const defaultFooter : string= `
 
 **Join Skatehive Discord and connect with the community**
 
-[![](https://i.imgur.com/GmPCq0F.png)](https://discord.gg/skatehive)
+[![](https://i.imgur.com/GmPCq0F.png)](https://discord.gg/skateboard)
 
 **Find Skatehive On**
 

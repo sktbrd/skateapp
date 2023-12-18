@@ -33,7 +33,7 @@ const NewFeature: React.FC = () => {
             </Text>
 
             <a href='https://discord.gg/skateboard'>
-            <Text color={"black"} fontSize="12px"> Our Discord is secured again! Join at discord.gg/skatehive  </Text>
+            <Text color={"black"} fontSize="12px"> Our Discord is secured again! Join at discord.gg/skateboard  </Text>
             </a>
             </HStack>
             

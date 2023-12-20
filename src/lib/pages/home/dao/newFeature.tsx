@@ -32,8 +32,8 @@ const NewFeature: React.FC = () => {
             🗣
             </Text>
 
-            <a href='http://skatehive.app/post/hive-173115/@skatehive/stoken-art-contest-round-1-create-and-earn'>
-            <Text color={"black"} fontSize="12px"> Dont Miss : "Stoken Art" Contest Round 1 - Create and Earn!  </Text>
+            <a href='https://giveth.io/project/skatehive-skateboarding-community'>
+            <Text color={"black"} fontSize="12px"> Participate in Giveth's Quadratic Funding Round, your donation with super powers!  </Text>
             </a>
             </HStack>
             

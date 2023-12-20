@@ -44,7 +44,7 @@ const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose }) => {
   };
 
   const handleSignUp = () => {
-    window.open("https://discord.gg/skatehive", "_blank");
+    window.open("https://discord.gg/skateboard", "_blank");
   };
 
   const logout = () => {

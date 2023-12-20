@@ -32,8 +32,8 @@ const NewFeature: React.FC = () => {
             🗣
             </Text>
 
-            <a href='https://discord.gg/skateboard'>
-            <Text color={"black"} fontSize="12px"> Our Discord is secured again! Join at discord.gg/skateboard  </Text>
+            <a href='https://giveth.io/project/skatehive-skateboarding-community'>
+            <Text color={"black"} fontSize="12px"> Participate in Giveth's Quadratic Funding Round, your donation with super powers!  </Text>
             </a>
             </HStack>
             

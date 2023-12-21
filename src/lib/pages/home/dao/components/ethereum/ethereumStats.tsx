@@ -236,7 +236,7 @@ const EthereumStats = () => {
             labelTooltip="skatehive.eth"
             labelLink='https://app.zerion.io/0xb4964e1eca55db36a94e8aeffbfbab48529a2f6c/overview?name=skatehive.eth'
             label="Hot Wallet"
-            balance={typeof hotWalletBalance === 'number' ? `${hotWalletBalance.toFixed(3)} ETH` : "Loading..."} />
+            balance={typeof pioneerBalance === 'number' ? `${(pioneerBalance as number).toFixed(2)} USD` : (pioneerBalance !== null && pioneerBalance !== undefined ? "Loading..." : "")} />
 
         </HStack>
         <HStack spacing={4} align="stretch">

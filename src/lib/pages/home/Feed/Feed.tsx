@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -10,32 +9,28 @@ import {
   Heading,
   IconButton,
   Image,
-  Text,
   Modal,
-  ModalOverlay,
   ModalContent,
-  useDisclosure,
+  ModalOverlay,
+  Text,
   Tooltip,
-  HStack,
+  useDisclosure
 } from "@chakra-ui/react";
-import { Client } from "@hiveio/dhive";
-import voteOnContent from "../api/voting";
+import { Client, Discussion } from "@hiveio/dhive";
 import useAuthUser from "../api/useAuthUser";
+import voteOnContent from "../api/voting";
 
 import { useEffect, useState } from "react";
-import PostModal from "./postModal/postModal";
+import { Link, useNavigate } from "react-router-dom";
 import ErrorModal from "./postModal/errorModal";
-import { useNavigate, Link } from "react-router-dom";
+import PostModal from "./postModal/postModal";
 
-import * as Types from "./types";
 import { css } from "@emotion/react";
+import * as Types from "./types";
 
-import EarningsModal from "./postModal/earningsModal"; 
-import CommunityTotalPayout from "../dao/commmunityPayout";
-import CommunityStats from "../dao/communityStats";
 import { MdArrowUpward } from 'react-icons/md';
+import EarningsModal from "./postModal/earningsModal";
 
-import { useBreakpointValue } from "@chakra-ui/react";
 
 interface ErrorModalProps {
   isOpen: boolean;
@@ -52,6 +47,8 @@ const nodes = [
   "https://anyx.io",
   "https://api.pharesim.me",
 ];
+
+
 
 const defaultThumbnail =
   "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fc.tenor.com%2FZco-fadJri4AAAAd%2Fcode-matrix.gif&f=1&nofb=1&ipt=9a9b3c43e852a375c62be78a0faf338d6b596b4eca90e5c37f75e20725a3fc67&ipo=images";
@@ -142,6 +139,25 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  function extractFirstLink(markdownText: string): string | null {
+    const regex = /!\[.*?\]\((.*?)\)/;
+    const match = markdownText.match(regex);
+    return match ? match[1] : null;
+}
+
+  function getPostDataFromPosts(posts: Discussion[]) {
+    return posts.map((post) => {
+          const metadata = JSON.parse(post.json_metadata);
+
+          const thumbnail = metadata.thumbnail ||
+            Array.isArray(metadata?.image) && metadata.image.length > 0
+              ? metadata.image[0]
+              : (extractFirstLink(post.body) || defaultThumbnail);
+        
+          return { ...post, thumbnail, earnings: 0 };
+        });
+  }
+
   const fetchPosts = async () => {
     setIsLoadingMore(true); // Set loading state when "Load More" is clicked
 
@@ -155,14 +171,8 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
       // Exclude already loaded posts from the new result
       const newPosts = result.slice(displayedPosts);
 
-      const postsWithThumbnails = newPosts.map((post) => {
-        const metadata = JSON.parse(post.json_metadata);
-        const thumbnail =
-          Array.isArray(metadata?.image) && metadata.image.length > 0
-            ? metadata.image[0]
-            : defaultThumbnail;
-        return { ...post, thumbnail, earnings: 0 }; // Initialize earnings to 0
-      });
+      const postsWithThumbnails = getPostDataFromPosts(newPosts)
+
 
       // Fetch earnings for each new post concurrently
       const earningsPromises = postsWithThumbnails.map((post) =>
@@ -197,18 +207,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
         limit: postsToLoadInitially, // Load initial posts
       };
       const result = await client.database.getDiscussions(queryType, query);
-
-      const postsWithThumbnails = result.map((post) => {
-        const metadata = JSON.parse(post.json_metadata);
-        
-        const thumbnail = metadata.thumbnail || 
-                          (Array.isArray(metadata.image) && metadata.image.length > 0
-                            ? metadata.image[0]
-                            : defaultThumbnail);
-      
-        return { ...post, thumbnail, earnings: 0 };
-      });
-      
+      const postsWithThumbnails = getPostDataFromPosts(result)
 
       // Fetch earnings for each initial post concurrently
       const earningsPromises = postsWithThumbnails.map((post) =>

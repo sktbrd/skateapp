@@ -10,7 +10,6 @@ import rehypeRaw from 'rehype-raw';
 
 
 const nodes = [
-  "https://rpc.ecency.com",
   "https://api.deathwing.me",
   "https://api.hive.blog",
   "https://api.openhive.network",
@@ -73,7 +72,7 @@ const HiveVideos: React.FC = () => {
     const nonPinataIframes = matches.filter(iframe => !iframe.includes("gateway.pinata.cloud"));
     return nonPinataIframes.map(adjustVideoSize);
   };
-  
+
 
   const openPostModal = (post: Discussion) => {
     setSelectedPost(post);
@@ -88,40 +87,40 @@ const HiveVideos: React.FC = () => {
           const iframes = extractIframes(modifiedContent);
           return iframes.length > 0 ? (
             iframes.map((iframe, i) => (
-              <Box 
-                  key={`${index}-${i}`} 
-                  borderRadius="md" 
-                  m={2} 
-                  p={2}
-                  >
-                <Box 
-                  display="flex" 
-                  alignItems="center" 
+              <Box
+                key={`${index}-${i}`}
+                borderRadius="md"
+                m={2}
+                p={2}
+              >
+                <Box
+                  display="flex"
+                  alignItems="center"
                   mb={2}>
 
-                  
-                  
+
+
                 </Box>
                 <Box position="relative" width="100%" paddingBottom="56.25%">
-    
-                <ReactMarkdown rehypePlugins={[rehypeRaw]}>{iframe}</ReactMarkdown>
-   
+
+                  <ReactMarkdown rehypePlugins={[rehypeRaw]}>{iframe}</ReactMarkdown>
+
                 </Box>
-              <Box >
-                
-              </Box>
                 <Box >
-                  
-                  <Button 
-                    border="1px solid limegreen" 
+
+                </Box>
+                <Box >
+
+                  <Button
+                    border="1px solid limegreen"
                     borderRadius="20px"
                     onClick={() => openPostModal(post)}>
-                      Full Post |
+                    Full Post |
                     <ChakraText ml={2}>{post.author}</ChakraText>
-                <Avatar 
-                  src={`https://images.hive.blog/u/${post.author}/avatar`} 
-                  size="sm" 
-                  borderRadius="8px" />
+                    <Avatar
+                      src={`https://images.hive.blog/u/${post.author}/avatar`}
+                      size="sm"
+                      borderRadius="8px" />
                   </Button>
                 </Box>
 

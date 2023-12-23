@@ -41,6 +41,9 @@ dependencies:
   '@fontsource-variable/roboto-mono':
     specifier: ^5.0.13
     version: 5.0.17
+  '@fontsource/creepster':
+    specifier: ^5.0.8
+    version: 5.0.8
   '@fontsource/open-sans':
     specifier: ^5.0.14
     version: 5.0.18
@@ -3345,6 +3348,10 @@ packages:
 
   /@fontsource-variable/roboto-mono@5.0.17:
     resolution: {integrity: sha512-+FyoiEmO2r/kiwPnsPtATK2ROMgNwCnVSvvs+K38GMLIgLSSk4cNqU3GCqJDMSvAPHMYd0gFPGKStFh+yLqd9Q==}
+    dev: false
+
+  /@fontsource/creepster@5.0.8:
+    resolution: {integrity: sha512-ufLV3H2y2ER2bjeu/nyJTcs6hBCId56j9oCN/hxrLEGen1zcOb0rzh+GFzDUr5OcXd3KCg5wNLA8Y68aq8/9LA==}
     dev: false
 
   /@fontsource/open-sans@5.0.18:

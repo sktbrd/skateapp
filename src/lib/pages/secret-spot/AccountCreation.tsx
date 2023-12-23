@@ -12,10 +12,13 @@ import {
   Center,
   Flex,
   Checkbox,
+  Image,
 } from '@chakra-ui/react';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { KeychainSDK, KeychainKeyTypes, KeychainRequestTypes } from 'keychain-sdk';
 import { KeyRole } from '@hiveio/dhive';
+import '@fontsource/creepster';
+
 // Initialize the Hive client with API endpoints
 const client = new dhive.Client([
   'https://api.hive.blog',
@@ -181,13 +184,24 @@ function AccountCreation() {
 
 
   return (
-    <Center marginBottom={10}>
+    <Flex
+      style={{
+        backgroundImage: "url('https://i.ibb.co/Lv5C8rZ/nft-unscreen.gif')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        height: '100vh', // Set height to 100% of the viewport height
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
       <VStack spacing={3}>
-        <Text fontSize="36px">Invite a Shredder to Skatehive</Text>
-        <img src="https://i.ibb.co/Lv5C8rZ/nft-unscreen.gif" alt="skatehive" />
-        <Text fontSize="xl">Choose a username!</Text>
+        <Text fontFamily="Creepster" fontSize="66px" color="white">Invite a Shredder to Skatehive</Text>
+        <Text fontFamily="Creepster" fontSize="48px" color={"yellow"}>Choose a username!</Text>
         <Input
           placeholder="Enter Hive username"
+          backdropBlur={4}
+          bg={"black"}
           value={desiredUsername}
           onChange={(e) => setDesiredUsername(e.target.value)}
         />
@@ -200,7 +214,7 @@ function AccountCreation() {
           ) : (
             <Icon as={FaTimes} color="red" />
           )}
-          <Text ml={2}>
+          <Text color={accountAvailable ? "yellow" : "white"} ml={2}>
             {accountAvailable ? 'Account available' : 'Account unavailable'}
           </Text>
         </Flex>
@@ -208,7 +222,7 @@ function AccountCreation() {
         {showSecondForm && (
           <FormControl>
             <FormLabel>Enter Your Email</FormLabel>
-            <Input placeholder="Your email" value={email} onChange={(e) =>
+            <Input bg={"black"} placeholder="Your email" value={email} onChange={(e) =>
               setEmail(e.target.value)
             } />
 
@@ -264,7 +278,7 @@ function AccountCreation() {
           </FormControl>
         )}
       </VStack>
-    </Center>
+    </Flex>
   );
 }
 

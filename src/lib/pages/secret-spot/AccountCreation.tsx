@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { KeychainSDK, KeychainKeyTypes, KeychainRequestTypes } from 'keychain-sdk';
-
+import { KeyRole } from '@hiveio/dhive';
 // Initialize the Hive client with API endpoints
 const client = new dhive.Client([
   'https://api.hive.blog',
@@ -81,7 +81,7 @@ function AccountCreation() {
   const [keys, setKeys] = useState<any>(null);
   const [downloadText, setDownloadText] = useState('');
   const [areKeysDownloaded, setAreKeysDownloaded] = useState(false);
-  
+
   const { user } = useAuthUser() as any;
 
 
@@ -208,14 +208,14 @@ function AccountCreation() {
         {showSecondForm && (
           <FormControl>
             <FormLabel>Enter Your Email</FormLabel>
-            <Input placeholder="Your email" value={email} onChange={(e) => 
+            <Input placeholder="Your email" value={email} onChange={(e) =>
               setEmail(e.target.value)
             } />
 
             <Center>
-            <Button colorScheme="teal" onClick={handleGenerateKeys} marginTop={5}>
-              Generate Keys
-            </Button>
+              <Button colorScheme="teal" onClick={handleGenerateKeys} marginTop={5}>
+                Generate Keys
+              </Button>
             </Center>
             <Flex
               display={keys ? 'flex' : 'none'}
@@ -230,7 +230,7 @@ function AccountCreation() {
                 </Button>
                 <Button colorScheme="teal" onClick={() => {
                   const element = document.createElement("a");
-                  const file = new Blob([downloadText], {type: 'text/plain'});
+                  const file = new Blob([downloadText], { type: 'text/plain' });
                   element.href = URL.createObjectURL(file);
                   element.download = `KEYS BACKUP - @${desiredUsername.toUpperCase()}.txt`;
                   document.body.appendChild(element); // Required for this to work in FireFox
@@ -249,7 +249,7 @@ function AccountCreation() {
                 background="#252525"
                 whiteSpace="pre">
                 {downloadText}
-              </Text>  
+              </Text>
 
             </Flex>
 
@@ -257,7 +257,7 @@ function AccountCreation() {
               <Checkbox colorScheme="teal" size="lg" isChecked={areKeysDownloaded} onChange={(e) => setAreKeysDownloaded(e.target.checked)}>
                 I have downloaded my keys.
               </Checkbox>
-              <Button onClick={handleCreateAccount} margin="10px" colorScheme="teal" isDisabled={ areKeysDownloaded ? false : true }>
+              <Button onClick={handleCreateAccount} margin="10px" colorScheme="teal" isDisabled={areKeysDownloaded ? false : true}>
                 Sign Up
               </Button>
             </Center>

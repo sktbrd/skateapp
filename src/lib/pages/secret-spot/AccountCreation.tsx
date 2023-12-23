@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as dhive from '@hiveio/dhive';
 import {
   Input,
@@ -27,19 +27,6 @@ const client = new dhive.Client([
 import useAuthUser from '../home/api/useAuthUser';
 
 import { Operation } from '@hiveio/dhive';
-type KeyRole = 'owner' | 'active' | 'posting' | 'memo';
-// old key pair interface
-// interface KeyPair {
-//   privateKey: dhive.PrivateKey;
-//   publicKey: dhive.PublicKey;
-// }
-
-// old function to generate key pairs
-// const generateKeyPair = (account: string, password: string, role?: KeyRole): KeyPair => {
-//   const privateKey = role ? dhive.PrivateKey.fromLogin(account, password, role) : dhive.PrivateKey.fromLogin(account, password);
-//   const publicKey = privateKey.createPublic();
-//   return { privateKey, publicKey };
-// };
 
 // generate random password
 const generatePassword = () => {
@@ -96,6 +83,7 @@ function AccountCreation() {
   const [areKeysDownloaded, setAreKeysDownloaded] = useState(false);
   
   const { user } = useAuthUser() as any;
+
 
   const handleCheck = async () => {
     if (desiredUsername) {
@@ -188,6 +176,7 @@ function AccountCreation() {
       console.error('Error during KeychainSDK interaction:', error);
     }
   };
+
 
 
 

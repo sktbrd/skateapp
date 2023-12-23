@@ -7,7 +7,7 @@ import GnarsChart from "./gnarschart";
 import { Box } from "@chakra-ui/react";
 import EthereumStats from "../ethereum/ethereumStats";
 
-const GnarsStats = () => {  
+const GnarsStats = () => {
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       <Box display="flex" flexDirection="row" width="100%">

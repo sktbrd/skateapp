@@ -33,7 +33,7 @@ const NewFeature: React.FC = () => {
             </Text> */}
             <Image src="assets/giveth.png" boxSize="30px" marginBottom="5px" />
 
-            <a href='https://giveth.io/project/skatehive-skateboarding-community'>
+            <a href='https://giveth.io/project/skatehive-skateboarding-community' target="_blank">
               <Text color={"black"} fontSize="12px"> Participate in Giveth's Quadratic Funding Round, your donation with super powers!  </Text>
             </a>
           </HStack>

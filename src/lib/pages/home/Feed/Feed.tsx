@@ -541,15 +541,16 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                   </Flex>
                 </CardHeader>
 
-                <Box zIndex={1} padding="20px" height="200px">
+                <Box zIndex={1} padding="20px" marginBottom={"10px"} height="200px">
                   <Image
                     key={post.id}
-                    objectFit="cover"
+                    objectFit={"cover"}
                     border="1px solid limegreen"
-                    borderRadius="20px"
+                    borderRadius="10px"
                     src={post.thumbnail || defaultThumbnail}
                     alt="Post Thumbnail"
                     height="100%"
+                    minH={"200px"}
                     width="100%"
                     bg={"black"}
                     onError={(

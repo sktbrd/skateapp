@@ -11,6 +11,7 @@ import {
   Icon,
   Center,
   Flex,
+  Checkbox,
 } from '@chakra-ui/react';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { KeychainSDK, KeychainKeyTypes, KeychainRequestTypes } from 'keychain-sdk';
@@ -26,16 +27,25 @@ const client = new dhive.Client([
 import useAuthUser from '../home/api/useAuthUser';
 
 import { Operation } from '@hiveio/dhive';
-type KeyRole = 'owner' | 'active' | 'posting' | 'memo';
 
-interface KeyPair {
-  privateKey: dhive.PrivateKey;
-  publicKey: dhive.PublicKey;
+// generate random password
+const generatePassword = () => {
+  const array = new Uint32Array(10);
+  crypto.getRandomValues(array);
+
+  const key = 'SKATE000' + dhive.PrivateKey.fromSeed(array.toString()).toString();
+  return key.substring(0, 25);
 }
-const generateKeyPair = (account: string, password: string, role?: KeyRole): KeyPair => {
-  const privateKey = role ? dhive.PrivateKey.fromLogin(account, password, role) : dhive.PrivateKey.fromLogin(account, password);
-  const publicKey = privateKey.createPublic();
-  return { privateKey, publicKey };
+
+// generate account keys from username and password
+const getPrivateKeys = (username: string, password: string, roles = ['owner', 'active', 'posting', 'memo']) => {
+  const privKeys = {} as any;
+  roles.forEach((role) => {
+    privKeys[role] = dhive.PrivateKey.fromLogin(username, password, role as KeyRole).toString();
+    privKeys[`${role}Pubkey`] = dhive.PrivateKey.from(privKeys[role]).createPublic().toString();
+  });
+
+  return privKeys;
 };
 
 
@@ -51,17 +61,35 @@ const checkAccountExists = async (desiredUsername: string) => {
   }
 };
 
+const copyToClipboard = (text: string) => {
+  const el = document.createElement('textarea');
+  el.value = text;
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+};
+
 function AccountCreation() {
   const [desiredUsername, setDesiredUsername] = useState('');
   const [showSecondForm, setShowSecondForm] = useState(false);
   const [accountAvailable, setAccountAvailable] = useState(false);
+  const [isCheckedOnce, setIsCheckedOnce] = useState(false);
   const [captchaCompleted, setCaptchaCompleted] = useState<boolean | null>(null);
+  const [email, setEmail] = useState('');
+  const [masterPassword, setMasterPassword] = useState('');
+  const [keys, setKeys] = useState<any>(null);
+  const [downloadText, setDownloadText] = useState('');
+  const [areKeysDownloaded, setAreKeysDownloaded] = useState(false);
+  
   const { user } = useAuthUser() as any;
 
 
   const handleCheck = async () => {
     if (desiredUsername) {
       const isAvailable = await checkAccountExists(desiredUsername);
+
+      setIsCheckedOnce(true);
 
       if (isAvailable) {
         setShowSecondForm(true);
@@ -80,6 +108,31 @@ function AccountCreation() {
     setCaptchaCompleted(completed);
   };
 
+  const handleGenerateKeys = () => {
+    // Generate new key pairs for different authorities
+    const masterPassword = generatePassword();
+    setMasterPassword(masterPassword);
+
+    const keys = getPrivateKeys(desiredUsername, masterPassword);
+    setKeys(keys);
+
+    console.log(masterPassword);
+    console.log(keys);
+
+    // create download text
+    let text = `Username: ${desiredUsername}\n\n`;
+    text += `Master Password (Backup): ${masterPassword}\n\n`;
+    text += `Owner Private Key: ${keys.owner}\n\n`;
+    text += `Active Private Key: ${keys.active}\n\n`;
+    text += `Posting Private Key: ${keys.posting}\n\n`;
+    text += `Memo Private Key: ${keys.memo}\n\n\n\n`;
+    text += `Email: ${email}\n`
+    text += `Account created: ${new Date().toUTCString()}\n`;
+    text += `Account created by: ${user.name}\n`;
+    text += `Account created on SKATEHIVE! - skatehive.app`;
+    setDownloadText(text);
+  }
+
   const handleCreateAccount = async () => {
     try {
       // initialize keychain sdk
@@ -87,59 +140,22 @@ function AccountCreation() {
       let ops: Operation[] = [];
 
       if (user) {
-
-        const generatePassword = () => {
-          const array = new Uint32Array(10);
-          crypto.getRandomValues(array);
-
-          const key = 'SKATE000' + dhive.PrivateKey.fromSeed(array.toString()).toString();
-          return key.substring(0, 25);
-        }
-
-
-        // Generate new key pairs for different authorities
-        const ownerKeyPair = generateKeyPair(user.name, generatePassword(), 'owner');
-        const activeKeyPair = generateKeyPair(user.name, generatePassword(), 'active');
-        const postingKeyPair = generateKeyPair(user.name, generatePassword(), 'posting');
-        const memoKeyPair = generateKeyPair(user.name, generatePassword(), 'memo');
-
-
-
-        console.log('Owner Key Pair:', ownerKeyPair.privateKey.toString());
-        console.log('Active Key Pair:', activeKeyPair.privateKey.toString());
-        console.log('Posting Key Pair:', postingKeyPair.privateKey.toString());
-        console.log('Memo Key Pair:', memoKeyPair.privateKey.toString());
-
-
         const createAccountOperation: Operation = [
           'account_create',
           {
             fee: '3.000 HIVE',
             creator: user.name,
             new_account_name: desiredUsername,
-            owner: {
-              weight_threshold: 1,
-              account_auths: [],
-              key_auths: [[ownerKeyPair.publicKey.toString(), 1]],
-            },
-            active: {
-              weight_threshold: 1,
-              account_auths: [],
-              key_auths: [[activeKeyPair.publicKey.toString(), 1]],
-            },
-            posting: {
-              weight_threshold: 1,
-              account_auths: [],
-              key_auths: [[postingKeyPair.publicKey.toString(), 1]],
-            },
-            memo_key: memoKeyPair.publicKey.toString(),
+            owner: dhive.Authority.from(keys.ownerPubkey),
+            active: dhive.Authority.from(keys.activePubkey),
+            posting: dhive.Authority.from(keys.postingPubkey),
+            memo_key: keys.memoPubkey,
             json_metadata: '',
             extensions: [],
           },
         ];
 
         console.log(createAccountOperation);
-
 
         ops.push(createAccountOperation);
 
@@ -165,7 +181,7 @@ function AccountCreation() {
 
 
   return (
-    <Center minH="100vh">
+    <Center marginBottom={10}>
       <VStack spacing={3}>
         <Text fontSize="36px">Invite a Shredder to Skatehive</Text>
         <img src="https://i.ibb.co/Lv5C8rZ/nft-unscreen.gif" alt="skatehive" />
@@ -178,7 +194,7 @@ function AccountCreation() {
         <Button colorScheme="teal" onClick={handleCheck}>
           Is it available?
         </Button>
-        <Flex align="center">
+        <Flex align="center" display={isCheckedOnce ? 'flex' : 'none'}>
           {accountAvailable ? (
             <Icon as={FaCheck} color="green" />
           ) : (
@@ -192,9 +208,56 @@ function AccountCreation() {
         {showSecondForm && (
           <FormControl>
             <FormLabel>Enter Your Email</FormLabel>
-            <Input placeholder="Your email" />
+            <Input placeholder="Your email" value={email} onChange={(e) => 
+              setEmail(e.target.value)
+            } />
+
             <Center>
-              <Button onClick={handleCreateAccount} margin="10px" colorScheme="teal">
+            <Button colorScheme="teal" onClick={handleGenerateKeys} marginTop={5}>
+              Generate Keys
+            </Button>
+            </Center>
+            <Flex
+              display={keys ? 'flex' : 'none'}
+              direction="column"
+              align="center"
+              justify="center"
+              marginTop={5}
+            >
+              <Flex width="100%" gap={2} justifyContent="flex-end" marginBottom={5}>
+                <Button colorScheme="teal" onClick={() => copyToClipboard(downloadText)}>
+                  Copy Keys
+                </Button>
+                <Button colorScheme="teal" onClick={() => {
+                  const element = document.createElement("a");
+                  const file = new Blob([downloadText], {type: 'text/plain'});
+                  element.href = URL.createObjectURL(file);
+                  element.download = `KEYS BACKUP - @${desiredUsername.toUpperCase()}.txt`;
+                  document.body.appendChild(element); // Required for this to work in FireFox
+                  element.click();
+
+                  setAreKeysDownloaded(true);
+                }}>
+                  Download Keys
+                </Button>
+              </Flex>
+
+              <Text
+                width="100%"
+                borderRadius="15"
+                padding={5}
+                background="#252525"
+                whiteSpace="pre">
+                {downloadText}
+              </Text>  
+
+            </Flex>
+
+            <Center display={keys ? 'flex' : 'none'}>
+              <Checkbox colorScheme="teal" size="lg" isChecked={areKeysDownloaded} onChange={(e) => setAreKeysDownloaded(e.target.checked)}>
+                I have downloaded my keys.
+              </Checkbox>
+              <Button onClick={handleCreateAccount} margin="10px" colorScheme="teal" isDisabled={ areKeysDownloaded ? false : true }>
                 Sign Up
               </Button>
             </Center>

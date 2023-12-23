@@ -34,7 +34,7 @@ const CreateAccountCTA: React.FC = () => {
                         <Image src="assets/santa.png" boxSize="43px" marginBottom="5px" />
 
                         <a href='/accountcreation' target="_blank">
-                            <Text color={"black"} fontSize="12px"> Its XMAS ! Create a Skatehive Account for a friend you love ! </Text>
+                            <Text color={"black"} fontSize="12px"> Its XMAS ! Click to create an account for a friend you love ! </Text>
                         </a>
                     </HStack>
 

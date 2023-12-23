@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as dhive from '@hiveio/dhive';
 import {
   Input,
@@ -58,6 +58,7 @@ function AccountCreation() {
   const [captchaCompleted, setCaptchaCompleted] = useState<boolean | null>(null);
   const { user } = useAuthUser() as any;
 
+
   const handleCheck = async () => {
     if (desiredUsername) {
       const isAvailable = await checkAccountExists(desiredUsername);
@@ -86,16 +87,28 @@ function AccountCreation() {
       let ops: Operation[] = [];
 
       if (user) {
-        // Generate new key pairs for different authorities
-        const ownerKeyPair = generateKeyPair(user.name, 'new_password', 'owner');
-        const activeKeyPair = generateKeyPair(user.name, 'new_password', 'active');
-        const postingKeyPair = generateKeyPair(user.name, 'new_password', 'posting');
-        const memoKeyPair = generateKeyPair(user.name, 'new_password', 'memo');
 
-        console.log('Owner Key Pair:', ownerKeyPair);
-        console.log('Active Key Pair:', activeKeyPair);
-        console.log('Posting Key Pair:', postingKeyPair);
-        console.log('Memo Key Pair:', memoKeyPair);
+        const generatePassword = () => {
+          const array = new Uint32Array(10);
+          crypto.getRandomValues(array);
+
+          const key = 'SKATE000' + dhive.PrivateKey.fromSeed(array.toString()).toString();
+          return key.substring(0, 25);
+        }
+
+
+        // Generate new key pairs for different authorities
+        const ownerKeyPair = generateKeyPair(user.name, generatePassword(), 'owner');
+        const activeKeyPair = generateKeyPair(user.name, generatePassword(), 'active');
+        const postingKeyPair = generateKeyPair(user.name, generatePassword(), 'posting');
+        const memoKeyPair = generateKeyPair(user.name, generatePassword(), 'memo');
+
+
+
+        console.log('Owner Key Pair:', ownerKeyPair.privateKey.toString());
+        console.log('Active Key Pair:', activeKeyPair.privateKey.toString());
+        console.log('Posting Key Pair:', postingKeyPair.privateKey.toString());
+        console.log('Memo Key Pair:', memoKeyPair.privateKey.toString());
 
 
         const createAccountOperation: Operation = [
@@ -147,6 +160,7 @@ function AccountCreation() {
       console.error('Error during KeychainSDK interaction:', error);
     }
   };
+
 
 
 

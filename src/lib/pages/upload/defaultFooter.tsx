@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const defaultFooter : string= `
+export const defaultFooter: string = `
 ---
 
 # Wanna support Skatehive?
@@ -19,7 +19,7 @@ export const defaultFooter : string= `
 
 **Find Skatehive On**
 
-- Hive : https://skatehive.app/@skatehive
+- Hive : https://skatehive.app/profile/skatehive
 - Instagram : https://www.instagram.com/skatehive/
 - Twitter : https://x.com/Skate_Hive
 

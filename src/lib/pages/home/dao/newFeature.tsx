@@ -31,10 +31,10 @@ const NewFeature: React.FC = () => {
             {/* <Text fontSize="28px" marginBottom="5px">
             🗣
             </Text> */}
-            <Image src="assets/giveth.png" boxSize="30px" marginBottom="5px" />
+            <Image src="assets/giveth.png" boxSize="43px" marginBottom="5px" />
 
             <a href='https://giveth.io/project/skatehive-skateboarding-community' target="_blank">
-              <Text color={"black"} fontSize="12px"> Participate in Giveth's Quadratic Funding Round, your donation with super powers!  </Text>
+              <Text color={"black"} fontSize="12px"> Join Giveth's Quadratic Funding Round, your donation w/ super powers!  </Text>
             </a>
           </HStack>
 

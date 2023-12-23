@@ -131,13 +131,14 @@ const SkatehiveProposals: React.FC = () => {
                   {proposal.title}
                 </Text>
               </Box>
-              <Box padding={"30px"} width="100%" height={'auto'} aspectRatio={1} mx="auto">
+              <Box padding={"30px"} width="100%" height={'auto'} boxSize={"272px"} mx="auto">
                 <Image
                   src={findImage(proposal.body)}
                   alt="Thumbnail"
                   objectFit="cover"
                   borderRadius="md"
                   border={borderColor}
+                  aspectRatio={1}
                   onError={(e) => {
                     e.currentTarget.src = placeholderImage;
                   }}

@@ -301,14 +301,9 @@ const HeaderNew = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!wallet_address) {
-          console.error("Wallet prop is undefined or null");
-          return;
-        }
+
 
         const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address}`);
-
-        // Count the number of NFTs from the "Gnars" collection
         const gnarsNFTsCount = response.data.nfts.reduce((count: any, nft: any) => {
           if (
             nft.token &&
@@ -331,9 +326,6 @@ const HeaderNew = () => {
 
     fetchData();
   }, [wallet_address]);
-
-
-
 
 
   useEffect(() => {

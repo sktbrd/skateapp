@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Tabs, Tab, TabList, TabPanel, TabPanels, Flex } from "@chakra-ui/react";
+import { Tabs, Tab, TabList, TabPanel, TabPanels, Flex, Divider } from "@chakra-ui/react";
 
 // Components
 import HiveStats from './components/steemskate/hiveStats';
@@ -14,12 +14,12 @@ const DaoStatus = () => {
   const [activeTab, setActiveTab] = useState("skatehive"); // Default active tab
 
   return (
-    <Flex  flexDirection="column" paddingBottom="10px" width="100%">
+    <Flex flexDirection="column" paddingBottom="10px" width="100%">
 
       <Tabs variant='enclosed' >
-    
 
-      <TabList justifyContent="center">
+
+        <TabList justifyContent="center">
           <Tab
             onClick={() => setActiveTab("skatehive")}
             color={activeTab === "skatehive" ? "orange" : "gray.500"}
@@ -35,32 +35,33 @@ const DaoStatus = () => {
         </TabList>
         <center>
 
-        <TabPanels  justifyContent={'center'}>
-          <TabPanel >
-            {activeTab === "skatehive" && (
-              <div>
+          <TabPanels justifyContent={'center'}>
+            <TabPanel >
+              {activeTab === "skatehive" && (
+                <div>
 
-              <center>
+                  <center>
 
-              <Flex maxWidth={"90%"}
-                flexDirection={{ base: 'column', md: 'row' }} // Use 'column' on small screens and 'row' on medium and larger screens
-                >
-                
-                <EthereumStats  />
-                <HiveStats wallet="steemskate" />
-                
-              </Flex>
-                </center>
+                    <Flex maxWidth={"100%"}
+                      flexDirection={{ base: 'column', md: 'row' }} // Use 'column' on small screens and 'row' on medium and larger screens
+                    >
 
-              </div>
-            )}
-          </TabPanel>
-          <TabPanel>
-            {activeTab === "gnars" && <GnarsStats />}
-            
-          </TabPanel>
-        </TabPanels>
-            </center>
+                      <EthereumStats />
+                      <Flex padding={"10px"} />
+                      <HiveStats wallet="steemskate" />
+
+                    </Flex>
+                  </center>
+
+                </div>
+              )}
+            </TabPanel>
+            <TabPanel>
+              {activeTab === "gnars" && <GnarsStats />}
+
+            </TabPanel>
+          </TabPanels>
+        </center>
 
       </Tabs>
 

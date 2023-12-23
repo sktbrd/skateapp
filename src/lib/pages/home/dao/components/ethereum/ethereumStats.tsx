@@ -126,9 +126,7 @@ const EthereumStats = () => {
         const eth_hotwallet_call = await axios.get('https://pioneers.dev/api/v1/portfolio/0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c');
 
         if (eth_hotwallet_call.status === 200) {
-          console.log(eth_hotwallet_call.data.totalNetWorth)
           const hotWalletBalanceAsNumber = eth_hotwallet_call.data.totalNetWorth;
-          console.log(hotWalletBalanceAsNumber)
           setPioneerBalance(hotWalletBalanceAsNumber);
         }
         else {
@@ -185,9 +183,6 @@ const EthereumStats = () => {
     ? (((multisigETHBalance) * ethPrice) + parseFloat(pioneerBalance)).toFixed(2) + ' USD'
     : 'Loading...';
 
-  console.log(multisigETHBalance)
-  console.log(pioneerBalance)
-  console.log(totalWorthof2wallets)
 
 
   return (
@@ -195,7 +190,7 @@ const EthereumStats = () => {
       border="2px solid #7CC4FA"
       borderRadius="12px"
       padding="10px"
-      margin="10px"
+      margin="0px"
       minWidth={['50%']}
     // Set width to 100% on mobile, 50% on other screen sizes
     >
@@ -215,7 +210,7 @@ const EthereumStats = () => {
             color="white"
             padding="10px"
           >
-            Ethereum Treasury
+            Community's Ethereum Treasury
           </Text>
         </Flex>
         <Divider backgroundColor="#7CC4FA" />

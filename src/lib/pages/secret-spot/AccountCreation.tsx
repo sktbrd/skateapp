@@ -84,9 +84,19 @@ function AccountCreation() {
       // initialize keychain sdk
       const keychain = new KeychainSDK(window);
       let ops: Operation[] = [];
+
       if (user) {
-        // Generate new key pair for the 'active' authority
-        const { privateKey, publicKey } = generateKeyPair(user.name, 'new_password', 'active');
+        // Generate new key pairs for different authorities
+        const ownerKeyPair = generateKeyPair(user.name, 'new_password', 'owner');
+        const activeKeyPair = generateKeyPair(user.name, 'new_password', 'active');
+        const postingKeyPair = generateKeyPair(user.name, 'new_password', 'posting');
+        const memoKeyPair = generateKeyPair(user.name, 'new_password', 'memo');
+
+        console.log('Owner Key Pair:', ownerKeyPair);
+        console.log('Active Key Pair:', activeKeyPair);
+        console.log('Posting Key Pair:', postingKeyPair);
+        console.log('Memo Key Pair:', memoKeyPair);
+
 
         const createAccountOperation: Operation = [
           'account_create',
@@ -97,23 +107,26 @@ function AccountCreation() {
             owner: {
               weight_threshold: 1,
               account_auths: [],
-              key_auths: [[user.posting.key_auths[0][0], 1]],
+              key_auths: [[ownerKeyPair.publicKey.toString(), 1]],
             },
             active: {
               weight_threshold: 1,
               account_auths: [],
-              key_auths: [[publicKey.toString(), 1]],
+              key_auths: [[activeKeyPair.publicKey.toString(), 1]],
             },
             posting: {
               weight_threshold: 1,
               account_auths: [],
-              key_auths: [[user.posting.key_auths[0][0], 1]],
+              key_auths: [[postingKeyPair.publicKey.toString(), 1]],
             },
-            memo_key: user.posting.memo_key,
+            memo_key: memoKeyPair.publicKey.toString(),
             json_metadata: '',
             extensions: [],
           },
         ];
+
+        console.log(createAccountOperation);
+
 
         ops.push(createAccountOperation);
 
@@ -121,7 +134,6 @@ function AccountCreation() {
           type: KeychainRequestTypes.broadcast,
           username: user.name,
           operations: ops,
-          // Fix: Use KeychainKeyTypes.active instead of 'active'
           method: KeychainKeyTypes.active,
         };
 
@@ -135,6 +147,7 @@ function AccountCreation() {
       console.error('Error during KeychainSDK interaction:', error);
     }
   };
+
 
 
   return (

@@ -66,10 +66,10 @@ const CommunityStats: React.FC<{ communityTag: string }> = ({ communityTag }) =>
         boxShadow="0 0 10px rgba(0, 0, 0, 0.1)"
         background="linear-gradient(45deg, white, limegreen)"
         color="white"
-        
+
       >
         {communityStats ? (
-          <Flex  m={"5px"} justifyContent="space-between" flexDirection="row">
+          <Flex m={"5px"} justifyContent="space-between" flexDirection="row">
             {/* Display total HBD payouts from the first API call
             <Flex paddingLeft="10%" flexDirection="column">
               <center>
@@ -82,23 +82,23 @@ const CommunityStats: React.FC<{ communityTag: string }> = ({ communityTag }) =>
             {/* Display community stats from the second API call */}
             <Flex flexDirection="column">
               <center>
-              <HStack marginEnd={"10px"}>
+                <HStack marginEnd={"10px"}>
 
-                <Text m="-2px" fontSize="28px">📜</Text>
-                <Text fontSize={"18px"} fontWeight="bold"  color="black">{communityStats.numberOfPosts}</Text>
-                <Text fontSize="8px" marginLeft={"-5px"} marginTop={"8px"} color={"black"}> Posts/Comments this Round</Text>
+                  <Text m="-2px" fontSize="28px">📜</Text>
+                  <Text fontSize={"18px"} fontWeight="bold" color="black">{communityStats.numberOfPosts}</Text>
+                  <Text fontSize="8px" marginLeft={"-5px"} marginTop={"8px"} color={"black"}> Posts/Comments this Round</Text>
                 </HStack>
               </center>
             </Flex>
 
             <Flex flexDirection="column">
               <center>
-              <HStack marginEnd={"10px"}>
+                <HStack marginEnd={"10px"}>
 
-                <Text  m="-2px"  fontSize="28px">💰</Text>
-                
-                <Text fontSize={"18px"} fontWeight="bold" color="black">${communityStats.totalPayout.toFixed(2)}</Text>
-                <Text  fontSize="8px" marginLeft={"-5px"} marginTop={"8px"} color={"black"}>Rewards this Round</Text>
+                  <Text m="-2px" fontSize="28px">💰</Text>
+
+                  <Text fontSize={"18px"} fontWeight="bold" color="black">${communityStats.totalPayout.toFixed(2)}</Text>
+                  <Text fontSize="8px" marginLeft={"-5px"} marginTop={"8px"} color={"black"}>Rewards this Round</Text>
                 </HStack>
 
               </center>
@@ -106,11 +106,11 @@ const CommunityStats: React.FC<{ communityTag: string }> = ({ communityTag }) =>
 
             <Flex flexDirection="column">
               <center>
-              <HStack marginEnd={"10px"}>
+                <HStack marginEnd={"10px"}>
 
-                <Text  m="-2px" fontSize="28px">👨‍💻</Text>
-                <Text fontSize={"18px"} fontWeight="bold"  color="black">{communityStats.numberOfAuthors}</Text>
-                <Text  fontSize="8px" marginLeft={"-5px"} marginTop={"8px"} color={"black"}>Active Users</Text>
+                  <Text m="-2px" fontSize="28px">👨‍💻</Text>
+                  <Text fontSize={"18px"} fontWeight="bold" color="black">{communityStats.numberOfAuthors}</Text>
+                  <Text fontSize="8px" marginLeft={"-5px"} marginTop={"8px"} color={"black"}>Users Stoked this Round</Text>
                 </HStack>
               </center>
             </Flex>
@@ -118,9 +118,9 @@ const CommunityStats: React.FC<{ communityTag: string }> = ({ communityTag }) =>
         ) : (
           <VStack>
 
-          <Image boxSize={"24px"} src='https://64.media.tumblr.com/12da5f52c1491f392676d1d6edb9b055/870d8bca33241f31-7b/s400x600/fda9322a446d8d833f53467be19fca3811830c26.gif'></Image>
+            <Image boxSize={"24px"} src='https://64.media.tumblr.com/12da5f52c1491f392676d1d6edb9b055/870d8bca33241f31-7b/s400x600/fda9322a446d8d833f53467be19fca3811830c26.gif'></Image>
 
-          <Text fontSize={"12px"} color={"black"}>Loading...</Text>
+            <Text fontSize={"12px"} color={"black"}>Loading...</Text>
           </VStack>
         )}
       </Box>

@@ -71,7 +71,7 @@ const VotesLeaderboard: React.FC<votesLeaderboardProps> = ({ username }) => {
 
   useEffect(() => {
     if (username.length > 0)
-    getLeaderboard();
+      getLeaderboard();
   }, [username]);
 
   return (
@@ -85,32 +85,7 @@ const VotesLeaderboard: React.FC<votesLeaderboardProps> = ({ username }) => {
       <Text fontSize="xx-large" align="center" fontWeight="bold" mb="4">
         Skaters Leaderboard
       </Text>
-      <Box >
-        <center>
-        <Text color="white" align="center" fontWeight="bold" mb="4">
-        Gnars account upvotes extreme sports content on Hive blockchain and distributes Hive tokens to shredders daily. 
-        Thanks to Hive's tokenomics, no Hive tokens leave the Gnars wallet when it's account upvotes skate content. 
-        Hive token rewards are coming from the Hive "Rewards Pool", a pool filled daily with newly minted Hive. 
-        The Hive network continually creates new digital tokens to reward content creators and curators. 
-        Some of the newly-created tokens are transferred to users who add value to Hive by posting, commenting, and voting on other people's posts. 
-        The remainder is distributed to holders of Hive Power and the witnesses that power the blockchain.The more Hive Power (staked Hive) a user has in their wallet, the more Hive tokens they can "take" from the Hive Reward Pool and give to posts they upvote (curation). The rewards that are given out by curators to quality posts are always split 50/50 between authors and curators.
-        So when Gnars Account upvotes something, it EARNS a percentage of it’s own upvote weight, back.
-         <br/>
-         <Text color="orange">
-         *Fans who leave thoughtful comments are also eligible towards rewards
-         </Text>
-        </Text>
-        </center>
 
-      </Box>
-        {
-        /* 
-        all the unique authors and their total votes, total vote rewards
-        presested in tiles with their profile image, username, total votes, total vote rewards
-        next to each other in small tiles, in a box container with grid with their rank 
-        show the top 10 authors first, then a button to show the next 10, and so on
-        */
-        }
       {isLoading ? (
         <Text align="center">Loading...</Text>
       ) : (
@@ -122,7 +97,7 @@ const VotesLeaderboard: React.FC<votesLeaderboardProps> = ({ username }) => {
           padding="10px"
         >
           {/* get the unique authors till the batch size */}
-          
+
           {uniqueAuthors.slice(0, batchSize).map((author) => (
             <Box
               display="flex"
@@ -174,25 +149,25 @@ const VotesLeaderboard: React.FC<votesLeaderboardProps> = ({ username }) => {
                 ${author.totalVoteRewards.toFixed(3)}
               </Text>
             </Box>
-          ))}          
+          ))}
         </Box>
       )}
 
       {!isLoading ? (
-      <Box
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Button
-          mt="4"
-          colorScheme="teal"
-          onClick={() => setBatchSize(batchSize + 10)}
+        <Box
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="center"
         >
-          Load More
-        </Button>
-      </Box>
+          <Button
+            mt="4"
+            colorScheme="teal"
+            onClick={() => setBatchSize(batchSize + 10)}
+          >
+            Load More
+          </Button>
+        </Box>
       ) : null}
     </Box>
   );

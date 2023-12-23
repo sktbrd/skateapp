@@ -84,22 +84,22 @@ const WalletTransactions: React.FC<WalletTransactionsProps> = ({ wallet }) => {
   );
 
   return (
-    <Box minWidth="100%">
+    <Box minWidth="auto">
       <Box border="1px solid #ccc" p="2">
         <center>
           <Text fontSize="24" fontWeight="bold">Transactions of {wallet}:</Text>
         </center>
         <Select
-          style={{backgroundColor: 'lightgray'}}
+          style={{ backgroundColor: 'lightgray' }}
           color="black"
           placeholder="Select Transaction Type"
           value={selectedType || ''}
           onChange={(e) => setSelectedType(e.target.value || null)}
           mb="4"
         >
-          <option style={{backgroundColor: 'lightgray'}} value="">All</option>
+          <option style={{ backgroundColor: 'lightgray' }} value="">All</option>
           {transactionTypes.map((type) => (
-            <option key={type} value={type} style={{backgroundColor: 'lightgray'}}>
+            <option key={type} value={type} style={{ backgroundColor: 'lightgray' }}>
               {transactionTypeNicknames[type] || type} {/* Display nickname if available */}
             </option>
           ))}
@@ -127,9 +127,9 @@ const WalletTransactions: React.FC<WalletTransactionsProps> = ({ wallet }) => {
           ))}
           {transactions.length < batchSize * 2 && (
             <center>
-            <Button mt="4" colorScheme="teal" onClick={loadMoreTransactions}>
-              Load More
-            </Button>
+              <Button mt="4" colorScheme="teal" onClick={loadMoreTransactions}>
+                Load More
+              </Button>
             </center>
           )}
         </Box>

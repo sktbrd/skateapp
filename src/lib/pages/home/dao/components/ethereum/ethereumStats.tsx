@@ -192,7 +192,6 @@ const EthereumStats = () => {
       padding="10px"
       margin="0px"
       minWidth={['50%']}
-    // Set width to 100% on mobile, 50% on other screen sizes
     >
       <VStack spacing={4} align="stretch">
 
@@ -213,14 +212,12 @@ const EthereumStats = () => {
             Community's Ethereum Treasury
           </Text>
         </Flex>
-        <Divider backgroundColor="#7CC4FA" />
 
         <Flex alignItems="center" justifyContent="center">
           <Text fontSize={"2xl"} fontWeight="bold" color="#7CC4FA">
             Total Worth: <Text style={{ fontSize: '48px' }}>{totalWorthof2wallets}</Text>
           </Text>
         </Flex>
-        <Divider backgroundColor="#7CC4FA" />
         <HStack spacing={4} align="stretch">
           <BalanceDisplay
             labelTooltip="Balance of the multisig wallet in ETH"

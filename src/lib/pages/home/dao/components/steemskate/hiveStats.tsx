@@ -121,7 +121,7 @@ const HiveStats: React.FC<HiveStatsProps> = ({ wallet }) => {
             boxSize="40px"
           />
           <Text
-            textAlign="center"
+            textAlign="start"
             borderRadius="12px"
             fontWeight="700"
             fontSize="18px"
@@ -131,7 +131,6 @@ const HiveStats: React.FC<HiveStatsProps> = ({ wallet }) => {
             Community's Hive Treasury
           </Text>
         </Flex>
-        <Divider backgroundColor="red" />
 
         {isLoading ? (
           <Text color="white">Loading...</Text>
@@ -142,7 +141,6 @@ const HiveStats: React.FC<HiveStatsProps> = ({ wallet }) => {
                 Total Worth: <Text style={{ fontSize: '48px' }}>${total.toFixed(2)}</Text>
               </Text>
             </Flex>
-            <Divider backgroundColor="red" />
             <HStack spacing={4} align="stretch">
               <BalanceDisplay
                 label="Hive"

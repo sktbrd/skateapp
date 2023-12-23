@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import Chart from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
-import {CategoryScale} from 'chart.js'; 
+import { CategoryScale } from 'chart.js';
 Chart.register(CategoryScale);
 
 const dhiveClient = new dhive.Client([
@@ -59,7 +59,7 @@ const GnarsChart = () => {
       const date = new Date(price[0]).toDateString();
       priceHistory.set(date, price[1]);
     });
-    
+
     return priceHistory;
   }
 
@@ -73,7 +73,7 @@ const GnarsChart = () => {
     });
 
     const data = await response.json();
-    
+
     // calculate rewards per date since the START_DATE
     const rewardsPerDate = new Map();
 
@@ -134,8 +134,8 @@ const GnarsChart = () => {
     // calculate first investment in hive (next day of the START_DATE)
     const firstDay = new Date(START_DATE.getTime() + 86400000);
     const ethValueFirstDay = ETH_INVESTMENT * priceHistoryETH.get(firstDay.toDateString());
-    const hiveQuantityFirstDay =  ethValueFirstDay / priceHistoryHIVE.get(firstDay.toDateString());
-    
+    const hiveQuantityFirstDay = ethValueFirstDay / priceHistoryHIVE.get(firstDay.toDateString());
+
     // calculate daily reward earned
     const totalDailyReward = hivePower - totalCurationRewards - hiveQuantityFirstDay;
     // devide by the total number of days since the START_DATE
@@ -181,7 +181,7 @@ const GnarsChart = () => {
 
   const updateChart = () => {
 
-    
+
     const labels = rawData.map((data) => data.date.toDateString());
     const hiveValues = rawData.map((data) => data.hiveValue);
 
@@ -191,7 +191,7 @@ const GnarsChart = () => {
     const hiveQuantity = rawData.map((data) => data.hiveQuantity);
     const hivePrice = rawData.map((data) => data.hivePrice);
     const ethPrice = rawData.map((data) => data.ethPrice);
-  
+
     /* create chart
     line chart with hiveValue and ethValue as datasets
     x axis is date with 10 ticks
@@ -201,7 +201,7 @@ const GnarsChart = () => {
     tooltip should be on hover anywhere on the chart
     only one y axis on the left
     */
-    
+
     const chartData = {
       labels: labels,
       datasets: [
@@ -247,8 +247,8 @@ const GnarsChart = () => {
         },
       ],
     };
-    
-    
+
+
     const chartOptions = {
       maintainAspectRatio: true,
       scales: {
@@ -260,12 +260,12 @@ const GnarsChart = () => {
         },
         y: {
           display: true,
-          position : 'left',
+          position: 'left',
           id: 'y',
         },
         y1: {
           display: false,
-          position : 'right',
+          position: 'right',
           id: 'y1',
         },
       },
@@ -274,7 +274,7 @@ const GnarsChart = () => {
           mode: 'index',
           intersect: false,
           callbacks: {
-            label: function (context:any) {
+            label: function (context: any) {
               let label = context.dataset.label || '';
               if (label) {
                 label += ': ';
@@ -291,8 +291,8 @@ const GnarsChart = () => {
         },
       },
     };
-    
-    
+
+
     setChartData(chartData);
     setChartOptions(chartOptions);
   };

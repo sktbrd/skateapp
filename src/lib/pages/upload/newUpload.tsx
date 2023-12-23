@@ -509,7 +509,7 @@ const NewUpload: React.FC = () => {
           {
             parent_author: '',
             // parent_permlink: 'testing67',
-            parent_permlink: 'testefndnia',
+            parent_permlink: process.env.COMMUNITY || 'hive-173115',
             author: username,
             permlink: videoPermlink ? videoPermlink : permlink, // Use the video permlink if video is uploaded on 3Speak
             title: title,

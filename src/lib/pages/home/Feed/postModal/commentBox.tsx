@@ -63,6 +63,7 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
   };
 
   const sendHiveTipModal = () => {
+    const [defaultMemo, setDefaultMemo] = useState("Awesome Post!")
     return (
       <Modal isOpen={isSendTipModalOpen} onClose={() => setSendTipModalOpen(false)}>
         <ModalContent minW={"75%"} bg={"black"} border={"1px dashed limegreen"}>
@@ -77,7 +78,7 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
               leftIcon={<FaHive color='red' />}
               border="3px solid red"
               mt="10px"
-              onClick={() => sendHive("0.1", parentAuthor || '', "Hive Tip")}
+              onClick={() => sendHive("0.1", parentAuthor || '', defaultMemo)}
               bg={"transparent"}
               color={"white"}
             > 0.1 HIVE</Button>
@@ -85,7 +86,7 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
               leftIcon={<FaHive color='red' />}
               border="3px solid red"
               mt="10px"
-              onClick={() => sendHive("1", parentAuthor || '', "Hive Tip")}
+              onClick={() => sendHive("1", parentAuthor || '', defaultMemo)}
               bg={"transparent"}
               color={"white"}
             > 1 HIVE</Button>
@@ -93,7 +94,7 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
               leftIcon={<FaHive color='red' />}
               border="3px solid red"
               mt="10px"
-              onClick={() => sendHive("10", parentAuthor || '', "Hive Tip")}
+              onClick={() => sendHive("10", parentAuthor || '', defaultMemo)}
               bg={"transparent"}
               color={"white"}
             > 10 HIVE</Button>
@@ -101,7 +102,7 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
               leftIcon={<FaHive color='red' />}
               border="3px solid red"
               mt="10px"
-              onClick={() => sendHive("50", parentAuthor || '', "Hive Tip")}
+              onClick={() => sendHive("50", parentAuthor || '', defaultMemo)}
               bg={"transparent"}
               color={"white"}
             > 50 HIVE</Button>
@@ -113,13 +114,22 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
               onChange={(e) => setCommentContent(e.target.value)}
               maxW={"20%"}
             />
+            <Box p="10px" textAlign="center">
+              <Text textAlign="center" color={"white"}>Send a Message with Transaction</Text>
+              <Input margin={"2px"} placeholder="Custom Message"
+                onChange={(e) => setDefaultMemo(e.target.value)}
+                maxW={"20%"}
+              />
+            </Box>
             <Button
               leftIcon={<FaHive />}
               border="1px solid white"
               marginLeft={"10px"}
-              onClick={() => sendHive(commentContent, parentAuthor || '', "Hive Tip")}
+              onClick={() => sendHive(commentContent, parentAuthor || '', defaultMemo)}
             >Tip {commentContent} HIVE</Button>
           </Box>
+
+
 
         </ModalContent>
       </Modal>

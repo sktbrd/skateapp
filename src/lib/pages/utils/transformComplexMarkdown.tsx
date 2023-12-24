@@ -77,7 +77,7 @@ export function transformComplexMarkdown(content: string): string {
       finalAfter = after;
     }
 
-    content = content.replace(finalBefore + fullMatch, `${finalBefore}<img src="${url}" alt="" />${finalAfter}`);
+    content = content.replace(finalBefore + fullMatch, `${finalBefore}<img src="${url}" alt="" />`);
   }
 
 

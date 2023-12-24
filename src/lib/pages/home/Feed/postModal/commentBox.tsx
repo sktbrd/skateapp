@@ -42,26 +42,25 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
     ];
 
     window.hive_keychain.requestBroadcast(username, operations, "posting", (response: any) => {
-        if (response.success) {
-          alert("Comment successfully posted!");
-          setCommentContent(''); // Clear the comment box
-      
-          // Call the callback to force re-render of Comments component
-          onCommentPosted();
-        } else {
-          console.error("Error posting comment:", response.message);
-        }
+      if (response.success) {
+        setCommentContent(''); // Clear the comment box
+
+        // Call the callback to force re-render of Comments component
+        onCommentPosted();
+      } else {
+        console.error("Error posting comment:", response.message);
+      }
     });
   };
 
   return (
-    <Box margin={"10px"}  borderRadius={"10px"} border="1px solid white" padding="10px" mt="20px">
+    <Box margin={"10px"} borderRadius={"10px"} border="1px solid white" padding="10px" mt="20px">
       <Textarea
         value={commentContent}
         onChange={(e) => setCommentContent(e.target.value)}
         placeholder="Write your comment here..."
       />
-      <Button  border="1px solid white" mt="10px" onClick={handleCommentSubmit}>
+      <Button border="1px solid white" mt="10px" onClick={handleCommentSubmit}>
         Submit Comment
       </Button>
       {isHiveLoginModalOpen && (

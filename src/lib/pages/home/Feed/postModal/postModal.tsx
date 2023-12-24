@@ -33,6 +33,7 @@ import useAuthUser from '../../api/useAuthUser';
 import CommentBox from './commentBox';
 import * as Types from '../types';
 import { MarkdownRenderers } from '../../../utils/MarkdownRenderers';
+import { transformComplexMarkdown } from '../../../utils/transformComplexMarkdown';
 import HiveLogin from '../../api/HiveLoginModal';
 const nodes = [
   "https://api.deathwing.me",
@@ -319,7 +320,8 @@ const PostModal: React.FC<Types.PostModalProps> = ({
     }
   }
 
-  const transformedContent = transformYouTubeContent(content);
+  let transformedContent = transformYouTubeContent(content);
+  transformedContent = transformComplexMarkdown(transformedContent);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="3xl">
@@ -428,6 +430,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
                 components={MarkdownRenderers}
                 rehypePlugins={[rehypeRaw]}
                 remarkPlugins={[remarkGfm]}
+                
               >
                 {(transformedContent)}
               </ReactMarkdown>

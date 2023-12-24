@@ -14,33 +14,51 @@ type MarkdownProps = {
   
   
 export const MarkdownRenderers = {
-    img: ({ alt, src, title, ...props }: RendererProps) => (
-        <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding:'20px' }}>
-          <img
+    img: ({ alt, src, title, ...props }: RendererProps) => {
+      // if the image is inline, it will have position start column > 1
+      let isInline = false;
+      if (props.node.position.start.column > 1) {
+        isInline = true;
+      }
+
+      let image = (
+        <img
             {...props}
             alt={alt}
             src={src}
             title={title}
             style={{
+              display: 'inline-block',
               maxWidth: '100%',
               height: 'auto',
               borderRadius: '10px',
-              // border: '1px solid orange',
+              marginTop: '20px',
+              marginBottom: '20px',
             }}
             onError={(e) => {
               // Handle image loading error by replacing the source with a default image
               e.currentTarget.src = 'https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75'; // Replace with the URL of your default image
             }}
           />
+      );
+
+      if (isInline) {
+        return image;
+      }
+
+      return (
+        <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+          {image}    
         </span>
-      ),
+      );
+    },
 
       
 // create a renderer for paragraphs <p>
 
 p: ({ children, ...props }: RendererProps) => <div {...props} style={{ color: 'white', fontSize: '18px', paddingBottom: '15px' }}>{children}</div>,
       
-a: ({ children, ...props }: RendererProps) => <a {...props} style={{ color: 'orange' }}> {children}  </a>,
+a: ({ children, ...props }: RendererProps) => <a {...props} style={{ color: 'orange', margin:'0px' }}>{children}</a>,
 
 h1: ({ children, ...props }: RendererProps) => <h1 {...props} style={{ fontWeight: 'bold', color: 'white', fontSize: '28px', paddingBottom: '10px' , paddingTop:"10px" }}>{children}</h1>,
 h2: ({ children, ...props }: RendererProps) => <h2 {...props} style={{ fontWeight: 'bold', color: 'white', fontSize: '26px', paddingBottom: '8px' , paddingTop:"10px"}}>{children}</h2>,
@@ -116,8 +134,24 @@ iframe: ({ src, ...props }: RendererProps) => (
   </span>
 ),
 table: ({ children, ...props }: RendererProps) => (
-  <div style={{ display: 'flex', justifyContent: 'center' }}>
-    <table {...props}>{children}</table>
+  <div style={{ 
+    display: 'flex', justifyContent: 'center', 
+    border: '1px solid orange',
+    borderRadius: '10px',
+    padding: '10px',
+  }}>
+    <table
+      {...props}
+      style={{
+        border: '1px solid transparent',
+        borderCollapse: 'collapse',
+        margin: '0 auto',
+        width: '100%',
+        maxWidth: '100%',
+      }}
+    >
+      {children}
+    </table>
   </div>
 ),
 video: ({ src, ...props }: RendererProps) => (
@@ -142,7 +176,7 @@ th: ({ children, ...props }: RendererProps) => (
   <th
     {...props}
     style={{
-      border: '1px solid black',
+      border: '1px solid green',
       padding: '8px',
       fontWeight: 'bold',
       textAlign: 'left',
@@ -158,6 +192,7 @@ td: ({ children, ...props }: RendererProps) => (
     {...props}
     style={{
       border: '1px solid black',
+      backgroundColor: '#1E1E1E',
       padding: '8px',
       textAlign: 'left',
     }}

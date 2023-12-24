@@ -28,6 +28,7 @@ import VotingBox from './votingBox';
 import { transformYouTubeContent } from '../utils/videoUtils/VideoUtils';
 import { transform3SpeakContent } from '../utils/videoUtils/transform3speak';
 import { transformGiphyLinksToMarkdown } from '../utils/ImageUtils';
+import { transformComplexMarkdown } from '../utils/transformComplexMarkdown';
 import useAuthUser from '../home/api/useAuthUser';
 
 import Comments from '../home/Feed/postModal/comments';
@@ -56,6 +57,8 @@ const PostPage: React.FC = () => {
         let transformedBody = await transform3SpeakContent(postData.body);
         transformedBody = transformYouTubeContent(transformedBody); 
         transformedBody = transformGiphyLinksToMarkdown(transformedBody);
+        transformedBody = transformComplexMarkdown(transformedBody);
+
         setPost({ ...postData, body: transformedBody });
         console.log(post)
 

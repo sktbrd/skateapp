@@ -31,6 +31,11 @@ import AuthorSearchBar from "./searchBar";
 import captureVideoFrame from "./captureFrame";
 import MDEditor from '@uiw/react-md-editor';
 
+import { transformYouTubeContent } from '../utils/videoUtils/VideoUtils';
+import { transform3SpeakContent } from '../utils/videoUtils/transform3speak';
+import { transformGiphyLinksToMarkdown } from '../utils/ImageUtils';
+import { transformComplexMarkdown } from '../utils/transformComplexMarkdown';
+
 import {
   get3SpeakAuthStatus,
   Connect3Speak,
@@ -718,11 +723,10 @@ const NewUpload: React.FC = () => {
             style={{
               width: '100px',
               height: 'auto',
-              margin: '-50px',
             }}
             alt="Smart Pepe"
           />
-          <Badge color="black" bg={"yellow"} marginTop={"15px"}>
+          <Badge color="black" bg={"yellow"} marginTop={"-15px"}>
             First time? Check our{" "}
             <a
               href="https://docs.skatehive.app/docs/tutorial-basics/share-ur-content"
@@ -957,7 +961,15 @@ const NewUpload: React.FC = () => {
             </Box>
           ) : ''}
           <ReactMarkdown
-            children={markdownText}
+            children={
+              transformComplexMarkdown(
+                transformGiphyLinksToMarkdown(
+                  transform3SpeakContent(
+                    transformYouTubeContent(markdownText)
+                  )
+                )
+              )
+            }
             components={{
               ...MarkdownRenderersUpload,
             }}

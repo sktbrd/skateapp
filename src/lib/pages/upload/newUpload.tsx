@@ -20,7 +20,7 @@ import { SkateboardLoading } from "../utils/videoUtils/VideoUtils";
 import { MarkdownRenderersUpload } from "../utils/MarkdownRenderersUpload";
 import { FaImage, FaVideo } from "react-icons/fa";
 import useAuthUser from '../home/api/useAuthUser';
-import rehypeRaw  from "rehype-raw";
+import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { slugify } from "../utils/videoUtils/slugify";
 import { Client } from '@hiveio/dhive';
@@ -29,6 +29,7 @@ import { Spinner } from "@chakra-ui/react";
 import { defaultFooter } from "./defaultFooter";
 import AuthorSearchBar from "./searchBar";
 import captureVideoFrame from "./captureFrame";
+import MDEditor from '@uiw/react-md-editor';
 
 import {
   get3SpeakAuthStatus,
@@ -38,11 +39,6 @@ import {
   setVideoInfoOn3Speak,
   setAsPublishedOn3Speak,
 } from "./3speak";
-
-import { transformYouTubeContent } from '../utils/videoUtils/VideoUtils';
-import { transform3SpeakContent } from '../utils/videoUtils/transform3speak';
-import { transformGiphyLinksToMarkdown } from '../utils/ImageUtils';
-import { transformComplexMarkdown } from '../utils/transformComplexMarkdown';
 
 const apiEndpoints = [
   "https://api.hive.blog",
@@ -79,7 +75,7 @@ declare global {
     hive_keychain: any;
   }
 }
-const defaultTags = ["skatehive", "skateboarding" , "leofinance" ,"sportstalk", "hive-engine"];
+const defaultTags = ["skatehive", "skateboarding", "leofinance", "sportstalk", "hive-engine"];
 
 
 const NewUpload: React.FC = () => {
@@ -97,10 +93,10 @@ const NewUpload: React.FC = () => {
   const [tags, setTags] = useState<string[]>([]); // State to store tags
   const [includeFooter, setIncludeFooter] = useState<boolean>(false); // New state for the checkbox
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
-  const [postLink , setPostLink] = useState<string>("");
+  const [postLink, setPostLink] = useState<string>("");
 
   // 3Speak state
-  const [ is3speakPost, setIs3speakPost ] = useState<boolean>(false);
+  const [is3speakPost, setIs3speakPost] = useState<boolean>(false);
   const { connected, username } = get3SpeakAuthStatus();
   const [isVideoUploaded, setIsVideoUploaded] = useState(false);
   const [videoUploadProgress, setVideoUploadProgress] = useState(0);
@@ -146,7 +142,7 @@ const NewUpload: React.FC = () => {
         const formData = new FormData();
         formData.append("file", file);
         formData.set("Content-Type", "multipart/form-data");
-  
+
         const response = await fetch(
           "https://api.pinata.cloud/pinning/pinFileToIPFS",
           {
@@ -158,15 +154,15 @@ const NewUpload: React.FC = () => {
             body: formData,
           }
         );
-  
+
         if (response.ok) {
           const data = await response.json();
           const ipfsUrl = `https://ipfs.skatehive.app/ipfs/${data.IpfsHash}?pinataGatewayToken=nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE`;
-  
+
           setUploadedVideo(ipfsUrl);
-  
+
           const transformedLink = `<iframe src="${ipfsUrl}" allowfullscreen></iframe>` + " ";
-  
+
           setMarkdownText((prevMarkdown) => prevMarkdown + `\n${transformedLink}` + '\n');
           setUploadedFiles((prevFiles) => [...prevFiles, ipfsUrl]);
         } else {
@@ -178,7 +174,7 @@ const NewUpload: React.FC = () => {
         const formData = new FormData();
         formData.append("file", file);
         formData.set("Content-Type", "multipart/form-data");
-  
+
         const response = await fetch(
           "https://api.pinata.cloud/pinning/pinFileToIPFS",
           {
@@ -190,13 +186,13 @@ const NewUpload: React.FC = () => {
             body: formData,
           }
         );
-  
+
         if (response.ok) {
           const data = await response.json();
           const ipfsUrl = `https://ipfs.skatehive.app/ipfs/${data.IpfsHash}?pinataGatewayToken=nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE`;
-  
+
           const transformedLink = ` ![Image](${ipfsUrl})` + " ";
-  
+
           setMarkdownText((prevMarkdown) => prevMarkdown + `\n${transformedLink}` + '\n');
           setUploadedFiles((prevFiles) => [...prevFiles, ipfsUrl]);
         } else {
@@ -210,8 +206,8 @@ const NewUpload: React.FC = () => {
       console.error("Error uploading file:", error);
     }
   };
-  
-  
+
+
 
 
   const onDropImages = async (acceptedFiles: File[]) => {
@@ -238,7 +234,7 @@ const NewUpload: React.FC = () => {
         for (const file of acceptedFiles) {
           await uploadFileToIPFS(file);
         }
-  
+
         setIsUploading(false);
         return;
       }
@@ -256,12 +252,12 @@ const NewUpload: React.FC = () => {
         setIsUploading(false);
         return;
       }
-      
+
       // upload video to 3Speak
       const video = acceptedFiles[0];
 
       setVideoFile(video);
-      
+
       uploadTo3Speak(video, setIsUploading, setVideoUploadProgress, setVideoInfo, setIsVideoUploaded);
     }
 
@@ -358,13 +354,13 @@ const NewUpload: React.FC = () => {
 
     return options;
   };
-  
+
   const handleHiveUpload = async () => {
     if (!user) {
       alert("You have to log in with Hive Keychain to use this feature...");
       return;
     }
-    
+
     if (!title) {
       alert("Please enter a title for your post...");
       return;
@@ -446,7 +442,7 @@ const NewUpload: React.FC = () => {
       const videoMarkdown = `<center>\n\n[![](${newThumbnailURL})](${videoURL})\n\n</center>\n`;
       // video goes on top of the markdown
       finalMarkdown = videoMarkdown + finalMarkdown;
-      
+
       // get the encoder benefeciary from video info
       const encoderBeneficiaries = JSON.parse(updatedVideoInstance.beneficiaries);
       const encoderBeneficiary = encoderBeneficiaries.find((b: any) => b.src === 'ENCODER_PAY');
@@ -467,8 +463,8 @@ const NewUpload: React.FC = () => {
 
         // Define the beneficiaries
         let finalBeneficiaries = beneficiariesArray.map(b => ({
-            account: b.account,
-            weight: parseInt(b.weight, 10) // Convert the weight string to an integer
+          account: b.account,
+          weight: parseInt(b.weight, 10) // Convert the weight string to an integer
         }));
 
         // Add the video benefeciaries if video is uploaded on 3Speak
@@ -478,7 +474,7 @@ const NewUpload: React.FC = () => {
 
         // sort the beneficiaries by account name ascending
         finalBeneficiaries = finalBeneficiaries.sort((a: any, b: any) => a.account.localeCompare(b.account));
-  
+
         // Define your comment options (e.g., max_accepted_payout, beneficiaries, etc.)
         const commentOptions = {
           author: username,
@@ -489,11 +485,11 @@ const NewUpload: React.FC = () => {
           allow_curation_rewards: true,
           extensions: [
             [0, {
-                beneficiaries: finalBeneficiaries
+              beneficiaries: finalBeneficiaries
             }]
-        ]
+          ]
         };
-  
+
         // Add defaultFooter to the markdown if includeFooter is true
         if (includeFooter) {
           let finalPermlink = videoPermlink ? videoPermlink : permlink;
@@ -506,7 +502,7 @@ const NewUpload: React.FC = () => {
 
           setMarkdownText((prevMarkdown) => prevMarkdown + newFooter);
         }
-  
+
         // Define the post operation
         const postOperation = [
           'comment',
@@ -525,10 +521,10 @@ const NewUpload: React.FC = () => {
             }),
           },
         ];
-  
+
         // Define the comment options operation
         const commentOptionsOperation = ['comment_options', commentOptions];
-  
+
         // Construct the operations array
         const operations = [postOperation, commentOptionsOperation];
         // Request the broadcast using Hive Keychain
@@ -546,7 +542,7 @@ const NewUpload: React.FC = () => {
             setTimeout(() => {
               window.location.reload();
             }, 5000);
-            
+
             if (isVideoUploaded) {
               window.alert('Video successfully published on 3Speak! It will be available soon!');
             }
@@ -560,8 +556,8 @@ const NewUpload: React.FC = () => {
       }
     }
   };
-  
-  
+
+
   const handleTagsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
     // Check if the last character is a comma or space
@@ -584,10 +580,10 @@ const NewUpload: React.FC = () => {
       setTagsInput(inputValue);
     }
   };
-  
 
-// Function to render the tags as badges
-    const renderTags = () => {
+
+  // Function to render the tags as badges
+  const renderTags = () => {
     return tags.map((tag, index) => (
       <Flex
         key={index}
@@ -631,33 +627,33 @@ const NewUpload: React.FC = () => {
         </Box>
       </Flex>
     ));
-    };
+  };
 
 
-    // Function to parse and set the tags
-    const handleTagsSubmit = () => {
-      // Split the input value by commas and trim whitespace
-      const newTags = tagsInput.split(",").map((tag) => tag.trim());
-      setTags( newTags);
-      // Clear the input field
-      setTagsInput("");
-    };
-  
-// Function to handle the checkbox change
-const handleIncludeFooterChange = () => {
-  setIncludeFooter((prevIncludeFooter) => !prevIncludeFooter);
-  if (includeFooter) {
-    // If the toggle is turned off, remove the default footer from Markdown text
-    setMarkdownText((prevMarkdown) =>
-      prevMarkdown.replace(defaultFooter,  "")
-    );
-  } else {
-    // If the toggle is turned on, add the default footer to Markdown text
-    setMarkdownText((prevMarkdown) => prevMarkdown + defaultFooter);
-  }
-};
+  // Function to parse and set the tags
+  const handleTagsSubmit = () => {
+    // Split the input value by commas and trim whitespace
+    const newTags = tagsInput.split(",").map((tag) => tag.trim());
+    setTags(newTags);
+    // Clear the input field
+    setTagsInput("");
+  };
 
-      // -------------------------Add Beneficiaries--------------------------
+  // Function to handle the checkbox change
+  const handleIncludeFooterChange = () => {
+    setIncludeFooter((prevIncludeFooter) => !prevIncludeFooter);
+    if (includeFooter) {
+      // If the toggle is turned off, remove the default footer from Markdown text
+      setMarkdownText((prevMarkdown) =>
+        prevMarkdown.replace(defaultFooter, "")
+      );
+    } else {
+      // If the toggle is turned on, add the default footer to Markdown text
+      setMarkdownText((prevMarkdown) => prevMarkdown + defaultFooter);
+    }
+  };
+
+  // -------------------------Add Beneficiaries--------------------------
 
   const searchBarRef: RefObject<HTMLDivElement> = useRef(null);
 
@@ -669,16 +665,16 @@ const handleIncludeFooterChange = () => {
     const beneficiaryExists = beneficiaries.some(b => b.name === searchUsername);
 
     if (!beneficiaryExists && percentage > 0) {
-        const newBeneficiary = { name: searchUsername, percentage };
-        setBeneficiaries(prevBeneficiaries => [...prevBeneficiaries, newBeneficiary]);
-        alert(`Beneficiary ${searchUsername} added! Please set the percentage using the sliders below.`);
+      const newBeneficiary = { name: searchUsername, percentage };
+      setBeneficiaries(prevBeneficiaries => [...prevBeneficiaries, newBeneficiary]);
+      alert(`Beneficiary ${searchUsername} added! Please set the percentage using the sliders below.`);
     } else {
-        alert(`Beneficiary ${searchUsername} already exists or percentage is zero.`);
+      alert(`Beneficiary ${searchUsername} already exists or percentage is zero.`);
     }
 
     console.log("Search username:", searchUsername);
     console.log(beneficiariesArray)
-};
+  };
 
   const handleBeneficiaryPercentageChange = (index: number, newPercentage: number) => {
     const updatedBeneficiaries = [...beneficiaries];
@@ -695,288 +691,287 @@ const handleIncludeFooterChange = () => {
       weight: (beneficiary.percentage * 100).toFixed(0),
     }));
 
-    const handleClickOutside = (event:any) => {
-      if (searchBarRef.current && !searchBarRef.current.contains(event.target)) {
-          // Close the search results here
-      }
+  const handleClickOutside = (event: any) => {
+    if (searchBarRef.current && !searchBarRef.current.contains(event.target)) {
+      // Close the search results here
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-      useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-      }, []);
-      const toggleAdvancedOptions = () => {
-        setShowAdvancedOptions((prevShow) => !prevShow);
-      };
-      
-      return (
-        <Box>
-          <Box mt={0}>
+  }, []);
+  const toggleAdvancedOptions = () => {
+    setShowAdvancedOptions((prevShow) => !prevShow);
+  };
 
-            <VStack>
+  return (
+    <Box>
+      <Box mt={0}>
 
-            <img
-                src="../../assets/smartpepe.png"
-                style={{
-                  width: '100px', 
-                  height: 'auto', 
-                  margin: '-10px',
-                }}
-                alt="Smart Pepe"
-                />
-            <Badge color="black" bg={"yellow"} marginTop={"15px"}>
-              First time? Check our{" "}
-              <a
-                href="https://docs.skatehive.app/docs/tutorial-basics/share-ur-content"
-                style={{ color: 'blue' }}
-                >
-                Tutorial
-              </a>{" "}
-              First
-            </Badge>
-          </VStack>
+        <VStack>
+
+          <img
+            src="../../assets/smartpepe.png"
+            style={{
+              width: '100px',
+              height: 'auto',
+              margin: '-50px',
+            }}
+            alt="Smart Pepe"
+          />
+          <Badge color="black" bg={"yellow"} marginTop={"15px"}>
+            First time? Check our{" "}
+            <a
+              href="https://docs.skatehive.app/docs/tutorial-basics/share-ur-content"
+              style={{ color: 'blue' }}
+            >
+              Tutorial
+            </a>{" "}
+            First
+          </Badge>
+        </VStack>
+      </Box>
+      <Flex minWidth={"100%"}
+        flexDirection={isMobile ? "column" : "row"}
+      >
+        <Box
+          flex={isMobile ? "auto" : 1}
+          p={4}
+          border="1px solid white"
+          margin={"15px"}
+          borderRadius={"10px"}
+          maxWidth={{ base: "100%", md: "50%" }}
+          overflowWrap="break-word"
+        >
+          <Box marginBottom={4}>
+
+
+            <Input
+              value={title}
+              onChange={handleTitleChange}
+              placeholder="Enter title here..."
+              fontSize="xl"
+              fontWeight="bold"
+            />
           </Box>
-          <Flex minWidth={"100%"}
-            flexDirection={isMobile ? "column" : "row"}
-          >
-            <Box 
-              flex={isMobile ? "auto" : 1}
-              p={4}
-              border="1px solid white"
-              margin={"15px"}
-              borderRadius={"10px"}
-              maxWidth={{ base: "100%", md: "50%" }}
-              overflowWrap="break-word"
-            >
-              <Box marginBottom={4}>
 
-                  
-                <Input
-                  value={title}
-                  onChange={handleTitleChange}
-                  placeholder="Enter title here..."
-                  fontSize="xl"
-                  fontWeight="bold"
-                />
-              </Box>
+          <Flex flexDirection={isMobile ? "column" : "row"}>
+            <Box flex={1}>
+              <VStack
+                {...getImagesRootProps()}
+                cursor="pointer"
+                borderWidth={2}
+                borderRadius={10}
+                borderStyle="dashed"
+                borderColor="gray.300"
+                p={6}
+                alignItems="center"
+                justifyContent="center"
+                flex="auto"
+              >
+                <input {...getImagesInputProps()} />
+                <FaImage size={32} />
+                <Text> Drop images{isVideoUploaded ? '' : '/video'} or click to select</Text>
 
-              <Flex flexDirection={isMobile ? "column" : "row"}>
-                <Box flex={1}>
-                  <VStack
-                    {...getImagesRootProps()}
-                    cursor="pointer"
-                    borderWidth={2}
-                    borderRadius={10}
-                    borderStyle="dashed"
-                    borderColor="gray.300"
-                    p={6}
-                    alignItems="center"
-                    justifyContent="center"
-                    flex="auto"
-                  >
-                    <input {...getImagesInputProps()} />
-                    <FaImage size={32} />
-                    <Text> Drop images{isVideoUploaded ? '' : '/video'} or click to select</Text>
-                    
-                  </VStack>
-                  <Flex flexDirection={isMobile ? "column" : "row"} justifyContent={'space-between'} alignItems={'center'} marginTop={4}>
-                    <Checkbox isDisabled={videoFile || uploadedVideo ? true : false } isChecked={is3speakPost} onChange={() => setIs3speakPost(!is3speakPost)}>
-                      Upload on 3Speak (experimental)
-                    </Checkbox>
-                    
-                    <Connect3Speak />
-                  </Flex>
-                    <Box marginTop={0}>
-                      <center>
-                        {isUploading ? (
-                          <Spinner
-                            thickness="4px"
-                            speed="0.65s"
-                            emptyColor="gray.200"
-                            color="limegreen"
-                            size="xl"
-                          />
-                        ) : null}
-                        {videoUploadProgress > 0 && videoUploadProgress < 100 ? (
-                          <Text>{videoUploadProgress}%</Text>
-                        ) : null}
-                        {isVideoUploaded ? (
-                          <Text>Video uploaded on 3Speak Servers!</Text>
-                        ) : null}
-                      </center>
-                    </Box>
+              </VStack>
+              <Flex flexDirection={isMobile ? "column" : "row"} justifyContent={'space-between'} alignItems={'center'} marginTop={4}>
+                <Checkbox isDisabled={videoFile || uploadedVideo ? true : false} isChecked={is3speakPost} onChange={() => setIs3speakPost(!is3speakPost)}>
+                  Upload on 3Speak (experimental)
+                </Checkbox>
 
-                  <Textarea
-                      value={markdownText}
-                      onChange={handleMarkdownChange}
-                      placeholder="Enter your Markdown here..."
-                      minHeight="600px"
-                      marginTop={4}
-                      id="markdown-editor"
+                <Connect3Speak />
+              </Flex>
+              <Box marginTop={0}>
+                <center>
+                  {isUploading ? (
+                    <Spinner
+                      thickness="4px"
+                      speed="0.65s"
+                      emptyColor="gray.200"
+                      color="limegreen"
+                      size="xl"
                     />
-                    <Checkbox
-                      isChecked={includeFooter}
-                      onChange={handleIncludeFooterChange}
-                      marginTop={2}
-                    >
-                      Include Skatehive Footer
-                    </Checkbox>
-                    <Box marginTop={4}>
-                    <Text fontSize="lg" fontWeight="bold">
-                      Thumbnail Options (select at least one)
-                    </Text>
-                    <Flex flexWrap="wrap">{renderThumbnailOptions()}</Flex>
-                  </Box>
-                </Box>
-              </Flex>
-              <Flex flexDirection={isMobile ? "column" : "row"} justifyContent={'space-between'}>
-              <Button onClick={toggleAdvancedOptions} colorScheme="teal" size="sm" marginTop={2} marginRight={2}>
-                  {showAdvancedOptions ? 'Hide Advanced Options' : ' Advanced Options'}
-                </Button>
-              </Flex>
-                {showAdvancedOptions && (
-                  <>
-
-                    <Box marginTop={4}>
-                      <div ref={searchBarRef}>
-                        <Text fontSize="lg" fontWeight="bold">
-                          Split rewards with your photographer/videomaker
-                        </Text>
-                        <AuthorSearchBar onSearch={handleAuthorSearch} />
-                        {beneficiaries.map((beneficiary, index) => (
-                          <div key={index}>
-                            <p>
-                              {beneficiary.name} - {beneficiary.percentage}%
-                            </p>
-                            <input
-                              type="range"
-                              min="0"
-                              max="100"
-                              value={beneficiary.percentage}
-                              onChange={(e) =>
-                                handleBeneficiaryPercentageChange(index, parseFloat(e.target.value))
-                              }
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </Box>
-                    <Box marginTop={4}>
-                      <Text fontSize="lg" fontWeight="bold">
-                        Enter Tags
-                      </Text>
-                      <Flex alignItems="center">
-                        <Input
-                          value={tagsInput}
-                          onChange={handleTagsChange}
-                          placeholder="Enter tags separated by commas"
-                          marginRight={2}
-                        />
-
-                      </Flex>
-
-                    </Box>
-
-                  </>
-                )}
-                                <Flex alignItems="center" wrap="wrap">{renderTags()}</Flex>
-
-              <Button onClick={handleHiveUpload} colorScheme="teal" size="sm" marginTop={2} id="publish-button">
-                Publish!
-              </Button>
-            </Box>
-            <Box
-              flex={isMobile ? "auto" : 1}
-              p={4}
-              border="1px solid white"
-              margin={"15px"}
-              borderRadius={"10px"}
-              maxWidth={{ base: "100%", md: "50%" }}
-              overflowWrap="break-word"
-            >
-              <Box>
-                <Flex padding="1%" borderRadius="10px" border="1px solid white" align="center" mb={4}>
-                  <Avatar border="1px solid limegreen" src={avatarUrl} size="sm" />
-                  <Text ml={2} fontWeight="bold" color={"orange"}>
-                    {user?.name}
-                  </Text> 
-                  <Text  marginLeft={"10px"} fontSize={"36px"} fontWeight={"bold"}> | </Text>
-                  <Text ml={3} fontWeight="bold" style={{ wordBreak: "break-all", maxWidth: "100%", color:'white' }}>
-                    {title}
-                  </Text>
-                </Flex>
-                <Divider />
+                  ) : null}
+                  {videoUploadProgress > 0 && videoUploadProgress < 100 ? (
+                    <Text>{videoUploadProgress}%</Text>
+                  ) : null}
+                  {isVideoUploaded ? (
+                    <Text>Video uploaded on 3Speak Servers!</Text>
+                  ) : null}
+                </center>
               </Box>
-              {isVideoUploaded ? (
-                <Box
-                  display={"flex"}
-                  alignItems="center"
-                  justifyContent="center"
-                  flexDirection={"column"}
-                >
-                  <Button
-                    onClick={setVideoThumbnail}
-                    colorScheme="teal"
-                    size="xs"
-                    marginTop={2}
-                    marginBottom={2}
-                  >
-                    Set Video Thumbnail
-                  </Button>
-                  <video
-                    src={videoFile ? URL.createObjectURL(videoFile) : ''}
-                    controls
-                    onLoadedData={async () => {
-                      // when the video is ready to play, focus on it
-                      
-                      // current focused element
-                      const focused = document.activeElement as HTMLElement;
-                      
-                      // focus on the video
-                      // this is needed to capture the frame without manually playing the video
-                      const video = document.getElementById("main-video") as HTMLVideoElement;
-                      video?.focus();
-
-                      // now focus on the previous element
-                      focused?.focus();
-                    }}
-                    style={{
-                      width: "auto",
-                      height: "auto",
-                      maxWidth: "100%",
-                      maxHeight: "600px",
-                    }}
-                    id="main-video"
-                  />                  
-                </Box>
-              ) : ''}
-              <ReactMarkdown
-                children={
-                  transformComplexMarkdown(
-                    transformGiphyLinksToMarkdown(
-                      transform3SpeakContent(
-                        transformYouTubeContent(markdownText)
-                      )
-                    )
-                  )
-                }
-                components={{
-                  ...MarkdownRenderersUpload,
-                }}
-                rehypePlugins={[rehypeRaw]}
-                remarkPlugins={[remarkGfm]} 
+              <MDEditor
+                value={markdownText}
+                onChange={(value, event, state) => setMarkdownText(value || '')}
+                preview="edit"
+                height={600}
               />
-              <Flex alignItems="center" wrap="wrap">{renderTags()}</Flex>
+
+
+              {/* <Textarea
+                value={markdownText}
+                onChange={handleMarkdownChange}
+                placeholder="Enter your Markdown here..."
+                minHeight="600px"
+                marginTop={4}
+                id="markdown-editor"
+              /> */}
+              <Checkbox
+                isChecked={includeFooter}
+                onChange={handleIncludeFooterChange}
+                marginTop={2}
+              >
+                Include Skatehive Footer
+              </Checkbox>
+              <Box marginTop={4}>
+                <Text fontSize="lg" fontWeight="bold">
+                  Thumbnail Options (select at least one)
+                </Text>
+                <Flex flexWrap="wrap">{renderThumbnailOptions()}</Flex>
+              </Box>
             </Box>
           </Flex>
+          <Flex flexDirection={isMobile ? "column" : "row"} justifyContent={'space-between'}>
+            <Button onClick={toggleAdvancedOptions} colorScheme="teal" size="sm" marginTop={2} marginRight={2}>
+              {showAdvancedOptions ? 'Hide Advanced Options' : ' Advanced Options'}
+            </Button>
+          </Flex>
+          {showAdvancedOptions && (
+            <>
+
+              <Box marginTop={4}>
+                <div ref={searchBarRef}>
+                  <Text fontSize="lg" fontWeight="bold">
+                    Split rewards with your photographer/videomaker
+                  </Text>
+                  <AuthorSearchBar onSearch={handleAuthorSearch} />
+                  {beneficiaries.map((beneficiary, index) => (
+                    <div key={index}>
+                      <p>
+                        {beneficiary.name} - {beneficiary.percentage}%
+                      </p>
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={beneficiary.percentage}
+                        onChange={(e) =>
+                          handleBeneficiaryPercentageChange(index, parseFloat(e.target.value))
+                        }
+                      />
+                    </div>
+                  ))}
+                </div>
+              </Box>
+              <Box marginTop={4}>
+                <Text fontSize="lg" fontWeight="bold">
+                  Enter Tags
+                </Text>
+                <Flex alignItems="center">
+                  <Input
+                    value={tagsInput}
+                    onChange={handleTagsChange}
+                    placeholder="Enter tags separated by commas"
+                    marginRight={2}
+                  />
+
+                </Flex>
+
+              </Box>
+
+            </>
+          )}
+          <Flex alignItems="center" wrap="wrap">{renderTags()}</Flex>
+
+          <Button onClick={handleHiveUpload} colorScheme="teal" size="sm" marginTop={2} id="publish-button">
+            Publish!
+          </Button>
         </Box>
-      );
-      
-      
-    
-    
-    
+        <Box
+          flex={isMobile ? "auto" : 1}
+          p={4}
+          border="1px solid white"
+          margin={"15px"}
+          borderRadius={"10px"}
+          maxWidth={{ base: "100%", md: "50%" }}
+          overflowWrap="break-word"
+        >
+          <Box>
+            <Flex padding="1%" borderRadius="10px" border="1px solid white" align="center" mb={4}>
+              <Avatar border="1px solid limegreen" src={avatarUrl} size="sm" />
+              <Text ml={2} fontWeight="bold" color={"orange"}>
+                {user?.name}
+              </Text>
+              <Text marginLeft={"10px"} fontSize={"36px"} fontWeight={"bold"}> | </Text>
+              <Text ml={3} fontWeight="bold" style={{ wordBreak: "break-all", maxWidth: "100%", color: 'white' }}>
+                {title}
+              </Text>
+            </Flex>
+            <Divider />
+          </Box>
+          {isVideoUploaded ? (
+            <Box
+              display={"flex"}
+              alignItems="center"
+              justifyContent="center"
+              flexDirection={"column"}
+            >
+              <Button
+                onClick={setVideoThumbnail}
+                colorScheme="teal"
+                size="xs"
+                marginTop={2}
+                marginBottom={2}
+              >
+                Set Video Thumbnail
+              </Button>
+              <video
+                src={videoFile ? URL.createObjectURL(videoFile) : ''}
+                controls
+                onLoadedData={async () => {
+                  // when the video is ready to play, focus on it
+
+                  // current focused element
+                  const focused = document.activeElement as HTMLElement;
+
+                  // focus on the video
+                  // this is needed to capture the frame without manually playing the video
+                  const video = document.getElementById("main-video") as HTMLVideoElement;
+                  video?.focus();
+
+                  // now focus on the previous element
+                  focused?.focus();
+                }}
+                style={{
+                  width: "auto",
+                  height: "auto",
+                  maxWidth: "100%",
+                  maxHeight: "600px",
+                }}
+                id="main-video"
+              />
+            </Box>
+          ) : ''}
+          <ReactMarkdown
+            children={markdownText}
+            components={{
+              ...MarkdownRenderersUpload,
+            }}
+            rehypePlugins={[rehypeRaw]}
+            remarkPlugins={[remarkGfm]}
+          />
+          <Flex alignItems="center" wrap="wrap">{renderTags()}</Flex>
+        </Box>
+      </Flex>
+    </Box>
+  );
+
+
+
+
+
 };
 
 export default NewUpload;

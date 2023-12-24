@@ -706,6 +706,7 @@ const NewUpload: React.FC = () => {
     setShowAdvancedOptions((prevShow) => !prevShow);
   };
 
+
   return (
     <Box>
       <Box mt={0}>
@@ -802,6 +803,7 @@ const NewUpload: React.FC = () => {
                   ) : null}
                 </center>
               </Box>
+              <br />
               <MDEditor
                 value={markdownText}
                 onChange={(value, event, state) => setMarkdownText(value || '')}

@@ -84,6 +84,7 @@ function AccountCreation() {
   const [keys, setKeys] = useState<any>(null);
   const [downloadText, setDownloadText] = useState('');
   const [areKeysDownloaded, setAreKeysDownloaded] = useState(false);
+  const [charactersToShow, setCharactersToShow] = useState(0);
 
   const { user } = useAuthUser() as any;
 
@@ -180,6 +181,19 @@ function AccountCreation() {
     }
   };
 
+  useEffect(() => {
+    const intervalTime = 30; // Increase the interval time for a smoother display
+    const timer = setInterval(() => {
+      setCharactersToShow((prevChars) => {
+        if (prevChars >= downloadText.length) {
+          clearInterval(timer);
+        }
+        return prevChars + 1;
+      });
+    }, intervalTime);
+
+    return () => clearInterval(timer);
+  }, [downloadText]);
 
 
 
@@ -205,10 +219,10 @@ function AccountCreation() {
           value={desiredUsername}
           onChange={(e) => setDesiredUsername(e.target.value)}
         />
-        <Button colorScheme="teal" onClick={handleCheck}>
+        <Button colorScheme="yellow" border={"2px solid black"} onClick={handleCheck}>
           Is it available?
         </Button>
-        <Flex align="center" display={isCheckedOnce ? 'flex' : 'none'}>
+        <Flex border={"2px solid yellow"} borderRadius="5px" bg={"black"} p={"5px"} align="center" display={isCheckedOnce ? 'flex' : 'none'}>
           {accountAvailable ? (
             <Icon as={FaCheck} color="green" />
           ) : (
@@ -221,13 +235,13 @@ function AccountCreation() {
 
         {showSecondForm && (
           <FormControl>
-            <FormLabel>Enter Your Email</FormLabel>
-            <Input bg={"black"} placeholder="Your email" value={email} onChange={(e) =>
+            {/* <FormLabel>Enter Your Email</FormLabel> */}
+            {/* <Input bg={"black"} placeholder="Your email" value={email} onChange={(e) =>
               setEmail(e.target.value)
-            } />
+            } /> */}
 
             <Center>
-              <Button colorScheme="teal" onClick={handleGenerateKeys} marginTop={5}>
+              <Button colorScheme="yellow" border={"2px solid black"} onClick={handleGenerateKeys} marginTop={5}>
                 Generate Keys
               </Button>
             </Center>
@@ -262,7 +276,7 @@ function AccountCreation() {
                 padding={5}
                 background="#252525"
                 whiteSpace="pre">
-                {downloadText}
+                {downloadText.slice(0, charactersToShow)}
               </Text>
 
             </Flex>

@@ -616,7 +616,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                   >
                     <Link to={`profile/${post.author}`}>
                       <Image
-                        border="1px solid limegreen"
+                        border="0px solid limegreen"
                         borderRadius="10px"
                         src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
                         width="105%"

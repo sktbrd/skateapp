@@ -12,9 +12,12 @@ import {
   Center,
   Flex,
   Checkbox,
+  Image,
 } from '@chakra-ui/react';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { KeychainSDK, KeychainKeyTypes, KeychainRequestTypes } from 'keychain-sdk';
+import { KeyRole } from '@hiveio/dhive';
+import '@fontsource/creepster';
 
 // Initialize the Hive client with API endpoints
 const client = new dhive.Client([
@@ -81,7 +84,7 @@ function AccountCreation() {
   const [keys, setKeys] = useState<any>(null);
   const [downloadText, setDownloadText] = useState('');
   const [areKeysDownloaded, setAreKeysDownloaded] = useState(false);
-  
+
   const { user } = useAuthUser() as any;
 
 
@@ -181,13 +184,24 @@ function AccountCreation() {
 
 
   return (
-    <Center marginBottom={10}>
+    <Flex
+      style={{
+        backgroundImage: "url('https://i.ibb.co/Lv5C8rZ/nft-unscreen.gif')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        height: '100vh', // Set height to 100% of the viewport height
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
       <VStack spacing={3}>
-        <Text fontSize="36px">Invite a Shredder to Skatehive</Text>
-        <img src="https://i.ibb.co/Lv5C8rZ/nft-unscreen.gif" alt="skatehive" />
-        <Text fontSize="xl">Choose a username!</Text>
+        <Text fontFamily="Creepster" fontSize="66px" color="white">Invite a Shredder to Skatehive</Text>
+        <Text fontFamily="Creepster" fontSize="48px" color={"yellow"}>Choose a username!</Text>
         <Input
           placeholder="Enter Hive username"
+          backdropBlur={4}
+          bg={"black"}
           value={desiredUsername}
           onChange={(e) => setDesiredUsername(e.target.value)}
         />
@@ -200,7 +214,7 @@ function AccountCreation() {
           ) : (
             <Icon as={FaTimes} color="red" />
           )}
-          <Text ml={2}>
+          <Text color={accountAvailable ? "yellow" : "white"} ml={2}>
             {accountAvailable ? 'Account available' : 'Account unavailable'}
           </Text>
         </Flex>
@@ -208,14 +222,14 @@ function AccountCreation() {
         {showSecondForm && (
           <FormControl>
             <FormLabel>Enter Your Email</FormLabel>
-            <Input placeholder="Your email" value={email} onChange={(e) => 
+            <Input bg={"black"} placeholder="Your email" value={email} onChange={(e) =>
               setEmail(e.target.value)
             } />
 
             <Center>
-            <Button colorScheme="teal" onClick={handleGenerateKeys} marginTop={5}>
-              Generate Keys
-            </Button>
+              <Button colorScheme="teal" onClick={handleGenerateKeys} marginTop={5}>
+                Generate Keys
+              </Button>
             </Center>
             <Flex
               display={keys ? 'flex' : 'none'}
@@ -230,7 +244,7 @@ function AccountCreation() {
                 </Button>
                 <Button colorScheme="teal" onClick={() => {
                   const element = document.createElement("a");
-                  const file = new Blob([downloadText], {type: 'text/plain'});
+                  const file = new Blob([downloadText], { type: 'text/plain' });
                   element.href = URL.createObjectURL(file);
                   element.download = `KEYS BACKUP - @${desiredUsername.toUpperCase()}.txt`;
                   document.body.appendChild(element); // Required for this to work in FireFox
@@ -249,7 +263,7 @@ function AccountCreation() {
                 background="#252525"
                 whiteSpace="pre">
                 {downloadText}
-              </Text>  
+              </Text>
 
             </Flex>
 
@@ -257,14 +271,14 @@ function AccountCreation() {
               <Checkbox colorScheme="teal" size="lg" isChecked={areKeysDownloaded} onChange={(e) => setAreKeysDownloaded(e.target.checked)}>
                 I have downloaded my keys.
               </Checkbox>
-              <Button onClick={handleCreateAccount} margin="10px" colorScheme="teal" isDisabled={ areKeysDownloaded ? false : true }>
+              <Button onClick={handleCreateAccount} margin="10px" colorScheme="teal" isDisabled={areKeysDownloaded ? false : true}>
                 Sign Up
               </Button>
             </Center>
           </FormControl>
         )}
       </VStack>
-    </Center>
+    </Flex>
   );
 }
 

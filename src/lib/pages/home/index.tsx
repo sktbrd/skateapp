@@ -8,7 +8,7 @@ import {
   TabPanel,
   useTabs,
   HStack,
-  
+
 } from '@chakra-ui/react';
 import HiveBlog from './Feed/Feed';
 import SkatehiveProposals from './dao/snapshot';
@@ -18,10 +18,11 @@ import CommunityStats from './dao/communityStats';
 import CommunityTotalPayout from './dao/commmunityPayout'
 import { useBreakpointValue } from '@chakra-ui/react';
 import NewFeature from './dao/newFeature';
+import CreateAccountCTA from './dao/createAccountCTA';
 
 
 const Home = () => {
-  const { selectedIndex, ...tabProps } = useTabs({isLazy: true});
+  const { selectedIndex, ...tabProps } = useTabs({ isLazy: true });
 
   const isBigScreen = window.innerWidth >= 768; // Define a breakpoint for big screens
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -33,7 +34,7 @@ const Home = () => {
       justifyContent="center"
     >
       <Tabs isFitted variant="enclosed" width="100%"  {...tabProps}>
-        <TabList justifyContent={"center"}  width="100%" >
+        <TabList justifyContent={"center"} width="100%" >
           <Tab
             color="white"
             _selected={{
@@ -73,11 +74,12 @@ const Home = () => {
         </TabList>
         <TabPanels>
           <TabPanel>
-          <HStack justifyContent="center" marginBottom="10px">
-            <CommunityTotalPayout communityTag={"hive-173115"} />
-            {!isMobile && <CommunityStats communityTag="hive-173115" />}
-            {!isMobile && <NewFeature  />}
-          </HStack>
+            <HStack justifyContent="center" marginBottom="10px">
+              {!isMobile && <CreateAccountCTA />}
+              <CommunityTotalPayout communityTag={"hive-173115"} />
+              {!isMobile && <CommunityStats communityTag="hive-173115" />}
+              {!isMobile && <NewFeature />}
+            </HStack>
 
             <HiveBlog />
           </TabPanel>

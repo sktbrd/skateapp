@@ -118,8 +118,8 @@ const SkatehiveProposals: React.FC = () => {
           ))
         ) : (
           proposals.map((proposal) => (
-            <Flex key={proposal.id} borderWidth={1} borderRadius="md" border="1px solid black" p={4} direction="column" backgroundColor="black" boxShadow="md" opacity={proposal.state === 'closed' ? 0.7 : 1}>
-              <Box minWidth="100%" mb={2} minHeight="50px"> {/* Altura mínima ajustada para garantir consistência */}
+            <Flex key={proposal.id} borderWidth={1} borderRadius="md" border="1px solid white" p={4} direction="column" backgroundColor="black" boxShadow="md" opacity={proposal.state === 'closed' ? 0.7 : 1}>
+              <Box minWidth="100%" mb={2} minHeight="50px" >
                 <Text
                   padding="5px"
                   color="white"

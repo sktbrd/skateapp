@@ -39,6 +39,11 @@ import {
   setAsPublishedOn3Speak,
 } from "./3speak";
 
+import { transformYouTubeContent } from '../utils/videoUtils/VideoUtils';
+import { transform3SpeakContent } from '../utils/videoUtils/transform3speak';
+import { transformGiphyLinksToMarkdown } from '../utils/ImageUtils';
+import { transformComplexMarkdown } from '../utils/transformComplexMarkdown';
+
 const apiEndpoints = [
   "https://api.hive.blog",
   "https://api.hivekings.com",
@@ -716,7 +721,7 @@ const handleIncludeFooterChange = () => {
                 style={{
                   width: '100px', 
                   height: 'auto', 
-                  margin: '-50px',
+                  margin: '-10px',
                 }}
                 alt="Smart Pepe"
                 />
@@ -947,7 +952,15 @@ const handleIncludeFooterChange = () => {
                 </Box>
               ) : ''}
               <ReactMarkdown
-                children={markdownText}
+                children={
+                  transformComplexMarkdown(
+                    transformGiphyLinksToMarkdown(
+                      transform3SpeakContent(
+                        transformYouTubeContent(markdownText)
+                      )
+                    )
+                  )
+                }
                 components={{
                   ...MarkdownRenderersUpload,
                 }}

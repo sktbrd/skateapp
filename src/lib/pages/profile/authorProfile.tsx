@@ -7,6 +7,8 @@ import useAuthUser from "../home/api/useAuthUser";
 import axios from 'axios';
 import { KeychainSDK, KeychainKeyTypes } from "keychain-sdk";
 import { Custom } from "keychain-sdk";
+import ReactMarkdown from 'react-markdown';
+import { MarkdownRenderers } from "../utils/MarkdownRenderers";
 
 interface Follower {
   follower: string;
@@ -201,7 +203,7 @@ export default function AuthorProfilePage() {
 
         {/* Check if it's an NFT profile before rendering the NFT background */}
         {profile_image.includes('storage.googleapis.com/zapper-fi-assets/nfts') && (
-          <Image 
+          <Image
             src={"https://i.gifer.com/origin/a9/a95ef9bce2a1d53accc6a8018df04ff6_w200.gif"}
             alt="NFT background"
             boxSize="320px"
@@ -288,11 +290,12 @@ export default function AuthorProfilePage() {
               </TabPanel>
               <TabPanel>
                 {selectedTabIndex === 1 && (
-                  <>
-                    <p>Account : {account}</p>
-                    <p>About: {authorAbout} </p>
-                    <p>Has voted for the Hive witness: {hasVotedWitness ? 'Yes' : 'No'}</p>
-                  </>
+                  <Box border={"1px solid white"} p={"30px"} borderRadius={"5px"}>
+                    <ReactMarkdown
+                      children={authorAbout || ''}
+                      components={MarkdownRenderers}
+                    />
+                  </Box>
                 )}
               </TabPanel>
               <TabPanel>

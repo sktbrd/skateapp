@@ -10,6 +10,8 @@ import EditProfileModal from "./editProfileModal";
 import { useMediaQuery } from "@chakra-ui/react";
 import { FaGear } from "react-icons/fa6";
 import { FaEthereum } from 'react-icons/fa';  // Import Ethereum logo
+import ReactMarkdown from "react-markdown";
+import { MarkdownRenderers } from "../utils/MarkdownRenderers";
 
 
 interface User {
@@ -48,7 +50,7 @@ export default function ProfilePage() {
         if (user) {
           const metadata = JSON.parse(user.posting_json_metadata || '');
           const coverImage = metadata.profile.cover_image;
-          const jsonMetadata = JSON.parse(user?.json_metadata || '' );
+          const jsonMetadata = JSON.parse(user?.json_metadata || '');
           const ethAddress = jsonMetadata.extensions?.eth_address;
           if (ethAddress) {
             setIsEthAddressPresent(true);
@@ -72,13 +74,13 @@ export default function ProfilePage() {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(created).toLocaleDateString(undefined, options);
   };
-  
+
 
   const UserAbout = ({ user }: any) => {
     if (user) {
       try {
         const metadata = JSON.parse(user.posting_json_metadata || '');
-        
+
         const about = metadata.profile.about;
         const website = metadata.profile.website;
         const created = user.created;
@@ -92,50 +94,54 @@ export default function ProfilePage() {
             p={8}
             borderRadius={20}
             boxShadow="lg"
-            
+
           >
             <Flex justifyContent="space-between">
-            <Text color={"white"} fontSize="4xl" fontWeight="bold" mb={4}>{displayname}</Text>
-            {location && <Text color={"white"} fontSize="lg" fontWeight={"bold"} mb={4}>Country: {location}</Text>}
-            {isEthAddressPresent && (
-            <Tooltip label="Copy Ethereum Address" hasArrow>
-              <FaEthereum
-                onClick={() => {
-                  navigator.clipboard.writeText(ethAddress); // Copy Ethereum address to clipboard
-                }}
-                color="white"
-                size="2em"
-                cursor="pointer"
-              />
-            </Tooltip>
-          )}
+              <Text color={"white"} fontSize="4xl" fontWeight="bold" mb={4}>{displayname}</Text>
+              {location && <Text color={"white"} fontSize="lg" fontWeight={"bold"} mb={4}>Country: {location}</Text>}
+              {isEthAddressPresent && (
+                <Tooltip label="Copy Ethereum Address" hasArrow>
+                  <FaEthereum
+                    onClick={() => {
+                      navigator.clipboard.writeText(ethAddress); // Copy Ethereum address to clipboard
+                    }}
+                    color="white"
+                    size="2em"
+                    cursor="pointer"
+                  />
+                </Tooltip>
+              )}
             </Flex>
 
             <Box border={"1px solid white"} padding={"5px"} borderRadius={"10px"}>
 
-            <Text color={"white"} fontSize="xl" fontWeight={"bold"} mb={4}>{about}</Text>
+              <ReactMarkdown
+                children={about}
+                components={MarkdownRenderers}
+              />
+
             </Box>
 
             <Flex justifyContent="space-between">
               <VStack margin={"20px"}>
 
-              <FaEdit  color="white"/>
-            <Text fontSize="lg" mb={4} fontWeight={"bold"}  color={"white"}>Posts and Comments: {postings}</Text>
+                <FaEdit color="white" />
+                <Text fontSize="lg" mb={4} fontWeight={"bold"} color={"white"}>Posts and Comments: {postings}</Text>
               </VStack>
-            <VStack margin={"20px"}>
-              <TbWorld  color="white"/> 
-              <Text ml="2" fontSize="lg" fontWeight={"bold"} color="white" >
-                {website}
-              </Text>
-            </VStack>
-            <VStack margin={"20px"}>
+              <VStack margin={"20px"}>
+                <TbWorld color="white" />
+                <Text ml="2" fontSize="lg" fontWeight={"bold"} color="white" >
+                  {website}
+                </Text>
+              </VStack>
+              <VStack margin={"20px"}>
 
-            <FaCalendar color="white"/>
-            <Text fontSize="lg" fontWeight={"bold"} mb={4} color={"white"} > {formatCreatedDate(created)}</Text>
-            </VStack>
+                <FaCalendar color="white" />
+                <Text fontSize="lg" fontWeight={"bold"} mb={4} color={"white"} > {formatCreatedDate(created)}</Text>
+              </VStack>
             </Flex>
           </Box>
-          
+
         );
       } catch (error) {
         return (
@@ -187,7 +193,7 @@ export default function ProfilePage() {
       <AspectRatio ratio={coverAspectRatio}>
         <Image src={coverImageUrl} alt="Cover Image" objectFit="cover" border="0px solid" />
       </AspectRatio>
-      
+
       <Flex alignItems="center" justifyContent="center" padding="10px" position="relative" zIndex="1">
         <Box
           position="absolute"
@@ -215,8 +221,8 @@ export default function ProfilePage() {
               border="2px solid limegreen"
             />
           )}
-          <Box position="absolute" bottom="0" right="0" p="1" cursor="pointer" _hover={{transform: "scale(1.1)"}}>
-            <FaGear onClick={editClick} color="white" size="2em"  />
+          <Box position="absolute" bottom="0" right="0" p="1" cursor="pointer" _hover={{ transform: "scale(1.1)" }}>
+            <FaGear onClick={editClick} color="white" size="2em" />
           </Box>
         </Box>
 

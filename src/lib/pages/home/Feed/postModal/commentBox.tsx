@@ -66,7 +66,7 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
     const [defaultMemo, setDefaultMemo] = useState("Awesome Post!")
     return (
       <Modal isOpen={isSendTipModalOpen} onClose={() => setSendTipModalOpen(false)}>
-        <ModalContent minW={"75%"} bg={"black"} border={"1px dashed limegreen"}>
+        <ModalContent minW={"30%"} bg={"black"} border={"3px solid red"}>
           <ModalCloseButton color={"red"} />
           <ModalHeader>Send Hive Tip to {parentAuthor}</ModalHeader>
           <center>
@@ -81,7 +81,7 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
               onClick={() => sendHive("0.1", parentAuthor || '', defaultMemo)}
               bg={"transparent"}
               color={"white"}
-            > 0.1 HIVE</Button>
+            > 0.1 </Button>
             <Button
               leftIcon={<FaHive color='red' />}
               border="3px solid red"
@@ -89,7 +89,7 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
               onClick={() => sendHive("1", parentAuthor || '', defaultMemo)}
               bg={"transparent"}
               color={"white"}
-            > 1 HIVE</Button>
+            > 1 </Button>
             <Button
               leftIcon={<FaHive color='red' />}
               border="3px solid red"
@@ -97,7 +97,7 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
               onClick={() => sendHive("10", parentAuthor || '', defaultMemo)}
               bg={"transparent"}
               color={"white"}
-            > 10 HIVE</Button>
+            > 10 </Button>
             <Button
               leftIcon={<FaHive color='red' />}
               border="3px solid red"
@@ -105,20 +105,20 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
               onClick={() => sendHive("50", parentAuthor || '', defaultMemo)}
               bg={"transparent"}
               color={"white"}
-            > 50 HIVE</Button>
+            > 50 </Button>
           </HStack>
           <Box p="10px" textAlign="center">
             <Text textAlign="center" color={"white"}>Or enter a custom amount:</Text>
 
             <Input margin={"2px"} placeholder="Custom Amount"
               onChange={(e) => setCommentContent(e.target.value)}
-              maxW={"20%"}
+              maxW={"60%"}
             />
             <Box p="10px" textAlign="center">
               <Text textAlign="center" color={"white"}>Send a Message with Transaction</Text>
               <Input margin={"2px"} placeholder="Custom Message"
                 onChange={(e) => setDefaultMemo(e.target.value)}
-                maxW={"20%"}
+                maxW={"60%"}
               />
             </Box>
             <Button

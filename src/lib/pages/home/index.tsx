@@ -8,6 +8,8 @@ import {
   TabPanel,
   useTabs,
   HStack,
+  VStack,
+  Text,
 
 } from '@chakra-ui/react';
 import HiveBlog from './Feed/Feed';
@@ -19,6 +21,7 @@ import CommunityTotalPayout from './dao/commmunityPayout'
 import { useBreakpointValue } from '@chakra-ui/react';
 import NewFeature from './dao/newFeature';
 import CreateAccountCTA from './dao/createAccountCTA';
+import '@fontsource/creepster';
 
 
 const Home = () => {
@@ -80,6 +83,66 @@ const Home = () => {
               {!isMobile && <CommunityStats communityTag="hive-173115" />}
               {!isMobile && <NewFeature />}
             </HStack>
+            <center>
+              <Text fontFamily="Creepster" color="white" fontSize="42px" marginBottom="10px">
+                Skatehive and Gnars Wish you a Merry Xmas!
+              </Text>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  maxWidth: '80%', // Adjust the maxWidth as needed
+                  background: 'black',
+                  padding: '20px',
+                }}
+              >
+                <div style={{
+                  width: '100%', marginBottom: '16px', borderRadius: '20px',
+                }}>
+                  <iframe
+                    src="https://zora.co/collect/zora:0xd11f5c95a167afdb94a990dd2ff21086df0c39da/4/embed?referrer=0x41CB654D1F47913ACAB158a8199191D160DAbe4A"
+                    style={{
+                      border: '0',
+                      backgroundColor: 'black',
+                      position: 'relative',
+                      width: '100%',
+                      aspectRatio: '16/9', // Maintain aspect ratio
+                    }}
+                    allowTransparency={true}
+                    allowFullScreen={true}
+                    sandbox="allow-pointer-lock allow-same-origin allow-scripts allow-popups"
+                  ></iframe>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    width: '100%',
+                  }}
+                >
+                  <a
+                    href="https://zora.co/collect/zora:0xd11f5c95a167afdb94a990dd2ff21086df0c39da/4"
+                    style={{
+                      padding: '12px',
+                      textDecoration: 'none',
+                      color: '#b3b3b3',
+                      fontFamily: 'Inter, system-ui',
+                      fontSize: '10px',
+                      lineHeight: '12px',
+                      fontStyle: 'normal',
+                      fontWeight: 400,
+                      marginRight: '16px',
+                    }}
+                  >
+                    GNARLY XMAS on Zora
+                  </a>
+                </div>
+              </div>
+            </center>
+
 
             <HiveBlog />
           </TabPanel>
@@ -98,7 +161,7 @@ const Home = () => {
         </TabPanels>
       </Tabs>
       {isBigScreen && <Chat />} {/* Render Chat component only on big screens */}
-    </Flex>
+    </Flex >
   );
 };
 

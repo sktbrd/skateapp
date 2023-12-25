@@ -22,14 +22,17 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   const [about, setAbout] = useState<string>(user.profile?.about || '');
   const [avatarUrl, setAvatarUrl] = useState<string>(user.profile?.profile_image || '');
   const [coverImageUrl, setCoverImageUrl] = useState<string>(user.profile?.cover_image || '');
+  const [extensions, setExtentions] = useState<any>((JSON.parse(user?.json_metadata)?.extensions) || "");
   const [website, setWebsite] = useState<string>(user.profile?.website || '');
   const [selectedProfileFile, setSelectedProfileFile] = useState<File | null>(null);
   const [selectedCoverFile, setSelectedCoverFile] = useState<File | null>(null);
   const [connectedAddress, setConnectedAddress] = useState<string>('');
-  const [ethAddress, setEthAddress] = useState<string>('');
   const { state } = usePioneer();
   const { app, status } = state;
   const [isEthSetupModalOpen, setIsEthSetupModalOpen] = useState(false);
+  const [ethAddress, setEthAddress] = useState<string>(extensions?.eth_address || '');
+
+
 
   const onStart = async function () {
     try {
@@ -47,7 +50,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   useEffect(() => {
     onStart();
   }
-  , [app, status]);
+    , [app, status]);
 
   const handleClickaddEthAddress = async () => {
     setEthAddress(connectedAddress);
@@ -70,23 +73,21 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
       </Modal>
     )
   }
-  
 
-    
+
+
 
 
   useEffect(() => {
     if (user && user.posting_json_metadata) {
       try {
         const metadata = JSON.parse(user.posting_json_metadata);
-        console.log(user)
 
         setName(name => name || metadata.profile.name || '');
         setAbout(about => about || metadata.profile.about || '');
         setAvatarUrl(avatarUrl => avatarUrl || metadata.profile.profile_image || '');
         setCoverImageUrl(coverImageUrl => coverImageUrl || metadata.profile.cover_image || '');
         setWebsite(website => website || metadata.profile.website || '');
-        console.log(metadata);
       } catch (error) {
         console.error('Error parsing JSON metadata:', error);
       }
@@ -96,7 +97,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   const sendEditTransaction = async () => {
     try {
       const keychain = new KeychainSDK(window);
-  
+
       const formParamsAsObject = {
         data: {
           username: user.name,
@@ -134,15 +135,15 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
           method: KeychainKeyTypes.active,
         },
       };
-      
-  
+
+
       const broadcast = await keychain.broadcast(formParamsAsObject.data as unknown as Broadcast);
-  
+
     } catch (error) {
       console.error(error);
     }
   };
-  
+
 
   const uploadFileToIPFS = async (file: File) => {
     try {
@@ -223,52 +224,52 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
           />
           <Text> Avatar URL</Text>
           <HStack>
-          <Input
-            placeholder="Avatar URL"
-            value={avatarUrl}
-            onChange={(e) => setAvatarUrl(e.target.value)}
-          />
-          <Button color={"limegreen"} border={"1px dashed limegreen"} variant="ghost" mt={2} mb={2}>
-            <label htmlFor="profileFileInput">
-              <FaUpload />
-            </label>
-            <input
-              type="file"
-              id="profileFileInput"
-              accept="image/*"
-              style={{ display: 'none' }}
-              onChange={handleProfileFileInputChange}
+            <Input
+              placeholder="Avatar URL"
+              value={avatarUrl}
+              onChange={(e) => setAvatarUrl(e.target.value)}
             />
-          </Button>
-          {selectedProfileFile && (
-            <div>
-               {selectedProfileFile.name}
-            </div>
-          )}
-            </HStack>
+            <Button color={"limegreen"} border={"1px dashed limegreen"} variant="ghost" mt={2} mb={2}>
+              <label htmlFor="profileFileInput">
+                <FaUpload />
+              </label>
+              <input
+                type="file"
+                id="profileFileInput"
+                accept="image/*"
+                style={{ display: 'none' }}
+                onChange={handleProfileFileInputChange}
+              />
+            </Button>
+            {selectedProfileFile && (
+              <div>
+                {selectedProfileFile.name}
+              </div>
+            )}
+          </HStack>
           <Text> Cover Image URL</Text>
           <HStack>
 
-          <Input
-            placeholder="Cover Image URL"
-            value={coverImageUrl}
-            onChange={(e) => setCoverImageUrl(e.target.value)}
+            <Input
+              placeholder="Cover Image URL"
+              value={coverImageUrl}
+              onChange={(e) => setCoverImageUrl(e.target.value)}
             />
-          <Button color={"limegreen"} border={"1px dashed limegreen"} variant="ghost" mt={2} mb={2}>
-            <label htmlFor="coverFileInput">
-              <FaUpload /> 
-            </label>
-            <input
-              type="file"
-              id="coverFileInput"
-              accept="image/*"
-              style={{ display: 'none' }}
-              onChange={handleCoverFileInputChange}
+            <Button color={"limegreen"} border={"1px dashed limegreen"} variant="ghost" mt={2} mb={2}>
+              <label htmlFor="coverFileInput">
+                <FaUpload />
+              </label>
+              <input
+                type="file"
+                id="coverFileInput"
+                accept="image/*"
+                style={{ display: 'none' }}
+                onChange={handleCoverFileInputChange}
               />
-          </Button>
+            </Button>
           </HStack>
           {selectedCoverFile && (
-              <div>
+            <div>
               {selectedCoverFile.name}
             </div>
           )}
@@ -281,7 +282,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
 
         </ModalBody>
         <Flex align="center" justify="center" direction="column">
-        <Button onClick={() => setIsEthSetupModalOpen(true)}> Add Ethereum Wallet Address </Button>
+          <Button onClick={() => setIsEthSetupModalOpen(true)}> Add Ethereum Wallet Address </Button>
           <Text> {ethAddress} </Text>
         </Flex>
         <ModalFooter>

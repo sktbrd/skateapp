@@ -102,9 +102,6 @@ export default function ProfilePage() {
   }
     , [user, username]);
 
-
-
-
   const formatCreatedDate = (created: string) => {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(created).toLocaleDateString(undefined, options);
@@ -114,9 +111,6 @@ export default function ProfilePage() {
   const UserAbout = ({ user }: any) => {
     if (user) {
       try {
-
-
-
         return (
           <Box
             border="1px solid "

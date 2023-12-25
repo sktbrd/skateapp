@@ -63,7 +63,6 @@ export default function AuthorProfilePage() {
           const client = new Client('https://api.hive.blog');
           const author_account = await client.database.getAccounts([authorName]);
           setAccount(author_account[0].name);
-          console.log(author_account[0])
           // parse float to get the number of hive
           const hive_balance = parseFloat(author_account[0].balance.toString());
           const hbd_balance = parseFloat(author_account[0].hbd_balance.toString());
@@ -92,40 +91,46 @@ export default function AuthorProfilePage() {
   }, [authorName]);
 
   async function getRelationshipBetweenAccounts(account1: any, account2: any) {
-    try {
-      const response = await axios.post('https://rpc.ecency.com', {
-        jsonrpc: '2.0',
-        method: 'bridge.get_relationship_between_accounts',
-        params: [account1, account2],
-        id: 1,
-      });
-      return response.data.result;
-    } catch (error) {
-      console.error('Error fetching relationship:', error);
+    // check if user is not the same as author
+    if (account1 === account2) {
       return {};
     }
-  }
-
-  useEffect(() => {
-    if (authorName) {
-      fetchFollowersAndFollowings(authorName);
-    }
-  }, [user, authorName]);
-
-  async function fetchFollowersAndFollowings(username: any) {
-    try {
-      const followersResponse = await axios.post('https://rpc.ecency.com', {
-        jsonrpc: '2.0',
-        method: 'condenser_api.get_followers',
-        params: [username, null, "blog", 100],
-        id: 1,
-      });
-      setFollowers(followersResponse.data.result);
-
-    } catch (error) {
-      console.error('Error fetching followers and followings:', error);
+    else {
+      try {
+        const response = await axios.post('https://api.hive.blog', {
+          jsonrpc: '2.0',
+          method: 'bridge.get_relationship_between_accounts',
+          params: [account1, account2],
+          id: 1,
+        });
+        return response.data.result;
+      } catch (error) {
+        console.error('Error fetching relationship:', error);
+        return {};
+      }
     }
   }
+
+  // useEffect(() => {
+  //   if (authorName) {
+  //     fetchFollowersAndFollowings(authorName);
+  //   }
+  // }, [user, authorName]);
+
+  // async function fetchFollowersAndFollowings(username: any) {
+  //   try {
+  //     const followersResponse = await axios.post('https://api.hive.blog', {
+  //       jsonrpc: '2.0',
+  //       method: 'condenser_api.get_followers',
+  //       params: [username, null, "blog", 100],
+  //       id: 1,
+  //     });
+  //     setFollowers(followersResponse.data.result);
+
+  //   } catch (error) {
+  //     console.error('Error fetching followers and followings:', error);
+  //   }
+  // }
 
   useEffect(() => {
     if (user && authorName) {

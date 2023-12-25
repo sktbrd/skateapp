@@ -5,6 +5,7 @@ import { usePioneer } from '@pioneer-platform/pioneer-react';
 import NFTWallet from './nft/nftWallet';
 import POAPsNFTWallet from './nft/poapWallet';
 import HiveBalanceDisplay2 from './hive/hiveBalance';
+import SkatehiveOG from './nft/skatehiveOG';
 import {
   useMediaQuery,
   Box,
@@ -31,12 +32,11 @@ const Wallet = () => {
   const [userPortfolios, setUserPortfolios] = useState<Types.NFT[]>([]); // Provide a type annotation for userPortfolios
   const [loading, setLoading] = useState(true);
   const defaultImageUrl = "../../../assets/loading.gif"; // Replace with the actual URL of your default image
-  
+
   const onStart = async function () {
     try {
       if (app && app.wallets && app.wallets.length > 0 && app.wallets[0].wallet && app.wallets[0].wallet.accounts) {
         const currentAddress = app.wallets[0].wallet.accounts[0];
-        console.log(currentAddress)
         setETHAddress(currentAddress);
       } else {
         console.error("Some properties are undefined or null");
@@ -45,7 +45,7 @@ const Wallet = () => {
       console.error(e);
     }
   };
-  
+
   useEffect(() => {
     onStart();
   }, [app, api, app?.wallets, status, pubkeyContext]);
@@ -58,37 +58,39 @@ const Wallet = () => {
       </TabList>
 
       <TabPanels>
-      <TabPanel>
+        <TabPanel>
 
-      <Flex
-  direction={{ base: 'column', md: 'row' }}
-  justify="space-between"
-  align="stretch"
->
+          <Flex
+            direction={{ base: 'column', md: 'row' }}
+            justify="space-between"
+            align="stretch"
+          >
 
-  <Box
-    mb={{ base: 4, md: 0 }}
-    width={{ base: '100%', md: '50%' }} // Full width on small screens, 50% width on medium and larger
-  >
-    <HiveBalanceDisplay2 />
-    {/* <SwapComponent /> */}
-  </Box>
+            <Box
+              mb={{ base: 4, md: 0 }}
+              width={{ base: '100%', md: '50%' }} // Full width on small screens, 50% width on medium and larger
+            >
+              <HiveBalanceDisplay2 />
+              {/* <SwapComponent /> */}
+            </Box>
 
-  <Box
-    ml={{ base: 0, md: 4 }}
-    width={{ base: '100%', md: '50%' }} // Full width on small screens, 50% width on medium and larger
-  >
-    <GnarsNfts />
-    {/* <PortfolioPage wallet_address={ETHaddress} /> */}
-  </Box>
+            <Box
+              ml={{ base: 0, md: 4 }}
+              width={{ base: '100%', md: '50%' }} // Full width on small screens, 50% width on medium and larger
+            >
+              <SkatehiveOG wallet={ETHaddress} />
 
-</Flex>
+              <GnarsNfts />
+              {/* <PortfolioPage wallet_address={ETHaddress} /> */}
+            </Box>
 
-  
-</TabPanel>
+          </Flex>
+
+
+        </TabPanel>
 
         <TabPanel>
-          <NFTWallet  />
+          <NFTWallet />
         </TabPanel>
 
       </TabPanels>

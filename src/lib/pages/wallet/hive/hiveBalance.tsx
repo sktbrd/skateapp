@@ -1,4 +1,4 @@
-import { Image, Box, Table, Thead, Tbody, Tr, Th, Td, Text, Flex, Button, VStack, HStack, Divider, Tooltip } from "@chakra-ui/react";
+import { Image, Box, Table, Thead, Tbody, Tr, Th, Td, Text, Flex, Button, VStack, HStack, Divider, Tooltip, Badge } from "@chakra-ui/react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
@@ -67,17 +67,29 @@ export async function fetchHbdPrice() {
       // Use the cached value if available
       return cache.hbdPrice;
     }
+
     const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hive_dollar&vs_currencies=usd");
+
+    if (response.status !== 200) {
+      // Set hbdPrice to 1.00 if the response status is not 200
+      cache.hbdPrice = 1.00;
+      return 1.00;
+    }
+
     const data = await response.json();
     const hbdPrice = data.hive_dollar.usd;
+
     // Update the cache
     cache.hbdPrice = hbdPrice;
     return hbdPrice;
   } catch (error) {
-    console.error("Error fetching HBD price:", error);
-    return 0;
+    console.log("Error fetching HBD price:");
+    // Set hbdPrice to 1.00 in case of an error
+    cache.hbdPrice = 1.00;
+    return 1.00;
   }
 };
+
 
 // send to utils.tsx
 export async function fetchConversionRate() {
@@ -86,15 +98,28 @@ export async function fetchConversionRate() {
       // Use the cached value if available
       return cache.conversionRate;
     }
+
     const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hive&vs_currencies=usd");
+
+    if (response.status !== 200) {
+      // Set conversionRate to 0.35 if the response status is not 200
+      cache.conversionRate = 0.35;
+      console.log("Hardcoded conversion rate used", cache.conversionRate)
+
+      return 0.35;
+    }
+
     const data = await response.json();
     const conversionRate = data.hive.usd;
+    console.log("Conversion rate fetched", conversionRate)
     // Update the cache
     cache.conversionRate = conversionRate;
     return conversionRate; // Return the conversion rate as a number
   } catch (error) {
-    console.error("Error fetching conversion rate:", error);
-    return 0;
+    console.log("Error fetching conversion rate:");
+    // Set conversionRate to 0.00 in case of an error
+    cache.conversionRate = 0.35;
+    return 0.35;
   }
 };
 
@@ -205,7 +230,7 @@ export default function HiveBalanceDisplay2() {
         setHbdBalance(user.hbd_balance);
         setHiveBalance(user.balance);
         setSavingsBalance(user.savings_hbd_balance);
-        setHivePower(`${vestingSharesData.DelegatedToSomeoneHivePower} (delegated to others)  + ${vestingSharesData.hivePower} (not delegated)`);
+        setHivePower(`${vestingSharesData.DelegatedToSomeoneHivePower} (delegated to others)  + ${vestingSharesData.hivePower} (self delegated)`);
         setTotalWorth(total);
         setIsLoading(false);
         setOwnedTotal(total_Owned);
@@ -248,7 +273,12 @@ export default function HiveBalanceDisplay2() {
       border="2px solid red"
       padding="10px"
       maxWidth={{ base: "100%", md: "100%" }}
+      style={{ textAlign: "right" }}
+
     >
+      <Text fontSize={"18px"} fontWeight="bold" color="orange">
+        Hive Price: <Badge variant='outline' fontSize={"24px"} colorScheme="red"> ${conversionRate.toFixed(2)}</Badge>
+      </Text>
       <VStack spacing={4} align="stretch">
         <Flex alignItems="center" justifyContent="center" padding="10px">
           <Box
@@ -288,11 +318,11 @@ export default function HiveBalanceDisplay2() {
           <Flex m="20px" alignItems="center" justifyContent="center">
             <VStack>
 
-              <Text fontSize={"36px"} fontWeight="bold" color="orange">
-                Total Owned: ${ownedTotal.toFixed(2)}
+              <Text fontSize={"24px"} fontWeight="bold" color="orange">
+                Total Owned: <Badge fontSize={"36px"} colorScheme="green"> ${ownedTotal.toFixed(2)}</Badge>
               </Text>
-              <Text fontSize={"36px"} fontWeight="bold" color="orange">
-                Wallet Worth: ${totalWorth.toFixed(2)}
+              <Text fontSize={"24px"} fontWeight="bold" color="orange">
+                Wallet Worth:  <Badge fontSize={"36px"} colorScheme="green"> ${totalWorth.toFixed(2)}</Badge>
               </Text>
             </VStack>
 

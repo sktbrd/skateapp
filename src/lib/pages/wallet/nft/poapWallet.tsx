@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Text, Spinner, Grid,Flex, Image, VStack, Button } from "@chakra-ui/react";
+import { Box, Text, Spinner, Grid, Flex, Image, VStack, Button } from "@chakra-ui/react";
 //@ts-ignore
 import { Pioneer } from "@pioneer-platform/pioneer-react";
 
@@ -38,7 +38,7 @@ const PoapWallet = () => {
 
   const onStart = async function () {
     try {
-      if (app) {
+      if (app && app.wallets && app.wallets.length > 0) {
         const currentAddress = app.wallets[0].wallet.accounts[0];
         setETHAddress(currentAddress);
       }
@@ -58,7 +58,7 @@ const PoapWallet = () => {
   useEffect(() => {
     onStart();
   }
-  , [ETHaddress]);
+    , [ETHaddress]);
   return (
     <Box>
       <center>
@@ -68,43 +68,43 @@ const PoapWallet = () => {
       </center>
 
       <Grid templateColumns={{ base: "2fr", md: "repeat(10, 1fr)" }} gap={4}>
-      {userPortfolios
-  .filter((nft) => nft.token.collection.name === "POAP")
-  .sort((a, b) => {
-    return b.token.tokenId.localeCompare(a.token.tokenId);
-  })
-  .map((nft, index) => (
-    <Flex
-      key={index}
-      width="100%"
-      alignItems="center"
-      padding="10px"
-      borderRadius="10px"
-      bg="black"
-      color="white"
-    >
-      {/* NFT Image */}
-      {nft.token.medias[0]?.originalUrl ? (
-        <Image
-          src={nft.token.medias[0]?.originalUrl}
-          alt={`NFT ${index}`}
-          objectFit="cover"
-          width="100%"
-          height="auto"
-          borderRadius="10px"
-        />
-      ) : (
-        <Image
-          src={defaultImageUrl}
-          alt={`Default NFT ${index}`}
-          objectFit="cover"
-          width="100%"
-          height="100%"
-          borderRadius="10px"
-        />
-      )}
-    </Flex>
-  ))}
+        {userPortfolios
+          .filter((nft) => nft.token.collection.name === "POAP")
+          .sort((a, b) => {
+            return b.token.tokenId.localeCompare(a.token.tokenId);
+          })
+          .map((nft, index) => (
+            <Flex
+              key={index}
+              width="100%"
+              alignItems="center"
+              padding="10px"
+              borderRadius="10px"
+              bg="black"
+              color="white"
+            >
+              {/* NFT Image */}
+              {nft.token.medias[0]?.originalUrl ? (
+                <Image
+                  src={nft.token.medias[0]?.originalUrl}
+                  alt={`NFT ${index}`}
+                  objectFit="cover"
+                  width="100%"
+                  height="auto"
+                  borderRadius="10px"
+                />
+              ) : (
+                <Image
+                  src={defaultImageUrl}
+                  alt={`Default NFT ${index}`}
+                  objectFit="cover"
+                  width="100%"
+                  height="100%"
+                  borderRadius="10px"
+                />
+              )}
+            </Flex>
+          ))}
       </Grid>
       <center>
         <Button onClick={onStart} marginTop="1rem">

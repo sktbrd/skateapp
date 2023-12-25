@@ -47,7 +47,7 @@ const GnarsNfts = () => {
 
   const onStart = async function () {
     try {
-      if (app) {
+      if (app && app.wallets && app.wallets.length > 0) {
         const currentAddress = app.wallets[0].wallet.accounts[0];
         setSelectedWallet(app.wallets[0].type)
         setETHAddress(currentAddress);
@@ -56,7 +56,6 @@ const GnarsNfts = () => {
         const portfolio = await api.GetPortfolio({ address: ETHaddress.toUpperCase() });
         if (portfolio && portfolio.data) {
           setTotalNetWorth(portfolio.data.totalNetWorth);
-          console.log(portfolio.data)
           setUserPortfolios(portfolio.data.nfts);
         } else {
           console.error("Invalid portfolio response:", portfolio);
@@ -66,11 +65,11 @@ const GnarsNfts = () => {
       console.error(e);
     }
   };
-  
+
 
   useEffect(() => {
     onStart();
-  }, [app, api, app?.wallets, status, pubkeyContext]);
+  }, [app, api, status, pubkeyContext]);
 
   useEffect(() => {
     onStart();
@@ -78,8 +77,8 @@ const GnarsNfts = () => {
 
   const handleClickNFT = (nft: NFT) => {
     setIsModalOpen(true);
-    setSelectedNFTImageUrl(nft.token.medias[0]?.originalUrl || ""); 
-    setSelectedNFTName(nft.token.collection.name || ""); 
+    setSelectedNFTImageUrl(nft.token.medias[0]?.originalUrl || "");
+    setSelectedNFTName(nft.token.collection.name || "");
     setSelectedNFTCollection(nft.token.collection.address || "");
   };
 
@@ -94,15 +93,14 @@ const GnarsNfts = () => {
           nftCollection={selectedNFTCollection}
         />
       )}
-<Box>
-  <SkatehiveOG wallet={ETHaddress} />
-      <Box border={"1px solid white"} marginBottom={"10px"} p={"5px"} borderRadius={"10px"}>
-        <center>
-          <Pioneer />
-          <p>Selected Wallet</p>
-          <Text color="yellow">{formatWalletAddress(ETHaddress)}</Text>
-          <Text color="white">Total Net Worth: {totalNetWorth?.toFixed(2)} USD in your {selectedWallet} </Text>
-        </center>
+      <Box>
+        <Box border={"1px solid white"} marginBottom={"10px"} p={"5px"} borderRadius={"10px"}>
+          <center>
+            <Pioneer />
+            <p>Selected Wallet</p>
+            <Text color="yellow">{formatWalletAddress(ETHaddress)}</Text>
+            <Text color="white">Total Net Worth: {totalNetWorth?.toFixed(2)} USD in your {selectedWallet} </Text>
+          </center>
         </Box>
         <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={4}>
           {userPortfolios

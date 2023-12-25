@@ -35,7 +35,7 @@ const AllNfts = () => {
 
   const onStart = async function () {
     try {
-      if (app) {
+      if (app && app.wallets && app.wallets.length > 0) {
         const currentAddress = app.wallets[0].wallet.accounts[0];
         setETHAddress(currentAddress);
       }

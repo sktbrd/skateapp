@@ -16,9 +16,8 @@ import {
 } from "@chakra-ui/react";
 import ReactMarkdown from "react-markdown";
 import { useDropzone } from "react-dropzone";
-import { SkateboardLoading } from "../utils/videoUtils/VideoUtils";
 import { MarkdownRenderersUpload } from "../utils/MarkdownRenderersUpload";
-import { FaImage, FaVideo } from "react-icons/fa";
+import { FaImage } from "react-icons/fa";
 import useAuthUser from '../home/api/useAuthUser';
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";

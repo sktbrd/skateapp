@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { Box, Text, Flex, Image, Button, Tooltip, HStack } from "@chakra-ui/react";
+import { Box, Text, Flex, Image, Button, Tooltip, Grid, VStack, Badge } from "@chakra-ui/react";
 import ERC1155_ABI from "./skthvOG_abi.json";
 import ERC721_ABI from "./gnars_abi.json";
 const skthv_contract = "0x3dEd025e441730e26AB28803353E4471669a3065";
@@ -77,23 +77,35 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
               </Text>
             </Flex>
           ) : (
-            <>
-              <Flex flexDirection={"row"}>
-                <Text fontSize="24px" color="white" mb="2">
-                  Skatehive OG # </Text>
-                <Text fontSize="24px" marginLeft={"5px"} >
-                  {userBalance}
-                </Text>
-              </Flex>
-              <Tooltip label="50 votes per Skatehive OG + 1 vote per Gnar">
-                <Flex flexDirection={"row"}>
-                  <Text color="white" fontSize="24px">
-                    Total Votes:
+            <Grid
+              templateColumns="1fr"
+              gap={4}
+              m="20px"
+              alignItems="center"
+            >
+              <VStack align="end" textAlign="right">
+                <Flex flexDirection="row" alignItems="center">
+                  <Text fontSize="24px" color="orange" fontWeight="bold" mb="2">
+                    Skatehive OG #{" "}
                   </Text>
-                  <Text fontSize="24px" color="limegreen" marginLeft={"10px"}>{userVotes}</Text>
+                  <Badge borderRadius={"10px"} fontSize={"24px"} colorScheme="green" marginLeft="5px">
+                    {userBalance}
+                  </Badge>
                 </Flex>
-              </Tooltip>
-            </>
+                <Tooltip label="50 votes per Skatehive OG + 1 vote per Gnar">
+                  <Flex flexDirection="row" alignItems="center">
+                    <Text color="orange" fontSize="24px" fontWeight="bold">
+                      Total Votes:
+                    </Text>
+                    <Badge borderRadius={"10px"} fontSize={"24px"} colorScheme="green" marginLeft="10px">
+                      {userVotes}
+                    </Badge>
+                  </Flex>
+                </Tooltip>
+              </VStack>
+            </Grid>
+
+
           )}
         </Box>
       </Box>

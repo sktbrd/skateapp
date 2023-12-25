@@ -103,10 +103,10 @@ export async function fetchConversionRate() {
 
     if (response.status !== 200) {
       // Set conversionRate to 0.35 if the response status is not 200
-      cache.conversionRate = 0.35;
+      cache.conversionRate = 0.350;
       console.log("Hardcoded conversion rate used", cache.conversionRate)
 
-      return 0.35;
+      return 0.350;
     }
 
     const data = await response.json();
@@ -118,8 +118,8 @@ export async function fetchConversionRate() {
   } catch (error) {
     console.log("Error fetching conversion rate");
     // Set conversionRate to 0.00 in case of an error
-    cache.conversionRate = 0.35;
-    return 0.35;
+    cache.conversionRate = 0.350;
+    return 0.350;
   }
 };
 
@@ -132,7 +132,7 @@ export default function HiveBalanceDisplay2() {
   const [showModal, setShowModal] = useState(false);
   const [toAddress, setToAddress] = useState("");
   const [amount, setAmount] = useState("");
-  const [conversionRate, setConversionRate] = useState<number>(0);
+  const [conversionRate, setConversionRate] = useState<number>(0.000);
   const [totalWorth, setTotalWorth] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
   const [hiveMemo, setHiveMemo] = useState("");
@@ -283,7 +283,7 @@ export default function HiveBalanceDisplay2() {
 
     >
       <Text fontSize={"18px"} fontWeight="bold" color="orange">
-        Hive Price: <Badge variant='outline' fontSize={"24px"} colorScheme="red"> ${conversionRate.toFixed(2)}</Badge>
+        Hive Price: <Badge variant='outline' fontSize={"24px"} colorScheme="red"> ${conversionRate.toFixed(3)}</Badge>
       </Text>
       <VStack spacing={4} align="stretch">
         <Flex alignItems="center" justifyContent="center" padding="10px">
@@ -300,7 +300,7 @@ export default function HiveBalanceDisplay2() {
                     alt="profile avatar"
                     borderRadius="20px"
                     border="2px solid limegreen"
-                    boxSize="180px"
+                    boxSize="50%px"
                   />
                   <Text fontSize="32px" padding="10px" color="white">
                     {user.name}
@@ -329,11 +329,11 @@ export default function HiveBalanceDisplay2() {
           >
             <VStack align="end" >
 
-              <Text fontSize={"24px"} fontWeight="bold" color="orange">
-                You Won: <Badge borderRadius={"10px"} fontSize={"36px"} colorScheme="green"> ${ownedTotal.toFixed(2)}</Badge>
+              <Text fontSize={"18px"} fontWeight="bold" color="orange">
+                You Won: <Badge borderRadius={"10px"} fontSize={"32px"} colorScheme="green"> ${ownedTotal.toFixed(2)}</Badge>
               </Text>
-              <Text fontSize={"24px"} fontWeight="bold" color="orange" >
-                Wallet Worth:  <Badge borderRadius={"10px"} fontSize={"36px"} colorScheme="green"> ${totalWorth.toFixed(2)}</Badge>
+              <Text fontSize={"18px"} fontWeight="bold" color="orange" >
+                Wallet Worth:  <Badge borderRadius={"10px"} fontSize={"32px"} colorScheme="green"> ${totalWorth.toFixed(2)}</Badge>
               </Text>
             </VStack>
           </Grid>

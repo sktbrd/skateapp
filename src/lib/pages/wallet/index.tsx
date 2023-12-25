@@ -1,38 +1,28 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 //@ts-ignore
 import { usePioneer } from '@pioneer-platform/pioneer-react';
-import NFTWallet from './nft/nftWallet';
-import POAPsNFTWallet from './nft/poapWallet';
-import HiveBalanceDisplay2 from './hive/hiveBalance';
-import SkatehiveOG from './nft/skatehiveOG';
 import {
   useMediaQuery,
   Box,
   Flex,
-  Text,
   Tabs,
   TabList,
   TabPanels,
   Tab,
   TabPanel,
-  Divider
 } from '@chakra-ui/react';
-import Web3 from 'web3'; // Ensure you have this imported
+import HiveBalanceDisplay2 from './hive/hiveBalance';
 import * as Types from './nft/types';
 import PortfolioPage from './evm/pioneerBalance';
-import SwapComponent from './hive/hiveSwapModal';
+import NFTWallet from './nft/nftWallet';
+import SkatehiveOG from './nft/skatehiveOG';
 import GnarsNfts from './nft/gnarsNfts';
 
-
 const Wallet = () => {
-
   const { state } = usePioneer();
-  const { api, app, context, assetContext, blockchainContext, pubkeyContext, status } = state;
-  const [ETHaddress, setETHAddress] = useState("");
-  const [userPortfolios, setUserPortfolios] = useState<Types.NFT[]>([]); // Provide a type annotation for userPortfolios
+  const { app, status, pubkeyContext } = state;
+  const [ETHaddress, setETHAddress] = useState('');
   const [loading, setLoading] = useState(true);
-  const defaultImageUrl = "../../../assets/loading.gif"; // Replace with the actual URL of your default image
 
   const onStart = async function () {
     try {
@@ -40,7 +30,7 @@ const Wallet = () => {
         const currentAddress = app.wallets[0].wallet.accounts[0];
         setETHAddress(currentAddress);
       } else {
-        console.error("Some properties are undefined or null");
+        console.error('Some properties are undefined or null');
       }
     } catch (e) {
       console.error(e);
@@ -49,7 +39,9 @@ const Wallet = () => {
 
   useEffect(() => {
     onStart();
-  }, [app, api, app?.wallets, status, pubkeyContext]);
+  }, [app, status, pubkeyContext]);
+
+  const isMobile = useMediaQuery('(max-width: 600px)')[0];
 
   return (
     <Tabs color="limegreen" variant="enclosed">
@@ -60,42 +52,34 @@ const Wallet = () => {
 
       <TabPanels>
         <TabPanel>
-
           <Flex
             direction={{ base: 'column', md: 'row' }}
             justify="space-between"
             align="stretch"
           >
+            {isMobile ? (
+              <Box mb={{ base: 4, md: 0 }} width={{ base: '100%', md: '100%' }}>
+                <HiveBalanceDisplay2 />
+              </Box>
+            ) : (
+              <>
+                <Box mb={{ base: 4, md: 0 }} width={{ base: '100%', md: '50%' }}>
+                  <HiveBalanceDisplay2 />
+                  <SkatehiveOG wallet={ETHaddress} />
+                  <GnarsNfts />
+                </Box>
 
-            <Box
-              mb={{ base: 4, md: 0 }}
-              width={{ base: '100%', md: '50%' }} // Full width on small screens, 50% width on medium and larger
-            >
-              <HiveBalanceDisplay2 />
-              {/* <SwapComponent /> */}
-              <br />
-              <SkatehiveOG wallet={ETHaddress} />
-
-            </Box>
-
-            <Box
-              ml={{ base: 0, md: 4 }}
-              width={{ base: '100%', md: '50%' }} // Full width on small screens, 50% width on medium and larger
-            >
-
-              <GnarsNfts />
-              {/* <PortfolioPage wallet_address={ETHaddress} /> */}
-            </Box>
-
+                <Box ml={{ base: 0, md: 4 }} width={{ base: '100%', md: '50%' }}>
+                  <PortfolioPage wallet_address={ETHaddress} />
+                </Box>
+              </>
+            )}
           </Flex>
-
-
         </TabPanel>
 
         <TabPanel>
           <NFTWallet />
         </TabPanel>
-
       </TabPanels>
     </Tabs>
   );

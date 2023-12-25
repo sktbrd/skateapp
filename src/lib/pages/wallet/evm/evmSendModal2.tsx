@@ -93,7 +93,7 @@ const EvmSendModal2: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo
         <ModalHeader>
           <Grid templateColumns="1fr auto" gap={4} alignItems="center">
             <Flex align="center">
-            <Image src={""} alt={tokenInfo.name} boxSize="100px" mr="2" />
+              <Image src={"https://i.gifer.com/origin/e0/e02ce86bcfd6d1d6c2f775afb3ec8c01_w200.gif"} alt={tokenInfo.name} boxSize="100px" mr="2" />
               <Text alignItems="center" fontSize="lg" fontWeight="bold">
                 {tokenInfo.symbol}
               </Text>
@@ -150,15 +150,15 @@ const EvmSendModal2: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo
               <strong>Daily Volume:</strong> {tokenInfo.dailyVolume} USD
             </Text>
             <Divider />
-    <Flex direction="column" alignItems="center">
-      <Link href={tokenInfo.explorer} target="_blank" rel="noopener noreferrer">
-        View on Etherscan
-      </Link>
-      <Link href={tokenInfo.website} target="_blank" rel="noopener noreferrer">
-        Official Website
-      </Link>
-    </Flex>
-    <Divider />
+            <Flex direction="column" alignItems="center">
+              <Link href={tokenInfo.explorer} target="_blank" rel="noopener noreferrer">
+                View on Etherscan
+              </Link>
+              <Link href={tokenInfo.website} target="_blank" rel="noopener noreferrer">
+                Official Website
+              </Link>
+            </Flex>
+            <Divider />
             <Text>{tokenInfo.description}</Text>
             {/* Add more token information as needed */}
           </VStack>

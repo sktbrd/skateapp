@@ -300,7 +300,7 @@ export default function HiveBalanceDisplay2() {
                     alt="profile avatar"
                     borderRadius="20px"
                     border="2px solid limegreen"
-                    boxSize="50%px"
+                    boxSize="110px"
                   />
                   <Text fontSize="32px" padding="10px" color="white">
                     {user.name}

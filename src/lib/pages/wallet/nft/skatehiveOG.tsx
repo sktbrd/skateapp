@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { Box, Text, Flex, Image, Button, Tooltip } from "@chakra-ui/react";
+import { Box, Text, Flex, Image, Button, Tooltip, HStack } from "@chakra-ui/react";
 import ERC1155_ABI from "./skthvOG_abi.json";
 import ERC721_ABI from "./gnars_abi.json";
 const skthv_contract = "0x3dEd025e441730e26AB28803353E4471669a3065";
@@ -22,6 +22,7 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
         const providerUrl = "https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik";
         const provider = new ethers.providers.JsonRpcProvider(providerUrl);
 
+
         const skthvProxyContract = new ethers.Contract(skthv_proxy_contract, ERC1155_ABI, provider);
 
         const gnarsContract = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
@@ -32,7 +33,6 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
         setUserVotes(50 * parseFloat(readableOGBalance) + parseFloat(readableGnarsBalance));
         setUserGnarsBalance(readableGnarsBalance);
         setUserBalance(readableOGBalance);
-        console.log(userVotes);
       } catch (error) {
         console.error(error);
       }
@@ -50,7 +50,7 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
     <Flex key={wallet} align="center">
       <Box
         width="100%"
-        border="1px solid yellow"
+        border="2px solid orange"
         borderRadius="lg"
         overflow="hidden"
         display="flex"
@@ -78,13 +78,20 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
             </Flex>
           ) : (
             <>
-              <Text fontSize="lg" fontWeight="bold" color="gray.500" mb="2">
-                Skatehive OG Balance : {userBalance}
-              </Text>
-              <Tooltip label="50 votes per Skatehive OG + 1 vote per Gnar">
-                <Text>
-                  Total Votes: {userVotes}
+              <Flex flexDirection={"row"}>
+                <Text fontSize="24px" color="white" mb="2">
+                  Skatehive OG # </Text>
+                <Text fontSize="24px" marginLeft={"5px"} >
+                  {userBalance}
                 </Text>
+              </Flex>
+              <Tooltip label="50 votes per Skatehive OG + 1 vote per Gnar">
+                <Flex flexDirection={"row"}>
+                  <Text color="white" fontSize="24px">
+                    Total Votes:
+                  </Text>
+                  <Text fontSize="24px" color="limegreen" marginLeft={"10px"}>{userVotes}</Text>
+                </Flex>
               </Tooltip>
             </>
           )}

@@ -15,7 +15,8 @@ import {
   TabList,
   TabPanels,
   Tab,
-  TabPanel
+  TabPanel,
+  Divider
 } from '@chakra-ui/react';
 import Web3 from 'web3'; // Ensure you have this imported
 import * as Types from './nft/types';
@@ -72,13 +73,15 @@ const Wallet = () => {
             >
               <HiveBalanceDisplay2 />
               {/* <SwapComponent /> */}
+              <br />
+              <SkatehiveOG wallet={ETHaddress} />
+
             </Box>
 
             <Box
               ml={{ base: 0, md: 4 }}
               width={{ base: '100%', md: '50%' }} // Full width on small screens, 50% width on medium and larger
             >
-              <SkatehiveOG wallet={ETHaddress} />
 
               <GnarsNfts />
               {/* <PortfolioPage wallet_address={ETHaddress} /> */}

@@ -99,7 +99,7 @@ const GnarsNfts = () => {
             <Pioneer />
             <p>Selected Wallet</p>
             <Text color="yellow">{formatWalletAddress(ETHaddress)}</Text>
-            <Text color="white">Total Net Worth: {totalNetWorth?.toFixed(2)} USD in your {selectedWallet} </Text>
+            {/* <Text color="white">Total Net Worth: {totalNetWorth?.toFixed(2)} USD in your {selectedWallet} </Text> */}
           </center>
         </Box>
         <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={4}>
@@ -142,11 +142,11 @@ const GnarsNfts = () => {
               </Flex>
             ))}
         </Grid>
-        <center>
+        {/* <center>
           <Button onClick={onStart} marginTop="1rem">
             Load NFTs
           </Button>
-        </center>
+        </center> */}
       </Box>
     </>
   );

@@ -7,7 +7,7 @@ import ErrorModal from './errorModal';
 import * as Types from '../types'
 
 const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, permlink, weight = 10000, userVote }) => {
-  const [sliderValue, setSliderValue] = useState(10000);
+  const [sliderValue, setSliderValue] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null); // Track error message
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Track modal visibility
   const [feedbackText, setFeedbackText] = useState(''); // Track feedback text
@@ -27,7 +27,7 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
       console.error("User not logged in or missing username");
       return;
     }
-  
+
     try {
       await voteOnContent(user.name, permlink, author, sliderValue);
       console.log("Voting successful!");
@@ -41,10 +41,10 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
       setFeedbackText(feedback);
     } catch (error) {
       console.error("Voting failed:", error);
-  
+
       // Use a type assertion to cast 'error' to the 'Error' type
-      const errorMessage = (error as Error).message ;
-  
+      const errorMessage = (error as Error).message;
+
       // Set the error message and open the modal
       setErrorMessage(`Error While Voting!`);
       setIsErrorModalOpen(true);
@@ -64,7 +64,7 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
     const feedback = getFeedbackText(sliderValue);
     setFeedbackText(feedback);
   }, [sliderValue]);
-  
+
   // if user has already voted, set the slider
   useEffect(() => {
     // if the user has voted
@@ -72,14 +72,14 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
       // set the slider to current percent
       setSliderValue(userVote.percent);
     }
-    
+
     // update the feedback text
     const feedback = getFeedbackText(userVote.percent);
     setFeedbackText(feedback);
   }, [userVote]);
 
   return (
-    <Flex borderRadius={"10px"}  padding="20px" justify="space-between" >
+    <Flex borderRadius={"10px"} padding="20px" justify="space-between" >
       <Button
         bg="black"
         color="#fff"
@@ -93,11 +93,11 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
       </Button>
       <Box width="40%">
         <Text textAlign="center"> Your opinion on this post</Text>
-        <Slider 
-          min={-10000} 
-          max={10000} 
-          step={5000} 
-          value={sliderValue} 
+        <Slider
+          min={-10000}
+          max={10000}
+          step={5000}
+          value={sliderValue}
           onChange={(value) => setSliderValue(value)}
         >
           <SliderTrack bg="white">
@@ -106,7 +106,7 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
           <SliderThumb boxSize={6}>
           </SliderThumb>
         </Slider>
-        
+
         <Text color="yellow" mt={2} textAlign="center">
           {feedbackText}
         </Text>
@@ -127,7 +127,7 @@ const PostFooter: React.FC<Types.PostFooterProps> = ({ onClose, user, author, pe
 
     </Flex>
   );
-  
+
 }
 
 export default PostFooter;

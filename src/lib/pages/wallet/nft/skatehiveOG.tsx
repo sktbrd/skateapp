@@ -18,9 +18,10 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
   useEffect(() => {
     async function fetchWalletData() {
       try {
-        const provider = new ethers.providers.JsonRpcProvider(
-          "https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik"
-        );
+
+        const providerUrl = "https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik";
+        const provider = new ethers.providers.JsonRpcProvider(providerUrl);
+
         const skthvProxyContract = new ethers.Contract(skthv_proxy_contract, ERC1155_ABI, provider);
 
         const gnarsContract = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
@@ -28,10 +29,10 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
         const readableGnarsBalance = ethers.utils.formatUnits(gnarsBalance, 0);
         const skatehiveOGbalance = await skthvProxyContract.balanceOf(wallet, 1);
         const readableOGBalance = ethers.utils.formatUnits(skatehiveOGbalance, 0);
-        setUserVotes(50*parseFloat(readableOGBalance) + parseFloat(readableGnarsBalance));
+        setUserVotes(50 * parseFloat(readableOGBalance) + parseFloat(readableGnarsBalance));
         setUserGnarsBalance(readableGnarsBalance);
         setUserBalance(readableOGBalance);
-        console.log(userVotes);  
+        console.log(userVotes);
       } catch (error) {
         console.error(error);
       }
@@ -78,12 +79,12 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
           ) : (
             <>
               <Text fontSize="lg" fontWeight="bold" color="gray.500" mb="2">
-                Skatehive OG Balance : {userBalance} 
+                Skatehive OG Balance : {userBalance}
               </Text>
               <Tooltip label="50 votes per Skatehive OG + 1 vote per Gnar">
-              <Text>
-                Total Votes: {userVotes}
-              </Text>
+                <Text>
+                  Total Votes: {userVotes}
+                </Text>
               </Tooltip>
             </>
           )}

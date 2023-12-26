@@ -342,7 +342,7 @@ export default function HiveBalanceDisplay2() {
           justifyContent="center"
           color={"white"}
           padding="10px"
-          maxW={"30%"}
+          maxW={"40%"}
           alignSelf={"end"}
           onClick={handleShowOptions}
           variant={"outline"}

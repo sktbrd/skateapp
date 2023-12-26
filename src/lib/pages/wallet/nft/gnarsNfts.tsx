@@ -39,7 +39,7 @@ type NFT = {
 
 const GnarsNfts = () => {
   const { state } = usePioneer();
-  const { api, app, context, assetContext, blockchainContext, pubkeyContext, status } = state;
+  const { api, app, context, assetContext, blockchainContext, pubkeyContext, status, wallets } = state;
   const [ETHaddress, setETHAddress] = useState("");
   const [userPortfolios, setUserPortfolios] = useState<NFT[]>([]);
   const [loading, setLoading] = useState(true);
@@ -58,7 +58,7 @@ const GnarsNfts = () => {
     if (gnarsCollection) {
       return gnarsCollection.token.collection.floorPriceEth;
     } else {
-      return "N/A"; // Handle case where Gnars collection is not found
+      return "N/A";
     }
   };
 
@@ -67,11 +67,28 @@ const GnarsNfts = () => {
     const totalEstimatedValue = gnarsNfts.reduce((total, nft) => total + (+nft.token.estimatedValueEth), 0);
     return totalEstimatedValue.toFixed(3);
   };
-  // ..
+
   const onStart = async function () {
     try {
       if (app && app.wallets && app.wallets.length > 0) {
         const currentAddress = app.wallets[0].wallet.accounts[0];
+
+
+
+
+        console.log("Wallets", app.wallets)
+        const app_wallet = app.wallets[0].wallet;
+        // {"[{"addressNList":[2147483695,2147483651,2147483651],"curve":"secp256k1","showDisplay":true,"coin":"Dogecoin"}]" => Array(1)}
+
+        const result = await app_wallet.getPublicKeys([
+          {
+            addressNList: [2147483695, 2147483651, 2147483651],
+            curve: "secp256k1",
+            showDisplay: true, // Not supported by TrezorConnect or Ledger, but KeepKey should do it
+            coin: "Dogecoin",
+          },
+        ]);
+        console.log("Result: ", result);
         setSelectedWallet(app.wallets[0].type)
         setETHAddress(currentAddress);
       }

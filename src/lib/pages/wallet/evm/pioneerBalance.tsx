@@ -69,7 +69,9 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
         }
 
         const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address}`);
-        const pubkeyBalanceResponse = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address}`);
+        const pioneer_ethereum_balance = await axios.get('https://pioneers.dev/api/v1/getPubkeyBalance/ethereum/' + wallet_address);
+        setEthBalance((pioneer_ethereum_balance.data).toFixed(6));
+        console.log(pioneer_ethereum_balance.data);
         setTotalNetWorth(response.data.totalNetWorth);
         setNftValue(Number(response.data.nftUsdNetWorth[wallet_address]));
         setTotalBalanceUsdTokens(response.data.totalBalanceUsdTokens);
@@ -176,7 +178,16 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
                     </Text>
                   </Box>
                 </GridItem>
-
+                <GridItem>
+                  <Box>
+                    <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
+                      ETH Balance
+                    </Text>
+                    <Text color="#FFA500" fontSize="18px" marginLeft="5px">
+                      {ethBalance} ETH
+                    </Text>
+                  </Box>
+                </GridItem>
 
                 <GridItem>
                   <Box>
@@ -227,6 +238,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
               <Td>
                 <Text fontWeight="bold">Balance USD</Text>
               </Td>
+
             </tr>
             {tokens?.map((token, index: number) => (
               <tr key={index}>

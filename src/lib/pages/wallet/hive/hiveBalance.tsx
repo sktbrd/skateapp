@@ -104,14 +104,12 @@ export async function fetchConversionRate() {
     if (response.status !== 200) {
       // Set conversionRate to 0.35 if the response status is not 200
       cache.conversionRate = 0.350;
-      console.log("Hardcoded conversion rate used", cache.conversionRate)
 
       return 0.350;
     }
 
     const data = await response.json();
     const conversionRate = data.hive.usd;
-    console.log("Conversion rate fetched", conversionRate)
     // Update the cache
     cache.conversionRate = conversionRate;
     return conversionRate; // Return the conversion rate as a number

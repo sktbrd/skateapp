@@ -70,10 +70,8 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
 
         const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address}`);
         const pubkeyBalanceResponse = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address}`);
-        console.log("PUBKEY BALANCE", pubkeyBalanceResponse.data)
         setTotalNetWorth(response.data.totalNetWorth);
         setNftValue(Number(response.data.nftUsdNetWorth[wallet_address]));
-        console.log("DATA", response.data)
         setTotalBalanceUsdTokens(response.data.totalBalanceUsdTokens);
         const sortedTokens = response.data.tokens.map((token: TokenInfo) => token.token).sort((a: any, b: any) => b.balanceUSD - a.balanceUSD);
         setTokens(sortedTokens);

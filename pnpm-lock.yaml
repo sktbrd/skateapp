@@ -44,6 +44,9 @@ dependencies:
   '@fontsource/creepster':
     specifier: ^5.0.8
     version: 5.0.8
+  '@fontsource/londrina-solid':
+    specifier: ^5.0.18
+    version: 5.0.18
   '@fontsource/open-sans':
     specifier: ^5.0.14
     version: 5.0.18
@@ -3361,6 +3364,10 @@ packages:
 
   /@fontsource/creepster@5.0.8:
     resolution: {integrity: sha512-ufLV3H2y2ER2bjeu/nyJTcs6hBCId56j9oCN/hxrLEGen1zcOb0rzh+GFzDUr5OcXd3KCg5wNLA8Y68aq8/9LA==}
+    dev: false
+
+  /@fontsource/londrina-solid@5.0.18:
+    resolution: {integrity: sha512-OXPDufe4H5c4dQ1FGVr6WZasufAaPh4CVvy1gDLu30g4ae/ZLk1bocjbDOhxTVB6PfzNHtelxnR89pVinnaUHA==}
     dev: false
 
   /@fontsource/open-sans@5.0.18:

@@ -65,7 +65,9 @@ const Wallet = () => {
               <>
                 <Box mb={{ base: 4, md: 0 }} width={{ base: '100%', md: '50%' }}>
                   <HiveBalanceDisplay2 />
+                  <br />
                   <SkatehiveOG wallet={ETHaddress} />
+                  <br />
                   <GnarsNfts />
                 </Box>
 

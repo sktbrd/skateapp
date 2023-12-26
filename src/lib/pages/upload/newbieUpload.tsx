@@ -21,9 +21,9 @@ import { useDropzone } from "react-dropzone";
 import { MarkdownRenderersUpload } from "../utils/MarkdownRenderersUpload";
 import { FaImage } from "react-icons/fa";
 import useAuthUser from '../home/api/useAuthUser';
-import rehypeRaw  from "rehype-raw";
+import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
-import { slugify } from "../utils/videoUtils/slugify";
+import { slugify } from "../utils/videoFunctions/slugify";
 import { Client } from '@hiveio/dhive';
 import { Spinner } from "@chakra-ui/react";
 import { defaultFooter } from "./defaultFooter";
@@ -74,7 +74,7 @@ declare global {
     hive_keychain: any;
   }
 }
-const defaultTags = ["skatehive", "skateboarding" ,"Appreciattor", "OCD", "introduction" , "introducemyself", "sportstalk", "hive-engine", "neoxian"];
+const defaultTags = ["skatehive", "skateboarding", "Appreciattor", "OCD", "introduction", "introducemyself", "sportstalk", "hive-engine", "neoxian"];
 
 
 const IntroductionPost: React.FC = () => {
@@ -92,10 +92,10 @@ const IntroductionPost: React.FC = () => {
   const [tags, setTags] = useState<string[]>([]); // State to store tags
   const [includeFooter, setIncludeFooter] = useState<boolean>(false); // New state for the checkbox
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
-  const [postLink , setPostLink] = useState<string>("");
+  const [postLink, setPostLink] = useState<string>("");
 
   // 3Speak state
-  const [ is3speakPost, setIs3speakPost ] = useState<boolean>(false);
+  const [is3speakPost, setIs3speakPost] = useState<boolean>(false);
   const { connected, username } = get3SpeakAuthStatus();
   const [isVideoUploaded, setIsVideoUploaded] = useState(false);
   const [videoUploadProgress, setVideoUploadProgress] = useState(0);
@@ -133,7 +133,7 @@ const IntroductionPost: React.FC = () => {
         const formData = new FormData();
         formData.append("file", file);
         formData.set("Content-Type", "multipart/form-data");
-  
+
         const response = await fetch(
           "https://api.pinata.cloud/pinning/pinFileToIPFS",
           {
@@ -145,15 +145,15 @@ const IntroductionPost: React.FC = () => {
             body: formData,
           }
         );
-  
+
         if (response.ok) {
           const data = await response.json();
           const ipfsUrl = `https://ipfs.skatehive.app/ipfs/${data.IpfsHash}?pinataGatewayToken=nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE`;
-  
+
           setUploadedVideo(ipfsUrl);
-  
+
           const transformedLink = `<iframe src="${ipfsUrl}"></iframe>` + " ";
-  
+
           setMarkdownText((prevMarkdown) => prevMarkdown + `\n${transformedLink}` + '\n');
           setUploadedFiles((prevFiles) => [...prevFiles, ipfsUrl]);
         } else {
@@ -165,7 +165,7 @@ const IntroductionPost: React.FC = () => {
         const formData = new FormData();
         formData.append("file", file);
         formData.set("Content-Type", "multipart/form-data");
-  
+
         const response = await fetch(
           "https://api.pinata.cloud/pinning/pinFileToIPFS",
           {
@@ -177,13 +177,13 @@ const IntroductionPost: React.FC = () => {
             body: formData,
           }
         );
-  
+
         if (response.ok) {
           const data = await response.json();
           const ipfsUrl = `https://ipfs.skatehive.app/ipfs/${data.IpfsHash}?pinataGatewayToken=nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE`;
-  
+
           const transformedLink = ` ![Image](${ipfsUrl})` + " ";
-  
+
           setMarkdownText((prevMarkdown) => prevMarkdown + `\n${transformedLink}` + '\n');
           setUploadedFiles((prevFiles) => [...prevFiles, ipfsUrl]);
         } else {
@@ -197,7 +197,7 @@ const IntroductionPost: React.FC = () => {
       console.error("Error uploading file:", error);
     }
   };
-  
+
   const onDropImages = async (acceptedFiles: File[]) => {
     setIsUploading(true);
 
@@ -222,7 +222,7 @@ const IntroductionPost: React.FC = () => {
         for (const file of acceptedFiles) {
           await uploadFileToIPFS(file);
         }
-  
+
         setIsUploading(false);
         return;
       }
@@ -240,12 +240,12 @@ const IntroductionPost: React.FC = () => {
         setIsUploading(false);
         return;
       }
-      
+
       // upload video to 3Speak
       const video = acceptedFiles[0];
 
       setVideoFile(video);
-      
+
       uploadTo3Speak(video, setIsUploading, setVideoUploadProgress, setVideoInfo, setIsVideoUploaded);
     }
 
@@ -342,13 +342,13 @@ const IntroductionPost: React.FC = () => {
 
     return options;
   };
-  
+
   const handleHiveUpload = async () => {
     if (!user) {
       alert("You have to log in with Hive Keychain to use this feature...");
       return;
     }
-    
+
     if (!title) {
       alert("Please enter a title for your post...");
       return;
@@ -430,7 +430,7 @@ const IntroductionPost: React.FC = () => {
       const videoMarkdown = `<center>\n\n[![](${newThumbnailURL})](${videoURL})\n\n</center>\n`;
       // video goes on top of the markdown
       finalMarkdown = videoMarkdown + finalMarkdown;
-      
+
       // get the encoder benefeciary from video info
       const encoderBeneficiaries = JSON.parse(updatedVideoInstance.beneficiaries);
       const encoderBeneficiary = encoderBeneficiaries.find((b: any) => b.src === 'ENCODER_PAY');
@@ -451,8 +451,8 @@ const IntroductionPost: React.FC = () => {
 
         // Define the beneficiaries
         let finalBeneficiaries = beneficiariesArray.map(b => ({
-            account: b.account,
-            weight: parseInt(b.weight, 10) // Convert the weight string to an integer
+          account: b.account,
+          weight: parseInt(b.weight, 10) // Convert the weight string to an integer
         }));
 
         // Add the video benefeciaries if video is uploaded on 3Speak
@@ -462,7 +462,7 @@ const IntroductionPost: React.FC = () => {
 
         // sort the beneficiaries by account name ascending
         finalBeneficiaries = finalBeneficiaries.sort((a: any, b: any) => a.account.localeCompare(b.account));
-  
+
         // Define your comment options (e.g., max_accepted_payout, beneficiaries, etc.)
         const commentOptions = {
           author: username,
@@ -473,11 +473,11 @@ const IntroductionPost: React.FC = () => {
           allow_curation_rewards: true,
           extensions: [
             [0, {
-                beneficiaries: finalBeneficiaries
+              beneficiaries: finalBeneficiaries
             }]
-        ]
+          ]
         };
-  
+
         // Add defaultFooter to the markdown if includeFooter is true
         if (includeFooter) {
           let finalPermlink = videoPermlink ? videoPermlink : permlink;
@@ -489,7 +489,7 @@ const IntroductionPost: React.FC = () => {
           finalMarkdown = finalMarkdown + newFooter;
           setMarkdownText((prevMarkdown) => prevMarkdown + newFooter);
         }
-        let newTitle = title + " - My introduction post to Skatehive" ;
+        let newTitle = title + " - My introduction post to Skatehive";
 
         // Define the post operation
         const postOperation = [
@@ -509,10 +509,10 @@ const IntroductionPost: React.FC = () => {
             }),
           },
         ];
-  
+
         // Define the comment options operation
         const commentOptionsOperation = ['comment_options', commentOptions];
-  
+
         // Construct the operations array
         const operations = [postOperation, commentOptionsOperation];
         // Request the broadcast using Hive Keychain
@@ -530,7 +530,7 @@ const IntroductionPost: React.FC = () => {
             setTimeout(() => {
               window.location.reload();
             }, 5000);
-            
+
             if (isVideoUploaded) {
               window.alert('Video successfully published on 3Speak! It will be available soon!');
             }
@@ -544,7 +544,7 @@ const IntroductionPost: React.FC = () => {
       }
     }
   };
-  
+
   const handleTagsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
     // Check if the last character is a comma or space
@@ -567,8 +567,8 @@ const IntroductionPost: React.FC = () => {
       setTagsInput(inputValue);
     }
   };
-  
-    const renderTags = () => {
+
+  const renderTags = () => {
     return tags.map((tag, index) => (
       <Flex
         key={index}
@@ -612,23 +612,23 @@ const IntroductionPost: React.FC = () => {
         </Box>
       </Flex>
     ));
-    };
+  };
 
 
-    const handleTagsSubmit = () => {
-      // Split the input value by commas and trim whitespace
-      const newTags = tagsInput.split(",").map((tag) => tag.trim());
-      setTags( newTags);
-      // Clear the input field
-      setTagsInput("");
-    };
-  
+  const handleTagsSubmit = () => {
+    // Split the input value by commas and trim whitespace
+    const newTags = tagsInput.split(",").map((tag) => tag.trim());
+    setTags(newTags);
+    // Clear the input field
+    setTagsInput("");
+  };
+
   const handleIncludeFooterChange = () => {
     setIncludeFooter((prevIncludeFooter) => !prevIncludeFooter);
     if (includeFooter) {
       // If the toggle is turned off, remove the default footer from Markdown text
       setMarkdownText((prevMarkdown) =>
-        prevMarkdown.replace(defaultFooter,  "")
+        prevMarkdown.replace(defaultFooter, "")
       );
     } else {
       // If the toggle is turned on, add the default footer to Markdown text
@@ -636,7 +636,7 @@ const IntroductionPost: React.FC = () => {
     }
   };
 
-      // -------------------------Add Beneficiaries--------------------------
+  // -------------------------Add Beneficiaries--------------------------
 
   const searchBarRef: RefObject<HTMLDivElement> = useRef(null);
 
@@ -648,16 +648,16 @@ const IntroductionPost: React.FC = () => {
     const beneficiaryExists = beneficiaries.some(b => b.name === searchUsername);
 
     if (!beneficiaryExists && percentage > 0) {
-        const newBeneficiary = { name: searchUsername, percentage };
-        setBeneficiaries(prevBeneficiaries => [...prevBeneficiaries, newBeneficiary]);
-        alert(`Beneficiary ${searchUsername} added! Please set the percentage using the sliders below.`);
+      const newBeneficiary = { name: searchUsername, percentage };
+      setBeneficiaries(prevBeneficiaries => [...prevBeneficiaries, newBeneficiary]);
+      alert(`Beneficiary ${searchUsername} added! Please set the percentage using the sliders below.`);
     } else {
-        alert(`Beneficiary ${searchUsername} already exists or percentage is zero.`);
+      alert(`Beneficiary ${searchUsername} already exists or percentage is zero.`);
     }
 
     console.log("Search username:", searchUsername);
     console.log(beneficiariesArray)
-};
+  };
 
   const handleBeneficiaryPercentageChange = (index: number, newPercentage: number) => {
     const updatedBeneficiaries = [...beneficiaries];
@@ -674,107 +674,107 @@ const IntroductionPost: React.FC = () => {
       weight: (beneficiary.percentage * 100).toFixed(0),
     }));
 
-    const handleClickOutside = (event:any) => {
-      if (searchBarRef.current && !searchBarRef.current.contains(event.target)) {
-          // Close the search results here
+  const handleClickOutside = (event: any) => {
+    if (searchBarRef.current && !searchBarRef.current.contains(event.target)) {
+      // Close the search results here
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  const toggleAdvancedOptions = () => {
+    setShowAdvancedOptions((prevShow) => !prevShow);
+  };
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch('https://restcountries.com/v2/all');
+        const data = await response.json();
+
+        const options = data.map((country: any) => ({
+          value: country.alpha2Code,
+          label: `${country.name}`,
+          flag: country.flags.png,
+        }));
+
+        setCountryOptions(options);
+      } catch (error) {
+        console.error('Error fetching countries:', error);
       }
     };
-      useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-      }, []);
-      const toggleAdvancedOptions = () => {
-        setShowAdvancedOptions((prevShow) => !prevShow);
-      };
-      useEffect(() => {
-        const fetchCountries = async () => {
-          try {
-            const response = await fetch('https://restcountries.com/v2/all');
-            const data = await response.json();
-    
-            const options = data.map((country: any) => ({
-              value: country.alpha2Code,
-              label: `${country.name}`,
-              flag: country.flags.png,
-            }));
-    
-            setCountryOptions(options);
-          } catch (error) {
-            console.error('Error fetching countries:', error);
-          }
-        };
-    
-        fetchCountries();
-      }, []);
-    
-      const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedOption = event.target.value;
-        setSelectedCountry(selectedOption);
-        
-        // Find the selected country in the options array
-        const selectedCountryObject = countryOptions.find((country) => country.value === selectedOption);
-      
-        // Log the emoji if the country is found
-        if (selectedCountryObject) {
-          console.log('Selected Country Emoji:', selectedCountryObject.flag);
-        }
-      };
-      
-      
-      return (
-        <Box>
 
-          <Box mt={0}>
+    fetchCountries();
+  }, []);
 
-            <VStack >
+  const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOption = event.target.value;
+    setSelectedCountry(selectedOption);
 
-            <img
-                src="../../assets/smartpepe.png"
-                style={{
-                  width: '100px', 
-                  height: 'auto', 
-                  margin: '-50px',
-                }}
-                alt="Smart Pepe"
-                />
-            <Badge color="black" bg={"yellow"} marginTop={"15px"}>
-              Before start posting, tell the community a little a few things about you{" "}
-            </Badge>
-          </VStack>
-          </Box>
-          <Flex minWidth={"100%"}
-            flexDirection={isMobile ? "column" : "row"}
-          >
-            <Box 
-              flex={isMobile ? "auto" : 1}
-              p={4}
-              border="0px solid white"
-              margin={"15px"}
-              borderRadius={"10px"}
-              maxWidth={{ base: "100%", md: "50%" }}
-              overflowWrap="break-word"
-            >
-              <Box justifyContent={"center"} minW={"100%"}>
+    // Find the selected country in the options array
+    const selectedCountryObject = countryOptions.find((country) => country.value === selectedOption);
 
-                
-              <Box marginBottom={4}>
-      <center>
- 
-          <VStack m="20px">
-            <Text borderRadius="10px" border="1px solid yellow" padding="8px" fontSize="32px" fontWeight="bold" color="yellow">
-              Name
-            </Text>
-            <Input
-              value={title}
-              onChange={handleTitleChange}
-              placeholder="Say your name, babe..."
-              fontSize="xl"
-              fontWeight="bold"
-            />
-          </VStack>
-          {/* <VStack>
+    // Log the emoji if the country is found
+    if (selectedCountryObject) {
+      console.log('Selected Country Emoji:', selectedCountryObject.flag);
+    }
+  };
+
+
+  return (
+    <Box>
+
+      <Box mt={0}>
+
+        <VStack >
+
+          <img
+            src="../../assets/smartpepe.png"
+            style={{
+              width: '100px',
+              height: 'auto',
+              margin: '-50px',
+            }}
+            alt="Smart Pepe"
+          />
+          <Badge color="black" bg={"yellow"} marginTop={"15px"}>
+            Before start posting, tell the community a little a few things about you{" "}
+          </Badge>
+        </VStack>
+      </Box>
+      <Flex minWidth={"100%"}
+        flexDirection={isMobile ? "column" : "row"}
+      >
+        <Box
+          flex={isMobile ? "auto" : 1}
+          p={4}
+          border="0px solid white"
+          margin={"15px"}
+          borderRadius={"10px"}
+          maxWidth={{ base: "100%", md: "50%" }}
+          overflowWrap="break-word"
+        >
+          <Box justifyContent={"center"} minW={"100%"}>
+
+
+            <Box marginBottom={4}>
+              <center>
+
+                <VStack m="20px">
+                  <Text borderRadius="10px" border="1px solid yellow" padding="8px" fontSize="32px" fontWeight="bold" color="yellow">
+                    Name
+                  </Text>
+                  <Input
+                    value={title}
+                    onChange={handleTitleChange}
+                    placeholder="Say your name, babe..."
+                    fontSize="xl"
+                    fontWeight="bold"
+                  />
+                </VStack>
+                {/* <VStack>
             <Text border="1px solid yellow" borderRadius="10px" padding="8px" fontSize="32px" fontWeight="bold" color="yellow">
               Country
             </Text>
@@ -791,231 +791,231 @@ const IntroductionPost: React.FC = () => {
                 
             </Select>
           </VStack> */}
-      </center>
-      <br />
-    </Box>
+              </center>
+              <br />
+            </Box>
+          </Box>
+          <center>
+            <Text borderRadius={"10px"} border={"1px solid yellow"} padding={"5px"} fontSize="32px" fontWeight="bold" color={"yellow"}>
+              Post a Video or an Photo that represents you
+            </Text>
+          </center>
+          <br />
+
+          <Flex flexDirection={isMobile ? "column" : "row"}>
+            <Box flex={1}>
+              <VStack
+                {...getImagesRootProps()}
+                cursor="pointer"
+                borderWidth={2}
+                borderRadius={10}
+                borderStyle="dashed"
+                borderColor="gray.300"
+                p={6}
+                alignItems="center"
+                justifyContent="center"
+                flex="auto"
+              >
+                <input {...getImagesInputProps()} />
+                <FaImage size={32} />
+                <Text> Drop images{isVideoUploaded ? '' : '/video'} or click to select</Text>
+
+              </VStack>
+              <Flex flexDirection={isMobile ? "column" : "row"} justifyContent={'space-between'} alignItems={'center'} marginTop={4}>
+                <Checkbox isDisabled={videoFile || uploadedVideo ? true : false} isChecked={is3speakPost} onChange={() => setIs3speakPost(!is3speakPost)}>
+                  Upload on 3Speak (experimental)
+                </Checkbox>
+
+                <Connect3Speak />
+              </Flex>
+              <Box marginTop={0}>
+                <center>
+                  {isUploading ? (
+                    <Spinner
+                      thickness="4px"
+                      speed="0.65s"
+                      emptyColor="gray.200"
+                      color="limegreen"
+                      size="xl"
+                    />
+                  ) : null}
+                  {videoUploadProgress > 0 && videoUploadProgress < 100 ? (
+                    <Text>{videoUploadProgress}%</Text>
+                  ) : null}
+                  {isVideoUploaded ? (
+                    <Text>Video uploaded on 3Speak Servers!</Text>
+                  ) : null}
+                </center>
               </Box>
+              <br />
               <center>
                 <Text borderRadius={"10px"} border={"1px solid yellow"} padding={"5px"} fontSize="32px" fontWeight="bold" color={"yellow"}>
-                  Post a Video or an Photo that represents you
-                  </Text>
+                  Tell us a few things about you
+                </Text>
               </center>
-                <br/>
 
-              <Flex flexDirection={isMobile ? "column" : "row"}>
-                <Box flex={1}>
-                  <VStack
-                    {...getImagesRootProps()}
-                    cursor="pointer"
-                    borderWidth={2}
-                    borderRadius={10}
-                    borderStyle="dashed"
-                    borderColor="gray.300"
-                    p={6}
-                    alignItems="center"
-                    justifyContent="center"
-                    flex="auto"
-                  >
-                    <input {...getImagesInputProps()} />
-                    <FaImage size={32} />
-                    <Text> Drop images{isVideoUploaded ? '' : '/video'} or click to select</Text>
-                    
-                  </VStack>
-                  <Flex flexDirection={isMobile ? "column" : "row"} justifyContent={'space-between'} alignItems={'center'} marginTop={4}>
-                    <Checkbox isDisabled={videoFile || uploadedVideo ? true : false } isChecked={is3speakPost} onChange={() => setIs3speakPost(!is3speakPost)}>
-                      Upload on 3Speak (experimental)
-                    </Checkbox>
-                    
-                    <Connect3Speak />
-                  </Flex>
-                    <Box marginTop={0}>
-                      <center>
-                        {isUploading ? (
-                          <Spinner
-                            thickness="4px"
-                            speed="0.65s"
-                            emptyColor="gray.200"
-                            color="limegreen"
-                            size="xl"
-                          />
-                        ) : null}
-                        {videoUploadProgress > 0 && videoUploadProgress < 100 ? (
-                          <Text>{videoUploadProgress}%</Text>
-                        ) : null}
-                        {isVideoUploaded ? (
-                          <Text>Video uploaded on 3Speak Servers!</Text>
-                        ) : null}
-                      </center>
-                    </Box>
-                    <br />
-                  <center>
-                    <Text borderRadius={"10px"} border={"1px solid yellow"} padding={"5px"} fontSize="32px" fontWeight="bold" color={"yellow"}>
-                      Tell us a few things about you
-                    </Text>
-                  </center>
-
-                  <Textarea
-                      value={markdownText}
-                      onChange={handleMarkdownChange}
-                      placeholder="Share some interesting things about you like: how many years you skate, what’s your favourite trick, your skate stance, who are your favourite skaters, how did you find out about Skatehive and pretty much everything you feel like sharing..."
-                      minHeight="180px"
-                      marginTop={4}
-                      id="markdown-editor"
-                    />
-                    <Checkbox
-                      isChecked={includeFooter}
-                      onChange={handleIncludeFooterChange}
-                      marginTop={2}
-                    >
-                      Include Skatehive Footer
-                    </Checkbox>
-                    <Box marginTop={4}>
-                    <Text fontSize="lg" fontWeight="bold">
-                      Thumbnail Options (select at least one)
-                    </Text>
-                    <Flex flexWrap="wrap">{renderThumbnailOptions()}</Flex>
-                  </Box>
-                </Box>
-              </Flex>
-              <Flex flexDirection={isMobile ? "column" : "row"} justifyContent={'space-between'}>
-              <Button onClick={toggleAdvancedOptions} colorScheme="teal" size="sm" marginTop={2} marginRight={2}>
-                  {showAdvancedOptions ? 'Hide Advanced Options' : ' Advanced Options'}
-                </Button>
-              </Flex>
-                {showAdvancedOptions && (
-                  <>
-
-                    <Box marginTop={4}>
-                      <div ref={searchBarRef}>
-                        <Text fontSize="lg" fontWeight="bold">
-                          Who is Onboarding you ? 
-                        </Text>
-                        <AuthorSearchBar onSearch={handleAuthorSearch} />
-                        {beneficiaries.map((beneficiary, index) => (
-                          <div key={index}>
-                            <p>
-                              {beneficiary.name} - {beneficiary.percentage}%
-                            </p>
-                            <input
-                              type="range"
-                              min="0"
-                              max="100"
-                              value={beneficiary.percentage}
-                              onChange={(e) =>
-                                handleBeneficiaryPercentageChange(index, parseFloat(e.target.value))
-                              }
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </Box>
-                    <Box marginTop={4}>
-                      <Text fontSize="lg" fontWeight="bold">
-                        Enter Tags
-                      </Text>
-                      <Flex alignItems="center">
-                        <Input
-                          value={tagsInput}
-                          onChange={handleTagsChange}
-                          placeholder="Enter tags separated by commas"
-                          marginRight={2}
-                        />
-
-                      </Flex>
-
-                    </Box>
-
-                  </>
-                )}
-                                <Flex alignItems="center" wrap="wrap">{renderTags()}</Flex>
-
-              <Button onClick={handleHiveUpload} colorScheme="teal" size="sm" marginTop={2} id="publish-button">
-                Publish!
-              </Button>
-            </Box>
-            <Box
-              flex={isMobile ? "auto" : 1}
-              p={4}
-              border="1px solid white"
-              margin={"15px"}
-              borderRadius={"10px"}
-              maxWidth={{ base: "100%", md: "50%" }}
-              overflowWrap="break-word"
-            >
-              <Box>
-                <Flex padding="1%" borderRadius="10px" border="1px solid white" align="center" mb={4}>
-                  <Avatar border="1px solid limegreen" src={avatarUrl} size="sm" />
-                  <Text ml={2} fontWeight="bold" color={"orange"}>
-                    {user?.name}
-                  </Text> 
-                  <Text  marginLeft={"10px"} fontSize={"36px"} fontWeight={"bold"}> | </Text>
-                  <Text ml={3} fontWeight="bold" style={{ wordBreak: "break-all", maxWidth: "100%", color:'white' }}>
-                    [ Introduction Post ] - {title}
-                  </Text>
-                </Flex>
-                <Divider />
-              </Box>
-              {isVideoUploaded ? (
-                <Box
-                  display={"flex"}
-                  alignItems="center"
-                  justifyContent="center"
-                  flexDirection={"column"}
-                >
-                  <Button
-                    onClick={setVideoThumbnail}
-                    colorScheme="teal"
-                    size="xs"
-                    marginTop={2}
-                    marginBottom={2}
-                  >
-                    Set Video Thumbnail
-                  </Button>
-                  <video
-                    src={videoFile ? URL.createObjectURL(videoFile) : ''}
-                    controls
-                    onLoadedData={async () => {
-                      // when the video is ready to play, focus on it
-                      
-                      // current focused element
-                      const focused = document.activeElement as HTMLElement;
-                      
-                      // focus on the video
-                      // this is needed to capture the frame without manually playing the video
-                      const video = document.getElementById("main-video") as HTMLVideoElement;
-                      video?.focus();
-
-                      // now focus on the previous element
-                      focused?.focus();
-                    }}
-                    style={{
-                      width: "auto",
-                      height: "auto",
-                      maxWidth: "100%",
-                      maxHeight: "600px",
-                    }}
-                    id="main-video"
-                  />                  
-                </Box>
-              ) : ''}
-              <ReactMarkdown
-                children={markdownText}
-                components={{
-                  ...MarkdownRenderersUpload,
-                }}
-                rehypePlugins={[rehypeRaw]}
-                remarkPlugins={[remarkGfm]} 
+              <Textarea
+                value={markdownText}
+                onChange={handleMarkdownChange}
+                placeholder="Share some interesting things about you like: how many years you skate, what’s your favourite trick, your skate stance, who are your favourite skaters, how did you find out about Skatehive and pretty much everything you feel like sharing..."
+                minHeight="180px"
+                marginTop={4}
+                id="markdown-editor"
               />
-              <Flex alignItems="center" wrap="wrap">{renderTags()}</Flex>
+              <Checkbox
+                isChecked={includeFooter}
+                onChange={handleIncludeFooterChange}
+                marginTop={2}
+              >
+                Include Skatehive Footer
+              </Checkbox>
+              <Box marginTop={4}>
+                <Text fontSize="lg" fontWeight="bold">
+                  Thumbnail Options (select at least one)
+                </Text>
+                <Flex flexWrap="wrap">{renderThumbnailOptions()}</Flex>
+              </Box>
             </Box>
           </Flex>
+          <Flex flexDirection={isMobile ? "column" : "row"} justifyContent={'space-between'}>
+            <Button onClick={toggleAdvancedOptions} colorScheme="teal" size="sm" marginTop={2} marginRight={2}>
+              {showAdvancedOptions ? 'Hide Advanced Options' : ' Advanced Options'}
+            </Button>
+          </Flex>
+          {showAdvancedOptions && (
+            <>
+
+              <Box marginTop={4}>
+                <div ref={searchBarRef}>
+                  <Text fontSize="lg" fontWeight="bold">
+                    Who is Onboarding you ?
+                  </Text>
+                  <AuthorSearchBar onSearch={handleAuthorSearch} />
+                  {beneficiaries.map((beneficiary, index) => (
+                    <div key={index}>
+                      <p>
+                        {beneficiary.name} - {beneficiary.percentage}%
+                      </p>
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={beneficiary.percentage}
+                        onChange={(e) =>
+                          handleBeneficiaryPercentageChange(index, parseFloat(e.target.value))
+                        }
+                      />
+                    </div>
+                  ))}
+                </div>
+              </Box>
+              <Box marginTop={4}>
+                <Text fontSize="lg" fontWeight="bold">
+                  Enter Tags
+                </Text>
+                <Flex alignItems="center">
+                  <Input
+                    value={tagsInput}
+                    onChange={handleTagsChange}
+                    placeholder="Enter tags separated by commas"
+                    marginRight={2}
+                  />
+
+                </Flex>
+
+              </Box>
+
+            </>
+          )}
+          <Flex alignItems="center" wrap="wrap">{renderTags()}</Flex>
+
+          <Button onClick={handleHiveUpload} colorScheme="teal" size="sm" marginTop={2} id="publish-button">
+            Publish!
+          </Button>
         </Box>
-      );
-      
-      
-    
-    
-    
+        <Box
+          flex={isMobile ? "auto" : 1}
+          p={4}
+          border="1px solid white"
+          margin={"15px"}
+          borderRadius={"10px"}
+          maxWidth={{ base: "100%", md: "50%" }}
+          overflowWrap="break-word"
+        >
+          <Box>
+            <Flex padding="1%" borderRadius="10px" border="1px solid white" align="center" mb={4}>
+              <Avatar border="1px solid limegreen" src={avatarUrl} size="sm" />
+              <Text ml={2} fontWeight="bold" color={"orange"}>
+                {user?.name}
+              </Text>
+              <Text marginLeft={"10px"} fontSize={"36px"} fontWeight={"bold"}> | </Text>
+              <Text ml={3} fontWeight="bold" style={{ wordBreak: "break-all", maxWidth: "100%", color: 'white' }}>
+                [ Introduction Post ] - {title}
+              </Text>
+            </Flex>
+            <Divider />
+          </Box>
+          {isVideoUploaded ? (
+            <Box
+              display={"flex"}
+              alignItems="center"
+              justifyContent="center"
+              flexDirection={"column"}
+            >
+              <Button
+                onClick={setVideoThumbnail}
+                colorScheme="teal"
+                size="xs"
+                marginTop={2}
+                marginBottom={2}
+              >
+                Set Video Thumbnail
+              </Button>
+              <video
+                src={videoFile ? URL.createObjectURL(videoFile) : ''}
+                controls
+                onLoadedData={async () => {
+                  // when the video is ready to play, focus on it
+
+                  // current focused element
+                  const focused = document.activeElement as HTMLElement;
+
+                  // focus on the video
+                  // this is needed to capture the frame without manually playing the video
+                  const video = document.getElementById("main-video") as HTMLVideoElement;
+                  video?.focus();
+
+                  // now focus on the previous element
+                  focused?.focus();
+                }}
+                style={{
+                  width: "auto",
+                  height: "auto",
+                  maxWidth: "100%",
+                  maxHeight: "600px",
+                }}
+                id="main-video"
+              />
+            </Box>
+          ) : ''}
+          <ReactMarkdown
+            children={markdownText}
+            components={{
+              ...MarkdownRenderersUpload,
+            }}
+            rehypePlugins={[rehypeRaw]}
+            remarkPlugins={[remarkGfm]}
+          />
+          <Flex alignItems="center" wrap="wrap">{renderTags()}</Flex>
+        </Box>
+      </Flex>
+    </Box>
+  );
+
+
+
+
+
 };
 
 export default IntroductionPost;

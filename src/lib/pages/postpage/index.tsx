@@ -25,8 +25,8 @@ import CommentBox from '../home/Feed/postModal/commentBox';
 import { CommentProps } from '../home/Feed/types';
 import VotingBox from './votingBox';
 
-import { transformYouTubeContent } from '../utils/videoUtils/VideoUtils';
-import { transform3SpeakContent } from '../utils/videoUtils/transform3speak';
+import { transformYouTubeContent } from '../utils/videoFunctions/videoUtils';
+import { transform3SpeakContent } from '../utils/videoFunctions/videoUtils';
 import { transformGiphyLinksToMarkdown } from '../utils/ImageUtils';
 import { transformComplexMarkdown } from '../utils/transformComplexMarkdown';
 import useAuthUser from '../home/api/useAuthUser';
@@ -55,7 +55,7 @@ const PostPage: React.FC = () => {
       try {
         const postData = await client.database.call("get_content", [URLAuthor, URLPermlink]);
         let transformedBody = await transform3SpeakContent(postData.body);
-        transformedBody = transformYouTubeContent(transformedBody); 
+        transformedBody = transformYouTubeContent(transformedBody);
         transformedBody = transformGiphyLinksToMarkdown(transformedBody);
         transformedBody = transformComplexMarkdown(transformedBody);
 
@@ -66,15 +66,15 @@ const PostPage: React.FC = () => {
         console.error('Error fetching post data:', error);
       }
     };
-    
+
 
     const fetchComments = async () => {
       try {
         const author = URLAuthor;
         const permlink = URLPermlink;
-        
+
         let comments = await client.call("bridge", "get_discussion",
-          { 
+          {
             author,
             permlink,
             observer: user?.user?.name || "",
@@ -109,7 +109,7 @@ const PostPage: React.FC = () => {
         // add the comments to the commentsArray
         for (const commentKey in comments) {
           const comment = comments[commentKey];
-          
+
           // push the comment to the comments array only if its a reply to the original post
           if (comment.parent_author === author && comment.parent_permlink === permlink) {
             commentsArray.push(comments[commentKey]);
@@ -129,19 +129,19 @@ const PostPage: React.FC = () => {
     // check for user in active_votes
     const userVote = post.active_votes.find((vote: any) => vote.voter === username);
     const percentage = parseInt(userVote?.percent);
-  
+
     if (userVote && (percentage > 0 || percentage < 0)) {
       const vote = {
         isVoted: true,
         rshares: userVote.rshares,
         percent: percentage,
       };
-  
+
       console.log(vote, post.permlink)
-  
+
       return vote;
     }
-  
+
     return {
       isVoted: false,
       rshares: 0,
@@ -154,7 +154,7 @@ const PostPage: React.FC = () => {
       setUsername(user.user.name);
     }
   }
-  , [user]);
+    , [user]);
 
 
   const commentTitleStyle = {
@@ -244,11 +244,11 @@ const PostPage: React.FC = () => {
   return (
     <div style={containerStyle}>
       <center>
-      <h1 style={titleStyle}>{post?.title}</h1>
+        <h1 style={titleStyle}>{post?.title}</h1>
 
       </center>
       <Flex direction={isDesktop ? "row" : "column"} style={{ marginTop: 10 }}>
-      <Box
+        <Box
           style={{
             ...contentBoxStyle,
             maxWidth: isDesktop ? '50%' : '100%',
@@ -257,7 +257,7 @@ const PostPage: React.FC = () => {
           <ReactMarkdown
             children={post?.body}
             rehypePlugins={[rehypeRaw]}
-            remarkPlugins={[remarkGfm]} 
+            remarkPlugins={[remarkGfm]}
             components={MarkdownRenderers} />
         </Box>
         <VStack
@@ -271,7 +271,7 @@ const PostPage: React.FC = () => {
           }}
         >
           <VotingBox
-            onClose={() => {}}
+            onClose={() => { }}
             user={username}
             author={URLAuthor}
             permlink={URLPermlink}
@@ -335,7 +335,7 @@ const PostPage: React.FC = () => {
                 <h1>No comments yet</h1>
               </center>
             )}
-            
+
           </Flex>
         </VStack>
       </Flex>

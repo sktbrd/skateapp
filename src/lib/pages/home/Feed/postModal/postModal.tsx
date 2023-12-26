@@ -45,8 +45,8 @@ const nodes = [
 ];
 
 import { transformGiphyLinksToMarkdown } from 'lib/pages/utils/ImageUtils';
-import { transform3SpeakContent } from 'lib/pages/utils/videoUtils/transform3speak';
-import { slugify } from 'lib/pages/utils/videoUtils/slugify';
+import { transform3SpeakContent } from 'lib/pages/utils/videoFunctions/videoUtils';
+import { slugify } from 'lib/pages/utils/videoFunctions/slugify';
 import { json } from 'stream/consumers';
 import { diff_match_patch } from 'diff-match-patch';
 import { FaPencil } from 'react-icons/fa6';
@@ -430,7 +430,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
                 components={MarkdownRenderers}
                 rehypePlugins={[rehypeRaw]}
                 remarkPlugins={[remarkGfm]}
-                
+
               >
                 {(transformedContent)}
               </ReactMarkdown>

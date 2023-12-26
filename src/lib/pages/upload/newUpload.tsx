@@ -21,7 +21,7 @@ import { FaImage } from "react-icons/fa";
 import useAuthUser from '../home/api/useAuthUser';
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
-import { slugify } from "../utils/videoUtils/slugify";
+import { slugify } from "../utils/videoFunctions/slugify";
 import { Client } from '@hiveio/dhive';
 import { KeychainSDK } from 'keychain-sdk';
 import { Spinner } from "@chakra-ui/react";
@@ -30,8 +30,8 @@ import AuthorSearchBar from "./searchBar";
 import captureVideoFrame from "./captureFrame";
 import MDEditor from '@uiw/react-md-editor';
 
-import { transformYouTubeContent } from '../utils/videoUtils/VideoUtils';
-import { transform3SpeakContent } from '../utils/videoUtils/transform3speak';
+import { transformYouTubeContent } from "../utils/videoFunctions/videoUtils";
+import { transform3SpeakContent } from "../utils/videoFunctions/videoUtils";
 import { transformGiphyLinksToMarkdown } from '../utils/ImageUtils';
 import { transformComplexMarkdown } from '../utils/transformComplexMarkdown';
 

@@ -1,4 +1,3 @@
-// Import necessary modules and components
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box, Text, Table, Td, Tr, Tbody, Flex, Image, Button, Grid, GridItem, Center, Tooltip } from '@chakra-ui/react';
@@ -14,6 +13,7 @@ interface TokenInfo {
   token: {
     address: string;
     balance: number;
+    network: string;
     balanceRaw: string;
     balanceUSD: number;
     canExchange: boolean;
@@ -43,6 +43,18 @@ interface PortfolioPageProps {
   wallet_address: string;
 }
 
+const networkDetails = [
+  { id: 1, name: 'Ethereum', logo: 'https://cryptologos.cc/logos/ethereum-eth-logo.png?v=029', color: 'blue.200' },
+  { id: 12, name: 'Polygon', logo: 'assets/polygon.png', color: 'purple.200' },
+  { id: 8, name: 'Gnosis', logo: '/assets/gnosis.png', color: 'green.200' },
+  { id: 4, name: 'Binance Smart Chain', logo: 'assets/bsc.png', color: 'yellow.200' },
+  { id: 11, name: 'Optimism', logo: 'assets/optimism.png', color: 'red' },
+  { id: 7, name: 'Fantom', logo: 'assets/fantom.png', color: 'blue.100' },
+  { id: 16, name: 'Base', logo: 'assets/base.png', color: '#FFFFFF' },
+  { id: 2, name: 'Arbitrum', logo: 'assets/arbitrum.png', color: 'blue.800' },
+
+];
+
 const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
   const [tokens, setTokens] = useState<TokenInfo['token'][] | null>(null);
   const [totalNetWorth, setTotalNetWorth] = useState<number | null>(null);
@@ -70,12 +82,16 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
 
         const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address}`);
         const pioneer_ethereum_balance = await axios.get('https://pioneers.dev/api/v1/getPubkeyBalance/ethereum/' + wallet_address);
+        console.log(response)
+
         setEthBalance((pioneer_ethereum_balance.data).toFixed(6));
-        console.log(pioneer_ethereum_balance.data);
         setTotalNetWorth(response.data.totalNetWorth);
         setNftValue(Number(response.data.nftUsdNetWorth[wallet_address]));
         setTotalBalanceUsdTokens(response.data.totalBalanceUsdTokens);
-        const sortedTokens = response.data.tokens.map((token: TokenInfo) => token.token).sort((a: any, b: any) => b.balanceUSD - a.balanceUSD);
+
+        // Sort tokens by networkId
+        const sortedTokens = response.data.tokens.map((token: TokenInfo) => token.token).sort((a: any, b: any) => a.networkId - b.networkId);
+
         setTokens(sortedTokens);
         setLoading(false);
       } catch (error) {
@@ -85,29 +101,6 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
 
     fetchData();
   }, [wallet_address]);
-
-
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd`);
-  //       setEthPrice(response.data.ethereum.usd);
-
-  //       if (ethBalance !== null) {
-  //         const ethBalanceInUsd = ethBalance * response.data.ethereum.usd;
-  //         setEthBalanceInUsd(ethBalanceInUsd);
-  //         console.log(ethBalanceInUsd);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [ethBalance, totalNetWorth, ethPrice]); // Include ethPrice in the dependencies
-
-
 
   const [copyStatus, setCopyStatus] = useState<boolean>(false);
 
@@ -136,7 +129,6 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
     }
   }
     , [ethPrice, ethBalance]);
-
   return (
     <Flex flexDirection={"column"}>
       <Box
@@ -220,41 +212,63 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
         borderRadius={"10px"}
         p={2}
         display="flex"
-        alignItems="center"
+        flexDirection="column"
         boxShadow="0 0 10px rgba(0, 0, 0, 0.1)"
         margin="auto"
         background="#002240"
         minWidth={["100%", "100%", "100%", "100%"]}
       >
-        <Table>
+        <Table variant='unstyled'>
           <Tbody>
-            <Tr >
+            <Tr>
               <Td>
-                <Text fontWeight="bold" color={"white"}>Asset</Text>
+                <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
+                  Token
+                </Text>
               </Td>
               <Td>
-                <Text fontWeight="bold" color={"white"}>Balance</Text>
+                <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
+                  Balance
+                </Text>
               </Td>
               <Td>
-                <Text fontWeight="bold" color={"white"}>Balance USD</Text>
+                <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
+                  Value
+                </Text>
               </Td>
-
             </Tr>
-            {tokens?.map((token, index: number) => (
-              <tr key={index}>
-                <Td>
-                  <Button bg='transparent' onClick={() => handleTokenClick(token)}>
-
-                    <Text >{token.symbol}</Text>
-                  </Button>
-                </Td>
-                <Td>
-                  <Text >{token.balance?.toFixed(4)}</Text>
-                </Td>
-                <Td>
-                  <Text >{token.balanceUSD?.toFixed(2)}</Text>
-                </Td>
-              </tr>
+            {networkDetails.map((network) => (
+              <React.Fragment key={network.id}>
+                <Tr>
+                  <Td colSpan={4} bg={network.color} margin={"10px"} >
+                    <Center>
+                      <Text fontWeight="bold" color={"black"}>
+                        {network.name}
+                      </Text>
+                      <Image src={network.logo} alt={`${network.name} Logo`} width="20px" height="20px" marginLeft="5px" />
+                    </Center>
+                  </Td>
+                </Tr>
+                {tokens
+                  ?.filter((token) => token.networkId === network.id)
+                  .map((token, index: number) => (
+                    <Tr key={index}>
+                      <Td>
+                        <Button bg='transparent' _hover={{ backgroundColor: 'blue.700', cursor: 'pointer' }}
+                          onClick={() => handleTokenClick(token)}>
+                          <Image src={network.logo} alt={`${token.name} Logo`} width="20px" height="20px" marginRight="5px" />
+                          <Text color={network.color}>{token.symbol}</Text>
+                        </Button>
+                      </Td>
+                      <Td>
+                        <Text color={network.color}>{token.balance?.toFixed(4)}</Text>
+                      </Td>
+                      <Td>
+                        <Text color={"white"} fontSize={"20px"}>{token.balanceUSD?.toFixed(2)} USD</Text>
+                      </Td>
+                    </Tr>
+                  ))}
+              </React.Fragment>
             ))}
           </Tbody>
         </Table>

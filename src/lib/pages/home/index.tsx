@@ -83,11 +83,11 @@ const Home = () => {
               {!isMobile && <CommunityStats communityTag="hive-173115" />}
               {!isMobile && <NewFeature />}
             </HStack>
-            <center>
-              <Text fontFamily="Creepster" color="white" fontSize="42px" marginBottom="10px">
-                Skatehive and Gnars Wish you a Merry Xmas!
-              </Text>
-              <div
+
+            {/* <Text fontFamily="Creepster" color="white" fontSize="42px" marginBottom="10px">
+              Skatehive and Gnars Wish you a Merry Xmas!
+            </Text> */}
+            {/* <div
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -140,8 +140,8 @@ const Home = () => {
                     GNARLY XMAS on Zora
                   </a>
                 </div>
-              </div>
-            </center>
+              </div> */}
+
 
 
             <HiveBlog />

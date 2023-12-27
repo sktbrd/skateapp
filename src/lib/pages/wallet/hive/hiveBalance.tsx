@@ -1,4 +1,4 @@
-import { Image, Box, Table, Thead, Tbody, Tr, Th, Td, Text, Flex, Button, VStack, HStack, Divider, Tooltip, Badge, Grid, GridItem, Center } from "@chakra-ui/react";
+import { Image, Box, Table, Thead, Tbody, Tr, Th, Td, Text, Flex, Button, VStack, HStack, Divider, Tooltip, Badge, Grid, GridItem, Center, Spacer } from "@chakra-ui/react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
@@ -293,8 +293,10 @@ export default function HiveBalanceDisplay2() {
         fontWeight='bold'
       >
         <GridItem pl='4' bg='red.300' area={'header'} borderRadius={"10px"}>
+
           <Center>
-            <HStack>
+
+            <HStack spacing={4} justifyContent="flex-end">
               <Image
                 src={HIVE_LOGO_URL}
                 alt="Hive Logo"
@@ -305,7 +307,6 @@ export default function HiveBalanceDisplay2() {
                 <Text fontSize="32px" color="black">
                   {user.name}
                 </Text>
-
               ) : (
                 <Text fontSize="32px" color="black">
                   Login to See your Balance
@@ -314,12 +315,13 @@ export default function HiveBalanceDisplay2() {
 
             </HStack>
           </Center>
+
           <br />
 
-          <Text fontSize={"18px"} fontWeight="bold" color="white" padding={"10px"}>
-            Hive Price: <Badge variant='outline' fontSize={"24px"} colorScheme="red"> ${conversionRate.toFixed(3)}</Badge>
-          </Text>
         </GridItem>
+
+
+
         <GridItem pl='2' area={'nav'}>
           <br />
 
@@ -349,25 +351,25 @@ export default function HiveBalanceDisplay2() {
                   src={DEFAULT_AVATAR_URL}
                   alt="pepito"
                   borderRadius="20px"
-                  boxSize="60px"
                 />
               </>
             )}
           </Box>
         </GridItem>
+
         <GridItem pl='2' area={'main'}>
           <br />
 
           <Center>
             <VStack align="end" >
 
-              <Text fontSize={"18px"} fontWeight="bold" color="orange">
-                You Own: <Badge borderRadius={"10px"} fontSize={"32px"} colorScheme="green"> ${ownedTotal.toFixed(2)}</Badge>
+              <Text fontSize={"16px"} fontWeight="bold" color="orange">
+                You Own: <Badge borderRadius={"10px"} fontSize={"20px"} colorScheme="green"> ${ownedTotal.toFixed(2)}</Badge>
               </Text>
 
 
-              <Text fontSize={"18px"} fontWeight="bold" color="orange" >
-                Wallet Worth:  <Badge borderRadius={"10px"} fontSize={"32px"} colorScheme="green"> ${totalWorth.toFixed(2)}</Badge>
+              <Text fontSize={"16px"} fontWeight="bold" color="orange" >
+                Wallet Worth:  <Badge borderRadius={"10px"} fontSize={"20px"} colorScheme="green"> ${totalWorth.toFixed(2)}</Badge>
               </Text>
             </VStack>
 
@@ -381,7 +383,7 @@ export default function HiveBalanceDisplay2() {
             color={"white"}
             padding="10px"
             m={"10px"}
-            maxW={"40%"}
+            maxW={"80%"}
             alignSelf={"end"}
             onClick={handleShowOptions}
             variant={"outline"}
@@ -405,6 +407,10 @@ export default function HiveBalanceDisplay2() {
         {showOptions && (
           <>
             <VStack>
+              <br />
+              <Text fontSize={"18px"} fontWeight="bold" color="white">
+                Hive Price: <Badge variant='outline' fontSize={"24px"} colorScheme="red"> ${conversionRate.toFixed(3)}</Badge>
+              </Text>
               <Button
                 width="60%"
                 borderRadius="10px"

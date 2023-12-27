@@ -1,4 +1,4 @@
-import { Image, Box, Table, Thead, Tbody, Tr, Th, Td, Text, Flex, Button, VStack, HStack, Divider, Tooltip, Badge, Grid } from "@chakra-ui/react";
+import { Image, Box, Table, Thead, Tbody, Tr, Th, Td, Text, Flex, Button, VStack, HStack, Divider, Tooltip, Badge, Grid, GridItem, Center } from "@chakra-ui/react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
@@ -275,21 +275,60 @@ export default function HiveBalanceDisplay2() {
     <Box
       borderRadius="12px"
       border="2px solid red"
-      padding="10px"
+      padding="0px"
       maxWidth={{ base: "100%", md: "100%" }}
       style={{ textAlign: "right" }}
-
+      p={"4px"}
     >
-      <Text fontSize={"18px"} fontWeight="bold" color="orange">
-        Hive Price: <Badge variant='outline' fontSize={"24px"} colorScheme="red"> ${conversionRate.toFixed(3)}</Badge>
-      </Text>
-      <VStack spacing={4} align="stretch">
-        <Flex alignItems="center" justifyContent="center" padding="10px">
+
+      <Grid
+        templateAreas={`"header header"
+                  "nav main"
+                  "nav footer"`}
+        gridTemplateRows={'50px 1fr 30px'}
+        gridTemplateColumns={'150px 1fr'}
+        h='200px'
+        gap='1'
+        color='blackAlpha.700'
+        fontWeight='bold'
+      >
+        <GridItem pl='4' bg='red.300' area={'header'} borderRadius={"10px"}>
+          <Center>
+            <HStack>
+              <Image
+                src={HIVE_LOGO_URL}
+                alt="Hive Logo"
+                width="40px"
+                height="40px"
+              />
+              {user ? (
+                <Text fontSize="32px" color="black">
+                  {user.name}
+                </Text>
+
+              ) : (
+                <Text fontSize="32px" color="black">
+                  Login to See your Balance
+                </Text>
+              )}
+
+            </HStack>
+          </Center>
+          <br />
+
+          <Text fontSize={"18px"} fontWeight="bold" color="white" padding={"10px"}>
+            Hive Price: <Badge variant='outline' fontSize={"24px"} colorScheme="red"> ${conversionRate.toFixed(3)}</Badge>
+          </Text>
+        </GridItem>
+        <GridItem pl='2' area={'nav'}>
+          <br />
+
           <Box
             display="flex"
             flexDirection="column"
             alignItems="center"
           >
+
             {user ? (
               <Flex>
                 <VStack>
@@ -298,16 +337,13 @@ export default function HiveBalanceDisplay2() {
                     alt="profile avatar"
                     borderRadius="20px"
                     border="2px solid limegreen"
-                    boxSize="110px"
                   />
-                  <Text fontSize="32px" padding="10px" color="white">
-                    {user.name}
-                  </Text>
 
                 </VStack>
 
               </Flex>
             ) : (
+
               <>
                 <Image
                   src={DEFAULT_AVATAR_URL}
@@ -318,37 +354,54 @@ export default function HiveBalanceDisplay2() {
               </>
             )}
           </Box>
+        </GridItem>
+        <GridItem pl='2' area={'main'}>
+          <br />
 
-          <Grid
-            templateColumns="1fr"
-            gap={4}
-            m="20px"
-            alignItems="center"
-          >
+          <Center>
             <VStack align="end" >
 
               <Text fontSize={"18px"} fontWeight="bold" color="orange">
-                You Won: <Badge borderRadius={"10px"} fontSize={"32px"} colorScheme="green"> ${ownedTotal.toFixed(2)}</Badge>
+                You Own: <Badge borderRadius={"10px"} fontSize={"32px"} colorScheme="green"> ${ownedTotal.toFixed(2)}</Badge>
               </Text>
+
+
               <Text fontSize={"18px"} fontWeight="bold" color="orange" >
                 Wallet Worth:  <Badge borderRadius={"10px"} fontSize={"32px"} colorScheme="green"> ${totalWorth.toFixed(2)}</Badge>
               </Text>
             </VStack>
-          </Grid>
-        </Flex>
-        <Button
-          borderRadius="5px"
-          border="1px solid red"
-          justifyContent="center"
-          color={"white"}
-          padding="10px"
-          maxW={"40%"}
-          alignSelf={"end"}
-          onClick={handleShowOptions}
-          variant={"outline"}
-        >
-          {showOptions ? "Hide Options" : "Show Options"}
-        </Button>
+
+          </Center>
+        </GridItem>
+        <GridItem pl='2' area={'footer'}>
+          <Button
+            borderRadius="5px"
+            border="1px solid red"
+            justifyContent="center"
+            color={"white"}
+            padding="10px"
+            m={"10px"}
+            maxW={"40%"}
+            alignSelf={"end"}
+            onClick={handleShowOptions}
+            variant={"outline"}
+          >
+            {showOptions ? "Hide Options" : "Show Options"}
+          </Button>
+
+        </GridItem>
+
+
+      </Grid>
+
+      <br />
+      <br />
+
+      <VStack spacing={4} align="stretch">
+
+
+
+
         {showOptions && (
           <>
             <VStack>

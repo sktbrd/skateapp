@@ -104,7 +104,6 @@ const GnarsNfts = () => {
     }
   };
 
-  console.log("userPortfolios:", userPortfolios);
 
   useEffect(() => {
     onStart();
@@ -146,7 +145,7 @@ const GnarsNfts = () => {
             color='blackAlpha.700'
             fontWeight='bold'
           >
-            <GridItem pl='2' bg='orange.300' area={'header'}>
+            <GridItem pl='2' bg='orange.300' area={'header'} borderRadius={"10px"}>
               <Center>
                 <Text fontFamily={"Londrina Solid"} color={"black"} fontSize={"32px"}>Gnars Dao</Text>
               </Center>
@@ -180,19 +179,20 @@ const GnarsNfts = () => {
             </GridItem>
           </Grid>
           <br />
-          <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={4}>
+          <Grid templateColumns={{ base: "1fr", md: "repeat(4, 1fr)" }} gap={4}>
             {userPortfolios
               .filter((nft) => nft.token.collection.name === "Gnars")
               .map((nft, index) => (
                 <Flex
                   key={index}
                   borderWidth="1px"
-                  borderColor="limegreen"
+                  borderColor="yellow"
                   width="100%"
                   alignItems="center"
                   padding="10px"
                   borderRadius="10px"
                   bg="black"
+                  cursor={"pointer"}
                   color="white"
                   onClick={() => handleClickNFT(nft)}
                   flexDirection="column" // Ensure a column layout

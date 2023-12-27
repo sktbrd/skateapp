@@ -48,7 +48,7 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
 
   return (
     <Box>
-      <Box border={"1px solid white"} marginBottom={"10px"} p={"5px"} paddingBottom={"0px"} borderRadius={"10px"}>
+      <Box border={"1px solid white"} marginBottom={"10px"} p={"5px"} borderRadius={"10px"}>
 
         {userBalance === "0" ? (
           <Flex alignItems="center" justifyContent="center" flexDirection="column">
@@ -79,9 +79,9 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
             color='blackAlpha.700'
             fontWeight='bold'
           >
-            <GridItem pl='2' bg={"orange.500"} area={'header'}>
+            <GridItem pl='2' bg={"orange.500"} area={'header'} borderRadius={"10px"}>
               <Center>
-                <Text fontFamily={"Londrina Solid"} color={"black"} fontSize={"32px"}>SKTHV OG</Text>
+                <Text color={"black"} fontSize={"32px"}>SKTHV OG</Text>
               </Center>
             </GridItem>
             <GridItem pl='2' area={'nav'}>

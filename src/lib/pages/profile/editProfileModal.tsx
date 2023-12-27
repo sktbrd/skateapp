@@ -22,7 +22,21 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   const [about, setAbout] = useState<string>(user.profile?.about || '');
   const [avatarUrl, setAvatarUrl] = useState<string>(user.profile?.profile_image || '');
   const [coverImageUrl, setCoverImageUrl] = useState<string>(user.profile?.cover_image || '');
-  const [extensions, setExtentions] = useState<any>((JSON.parse(user?.json_metadata)?.extensions) || "");
+  console.log(user)
+  const current_extensions = user?.json_metadata;
+
+  console.log(current_extensions)
+  const [extensions, setExtensions] = useState<any>(
+    (() => {
+      try {
+        return (JSON.parse(user?.json_metadata)?.extensions) || "";
+      } catch (error) {
+        console.error("Error parsing JSON metadata:", error);
+        return ""; // or set a default value based on your requirements
+      }
+    })()
+  );
+
   const [website, setWebsite] = useState<string>(user.profile?.website || '');
   const [selectedProfileFile, setSelectedProfileFile] = useState<File | null>(null);
   const [selectedCoverFile, setSelectedCoverFile] = useState<File | null>(null);
@@ -83,11 +97,17 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
       try {
         const metadata = JSON.parse(user.posting_json_metadata);
 
-        setName(name => name || metadata.profile.name || '');
-        setAbout(about => about || metadata.profile.about || '');
-        setAvatarUrl(avatarUrl => avatarUrl || metadata.profile.profile_image || '');
-        setCoverImageUrl(coverImageUrl => coverImageUrl || metadata.profile.cover_image || '');
-        setWebsite(website => website || metadata.profile.website || '');
+        setName((name) => name || metadata.profile.name || '');
+        setAbout((about) => about || metadata.profile.about || '');
+        setAvatarUrl((avatarUrl) => avatarUrl || metadata.profile.profile_image || '');
+        setCoverImageUrl((coverImageUrl) => coverImageUrl || metadata.profile.cover_image || '');
+        setWebsite((website) => website || metadata.profile.website || '');
+
+        // Ensure extensions property is present with a default value for eth_address
+        setExtensions((ext: any) => ({
+          ...ext,
+          eth_address: ext.eth_address || '',
+        }));
       } catch (error) {
         console.error('Error parsing JSON metadata:', error);
       }

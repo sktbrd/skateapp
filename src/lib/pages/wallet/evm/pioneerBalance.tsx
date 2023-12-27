@@ -1,7 +1,7 @@
 // Import necessary modules and components
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, Text, Table, Td, Tbody, Flex, Image, Button, Grid, GridItem, Center, Tooltip } from '@chakra-ui/react';
+import { Box, Text, Table, Td, Tr, Tbody, Flex, Image, Button, Grid, GridItem, Center, Tooltip } from '@chakra-ui/react';
 import { formatWalletAddress } from 'lib/pages/utils/formatWallet';
 import EvmSendModal2 from './evmSendModal2';
 
@@ -228,31 +228,31 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
       >
         <Table>
           <Tbody>
-            <tr>
+            <Tr >
               <Td>
-                <Text fontWeight="bold">Asset</Text>
+                <Text fontWeight="bold" color={"white"}>Asset</Text>
               </Td>
               <Td>
-                <Text fontWeight="bold">Balance</Text>
+                <Text fontWeight="bold" color={"white"}>Balance</Text>
               </Td>
               <Td>
-                <Text fontWeight="bold">Balance USD</Text>
+                <Text fontWeight="bold" color={"white"}>Balance USD</Text>
               </Td>
 
-            </tr>
+            </Tr>
             {tokens?.map((token, index: number) => (
               <tr key={index}>
                 <Td>
                   <Button bg='transparent' onClick={() => handleTokenClick(token)}>
 
-                    <Text fontWeight="bold">{token.symbol}</Text>
+                    <Text >{token.symbol}</Text>
                   </Button>
                 </Td>
                 <Td>
-                  <Text fontWeight="bold">{token.balance?.toFixed(4)}</Text>
+                  <Text >{token.balance?.toFixed(4)}</Text>
                 </Td>
                 <Td>
-                  <Text fontWeight="bold">{token.balanceUSD?.toFixed(2)}</Text>
+                  <Text >{token.balanceUSD?.toFixed(2)}</Text>
                 </Td>
               </tr>
             ))}

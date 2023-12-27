@@ -11,6 +11,7 @@ import PowerUpModal from "./powerUpModal";
 import PowerDownModal from "./powerDownModal";
 import DelegationModal from "./delegationModal";
 import { useFetcher } from "react-router-dom";
+import { FaPix } from "react-icons/fa6";
 
 
 const dhiveClient = new dhive.Client([
@@ -34,8 +35,10 @@ interface User {
   delegated_vesting_shares: string;
   received_vesting_shares: string;
   name?: string;
+  location?: string;
   posting_json_metadata?: string;
   metadata: any;
+  json_metadata: any;
 }
 
 // send to utils.tsx
@@ -143,6 +146,7 @@ export default function HiveBalanceDisplay2() {
   const [delegatedToUserInUSD, setDelegatedToUserInUSD] = useState<string>("0");
   const [HPdelegatedToUser, setHPdelegatedToUser] = useState<string>("0");
   const [showOptions, setShowOptions] = useState(false); // State to track whether to show additional options or not
+  const [userLocation, setUserLocation] = useState<string>("");
 
   const convertVestingSharesToHivePower = async (
     vestingShares: string,
@@ -192,6 +196,7 @@ export default function HiveBalanceDisplay2() {
         try {
           const metadata = JSON.parse(user.posting_json_metadata || '');
           setProfileImage(metadata.profile.profile_image);
+          setUserLocation(metadata.profile.location);
         } catch (error) {
           console.error('Error parsing JSON metadata:', error);
         }
@@ -283,11 +288,11 @@ export default function HiveBalanceDisplay2() {
 
       <Grid
         templateAreas={`"header header"
-                  "nav main"
-                  "nav footer"`}
+                      "nav main"
+                      "nav footer"`}
         gridTemplateRows={'50px 1fr 30px'}
         gridTemplateColumns={'150px 1fr'}
-        h='200px'
+        height={{ base: '300px', md: '200px' }} // Responsive height
         gap='1'
         color='blackAlpha.700'
         fontWeight='bold'
@@ -339,6 +344,8 @@ export default function HiveBalanceDisplay2() {
                     alt="profile avatar"
                     borderRadius="20px"
                     border="2px solid limegreen"
+                    boxSize={"120px"}
+                    objectFit={"cover"}
                   />
 
                 </VStack>
@@ -359,6 +366,30 @@ export default function HiveBalanceDisplay2() {
 
         <GridItem pl='2' area={'main'}>
           <br />
+          {userLocation === "Brazil" ? (
+
+            <Button
+              borderRadius="5px"
+              border="1px solid red"
+              justifyContent="center"
+              color="white"
+              padding="10px"
+              m="8px"
+              maxW="80%"
+              variant="outline"
+              _hover={{
+                bg: "transparent",
+                color: "green.200",
+              }}
+              onClick={() => alert("Em breve! Por enquanto tente crowsnight.com")}
+            >
+              <span style={{ marginRight: '5px' }}>Pix</span>
+              <FaPix color="teal" size={20} />
+            </Button>
+
+          ) : (
+            <Box></Box>
+          )}
 
           <Center>
             <VStack align="end" >
@@ -373,28 +404,36 @@ export default function HiveBalanceDisplay2() {
               </Text>
             </VStack>
 
+
+
           </Center>
         </GridItem>
-        <GridItem pl='2' area={'footer'}>
+        <GridItem pl='2' area={'footer'} justifyContent={"end"} flexDirection={"row"} >
+
           <Button
             borderRadius="5px"
             border="1px solid red"
             justifyContent="center"
             color={"white"}
             padding="10px"
-            m={"10px"}
+            m={"8px"}
             maxW={"80%"}
             alignSelf={"end"}
             onClick={handleShowOptions}
             variant={"outline"}
+            _hover={{
+              bg: "transparent",
+              color: "red",
+            }}
           >
             {showOptions ? "Hide Options" : "Show Options"}
           </Button>
 
+
         </GridItem>
 
 
-      </Grid>
+      </Grid >
 
       <br />
       <br />
@@ -407,10 +446,9 @@ export default function HiveBalanceDisplay2() {
         {showOptions && (
           <>
             <VStack>
-              <br />
-              <Text fontSize={"18px"} fontWeight="bold" color="white">
-                Hive Price: <Badge variant='outline' fontSize={"24px"} colorScheme="red"> ${conversionRate.toFixed(3)}</Badge>
-              </Text>
+
+
+
               <Button
                 width="60%"
                 borderRadius="10px"
@@ -418,7 +456,7 @@ export default function HiveBalanceDisplay2() {
                 justifyContent="center"
                 bg={"black"}
                 color={"white"}
-                _hover={{ bg: "limegreen" }}
+                _hover={{ bg: "green.200" }}
                 onClick={handleOpenPowerUpModal}
               >
                 🔺 Power Up
@@ -430,7 +468,7 @@ export default function HiveBalanceDisplay2() {
                 justifyContent="center"
                 bg={"black"}
                 color={"white"}
-                _hover={{ bg: "red" }}
+                _hover={{ bg: "red.400" }}
                 onClick={handleOpenPowerDownModal}
               >
                 🔻 Power Down
@@ -497,7 +535,7 @@ export default function HiveBalanceDisplay2() {
                     width="20px"
                     height="20px"
                   />
-                  <ChakraLink target="_blank" href="https://simpleswap.io/" fontSize="16px">Buy HIVE </ChakraLink>
+                  <ChakraLink target="_blank" href="https://simpleswap.io/customer-account/signup?referral=DI8ePMnCsK" fontSize="16px">Buy HIVE </ChakraLink>
                 </HStack>
               </Tooltip>
 
@@ -521,7 +559,7 @@ export default function HiveBalanceDisplay2() {
                     width="20px"
                     height="20px"
                   />
-                  <ChakraLink target="_blank" href="https://simpleswap.io/" fontSize="16px">Sell Hive  </ChakraLink>
+                  <ChakraLink target="_blank" href="https://simpleswap.io/customer-account/signup?referral=DI8ePMnCsK" fontSize="16px">Sell Hive  </ChakraLink>
                 </HStack>
               </Tooltip>
               <Button
@@ -550,6 +588,11 @@ export default function HiveBalanceDisplay2() {
               >
                 👑 Delegate Hive Power to SkateHive 👑
               </Button>
+              <Divider />
+              <Text fontSize={"18px"} fontWeight="bold" color="white">
+                Hive Price: <Badge variant='outline' fontSize={"24px"} colorScheme="red"> ${conversionRate.toFixed(3)}</Badge>
+              </Text>
+              <Divider />
             </>
           </>
         )}

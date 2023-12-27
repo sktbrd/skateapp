@@ -19,7 +19,6 @@ const UploadPage = () => {
   useEffect(() => {
     const fetchAccount = async () => {
       try {
-        console.log(user?.name);
 
         // Ensure user is defined before creating dhiveClient
         if (user) {
@@ -31,8 +30,7 @@ const UploadPage = () => {
           ]);
 
           const accountData = await dhiveClient.database.getAccounts([user.name]);
-          console.log(accountData);
-          console.log("Post Count: ", accountData[0].post_count);
+
 
           // Set the account state for potential future use
           setAccount(accountData[0].post_count.toString());

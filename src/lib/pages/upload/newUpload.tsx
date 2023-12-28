@@ -677,7 +677,6 @@ const NewUpload: React.FC = () => {
     }
 
     console.log("Search username:", searchUsername);
-    console.log(beneficiariesArray)
   };
 
   const handleBeneficiaryPercentageChange = (index: number, newPercentage: number) => {

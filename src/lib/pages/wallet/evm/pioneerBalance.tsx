@@ -150,7 +150,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
               <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
                 Wallet address
               </Text>
-              <Button p={0} bg={"transparent"} onClick={handleCopy}>
+              <Button p={0} bg={"transparent"} onClick={handleCopy} _hover={{ backgroundColor: 'blue.700', cursor: 'pointer' }}>
                 <Text color="#FFA500" fontSize="18px" marginLeft="5px">
                   {formatWalletAddress(wallet_address)}
                 </Text>

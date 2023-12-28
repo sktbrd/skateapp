@@ -147,6 +147,7 @@ export default function HiveBalanceDisplay2() {
   const [HPdelegatedToUser, setHPdelegatedToUser] = useState<string>("0");
   const [showOptions, setShowOptions] = useState(false); // State to track whether to show additional options or not
   const [userLocation, setUserLocation] = useState<string>("");
+  const [totalHiveAvailable, setTotalHiveAvailable] = useState<number>(0);
 
   const convertVestingSharesToHivePower = async (
     vestingShares: string,
@@ -190,21 +191,6 @@ export default function HiveBalanceDisplay2() {
 
   };
 
-  useEffect(() => {
-    const fetchProfileImage = async () => {
-      if (user) {
-        try {
-          const metadata = JSON.parse(user.posting_json_metadata || '');
-          setProfileImage(metadata.profile.profile_image);
-          setUserLocation(metadata.profile.location);
-        } catch (error) {
-          console.error('Error parsing JSON metadata:', error);
-        }
-      }
-    };
-    fetchProfileImage();
-  }
-    , [user]);
 
 
   const onStart = async function () {
@@ -221,6 +207,7 @@ export default function HiveBalanceDisplay2() {
         ]);
 
         const hiveWorth = parseFloat(user.balance.split(" ")[0]) * conversionRate;
+        setTotalHiveAvailable(hiveWorth);
         const hivePowerWorth =
           (parseFloat(vestingSharesData.hivePower) + parseFloat(vestingSharesData.DelegatedToSomeoneHivePower)) *
           conversionRate;
@@ -250,6 +237,21 @@ export default function HiveBalanceDisplay2() {
   useEffect(() => {
     onStart();
   }, [user]);
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      if (user) {
+        try {
+          const metadata = JSON.parse(user.posting_json_metadata || '');
+          setProfileImage(metadata.profile.profile_image);
+          setUserLocation(metadata.profile.location);
+        } catch (error) {
+          console.error('Error parsing JSON metadata:', error);
+        }
+      }
+    };
+    fetchProfileImage();
+  }
+    , [user]);
 
 
   const handleOpenModal = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -401,6 +403,9 @@ export default function HiveBalanceDisplay2() {
 
               <Text fontSize={"16px"} fontWeight="bold" color="orange" >
                 Wallet Worth:  <Badge borderRadius={"10px"} fontSize={"20px"} colorScheme="green"> ${totalWorth.toFixed(2)}</Badge>
+              </Text>
+              <Text fontSize={"16px"} fontWeight="bold" color="orange" >
+                Available :  <Badge borderRadius={"10px"} fontSize={"20px"} colorScheme="green"> ${totalHiveAvailable.toFixed(2)}</Badge>
               </Text>
             </VStack>
 

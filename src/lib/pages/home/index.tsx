@@ -96,17 +96,7 @@ const Home = () => {
           >
             Scooter
           </Tab>
-          <Tab
-            color="white"
-            _selected={{
-              backgroundColor: 'gray',
-              color: 'black',
-              fontWeight: 'bold',
-              border: '1px solid white',
-            }}
-          >
-            BMX
-          </Tab>
+
         </TabList>
         <TabPanels>
           {/* skatehive */}

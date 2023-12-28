@@ -348,7 +348,7 @@ const HeaderNew = () => {
     const selectedValue = e.target.value;
 
     if (selectedValue === "profile") {
-      window.location.href = "/profile"; // Navigate to profile page
+      window.location.href = "/profile";
     } else if (selectedValue === "logout") {
       logout();
     }
@@ -496,25 +496,22 @@ const HeaderNew = () => {
         <Menu>
           <MenuButton
             as={Button}
-            backgroundColor="black"
-            border="limegreen 1px solid"
+            backgroundColor="transparent"
             color="limegreen"
             size="l"
-            css={{
-              animation: `${glow} 2s infinite alternate , ${moveUpAndDown} 3s infinite`,
-              "&:hover": {
-                animation: `${enlargeOnHover} 0.2s forwards, ${glow} 2s infinite alternate,${moveUpAndDown} 0s infinite`,
-              },
-            }}
+
+
+            _hover={{ bg: "transparent" }}
           >
             <Image
-              src="/assets/skatehive.jpeg"
+              src="https://www.stoken.quest/images/coinspin.gif"
               alt="Dropdown Image"
               boxSize="48px" // Adjust the size as needed
               borderRadius="10px"
+              backgroundColor={"transparent"}
             />
           </MenuButton>
-          <MenuList border="1px solid limegreen" backgroundColor="black" color="white">
+          <MenuList border="1px solid black" backgroundColor="black" color="white">
             <Link to="https://snapshot.org/#/skatehive.eth" target="_blank" style={{ textDecoration: 'none' }}>
               <MenuItem
                 _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
@@ -610,7 +607,7 @@ const HeaderNew = () => {
         </Box>
 
       </Flex>
-      <Flex gap={{ base: 4, md: 8 }} padding={{ base: "6px 18px", md: "8px 20px" }} borderRadius="6px" position={{ md: "absolute" }} border="2px solid limegreen">
+      <Flex gap={{ base: 4, md: 8 }} padding={{ base: "6px 18px", md: "8px 20px" }} borderRadius="6px" position={{ md: "absolute" }} border="2px solid black">
         <Button variant="link" color="white" as={Link} to="/">Home</Button>
         <Button variant="link" color="white" as={Link} to="/QFS">Play</Button>
         {

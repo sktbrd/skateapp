@@ -505,7 +505,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
             {loadedPosts.map((post) => (
               <Card
                 //border="1px"
-                //borderColor="limegreen"
+                //borderColor="black"
                 bg="linear-gradient(to top,  black, #070807, black)"
                 key={post.permlink}
                 maxW="md"
@@ -528,7 +528,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                     alignItems="center"
                   >
                     <Heading
-                      color="white"
+                      color="black"
                       paddingTop={"10px"}
                       size="lg"
                       style={{
@@ -541,11 +541,11 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                   </Flex>
                 </CardHeader>
 
-                <Box zIndex={1} padding="20px" marginBottom={"10px"} height="200px">
+                <Box padding="20px" marginBottom={"10px"} height="200px">
                   <Image
                     key={post.id}
                     objectFit={"cover"}
-                    border="1px solid limegreen"
+                    border="1px solid black"
                     borderRadius="10px"
                     src={post.thumbnail || defaultThumbnail}
                     alt="Post Thumbnail"
@@ -562,7 +562,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                 </Box>
                 <CardBody>
                   <Box //the box around the blogpost title
-                    //border="1px solid limegreen"
+                    //border="1px solid black"
                     borderRadius="0px"
                     minWidth="100%"
                     minHeight="100%"
@@ -610,13 +610,13 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                   }}
                 >
                   <Text
-                    color="white"
+                    color="black"
                     marginTop="2px"
                     style={{ display: "flex", alignItems: "center" }}
                   >
                     <Link to={`profile/${post.author}`}>
                       <Image
-                        border="0px solid limegreen"
+                        border="0px solid black"
                         borderRadius="10px"
                         src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
                         width="105%"
@@ -630,9 +630,9 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                     <Tooltip
                       color={"white"}
                       backgroundColor={"black"}
-                      border={"1px dashed limegreen"}
+                      border={"1px dashed black"}
                       label={
-                        <div style={{ color: "limegreen" }}>
+                        <div style={{ color: "black" }}>
                           45% - 🛹 Author + Benef. <br /> 50% - 🧡 Voters <br />{" "}
                           5% - 🏦 Treasury* <br />
                           <br /> Click to Learn More{" "}
@@ -696,7 +696,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                   <Box marginLeft="auto">
                     <Tooltip
                       backgroundColor={"black"}
-                      border={"1px dashed limegreen"}
+                      border={"1px dashed black"}
                       label={<div style={{ color: "orange" }}>Wow!</div>}
                       aria-label="View Voters"
                     >
@@ -708,7 +708,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                         borderRadius="50%"
                         aria-label="Upvote"
                         border="1px"
-                        borderColor="limegreen"
+                        borderColor="black"
                         onClick={(e) => {
                           e.stopPropagation(); // Prevent the click event from propagating
                           handleVoteClick(post);

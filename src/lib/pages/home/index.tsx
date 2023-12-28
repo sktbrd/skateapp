@@ -47,116 +47,90 @@ const Home = () => {
               border: '1px solid white',
             }}
           >
-            📜 FEED
-          </Tab>
-
-          <Tab
-            color="white"
-            _selected={{
-              backgroundColor: 'limegreen',
-              color: 'black',
-              fontWeight: 'bold',
-              border: '1px solid white'
-
-            }} // Change the background color when selected
-          >
-            🛹 UPLOAD
+            Skateboard
           </Tab>
           <Tab
             color="white"
             _selected={{
-              backgroundColor: 'limegreen',
+              backgroundColor: 'purple.400',
               color: 'black',
               fontWeight: 'bold',
               border: '1px solid white',
 
-            }} // Change the background color when selected
+            }}
           >
-            🏛 DAOs
+            LongBoard
+          </Tab>
+
+          <Tab
+            color="white"
+            _selected={{
+              backgroundColor: 'white',
+              color: 'black',
+              fontWeight: 'bold',
+              border: '1px solid white'
+
+            }}
+          >
+            Snowboard
+          </Tab>
+          <Tab
+            color="white"
+            _selected={{
+              backgroundColor: 'blue.200',
+              color: 'black',
+              fontWeight: 'bold',
+              border: '1px solid white',
+            }}
+          >
+            Surf
+          </Tab>
+          <Tab
+            color="white"
+            _selected={{
+              backgroundColor: 'red.200',
+              color: 'black',
+              fontWeight: 'bold',
+              border: '1px solid white',
+            }}
+          >
+            Scooter
+          </Tab>
+          <Tab
+            color="white"
+            _selected={{
+              backgroundColor: 'gray',
+              color: 'black',
+              fontWeight: 'bold',
+              border: '1px solid white',
+            }}
+          >
+            BMX
           </Tab>
         </TabList>
         <TabPanels>
+          {/* skatehive */}
           <TabPanel>
-            <HStack justifyContent="center" marginBottom="10px">
-              {!isMobile && <CreateAccountCTA />}
-              <CommunityTotalPayout communityTag={"hive-173115"} />
-              {!isMobile && <CommunityStats communityTag="hive-173115" />}
-              {!isMobile && <NewFeature />}
-            </HStack>
-
-            {/* <Text fontFamily="Creepster" color="white" fontSize="42px" marginBottom="10px">
-              Skatehive and Gnars Wish you a Merry Xmas!
-            </Text> */}
-            {/* <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  maxWidth: '80%', // Adjust the maxWidth as needed
-                  background: 'black',
-                  padding: '20px',
-                }}
-              >
-                <div style={{
-                  width: '100%', marginBottom: '16px', borderRadius: '20px',
-                }}>
-                  <iframe
-                    src="https://zora.co/collect/zora:0xd11f5c95a167afdb94a990dd2ff21086df0c39da/4/embed?referrer=0x41CB654D1F47913ACAB158a8199191D160DAbe4A"
-                    style={{
-                      border: '0',
-                      backgroundColor: 'black',
-                      position: 'relative',
-                      width: '100%',
-                      aspectRatio: '16/9', // Maintain aspect ratio
-                    }}
-                    allowTransparency={true}
-                    allowFullScreen={true}
-                    sandbox="allow-pointer-lock allow-same-origin allow-scripts allow-popups"
-                  ></iframe>
-                </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    width: '100%',
-                  }}
-                >
-                  <a
-                    href="https://zora.co/collect/zora:0xd11f5c95a167afdb94a990dd2ff21086df0c39da/4"
-                    style={{
-                      padding: '12px',
-                      textDecoration: 'none',
-                      color: '#b3b3b3',
-                      fontFamily: 'Inter, system-ui',
-                      fontSize: '10px',
-                      lineHeight: '12px',
-                      fontStyle: 'normal',
-                      fontWeight: 400,
-                      marginRight: '16px',
-                    }}
-                  >
-                    GNARLY XMAS on Zora
-                  </a>
-                </div>
-              </div> */}
-
-
-
             <HiveBlog />
           </TabPanel>
-          {/* <TabPanel>
-            <HiveVideos />
-          </TabPanel> */}
-          {/* <TabPanel>
-            <QFS />
-          </TabPanel> */}
+          {/* longboard hive */}
           <TabPanel>
-            <UploadPage />
+            <HiveBlog tag='longboard' />
           </TabPanel>
           <TabPanel>
-            <SkatehiveProposals />
+            <HiveBlog tag='hive-132443' />
+          </TabPanel>
+          <TabPanel>
+            <HiveBlog tag='hive-141964' />
+
+          </TabPanel>
+          <TabPanel>
+            <HiveBlog tag='hive-141964' />
+
+          </TabPanel>
+          <TabPanel>
+            <HiveBlog tag='hive-141964' />
+
           </TabPanel>
         </TabPanels>
       </Tabs>

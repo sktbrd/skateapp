@@ -36,8 +36,8 @@ const Home = () => {
       alignItems="center"
       justifyContent="center"
     >
-      <Tabs isFitted variant="enclosed" width="100%"  {...tabProps}>
-        <TabList justifyContent={"center"} width="100%" >
+      <Tabs isFitted variant="enclosed" width="100%"  {...tabProps} color={"black"} >
+        <TabList justifyContent={"center"} width="100%" color={"black"} >
           <Tab
             color="white"
             _selected={{

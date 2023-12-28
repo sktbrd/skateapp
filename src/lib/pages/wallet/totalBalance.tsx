@@ -301,7 +301,7 @@ const TotalBalances = ({ hivewallet, ethWallet }: { hivewallet: string; ethWalle
                 </GridItem>
                 <GridItem pl='2' area={'nav'}>
                     <Image
-                        src="https://pbs.twimg.com/tweet_video_thumb/F7tVFwLXMAAd2_9.jpg"
+                        src="https://i.ibb.co/2ML12vx/image.png"
                         p={"0px"}
                         m={"5px"}
                         objectFit={"cover"}

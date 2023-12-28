@@ -27,7 +27,7 @@ import '@fontsource/creepster';
 const Home = () => {
   const { selectedIndex, ...tabProps } = useTabs({ isLazy: true });
 
-  const isBigScreen = window.innerWidth >= 768; // Define a breakpoint for big screens
+  const isBigScreen = window.innerWidth >= 768;
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
@@ -45,7 +45,7 @@ const Home = () => {
               color: 'black',
               fontWeight: 'bold',
               border: '1px solid white',
-            }} // Change the background color when selected
+            }}
           >
             📜 FEED
           </Tab>

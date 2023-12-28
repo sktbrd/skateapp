@@ -31,10 +31,10 @@ const CreateAccountCTA: React.FC = () => {
                         {/* <Text fontSize="28px" marginBottom="5px">
             🗣
             </Text> */}
-                        <Image src="assets/santa.png" boxSize="43px" marginBottom="5px" />
+                        <Image src="assets/pepelove.png" boxSize="43px" marginBottom="5px" />
 
                         <a href='/accountcreation' target="_blank">
-                            <Text color={"black"} fontSize="12px"> Its XMAS ! Click to create an account for a friend you love ! </Text>
+                            <Text color={"black"} fontSize="12px"> Click here to create an account for a friend you love ! </Text>
                         </a>
                     </HStack>
 

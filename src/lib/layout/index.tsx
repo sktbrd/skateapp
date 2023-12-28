@@ -14,17 +14,17 @@ const Layout = ({ children }: LayoutProps) => {
     <Box margin="0 auto" minWidth={"100%"} transition="0.5s ease-out">
 
       <HeaderNew />
-        <Meta />
+      <Meta />
 
-        <Flex wrap="wrap" margin="0" minHeight="90vh">
-          <Box  width="full" as="main" marginY={-5}>
-            {children}
+      <Flex wrap="wrap" margin="0" minHeight="90vh">
+        <Box width="full" as="main" marginY={-5}>
+          {children}
 
-          </Box>
+        </Box>
 
-          <Footer />
-        </Flex>
-      </Box>
+        <Footer />
+      </Flex>
+    </Box>
   );
 };
 

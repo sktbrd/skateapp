@@ -12,6 +12,7 @@ import * as Types from '../types';
 
 // import comment box
 import CommentBox from './commentBox';
+import { Link } from 'react-router-dom';
 
 const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_votes, permlink, repliesFetched, payout }) => {
     const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
@@ -61,10 +62,12 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
         <Box>
             <Box border="1px solid gray" borderRadius="10px" padding="15px" margin="10px">
                 <Flex justifyContent="space-between" alignItems="">
-                    <Flex padding="5px" alignItems="center">
-                        <Image src={avatarUrl} borderRadius="full" boxSize="40px" mr="3" />
-                        <Text fontWeight="bold">@{author}</Text>
-                    </Flex>
+                    <Link to={`https://skatehive.app/profile/${author}`}>
+                        <Flex padding="5px" alignItems="center">
+                            <Image src={avatarUrl} borderRadius="full" boxSize="40px" mr="3" />
+                            <Text fontWeight="bold">@{author}</Text>
+                        </Flex>
+                    </Link>
                     <Tooltip
                         label="Yes you can earn $ by commenting, make sure you comment cool stuff that people will fire up!"
                         aria-label="A tooltip"
@@ -110,9 +113,9 @@ const Comment: React.FC<Types.CommentProps> = ({ author, body, created, net_vote
                                 src='https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless'
                                 alt="Vote"
                                 style={{
-                                    maxWidth: '24px', // Set a maximum width for the image
-                                    maxHeight: '24px', // Set a maximum height for the image
-                                    marginRight: '5px', // Add some spacing between the image and text
+                                    maxWidth: '24px',
+                                    maxHeight: '24px',
+                                    marginRight: '5px',
                                 }}
                             />
                             <p>{localNetVotes}</p>

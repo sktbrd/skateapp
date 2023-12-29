@@ -18,6 +18,8 @@ import { FaCheck, FaTimes } from 'react-icons/fa';
 import { KeychainSDK, KeychainKeyTypes, KeychainRequestTypes } from 'keychain-sdk';
 import { KeyRole } from '@hiveio/dhive';
 import '@fontsource/creepster';
+import { FaKey, FaCopy, FaDownload } from 'react-icons/fa';
+
 
 // Initialize the Hive client with API endpoints
 const client = new dhive.Client([
@@ -204,18 +206,25 @@ function AccountCreation() {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        height: '100vh', // Set height to 100% of the viewport height
+        height: '100vh',
         alignItems: 'center',
         justifyContent: 'center',
+        flexWrap: 'wrap',
       }}
     >
+
       <VStack spacing={3}>
-        <Text fontFamily="Creepster" fontSize="66px" color="white">Invite a Shredder to Skatehive</Text>
-        <Text fontFamily="Creepster" fontSize="48px" color={"yellow"}>Choose a username!</Text>
+        <Center>
+
+          <Text align={"center"} fontFamily="Creepster" fontSize="44px" color="white">Invite a Shredder to Skatehive</Text>
+        </Center>
+        <Text fontFamily="Creepster" fontSize="32px" color={"yellow"}>Choose a username!</Text>
+
         <Input
           placeholder="Enter Hive username"
           backdropBlur={4}
           bg={"black"}
+          maxW={"375px"}
           value={desiredUsername}
           onChange={(e) => setDesiredUsername(e.target.value)}
         />
@@ -241,7 +250,7 @@ function AccountCreation() {
             } /> */}
 
             <Center>
-              <Button colorScheme="yellow" border={"2px solid black"} onClick={handleGenerateKeys} marginTop={5}>
+              <Button leftIcon={<FaKey />} colorScheme="yellow" border={"2px solid black"} onClick={handleGenerateKeys} marginTop={5}>
                 Generate Keys
               </Button>
             </Center>
@@ -252,11 +261,11 @@ function AccountCreation() {
               justify="center"
               marginTop={5}
             >
-              <Flex width="100%" gap={2} justifyContent="flex-end" marginBottom={5}>
-                <Button colorScheme="teal" onClick={() => copyToClipboard(downloadText)}>
+              <Flex width="100%" gap={2} justifyContent="center" marginBottom={5}>
+                <Button leftIcon={<FaKey />} colorScheme="yellow" border={"2px solid black"} onClick={() => copyToClipboard(downloadText)}>
                   Copy Keys
                 </Button>
-                <Button colorScheme="teal" onClick={() => {
+                <Button leftIcon={<FaDownload />} colorScheme="yellow" border={"2px solid black"} onClick={() => {
                   const element = document.createElement("a");
                   const file = new Blob([downloadText], { type: 'text/plain' });
                   element.href = URL.createObjectURL(file);
@@ -269,26 +278,30 @@ function AccountCreation() {
                   Download Keys
                 </Button>
               </Flex>
+              <Box
+                maxW={"100%"}>
 
-              <Text
-                width="100%"
-                borderRadius="15"
-                padding={5}
-                background="#252525"
-                whiteSpace="pre">
-                {downloadText.slice(0, charactersToShow)}
-              </Text>
+                <Text
+                  borderRadius="15"
+                  padding={5}
+                  background="#252525"
+                  fontSize={"8px"}
+                  whiteSpace="pre">
+                  {downloadText.slice(0, charactersToShow)}
+                </Text>
+              </Box>
 
             </Flex>
+            <Flex>
 
-            <Center display={keys ? 'flex' : 'none'}>
-              <Checkbox colorScheme="teal" size="lg" isChecked={areKeysDownloaded} onChange={(e) => setAreKeysDownloaded(e.target.checked)}>
-                I have downloaded my keys.
+              <Checkbox marginLeft={"15px"} colorScheme="teal" size="lg" isChecked={areKeysDownloaded} onChange={(e) => setAreKeysDownloaded(e.target.checked)}>
+                I have downloaded that shit and I won't lose it.
               </Checkbox>
-              <Button onClick={handleCreateAccount} margin="10px" colorScheme="teal" isDisabled={areKeysDownloaded ? false : true}>
-                Sign Up
-              </Button>
-            </Center>
+
+            </Flex>
+            <Button p="20px" colorScheme="yellow" border={"2px solid black"} onClick={handleCreateAccount} margin="10px" isDisabled={areKeysDownloaded ? false : true}>
+              Sign Up
+            </Button>
           </FormControl>
         )}
       </VStack>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { Box, Text, Flex, Image, Button, Tooltip, Grid, VStack, Badge, GridItem, Center, HStack } from "@chakra-ui/react";
 import ERC1155_ABI from "./skthvOG_abi.json";
@@ -96,7 +96,7 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
               <Center>
 
                 <Text fontSize="24px" color="orange" fontWeight="bold" mb="2">
-                  {userBalance} x Skatehive OG
+                  <Badge borderRadius={"5px"} fontSize={"24px"} colorScheme="orange" marginLeft="5px">{userBalance}</Badge> x Skatehive OG
                 </Text>
               </Center>
               <Center>
@@ -104,7 +104,7 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
                 <HStack>
 
                   <Text color={"white"}> Number or Votes </Text>
-                  <Badge borderRadius={"10px"} fontSize={"24px"} colorScheme="orange" marginLeft="5px">
+                  <Badge borderRadius={"5px"} fontSize={"24px"} colorScheme="orange" marginLeft="5px">
                     {userVotes}
                   </Badge>
                 </HStack>

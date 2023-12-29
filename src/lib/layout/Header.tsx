@@ -4,32 +4,25 @@ import {
   Flex,
   HStack,
   Text,
-  Tabs,
-  TabList,
   Tab,
   TabProps,
   useBreakpointValue,
   Image,
   Avatar,
   Modal,
-  ModalOverlay,
   Popover,
   PopoverTrigger,
   PopoverContent,
-  PopoverArrow,
   PopoverCloseButton,
   PopoverHeader,
   PopoverBody,
-
   Menu,
-
   VStack,
   MenuButton,
   MenuGroup,
   MenuList,
   MenuItem,
   Button,
-  Select,
   MenuDivider,
   Tooltip,
 } from "@chakra-ui/react";
@@ -43,17 +36,15 @@ import { Link, LinkProps as RouterLinkProps } from "react-router-dom";
 import useAuthUser from "lib/pages/home/api/useAuthUser";
 import HiveLogin from "lib/pages/home/api/HiveLoginModal";
 
-import { fetchHbdPrice } from "lib/pages/wallet/hive/hiveBalance";
-import { fetchConversionRate } from "lib/pages/wallet/hive/hiveBalance";
 
 import axios from "axios";
 //@ts-ignore
 import { usePioneer } from '@pioneer-platform/pioneer-react';
-import { MdTapAndPlay } from "react-icons/md";
 import { FaBell } from "react-icons/fa";
-import { profile } from "console";
 import { FaLink } from "react-icons/fa";
 import * as dhive from "@hiveio/dhive";
+
+import { fetchConversionRate, fetchHbdPrice } from "lib/pages/utils/apis/coinGecko";
 
 type LinkTabProps = TabProps & RouterLinkProps;
 
@@ -246,11 +237,6 @@ const HeaderNew = () => {
     );
   };
 
-
-
-
-
-
   const fetchNotifications = async () => {
     try {
       const response = await axios.post(
@@ -272,15 +258,12 @@ const HeaderNew = () => {
     }
   };
 
-
   useEffect(() => {
     if (loggedIn) {
       fetchNotifications();
     }
   }, [loggedIn, user]);
-  const handleNotificationClick = () => {
-    setNotificationModalOpen(true);
-  };
+
   const onLoad = async function () {
     try {
       if (app && app.wallets && app.wallets.length > 0 && app.wallets[0].wallet && app.wallets[0].wallet.accounts) {
@@ -301,24 +284,34 @@ const HeaderNew = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address?.toUpperCase()}`);
 
+        // Check if response.data is defined
+        if (response.data !== undefined) {
+          // Check if response.data.nfts is defined and is an array
+          if (response.data.nfts && Array.isArray(response.data.nfts)) {
+            const gnarsNFTsCount = response.data.nfts.reduce((count: any, nft: any) => {
+              if (
+                nft.token &&
+                nft.token.collection &&
+                nft.token.collection.address === "0x558bfff0d583416f7c4e380625c7865821b8e95c" &&
+                nft.token.collection.name === "Gnars"
+              ) {
+                return count + 1;
+              }
+              return count;
+            }, 0);
 
-        const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address}`);
-        const gnarsNFTsCount = response.data.nfts.reduce((count: any, nft: any) => {
-          if (
-            nft.token &&
-            nft.token.collection &&
-            nft.token.collection.address === "0x558bfff0d583416f7c4e380625c7865821b8e95c" &&
-            nft.token.collection.name === "Gnars"
-          ) {
-            return count + 1;
+            setTotalNetWorth(response.data.totalNetWorth);
+            setGnarsNFTsCount(gnarsNFTsCount);
+          } else {
+            // Handle the case where response.data.nfts is not an array or is undefined
+            console.error('Error: NFTs is not an array or is undefined');
           }
-          return count;
-        }, 0);
-
-
-        setTotalNetWorth(response.data.totalNetWorth);
-        setGnarsNFTsCount(gnarsNFTsCount);
+        } else {
+          // Handle the case where response.data is undefined
+          console.error('Error: Response data is undefined');
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -330,29 +323,13 @@ const HeaderNew = () => {
 
   useEffect(() => {
     setLoggedIn(isLoggedIn());
-    fetchConversionRate().then((rate) => {
+    fetchConversionRate().then((rate: any) => {
       setConversionRate(rate);
       // Call onStart and pass the required variables
       onStart(user, rate, loggedIn);
     });
   }, [user]);
-  const handleConnectHive = () => {
-    if (loggedIn) {
-      logout();
-    } else {
-      setModalOpen(true);
-    }
-  };
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value;
-
-    if (selectedValue === "profile") {
-      window.location.href = "/profile"; // Navigate to profile page
-    } else if (selectedValue === "logout") {
-      logout();
-    }
-  };
 
 
   const avatarUrl = user && user.posting_json_metadata !== ""
@@ -477,9 +454,6 @@ const HeaderNew = () => {
       }
     `;
 
-  const handleTotalClick = () => {
-    alert("Total worth: " + totalWorth.toFixed(2) + " USD");
-  };
 
   return (
 

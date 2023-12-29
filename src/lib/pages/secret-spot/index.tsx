@@ -1,20 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as dhive from '@hiveio/dhive';
 import {
-  Input,
-  Button,
-  Box,
-  Text,
-  VStack,
-  FormControl,
-  FormLabel,
-  Icon,
-  Center,
-  Flex,
+  Center
 } from '@chakra-ui/react';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import CaptchaPage from './captcha';
-import { FaUserSecret } from 'react-icons/fa';
 import Shelf from '../home/videos/lbry';
 // Initialize the Hive client with API endpoints
 const client = new dhive.Client([
@@ -29,8 +19,6 @@ const client = new dhive.Client([
 function PepeCaptcha() {
   const [captchaCompleted, setCaptchaCompleted] = useState<boolean | null>(null);
 
-
-
   // Callback function to set the captcha completion status
   const handleCaptchaCompletion = (completed: boolean) => {
     setCaptchaCompleted(completed);
@@ -43,8 +31,8 @@ function PepeCaptcha() {
         <CaptchaPage onCaptchaCompletion={handleCaptchaCompletion} />
       ) : (
         <Shelf />
-                    )}
-      
+      )}
+
     </Center>
   );
 }

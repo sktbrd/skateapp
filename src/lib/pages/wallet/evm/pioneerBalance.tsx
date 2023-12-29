@@ -71,7 +71,6 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
     setSelectedToken(token);
     console.log(token)
   };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -80,9 +79,8 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
           return;
         }
 
-        const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address}`);
+        const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address.toUpperCase()}`);
         const pioneer_ethereum_balance = await axios.get('https://pioneers.dev/api/v1/getPubkeyBalance/ethereum/' + wallet_address);
-        console.log(response)
 
         setEthBalance((pioneer_ethereum_balance.data).toFixed(6));
         setTotalNetWorth(response.data.totalNetWorth);
@@ -99,7 +97,9 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
       }
     };
 
-    fetchData();
+    if (wallet_address) {
+      fetchData();
+    }
   }, [wallet_address]);
 
   const [copyStatus, setCopyStatus] = useState<boolean>(false);

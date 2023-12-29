@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 //@ts-ignore
 import { usePioneer } from '@pioneer-platform/pioneer-react';
 import {
@@ -13,7 +13,6 @@ import {
   Center
 } from '@chakra-ui/react';
 import HiveBalanceDisplay2 from './hive/hiveBalance';
-import * as Types from './nft/types';
 import PortfolioPage from './evm/pioneerBalance';
 import NFTWallet from './nft/nftWallet';
 import SkatehiveOG from './nft/skatehiveOG';

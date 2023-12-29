@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Text, Flex, Image, VStack, HStack, Divider, Tooltip } from "@chakra-ui/react";
 import * as dhive from "@hiveio/dhive";
-import { fetchHbdPrice, fetchConversionRate } from 'lib/pages/wallet/hive/hiveBalance';
-import axios from 'axios';
-import { cache } from 'lib/pages/wallet/hive/hiveBalance';
+
 import { Link as ChakraLink } from "@chakra-ui/react";
+
+import { fetchConversionRate, fetchHbdPrice, cache } from '../../../../utils/apis/coinGecko';
 const dhiveClient = new dhive.Client([
   "https://api.hive.blog",
   "https://api.hivekings.com",
@@ -12,7 +12,6 @@ const dhiveClient = new dhive.Client([
   "https://api.openhive.network",
 ]);
 
-// Define the prop type for the wallet
 interface HiveStatsProps {
   wallet: string;
 }

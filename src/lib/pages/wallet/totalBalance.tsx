@@ -1,5 +1,4 @@
-import { Image, Box, Table, Thead, Tbody, Tr, Th, Td, Text, Flex, Button, VStack, HStack, Divider, Tooltip, Badge, Grid, GridItem, Center, Spacer } from "@chakra-ui/react";
-import { Link as ChakraLink } from "@chakra-ui/react";
+import { Image, Box, Text, HStack, Tooltip, Badge, Grid, GridItem, Center } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
 
@@ -7,10 +6,12 @@ import useAuthUser from "lib/pages/home/api/useAuthUser";
 import * as dhive from "@hiveio/dhive";
 // import WalletTransactions from "lib/pages/home/dao/components/hiveGnars/txHistory";
 
-import { useFetcher } from "react-router-dom";
-import { FaPix } from "react-icons/fa6";
 import { FaWallet } from "react-icons/fa6";
 import axios from "axios";
+import { fetchHbdPrice, fetchConversionRate } from "../utils/apis/coinGecko";
+import { convertVestingSharesToHivePower } from "../utils/hiveFunctions/convertSharesToHP";
+
+
 const dhiveClient = new dhive.Client([
     "https://api.hive.blog",
     "https://api.hivekings.com",
@@ -35,160 +36,29 @@ interface User {
     json_metadata: any;
 }
 
-
-export const cache: { conversionRate?: number, hbdPrice?: number } = {};
-
-export function resetCache() {
-    cache.conversionRate = undefined;
-    cache.hbdPrice = undefined;
-    console.log("Cache reset");
-}
-
-
-const styles = `
-  @keyframes glow {
-    0% {
-      opacity: 0.8;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-`;
-
-export async function fetchHbdPrice() {
-    try {
-        if (cache.hbdPrice !== undefined) {
-            // Use the cached value if available
-            return cache.hbdPrice;
-        }
-
-        const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hive_dollar&vs_currencies=usd");
-
-        if (response.status !== 200) {
-            // Set hbdPrice to 1.00 if the response status is not 200
-            cache.hbdPrice = 1.00;
-            return 1.00;
-        }
-
-        const data = await response.json();
-        const hbdPrice = data.hive_dollar.usd;
-
-        // Update the cache
-        cache.hbdPrice = hbdPrice;
-        return hbdPrice;
-    } catch (error) {
-        console.log("Error fetching HBD price:");
-        // Set hbdPrice to 1.00 in case of an error
-        cache.hbdPrice = 1.00;
-        return 1.00;
-    }
-};
-
-
-export async function fetchConversionRate() {
-    try {
-        if (cache.conversionRate !== undefined) {
-            // Use the cached value if available
-            return cache.conversionRate;
-        }
-
-        const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hive&vs_currencies=usd");
-
-        if (response.status !== 200) {
-            // Set conversionRate to 0.35 if the response status is not 200
-            cache.conversionRate = 0.350;
-
-            return 0.350;
-        }
-
-        const data = await response.json();
-        const conversionRate = data.hive.usd;
-        // Update the cache
-        cache.conversionRate = conversionRate;
-        return conversionRate; // Return the conversion rate as a number
-    } catch (error) {
-        console.log("Error fetching conversion rate");
-        // Set conversionRate to 0.00 in case of an error
-        cache.conversionRate = 0.350;
-        return 0.350;
-    }
-};
-
 const TotalBalances = ({ hivewallet, ethWallet }: { hivewallet: string; ethWallet: string }) => {
     const { user } = useAuthUser() as { user: User | null };
     const [hiveBalance, setHiveBalance] = useState<string>("0");
     const [hivePower, setHivePower] = useState<string>("0");
     const [hbdBalance, setHbdBalance] = useState<string>("0");
     const [savingsBalance, setSavingsBalance] = useState<string>("0");
-    const [showModal, setShowModal] = useState(false);
-    const [toAddress, setToAddress] = useState("");
-    const [amount, setAmount] = useState("");
     const [conversionRate, setConversionRate] = useState<number>(0.000);
     const [totalWorth, setTotalWorth] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(true);
-    const [hiveMemo, setHiveMemo] = useState("");
-    const [showPowerUpModal, setShowPowerUpModal] = useState(false);
-    const [showPowerDownModal, setShowPowerDownModal] = useState(false);
-    const [showDelegationModal, setShowDelegationModal] = useState(false);
-    const [sendHBDmodal, setSendHBDmodal] = useState(false);
     const [ownedTotal, setOwnedTotal] = useState<number>(0);
     const [profileImage, setProfileImage] = useState<string>("https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif");
     const [delegatedToUserInUSD, setDelegatedToUserInUSD] = useState<string>("0");
     const [HPdelegatedToUser, setHPdelegatedToUser] = useState<string>("0");
-    const [showOptions, setShowOptions] = useState(false); // State to track whether to show additional options or not
     const [userLocation, setUserLocation] = useState<string>("");
-    const [totalEvmBalance, setTotalEvmBalance] = useState<string>("0");
+    const [totalEvmNetWorth, setTotalEvmNetWorth] = useState<string>("0");
     const [totalWalletsAmount, setTotalWalletsAmount] = useState<number>(0);
 
-    const convertVestingSharesToHivePower = async (
-        vestingShares: string,
-        delegatedVestingShares: string,
-        receivedVestingShares: string
-    ) => {
-        const vestingSharesFloat = parseFloat(vestingShares.split(" ")[0]);
-        const delegatedVestingSharesFloat = parseFloat(delegatedVestingShares.split(" ")[0]);
-        const receivedVestingSharesFloat = parseFloat(receivedVestingShares.split(" ")[0]);
-        const availableVESTS = vestingSharesFloat - delegatedVestingSharesFloat;
-
-        const response = await fetch('https://api.hive.blog', {
-            method: 'POST',
-            body: JSON.stringify({
-                jsonrpc: '2.0',
-                method: 'condenser_api.get_dynamic_global_properties',
-                params: [],
-                id: 1,
-            }),
-            headers: { 'Content-Type': 'application/json' },
-        });
-        const result = await response.json();
-        const vestHive =
-            (parseFloat(result.result.total_vesting_fund_hive) * availableVESTS) /
-            parseFloat(result.result.total_vesting_shares);
-
-        const DelegatedToSomeoneHivePower =
-            (parseFloat(result.result.total_vesting_fund_hive) * delegatedVestingSharesFloat) /
-            parseFloat(result.result.total_vesting_shares);
-
-        const delegatedToUserInUSD = (parseFloat(result.result.total_vesting_fund_hive) * receivedVestingSharesFloat) /
-            parseFloat(result.result.total_vesting_shares);
-        const HPdelegatedToUser = (parseFloat(result.result.total_vesting_fund_hive) * receivedVestingSharesFloat) /
-            parseFloat(result.result.total_vesting_shares);
-        return {
-            hivePower: vestHive.toFixed(3),
-            DelegatedToSomeoneHivePower: DelegatedToSomeoneHivePower.toFixed(3),
-            delegatedToUserInUSD: delegatedToUserInUSD.toFixed(3),
-            HPdelegatedToUser: HPdelegatedToUser.toFixed(3),
-        };
-
-    };
 
 
     const onStart = async function () {
         const fetchData = async () => {
             try {
                 if (!user) {
-                    // If user is null, exit the function
                     return;
                 }
 
@@ -216,7 +86,7 @@ const TotalBalances = ({ hivewallet, ethWallet }: { hivewallet: string; ethWalle
                 const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${ethWallet}`);
                 const totalEvmNetWorth = response.data.totalNetWorth;
 
-                setTotalEvmBalance(totalEvmNetWorth);
+                setTotalEvmNetWorth(totalEvmNetWorth);
                 setConversionRate(conversionRate);
                 setHbdBalance(user.hbd_balance);
                 setHiveBalance(user.balance);
@@ -232,19 +102,10 @@ const TotalBalances = ({ hivewallet, ethWallet }: { hivewallet: string; ethWalle
                 setUserLocation(metadata.profile.location);
 
                 const TotalWalletsAmount = Number(total) + Number(response.data.totalNetWorth);
-
-
                 setTotalWalletsAmount(TotalWalletsAmount);
                 console.log("TotalWalletsAmount:", TotalWalletsAmount);
-                let checkpoint
-
-                useEffect(() => {
-                    setTotalWalletsAmount(totalWorth + totalEvmNetWorth);
-                }, [checkpoint]);
-
             } catch (error) {
                 console.error("Error fetching data:", error);
-                // Retry after 10 seconds
                 setTimeout(() => fetchData(), 10000);
             }
         };
@@ -256,9 +117,9 @@ const TotalBalances = ({ hivewallet, ethWallet }: { hivewallet: string; ethWalle
         onStart();
     }, [user]);
 
-
-
-
+    useEffect(() => {
+        setTotalWalletsAmount(Number(totalWorth) + Number(totalEvmNetWorth));
+    }, [totalWorth, totalEvmNetWorth]);
 
     return (
         <Box
@@ -272,8 +133,8 @@ const TotalBalances = ({ hivewallet, ethWallet }: { hivewallet: string; ethWalle
         >
             <Grid
                 templateAreas={`"header header"
-                            "nav main"
-                            "nav footer"`}
+                    "nav main"
+                    "nav footer"`}
                 gridTemplateRows={'50px auto 30px'} // Adjusted row height
                 gridTemplateColumns={'150px 1fr'}
                 gap='1'
@@ -312,7 +173,7 @@ const TotalBalances = ({ hivewallet, ethWallet }: { hivewallet: string; ethWalle
                     <br />
 
                     <Center>
-                        <Badge borderRadius="15px" fontSize="32px" colorScheme="green">
+                        <Badge borderRadius="15px" fontSize="82px" colorScheme="green">
                             {totalWalletsAmount.toFixed(2) || 0}
                         </Badge>
                     </Center>
@@ -320,13 +181,6 @@ const TotalBalances = ({ hivewallet, ethWallet }: { hivewallet: string; ethWalle
             </Grid>
         </Box>
     );
-
-
 };
 
 export default TotalBalances;
-
-
-
-
-

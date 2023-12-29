@@ -541,7 +541,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                   </Flex>
                 </CardHeader>
 
-                <Box zIndex={1} padding="20px" marginBottom={"10px"} height="200px">
+                <Box padding="20px" marginBottom={"10px"} height="200px">
                   <Image
                     key={post.id}
                     objectFit={"cover"}

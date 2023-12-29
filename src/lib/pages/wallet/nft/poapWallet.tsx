@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Text, Spinner, Grid, Flex, Image, VStack, Button } from "@chakra-ui/react";
+import { Box, Grid, Flex, Image, Button } from "@chakra-ui/react";
 //@ts-ignore
 import { Pioneer } from "@pioneer-platform/pioneer-react";
 
@@ -44,13 +44,16 @@ const PoapWallet = () => {
       }
       if (ETHaddress) {
         const portfolio = await api.GetPortfolio({ address: ETHaddress.toUpperCase() });
-        setUserPortfolios(portfolio.data.nfts);
-
+        // Check if portfolio and portfolio.data are defined before accessing nfts
+        setUserPortfolios(portfolio?.data?.nfts || []);
+        setLoading(false); // Set loading to false when the data is successfully fetched
       }
     } catch (e) {
       console.error(e);
+      setLoading(false); // Set loading to false in case of an error
     }
   };
+
 
   useEffect(() => {
     onStart();

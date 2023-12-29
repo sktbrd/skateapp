@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { Box, Text, Flex, Image, Button, Tooltip, Grid, VStack, Badge, GridItem, Center, HStack } from "@chakra-ui/react";
+import { Link, Box, Text, Flex, Image, Button, Tooltip, Grid, VStack, Badge, GridItem, Center, HStack } from "@chakra-ui/react";
 import ERC1155_ABI from "./skthvOG_abi.json";
 import ERC721_ABI from "./gnars_abi.json";
 const skthv_contract = "0x3dEd025e441730e26AB28803353E4471669a3065";
@@ -96,7 +96,7 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
               <Center>
 
                 <Text fontSize="24px" color="orange" fontWeight="bold" mb="2">
-                  <Badge borderRadius={"5px"} fontSize={"24px"} colorScheme="orange" marginLeft="5px">{userBalance}</Badge> x Skatehive OG
+                  <Badge borderRadius={"5px"} fontSize={"24px"} colorScheme="orange" marginLeft="5px">{userBalance}</Badge> x <Link textDecoration={"underline"} href="https://zora.co/collect/eth:0x3ded025e441730e26ab28803353e4471669a3065/1" >Skatehive OG</Link>
                 </Text>
               </Center>
               <Center>

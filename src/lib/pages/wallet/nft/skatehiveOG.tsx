@@ -87,7 +87,6 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
             <GridItem pl='2' area={'nav'}>
               <Image
                 src="https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafybeiauv3rfgzfrbrlzwdclyws35sgmcxsbaqhocyinbuba5laswzxgau&w=1920&q=75"
-                p={"0px"}
                 m={"5px"}
               />
             </GridItem>
@@ -103,7 +102,7 @@ const SkatehiveOG = ({ wallet }: { wallet: string }) => {
 
                 <HStack>
 
-                  <Text color={"white"}> Number or Votes </Text>
+                  <Text color={"white"}> Voting Power </Text>
                   <Badge borderRadius={"5px"} fontSize={"24px"} colorScheme="orange" marginLeft="5px">
                     {userVotes}
                   </Badge>

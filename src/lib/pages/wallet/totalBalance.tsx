@@ -103,7 +103,6 @@ const TotalBalances = ({ hivewallet, ethWallet }: { hivewallet: string; ethWalle
 
                 const TotalWalletsAmount = Number(total) + Number(response.data.totalNetWorth);
                 setTotalWalletsAmount(TotalWalletsAmount);
-                console.log("TotalWalletsAmount:", TotalWalletsAmount);
             } catch (error) {
                 console.error("Error fetching data:", error);
                 setTimeout(() => fetchData(), 10000);
@@ -129,7 +128,7 @@ const TotalBalances = ({ hivewallet, ethWallet }: { hivewallet: string; ethWalle
             maxWidth={{ base: "100%", md: "100%" }}
             style={{ textAlign: "right" }}
             p="5px"
-            m="0px"
+            marginBottom={"10px"}
         >
             <Grid
                 templateAreas={`"header header"
@@ -171,12 +170,14 @@ const TotalBalances = ({ hivewallet, ethWallet }: { hivewallet: string; ethWalle
                 </GridItem>
                 <GridItem pl='2' area={'main'}>
                     <br />
+                    <Box >
 
-                    <Center>
-                        <Badge borderRadius="15px" fontSize="82px" colorScheme="green">
-                            {totalWalletsAmount.toFixed(2) || 0}
-                        </Badge>
-                    </Center>
+                        <Center >
+                            <Badge borderRadius="15px" fontSize="82px" colorScheme="green" >
+                                {totalWalletsAmount.toFixed(2) || 0}
+                            </Badge>
+                        </Center>
+                    </Box>
                 </GridItem>
             </Grid>
         </Box>

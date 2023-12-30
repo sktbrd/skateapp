@@ -68,6 +68,7 @@ const Wallet = () => {
             {isMobile ? (
               <Box mb={{ base: 4, md: 0 }} width={{ base: '100%', md: '100%' }}>
                 <HiveBalanceDisplay2 />
+
               </Box>
             ) : (
               <>
@@ -92,7 +93,7 @@ const Wallet = () => {
           <NFTWallet />
         </TabPanel>
       </TabPanels>
-    </Tabs>
+    </Tabs >
   );
 };
 

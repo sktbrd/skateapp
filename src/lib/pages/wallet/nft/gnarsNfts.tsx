@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Text, Grid, Flex, Image, VStack, Button, GridItem, Center } from "@chakra-ui/react";
+import { Box, Text, Grid, Flex, Image, VStack, Button, GridItem, Center, Badge } from "@chakra-ui/react";
 // @ts-ignore
 import { Pioneer } from "@pioneer-platform/pioneer-react";
 import NFTModal from "./nftModal";
@@ -152,8 +152,8 @@ const GnarsNfts = () => {
             <GridItem marginTop={"10px"} paddingBottom={"10px"} pl='2' area={'main'}>
               <center>
 
-                <Text fontSize="18px" fontWeight="bold" color="white" mt="2">
-                  Total NFTs: {userPortfolios.filter((nft) => nft.token.collection.name === "Gnars").length}
+                <Text fontSize="24px" color="orange.300" fontWeight="bold" mb="2">
+                  <Badge borderRadius={"5px"} fontSize={"24px"} colorScheme="orange" marginLeft="5px">{userPortfolios.filter((nft) => nft.token.collection.name === "Gnars").length}  </Badge> x Gnars NFTs
                 </Text>
                 <Text fontSize="18px" fontWeight="bold" color="white" mt="2">
                   Floor Price: {getGnarsFloorPrice()} ETH

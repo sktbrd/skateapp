@@ -161,6 +161,7 @@ export default function HiveBalanceDisplay2() {
       maxWidth={{ base: "100%", md: "100%" }}
       style={{ textAlign: "right" }}
       p={"4px"}
+      marginBottom={"10px"}
     >
 
       <Grid

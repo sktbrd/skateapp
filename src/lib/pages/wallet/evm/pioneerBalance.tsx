@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Box, Text, Table, Td, Tr, Tbody, Flex, Image, Button, Grid, GridItem, Center, Tooltip } from '@chakra-ui/react';
 import { formatWalletAddress } from 'lib/pages/utils/formatWallet';
 import EvmSendModal2 from './evmSendModal2';
+import { ethers } from "ethers";
 
 interface TokenInfo {
   address: string;
@@ -66,6 +67,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
   const [nftvalue, setNftValue] = useState<number | null>(null);
   const [nftFormattedValue, setNftFormattedValue] = useState<number | null>(null);
   const [selectedToken, setSelectedToken] = useState<TokenInfo['token'] | null>(null);
+  const [ensAddress, setENSAddress] = useState<string | null>(null);
 
   const handleTokenClick = (token: TokenInfo['token']) => {
     setSelectedToken(token);
@@ -81,6 +83,15 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
 
         const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address.toUpperCase()}`);
         const pioneer_ethereum_balance = await axios.get('https://pioneers.dev/api/v1/getPubkeyBalance/ethereum/' + wallet_address);
+        // test if user address has a ENS domain name and if so, use that instead of the wallet address, use alchemy provider 
+
+        const providerUrl = "https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik";
+        const provider = new ethers.providers.JsonRpcProvider(providerUrl);
+
+        const ensResponse = await provider.lookupAddress(wallet_address)
+        console.log(ensResponse)
+        setENSAddress(ensResponse);
+
 
         setEthBalance((pioneer_ethereum_balance.data).toFixed(6));
         setTotalNetWorth(response.data.totalNetWorth);
@@ -152,8 +163,9 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
               </Text>
               <Button p={0} bg={"transparent"} onClick={handleCopy} _hover={{ backgroundColor: 'blue.700', cursor: 'pointer' }}>
                 <Text color="#FFA500" fontSize="18px" marginLeft="5px">
-                  {formatWalletAddress(wallet_address)}
+                  {ensAddress ? ensAddress : formatWalletAddress(wallet_address)}
                 </Text>
+
               </Button>
 
             </Box>

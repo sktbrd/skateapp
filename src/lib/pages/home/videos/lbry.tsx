@@ -1,49 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Flex, Text ,Grid} from '@chakra-ui/react';
+import { Box, Flex, Text, Grid, HStack, Center, Table, Tr, Td, Th, Thead, Tbody } from '@chakra-ui/react';
 import { tapes } from './411';
 
 interface VhsTapeProps {
-  id: number; // Add id prop
+  id: number;
   title: string;
   isSelected: boolean;
   onSelect: () => void;
   imageUrl: string;
   videoUrl: string;
   isClicked: boolean;
+  soundtrack?: Record<string, string[]> | {} | null; // Updated type
 }
 
 const VhsTape: React.FC<VhsTapeProps> = ({
-  id, // Receive the id prop
+  id,
   title,
   isSelected,
   onSelect,
   imageUrl,
   videoUrl,
+  soundtrack,
   isClicked,
 }) => {
-    const tapeStyle: React.CSSProperties = {
-        width: '200px',
-        height: '380px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        backgroundColor: isClicked ? 'yellow' : isSelected ? '#f0f0f0' : '#f0f0f0',
-        padding: '10px',
-        border: '1px solid #000',
-        borderRadius: '8px',
-        cursor: 'pointer',
-        margin: "5px",
-        transition: 'background-color 0.3s, font-weight 0.3s, box-shadow 0.3s',
-        color: isClicked ? '#fff' : isSelected ? '#fff' : 'inherit',
-        fontWeight: isClicked ? 'bold' : isSelected ? 'bold' : 'normal',
-        boxShadow: isSelected ? '0px 0px 25px 3px #FFD700' : 'none', // golden glow for selected
-      };
-      
-      const imageContainerStyle: React.CSSProperties = {
-        height: '340px',  // Fixed height for the image container
-        width: '100%',
-        overflow: 'hidden',
-      };
+  const tapeStyle: React.CSSProperties = {
+    width: '200px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: isClicked ? 'yellow' : isSelected ? '#f0f0f0' : '#f0f0f0',
+    padding: '10px',
+    border: '1px solid #000',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    margin: "20px",
+    transition: 'background-color 0.3s, font-weight 0.3s, box-shadow 0.3s',
+    color: isClicked ? '#fff' : isSelected ? '#fff' : 'inherit',
+    fontWeight: isClicked ? 'bold' : isSelected ? 'bold' : 'normal',
+    boxShadow: isSelected ? '0px 0px 25px 3px #FFD700' : 'none', // golden glow for selected
+  };
+
+  const imageContainerStyle: React.CSSProperties = {
+    height: '340px',  // Fixed height for the image container
+    width: '100%',
+    overflow: 'hidden',
+  };
   const imageStyle: React.CSSProperties = {
     width: '100%',
     height: '340px', // Adjust this height
@@ -55,63 +56,53 @@ const VhsTape: React.FC<VhsTapeProps> = ({
     <Box
       style={tapeStyle}
       onClick={onSelect}
+      bg={"blue"}
     >
-            <Box style={imageContainerStyle}>   {/* Image container */}
 
       <img src={imageUrl} alt={title} style={imageStyle} />
-      {/* ... Other code ... */}
-    </Box>
-    <label style={{ fontWeight: 'bold', marginTop: '10px', color: 'black' }}>{title}</label>
+      <label style={{ fontWeight: 'bold', marginTop: '10px', color: 'black' }}>{title}</label>
 
-      </Box>
+    </Box>
 
   );
 };
-
 const Shelf = () => {
-  const [selectedTapeId, setSelectedTapeId] = useState<number | null>(1); // Initial selected id
+  const [selectedTapeId, setSelectedTapeId] = useState<number | null>(2);
   const [selectedVideoUrl, setSelectedVideoUrl] = useState<string | null>(null);
-
-
+  const [selectedVideoSoundtrack, setSelectedVideoSoundtrack] = useState<Record<string, string[]> | null>(null);
 
   useEffect(() => {
-    // Load the initial iframe when the page loads
     const initialTape = tapes.find((tape) => tape.id === selectedTapeId);
     if (initialTape) {
       setSelectedVideoUrl(initialTape.videoUrl);
+      handleSelectTape(initialTape); // Handle the initial tape selection
     }
   }, [selectedTapeId]);
 
-  const handleSelectTape = (tape: { id: number, videoUrl: string }) => {
+  const handleSelectTape = (tape: { id: number; videoUrl: string; soundtrack?: Record<string, string[]> | {} }) => {
     setSelectedTapeId(tape.id);
     setSelectedVideoUrl(tape.videoUrl);
+
+    if (tape.soundtrack && Object.keys(tape.soundtrack).length > 0) {
+      setSelectedVideoSoundtrack(tape.soundtrack);
+    } else {
+      setSelectedVideoSoundtrack(null);
+    }
   };
 
   return (
-    <Flex align="center" justify="center" mt={4}>
-      <Flex flexDirection="column" alignItems="center" width={['95%', '80%', '70%', '60%']}>
+    <Flex minW="100%" height="100%" >
+      <Box
+        overflowY="auto"
+        height="100vh"
+        p={4}
+        width="320px" // Set a fixed width for the left component
+      >
         <Text fontSize="xl" mb={4}>
-          VHS Tapes Shelf
+          📼 VHS Tapes Shelf
         </Text>
-        
-        {selectedVideoUrl && (
-          <Box border={"1px solid limegreen"}  overflow="hidden" mb={4}>
-            <iframe
-              src={selectedVideoUrl}
-              width="1080"  // This will make the video responsive
-              height="720"
-              title="Selected Video"
-              frameBorder="0"
-              allowFullScreen
-            ></iframe>
-          </Box>
-        )}
-        <Text fontSize={"36px"}>
-          Select Video by clicking on the VHS Tape
-        </Text>
-        <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(8, 1fr)"]} gap={4}>
-    {tapes.map((tape) => (
-        <VhsTape
+        {tapes.map((tape) => (
+          <VhsTape
             key={tape.id}
             id={tape.id}
             title={tape.title}
@@ -120,12 +111,57 @@ const Shelf = () => {
             imageUrl={tape.imageUrl}
             videoUrl={tape.videoUrl}
             isClicked={tape.id === selectedTapeId}
-        />
-          ))}
-        </Grid>
-      </Flex>
-    </Flex>
+          />
+        ))}
+      </Box>
+      <Box>
+        <Center>
+          {selectedVideoUrl && (
+            <Box
+              border={"3px solid limegreen"}
+              borderRadius={"15px"}>
+              <iframe
+                src={selectedVideoUrl}
+                width="814px"
+                height="615px"
+                title="Selected Video"
+                frameBorder="0"
+                allowFullScreen
+                style={{ borderRadius: '15px' }} // Set the desired border radius
+              ></iframe>
+
+            </Box>
+          )}
+        </Center>
+        {selectedVideoSoundtrack && (
+          <Box>
+            <Text fontSize="xl" mb={4}>
+              📼 Soundtrack
+            </Text>
+            <Table variant="simple" overflowY="auto" minW={"1300px"}>
+              <Thead>
+                <Tr>
+                  <Th>Section</Th>
+                  <Th>Tracks</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {Object.keys(selectedVideoSoundtrack).map((section) => (
+                  <Tr key={section}>
+                    <Td>{section}</Td>
+                    <Td maxW="300px" isTruncated>{selectedVideoSoundtrack[section].join(', ')}</Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </Box>
+
+        )}
+      </Box>
+    </Flex >
   );
 };
 
 export default Shelf;
+
+

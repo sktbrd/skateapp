@@ -452,14 +452,17 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     if (isVoted(post)) {
       return {
         width: "10px",
-        backgroundColor: "mediumspringgreen", // Change the background color
-        color: "mediumvioletred", // Change the text color
+        background: "linear-gradient(180deg, darkgreen, black)", // Change the background color
+        color: "limegreen", // Change the text color
+    
       };
     }
 
     // If the post has not been voted on, return an empty object
     return {
       width: "10px",
+      color: "white",
+      border: "1px solid white",
     };
   };
 
@@ -468,17 +471,17 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     if (isVoted(post)) {
       // red hover
       return {
-        backgroundColor: "mediumvioletred", // Change the color on hover
+        backgroundColor: "black", // Change the color on hover
         color: "mediumspringgreen", // Change the text color on hover
-        boxShadow: "0 0 8px red, 0 0 8px red, 0 0 8px red", // Add an underglow effect
-        border: "2px solid red",
+        
+        
       };
     }
 
     // If the post has not been voted on, return normal hover properties
     return {
       backgroundColor: "mediumspringgreen", // Change the color on hover
-      color: "mediumvioletred", // Change the text color on hover
+      color: "black", // Change the text color on hover
       boxShadow:
         "0 0 8px darkgoldenrod, 0 0 8px darkgoldenrod, 0 0 8px darkgoldenrod", // Add an underglow effect
       border: "2px solid darkgreen",
@@ -697,8 +700,14 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                     <Tooltip
                       backgroundColor={"black"}
                       border={"1px dashed limegreen"}
-                      label={<div style={{ color: "orange" }}>Wow!</div>}
+                      label={
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <img src="https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless" alt="Image Alt Text" style={{ width: '20px', marginRight: '5px' }} />
+                          <div style={{ color: "orange" }}>Stoke!</div>
+                        </div>
+                      }
                       aria-label="View Voters"
+                      
                     >
                       <IconButton
                         icon={<MdArrowUpward />}

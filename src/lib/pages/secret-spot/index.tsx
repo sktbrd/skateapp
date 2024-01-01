@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import * as dhive from '@hiveio/dhive';
 import {
-  Center
+  Center, TabList, Tabs, Tab,
 } from '@chakra-ui/react';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import CaptchaPage from './captcha';
@@ -25,14 +25,27 @@ function PepeCaptcha() {
   };
 
   return (
-    <Center minH="100vh">
+    <Center minH="100%" >
       {captchaCompleted === null ? (
-        // Display the captcha only if its completion status is not set
+
         <CaptchaPage onCaptchaCompletion={handleCaptchaCompletion} />
       ) : (
-        <Shelf />
-      )}
 
+        <Tabs minW={"100%"}>
+          <TabList>
+            <Tab>
+              411vm
+            </Tab>
+            <Tab>
+              TransWorld
+            </Tab>
+          </TabList>
+          <Tab >
+            <Shelf />
+          </Tab>
+        </Tabs>
+
+      )}
     </Center>
   );
 }

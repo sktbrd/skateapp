@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, Text, Table, Td, Tr, Tbody, Flex, Image, Button, Grid, GridItem, Center, Tooltip } from '@chakra-ui/react';
+import { Box, Text, Table, Td, Tr, Tbody, Flex, Image, Button, Grid, GridItem, Center, Tooltip, Badge } from '@chakra-ui/react';
 import { formatWalletAddress } from 'lib/pages/utils/formatWallet';
 import EvmSendModal2 from './evmSendModal2';
 import { ethers } from "ethers";
@@ -163,7 +163,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
               </Text>
               <Button p={0} bg={"transparent"} onClick={handleCopy} _hover={{ backgroundColor: 'blue.700', cursor: 'pointer' }}>
                 <Text color="#FFA500" fontSize="18px" marginLeft="5px">
-                  {ensAddress ? ensAddress : formatWalletAddress(wallet_address)}
+                  <Badge fontSize={"24px"} >  {ensAddress ? ensAddress : formatWalletAddress(wallet_address)}</Badge>
                 </Text>
 
               </Button>
@@ -178,7 +178,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
                       Total Balance
                     </Text>
                     <Text color="#FFA500" fontSize="18px" marginLeft="5px">
-                      {totalNetWorth?.toFixed(2)} USD
+                      <Badge fontSize={"24px"} > {totalNetWorth?.toFixed(2)} USD</Badge>
                     </Text>
                   </Box>
                 </GridItem>
@@ -188,7 +188,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
                       ETH Balance
                     </Text>
                     <Text color="#FFA500" fontSize="18px" marginLeft="5px">
-                      {ethBalance} ETH
+                      <Badge fontSize={"22px"} >  {ethBalance} ETH </Badge>
                     </Text>
                   </Box>
                 </GridItem>
@@ -196,10 +196,10 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
                 <GridItem>
                   <Box>
                     <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
-                      NFTs Value
+                      NFTs Estimated
                     </Text>
                     <Text color="#FFA500" fontSize="18px" marginLeft="5px">
-                      {nftvalue?.toFixed(2)} USD
+                      <Badge fontSize={"22px"} >  {nftvalue?.toFixed(2)} USD </Badge>
                     </Text>
                   </Box>
                 </GridItem>

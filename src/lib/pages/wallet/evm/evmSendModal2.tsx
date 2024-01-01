@@ -10,6 +10,18 @@ interface EvmSendModalProps {
   tokenInfo: any;
 }
 
+// create a list o Native Blockchain coins 
+const nativeTokens = [
+  {
+    name: "Ether",
+    symbol: "ETH",
+  },
+  { name: "Matic", symbol: "MATIC" },
+  { name: "Polygon", symbol: "XDAI" },
+  { name: "Binance Coin", symbol: "BNB" },
+];
+
+
 
 const EvmSendModal2: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo }) => {
   const { state, dispatch } = usePioneer();
@@ -58,38 +70,19 @@ const EvmSendModal2: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo
   const setContextWallet = async function (wallet: string) {
   };
 
-  useEffect(() => {
-    console.log("pubkeyContext: ", pubkeyContext);
-    const address =
-      pubkeyContext.master || pubkeyContext.pubkey || pubkeyContext;
-    if (address && address.length > 0 && address !== "0") {
-      setAddress(address);
-      console.log("address: ", address);
-    }
-  }, [pubkeyContext, status]);
+  const handleSendNativeToken = async function () {
+    //test uf token in native token or erc20
 
-  const checkAddress = function () {
-    setContextWallet("metamask");
-    setContextWallet("keepkey");
-    setIsLoading(true);
-    const address =
-      pubkeyContext.master || pubkeyContext.pubkey || pubkeyContext;
-    if (address && address.length > 0 && address !== "0") {
-      setAddress(address);
-    }
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    const web3 = new Web3(Web3.givenProvider);
+    console.log(web3)
   };
-
-
-
 
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
-      <ModalContent border="1px solid limegreen" backgroundColor="black" color="white">
+      <ModalContent border="1px solid #7CC4FA" color="white" background="#002240"
+      >
         <ModalHeader>
           <Grid templateColumns="1fr auto" gap={4} alignItems="center">
             <Flex align="center">
@@ -118,7 +111,7 @@ const EvmSendModal2: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo
                   onChange={(e) => setToAddress(e.target.value)}
                 />
               </FormControl>
-              <Button colorScheme="green">
+              <Button colorScheme="green" onClick={handleSendNativeToken}>
                 Send
               </Button>
             </VStack>
@@ -128,26 +121,26 @@ const EvmSendModal2: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo
         <ModalBody>
           <VStack spacing={4} align="left">
             <Divider />
-            <Text>
-              <strong>Token Address:</strong> {tokenInfo.address}
+            <Text color={"white"}>
+              <strong>Token Address:</strong> <Badge >{tokenInfo.address}</Badge>
             </Text>
-            <Text>
-              <strong>Contract Address:</strong> {tokenInfo.contract}
+            <Text color={"white"}>
+              <strong>Contract Address:</strong> <Badge> {tokenInfo.contract}</Badge>
             </Text>
-            <Text>
-              <strong>Total Supply:</strong> {parseFloat(tokenInfo.totalSupply).toLocaleString()} {tokenInfo.symbol}
+            <Text color={"white"}>
+              <strong>Total Supply:</strong> <Badge> {parseFloat(tokenInfo.totalSupply).toLocaleString()} {tokenInfo.symbol} </Badge>
             </Text>
-            <Text>
-              <strong>Decimals:</strong> {tokenInfo.decimals}
+            <Text color={"white"}>
+              <strong>Decimals:</strong> <Badge>{tokenInfo.decimals}</Badge>
             </Text>
-            <Text>
-              <strong>Market Cap:</strong> {tokenInfo.marketCap} USD
+            <Text color={"white"}>
+              <strong>Market Cap:</strong><Badge> {tokenInfo.marketCap} USD</Badge>
             </Text>
-            <Text>
-              <strong>Price:</strong> {tokenInfo.price} USD
+            <Text color={"white"}>
+              <strong>Price:</strong> <Badge>{tokenInfo.price} USD </Badge>
             </Text>
-            <Text>
-              <strong>Daily Volume:</strong> {tokenInfo.dailyVolume} USD
+            <Text color={"white"}>
+              <strong>Daily Volume: </strong> <Badge> {tokenInfo.dailyVolume} USD </Badge>
             </Text>
             <Divider />
             <Flex direction="column" alignItems="center">

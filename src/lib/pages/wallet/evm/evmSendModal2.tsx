@@ -67,15 +67,45 @@ const EvmSendModal2: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo
   const [showCustomNetworkForm, setShowCustomNetworkForm] = useState(false);
   const [serviceValid, setServiceValid] = useState(true);
 
-  const setContextWallet = async function (wallet: string) {
-  };
 
-  const handleSendNativeToken = async function () {
-    //test uf token in native token or erc20
 
-    const web3 = new Web3(Web3.givenProvider);
-    console.log(web3)
-  };
+
+  useEffect(() => {
+    console.log(app)
+    if (app && app.wallets && app.wallets.length > 0) {
+      const currentAddress = app.wallets[0].wallet.accounts[0];
+      const app_wallet = app.wallets[0].wallet;
+
+      setSelectedWallet(app.wallets[0].type)
+      setAddress(currentAddress);
+      setWallet(app_wallet);
+      console.log(app_wallet)
+      console.log(currentAddress)
+    }
+  }
+    , [app]);
+
+  const sendToAddress = async function (event: React.MouseEvent<HTMLButtonElement>) {
+    try {
+      if (amount && toAddress) {
+        console.log(amount);
+        console.log(toAddress);
+        console.log(tokenInfo.symbol)
+        console.log(app.wallets)
+        const pubkey = await app.pubkeys.find(
+          (pubkey: any) => pubkey.symbol === tokenInfo.symbol
+        );
+        console.log(pubkey)
+      } else {
+        // Handle the case where amount or toAddress is not provided
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+
+
 
 
   return (
@@ -111,7 +141,7 @@ const EvmSendModal2: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo
                   onChange={(e) => setToAddress(e.target.value)}
                 />
               </FormControl>
-              <Button colorScheme="green" onClick={handleSendNativeToken}>
+              <Button colorScheme="green" onClick={(event) => sendToAddress(event)}>
                 Send
               </Button>
             </VStack>

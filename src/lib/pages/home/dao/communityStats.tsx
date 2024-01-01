@@ -64,7 +64,7 @@ const CommunityStats: React.FC<{ communityTag: string }> = ({ communityTag }) =>
         borderRadius="md"
         border={"2px solid limegreen"}
         boxShadow="0 0 10px rgba(0, 0, 0, 0.1)"
-        background="linear-gradient(90deg, white, white, limegreen)"
+        background="linear-gradient(90deg, honeydew, honeydew, limegreen)"
         color="white"
 
       >
@@ -87,7 +87,7 @@ const CommunityStats: React.FC<{ communityTag: string }> = ({ communityTag }) =>
                   <Text m="-2px" fontSize="28px">💰</Text>
 
                   <Text fontSize={"18px"} fontWeight="bold" color="black">${communityStats.totalPayout.toFixed(2)}</Text>
-                  <Text fontSize="8px" marginLeft={"-5px"} marginTop={"8px"} color={"black"}>Rewards this Round</Text>
+                  <Text fontSize="8px" marginLeft={"-5px"} marginTop={"8px"} color={"black"} fontWeight="bold" >Rewarded this Round</Text>
                 </HStack>
 
               </center>
@@ -113,7 +113,7 @@ const CommunityStats: React.FC<{ communityTag: string }> = ({ communityTag }) =>
 
                   <Text m="-2px" fontSize="28px">👨‍💻</Text>
                   <Text fontSize={"18px"} fontWeight="bold" color="black">{communityStats.numberOfAuthors}</Text>
-                  <Text fontSize="8px" marginLeft={"-5px"} marginTop={"8px"} color={"black"}>Users Stoked this Round</Text>
+                  <Text fontSize="8px" marginLeft={"-5px"} marginTop={"8px"} color={"black"}>Active Users</Text>
                 </HStack>
               </center>
             </Flex>

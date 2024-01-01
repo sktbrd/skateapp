@@ -46,7 +46,7 @@ const Home = () => {
           <Tab
             color="white"
             _selected={{
-              backgroundColor: 'limegreen',
+              background: 'linear-gradient(180deg, palegreen, limegreen, darkgreen)',
               color: 'black',
               fontWeight: 'bold',
               border: '1px solid white',
@@ -58,7 +58,7 @@ const Home = () => {
           <Tab
             color="white"
             _selected={{
-              backgroundColor: 'limegreen',
+              background: 'linear-gradient(180deg, palegreen, limegreen, darkgreen)',
               color: 'black',
               fontWeight: 'bold',
               border: '1px solid white'
@@ -70,7 +70,7 @@ const Home = () => {
           <Tab
             color="white"
             _selected={{
-              backgroundColor: 'limegreen',
+              background: 'linear-gradient(180deg, palegreen, limegreen, darkgreen)',
               color: 'black',
               fontWeight: 'bold',
               border: '1px solid white',

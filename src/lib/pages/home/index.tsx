@@ -10,6 +10,7 @@ import {
   HStack,
   VStack,
   Text,
+  
 
 } from '@chakra-ui/react';
 import HiveBlog from './Feed/Feed';
@@ -24,13 +25,17 @@ import CreateAccountCTA from './dao/createAccountCTA';
 import '@fontsource/creepster';
 
 
+  
+
 const Home = () => {
   const { selectedIndex, ...tabProps } = useTabs({ isLazy: true });
 
   const isBigScreen = window.innerWidth >= 768;
   const isMobile = useBreakpointValue({ base: true, md: false });
-
   return (
+    
+
+    
     <Flex
       direction="column"
       alignItems="center"
@@ -41,7 +46,7 @@ const Home = () => {
           <Tab
             color="white"
             _selected={{
-              backgroundColor: 'limegreen',
+              background: 'linear-gradient(180deg, palegreen, limegreen, darkgreen)',
               color: 'black',
               fontWeight: 'bold',
               border: '1px solid white',
@@ -53,7 +58,7 @@ const Home = () => {
           <Tab
             color="white"
             _selected={{
-              backgroundColor: 'limegreen',
+              background: 'linear-gradient(180deg, palegreen, limegreen, darkgreen)',
               color: 'black',
               fontWeight: 'bold',
               border: '1px solid white'
@@ -65,7 +70,7 @@ const Home = () => {
           <Tab
             color="white"
             _selected={{
-              backgroundColor: 'limegreen',
+              background: 'linear-gradient(180deg, palegreen, limegreen, darkgreen)',
               color: 'black',
               fontWeight: 'bold',
               border: '1px solid white',
@@ -83,6 +88,13 @@ const Home = () => {
               {!isMobile && <CommunityStats communityTag="hive-173115" />}
               {!isMobile && <NewFeature />}
             </HStack>
+            
+            <div style ={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}>
+            <img src="public/assets/skatehivefont3.png" alt="Skatehive Image" style={{ width: '100%' }} />
+            </div>
 
             {/* <Text fontFamily="Creepster" color="white" fontSize="42px" marginBottom="10px">
               Skatehive and Gnars Wish you a Merry Xmas!
@@ -164,5 +176,6 @@ const Home = () => {
     </Flex >
   );
 };
+
 
 export default Home;

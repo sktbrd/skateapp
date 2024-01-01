@@ -17,7 +17,7 @@ const NewFeature: React.FC = () => {
         maxWidth="340px"
         borderRadius="md"
         boxShadow="0 0 10px rgba(0, 0, 0, 0.1)"
-        background="linear-gradient(45deg, limegreen, white)"
+        background="linear-gradient(90deg, limegreen, lightgreen)"
         color="white"
         border={"2px solid limegreen"}
 

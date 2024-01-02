@@ -45,7 +45,7 @@ const Home = () => {
       <Tabs isFitted variant="solid-rounded" 
      justifyContent={'center'} {...tabProps}>
       <Center>
-        <TabList  display={'flex'}  width="80%" >
+        <TabList  display={'flex'}  width="85%" >
           <Tab
             color="lightgreen"
             background="linear-gradient(0deg, black, darkgreen, black)"

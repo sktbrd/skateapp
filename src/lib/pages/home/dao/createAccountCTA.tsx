@@ -17,7 +17,6 @@ const CreateAccountCTA: React.FC = () => {
                 maxWidth="340px"
                 borderRadius="md"
                 boxShadow="0 0 10px rgba(0, 0, 0, 0.1)"
-                background="linear-gradient(0deg, black, darkgreen, black)"
                 color="white"
                 border={"2px solid limegreen"}
 
@@ -34,7 +33,7 @@ const CreateAccountCTA: React.FC = () => {
                         <Image src="assets/pepelove.png" boxSize="43px" marginBottom="5px" />
 
                         <a href='/accountcreation' target="_blank">
-                            <Text color={"limegreen"} fontSize="12px" textShadow={"1px 1px 15px black"}> Click here to create an account for a friend </Text>
+                            <Text color={"white"} fontSize="12px"> Click here to create an account for a friend you love ! </Text>
                         </a>
                     </HStack>
 

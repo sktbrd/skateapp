@@ -45,7 +45,7 @@ interface PortfolioPageProps {
 }
 
 const networkDetails = [
-  { id: 1, name: 'Ethereum', logo: 'https://cryptologos.cc/logos/ethereum-eth-logo.png?v=029', color: 'blue.200' },
+  { id: 1, name: 'Ethereum', logo: '/assets/cryptologos/eth-logo.png', color: 'blue.200' },
   { id: 12, name: 'Polygon', logo: 'assets/polygon.png', color: 'purple.200' },
   { id: 8, name: 'Gnosis', logo: '/assets/gnosis.png', color: 'green.200' },
   { id: 4, name: 'Binance Smart Chain', logo: 'assets/bsc.png', color: 'yellow.200' },
@@ -73,6 +73,19 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
     setSelectedToken(token);
     console.log(token)
   };
+
+  // TODO: touch base with @highlander here to see if we can get this working
+  // const result = await app_wallet.getPublicKeys([
+  //   {
+  //     addressNList: [0x80000000 + 44, 0x80000000 + 0, 0x80000000 + 0],
+  //     curve: "secp256k1",
+  //     showDisplay: true, // Not supported by TrezorConnect or Ledger, but KeepKey should do it
+  //     coin: "Bitcoin",
+  //   },
+  // ]);
+  // console.log("Result: ", result);
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {

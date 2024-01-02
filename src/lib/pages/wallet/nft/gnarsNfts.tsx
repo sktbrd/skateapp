@@ -57,16 +57,7 @@ const GnarsNfts = () => {
       if (app && app.wallets && app.wallets.length > 0) {
         const currentAddress = app.wallets[0].wallet.accounts[0];
         const app_wallet = app.wallets[0].wallet;
-        // TODO: touch base with @highlander here to see if we can get this working
-        // const result = await app_wallet.getPublicKeys([
-        //   {
-        //     addressNList: [0x80000000 + 44, 0x80000000 + 0, 0x80000000 + 0],
-        //     curve: "secp256k1",
-        //     showDisplay: true, // Not supported by TrezorConnect or Ledger, but KeepKey should do it
-        //     coin: "Bitcoin",
-        //   },
-        // ]);
-        // console.log("Result: ", result);
+
         setSelectedWallet(app.wallets[0].type)
         setETHAddress(currentAddress);
       }

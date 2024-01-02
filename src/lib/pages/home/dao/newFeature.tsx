@@ -17,7 +17,6 @@ const NewFeature: React.FC = () => {
         maxWidth="340px"
         borderRadius="md"
         boxShadow="0 0 10px rgba(0, 0, 0, 0.1)"
-        background="linear-gradient(90deg, limegreen, lightgreen)"
         color="white"
         border={"2px solid limegreen"}
 
@@ -34,7 +33,7 @@ const NewFeature: React.FC = () => {
             <Image src="assets/giveth.png" boxSize="43px" marginBottom="5px" />
 
             <a href='https://giveth.io/project/skatehive-skateboarding-community'>
-              <Text color={"black"} fontSize="12px"> Join Giveth's Quadratic Funding Round, your donation w/ super powers!  </Text>
+              <Text color={"white"} fontSize="12px"> Join Giveth's Quadratic Funding Round, your donation w/ super powers!  </Text>
             </a>
           </HStack>
 

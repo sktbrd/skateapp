@@ -10,8 +10,7 @@ import {
   HStack,
   VStack,
   Text,
-  Center,
-  
+
 
 } from '@chakra-ui/react';
 import HiveBlog from './Feed/Feed';
@@ -26,7 +25,7 @@ import CreateAccountCTA from './dao/createAccountCTA';
 import '@fontsource/creepster';
 
 
-  
+
 
 const Home = () => {
   const { selectedIndex, ...tabProps } = useTabs({ isLazy: true });
@@ -34,9 +33,9 @@ const Home = () => {
   const isBigScreen = window.innerWidth >= 768;
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
-    
 
-    
+
+
     <Flex
       direction="column"
       
@@ -86,12 +85,11 @@ const Home = () => {
         </Center>
         <TabPanels>
           <TabPanel>
-
-          <div style ={{
+            <div style={{
               display: 'flex',
               justifyContent: 'center',
             }}>
-            <img src="https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23uQ3d5BKcoYkuYWd7kZrnS396M1M6DvsMa5MowAmaVynQr67ChnARGaFstnMGeSspzwR.png" alt="Skatehive Image" style={{ width: '100%' }} />
+              <img src="https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23uQ3d5BKcoYkuYWd7kZrnS396M1M6DvsMa5MowAmaVynQr67ChnARGaFstnMGeSspzwR.png" alt="Skatehive Image" style={{ width: '100%' }} />
             </div>
 
             <HStack justifyContent="center" marginBottom="10px">
@@ -100,8 +98,7 @@ const Home = () => {
               {!isMobile && <CommunityStats communityTag="hive-173115" />}
               {!isMobile && <NewFeature />}
             </HStack>
-            
-            
+
 
             {/* <Text fontFamily="Creepster" color="white" fontSize="42px" marginBottom="10px">
               Skatehive and Gnars Wish you a Merry Xmas!

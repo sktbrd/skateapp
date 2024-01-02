@@ -64,7 +64,6 @@ const CommunityStats: React.FC<{ communityTag: string }> = ({ communityTag }) =>
         borderRadius="md"
         border={"2px solid limegreen"}
         boxShadow="0 0 10px rgba(0, 0, 0, 0.1)"
-        background="linear-gradient(90deg, honeydew, honeydew, limegreen)"
         color="white"
 
       >
@@ -86,15 +85,15 @@ const CommunityStats: React.FC<{ communityTag: string }> = ({ communityTag }) =>
 
                   <Text m="-2px" fontSize="28px">💰</Text>
 
-                  <Text fontSize={"18px"} fontWeight="bold" color="black">${communityStats.totalPayout.toFixed(2)}</Text>
-                  <Text fontSize="8px" marginLeft={"-5px"} marginTop={"8px"} color={"black"} fontWeight="bold" >Rewarded this Round</Text>
+                  <Text fontSize={"18px"} fontWeight="bold" color="yellow">${communityStats.totalPayout.toFixed(2)}</Text>
+                  <Text fontSize="8px" marginLeft={"-5px"} marginTop={"8px"} color={"white"} fontWeight="bold" > this week</Text>
                 </HStack>
 
               </center>
             </Flex>
 
 
-            <Flex flexDirection="column">
+            {/* <Flex flexDirection="column">
               <center>
                 <HStack marginEnd={"10px"}>
 
@@ -103,17 +102,17 @@ const CommunityStats: React.FC<{ communityTag: string }> = ({ communityTag }) =>
                   <Text fontSize="8px" marginLeft={"-5px"} marginTop={"8px"} color={"black"}> Posts/Comments this Round</Text>
                 </HStack>
               </center>
-            </Flex>
+            </Flex> */}
 
-            
+
 
             <Flex flexDirection="column">
               <center>
                 <HStack marginEnd={"10px"}>
 
                   <Text m="-2px" fontSize="28px">👨‍💻</Text>
-                  <Text fontSize={"18px"} fontWeight="bold" color="black">{communityStats.numberOfAuthors}</Text>
-                  <Text fontSize="8px" marginLeft={"-5px"} marginTop={"8px"} color={"black"}>Active Users</Text>
+                  <Text fontSize={"18px"} fontWeight="bold" color="yellow">{communityStats.numberOfAuthors}</Text>
+                  <Text fontSize="8px" marginLeft={"-5px"} fontWeight="bold" marginTop={"8px"} color={"white"}>Active Users</Text>
                 </HStack>
               </center>
             </Flex>
@@ -123,7 +122,7 @@ const CommunityStats: React.FC<{ communityTag: string }> = ({ communityTag }) =>
 
             <Image boxSize={"24px"} src='https://64.media.tumblr.com/12da5f52c1491f392676d1d6edb9b055/870d8bca33241f31-7b/s400x600/fda9322a446d8d833f53467be19fca3811830c26.gif'></Image>
 
-            <Text fontSize={"12px"} color={"black"}>Loading...</Text>
+            <Text fontSize={"12px"} color={"white"}>Loading...</Text>
           </VStack>
         )}
       </Box>

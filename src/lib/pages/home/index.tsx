@@ -10,6 +10,7 @@ import {
   HStack,
   VStack,
   Text,
+  Center,
   
 
 } from '@chakra-ui/react';
@@ -38,11 +39,13 @@ const Home = () => {
     
     <Flex
       direction="column"
-      alignItems="center"
-      justifyContent="center"
+      
+    
     >
-      <Tabs isFitted variant="enclosed" width="100%"  {...tabProps}>
-        <TabList justifyContent={"center"} width="100%" >
+      <Tabs isFitted variant="enclosed" 
+     justifyContent={'center'} {...tabProps}>
+      <Center>
+        <TabList  display={'flex'}  width="80%" >
           <Tab
             color="white"
             _selected={{
@@ -80,8 +83,17 @@ const Home = () => {
             🏛 DAOs
           </Tab>
         </TabList>
+        </Center>
         <TabPanels>
           <TabPanel>
+
+          <div style ={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}>
+            <img src="https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23uQ3d5BKcoYkuYWd7kZrnS396M1M6DvsMa5MowAmaVynQr67ChnARGaFstnMGeSspzwR.png" alt="Skatehive Image" style={{ width: '100%' }} />
+            </div>
+
             <HStack justifyContent="center" marginBottom="10px">
               {!isMobile && <CreateAccountCTA />}
               <CommunityTotalPayout communityTag={"hive-173115"} />
@@ -89,12 +101,7 @@ const Home = () => {
               {!isMobile && <NewFeature />}
             </HStack>
             
-            <div style ={{
-              display: 'flex',
-              justifyContent: 'center',
-            }}>
-            <img src="https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23uQ3d5BKcoYkuYWd7kZrnS396M1M6DvsMa5MowAmaVynQr67ChnARGaFstnMGeSspzwR.png" alt="Skatehive Image" style={{ width: '100%' }} />
-            </div>
+            
 
             {/* <Text fontFamily="Creepster" color="white" fontSize="42px" marginBottom="10px">
               Skatehive and Gnars Wish you a Merry Xmas!

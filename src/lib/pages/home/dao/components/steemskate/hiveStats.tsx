@@ -15,7 +15,7 @@ const dhiveClient = new dhive.Client([
 interface HiveStatsProps {
   wallet: string;
 }
-
+import { convertVestingSharesToHivePower } from 'lib/pages/utils/hiveFunctions/convertSharesToHP';
 const HiveStats: React.FC<HiveStatsProps> = ({ wallet }) => {
   const [hivePrice, setHivePrice] = useState(0);
   const [HBDprice, setHBDPrice] = useState(0);
@@ -28,44 +28,10 @@ const HiveStats: React.FC<HiveStatsProps> = ({ wallet }) => {
   const [total, setTotal] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
 
-  const convertVestingSharesToHivePower = async (
-    vestingShares: string,
-    delegatedVestingShares: string,
-    receivedVestingShares: string
-  ): Promise<{ hivePower: string; delegatedHivePower: string }> => {
-    const vestingSharesFloat = parseFloat(vestingShares.split(" ")[0]);
-    const delegatedVestingSharesFloat = parseFloat(delegatedVestingShares.split(" ")[0]);
-    const receivedVestingSharesFloat = parseFloat(receivedVestingShares.split(" ")[0]);
-    const availableVESTS =
-      vestingSharesFloat - delegatedVestingSharesFloat + receivedVestingSharesFloat;
-
-    const response = await fetch('https://api.hive.blog', {
-      method: 'POST',
-      body: JSON.stringify({
-        jsonrpc: '2.0',
-        method: 'condenser_api.get_dynamic_global_properties',
-        params: [],
-        id: 1,
-      }),
-      headers: { 'Content-Type': 'application/json' },
-    });
-    const result = await response.json();
-    const vestHive =
-      (parseFloat(result.result.total_vesting_fund_hive) * availableVESTS) /
-      parseFloat(result.result.total_vesting_shares);
-
-    const delegatedHivePower =
-      (parseFloat(result.result.total_vesting_fund_hive) * delegatedVestingSharesFloat) /
-      parseFloat(result.result.total_vesting_shares);
-
-    return { hivePower: vestHive.toFixed(3), delegatedHivePower: delegatedHivePower.toFixed(3) };
-  };
-
 
   const fetchHiveStats = async () => {
     try {
       const account = await dhiveClient.database.getAccounts([wallet]);
-
       const [conversionRate, hbdPrice, vestingSharesData] = await Promise.all([
         cache.conversionRate || fetchConversionRate(),
         cache.hbdPrice || fetchHbdPrice(),
@@ -76,20 +42,24 @@ const HiveStats: React.FC<HiveStatsProps> = ({ wallet }) => {
         ),
       ]);
 
-      const hiveWorth = parseFloat((account[0].balance as string).split(" ")[0]) * conversionRate;
-      const hivePowerWorth = parseFloat(vestingSharesData.hivePower) * conversionRate;
-      const delegatedHivePowerWorth = parseFloat(vestingSharesData.delegatedHivePower) * conversionRate;
-      const hbdWorth = parseFloat((account[0].hbd_balance as string).split(" ")[0]) * hbdPrice;
-      const savingsWorth = parseFloat((account[0].savings_hbd_balance as string).split(" ")[0]) * hbdPrice;
+
+
+      const hiveWorth = parseFloat((account[0].balance as string).split(" ")[0]) * conversionRate.value;
+      const hivePowerWorth = parseFloat(vestingSharesData.hivePower) * conversionRate.value;
+      const delegatedHivePowerWorth = parseFloat(vestingSharesData.delegatedToUserInUSD) * parseFloat(conversionRate.value);
+      const hbdWorth = parseFloat((account[0].hbd_balance as string).split(" ")[0]) * parseFloat(hbdPrice.value);
+      const savingsWorth = parseFloat((account[0].savings_hbd_balance as string).split(" ")[0]) * parseFloat(hbdPrice.value);
+      console.log("Test", hiveWorth, hivePowerWorth, delegatedHivePowerWorth, hbdWorth, savingsWorth)
 
       const total = hiveWorth + hivePowerWorth + delegatedHivePowerWorth + hbdWorth + savingsWorth;
-      setConversionRate(conversionRate);
+      setConversionRate(conversionRate.value);
       setHiveBalance(account[0].balance as string);
       setHiveSavings(account[0].savings_hbd_balance as string);
       setHbdbalance(account[0].hbd_balance as string);
       setHivePower(vestingSharesData.hivePower);
-      setDelegatedHivePower(vestingSharesData.delegatedHivePower);
+      setDelegatedHivePower(vestingSharesData.delegatedToUserInUSD);
       setTotal(total);
+      console.log("Test", total)
       setIsLoading(false); // Set isLoading to false when data is fetched
     } catch (error) {
       console.error("Error fetching data:", error);

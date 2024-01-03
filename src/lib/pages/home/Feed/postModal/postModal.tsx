@@ -45,7 +45,7 @@ const nodes = [
 ];
 
 import { transformGiphyLinksToMarkdown } from 'lib/pages/utils/ImageUtils';
-import { transform3SpeakContent } from 'lib/pages/utils/videoFunctions/videoUtils';
+import { transform3SpeakContent, transformYouTubeContent } from 'lib/pages/utils/videoFunctions/videoUtils';
 import { slugify } from 'lib/pages/utils/videoFunctions/slugify';
 import { json } from 'stream/consumers';
 import { diff_match_patch } from 'diff-match-patch';
@@ -83,20 +83,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   const [postImages, setPostImages] = useState<string[]>([]);
   const [originalThumb, setOriginalThumb] = useState<string | null>(null);
 
-  function transformYouTubeContent(content: string): string {
-    // Regular expression to match YouTube video URLs
-    const regex = /https:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/g;
 
-    // Use the replace method to replace YouTube video URLs with embedded iframes
-    let transformedContent = content.replace(regex, (match: string, videoID: string) => {
-      // Wrap the iframe in a div with centering styles
-      return `<div style="display: flex; justify-content: center; "><iframe width="560" height="315" src="https://www.youtube.com/embed/${videoID}" frameborder="0" allow="accelerometer;  encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
-    });
-    // Transform the content for 3speak videos
-    transformedContent = transform3SpeakContent(transformedContent);
-    transformedContent = transformGiphyLinksToMarkdown(transformedContent);
-    return transformedContent;
-  }
   const extractImagesFromContent = (content: string): string[] => {
     const imageRegex = /!\[.*?\]\((.*?)\)/g;
     const matches = content.match(imageRegex);
@@ -212,8 +199,6 @@ const PostModal: React.FC<Types.PostModalProps> = ({
 
     setIsEditing(false);
   };
-
-
 
   const handleCancelClick = () => {
     setIsEditing(false);

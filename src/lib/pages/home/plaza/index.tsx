@@ -302,7 +302,7 @@ const Plaza: React.FC = () => {
                             margin="5px"
                         />
                         <Text>
-                            {URLAuthor}
+                            {metadata?.profile?.name || 'You'}
                         </Text>
                     </Flex>
                     <Textarea

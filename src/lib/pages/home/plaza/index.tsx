@@ -54,6 +54,7 @@ const Plaza: React.FC = () => {
     const metadata = JSON.parse(user.user?.json_metadata || '{}');
     const client = new Client('https://api.hive.blog');
     const [isUploading, setIsUploading] = useState(false); // New state for tracking upload loading
+    const [showSplash, setShowSplash] = useState(true);
 
     const [loadedCommentsCount, setLoadedCommentsCount] = useState(15);
     const [currentScrollPosition, setCurrentScrollPosition] = useState(0);
@@ -70,28 +71,30 @@ const Plaza: React.FC = () => {
                 URLAuthor,
                 URLPermlink,
             ]);
-            const displayedComments = allComments.slice(-loadedCommentsCount);
+            const displayedComments = allComments.slice(-loadedCommentsCount).reverse();
             setComments(displayedComments);
         } catch (error) {
             console.error('Error fetching comments:', error);
         }
     };
 
-    useEffect(() => {
+
+    const fetchPostData = async () => {
         const client = new Client('https://api.hive.blog');
 
-        const fetchPostData = async () => {
-            try {
-                const postData = await client.database.call('get_content', [URLAuthor, URLPermlink]);
-                setPost({ ...postData });
-            } catch (error) {
-                console.error('Error fetching post data:', error);
-            }
-        };
+        try {
+            const postData = await client.database.call('get_content', [URLAuthor, URLPermlink]);
+            setPost({ ...postData });
+        } catch (error) {
+            console.error('Error fetching post data:', error);
+        }
+    };
 
+    useEffect(() => {
         fetchPostData();
         fetchComments();
-    }, [URLAuthor, URLPermlink, commentsUpdated]);
+        setShowSplash(false)
+    }, []);
 
     const handlePostComment = () => {
         if (!window.hive_keychain) {
@@ -136,20 +139,23 @@ const Plaza: React.FC = () => {
         setIsPostingComment(true);
 
         window.hive_keychain.requestBroadcast(username, operations, 'posting', async (response: any) => {
-            try {
-                if (response.success) {
-                    setCommentContent('');
-                    fetchComments();
-                } else {
-                    console.error('Error posting comment:', response.message);
-                }
-            } catch (error) {
-                console.error('Error handling post comment response:', error);
-            } finally {
-                setIsPostingComment(false);
-            }
+
+            // Show the splash screen
+            setShowSplash(true);
+
+
+            // Set a timeout to hide the splash screen after 5 seconds
+            setTimeout(() => {
+                setShowSplash(false);
+            }, 5000);
+            fetchComments();
+            setCommentContent('');
         });
-    };
+
+        setIsPostingComment(false);
+    }
+
+
 
     useEffect(() => {
         setUsername(user?.user?.name || null);
@@ -275,8 +281,7 @@ const Plaza: React.FC = () => {
     };
 
     return (
-        <Center >
-
+        <Center>
             <Box
                 style={{
                     maxWidth: isMobile ? '100%' : '60%',
@@ -285,6 +290,27 @@ const Plaza: React.FC = () => {
                 }}
             >
 
+                {showSplash && (
+                    <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0, 0, 0, 0.7)', zIndex: 1001 }}>
+                        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: 'white' }}>
+                            <Center>
+                                <VStack>
+
+                                    <Image
+                                        src={metadata?.profile?.profile_image || 'https://images.ecency.com/webp/u/skatehive/avatar/small'}
+                                        alt="SkateHive logo"
+                                        boxSize="100px"
+                                        borderRadius="50%"
+                                        margin="5px"
+                                    />
+                                    <Text fontSize="2xl" fontWeight="bold" textAlign="center" marginBottom="10px">
+                                        After Posting, scroll down to the bottom to see your post, sorry for that!
+                                    </Text>
+                                </VStack>
+                            </Center>
+                        </div>
+                    </div>
+                )}
                 <Box
                     style={{
                         display: 'flex',
@@ -373,7 +399,7 @@ const Plaza: React.FC = () => {
                         </Box>
                     ) : (
                         <Flex borderRadius="10px" padding="5px" direction="column" style={{ width: '100%' }}>
-                            {comments.reverse().map((comment) => (
+                            {comments.map((comment) => (
                                 <Box key={comment.id} >
 
 

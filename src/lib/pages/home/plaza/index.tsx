@@ -26,6 +26,7 @@ import { CSSProperties } from 'react';
 import useAuthUser from '../api/useAuthUser';
 import * as Types from './types';
 import voteOnContent from '../api/voting';
+import MDEditor from '@uiw/react-md-editor';
 
 type User = {
     name: string;
@@ -331,15 +332,18 @@ const Plaza: React.FC = () => {
                             {metadata?.profile?.name || 'You'}
                         </Text>
                     </Flex>
-                    <Textarea
-                        border="1px solid #1da1f2"
-                        borderRadius="5px"
+                    <MDEditor
                         value={commentContent}
-                        onChange={(e) => setCommentContent(e.target.value)}
-                        placeholder="Say your thoughts..."
-                        marginBottom="10px"
-                        padding="10px"
-                        resize="none"
+                        onChange={(value, event, state) => setCommentContent(value || '')}
+                        preview="edit"
+                        height={200}
+                        style={{ borderRadius: '5px', border: '1px solid #1da1f2', padding: '10px' }}
+                    />
+                    <ReactMarkdown
+                        children={commentContent}
+                        rehypePlugins={[rehypeRaw]}
+                        remarkPlugins={[remarkGfm]}
+                        components={MarkdownRenderers}
                     />
                     <Box style={{ display: 'flex', justifyContent: 'space-between', margin: '5px' }}>
                         {isUploading && <Spinner size="sm" />}

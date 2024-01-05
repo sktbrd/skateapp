@@ -489,12 +489,12 @@ const HeaderNew = () => {
             />
           </MenuButton>
           <MenuList border="1px solid limegreen" backgroundColor="black" color="white">
-            <Link to="https://snapshot.org/#/skatehive.eth" target="_blank" style={{ textDecoration: 'none' }}>
+            <Link to="https://skatehive.app/dao" style={{ textDecoration: 'none' }}>
               <MenuItem
                 _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
                 backgroundColor="black"
               >
-                🏛 Governance
+                🏛 DAO
               </MenuItem>
             </Link>
             <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" target="_blank" style={{ textDecoration: 'none' }}>

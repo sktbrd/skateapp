@@ -17,12 +17,14 @@ import {
 import HiveBlog from './Feed/Feed';
 import SkatehiveProposals from './dao/snapshot';
 import Chat from './chat';
+import SinglePostPage from './plaza';
 import UploadPage from '../upload';
 import CommunityStats from './dao/communityStats';
 import CommunityTotalPayout from './dao/commmunityPayout'
 import { useBreakpointValue } from '@chakra-ui/react';
 import NewFeature from './dao/newFeature';
 import CreateAccountCTA from './dao/createAccountCTA';
+import Plaza from './plaza';
 import '@fontsource/creepster';
 
 
@@ -85,7 +87,7 @@ const Home = () => {
 
               }} // Change the background color when selected
             >
-              🏛 DAOs
+              🗣 Plaza
             </Tab>
           </TabList>
         </Center>
@@ -181,12 +183,12 @@ const Home = () => {
           <TabPanel>
             <UploadPage />
           </TabPanel>
-          <TabPanel>
-            <SkatehiveProposals />
+          <TabPanel >
+            <Plaza />
           </TabPanel>
         </TabPanels>
       </Tabs>
-      {isBigScreen && <Chat />} {/* Render Chat component only on big screens */}
+      {/* {isBigScreen && <Chat />} Render Chat component only on big screens */}
     </Flex >
   );
 };

@@ -15,6 +15,7 @@ import {
 import { Client } from "@hiveio/dhive";
 import MDEditor from "@uiw/react-md-editor";
 import { MarkdownRenderers } from "lib/pages/utils/MarkdownRenderers";
+import moment from "moment";
 import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import { FaImage } from "react-icons/fa";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -37,7 +38,6 @@ const Plaza: React.FC = () => {
 
   const [post, setPost] = useState<any | null>(null);
   const [comments, setComments] = useState<CommentProps[]>([]);
-  const [commentsUpdated, setCommentsUpdated] = useState(false);
   const [commentContent, setCommentContent] = useState("");
   const [username, setUsername] = useState<string | null>(null);
   const [parentId, setParentId] = useState<string | null>(null);
@@ -52,14 +52,10 @@ const Plaza: React.FC = () => {
   const metadata = JSON.parse(user.user?.json_metadata || "{}");
   const client = new Client("https://api.hive.blog");
   const [isUploading, setIsUploading] = useState(false); // New state for tracking upload loading
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(false);
 
   const [loadedCommentsCount, setLoadedCommentsCount] = useState(15);
   const [localNetVotes, setNetVotes] = useState(0);
-
-  useEffect(() => {
-    console.log(loadedCommentsCount);
-  }, [loadedCommentsCount]);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -73,6 +69,7 @@ const Plaza: React.FC = () => {
         [URLAuthor, URLPermlink]
       );
       setComments(allComments.reverse());
+      return allComments;
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
@@ -95,7 +92,7 @@ const Plaza: React.FC = () => {
   useEffect(() => {
     fetchPostData();
     fetchComments();
-    setShowSplash(false);
+    // setShowSplash(false);
   }, []);
 
   const handlePostComment = () => {
@@ -146,23 +143,44 @@ const Plaza: React.FC = () => {
 
     setIsPostingComment(true);
 
+    let postCreationTimestamp = moment.utc().unix();
+
     window.hive_keychain.requestBroadcast(
       username,
       operations,
       "posting",
       async (response: any) => {
-        // Show the splash screen
-        setShowSplash(true);
-
-        // Set a timeout to hide the splash screen after 5 seconds
-        setTimeout(() => {
-          setShowSplash(false);
-        }, 5000);
-        fetchComments();
-        setCommentContent("");
+        await loadUpdatedComments(username, postCreationTimestamp);
       }
     );
+  };
 
+  const loadUpdatedComments = async (
+    username: string,
+    postCreationTimestamp: number
+  ) => {
+    const maxAttempts = commentContent && commentContent !== "" ? 10 : 0;
+    let attempts = 0;
+
+    console.log(postCreationTimestamp);
+
+    while (true) {
+      let data = await fetchComments();
+      if (!data) throw new Error("No comments");
+
+      const lastPostDate = moment.utc((data[0] as any).last_update).unix();
+      if (
+        (username === data[0].author && lastPostDate > postCreationTimestamp) ||
+        attempts === maxAttempts
+      )
+        break;
+
+      attempts++;
+      await new Promise((resolve) => setTimeout(resolve, 1000 * attempts));
+    }
+
+    chatContainerRef.current?.scrollTo(0, 0);
+    setCommentContent("");
     setIsPostingComment(false);
   };
 
@@ -267,9 +285,6 @@ const Plaza: React.FC = () => {
       );
     }
   };
-
-  console.log("dataLength", loadedCommentsCount);
-  console.log("hasMore", comments.length !== loadedCommentsCount);
 
   return (
     <Center>
@@ -406,7 +421,6 @@ const Plaza: React.FC = () => {
                 }}
               />
             </label>
-
             <Button
               fontSize="14px"
               padding="6px 10px"
@@ -446,6 +460,7 @@ const Plaza: React.FC = () => {
               style={{ width: "100%" }}
               id="postsTl"
               height="calc(100vh - 250px)"
+              ref={chatContainerRef}
             >
               <InfiniteScroll
                 dataLength={loadedCommentsCount}

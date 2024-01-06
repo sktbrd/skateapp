@@ -63,6 +63,7 @@
     "framer-motion": "^10.16.4",
     "get-blob-duration": "^1.2.0",
     "keychain-sdk": "^0.4.0",
+    "moment": "^2.30.1",
     "openai": "^4.3.0",
     "pioneer-platform": "^1.0.0",
     "pnpm": "^8.6.12",

@@ -17,6 +17,7 @@ import MDEditor from "@uiw/react-md-editor";
 import { MarkdownRenderers } from "lib/pages/utils/MarkdownRenderers";
 import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import { FaImage } from "react-icons/fa";
+import InfiniteScroll from "react-infinite-scroll-component";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
@@ -54,8 +55,11 @@ const Plaza: React.FC = () => {
   const [showSplash, setShowSplash] = useState(true);
 
   const [loadedCommentsCount, setLoadedCommentsCount] = useState(15);
-  const [currentScrollPosition, setCurrentScrollPosition] = useState(0);
   const [localNetVotes, setNetVotes] = useState(0);
+
+  useEffect(() => {
+    console.log(loadedCommentsCount);
+  }, [loadedCommentsCount]);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -166,38 +170,6 @@ const Plaza: React.FC = () => {
     setUsername(user?.user?.name || null);
   }, [user]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const container = containerRef.current;
-      if (container) {
-        const { scrollTop, scrollHeight, clientHeight } = container;
-        if (scrollHeight - scrollTop <= clientHeight + 100) {
-          setCurrentScrollPosition(container.scrollTop);
-          setLoadedCommentsCount((prevCount) => prevCount + 5);
-          fetchComments();
-        }
-      }
-    };
-
-    const container = containerRef.current;
-    if (container) {
-      container.addEventListener("scroll", handleScroll);
-    }
-
-    return () => {
-      if (container) {
-        container.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, [fetchComments]);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (container) {
-      container.scrollTop = currentScrollPosition;
-    }
-  }, [comments]);
-
   const containerStyle: CSSProperties = {
     position: "fixed",
     bottom: "40px",
@@ -295,6 +267,9 @@ const Plaza: React.FC = () => {
       );
     }
   };
+
+  console.log("dataLength", loadedCommentsCount);
+  console.log("hasMore", comments.length !== loadedCommentsCount);
 
   return (
     <Center>
@@ -451,7 +426,6 @@ const Plaza: React.FC = () => {
           style={{
             borderRadius: "10px",
             overflowY: "auto",
-            height: "calc(100vh - 250px)",
           }}
         >
           {isLoadingComments ? (
@@ -468,73 +442,94 @@ const Plaza: React.FC = () => {
               borderRadius="10px"
               padding="5px"
               direction="column"
+              overflow="auto"
               style={{ width: "100%" }}
+              id="postsTl"
+              height="calc(100vh - 250px)"
             >
-              {comments.slice(0, loadedCommentsCount).map((comment, index) => (
-                <Box key={comment.id}>
-                  <Box style={postContainerStyle}>
-                    <HStack justifyContent={"space-between"}>
-                      <Flex
-                        alignItems="center"
-                        justifyContent="start"
-                        paddingLeft="10px"
-                      >
-                        <h2>{index + 1}</h2>
-                        <Image
-                          src={`https://images.ecency.com/webp/u/${comment.author}/avatar/small`}
-                          alt={`${comment.author}'s avatar`}
-                          boxSize="40px"
-                          borderRadius="50%"
-                          margin="5px"
-                        />
-                        <span>{comment.author}</span>
-                      </Flex>
-
-                      <Tooltip
-                        label="Yes you can earn $ by tweeting here, make sure you post cool stuff that people will fire up!"
-                        aria-label="A tooltip"
-                        placement="top"
-                        bg={"black"}
-                        color={"yellow"}
-                        border={"1px dashed yellow"}
-                      >
-                        <Badge
-                          marginBottom={"27px"}
-                          colorScheme="yellow"
-                          fontSize="sm"
-                        >
-                          {comment.total_payout_value !== 0
-                            ? `${comment.pending_payout_value}`
-                            : "0.000 "}
-                        </Badge>
-                      </Tooltip>
-                    </HStack>
-                    <Divider />
-                    <ReactMarkdown
-                      children={comment.body}
-                      rehypePlugins={[rehypeRaw]}
-                      remarkPlugins={[remarkGfm]}
-                      components={MarkdownRenderers}
-                    />
-
-                    <Flex justifyContent="flex-end" mt="4">
-                      <Button
-                        onClick={() => handleVote(comment)}
-                        style={{
-                          border: "1px solid limegreen",
-                          backgroundColor: "black",
-                          fontSize: "12px",
-                          color: "limegreen",
-                          padding: "3px 6px",
-                          marginLeft: "8px",
-                        }}
-                      >
-                        Vote 👍
-                      </Button>
-                    </Flex>
+              <InfiniteScroll
+                dataLength={loadedCommentsCount}
+                next={() => setLoadedCommentsCount((val) => val + 15)}
+                hasMore={comments.length !== loadedCommentsCount}
+                scrollableTarget="postsTl"
+                loader={
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    height="200px"
+                  >
+                    Loading comments...
                   </Box>
-                </Box>
-              ))}
+                }
+              >
+                {comments
+                  .slice(0, loadedCommentsCount)
+                  .map((comment, index) => (
+                    <Box key={comment.id}>
+                      <Box style={postContainerStyle}>
+                        <HStack justifyContent={"space-between"}>
+                          <Flex
+                            alignItems="center"
+                            justifyContent="start"
+                            paddingLeft="10px"
+                          >
+                            <Image
+                              src={`https://images.ecency.com/webp/u/${comment.author}/avatar/small`}
+                              alt={`${comment.author}'s avatar`}
+                              boxSize="40px"
+                              borderRadius="50%"
+                              margin="5px"
+                            />
+                            <span>{comment.author}</span>
+                          </Flex>
+
+                          <Tooltip
+                            label="Yes you can earn $ by tweeting here, make sure you post cool stuff that people will fire up!"
+                            aria-label="A tooltip"
+                            placement="top"
+                            bg={"black"}
+                            color={"yellow"}
+                            border={"1px dashed yellow"}
+                          >
+                            <Badge
+                              marginBottom={"27px"}
+                              colorScheme="yellow"
+                              fontSize="sm"
+                            >
+                              {comment.total_payout_value !== 0
+                                ? `${comment.pending_payout_value}`
+                                : "0.000 "}
+                            </Badge>
+                          </Tooltip>
+                        </HStack>
+                        <Divider />
+                        <ReactMarkdown
+                          children={comment.body}
+                          rehypePlugins={[rehypeRaw]}
+                          remarkPlugins={[remarkGfm]}
+                          components={MarkdownRenderers}
+                        />
+
+                        <Flex justifyContent="flex-end" mt="4">
+                          <Button
+                            onClick={() => handleVote(comment)}
+                            style={{
+                              border: "1px solid limegreen",
+                              backgroundColor: "black",
+                              fontSize: "12px",
+                              color: "limegreen",
+                              padding: "3px 6px",
+                              marginLeft: "8px",
+                            }}
+                          >
+                            Vote 👍
+                          </Button>
+                        </Flex>
+                      </Box>
+                    </Box>
+                  ))}
+              </InfiniteScroll>
             </Flex>
           )}
         </Box>

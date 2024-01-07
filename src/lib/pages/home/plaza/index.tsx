@@ -337,7 +337,7 @@ const Plaza: React.FC = () => {
                         onChange={(value, event, state) => setCommentContent(value || '')}
                         preview="edit"
                         height={200}
-                        style={{ borderRadius: '5px', border: '1px solid #1da1f2', padding: '10px' }}
+                        style={{ borderRadius: '5px', border: '1px solid limegreen', backgroundColor: 'black', padding: '10px' }}
                     />
                     <ReactMarkdown
                         children={commentContent}

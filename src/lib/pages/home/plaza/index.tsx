@@ -234,6 +234,13 @@ const Plaza: React.FC = () => {
     try {
       setIsUploading(true);
 
+      // Check if it's an MP4 video
+      if (file.type.startsWith("video") && !file.type.includes("mp4")) {
+        alert("Invalid video format. Please upload a .mp4 file.");
+        setIsUploading(false);
+        return;
+      }
+
       const formData = new FormData();
       formData.append("file", file);
       formData.set("Content-Type", "multipart/form-data");
@@ -279,6 +286,7 @@ const Plaza: React.FC = () => {
       setIsUploading(false);
     }
   };
+
 
 
 
@@ -369,12 +377,7 @@ const Plaza: React.FC = () => {
               padding: "10px",
             }}
           />
-          <ReactMarkdown
-            children={commentContent}
-            rehypePlugins={[rehypeRaw]}
-            remarkPlugins={[remarkGfm]}
-            components={MarkdownRenderers}
-          />
+
           <Box
             style={{
               display: "flex",
@@ -382,7 +385,6 @@ const Plaza: React.FC = () => {
               margin: "5px",
             }}
           >
-            {isUploading && <Spinner size="sm" />}
             <label
               htmlFor="fileInput"
               style={{
@@ -396,8 +398,15 @@ const Plaza: React.FC = () => {
               }}
             >
               <HStack>
-
-                <FaImage style={{ marginRight: "5px" }} /> <Text color={"black"} > | </Text> <FaVideo style={{ marginRight: "5px" }} />
+                {isUploading ? (
+                  <Spinner size="sm" />
+                ) : (
+                  <>
+                    <FaImage style={{ marginRight: "5px" }} />
+                    <Text color={"black"} > | </Text>
+                    <FaVideo style={{ marginRight: "5px" }} />
+                  </>
+                )}
               </HStack>
               <input
                 id="fileInput"
@@ -426,7 +435,12 @@ const Plaza: React.FC = () => {
             </Button>
           </Box>
         </Box>
-
+        <ReactMarkdown
+          children={commentContent}
+          rehypePlugins={[rehypeRaw]}
+          remarkPlugins={[remarkGfm]}
+          components={MarkdownRenderers}
+        />
         <Box
           ref={containerRef}
           style={{

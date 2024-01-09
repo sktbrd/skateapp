@@ -102,7 +102,6 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
         const provider = new ethers.providers.JsonRpcProvider(providerUrl);
 
         const ensResponse = await provider.lookupAddress(wallet_address)
-        console.log(ensResponse)
         setENSAddress(ensResponse);
 
 

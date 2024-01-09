@@ -73,18 +73,21 @@ export default function HiveBalanceDisplay2() {
   const onStart = async function () {
     if (user) {
       try {
+        const account = await dhiveClient.database.getAccounts([user.name ?? ""]);
+
         const [conversionRate, hbdPrice, vestingSharesData] = await Promise.all([
           fetchConversionRate(),
           fetchHbdPrice(),
           convertVestingSharesToHivePower(
-            user.vesting_shares,
-            user.delegated_vesting_shares,
-            user.received_vesting_shares
+            account[0].vesting_shares.toString(),
+            account[0].delegated_vesting_shares.toString(),
+            account[0].received_vesting_shares.toString(),
           ),
         ]);
 
-        const hiveWorth = parseFloat(user.balance.split(" ")[0]) * conversionRate;
-        setTotalHiveAvailable(hiveWorth);
+        const hiveBalance = typeof account[0].balance === 'string' ? account[0].balance.split(" ")[0] : Number(account[0].balance);
+        const hiveWorth = parseFloat(hiveBalance.toString()) * conversionRate;
+        setTotalHiveAvailable(Number(hiveWorth));
         const hivePowerWorth =
           (parseFloat(vestingSharesData.hivePower) + parseFloat(vestingSharesData.DelegatedToSomeoneHivePower)) *
           conversionRate;
@@ -92,7 +95,7 @@ export default function HiveBalanceDisplay2() {
         const delegatedToUserInUSD = parseFloat(vestingSharesData.delegatedToUserInUSD) * conversionRate;
         const savingsWorth = parseFloat(user.savings_hbd_balance.split(" ")[0]) * hbdPrice;
         const HPdelegatedToUser = parseFloat(vestingSharesData.HPdelegatedToUser)
-        const total = hiveWorth + hivePowerWorth + hbdWorth + savingsWorth + delegatedToUserInUSD;
+        const total = Number(hiveWorth) + Number(hivePowerWorth) + hbdWorth + savingsWorth + delegatedToUserInUSD;
         const total_Owned = Number(hiveWorth) + Number(savingsWorth) + Number(hbdWorth) + Number(hivePowerWorth);
         setConversionRate(conversionRate);
         setHbdBalance(user.hbd_balance);
@@ -104,7 +107,6 @@ export default function HiveBalanceDisplay2() {
         setOwnedTotal(total_Owned);
         setDelegatedToUserInUSD(`${delegatedToUserInUSD.toFixed(3).toString()} USD worth in HP`);
         setHPdelegatedToUser(`${HPdelegatedToUser.toFixed(3).toString()} HP delegated to you`);
-
       } catch (error) {
         console.error("Error fetching data:", error);
       }

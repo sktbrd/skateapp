@@ -378,9 +378,6 @@ const HeaderNew = () => {
     if (user) {
       try {
         const account = await dhiveClient.database.getAccounts([user.name]);
-
-        console.log(account[0]);
-
         const [conversionRate, hbdPrice, vestingSharesData] = await Promise.all([
           fetchConversionRate(),
           fetchHbdPrice(),
@@ -390,9 +387,8 @@ const HeaderNew = () => {
             account[0].received_vesting_shares.toString()
           ),
         ]);
-        console.log(typeof account[0].balance === 'string' ? account[0].balance.split(" ")[0] : account[0].balance);
-        const hiveWorth = typeof account[0].balance === 'string' ? account[0].balance.split(" ")[0] : Number(account[0].balance) * conversionRate;
-
+        const hiveBalance = typeof account[0].balance === 'string' ? account[0].balance.split(" ")[0] : Number(account[0].balance);
+        const hiveWorth = parseFloat(hiveBalance.toString()) * conversionRate;
         const hivePowerWorth =
           (parseFloat(vestingSharesData.availableHivePower) + parseFloat(vestingSharesData.HPdelegatedToOthers)) *
           conversionRate;

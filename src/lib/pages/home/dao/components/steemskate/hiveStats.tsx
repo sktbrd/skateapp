@@ -32,6 +32,7 @@ const HiveStats: React.FC<HiveStatsProps> = ({ wallet }) => {
   const fetchHiveStats = async () => {
     try {
       const account = await dhiveClient.database.getAccounts([wallet]);
+      console.log("Account", account)
       const [conversionRate, hbdPrice, vestingSharesData] = await Promise.all([
         cache.conversionRate || fetchConversionRate(),
         cache.hbdPrice || fetchHbdPrice(),
@@ -41,7 +42,7 @@ const HiveStats: React.FC<HiveStatsProps> = ({ wallet }) => {
           account[0].received_vesting_shares.toString(),
         ),
       ]);
-
+      console.log("Test", conversionRate.value, hbdPrice.value, vestingSharesData.hivePower, vestingSharesData.delegatedToUserInUSD)
 
 
       const hiveWorth = parseFloat((account[0].balance as string).split(" ")[0]) * conversionRate.value;

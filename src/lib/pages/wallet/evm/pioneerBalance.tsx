@@ -153,6 +153,9 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
     }
   }
     , [ethPrice, ethBalance]);
+
+
+
   return (
     <Flex flexDirection={"column"}>
       <Box

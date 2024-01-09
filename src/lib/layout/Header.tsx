@@ -48,11 +48,6 @@ import { fetchConversionRate, fetchHbdPrice } from "lib/pages/utils/apis/coinGec
 
 type LinkTabProps = TabProps & RouterLinkProps;
 
-interface User {
-  name?: string;
-  avatar?: string;
-  balance: string;
-}
 interface Notification {
   date: string;
   id: number;
@@ -72,7 +67,12 @@ const LinkTab: React.FC<LinkTabProps> = ({ to, children, ...tabProps }) => (
     <Tab {...tabProps}>{children}</Tab>
   </Link>
 );
-
+const dhiveClient = new dhive.Client([
+  'https://api.hive.blog',
+  'https://api.hivekings.com',
+  'https://anyx.io',
+  'https://api.openhive.network',
+]);
 const HeaderNew = () => {
   const { state } = usePioneer();
 
@@ -132,12 +132,6 @@ const HeaderNew = () => {
 
     const fetchAvatarAndFallback = async (authors: string[]): Promise<void> => {
       try {
-        const dhiveClient = new dhive.Client([
-          'https://api.hive.blog',
-          'https://api.hivekings.com',
-          'https://anyx.io',
-          'https://api.openhive.network',
-        ]);
 
         const dhive_profiles = await dhiveClient.database.getAccounts(authors);
         const avatarSrcMap: Record<string, string | null> = {};
@@ -204,7 +198,7 @@ const HeaderNew = () => {
                               mr={2}
                               onError={(e) => {
                                 console.error('Error loading image:', e);
-                                e.currentTarget.src = DEFAULT_AVATAR_URL; // Fallback to default avatar
+                                e.currentTarget.src = DEFAULT_AVATAR_URL;
                               }}
                             />
                           )}
@@ -217,7 +211,7 @@ const HeaderNew = () => {
 
                     <Text fontSize="sm">{extractMsgDetails(notification.msg).text}</Text>
 
-                    {/* assemble link with https://skatehive.app/post/hive-173115/{notification.url} */}
+
                     <Link
                       to={`https://skatehive.app/post/hive-173115/${notification.url}`}
                       style={{ textDecoration: 'none' }}
@@ -383,17 +377,21 @@ const HeaderNew = () => {
   const onStart = async function (user: any, conversionRate: any, loggedIn: any) {
     if (user) {
       try {
+        const account = await dhiveClient.database.getAccounts([user.name]);
+
+        console.log(account[0]);
+
         const [conversionRate, hbdPrice, vestingSharesData] = await Promise.all([
           fetchConversionRate(),
           fetchHbdPrice(),
           convertVestingSharesToHivePower(
-            user.vesting_shares,
-            user.delegated_vesting_shares,
-            user.received_vesting_shares
+            account[0].vesting_shares.toString(),
+            account[0].delegated_vesting_shares.toString(),
+            account[0].received_vesting_shares.toString()
           ),
         ]);
-
-        const hiveWorth = parseFloat(user.balance.split(" ")[0]) * conversionRate;
+        console.log(typeof account[0].balance === 'string' ? account[0].balance.split(" ")[0] : account[0].balance);
+        const hiveWorth = typeof account[0].balance === 'string' ? account[0].balance.split(" ")[0] : Number(account[0].balance) * conversionRate;
 
         const hivePowerWorth =
           (parseFloat(vestingSharesData.availableHivePower) + parseFloat(vestingSharesData.HPdelegatedToOthers)) *
@@ -404,7 +402,7 @@ const HeaderNew = () => {
         const savingsWorth = parseFloat(user.savings_hbd_balance.split(" ")[0]) * hbdPrice;
 
 
-        const total = hiveWorth + hivePowerWorth + hbdWorth + savingsWorth;
+        const total = Number(hiveWorth) + Number(hivePowerWorth) + hbdWorth + savingsWorth;
         const total_Owned = Number(hiveWorth) + Number(savingsWorth) + Number(hbdWorth) + Number(hivePowerWorth);
 
         setConversionRate(conversionRate);

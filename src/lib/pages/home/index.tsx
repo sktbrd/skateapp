@@ -1,16 +1,16 @@
 import React from 'react';
 import {
   Flex,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  useTabs,
-  HStack,
-  VStack,
-  Text,
-  Center,
+  // Tabs,
+  // TabList,
+  // TabPanels,
+  // Tab,
+  // TabPanel,
+  // useTabs,
+  // HStack,
+  // VStack,
+  // Text,
+  // Center,
 
 
 } from '@chakra-ui/react';
@@ -25,21 +25,15 @@ import HiveBlog from './Feed/Feed';
 // import NewFeature from './dao/newFeature';
 // import CreateAccountCTA from './dao/createAccountCTA';
 // import Plaza from './plaza';
-import '@fontsource/creepster';
-import { useNavigate, useParams } from 'react-router-dom';
+// import '@fontsource/creepster';
+// import { useNavigate, useParams } from 'react-router-dom';
 
 
 
 const Home = () => {
-  const navigate = useNavigate();
-  const { tabName } = useParams();
-  const { selectedIndex, ...tabProps } = useTabs({ isLazy: true });
-  const tabs = ["feed", "upload", "plaza"];
+  // const navigate = useNavigate();
+  // const { selectedIndex, ...tabProps } = useTabs({ isLazy: true });
 
-  const handleChangeTab = (index: number) => {
-    const tabs = ["feed", "upload", "plaza"]; // Add tab names here
-    navigate(`/${tabs[index]}`);
-  };
 
   return (
     <Flex direction="column">

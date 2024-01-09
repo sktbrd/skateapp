@@ -74,9 +74,9 @@ const PlaceholderLoadingBar = () => {
   return (
     <center>
       <Image
-        borderRadius={"60px"}
+        borderRadius={"20px"}
         boxSize="100%"
-        src="https://miro.medium.com/v2/resize:fit:1000/format:webp/0*ZMikoPKSaRtvC8eM."
+        src="/assets/pepenation.gif"
       />
       {/* <Text>{randomSentence}</Text> */}
     </center>

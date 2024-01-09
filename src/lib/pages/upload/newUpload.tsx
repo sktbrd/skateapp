@@ -212,8 +212,6 @@ const NewUpload: React.FC = () => {
   };
 
 
-
-
   const onDropImages = async (acceptedFiles: File[]) => {
     setIsUploading(true);
 
@@ -712,7 +710,7 @@ const NewUpload: React.FC = () => {
 
   return (
     <Box>
-      <Box mt={0}>
+      {/* <Box mt={0}>
 
         <VStack>
 
@@ -735,7 +733,7 @@ const NewUpload: React.FC = () => {
             First
           </Badge>
         </VStack>
-      </Box>
+      </Box> */}
       <Flex minWidth={"100%"}
         flexDirection={isMobile ? "column" : "row"}
       >
@@ -884,10 +882,10 @@ const NewUpload: React.FC = () => {
                 </Flex>
 
               </Box>
+              <Flex alignItems="center" wrap="wrap">{renderTags()}</Flex>
 
             </>
           )}
-          <Flex alignItems="center" wrap="wrap">{renderTags()}</Flex>
 
           <Button onClick={handleHiveUpload} colorScheme="teal" size="sm" marginTop={2} id="publish-button">
             Publish!

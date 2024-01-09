@@ -74,10 +74,11 @@ const PlaceholderLoadingBar = () => {
   return (
     <center>
       <Image
-        boxSize="300px"
-        src="https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif"
+        borderRadius={"60px"}
+        boxSize="100%"
+        src="https://miro.medium.com/v2/resize:fit:1000/format:webp/0*ZMikoPKSaRtvC8eM."
       />
-      <Text>{randomSentence}</Text>
+      {/* <Text>{randomSentence}</Text> */}
     </center>
   );
 };

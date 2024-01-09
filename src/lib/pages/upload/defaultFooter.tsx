@@ -25,13 +25,13 @@ export const defaultFooter: string = `
 
 ## Join Our Discord and connect with the community 
 
-</center>
+
 
 <a href="https://discord.gg/skateboard">
   <img src="https://ipfs.skatehive.app/ipfs/QmdTJSEE1286z1JqxKh8LtsuDjuKB1yRSBZy2AwEogzjVW?pinataGatewayToken=nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE" alt="Discord Server" />
 </a>
 
-<center>
+
 
 **Find Skatehive On**
 

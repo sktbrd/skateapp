@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, Text, Table, Td, Tr, Tbody, Flex, Image, Button, Grid, GridItem, Center, Tooltip, Badge } from '@chakra-ui/react';
+import { Box, Text, Table, Td, Tr, Tbody, Flex, Image, Button, Grid, GridItem, Center, Tooltip, Badge, Accordion, AccordionButton, AccordionItem, AccordionPanel } from '@chakra-ui/react';
 import { formatWalletAddress } from 'lib/pages/utils/formatWallet';
 import EvmSendModal2 from './evmSendModal2';
 import { ethers } from "ethers";
@@ -245,56 +245,72 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
       >
         <Table variant='unstyled'>
           <Tbody>
-            <Tr>
-              <Td>
-                <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
-                  Token
-                </Text>
-              </Td>
-              <Td>
-                <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
-                  Balance
-                </Text>
-              </Td>
-              <Td>
-                <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
-                  Value
-                </Text>
-              </Td>
-            </Tr>
-            {networkDetails.map((network) => (
-              <React.Fragment key={network.id}>
-                <Tr>
-                  <Td colSpan={4} bg={network.color} margin={"10px"} >
-                    <Center>
-                      <Text fontWeight="bold" color={"black"}>
-                        {network.name}
-                      </Text>
-                      <Image src={network.logo} alt={`${network.name} Logo`} width="20px" height="20px" marginLeft="5px" />
-                    </Center>
-                  </Td>
-                </Tr>
-                {tokens
-                  ?.filter((token) => token.networkId === network.id)
-                  .map((token, index: number) => (
-                    <Tr key={index}>
-                      <Td>
-                        <Button bg='transparent' _hover={{ backgroundColor: 'blue.700', cursor: 'pointer' }}
-                          onClick={() => handleTokenClick(token)}>
-                          <Image src={network.logo} alt={`${token.name} Logo`} width="20px" height="20px" marginRight="5px" />
-                          <Text color={network.color}>{token.symbol}</Text>
-                        </Button>
-                      </Td>
-                      <Td>
-                        <Text color={network.color}>{token.balance?.toFixed(4)}</Text>
-                      </Td>
-                      <Td>
-                        <Text color={"white"} fontSize={"20px"}>{token.balanceUSD?.toFixed(2)} USD</Text>
-                      </Td>
-                    </Tr>
-                  ))}
-              </React.Fragment>
-            ))}
+
+            <Accordion allowToggle minW="100%" defaultIndex={[0]}>
+              {networkDetails.map((network) => (
+                <AccordionItem key={network.id} border="none">
+                  <h2>
+                    <AccordionButton>
+                      <Box flex="1" textAlign="left" width="100%" bg={network.color} p={2}>
+                        <Center>
+                          <Text fontWeight="bold" color="black">
+                            {network.name}
+                          </Text>
+                          <Image src={network.logo} alt={`${network.name} Logo`} width="20px" height="20px" marginLeft="5px" />
+                        </Center>
+                      </Box>
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel>
+                    <Table variant="unstyled" width="100%">
+                      <Tbody>
+                        <Tr>
+                          <Td>
+                            <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
+                              Token
+                            </Text>
+                          </Td>
+                          <Td>
+                            <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
+                              Balance
+                            </Text>
+                          </Td>
+                          <Td>
+                            <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
+                              Value
+                            </Text>
+                          </Td>
+                        </Tr>
+                        {tokens
+                          ?.filter((token) => token.networkId === network.id)
+                          .map((token, index: number) => (
+                            <Tr key={index}>
+                              <Td>
+                                <Button
+                                  bg="transparent"
+                                  _hover={{ backgroundColor: 'blue.700', cursor: 'pointer' }}
+                                  onClick={() => handleTokenClick(token)}
+                                >
+                                  <Image src={network.logo} alt={`${token.name} Logo`} width="20px" height="20px" marginRight="5px" />
+                                  <Text color={network.color}>{token.symbol}</Text>
+                                </Button>
+                              </Td>
+                              <Td>
+                                <Text color={network.color}>{token.balance?.toFixed(4)}</Text>
+                              </Td>
+                              <Td>
+                                <Text color="white" fontSize="20px">
+                                  {token.balanceUSD?.toFixed(2)} USD
+                                </Text>
+                              </Td>
+                            </Tr>
+                          ))}
+                      </Tbody>
+                    </Table>
+                  </AccordionPanel>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </Tbody>
         </Table>
       </Box>

@@ -40,11 +40,12 @@ import HiveLogin from "lib/pages/home/api/HiveLoginModal";
 import axios from "axios";
 //@ts-ignore
 import { usePioneer } from '@pioneer-platform/pioneer-react';
-import { FaBell } from "react-icons/fa";
+import { FaBell, FaSpeakap, FaUpload, FaScroll } from "react-icons/fa";
 import { FaLink } from "react-icons/fa";
 import * as dhive from "@hiveio/dhive";
 
 import { fetchConversionRate, fetchHbdPrice } from "lib/pages/utils/apis/coinGecko";
+import { color } from "framer-motion";
 
 type LinkTabProps = TabProps & RouterLinkProps;
 
@@ -491,6 +492,14 @@ const HeaderNew = () => {
                 🏛 DAO
               </MenuItem>
             </Link>
+            <Link to="/QFS" style={{ textDecoration: 'none' }}>
+              <MenuItem
+                _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+                backgroundColor="black"
+              >
+                🎮 Play QFS
+              </MenuItem>
+            </Link>
             <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" target="_blank" style={{ textDecoration: 'none' }}>
               <MenuItem
                 _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
@@ -578,9 +587,40 @@ const HeaderNew = () => {
         </Box>
 
       </Flex>
-      <Flex gap={{ base: 4, md: 8 }} padding={{ base: "6px 18px", md: "8px 20px" }} borderRadius="6px" position={{ md: "absolute" }} border="2px solid limegreen">
-        <Button variant="link" color="white" as={Link} to="/">Home</Button>
-        <Button variant="link" color="white" as={Link} to="/QFS">Play</Button>
+      {isDesktop && (
+        <Image paddingTop={"15px"} src="https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23uQ3d5BKcoYkuYWd7kZrnS396M1M6DvsMa5MowAmaVynQr67ChnARGaFstnMGeSspzwR.png" alt="Skatehive Image" />
+      )}
+
+      <Flex maxW={"100%"} gap={{ base: 4, md: 8 }} padding={{ base: "6px 6px", md: "8px 20px" }} borderRadius="6px" position={{ md: "absolute" }} border="2px solid limegreen">
+        <Button
+          variant="link"
+          color="white"
+          as={Link}
+          to="/"
+          leftIcon={isDesktop ? <FaScroll style={{ color: 'orange' }} /> : undefined}
+        >
+          Home
+        </Button>
+
+        <Button
+          variant="link"
+          color="white"
+          as={Link}
+          to="/upload"
+          leftIcon={isDesktop ? <FaUpload style={{ color: 'orange' }} /> : undefined}
+        >
+          Post
+        </Button>
+
+        <Button
+          variant="link"
+          color="white"
+          as={Link}
+          to="/plaza"
+          leftIcon={isDesktop ? <FaSpeakap style={{ color: 'orange' }} /> : undefined}
+        >
+          Plaza
+        </Button>
         {
           // Se não tiver logado
           !loggedIn ?
@@ -598,7 +638,7 @@ const HeaderNew = () => {
                     h="20px"
                   />
                   {user?.name}
-                  <ChevronDownIcon />
+                  {isDesktop && <ChevronDownIcon />}
                 </Flex>
               </MenuButton>
               <MenuList border="1px solid limegreen" backgroundColor="black" color="white" minWidth="120px">
@@ -609,7 +649,9 @@ const HeaderNew = () => {
             </Menu>
         }
       </Flex>
-
+      {!isDesktop && (
+        <Image paddingTop={"15px"} src="https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23uQ3d5BKcoYkuYWd7kZrnS396M1M6DvsMa5MowAmaVynQr67ChnARGaFstnMGeSspzwR.png" alt="Skatehive Image" />
+      )}
 
       <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
         <HiveLogin isOpen={isModalOpen} onClose={() => setModalOpen(false)} />

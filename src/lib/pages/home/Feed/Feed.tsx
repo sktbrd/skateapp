@@ -332,12 +332,11 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   };
 
   const handleCardClick = async (post: any) => {
-    // Check if the post has images
     const images = findImagesInContent(post.body);
     setSelectedPost(post);
     const comments = await fetchComments(post.author, post.permlink);
     setComments(comments);
-    setPostUrl(post.url); // Move this line here
+    setPostUrl(post.url);
     onOpen();
   };
   const cardHoverStyles = css`
@@ -367,28 +366,22 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     }
   };
   const handleVoteClick = async (post: any) => {
-    // Check if the user is logged in before allowing them to vote
     if (!isLoggedIn()) {
-      // Handle the case where the user is not logged in, e.g., show a login prompt
       setErrorMessage("You have to login first ! Dãããã... ");
       setIsErrorModalOpen(true);
       return;
     }
 
-    // Perform the voting action
     try {
-      // You may need to retrieve the user's username and other information here
-      const username = user?.name || ""; // Replace with the actual username
-      let weight = 10000; // Replace with the desired voting weight
+      const username = user?.name || "";
+      let weight = 10000;
 
       if (isVoted(post)) {
-        weight = 0; // If the post has been voted on, set the weight to 0 to remove the vote
+        weight = 0;
       }
 
-      // Call the voteOnContent function to vote on the post
       await voteOnContent(username, post.permlink, post.author, weight);
 
-      // set loading and then rerender the component
       setIsLoadingInitial(true);
       setLoadedPosts([]);
       setDisplayedPosts(20);
@@ -396,13 +389,12 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
         fetchInitialPosts();
       }, 3000);
     } catch (error) {
-      // Handle voting error
       console.error("Error while voting:", error);
       setErrorMessage(
         "Error While Voting! May be you already voted with the same weight. Try refreshing the page!"
       );
 
-      setIsErrorModalOpen(true); // Open the error modal
+      setIsErrorModalOpen(true);
     }
   };
   const cardStyleGradient = css`
@@ -454,7 +446,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
         width: "10px",
         background: "linear-gradient(180deg, darkgreen, black)", // Change the background color
         color: "limegreen", // Change the text color
-    
+
       };
     }
 
@@ -473,8 +465,8 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
       return {
         backgroundColor: "black", // Change the color on hover
         color: "mediumspringgreen", // Change the text color on hover
-        
-        
+
+
       };
     }
 
@@ -707,7 +699,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                         </div>
                       }
                       aria-label="View Voters"
-                      
+
                     >
                       <IconButton
                         icon={<MdArrowUpward />}

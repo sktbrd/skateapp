@@ -6,6 +6,7 @@ import React from "react";
 import type { PathRouteProps } from "react-router-dom";
 
 import SkatehiveProposals from "lib/pages/home/dao/snapshot";
+import Plaza from "lib/pages/home/plaza";
 const Home = React.lazy(() => import("lib/pages/home"));
 const Wallet = React.lazy(() => import("lib/pages/wallet"));
 const Profile = React.lazy(() => import("lib/pages/profile"));
@@ -29,6 +30,7 @@ export const routes: Array<PathRouteProps> = [
   {
     path: "/",
     element: <Home />,
+    children: ([] as React.ReactNode[]), // Explicitly type as ReactNode[]
   },
   {
     path: "/404",
@@ -38,6 +40,7 @@ export const routes: Array<PathRouteProps> = [
     path: "/wallet",
     element: <Wallet />,
   },
+  { path: "/plaza", element: <Plaza /> },
   {
     path: "/profile",
     element: <Profile />,

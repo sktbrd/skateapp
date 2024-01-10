@@ -44,21 +44,16 @@ const Plaza: React.FC = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const [isLoadingComments, setIsLoadingComments] = useState(false);
   const [isPostingComment, setIsPostingComment] = useState(false);
-  const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(
-    null
-  );
+  const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(null);
   const [payout, setPayout] = useState(0);
   const user = useAuthUser();
   const metadata = JSON.parse(user.user?.json_metadata || "{}");
   const client = new Client("https://api.hive.blog");
   const [isUploading, setIsUploading] = useState(false);
   const [showSplash, setShowSplash] = useState(false);
-
   const [loadedCommentsCount, setLoadedCommentsCount] = useState(15);
   const [localNetVotes, setNetVotes] = useState(0);
-
   const containerRef = useRef<HTMLDivElement>(null);
-
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadedVideoUrl, setUploadedVideoUrl] = useState<string | null>(null);
 
@@ -287,9 +282,6 @@ const Plaza: React.FC = () => {
     }
   };
 
-
-
-
   return (
     <Center>
       <Box ref={containerRef} style={{ borderRadius: "10px", overflowY: "auto", maxWidth: isMobile ? "100%" : "60%" }}>
@@ -313,6 +305,7 @@ const Plaza: React.FC = () => {
             onChange={(value, event, state) => setCommentContent(value || "")}
             preview="edit"
             height={200}
+
             style={{
               borderRadius: "5px",
               border: "1px solid limegreen",
@@ -400,7 +393,7 @@ const Plaza: React.FC = () => {
             alignItems="center"
             height="200px"
           >
-            Loading comments...
+            Loading GMs...
           </Box>
         ) : (
           <Flex

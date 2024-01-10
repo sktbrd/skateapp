@@ -115,7 +115,7 @@ export const routes: Array<PathRouteProps> = [
     element: <GnarsHolders />,
   },
   {
-    path: "/accountcreation",
+    path: "/invite",
     element: <AccountCreation />,
   },
   {

@@ -494,6 +494,14 @@ const HeaderNew = () => {
                 🏛 DAO
               </MenuItem>
             </Link>
+            <Link to="/invite" style={{ textDecoration: 'none' }}>
+              <MenuItem
+                _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+                backgroundColor="black"
+              >
+                ❤️ Invite a Friend
+              </MenuItem>
+            </Link>
             <Link to="/QFS" style={{ textDecoration: 'none' }}>
               <MenuItem
                 _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover

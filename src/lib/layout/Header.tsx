@@ -46,6 +46,8 @@ import * as dhive from "@hiveio/dhive";
 
 import { fetchConversionRate, fetchHbdPrice } from "lib/pages/utils/apis/coinGecko";
 import { color } from "framer-motion";
+import CommunityStats from "lib/pages/home/dao/communityStats";
+import CommunityTotalPayout from "lib/pages/home/dao/commmunityPayout";
 
 type LinkTabProps = TabProps & RouterLinkProps;
 
@@ -552,7 +554,13 @@ const HeaderNew = () => {
                 >
                   ➕ Soma Skate
                 </MenuItem>
+
               </Link>
+              <MenuItem
+                backgroundColor="black">
+                <CommunityTotalPayout communityTag="hive-173115" />
+
+              </MenuItem>
             </MenuGroup>
           </MenuList>
         </Menu>

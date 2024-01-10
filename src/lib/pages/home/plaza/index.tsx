@@ -268,7 +268,7 @@ const Plaza: React.FC = () => {
         }
         // Handle videos
         else if (file.type.startsWith("video")) {
-          const videoElement = `<video controls muted autoplay loop><source src="${ipfsUrl}" type="${file.type}"></video> `;
+          const videoElement = `<video controls muted loop><source src="${ipfsUrl}" type="${file.type}"></video> `;
           setCommentContent((prevContent) => prevContent + `\n${videoElement}` + '\n');
         }
 
@@ -315,8 +315,9 @@ const Plaza: React.FC = () => {
             height={200}
             style={{
               borderRadius: "5px",
-              border: "1px solid #1da1f2",
+              border: "1px solid limegreen",
               padding: "10px",
+              backgroundColor: "navy",
             }}
           />
           <Box
@@ -376,12 +377,20 @@ const Plaza: React.FC = () => {
             </Button>
 
           </Box>
-          <ReactMarkdown
-            children={commentContent}
-            rehypePlugins={[rehypeRaw]}
-            remarkPlugins={[remarkGfm]}
-            components={MarkdownRenderers}
-          />
+          {commentContent.length > 1 && (
+            <Box
+              style={{ border: '2px dashed limegreen', borderRadius: '5px', padding: '10px' }}
+            >
+              <Badge>Draft</Badge>
+              <ReactMarkdown
+                children={commentContent}
+                rehypePlugins={[rehypeRaw]}
+                remarkPlugins={[remarkGfm]}
+                components={MarkdownRenderers}
+              />
+            </Box>
+          )}
+
         </Flex>
 
         {isLoadingComments ? (

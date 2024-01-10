@@ -7,6 +7,7 @@ export type GnarsBlogProps = {
 export interface HiveBlogProps {
   tag?: string;
   queryType?: any;
+  start_author?: string;
 }
 
 

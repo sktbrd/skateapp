@@ -7,6 +7,7 @@ import type { PathRouteProps } from "react-router-dom";
 
 import SkatehiveProposals from "lib/pages/home/dao/snapshot";
 import Plaza from "lib/pages/home/plaza";
+import HiveBlog from "lib/pages/home/Feed/Feed";
 const Home = React.lazy(() => import("lib/pages/home"));
 const Wallet = React.lazy(() => import("lib/pages/wallet"));
 const Profile = React.lazy(() => import("lib/pages/profile"));
@@ -120,7 +121,11 @@ export const routes: Array<PathRouteProps> = [
   {
     path: "/dao",
     element: <SkatehiveProposals />,
-  }
+  },
+  {
+    path: "/blog",
+    element: <HiveBlog />,
+  },
 ];
 
 export const privateRoutes: Array<PathRouteProps> = [];

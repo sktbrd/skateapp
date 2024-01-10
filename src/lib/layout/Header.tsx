@@ -592,35 +592,67 @@ const HeaderNew = () => {
       )}
 
       <Flex maxW={"100%"} gap={{ base: 4, md: 8 }} padding={{ base: "6px 6px", md: "8px 20px" }} borderRadius="6px" position={{ md: "absolute" }} border="2px solid limegreen">
-        <Button
-          variant="link"
-          color="white"
-          as={Link}
-          to="/"
-          leftIcon={isDesktop ? <FaScroll style={{ color: 'orange' }} /> : undefined}
-        >
-          Home
-        </Button>
-
-        <Button
-          variant="link"
-          color="white"
-          as={Link}
-          to="/upload"
-          leftIcon={isDesktop ? <FaUpload style={{ color: 'orange' }} /> : undefined}
-        >
-          Post
-        </Button>
-
-        <Button
-          variant="link"
-          color="white"
-          as={Link}
-          to="/plaza"
-          leftIcon={isDesktop ? <FaSpeakap style={{ color: 'orange' }} /> : undefined}
-        >
-          Plaza
-        </Button>
+        {isDesktop ? (
+          <>
+            <Button
+              variant="link"
+              color="white"
+              as={Link}
+              to="/"
+              leftIcon={isDesktop ? <FaScroll style={{ color: 'orange' }} /> : undefined}
+            >
+              Home
+            </Button>
+            <Button
+              variant="link"
+              color="white"
+              as={Link}
+              to="/upload"
+              leftIcon={isDesktop ? <FaUpload style={{ color: 'orange' }} /> : undefined}
+            >
+              Post
+            </Button>
+            <Button
+              variant="link"
+              color="white"
+              as={Link}
+              to="/plaza"
+              leftIcon={isDesktop ? <FaSpeakap style={{ color: 'orange' }} /> : undefined}
+            >
+              Plaza
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              variant="link"
+              color="white"
+              as={Link}
+              to="/plaza"
+              leftIcon={isDesktop ? <FaScroll style={{ color: 'orange' }} /> : undefined}
+            >
+              Home
+            </Button>
+            <Button
+              variant="link"
+              color="white"
+              as={Link}
+              to="/upload"
+              leftIcon={isDesktop ? <FaUpload style={{ color: 'orange' }} /> : undefined}
+            >
+              Post
+            </Button>
+            <Button
+              variant="link"
+              color="white"
+              as={Link}
+              to="/blog"
+              leftIcon={isDesktop ? <FaSpeakap style={{ color: 'orange' }} /> : undefined}
+            >
+              Mag
+            </Button>
+          </>
+        )}
         {
           // Se não tiver logado
           !loggedIn ?

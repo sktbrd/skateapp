@@ -346,101 +346,7 @@ const Plaza: React.FC = () => {
             </div>
           </div>
         )} */}
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-          }}
-        >
-          <Flex alignItems="center" justifyContent="start" paddingLeft="10px">
-            <Image
-              src={
-                metadata?.profile?.profile_image ||
-                "https://images.ecency.com/webp/u/skatehive/avatar/small"
-              }
-              alt={`${URLAuthor}'s avatar`}
-              boxSize="40px"
-              borderRadius="50%"
-              margin="5px"
-            />
-            <Text>{metadata?.profile?.name || "You"}</Text>
-          </Flex>
-          <MDEditor
-            value={commentContent}
-            onChange={(value, event, state) => setCommentContent(value || "")}
-            preview="edit"
-            height={200}
-            style={{
-              borderRadius: "5px",
-              border: "1px solid #1da1f2",
-              padding: "10px",
-            }}
-          />
 
-          <Box
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              margin: "5px",
-            }}
-          >
-            <label
-              htmlFor="fileInput"
-              style={{
-                cursor: "pointer",
-                display: "inline-block",
-                padding: "10px",
-                border: "1px solid limegreen",
-                borderRadius: "5px",
-                backgroundColor: "limegreen",
-                color: "white",
-              }}
-            >
-              <HStack>
-                {isUploading ? (
-                  <Spinner size="sm" />
-                ) : (
-                  <>
-                    <FaImage style={{ marginRight: "5px" }} />
-                    <Text color={"black"} > | </Text>
-                    <FaVideo style={{ marginRight: "5px" }} />
-                  </>
-                )}
-              </HStack>
-              <input
-                id="fileInput"
-                type="file"
-                accept="image/*,video/*"
-                style={{ display: "none" }}
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    setSelectedFile(file);
-                    uploadFileToIPFS(file);
-                  }
-                }}
-              />
-            </label>
-            <Button
-              fontSize="14px"
-              padding="6px 10px"
-              color="limegreen"
-              bg={"transparent"}
-              border={"1px solid limegreen"}
-              onClick={handlePostComment}
-              disabled={isPostingComment}
-            >
-              {isPostingComment ? <Spinner size="sm" /> : "🗣 Say it"}
-            </Button>
-          </Box>
-        </Box>
-        <ReactMarkdown
-          children={commentContent}
-          rehypePlugins={[rehypeRaw]}
-          remarkPlugins={[remarkGfm]}
-          components={MarkdownRenderers}
-        />
         <Box
           ref={containerRef}
           style={{
@@ -448,6 +354,101 @@ const Plaza: React.FC = () => {
             overflowY: "auto",
           }}
         >
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <Flex alignItems="center" justifyContent="start" paddingLeft="10px">
+              <Image
+                src={
+                  metadata?.profile?.profile_image ||
+                  "https://images.ecency.com/webp/u/skatehive/avatar/small"
+                }
+                alt={`${URLAuthor}'s avatar`}
+                boxSize="40px"
+                borderRadius="50%"
+                margin="5px"
+              />
+              <Text>{metadata?.profile?.name || "You"}</Text>
+            </Flex>
+            <MDEditor
+              value={commentContent}
+              onChange={(value, event, state) => setCommentContent(value || "")}
+              preview="edit"
+              height={200}
+              style={{
+                borderRadius: "5px",
+                border: "1px solid #1da1f2",
+                padding: "10px",
+              }}
+            />
+
+            <Box
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                margin: "5px",
+              }}
+            >
+              <label
+                htmlFor="fileInput"
+                style={{
+                  cursor: "pointer",
+                  display: "inline-block",
+                  padding: "10px",
+                  border: "1px solid limegreen",
+                  borderRadius: "5px",
+                  backgroundColor: "limegreen",
+                  color: "white",
+                }}
+              >
+                <HStack>
+                  {isUploading ? (
+                    <Spinner size="sm" />
+                  ) : (
+                    <>
+                      <FaImage style={{ marginRight: "5px" }} />
+                      <Text color={"black"} > | </Text>
+                      <FaVideo style={{ marginRight: "5px" }} />
+                    </>
+                  )}
+                </HStack>
+                <input
+                  id="fileInput"
+                  type="file"
+                  accept="image/*,video/*"
+                  style={{ display: "none" }}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setSelectedFile(file);
+                      uploadFileToIPFS(file);
+                    }
+                  }}
+                />
+              </label>
+              <Button
+                fontSize="14px"
+                padding="6px 10px"
+                color="limegreen"
+                bg={"transparent"}
+                border={"1px solid limegreen"}
+                onClick={handlePostComment}
+                disabled={isPostingComment}
+              >
+                {isPostingComment ? <Spinner size="sm" /> : "🗣 Say it"}
+              </Button>
+            </Box>
+          </Box>
+          <ReactMarkdown
+            children={commentContent}
+            rehypePlugins={[rehypeRaw]}
+            remarkPlugins={[remarkGfm]}
+            components={MarkdownRenderers}
+          />
           {isLoadingComments ? (
             <Box
               display="flex"
@@ -480,6 +481,7 @@ const Plaza: React.FC = () => {
                     alignItems="center"
                     height="200px"
                   >
+
                     Loading comments...
                   </Box>
                 }

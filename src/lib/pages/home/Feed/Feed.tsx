@@ -21,7 +21,7 @@ import useAuthUser from "../api/useAuthUser";
 import voteOnContent from "../api/voting";
 
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ErrorModal from "./postModal/errorModal";
 import PostModal from "./postModal/postModal";
 
@@ -320,8 +320,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const navigate = useNavigate();
-
   const handleVotersModalOpen = (post: any) => {
     setSelectedPostForModal(post);
     setVotersModalOpen(true);
@@ -482,7 +480,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   };
 
   return (
-    <Box marginTop={"0"}>
+    <Box marginTop={"0"} padding={"8px"}>
       {isLoadingInitial ? (
         <PlaceholderLoadingBar />
       ) : (

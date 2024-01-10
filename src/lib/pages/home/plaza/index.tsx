@@ -292,156 +292,89 @@ const Plaza: React.FC = () => {
 
   return (
     <Center>
-      <Box
-        style={{
-          maxWidth: isMobile ? "100%" : "60%",
-          padding: "0 10px",
-          boxSizing: "border-box",
-        }}
-      >
-        {/* {showSplash && (
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              background: "rgba(0, 0, 0, 0.7)",
-              zIndex: 1001,
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                color: "white",
-              }}
-            >
-              <Center>
-                <VStack>
-                  <Image
-                    src={
-                      metadata?.profile?.profile_image ||
-                      "https://images.ecency.com/webp/u/skatehive/avatar/small"
-                    }
-                    alt="SkateHive logo"
-                    boxSize="100px"
-                    borderRadius="50%"
-                    margin="5px"
-                  />
-                  <Text
-                    fontSize="2xl"
-                    fontWeight="bold"
-                    textAlign="center"
-                    marginBottom="10px"
-                  >
-                    After Posting, scroll down to the bottom to see your post,
-                    sorry for that!
-                  </Text>
-                </VStack>
-              </Center>
-            </div>
-          </div>
-        )} */}
+      <Box ref={containerRef} style={{ borderRadius: "10px", overflowY: "auto", maxWidth: isMobile ? "100%" : "60%" }}>
+        <Flex flexDirection="column" justifyContent="space-between">
+          <Flex alignItems="center" justifyContent="start" paddingLeft="10px">
+            <Image
+              src={
+                metadata?.profile?.profile_image ||
+                "https://images.ecency.com/webp/u/skatehive/avatar/small"
+              }
+              alt={`${URLAuthor}'s avatar`}
+              boxSize="40px"
+              borderRadius="50%"
+              margin="5px"
+            />
+            <Text>{metadata?.profile?.name || "You"}</Text>
+          </Flex>
 
-        <Box
-          ref={containerRef}
-          style={{
-            borderRadius: "10px",
-            overflowY: "auto",
-          }}
-        >
+          <MDEditor
+            value={commentContent}
+            onChange={(value, event, state) => setCommentContent(value || "")}
+            preview="edit"
+            height={200}
+            style={{
+              borderRadius: "5px",
+              border: "1px solid #1da1f2",
+              padding: "10px",
+            }}
+          />
           <Box
             style={{
               display: "flex",
-              flexDirection: "column",
               justifyContent: "space-between",
+              margin: "5px",
             }}
           >
-            <Flex alignItems="center" justifyContent="start" paddingLeft="10px">
-              <Image
-                src={
-                  metadata?.profile?.profile_image ||
-                  "https://images.ecency.com/webp/u/skatehive/avatar/small"
-                }
-                alt={`${URLAuthor}'s avatar`}
-                boxSize="40px"
-                borderRadius="50%"
-                margin="5px"
-              />
-              <Text>{metadata?.profile?.name || "You"}</Text>
-            </Flex>
-            <MDEditor
-              value={commentContent}
-              onChange={(value, event, state) => setCommentContent(value || "")}
-              preview="edit"
-              height={200}
+            <label
+              htmlFor="fileInput"
               style={{
-                borderRadius: "5px",
-                border: "1px solid #1da1f2",
+                cursor: "pointer",
+                display: "inline-block",
                 padding: "10px",
-              }}
-            />
-
-            <Box
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                margin: "5px",
+                border: "1px solid limegreen",
+                borderRadius: "5px",
+                backgroundColor: "limegreen",
+                color: "white",
               }}
             >
-              <label
-                htmlFor="fileInput"
-                style={{
-                  cursor: "pointer",
-                  display: "inline-block",
-                  padding: "10px",
-                  border: "1px solid limegreen",
-                  borderRadius: "5px",
-                  backgroundColor: "limegreen",
-                  color: "white",
+              <HStack>
+                {isUploading ? (
+                  <Spinner size="sm" />
+                ) : (
+                  <>
+                    <FaImage style={{ marginRight: "5px" }} />
+                    <Text color={"black"}> | </Text>
+                    <FaVideo style={{ marginRight: "5px" }} />
+                  </>
+                )}
+              </HStack>
+              <input
+                id="fileInput"
+                type="file"
+                accept="image/*,video/*"
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    setSelectedFile(file);
+                    uploadFileToIPFS(file);
+                  }
                 }}
-              >
-                <HStack>
-                  {isUploading ? (
-                    <Spinner size="sm" />
-                  ) : (
-                    <>
-                      <FaImage style={{ marginRight: "5px" }} />
-                      <Text color={"black"} > | </Text>
-                      <FaVideo style={{ marginRight: "5px" }} />
-                    </>
-                  )}
-                </HStack>
-                <input
-                  id="fileInput"
-                  type="file"
-                  accept="image/*,video/*"
-                  style={{ display: "none" }}
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      setSelectedFile(file);
-                      uploadFileToIPFS(file);
-                    }
-                  }}
-                />
-              </label>
-              <Button
-                fontSize="14px"
-                padding="6px 10px"
-                color="limegreen"
-                bg={"transparent"}
-                border={"1px solid limegreen"}
-                onClick={handlePostComment}
-                disabled={isPostingComment}
-              >
-                {isPostingComment ? <Spinner size="sm" /> : "🗣 Say it"}
-              </Button>
-            </Box>
+              />
+            </label>
+            <Button
+              fontSize="14px"
+              padding="6px 10px"
+              color="limegreen"
+              bg={"transparent"}
+              border={"1px solid limegreen"}
+              onClick={handlePostComment}
+              disabled={isPostingComment}
+            >
+              {isPostingComment ? <Spinner size="sm" /> : "🗣 Say it"}
+            </Button>
+
           </Box>
           <ReactMarkdown
             children={commentContent}
@@ -449,113 +382,110 @@ const Plaza: React.FC = () => {
             remarkPlugins={[remarkGfm]}
             components={MarkdownRenderers}
           />
-          {isLoadingComments ? (
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              height="200px"
+        </Flex>
+
+        {isLoadingComments ? (
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            height="200px"
+          >
+            Loading comments...
+          </Box>
+        ) : (
+          <Flex
+            borderRadius="10px"
+            padding="5px"
+            direction="column"
+            overflow="auto"
+            style={{ width: "100%" }}
+          >
+            <InfiniteScroll
+              dataLength={loadedCommentsCount}
+              next={() => setLoadedCommentsCount((val) => val + 15)}
+              hasMore={comments.length !== loadedCommentsCount}
+              scrollableTarget="postsTl"
+              loader={
+                <Box
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  height="200px"
+                >
+                  Loading comments...
+                </Box>
+              }
             >
-              Loading comments...
-            </Box>
-          ) : (
-            <Flex
-              borderRadius="10px"
-              padding="5px"
-              direction="column"
-              overflow="auto"
-              style={{ width: "100%" }}
-              id="postsTl"
-              height="calc(100vh - 250px)"
-              ref={chatContainerRef}
-            >
-              <InfiniteScroll
-                dataLength={loadedCommentsCount}
-                next={() => setLoadedCommentsCount((val) => val + 15)}
-                hasMore={comments.length !== loadedCommentsCount}
-                scrollableTarget="postsTl"
-                loader={
-                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    height="200px"
-                  >
-
-                    Loading comments...
-                  </Box>
-                }
-              >
-                {comments
-                  .slice(0, loadedCommentsCount)
-                  .map((comment, index) => (
-                    <Box key={comment.id}>
-                      <Box style={postContainerStyle}>
-                        <HStack justifyContent={"space-between"}>
-                          <Flex
-                            alignItems="center"
-                            justifyContent="start"
-                            paddingLeft="10px"
-                          >
-                            <Image
-                              src={`https://images.ecency.com/webp/u/${comment.author}/avatar/small`}
-                              alt={`${comment.author}'s avatar`}
-                              boxSize="40px"
-                              borderRadius="50%"
-                              margin="5px"
-                            />
-                            <span>{comment.author}</span>
-                          </Flex>
-
-                          <Tooltip
-                            label="Yes you can earn $ by tweeting here, make sure you post cool stuff that people will fire up!"
-                            aria-label="A tooltip"
-                            placement="top"
-                            bg={"black"}
-                            color={"yellow"}
-                            border={"1px dashed yellow"}
-                          >
-                            <Badge
-                              marginBottom={"27px"}
-                              colorScheme="yellow"
-                              fontSize="sm"
-                            >
-                              {comment.total_payout_value !== 0
-                                ? `${comment.pending_payout_value}`
-                                : "0.000 "}
-                            </Badge>
-                          </Tooltip>
-                        </HStack>
-                        <Divider />
-                        <ReactMarkdown
-                          children={comment.body}
-                          rehypePlugins={[rehypeRaw]}
-                          remarkPlugins={[remarkGfm]}
-                          components={MarkdownRenderers}
-                        />
-
-                        <Flex justifyContent="flex-end" mt="4">
-                          <Button
-                            onClick={() => handleVote(comment)}
-                            style={{
-                              border: "1px solid limegreen",
-                              backgroundColor: "black",
-                              fontSize: "12px",
-                              color: "limegreen",
-                              padding: "3px 6px",
-                              marginLeft: "8px",
-                            }}
-                          >
-                            Vote 👍
-                          </Button>
+              {comments
+                .slice(0, loadedCommentsCount)
+                .map((comment, index) => (
+                  <Box key={comment.id}>
+                    <Box style={postContainerStyle}>
+                      <HStack justifyContent={"space-between"}>
+                        <Flex
+                          alignItems="center"
+                          justifyContent="start"
+                          paddingLeft="10px"
+                        >
+                          <Image
+                            src={`https://images.ecency.com/webp/u/${comment.author}/avatar/small`}
+                            alt={`${comment.author}'s avatar`}
+                            boxSize="40px"
+                            borderRadius="50%"
+                            margin="5px"
+                          />
+                          <span>{comment.author}</span>
                         </Flex>
-                      </Box>
+
+                        <Tooltip
+                          label="Yes you can earn $ by tweeting here, make sure you post cool stuff that people will fire up!"
+                          aria-label="A tooltip"
+                          placement="top"
+                          bg={"black"}
+                          color={"yellow"}
+                          border={"1px dashed yellow"}
+                        >
+                          <Badge
+                            marginBottom={"27px"}
+                            colorScheme="yellow"
+                            fontSize="sm"
+                          >
+                            {comment.total_payout_value !== 0
+                              ? `${comment.pending_payout_value}`
+                              : "0.000 "}
+                          </Badge>
+                        </Tooltip>
+                      </HStack>
+                      <Divider />
+                      <ReactMarkdown
+                        children={comment.body}
+                        rehypePlugins={[rehypeRaw]}
+                        remarkPlugins={[remarkGfm]}
+                        components={MarkdownRenderers}
+                      />
+
+                      <Flex justifyContent="flex-end" mt="4">
+                        <Button
+                          onClick={() => handleVote(comment)}
+                          style={{
+                            border: "1px solid limegreen",
+                            backgroundColor: "black",
+                            fontSize: "12px",
+                            color: "limegreen",
+                            padding: "3px 6px",
+                            marginLeft: "8px",
+                          }}
+                        >
+                          Vote 👍
+                        </Button>
+                      </Flex>
                     </Box>
-                  ))}
-              </InfiniteScroll>
-            </Flex>
-          )}
-        </Box>
+                  </Box>
+                ))}
+            </InfiniteScroll>
+          </Flex>
+        )}
       </Box>
     </Center>
   );

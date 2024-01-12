@@ -25,6 +25,7 @@ interface SendHiveModalProps {
   setAmount: React.Dispatch<React.SetStateAction<string>>;
   hiveMemo: string;
   setHiveMemo: React.Dispatch<React.SetStateAction<string>>;
+  username: string;
 }
 const HIVE_LOGO_URL = "https://cryptologos.cc/logos/hive-blockchain-hive-logo.png";
 
@@ -39,21 +40,22 @@ const SendHiveModal: React.FC<SendHiveModalProps> = ({
   setAmount,
   hiveMemo,
   setHiveMemo,
+  username,
 }) => {
 
   const handleSendHive = async () => {
     // Call sendHive with the required arguments
-    await sendHive(amount, toAddress, hiveMemo);
+    await sendHive(amount, toAddress, hiveMemo, username);
   };
   return (
     <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="md">
-      <ModalOverlay opacity={0.2}/>
+      <ModalOverlay opacity={0.2} />
       <ModalContent backgroundColor="black" border="1px dashed limegreen">
-      <Box marginTop={"20px"} display="flex" justifyContent="center">
+        <Box marginTop={"20px"} display="flex" justifyContent="center">
           <Image boxSize={"128px"} src={HIVE_LOGO_URL}></Image>
         </Box>
         <center>
-        <ModalHeader>SEND Hive</ModalHeader>
+          <ModalHeader>SEND Hive</ModalHeader>
         </center>        <ModalCloseButton />
         <ModalBody>
           <Box border="1px solid orange" padding="10px">
@@ -67,11 +69,11 @@ const SendHiveModal: React.FC<SendHiveModalProps> = ({
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
-          <Input 
-            placeholder="Memo (optional)"
-            value={hiveMemo}
-            onChange={(e) => setHiveMemo(e.target.value) }
-          />
+            <Input
+              placeholder="Memo (optional)"
+              value={hiveMemo}
+              onChange={(e) => setHiveMemo(e.target.value)}
+            />
           </Box>
         </ModalBody>
         <ModalFooter>

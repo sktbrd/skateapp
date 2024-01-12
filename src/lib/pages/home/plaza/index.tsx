@@ -35,6 +35,8 @@ const Plaza: React.FC = () => {
   const parts = pathname.split("/");
   const URLAuthor = "skatehacker";
   const URLPermlink = "test-advance-mode-post";
+  // for testing purposes
+  // const URLPermlink = "testing-skatehive-ipfs-gateway"
   const client = HiveClient;
   const [post, setPost] = useState<any | null>(null);
   const [comments, setComments] = useState<CommentProps[]>([]);
@@ -68,7 +70,11 @@ const Plaza: React.FC = () => {
 
       setIsLoadingComments(false);
 
+
       return allComments;
+
+
+
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
@@ -89,9 +95,58 @@ const Plaza: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchComments();
     fetchPostData();
-  }, []);
+    fetchComments();
+  }
+    , []);
+  const getCommentsArray = (comments: any, author: string, permlink: string): CommentProps[] => {
+    const originalPostKey = `${URLAuthor}/${URLPermlink}`;
+    for (const commentKey in comments) {
+      const comment = comments[commentKey];
+      const subComments = comment.replies;
+
+      // add a repliesFetched property to the comment
+      comments[commentKey].repliesFetched = [];
+
+      // add the sub comments to the repliesFetched property of this comment
+      for (let i = 0; i < subComments.length; i++) {
+        const subComment = subComments[i];
+        if (subComment && subComment in comments) {
+          const subCommentObject = comments[subComment];
+          comments[commentKey].repliesFetched.push(subCommentObject);
+        }
+      }
+
+
+
+      // set net_votes of the comment with active_votes.length
+      comments[commentKey].net_votes =
+        comments[commentKey].active_votes.length;
+    }
+
+    const commentsArray: CommentProps[] = [];
+
+    // add the comments to the commentsArray
+    for (const commentKey in comments) {
+      const comment = comments[commentKey];
+
+      // push the comment to the comments array only if it's a reply to the original post
+      if (
+        comment.parent_author === author &&
+        comment.parent_permlink === permlink
+      ) {
+        commentsArray.push(comments[commentKey]);
+      }
+    }
+    console.log("ARRAYC:", commentsArray)
+    return commentsArray;
+  };
+
+  useEffect(() => {
+    getCommentsArray(comments, URLAuthor, URLPermlink);
+
+  }
+    , [comments]);
 
   const handlePostComment = async () => {
     if (!window.hive_keychain) {
@@ -121,6 +176,16 @@ const Plaza: React.FC = () => {
       parentAuthor = URLAuthor;
       parentPermlink = URLPermlink;
     }
+    const beneficiaries = [
+      { account: 'steemskate', weight: 3000 },
+      { account: 'xvlad', weight: 2000 },
+    ];
+
+    const extensions = [
+      [0, {
+        beneficiaries: beneficiaries,
+      }],
+    ];
 
     const operations = [
       [
@@ -153,7 +218,6 @@ const Plaza: React.FC = () => {
       }
     );
   };
-
   const loadUpdatedComments = async (
     username: string,
     postCreationTimestamp: number
@@ -185,17 +249,6 @@ const Plaza: React.FC = () => {
   useEffect(() => {
     setUsername(user?.user?.name || null);
   }, [user]);
-
-  const containerStyle: CSSProperties = {
-    position: "fixed",
-    bottom: "40px",
-    right: "20px",
-    width: "60%",
-    overflowY: "auto",
-    borderRadius: "10px",
-    padding: "10px",
-    zIndex: 1000,
-  };
 
   const postContainerStyle: CSSProperties = {
     borderRadius: "10px",

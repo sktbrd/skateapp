@@ -108,6 +108,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Track modal visibility
   const [errorMessage, setErrorMessage] = useState<string>(""); // Track error message
   const [currentThumbnail, setCurrentThumbnail] = useState<string>(""); // Track error message
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const fetchPostEarnings = async (
     author: string,
@@ -133,7 +134,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     }
   };
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   function extractFirstLink(markdownText: string): string | null {
     const regex = /!\[.*?\]\((.*?)\)/;
@@ -245,7 +245,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
         permlink,
         observer: user?.name || "",
       });
-
+      console.log("comments", comments);
       // delete the original post from the comments object
       // its key is @username/permlink
       const originalPostKey = `${author}/${permlink}`;

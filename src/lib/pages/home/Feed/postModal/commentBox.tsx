@@ -112,7 +112,7 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
               leftIcon={<FaHive color='red' />}
               border="3px solid red"
               mt="10px"
-              onClick={() => sendHive("0.1", parentAuthor || '', defaultMemo)}
+              onClick={() => sendHive("0.1", parentAuthor || '', defaultMemo, user?.name)}
               bg={"transparent"}
               color={"white"}
             > 0.1 </Button>
@@ -120,7 +120,7 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
               leftIcon={<FaHive color='red' />}
               border="3px solid red"
               mt="10px"
-              onClick={() => sendHive("1", parentAuthor || '', defaultMemo)}
+              onClick={() => sendHive("1", parentAuthor || '', defaultMemo, user?.name)}
               bg={"transparent"}
               color={"white"}
             > 1 </Button>
@@ -128,7 +128,7 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
               leftIcon={<FaHive color='red' />}
               border="3px solid red"
               mt="10px"
-              onClick={() => sendHive("10", parentAuthor || '', defaultMemo)}
+              onClick={() => sendHive("10", parentAuthor || '', defaultMemo, user?.name)}
               bg={"transparent"}
               color={"white"}
             > 10 </Button>
@@ -136,7 +136,7 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
               leftIcon={<FaHive color='red' />}
               border="3px solid red"
               mt="10px"
-              onClick={() => sendHive("50", parentAuthor || '', defaultMemo)}
+              onClick={() => sendHive("50", parentAuthor || '', defaultMemo, user?.name)}
               bg={"transparent"}
               color={"white"}
             > 50 </Button>
@@ -159,7 +159,7 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
               leftIcon={<FaHive />}
               border="1px solid white"
               marginLeft={"10px"}
-              onClick={() => sendHive(commentContent, parentAuthor || '', defaultMemo)}
+              onClick={() => sendHive(commentContent, parentAuthor || '', defaultMemo, user?.name)}
             >Tip {commentContent} HIVE</Button>
           </Box>
         </ModalContent>

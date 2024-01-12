@@ -2,7 +2,7 @@ import { KeychainSDK } from "keychain-sdk";
 
 
 
-export default async function sendHive(amount: string, toAddress: string, hiveMemo: string): Promise<void> {
+export default async function sendHive(amount: string, toAddress: string, hiveMemo: string, username: string): Promise<void> {
   try {
     // Parse the amount to a float with 3 decimal places
     const parsedAmount = parseFloat(amount).toFixed(3);
@@ -13,7 +13,7 @@ export default async function sendHive(amount: string, toAddress: string, hiveMe
     // Define the transfer parameters
     const transferParams = {
       data: {
-        username: "pepe",
+        username: username,
         to: toAddress,
         amount: parsedAmount, // Use the parsed amount with 3 decimal places
         memo: hiveMemo,

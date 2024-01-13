@@ -21,7 +21,6 @@ export default async function sendHBD(amount: string, toAddress: string, hiveMem
         currency: "HBD",
       },
     };
-
     // Perform the transfer using Keychain's transfer method
     const transfer = await keychain.transfer(transferParams.data);
 

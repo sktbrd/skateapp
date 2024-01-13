@@ -10,7 +10,7 @@ import {
   Spinner,
   Text,
   Tooltip,
-  VStack,
+  Link,
 } from "@chakra-ui/react";
 import { Client } from "@hiveio/dhive";
 import MDEditor from "@uiw/react-md-editor";
@@ -484,17 +484,21 @@ const Plaza: React.FC = () => {
                           alignItems="center"
                           justifyContent="start"
                           paddingLeft="10px"
+                          marginBottom={"10px"}
                         >
-                          <Image
-                            src={`https://images.ecency.com/webp/u/${comment.author}/avatar/small`}
-                            alt={`${comment.author}'s avatar`}
-                            boxSize="40px"
-                            borderRadius="50%"
-                            margin="5px"
-                          />
-                          <span>{comment.author}</span>
-                        </Flex>
+                          <Link href={`/profile/${comment.author}`}>
+                            <Image
+                              src={`https://images.ecency.com/webp/u/${comment.author}/avatar/small`}
+                              alt={`${comment.author}'s avatar`}
+                              boxSize="40px"
+                              borderRadius="50%"
+                              margin="5px"
+                            />
+                          </Link>
 
+                          <span>{comment.author}</span>
+
+                        </Flex>
                         <Tooltip
                           label="Yes you can earn $ by tweeting here, make sure you post cool stuff that people will fire up!"
                           aria-label="A tooltip"
@@ -525,6 +529,12 @@ const Plaza: React.FC = () => {
                       <Flex justifyContent="flex-end" mt="4">
                         <Button
                           onClick={() => handleVote(comment)}
+                          leftIcon={
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                              <img src="https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless" alt="Image Alt Text" style={{ width: '20px', marginRight: '5px' }} />
+                              <div style={{ color: "orange" }}>                          Fuck Yeah!</div>
+                            </div>
+                          }
                           style={{
                             border: "1px solid limegreen",
                             backgroundColor: "black",
@@ -534,7 +544,6 @@ const Plaza: React.FC = () => {
                             marginLeft: "8px",
                           }}
                         >
-                          Vote 👍
                         </Button>
                       </Flex>
                     </Box>

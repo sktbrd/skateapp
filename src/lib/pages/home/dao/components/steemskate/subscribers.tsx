@@ -197,11 +197,11 @@ function SubscriberList() {
     if (!lastUpdate) {
       return "";
     }
-    
+
     const date = new Date(lastUpdate);
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const formattedDate = `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
-    
+
     return formattedDate;
   }
 
@@ -240,20 +240,20 @@ function SubscriberList() {
   const handleSendModalClose = () => {
     setIsSendModalOpen(false);
   };
-  function isRecentlyActive(subscriberInfo:any) {
+  function isRecentlyActive(subscriberInfo: any) {
     if (!subscriberInfo.account_age) {
       return false; // User has no activity if account_age is not available
     }
-  
+
     const currentDate = new Date();
     const lastPostDate = new Date(subscriberInfo.last_post);
-  
+
     // Calculate the difference in months between current date and last post date
     const monthsDifference = (currentDate.getFullYear() - lastPostDate.getFullYear()) * 12 + (currentDate.getMonth() - lastPostDate.getMonth());
-  
+
     return monthsDifference <= 5; // Return true if user has posted in the last 5 months
   }
-  
+
   return (
     <Flex flexDirection="column" alignItems="center" justifyContent="center">
       <Text>Users Loaded: {userCount}</Text>
@@ -306,7 +306,7 @@ function SubscriberList() {
             _hover={{ transform: 'scale(1.05)' }}
           >
             <HStack justifyContent={'center'}>
-            <Avatar
+              <Avatar
                 src={`https://images.ecency.com/webp/u/${encodeURIComponent(subscriberInfo.username)}/avatar/small`}
                 size="lg"
                 boxSize={20}
@@ -356,9 +356,9 @@ function SubscriberList() {
                     <Td>{subscriberInfo.vesting_shares}</Td>
                   </Tr>
                   <Tr>
-  <Td>Last Update</Td>
-  <Td color={isRecentlyActive(subscriberInfo) ? 'limegreen' : 'red'}>{formatLastUpdateDate(subscriberInfo.last_post)}</Td>
-</Tr>
+                    <Td>Last Update</Td>
+                    <Td color={isRecentlyActive(subscriberInfo) ? 'limegreen' : 'red'}>{formatLastUpdateDate(subscriberInfo.last_post)}</Td>
+                  </Tr>
                   <Tr>
                     <Td>Since</Td>
                     <Td>{formatLastUpdateDate(subscriberInfo.account_age)}</Td>
@@ -369,6 +369,7 @@ function SubscriberList() {
             {isSendModalOpen && (
               <Modal isOpen={isSendModalOpen} onClose={handleSendModalClose}>
                 <SendHiveModal
+                  username={subscriberInfo.username}
                   showModal={isSendModalOpen}
                   setShowModal={setIsSendModalOpen}
                   toAddress={toAddress}

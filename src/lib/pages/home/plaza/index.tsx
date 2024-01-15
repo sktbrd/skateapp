@@ -532,7 +532,7 @@ const Plaza: React.FC = () => {
                           leftIcon={
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                               <img src="https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless" alt="Image Alt Text" style={{ width: '20px', marginRight: '5px' }} />
-                              <div style={{ color: "orange" }}>                          Fuck Yeah!</div>
+                              <div style={{ color: "orange" }}> Fuck Yeah!</div>
                             </div>
                           }
                           style={{

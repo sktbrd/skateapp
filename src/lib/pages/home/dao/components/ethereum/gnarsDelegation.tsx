@@ -1,4 +1,4 @@
-import { Flex, Button, Table, Thead, Grid, Tbody, Tr, Th, Td, Text, Image, VStack, Box, HStack } from "@chakra-ui/react";
+import { Flex, Button, Table, Thead, Grid, Tbody, Tr, Th, Td, Text, Image, VStack, Box, HStack, Center } from "@chakra-ui/react";
 import { ethers } from "ethers";
 import React, { useState, useEffect } from "react";
 import UserReputation from "lib/pages/utils/hiveFunctions/usersReputation";
@@ -114,7 +114,9 @@ const GnarsDelegation: React.FC = () => {
         const provider = new ethers.providers.JsonRpcProvider(
           "https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik"
         );
-        const contract = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
+        const gnarsContract = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
+        console.log("contract", gnarsContract);
+
         const skthvProxyContract = new ethers.Contract(skthv_proxy_contract, ERC1155_ABI, provider);
         const usernames = walletsList.map((wallet) => wallet.username);
         const hasHivePower = await Promise.all(
@@ -138,27 +140,24 @@ const GnarsDelegation: React.FC = () => {
           })
         );
 
-
-
-
-        const delegatedVotes = await contract.getCurrentVotes(
+        const delegatedVotes = await gnarsContract.getCurrentVotes(
           "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c"
         );
-        const totalSupply = await contract.totalSupply();
+        const totalSupply = await gnarsContract.totalSupply();
         setTotalDelegatedVotes(ethers.utils.formatUnits(delegatedVotes, 0));
 
         const updatedWalletsList: WalletData[] = await Promise.all(
           walletsList.map(async (wallet, index) => {
-            const votes = await contract.getCurrentVotes(wallet.walletAddress);
+            const votes = await gnarsContract.getCurrentVotes(wallet.walletAddress);
             const balanceOfSkthv = await skthvProxyContract.balanceOf(
               wallet.walletAddress,
               1
             );
 
             const isDelegated =
-              (await contract.delegates(wallet.walletAddress)) ===
+              (await gnarsContract.delegates(wallet.walletAddress)) ===
               "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c";
-            const balance = await contract.balanceOf(wallet.walletAddress);
+            const balance = await gnarsContract.balanceOf(wallet.walletAddress);
 
             return {
               ...wallet,
@@ -170,9 +169,9 @@ const GnarsDelegation: React.FC = () => {
               hasVotedForSkateHive: hasVotedForSkateHive[index].hasVotedForSkateHive,
               hasHiveAccount: hasVotedForSkateHive[index].hasHiveAccount,
             };
+
           })
         );
-
         const sortedWalletData = updatedWalletsList.sort(
           (a, b) => parseFloat(b.balance!) - parseFloat(a.balance!)
         );
@@ -212,39 +211,56 @@ const GnarsDelegation: React.FC = () => {
     await handleWitnessVote(wallet_username);
   };
 
+  const isMobile = window.innerWidth < 768;
+
   return (
     <VStack spacing={4} align="stretch">
-      <Grid
-        templateColumns="repeat(auto-fit, minmax(300px, 1fr))" // Adjust the column width as needed
-        gap={4}
-        justifyItems="center"
-      >
+      <Flex flexDirection={isMobile ? "column" : "row"} justifyContent="center" alignItems="center" mb={4}>
         {/* First Box */}
-        <Box textAlign="center" borderWidth="1px" borderRadius="lg" p={4}>
-          <center>
-            <Image src="https://www.gnars.wtf/images/logo.png" boxSize={28} align={"center"} />
-          </center>
-          <Text fontSize="xl" fontWeight="bold">
+        <Box textAlign="center" borderWidth="1px" p={4} width="300px" boxShadow="lg">
+          <Center>
+
+            <Image
+              src="https://www.gnars.wtf/images/logo.png"
+              boxSize={28}
+              align="center"
+              mb={2}
+            />
+          </Center>
+          <Text fontSize="2xl" fontWeight="bold" mb={2}>
             Gnars Supply
           </Text>
-          <Text color={"orange"} fontSize="xl" fontWeight="bold">
+          <Text color="orange" fontSize="lg" fontWeight="bold" mb={2}>
             {walletData[0]?.totalSupply}
           </Text>
+          <Text fontSize="md" fontWeight="bold" mb={2}>
+            Total number of existing Gnars NFTs
+          </Text>
         </Box>
-
         {/* Second Box */}
-        <Box textAlign="center" borderWidth="1px" borderRadius="lg" p={4}>
-          <center>
-            <Image src="assets/skatehive-logo.png" boxSize={28} align={"center"} />
-          </center>
-          <Text fontSize="xl" fontWeight="bold">
+
+        <Box textAlign="center" borderWidth="1px" p={4} width="300px" boxShadow="lg">
+          <Center>
+
+            <Image
+              src="assets/skatehive-logo.png"
+              boxSize={28}
+              align="center"
+              mb={2}
+            />
+          </Center>
+
+          <Text fontSize="2xl" fontWeight="bold" mb={2}>
             Skatehive Gnars
           </Text>
-          <Text color={"orange"} fontSize="xl" fontWeight="bold">
+          <Text color="orange" fontSize="lg" fontWeight="bold" mb={2}>
             {totalDelegatedVotes}
           </Text>
+          <Text fontSize="md" fontWeight="bold" mb={2}>
+            Total delegated votes for SkateHive wallet for you
+          </Text>
         </Box>
-      </Grid>
+      </Flex>
 
       <Box>
         <Table variant="simple" size="md">

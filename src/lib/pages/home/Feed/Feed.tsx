@@ -264,7 +264,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
           const subComment = subComments[i];
           comments[commentKey].repliesFetched.push(comments[subComment]);
         }
-
+        console.log("comments", comments);
         // set net_votes of the comment with active_votes.length
         comments[commentKey].net_votes =
           comments[commentKey].active_votes.length;

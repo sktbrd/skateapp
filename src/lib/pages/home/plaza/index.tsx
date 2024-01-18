@@ -70,9 +70,9 @@ const Plaza: React.FC = () => {
 
       setIsLoadingComments(false);
 
+      // console.log("ALLCOM:", allComments)
 
       return allComments;
-
 
 
     } catch (error) {
@@ -116,7 +116,7 @@ const Plaza: React.FC = () => {
           comments[commentKey].repliesFetched.push(subCommentObject);
         }
       }
-
+      console.log(comments[commentKey].repliesFetched)
 
 
       // set net_votes of the comment with active_votes.length
@@ -138,7 +138,7 @@ const Plaza: React.FC = () => {
         commentsArray.push(comments[commentKey]);
       }
     }
-    console.log("ARRAYC:", commentsArray)
+    // console.log("ARRAYC:", commentsArray)
     return commentsArray;
   };
 

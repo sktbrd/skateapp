@@ -80,9 +80,9 @@ export const MarkdownRenderers = {
         lineHeight: '1.5',
       }}
     >
-      <p style={{ margin: '0' }}>
-        {children}
-      </p>
+
+      {children}
+
     </div>
   ),
 

@@ -13,8 +13,8 @@ import {
   CloseButton,
   Checkbox,
   Badge,
+  Tooltip,
   HStack,
-  Select
 } from "@chakra-ui/react";
 import ReactMarkdown from "react-markdown";
 import { useDropzone } from "react-dropzone";
@@ -29,7 +29,7 @@ import { Spinner } from "@chakra-ui/react";
 import { defaultFooter } from "./defaultFooter";
 import AuthorSearchBar from "./searchBar";
 import captureVideoFrame from "./captureFrame";
-
+import MDEditor from "@uiw/react-md-editor";
 import {
   get3SpeakAuthStatus,
   Connect3Speak,
@@ -762,9 +762,9 @@ const IntroductionPost: React.FC = () => {
             <Box marginBottom={4}>
               <center>
 
-                <VStack m="20px">
-                  <Text borderRadius="10px" border="1px solid yellow" padding="8px" fontSize="32px" fontWeight="bold" color="yellow">
-                    Name
+                <HStack >
+                  <Text borderRadius="10px" border="1px solid yellow" padding="0px" fontSize="32px" fontWeight="bold" color="yellow" minW={"160px"}>
+                    1. Name
                   </Text>
                   <Input
                     value={title}
@@ -773,7 +773,7 @@ const IntroductionPost: React.FC = () => {
                     fontSize="xl"
                     fontWeight="bold"
                   />
-                </VStack>
+                </HStack>
                 {/* <VStack>
             <Text border="1px solid yellow" borderRadius="10px" padding="8px" fontSize="32px" fontWeight="bold" color="yellow">
               Country
@@ -797,7 +797,7 @@ const IntroductionPost: React.FC = () => {
           </Box>
           <center>
             <Text borderRadius={"10px"} border={"1px solid yellow"} padding={"5px"} fontSize="32px" fontWeight="bold" color={"yellow"}>
-              Post a Video or an Photo that represents you
+              2. Post a Video or an Photo that represents you
             </Text>
           </center>
           <br />
@@ -849,19 +849,33 @@ const IntroductionPost: React.FC = () => {
               </Box>
               <br />
               <center>
-                <Text borderRadius={"10px"} border={"1px solid yellow"} padding={"5px"} fontSize="32px" fontWeight="bold" color={"yellow"}>
-                  Tell us a few things about you
-                </Text>
+                <Tooltip
+                  label="Share some interesting things about you like: how many years you skate, what’s your favourite trick, your skate stance, who are your favourite skaters, how did you find out about Skatehive and pretty much everything you feel like sharing..."
+                  color={"white"}
+                  bg={"black"}
+                  border={"1px solid green"}
+                >
+                  <Text borderRadius={"10px"} border={"1px solid yellow"} padding={"5px"} fontSize="32px" fontWeight="bold" color={"yellow"}>
+                    Tell us a few things about you
+                  </Text>
+                </Tooltip>
+
               </center>
 
-              <Textarea
+
+              <MDEditor
                 value={markdownText}
-                onChange={handleMarkdownChange}
-                placeholder="Share some interesting things about you like: how many years you skate, what’s your favourite trick, your skate stance, who are your favourite skaters, how did you find out about Skatehive and pretty much everything you feel like sharing..."
-                minHeight="180px"
-                marginTop={4}
+                onChange={(value, event, state) => setMarkdownText(value || '')}
                 id="markdown-editor"
+                preview="edit"
+                style={{
+                  borderRadius: "5px",
+                  border: "1px solid limegreen",
+                  padding: "10px",
+                  backgroundColor: "navy",
+                }}
               />
+
               <Checkbox
                 isChecked={includeFooter}
                 onChange={handleIncludeFooterChange}

@@ -138,7 +138,7 @@ const Plaza: React.FC = () => {
         commentsArray.push(comments[commentKey]);
       }
     }
-    // console.log("ARRAYC:", commentsArray)
+    console.log("ARRAYC:", commentsArray)
     return commentsArray;
   };
 

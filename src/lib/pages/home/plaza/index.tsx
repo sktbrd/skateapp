@@ -7,14 +7,14 @@ import {
   Flex,
   HStack,
   Image,
+  Link,
   Spinner,
   Text,
   Tooltip,
-  Link,
 } from "@chakra-ui/react";
-import { Client } from "@hiveio/dhive";
-import MDEditor from "@uiw/react-md-editor";
+import MDEditor, { commands } from "@uiw/react-md-editor";
 import { MarkdownRenderers } from "lib/pages/utils/MarkdownRenderers";
+import HiveClient from "lib/pages/utils/hiveClient";
 import moment from "moment";
 import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import { FaImage, FaVideo } from "react-icons/fa";
@@ -25,7 +25,6 @@ import remarkGfm from "remark-gfm";
 import { CommentProps } from "../Feed/types";
 import useAuthUser from "../api/useAuthUser";
 import voteOnContent from "../api/voting";
-import HiveClient from "lib/pages/utils/hiveClient";
 type User = {
   name: string;
 } | null;
@@ -46,7 +45,9 @@ const Plaza: React.FC = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const [isLoadingComments, setIsLoadingComments] = useState(false);
   const [isPostingComment, setIsPostingComment] = useState(false);
-  const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(null);
+  const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(
+    null
+  );
   const [payout, setPayout] = useState(0);
   const user = useAuthUser();
   const metadata = JSON.parse(user.user?.json_metadata || "{}");
@@ -58,7 +59,6 @@ const Plaza: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadedVideoUrl, setUploadedVideoUrl] = useState<string | null>(null);
 
-
   const fetchComments = async () => {
     try {
       const allComments: CommentProps[] = await client.database.call(
@@ -66,28 +66,25 @@ const Plaza: React.FC = () => {
         [URLAuthor, URLPermlink]
       );
       setComments(allComments.reverse());
-      console.log(allComments)
+      console.log(allComments);
 
       setIsLoadingComments(false);
 
       // console.log("ALLCOM:", allComments)
 
       return allComments;
-
-
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
   };
 
   const fetchPostData = async () => {
-
     try {
       const postData = await client.database.call("get_content", [
         URLAuthor,
         URLPermlink,
       ]);
-      console.log(postData)
+      console.log(postData);
       setPost({ ...postData });
     } catch (error) {
       console.error("Error fetching post data:", error);
@@ -97,9 +94,12 @@ const Plaza: React.FC = () => {
   useEffect(() => {
     fetchPostData();
     fetchComments();
-  }
-    , []);
-  const getCommentsArray = (comments: any, author: string, permlink: string): CommentProps[] => {
+  }, []);
+  const getCommentsArray = (
+    comments: any,
+    author: string,
+    permlink: string
+  ): CommentProps[] => {
     const originalPostKey = `${URLAuthor}/${URLPermlink}`;
     for (const commentKey in comments) {
       const comment = comments[commentKey];
@@ -116,12 +116,10 @@ const Plaza: React.FC = () => {
           comments[commentKey].repliesFetched.push(subCommentObject);
         }
       }
-      console.log(comments[commentKey].repliesFetched)
-
+      console.log(comments[commentKey].repliesFetched);
 
       // set net_votes of the comment with active_votes.length
-      comments[commentKey].net_votes =
-        comments[commentKey].active_votes.length;
+      comments[commentKey].net_votes = comments[commentKey].active_votes.length;
     }
 
     const commentsArray: CommentProps[] = [];
@@ -138,15 +136,13 @@ const Plaza: React.FC = () => {
         commentsArray.push(comments[commentKey]);
       }
     }
-    console.log("ARRAYC:", commentsArray)
+    console.log("ARRAYC:", commentsArray);
     return commentsArray;
   };
 
   useEffect(() => {
     getCommentsArray(comments, URLAuthor, URLPermlink);
-
-  }
-    , [comments]);
+  }, [comments]);
 
   const handlePostComment = async () => {
     if (!window.hive_keychain) {
@@ -177,14 +173,17 @@ const Plaza: React.FC = () => {
       parentPermlink = URLPermlink;
     }
     const beneficiaries = [
-      { account: 'steemskate', weight: 3000 },
-      { account: 'xvlad', weight: 2000 },
+      { account: "steemskate", weight: 3000 },
+      { account: "xvlad", weight: 2000 },
     ];
 
     const extensions = [
-      [0, {
-        beneficiaries: beneficiaries,
-      }],
+      [
+        0,
+        {
+          beneficiaries: beneficiaries,
+        },
+      ],
     ];
 
     const operations = [
@@ -278,8 +277,6 @@ const Plaza: React.FC = () => {
     }
   };
 
-
-
   const uploadFileToIPFS = async (file: File): Promise<void> => {
     try {
       setIsUploading(true);
@@ -300,8 +297,8 @@ const Plaza: React.FC = () => {
         {
           method: "POST",
           headers: {
-            "pinata_api_key": process.env.PINATA_API_KEY,
-            "pinata_secret_api_key": process.env.PINATA_API_SECRET,
+            pinata_api_key: process.env.PINATA_API_KEY,
+            pinata_secret_api_key: process.env.PINATA_API_SECRET,
           },
           body: formData,
         }
@@ -314,12 +311,16 @@ const Plaza: React.FC = () => {
         // Handle images
         if (file.type.startsWith("image")) {
           const imageMarkdown = `![](${ipfsUrl}) `;
-          setCommentContent((prevContent) => prevContent + `\n${imageMarkdown}` + '\n');
+          setCommentContent(
+            (prevContent) => prevContent + `\n${imageMarkdown}` + "\n"
+          );
         }
         // Handle videos
         else if (file.type.startsWith("video")) {
           const videoElement = `<video controls muted loop><source src="${ipfsUrl}" type="${file.type}"></video> `;
-          setCommentContent((prevContent) => prevContent + `\n${videoElement}` + '\n');
+          setCommentContent(
+            (prevContent) => prevContent + `\n${videoElement}` + "\n"
+          );
         }
 
         // Set the file URL in the state
@@ -328,7 +329,10 @@ const Plaza: React.FC = () => {
         console.log(`Uploaded ${file.type} file to Pinata IPFS:`, ipfsUrl);
       } else {
         const errorData = await response.json();
-        console.error(`Error uploading ${file.type} file to Pinata IPFS:`, errorData);
+        console.error(
+          `Error uploading ${file.type} file to Pinata IPFS:`,
+          errorData
+        );
       }
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -339,7 +343,14 @@ const Plaza: React.FC = () => {
 
   return (
     <Center>
-      <Box ref={containerRef} style={{ borderRadius: "10px", overflowY: "auto", maxWidth: isMobile ? "100%" : "60%" }}>
+      <Box
+        ref={containerRef}
+        style={{
+          borderRadius: "10px",
+          overflowY: "auto",
+          maxWidth: isMobile ? "100%" : "60%",
+        }}
+      >
         <Flex flexDirection="column" justifyContent="space-between">
           <Flex alignItems="center" justifyContent="start" paddingLeft="10px">
             <Image
@@ -354,13 +365,33 @@ const Plaza: React.FC = () => {
             />
             <Text>{metadata?.profile?.name || "You"}</Text>
           </Flex>
-
           <MDEditor
             value={commentContent}
             onChange={(value, event, state) => setCommentContent(value || "")}
             preview="edit"
             height={200}
-
+            commands={[
+              commands.bold,
+              commands.italic,
+              commands.strikethrough,
+              commands.divider,
+              commands.hr,
+              commands.title,
+              commands.divider,
+              commands.link,
+              commands.quote,
+              commands.divider,
+              commands.code,
+              commands.codeBlock,
+              commands.divider,
+              commands.image,
+              commands.table,
+              commands.divider,
+              commands.unorderedListCommand,
+              commands.orderedListCommand,
+              commands.checkedListCommand,
+            ]}
+            extraCommands={[commands.help, commands.fullscreen]}
             style={{
               borderRadius: "5px",
               border: "1px solid limegreen",
@@ -423,11 +454,14 @@ const Plaza: React.FC = () => {
             >
               {isPostingComment ? <Spinner size="sm" /> : "🗣 Say it"}
             </Button>
-
           </Box>
           {commentContent.length > 1 && (
             <Box
-              style={{ border: '2px dashed limegreen', borderRadius: '5px', padding: '10px' }}
+              style={{
+                border: "2px dashed limegreen",
+                borderRadius: "5px",
+                padding: "10px",
+              }}
             >
               <Badge>Draft</Badge>
               <ReactMarkdown
@@ -438,7 +472,6 @@ const Plaza: React.FC = () => {
               />
             </Box>
           )}
-
         </Flex>
 
         {isLoadingComments ? (
@@ -474,81 +507,83 @@ const Plaza: React.FC = () => {
                 </Box>
               }
             >
-              {comments
-                .slice(0, loadedCommentsCount)
-                .map((comment, index) => (
-                  <Box key={comment.id}>
-                    <Box style={postContainerStyle}>
-                      <HStack justifyContent={"space-between"}>
-                        <Flex
-                          alignItems="center"
-                          justifyContent="start"
-                          paddingLeft="10px"
-                          marginBottom={"10px"}
-                        >
-                          <Link href={`/profile/${comment.author}`}>
-                            <Image
-                              src={`https://images.ecency.com/webp/u/${comment.author}/avatar/small`}
-                              alt={`${comment.author}'s avatar`}
-                              boxSize="40px"
-                              borderRadius="50%"
-                              margin="5px"
-                            />
-                          </Link>
+              {comments.slice(0, loadedCommentsCount).map((comment, index) => (
+                <Box key={comment.id}>
+                  <Box style={postContainerStyle}>
+                    <HStack justifyContent={"space-between"}>
+                      <Flex
+                        alignItems="center"
+                        justifyContent="start"
+                        paddingLeft="10px"
+                        marginBottom={"10px"}
+                      >
+                        <Link href={`/profile/${comment.author}`}>
+                          <Image
+                            src={`https://images.ecency.com/webp/u/${comment.author}/avatar/small`}
+                            alt={`${comment.author}'s avatar`}
+                            boxSize="40px"
+                            borderRadius="50%"
+                            margin="5px"
+                          />
+                        </Link>
 
-                          <span>{comment.author}</span>
-
-                        </Flex>
-                        <Tooltip
-                          label="Yes you can earn $ by tweeting here, make sure you post cool stuff that people will fire up!"
-                          aria-label="A tooltip"
-                          placement="top"
-                          bg={"black"}
-                          color={"yellow"}
-                          border={"1px dashed yellow"}
-                        >
-                          <Badge
-                            marginBottom={"27px"}
-                            colorScheme="yellow"
-                            fontSize="sm"
-                          >
-                            {comment.total_payout_value !== 0
-                              ? `${comment.pending_payout_value}`
-                              : "0.000 "}
-                          </Badge>
-                        </Tooltip>
-                      </HStack>
-                      <Divider />
-                      <ReactMarkdown
-                        children={comment.body}
-                        rehypePlugins={[rehypeRaw]}
-                        remarkPlugins={[remarkGfm]}
-                        components={MarkdownRenderers}
-                      />
-
-                      <Flex justifyContent="flex-end" mt="4">
-                        <Button
-                          onClick={() => handleVote(comment)}
-                          leftIcon={
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                              <img src="https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless" alt="Image Alt Text" style={{ width: '20px', marginRight: '5px' }} />
-                              <div style={{ color: "orange" }}> Fuck Yeah!</div>
-                            </div>
-                          }
-                          style={{
-                            border: "1px solid limegreen",
-                            backgroundColor: "black",
-                            fontSize: "12px",
-                            color: "limegreen",
-                            padding: "3px 6px",
-                            marginLeft: "8px",
-                          }}
-                        >
-                        </Button>
+                        <span>{comment.author}</span>
                       </Flex>
-                    </Box>
+                      <Tooltip
+                        label="Yes you can earn $ by tweeting here, make sure you post cool stuff that people will fire up!"
+                        aria-label="A tooltip"
+                        placement="top"
+                        bg={"black"}
+                        color={"yellow"}
+                        border={"1px dashed yellow"}
+                      >
+                        <Badge
+                          marginBottom={"27px"}
+                          colorScheme="yellow"
+                          fontSize="sm"
+                        >
+                          {comment.total_payout_value !== 0
+                            ? `${comment.pending_payout_value}`
+                            : "0.000 "}
+                        </Badge>
+                      </Tooltip>
+                    </HStack>
+                    <Divider />
+                    <ReactMarkdown
+                      children={comment.body}
+                      rehypePlugins={[rehypeRaw]}
+                      remarkPlugins={[remarkGfm]}
+                      components={MarkdownRenderers}
+                    />
+
+                    <Flex justifyContent="flex-end" mt="4">
+                      <Button
+                        onClick={() => handleVote(comment)}
+                        leftIcon={
+                          <div
+                            style={{ display: "flex", alignItems: "center" }}
+                          >
+                            <img
+                              src="https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless"
+                              alt="Image Alt Text"
+                              style={{ width: "20px", marginRight: "5px" }}
+                            />
+                            <div style={{ color: "orange" }}> Fuck Yeah!</div>
+                          </div>
+                        }
+                        style={{
+                          border: "1px solid limegreen",
+                          backgroundColor: "black",
+                          fontSize: "12px",
+                          color: "limegreen",
+                          padding: "3px 6px",
+                          marginLeft: "8px",
+                        }}
+                      ></Button>
+                    </Flex>
                   </Box>
-                ))}
+                </Box>
+              ))}
             </InfiniteScroll>
           </Flex>
         )}

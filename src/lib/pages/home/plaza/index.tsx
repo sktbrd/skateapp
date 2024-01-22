@@ -66,7 +66,7 @@ const Plaza: React.FC = () => {
         [URLAuthor, URLPermlink]
       );
       setComments(allComments.reverse());
-      console.log(allComments);
+      // console.log(allComments);
 
       setIsLoadingComments(false);
 
@@ -116,7 +116,7 @@ const Plaza: React.FC = () => {
           comments[commentKey].repliesFetched.push(subCommentObject);
         }
       }
-      console.log(comments[commentKey].repliesFetched);
+      // console.log(comments[commentKey].repliesFetched);
 
       // set net_votes of the comment with active_votes.length
       comments[commentKey].net_votes = comments[commentKey].active_votes.length;
@@ -136,7 +136,7 @@ const Plaza: React.FC = () => {
         commentsArray.push(comments[commentKey]);
       }
     }
-    console.log("ARRAYC:", commentsArray);
+    // console.log("ARRAYC:", commentsArray);
     return commentsArray;
   };
 

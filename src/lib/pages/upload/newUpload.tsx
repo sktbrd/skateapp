@@ -518,7 +518,7 @@ const NewUpload: React.FC = () => {
             body: finalMarkdown, // Use the complete post body here
             json_metadata: JSON.stringify({
               tags: tags, // Pass the 'tags' array here
-              app: 'skatehive',
+              app: 'Skatehive App',
               image: finalThumbnailUrl ? [finalThumbnailUrl] : [], // Replace 'thumbnailIpfsURL' with 'thumbnailUrl'
             }),
           },

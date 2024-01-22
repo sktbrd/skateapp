@@ -492,6 +492,7 @@ export default function HiveBalanceDisplay2() {
         setAmount={setAmount}
         hiveMemo={hiveMemo} // Make sure to pass hiveMemo here
         setHiveMemo={setHiveMemo}
+        username={user?.name || "pepe"}
       />
 
       {/* <WalletTransactions wallet={user?.name || ""} /> */}

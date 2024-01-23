@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, Text, Image, Link, VStack } from '@chakra-ui/react';
+import { Box, Flex, Text, Image, Link, VStack, HStack, Badge } from '@chakra-ui/react';
 import axios, { AxiosResponse } from 'axios'; // Import AxiosResponse
 import { useState, useEffect } from 'react';
 type MarkdownProps = {
@@ -63,12 +63,6 @@ type PostDetails = {
 
 const getPost = async (author: string, permlink: string): Promise<PostDetails | null> => {
   try {
-    const params = {
-      author,
-      permlink: "game-of-skate-with-your-hand-in-your-pocket",
-
-    };
-
 
     const response: AxiosResponse = await axios.post('https://api.hive.blog/', {
       jsonrpc: '2.0',
@@ -135,6 +129,7 @@ export const MarkdownRenderers = {
   a: ({ children, href, ...props }: RendererProps) => {
     try {
       const url = new URL(href);
+      console.log(url)
       if (url.hostname === 'www.skatehive.app' && url.pathname.startsWith('/post/')) {
         const pathSegments = url.pathname.split('/').filter(segment => segment !== ''); // Remove empty segments
         const author = (pathSegments[2] || '').replace(/^@/, ''); // Author is at index 2, removing '@' if present
@@ -178,26 +173,31 @@ export const MarkdownRenderers = {
               <Image
                 src={fetchedPost[`${author}/${permlink}`].json_metadata['image'][0]}
                 alt={`${fetchedPost.author}'s avatar`}
-                width="80px" // Set the desired width
-                height="auto" // Automatically calculate the height to maintain aspect ratio
+                width="80px"
+                height="auto"
                 borderRadius="10%"
                 margin="5px"
               />
 
 
               {/* Post details on the right */}
-              {/* Customize the text based on your preference */}
               <VStack marginLeft={"5px"}>
 
 
                 <Link href={`https://www.skatehive.app/post${fetchedPost[`${author}/${permlink}`].url}`} color="orange">
                   {fetchedPost[`${author}/${permlink}`].title}
                 </Link>
-                <Text fontSize="16px" color="white">
+                <HStack>
 
-                  {' '} App: {' '}
-                  {fetchedPost[`${author}/${permlink}`].json_metadata['app']}
-                </Text>
+                  <Text fontSize="16px" color="white">
+
+                    {' '} App: {' '}
+                    {fetchedPost[`${author}/${permlink}`].json_metadata['app']}
+                  </Text>
+                  <Badge border={"1px dashed limegreen"} color="limegreen" bg={"transparent"} borderRadius="5px" padding="5px">
+                    {fetchedPost[`${author}/${permlink}`].payout.toFixed(2)} USD
+                  </Badge>
+                </HStack>
               </VStack>
             </Box>
           </Flex>

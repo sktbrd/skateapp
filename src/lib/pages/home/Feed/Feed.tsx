@@ -75,7 +75,7 @@ const PlaceholderLoadingBar = () => {
     <center>
       <Image
         boxSize="300px"
-        src="https://i.gifer.com/origin/f1/f1a737e4cfba336f974af05abab62c8f_w200.gif"
+        src="https://www.gnars.wtf/images/logo.png"
       />
       <Text>{randomSentence}</Text>
     </center>
@@ -468,20 +468,20 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     if (isVoted(post)) {
       // red hover
       return {
-        backgroundColor: "mediumvioletred", // Change the color on hover
-        color: "mediumspringgreen", // Change the text color on hover
-        boxShadow: "0 0 8px red, 0 0 8px red, 0 0 8px red", // Add an underglow effect
-        border: "2px solid red",
+        backgroundColor: "yellow", // Change the color on hover
+        color: "black", // Change the text color on hover
+        boxShadow: "0 0 8px yellow, 0 0 8px yellow, 0 0 8px orange", // Add an underglow effect
+        border: "2px solid yellow",
       };
     }
 
     // If the post has not been voted on, return normal hover properties
     return {
-      backgroundColor: "mediumspringgreen", // Change the color on hover
-      color: "mediumvioletred", // Change the text color on hover
+      backgroundColor: "black", // Change the color on hover
+      color: "white", // Change the text color on hover
       boxShadow:
-        "0 0 8px darkgoldenrod, 0 0 8px darkgoldenrod, 0 0 8px darkgoldenrod", // Add an underglow effect
-      border: "2px solid darkgreen",
+        "0 0 8px yellow, 0 0 8px yellow, 0 0 8px yellow", // Add an underglow effect
+      border: "2px solid yellow",
     };
   };
 
@@ -506,7 +506,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
               <Card
                 //border="1px"
                 //borderColor="black"
-                bg="linear-gradient(to top,  black, #070807, black)"
+                bg="linear-gradient(to top,  black, #070807, grey, black)"
                 key={post.permlink}
                 maxW="md"
                 mb={2}
@@ -514,7 +514,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                 cursor="pointer"
                 css={cardStyles} /* Apply the cardStyles CSS */
                 style={{
-                  backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EoiK3LBjuqLaVD9nZEAP6So8j7LFhq9G5S68GSkB99WbwHQs37pXjXpfu5BECdazJh6.png`, // Replace 'your-image-url.jpg' with your image URL
+                  // backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EoiK3LBjuqLaVD9nZEAP6So8j7LFhq9G5S68GSkB99WbwHQs37pXjXpfu5BECdazJh6.png`, // Replace 'your-image-url.jpg' with your image URL
                   backgroundSize: "100% auto",
                   backgroundPosition: "center top",
                   backgroundRepeat: "no-repeat",
@@ -528,13 +528,10 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                     alignItems="center"
                   >
                     <Heading
-                      color="black"
+                      color="white"
                       paddingTop={"10px"}
+                      fontFamily={"Londrina Solid, cursive"}
                       size="lg"
-                      style={{
-                        textShadow: "0 0 20px rgba(0, 255, 0, 0.7)", // Apply a green glow behind the text
-                        fontStyle: "", // Make the text italic
-                      }}
                     >
                       {post.author}
                     </Heading>
@@ -568,7 +565,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                     minHeight="100%"
                     style={{
                       //style of the speech bubble
-                      backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23tGLtmE5K6ovFdVS4tYwA5yfJ4S3vnByzcg7BshwvCN1r5Jbmz8NmNm9CUKBm91FVFqT.png')`,
+                      // backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23tGLtmE5K6ovFdVS4tYwA5yfJ4S3vnByzcg7BshwvCN1r5Jbmz8NmNm9CUKBm91FVFqT.png')`,
                       backgroundSize: "100% 100%", // stretches the speech bubble as big as the div and dynamically changes
                       backgroundPosition: "center",
                       backgroundRepeat: "no-repeat",
@@ -578,7 +575,8 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                   >
                     <Text
                       fontWeight="semibold"
-                      color="orange"
+                      fontFamily={"Londrina Solid, cursive"}
+                      color="white"
                       paddingLeft="5px"
                       paddingTop="10px"
                       paddingRight="5px"
@@ -609,70 +607,66 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                     borderRadius: "10px",
                   }}
                 >
-                  <Text
-                    color="black"
-                    marginTop="2px"
-                    style={{ display: "flex", alignItems: "center" }}
-                  >
-                    <Link to={`profile/${post.author}`}>
-                      <Image
-                        border="0px solid black"
-                        borderRadius="10px"
-                        src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
-                        width="105%"
-                        height="105%"
-                        style={{
-                          boxShadow: "0 8px 12px rgba(0, 0, 0, 0.8)", // Adding a drop shadow
-                        }}
-                      />
-                    </Link>
 
-                    <Tooltip
-                      color={"white"}
-                      backgroundColor={"black"}
-                      border={"1px dashed black"}
-                      label={
-                        <div style={{ color: "black" }}>
-                          45% - 🛹 Author + Benef. <br /> 50% - 🧡 Voters <br />{" "}
-                          5% - 🏦 Treasury* <br />
-                          <br /> Click to Learn More{" "}
-                        </div>
-                      }
-                      aria-label="View Voters"
+                  <Link to={`profile/${post.author}`}>
+                    <Image
+                      border="0px solid black"
+                      borderRadius="10px"
+                      src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
+                      width="105%"
+                      height="105%"
+                      style={{
+                        boxShadow: "0 8px 12px rgba(0, 0, 0, 0.8)", // Adding a drop shadow
+                      }}
+                    />
+                  </Link>
+
+                  <Tooltip
+                    color={"white"}
+                    backgroundColor={"grey"}
+                    border={"1px dashed black"}
+                    label={
+                      <div style={{ color: "black" }}>
+                        45% - 🛹 Author + Benef. <br /> 50% - 🧡 Voters <br />{" "}
+                        5% - 🏦 Treasury* <br />
+                        <br /> Click to Learn More{" "}
+                      </div>
+                    }
+                    aria-label="View Voters"
+                  >
+                    <Button
+                      position="absolute"
+                      bottom="5px"
+                      right="10px"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleVotersModalOpen(post);
+                      }}
+                      variant="ghost"
+                      colorScheme="yellow"
+                      size="s"
+                      ml={2}
+                      style={{
+                        fontFamily: "Londrina Solid, cursive",
+                        fontSize: `${Math.min(
+                          46,
+                          13 + post.earnings * 1.2
+                        )}px`,
+                        textShadow: "2px 2px 1px rgba(0, 0, 0, 1)",
+                        transition: "background-color 0.3s ease-in-out", // Add a transition for a smoother effect
+                      }}
+                      _hover={{
+                        backgroundColor: "transparent", // Set the background color to transparent on hover
+                      }}
                     >
-                      <Button
-                        position="absolute"
-                        bottom="10px"
-                        right="10px"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleVotersModalOpen(post);
-                        }}
-                        variant="ghost"
-                        colorScheme="green"
-                        size="s"
-                        ml={2}
-                        style={{
-                          fontFamily: "Helvetica",
-                          fontSize: `${Math.min(
-                            46,
-                            13 + post.earnings * 1.2
-                          )}px`,
-                          textShadow: "2px 2px 1px rgba(0, 0, 0, 1)",
-                          transition: "background-color 0.3s ease-in-out", // Add a transition for a smoother effect
-                        }}
-                        _hover={{
-                          backgroundColor: "transparent", // Set the background color to transparent on hover
-                        }}
-                      >
-                        <span
-                          style={{ fontFamily: "serif", color: "chartreuse" }}
+                      {/* <span
+                          style={{ fontFamily: "Londrina", color: "yellow" }}
                         >
                           $
-                        </span>
-                        {post.earnings.toFixed(2)}
+                        </span> */}
+                      {post.earnings.toFixed(2)}
 
-                        <img //spinning stoken coin
+                      {/* <img //spinning stoken coin
                           src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
                           alt="spinning stoken coin"
                           style={{
@@ -688,10 +682,9 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                             marginLeft: "7px",
                             marginBottom: "2px",
                           }}
-                        />
-                      </Button>
-                    </Tooltip>
-                  </Text>
+                        /> */}
+                    </Button>
+                  </Tooltip>
 
                   <Box marginLeft="auto">
                     <Tooltip
@@ -703,11 +696,11 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                       <IconButton
                         icon={<MdArrowUpward />}
                         backgroundColor="black"
-                        color="white"
+                        color="black"
                         size="sm"
                         borderRadius="50%"
                         aria-label="Upvote"
-                        border="1px"
+                        border="1px solid white"
                         borderColor="black"
                         onClick={(e) => {
                           e.stopPropagation(); // Prevent the click event from propagating

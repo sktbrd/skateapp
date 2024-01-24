@@ -85,7 +85,7 @@ const Home = () => {
           >
             Surf
           </Tab>
-          <Tab
+          {/* <Tab
             color="white"
             _selected={{
               backgroundColor: 'red.200',
@@ -95,7 +95,7 @@ const Home = () => {
             }}
           >
             Scooter
-          </Tab>
+          </Tab> */}
 
         </TabList>
         <TabPanels>
@@ -118,10 +118,10 @@ const Home = () => {
             <HiveBlog tag='hive-141964' />
 
           </TabPanel>
-          <TabPanel>
+          {/* <TabPanel>
             <HiveBlog tag='hive-141964' />
 
-          </TabPanel>
+          </TabPanel> */}
         </TabPanels>
       </Tabs>
       {isBigScreen && <Chat />} {/* Render Chat component only on big screens */}

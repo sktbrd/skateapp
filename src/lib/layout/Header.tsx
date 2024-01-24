@@ -504,10 +504,9 @@ const HeaderNew = () => {
             _hover={{ bg: "transparent" }}
           >
             <Image
-              src="https://www.stoken.quest/images/coinspin.gif"
+              src="https://www.gnars.wtf/images/logo.png"
               alt="Dropdown Image"
               boxSize="48px" // Adjust the size as needed
-              borderRadius="10px"
               backgroundColor={"transparent"}
             />
           </MenuButton>

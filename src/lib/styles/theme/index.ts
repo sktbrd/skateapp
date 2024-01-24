@@ -2,7 +2,8 @@ import { extendTheme } from "@chakra-ui/react";
 
 import '@fontsource-variable/roboto-mono';
 import '@fontsource/press-start-2p';
-
+// import londrina font 
+import '@fontsource/londrina-solid';
 type GlobalStyleProps = { colorMode: "light" | "dark" };
 
 const themeConfig = {
@@ -13,8 +14,9 @@ const themeConfig = {
 export const theme = extendTheme({
   ...themeConfig,
   fonts: {
-    heading: "Press Start 2P, sans serif", //not working
-    body: "Roboto Mono Variable, sans serif",
+    // use londrina
+    heading: "Londrina Solid",
+    body: "Londrina Solid",
   },
 
   components: {},

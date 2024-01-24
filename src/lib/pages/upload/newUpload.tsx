@@ -80,6 +80,14 @@ declare global {
   }
 }
 const defaultTags = ["skatehive", "skateboarding", "leofinance", "sportstalk", "hive-engine"];
+const activityToPermlinkMapping = {
+  skateboard: 'hive-173115',
+  surf: 'hive-141964',
+  longboard: 'hive-173115',
+  snowboard: 'hive-132443',
+};
+
+const activities = Object.keys(activityToPermlinkMapping); // ['skateboard', 'surf', 'longboard', 'snowboard']
 
 
 const NewUpload: React.FC = () => {
@@ -107,6 +115,32 @@ const NewUpload: React.FC = () => {
   const [videoInfo, setVideoInfo] = useState<any>(null);
   const [videoFile, setVideoFile] = useState<File | null>(null); // for viewing in editor
   const [videoThumbnailUrl, setVideoThumbnailUrl] = useState<string | null>(null);
+  const parentPermlinksOptions = ['hive-173115', 'option2', 'option3', 'option4']; // Replace with your actual options
+  const [selectedActivity, setSelectedActivity] = useState<string>("");
+
+  const handleCheckboxChange = (activity: string) => {
+    // If the clicked activity is already selected, deselect it
+    if (selectedActivity === activity) {
+      setSelectedActivity("");
+    } else {
+      // Otherwise, update the state to the new selected activity
+      setSelectedActivity(activity);
+    }
+  };
+
+  // Map the selected activity to its Hive permlink
+
+
+  // When creating the post, map the selected activities to their respective permlinks
+  const activityToPermlinkMapping: { [key: string]: string } = {
+    skateboard: 'hive-173115',
+    surf: 'hive-141964',
+    longboard: 'hive-173115',
+    snowboard: 'hive-132443',
+  };
+
+  const selectedParentPermlink = activityToPermlinkMapping[selectedActivity];
+
 
   useEffect(() => {
     setTags(defaultTags);
@@ -508,12 +542,12 @@ const NewUpload: React.FC = () => {
         }
 
         // Define the post operation
+        // Define the post operation
         const postOperation = [
           'comment',
           {
             parent_author: '',
-            // parent_permlink: 'testing67',
-            parent_permlink: process.env.COMMUNITY || 'hive-173115',
+            parent_permlink: selectedActivity ? activityToPermlinkMapping[selectedActivity] : 'defaultPermlink', // Use the mapped permlink of the selected activity
             author: username,
             permlink: videoPermlink ? videoPermlink : permlink, // Use the video permlink if video is uploaded on 3Speak
             title: title,
@@ -739,6 +773,7 @@ const NewUpload: React.FC = () => {
       <Flex minWidth={"100%"}
         flexDirection={isMobile ? "column" : "row"}
       >
+
         <Box
           flex={isMobile ? "auto" : 1}
           p={4}
@@ -748,6 +783,20 @@ const NewUpload: React.FC = () => {
           maxWidth={{ base: "100%", md: "50%" }}
           overflowWrap="break-word"
         >
+          <Box marginTop={4}>
+            <Text fontSize="lg" fontWeight="bold">
+              What are you doing in this post?
+            </Text>
+            {activities.map((activity) => (
+              <Checkbox
+                key={activity}
+                isChecked={selectedActivity === activity}
+                onChange={() => handleCheckboxChange(activity)}
+              >
+                {activity}
+              </Checkbox>
+            ))}
+          </Box>
           <Box marginBottom={4}>
 
 

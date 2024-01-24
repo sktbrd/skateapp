@@ -23,7 +23,7 @@ const Meta = () => {
       <meta property="og:url" content="https://stoken.wtf" />
       <meta property="og:type" content="website" />
       <meta property="twitter:image" content="https://www.gnars.wtf/images/logo.png" />
-      <meta property="twitter:description" content="The Portal to web3 skateboarding"></meta>
+      <meta property="twitter:description" content="Gnaly Social Media"></meta>
 
       <link rel="shortcut icon" href="https://www.gnars.wtf/images/logo.png" />
       <link rel="manifest" href="./manifest.json" />

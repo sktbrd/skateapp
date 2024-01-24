@@ -13,6 +13,8 @@ import {
   CloseButton,
   Checkbox,
   Badge,
+  Center,
+  HStack
 } from "@chakra-ui/react";
 import ReactMarkdown from "react-markdown";
 import { useDropzone } from "react-dropzone";
@@ -554,7 +556,7 @@ const NewUpload: React.FC = () => {
             body: finalMarkdown, // Use the complete post body here
             json_metadata: JSON.stringify({
               tags: tags, // Pass the 'tags' array here
-              app: 'skatehive',
+              app: 'gnars',
               image: finalThumbnailUrl ? [finalThumbnailUrl] : [], // Replace 'thumbnailIpfsURL' with 'thumbnailUrl'
             }),
           },
@@ -784,18 +786,27 @@ const NewUpload: React.FC = () => {
           overflowWrap="break-word"
         >
           <Box marginTop={4}>
-            <Text fontSize="lg" fontWeight="bold">
-              What are you doing in this post?
-            </Text>
-            {activities.map((activity) => (
-              <Checkbox
-                key={activity}
-                isChecked={selectedActivity === activity}
-                onChange={() => handleCheckboxChange(activity)}
-              >
-                {activity}
-              </Checkbox>
-            ))}
+            <Center>
+              <VStack>
+
+                <Text fontSize="lg" fontWeight="bold">
+                  What are you doing in this post? (PLEASE, select one!)
+                </Text>
+                <HStack>
+                  {activities.map((activity) => (
+                    <Checkbox
+                      key={activity}
+                      isChecked={selectedActivity === activity}
+                      onChange={() => handleCheckboxChange(activity)}
+                      padding={"10px"}
+                    >
+                      {activity}
+                    </Checkbox>
+                  ))}
+
+                </HStack>
+              </VStack>
+            </Center>
           </Box>
           <Box marginBottom={4}>
 

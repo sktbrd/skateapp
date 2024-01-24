@@ -41,42 +41,6 @@ const Home = () => {
           <Tab
             color="white"
             _selected={{
-              backgroundColor: 'limegreen',
-              color: 'black',
-              fontWeight: 'bold',
-              border: '1px solid white',
-            }}
-          >
-            Skateboard
-          </Tab>
-          <Tab
-            color="white"
-            _selected={{
-              backgroundColor: 'purple.400',
-              color: 'black',
-              fontWeight: 'bold',
-              border: '1px solid white',
-
-            }}
-          >
-            LongBoard
-          </Tab>
-
-          <Tab
-            color="white"
-            _selected={{
-              backgroundColor: 'white',
-              color: 'black',
-              fontWeight: 'bold',
-              border: '1px solid white'
-
-            }}
-          >
-            Snowboard
-          </Tab>
-          <Tab
-            color="white"
-            _selected={{
               backgroundColor: 'blue.200',
               color: 'black',
               fontWeight: 'bold',
@@ -84,6 +48,43 @@ const Home = () => {
             }}
           >
             Surf
+          </Tab>
+          <Tab
+            color="white"
+            _selected={{
+              backgroundColor: 'green.400',
+              color: 'black',
+              fontWeight: 'bold',
+              border: '1px solid white',
+
+            }}
+          >
+            Skateboard
+
+          </Tab>
+
+          <Tab
+            color="white"
+            _selected={{
+              backgroundColor: 'purple.400',
+              color: 'black',
+              fontWeight: 'bold',
+              border: '1px solid white'
+
+            }}
+          >
+            LongBoard
+          </Tab>
+          <Tab
+            color="white"
+            _selected={{
+              backgroundColor: 'white',
+              color: 'black',
+              fontWeight: 'bold',
+              border: '1px solid white',
+            }}
+          >
+            Snowboard
           </Tab>
           {/* <Tab
             color="white"
@@ -101,6 +102,10 @@ const Home = () => {
         <TabPanels>
           {/* skatehive */}
           <TabPanel>
+            <HiveBlog tag='hive-141964' />
+
+          </TabPanel>
+          <TabPanel>
             <HiveBlog />
           </TabPanel>
           {/* longboard hive */}
@@ -114,10 +119,7 @@ const Home = () => {
             <HiveBlog tag='hive-141964' />
 
           </TabPanel>
-          <TabPanel>
-            <HiveBlog tag='hive-141964' />
 
-          </TabPanel>
           {/* <TabPanel>
             <HiveBlog tag='hive-141964' />
 

@@ -15,6 +15,8 @@ import {
   Text,
   Tooltip,
   useDisclosure,
+  Center,
+  VStack,
 } from "@chakra-ui/react";
 import { Client, Discussion } from "@hiveio/dhive";
 import useAuthUser from "../api/useAuthUser";
@@ -72,13 +74,19 @@ const PlaceholderLoadingBar = () => {
   const randomSentence = randomSentences[randomIndex];
 
   return (
-    <center>
-      <Image
-        boxSize="300px"
-        src="https://www.gnars.wtf/images/logo.png"
-      />
-      <Text>{randomSentence}</Text>
-    </center>
+    <Center
+      margin={"10%"}>
+      <VStack>
+
+
+        <Image
+          boxSize="300px"
+          src="http://localhost:5173/assets/loading.gif"
+        />
+
+        <Text>{randomSentence}</Text>
+      </VStack>
+    </Center>
   );
 };
 
@@ -343,7 +351,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   const cardHoverStyles = css`
     transform: scale(1.01); /* Increase size by 5% */
     transition: transform 0.2s ease-in-out; /* Add a smooth transition effect */
-    box-shadow: 0 0 150px rgba(0, 128, 0, 0.5); /* Add a green box shadow for the glow effect */
+    box-shadow: 0 0 10px yellow; /* Add a green box shadow for the glow effect */
   `;
 
   const cardStyles = css`
@@ -452,7 +460,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     if (isVoted(post)) {
       return {
         width: "10px",
-        backgroundColor: "mediumspringgreen", // Change the background color
+        backgroundColor: "black", // Change the background color
         color: "mediumvioletred", // Change the text color
       };
     }
@@ -470,8 +478,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
       return {
         backgroundColor: "yellow", // Change the color on hover
         color: "black", // Change the text color on hover
-        boxShadow: "0 0 8px yellow, 0 0 8px yellow, 0 0 8px orange", // Add an underglow effect
-        border: "2px solid yellow",
       };
     }
 
@@ -481,7 +487,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
       color: "white", // Change the text color on hover
       boxShadow:
         "0 0 8px yellow, 0 0 8px yellow, 0 0 8px yellow", // Add an underglow effect
-      border: "2px solid yellow",
     };
   };
 
@@ -522,7 +527,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
               >
                 <CardHeader>
                   <Flex
-                    css={cardStyles} /* Apply the cardStyles CSS */
                     borderRadius="10px"
                     justifyContent="center" /* Center the content horizontally */
                     alignItems="center"
@@ -694,11 +698,12 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                       aria-label="View Voters"
                     >
                       <IconButton
-                        icon={<MdArrowUpward />}
+                        icon={<Image
+                          src="https://www.gnars.wtf/images/logo.png"
+                        />}
                         backgroundColor="black"
                         color="black"
                         size="sm"
-                        borderRadius="50%"
                         aria-label="Upvote"
                         border="1px solid white"
                         borderColor="black"
@@ -718,7 +723,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
           <Box display="flex" justifyContent="center">
             <Button
               variant="outline"
-              colorScheme="green"
+              color="white"
               onClick={loadMorePosts}
             >
               Load More

@@ -608,6 +608,8 @@ const HeaderNew = () => {
       </Flex>
       <Flex gap={{ base: 4, md: 8 }} padding={{ base: "6px 18px", md: "8px 20px" }} borderRadius="6px" position={{ md: "absolute" }} border="2px solid black">
         <Button variant="link" color="white" as={Link} to="/">Home</Button>
+        <Button variant="link" color="white" as={Link} to="/upload">Upload</Button>
+
         <Button variant="link" color="white" as={Link} to="/QFS">Play</Button>
         {
           // Se não tiver logado

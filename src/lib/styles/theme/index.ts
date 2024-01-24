@@ -28,7 +28,7 @@ export const theme = extendTheme({
         color: "white",
       },
       p: {
-        color: "orange",
+        color: "#ffea6d",
       },
 
       heading: {

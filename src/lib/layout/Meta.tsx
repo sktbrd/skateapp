@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet";
 
-const APP_NAME = "SkateHive App";
+const APP_NAME = "Gnars App";
 
 const Meta = () => {
   return (
@@ -19,13 +19,13 @@ const Meta = () => {
       {/* Open Graph Meta Tags */}
       <meta property="og:title" content={APP_NAME} />
       <meta property="og:description" content="Skateboarders App" />
-      <meta property="og:image" content="https://i.ibb.co/3R7cvdZ/image.png" />
-      <meta property="og:url" content="https://skatehive.app" />    
+      <meta property="og:image" content="https://www.gnars.wtf/images/logo.png" />
+      <meta property="og:url" content="https://stoken.wtf" />
       <meta property="og:type" content="website" />
-      <meta property="twitter:image" content="https://i.ibb.co/3R7cvdZ/image.png"/>
+      <meta property="twitter:image" content="https://www.gnars.wtf/images/logo.png" />
       <meta property="twitter:description" content="The Portal to web3 skateboarding"></meta>
 
-      <link rel="shortcut icon" href="https://images.hive.blog/u/hive-173115/avatar" />
+      <link rel="shortcut icon" href="https://www.gnars.wtf/images/logo.png" />
       <link rel="manifest" href="./manifest.json" />
     </Helmet>
   );

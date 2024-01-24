@@ -81,7 +81,7 @@ const PlaceholderLoadingBar = () => {
 
         <Image
           boxSize="300px"
-          src="http://localhost:5173/assets/loading.gif"
+          src="/assets/loading.gif"
         />
 
         <Text>{randomSentence}</Text>

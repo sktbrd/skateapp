@@ -6,7 +6,7 @@ const Meta = () => {
   return (
     <Helmet>
       <title>{APP_NAME}</title>
-      <meta name="description" content="Skateboarders App" />
+      <meta name="description" content="Gnarly App" />
 
       <meta name="application-name" content={APP_NAME} />
       <meta name="apple-mobile-web-app-capable" content="yes" />

@@ -1,17 +1,13 @@
-import {
-  Flex,
-} from '@chakra-ui/react';
-import HiveBlog from './Feed/Feed';
-import Chat from './chat';
-import Plaza from './plaza';
+import { Flex } from "@chakra-ui/react";
+import HiveBlog from "./Feed/Feed";
+import Chat from "./chat";
+import Plaza from "./plaza";
 
 const isMobile = window.innerWidth <= 768; // Adjust the width as needed
-
 
 const Home = () => {
   // const navigate = useNavigate();
   // const { selectedIndex, ...tabProps } = useTabs({ isLazy: true });
-
 
   return (
     <Flex direction="column">
@@ -23,23 +19,19 @@ const Home = () => {
 
 export default Home;
 
-
-
-
-
-
-
-{/* <div style={{
+{
+  /* <div style={{
         display: 'flex',
         justifyContent: 'center',
         marginBottom: '10px',
         marginTop: '5px'
       }}>
         <img src="https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23uQ3d5BKcoYkuYWd7kZrnS396M1M6DvsMa5MowAmaVynQr67ChnARGaFstnMGeSspzwR.png" alt="Skatehive Image" style={{ width: '100%' }} />
-      </div> */}
+      </div> */
+}
 
-
-{/* <Tabs
+{
+  /* <Tabs
         isFitted
         variant="solid-rounded"
         justifyContent="center"
@@ -98,17 +90,31 @@ export default Home;
               <img src="https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23uQ3d5BKcoYkuYWd7kZrnS396M1M6DvsMa5MowAmaVynQr67ChnARGaFstnMGeSspzwR.png" alt="Skatehive Image" style={{ width: '100%' }} />
             </div>
 
-            {/* Content for Feed tab */}
-{/* <HiveBlog />
+            {/* Content for Feed tab */
+}
+{
+  /* <HiveBlog />
           </TabPanel>
-          <TabPanel> */}
-{/* Content for Upload tab */ }
-{/* <UploadPage />
+          <TabPanel> */
+}
+{
+  /* Content for Upload tab */
+}
+{
+  /* <UploadPage />
           </TabPanel>
-          <TabPanel> */}
-{/* Content for Plaza tab */ }
-{/* <Plaza /> */ }
-{/* </TabPanel> */ }
-{/* </TabPanels>
-      </Tabs> */}
-
+          <TabPanel> */
+}
+{
+  /* Content for Plaza tab */
+}
+{
+  /* <Plaza /> */
+}
+{
+  /* </TabPanel> */
+}
+{
+  /* </TabPanels>
+      </Tabs> */
+}

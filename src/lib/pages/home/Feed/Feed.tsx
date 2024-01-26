@@ -20,7 +20,7 @@ import { Client, Discussion } from "@hiveio/dhive";
 import useAuthUser from "../api/useAuthUser";
 import voteOnContent from "../api/voting";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ErrorModal from "./postModal/errorModal";
 import PostModal from "./postModal/postModal";
@@ -30,6 +30,8 @@ import * as Types from "./types";
 
 import { MdArrowUpward } from "react-icons/md";
 import EarningsModal from "./postModal/earningsModal";
+
+import { LoadingContext } from "lib/pages/utils/LoadingProvider";
 
 interface ErrorModalProps {
   isOpen: boolean;
@@ -89,8 +91,9 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
 }) => {
   const [loadedPosts, setLoadedPosts] = useState<any[]>([]);
   const [currentTag, setTag] = useState(tag);
-  const [isLoadingInitial, setIsLoadingInitial] = useState(true); // Loading state for initial posts
-  const [isLoadingMore, setIsLoadingMore] = useState(false); // Loading state for "Load More"
+  const { isLoadingInitial, setIsLoadingInitial } = useContext(LoadingContext);
+  const isLoadingMore = isLoadingInitial,
+    setIsLoadingMore = setIsLoadingInitial;
   const [selectedPost, setSelectedPost] = useState<any | null>(null);
   const [client, setClient] = useState(new Client(nodes[0]));
   const [nodeIndex, setNodeIndex] = useState(0);
@@ -133,7 +136,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
       return fetchPostEarnings(author, permlink);
     }
   };
-
 
   function extractFirstLink(markdownText: string): string | null {
     const regex = /!\[.*?\]\((.*?)\)/;
@@ -445,7 +447,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
         width: "10px",
         background: "linear-gradient(180deg, darkgreen, black)", // Change the background color
         color: "limegreen", // Change the text color
-
       };
     }
 
@@ -464,8 +465,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
       return {
         backgroundColor: "black", // Change the color on hover
         color: "mediumspringgreen", // Change the text color on hover
-
-
       };
     }
 
@@ -692,13 +691,16 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                       backgroundColor={"black"}
                       border={"1px dashed limegreen"}
                       label={
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                          <img src="https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless" alt="Image Alt Text" style={{ width: '20px', marginRight: '5px' }} />
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <img
+                            src="https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless"
+                            alt="Image Alt Text"
+                            style={{ width: "20px", marginRight: "5px" }}
+                          />
                           <div style={{ color: "orange" }}>Stoke!</div>
                         </div>
                       }
                       aria-label="View Voters"
-
                     >
                       <IconButton
                         icon={<MdArrowUpward />}

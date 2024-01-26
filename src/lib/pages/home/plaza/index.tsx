@@ -13,10 +13,17 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import MDEditor, { commands } from "@uiw/react-md-editor";
+import { LoadingContext } from "lib/pages/utils/LoadingProvider";
 import { MarkdownRenderers } from "lib/pages/utils/MarkdownRenderers";
 import HiveClient from "lib/pages/utils/hiveClient";
 import moment from "moment";
-import React, { CSSProperties, useEffect, useRef, useState } from "react";
+import React, {
+  CSSProperties,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { FaImage, FaVideo } from "react-icons/fa";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ReactMarkdown from "react-markdown";
@@ -43,7 +50,11 @@ const Plaza: React.FC = () => {
   const [username, setUsername] = useState<string | null>(null);
   const [parentId, setParentId] = useState<string | null>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
-  const [isLoadingComments, setIsLoadingComments] = useState(false);
+  const {
+    isLoadingInitial: isLoadingComments,
+    setIsLoadingInitial: setIsLoadingComments,
+  } = useContext(LoadingContext);
+
   const [isPostingComment, setIsPostingComment] = useState(false);
   const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(
     null
@@ -68,7 +79,7 @@ const Plaza: React.FC = () => {
       setComments(allComments.reverse());
       // console.log(allComments);
 
-      setIsLoadingComments(false);
+      // setIsLoadingComments(false);
 
       // console.log("ALLCOM:", allComments)
 
@@ -92,8 +103,10 @@ const Plaza: React.FC = () => {
   };
 
   useEffect(() => {
+    setIsLoadingComments(true);
     fetchPostData();
     fetchComments();
+    setIsLoadingComments(false);
   }, []);
   const getCommentsArray = (
     comments: any,

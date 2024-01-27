@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import HiveBlog from "../home/Feed/Feed";
 import { useParams } from 'react-router-dom';
 import { Client } from "@hiveio/dhive";
-import useAuthUser from "../home/api/useAuthUser";
+import useAuthUser from "../../components/useAuthUser";
 import axios from 'axios';
 import { KeychainSDK, KeychainKeyTypes } from "keychain-sdk";
 import { Custom } from "keychain-sdk";

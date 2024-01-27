@@ -3,7 +3,7 @@ import {
 } from '@chakra-ui/react';
 import HiveBlog from './Feed/Feed';
 import Chat from './chat';
-import Plaza from './plaza';
+import Plaza from '../plaza';
 
 const isMobile = window.innerWidth <= 768; // Adjust the width as needed
 

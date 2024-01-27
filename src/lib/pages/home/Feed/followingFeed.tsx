@@ -18,8 +18,8 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { Client } from "@hiveio/dhive";
-import voteOnContent from "../api/voting";
-import useAuthUser from "../api/useAuthUser";
+import voteOnContent from "../../utils/hiveFunctions/voting";
+import useAuthUser from "../../../components/useAuthUser";
 
 import { useEffect, useState } from "react";
 import PostModal from "./postModal/postModal";

@@ -33,8 +33,8 @@ import { Link as RouterLink } from 'react-router-dom';
 
 
 import { Link, LinkProps as RouterLinkProps } from "react-router-dom";
-import useAuthUser from "lib/pages/home/api/useAuthUser";
-import HiveLogin from "lib/pages/home/api/HiveLoginModal";
+import useAuthUser from "lib/components/useAuthUser";
+import HiveLogin from "lib/components/HiveLoginModal";
 
 
 import axios from "axios";

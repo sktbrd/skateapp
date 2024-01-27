@@ -18,7 +18,7 @@ import { MarkdownRenderers } from 'lib/pages/utils/MarkdownRenderers';
 import { CommentProps } from '../Feed/types';
 import { CSSProperties } from 'react';
 import { FaRedo } from 'react-icons/fa';
-import useAuthUser from '../api/useAuthUser';
+import useAuthUser from '../../../components/useAuthUser';
 
 type User = {
   name: string;

@@ -5,7 +5,7 @@ import {
 } from '@chakra-ui/react';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import CaptchaPage from './captcha';
-import Shelf from '../home/videos/lbry';
+import Shelf from './videos/lbry';
 // Initialize the Hive client with API endpoints
 const client = new dhive.Client([
   'https://api.hive.blog',

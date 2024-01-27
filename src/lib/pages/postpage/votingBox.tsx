@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Flex, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box, Text } from '@chakra-ui/react';
-import voteOnContent from '../home/api/voting';
-import useAuthUser from '../home/api/useAuthUser';
+import voteOnContent from '../utils/hiveFunctions/voting';
+import useAuthUser from '../../components/useAuthUser';
 import ErrorModal from '../home/Feed/postModal/errorModal';
 
 import * as Types from '../home/Feed/types';
 
 const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink, weight = 10000, userVote }) => {
   const user = useAuthUser();
-  
+
   const [sliderValue, setSliderValue] = useState(5000);
 
   const [feedbackText, setFeedbackText] = useState(''); // Track feedback text
@@ -79,29 +79,29 @@ const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink,
     setFeedbackText(feedback);
   }, [sliderValue]);
 
-    // if user has already voted, set the slider
-    useEffect(() => {
-      // if the user has voted
-      if (userVote.isVoted) {
-        // set the slider to current percent
-        setSliderValue(userVote.percent);
-        setVoteMessage('Already Voted');
-      }
+  // if user has already voted, set the slider
+  useEffect(() => {
+    // if the user has voted
+    if (userVote.isVoted) {
+      // set the slider to current percent
+      setSliderValue(userVote.percent);
+      setVoteMessage('Already Voted');
+    }
 
-      // update the feedback text
-      const feedback = getFeedbackText(userVote.percent);
-      setFeedbackText(feedback);
-    }, [userVote]);
+    // update the feedback text
+    const feedback = getFeedbackText(userVote.percent);
+    setFeedbackText(feedback);
+  }, [userVote]);
 
   return (
     <Flex flexDirection="column" alignItems="center" minWidth="100%" borderRadius="10px" border="1px white solid" padding="20px">
       <Box width="100%" marginBottom="20px" position="relative">
         <Text textAlign="center"> Your opinion on this post</Text>
-        <Slider 
-          min={-10000} 
-          max={10000} 
-          step={5000} 
-          value={sliderValue} 
+        <Slider
+          min={-10000}
+          max={10000}
+          step={5000}
+          value={sliderValue}
           onChange={(value) => setSliderValue(value)}
         >
           <SliderTrack bg="white">

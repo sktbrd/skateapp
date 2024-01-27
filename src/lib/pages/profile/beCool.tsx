@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Text, Button, Center, Badge, VStack, Grid, GridItem, useBreakpointValue, Tooltip } from "@chakra-ui/react";
-import useAuthUser from "lib/pages/home/api/useAuthUser";
+import useAuthUser from "lib/components/useAuthUser";
 import * as dhive from "@hiveio/dhive";
 import UserReputation from "../utils/hiveFunctions/usersReputation";
 import { KeychainSDK } from "keychain-sdk";
@@ -93,39 +93,39 @@ export default function AuthorProfilePage() {
         setDelegatedVestingShares(String(account[0]?.delegated_vesting_shares || ""));
         setReceivedVestingShares(String(account[0]?.received_vesting_shares || ""));
         setHasVotedWitness(hasVotedWitness);
-  
+
         // Update state values before calling convertVestingSharesToHivePower
         const result = await convertVestingSharesToHivePower(
           String(account[0]?.vesting_shares || ""),
           String(account[0]?.delegated_vesting_shares || ""),
           String(account[0]?.received_vesting_shares || "")
         );
-  
+
         if (parseFloat(result.hivePower) > 500) {
           setHasMoreThan500HP(true);
         }
-  
+
         // Check if the last account update was made in the last month
         const lastAccountUpdateDate = new Date(account[0]?.last_post || "");
         const oneMonthAgo = new Date();
         oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-  
+
         setHasPostedLastMonth(lastAccountUpdateDate > oneMonthAgo);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-  
+
     if (user.user?.name) {
       setUsername(user.user.name);
       fetchData();
     }
   }, [user.user?.name, username]);
-  
+
   const handleWitnessVote = async () => {
     try {
       const keychain = new KeychainSDK(window);
-  
+
       const formParamsAsObject = {
         "data": {
           "username": username, // Use the current username
@@ -133,10 +133,10 @@ export default function AuthorProfilePage() {
           "vote": true
         }
       };
-  
+
       const witnessVoteResult = await keychain.witnessVote(formParamsAsObject.data as WitnessVote);
       console.log({ witnessVoteResult });
-  
+
       // Update state to reflect the witness vote
       setHasVotedWitness(true);
     } catch (error) {
@@ -146,7 +146,7 @@ export default function AuthorProfilePage() {
   const handleWitnessClick = async () => {
     await handleWitnessVote();
   };
-  
+
 
 
   const handlePowerUpClick = async () => {
@@ -166,14 +166,14 @@ export default function AuthorProfilePage() {
     >
       <Center>
         <Text fontWeight="700" fontSize="24px" color="white" mb="10px">
-        Are you a Cool SkateHiver?&nbsp;
-        <Tooltip
-          label="This is your Hive Blockchain Reputation"
-          aria-label="A tooltip"
+          Are you a Cool SkateHiver?&nbsp;
+          <Tooltip
+            label="This is your Hive Blockchain Reputation"
+            aria-label="A tooltip"
           >
 
-          <UserReputation username={username} />
-          </Tooltip> 
+            <UserReputation username={username} />
+          </Tooltip>
         </Text>
 
       </Center>
@@ -187,28 +187,28 @@ export default function AuthorProfilePage() {
       >
         <GridItem>
           <VStack>
-          <FaVoteYea size={"52px"} color="white"/>
-          <Badge
-            borderRadius="12px"
-            fontWeight="700"
-            fontSize="18px"
-            colorScheme={hasVotedWitness ? "green" : "red"}
-            p="10px"
+            <FaVoteYea size={"52px"} color="white" />
+            <Badge
+              borderRadius="12px"
+              fontWeight="700"
+              fontSize="18px"
+              colorScheme={hasVotedWitness ? "green" : "red"}
+              p="10px"
             >
-            Witness Voting: {hasVotedWitness ? "Voted ✅" : "Incomplete"}
-          </Badge>
-          {!hasVotedWitness && (
-            <Button onClick={handleWitnessClick} colorScheme="teal" >
-              Vote !
-            </Button>
-          )}
-          
+              Witness Voting: {hasVotedWitness ? "Voted ✅" : "Incomplete"}
+            </Badge>
+            {!hasVotedWitness && (
+              <Button onClick={handleWitnessClick} colorScheme="teal" >
+                Vote !
+              </Button>
+            )}
+
           </VStack>
         </GridItem>
 
         <GridItem>
           <VStack>
-          <AiOutlineThunderbolt size={"52px"} color="white"/>
+            <AiOutlineThunderbolt size={"52px"} color="white" />
             <Badge
               borderRadius="12px"
               fontWeight="700"
@@ -248,24 +248,24 @@ export default function AuthorProfilePage() {
           </VStack>
         </GridItem> */}
         <GridItem>
-  <VStack>
-    <FaEdit size={"52px"} color="white"/>
-    <Badge
-      borderRadius="12px"
-      fontWeight="700"
-      fontSize="18px"
-      colorScheme={hasPostedLastMonth ? "green" : "red"}
-      p="10px"
-    >
-      Last Post: {hasPostedLastMonth ? "Within Last Month ✅" : "More Than a Month Ago"}
-    </Badge>
-  </VStack>
-</GridItem>
+          <VStack>
+            <FaEdit size={"52px"} color="white" />
+            <Badge
+              borderRadius="12px"
+              fontWeight="700"
+              fontSize="18px"
+              colorScheme={hasPostedLastMonth ? "green" : "red"}
+              p="10px"
+            >
+              Last Post: {hasPostedLastMonth ? "Within Last Month ✅" : "More Than a Month Ago"}
+            </Badge>
+          </VStack>
+        </GridItem>
 
       </Grid>
       {showPowerUpModal && (
-  <PowerUpModal isOpen={showPowerUpModal} onClose={() => setShowPowerUpModal(false)} user={{ name: username }} />
-)}
+        <PowerUpModal isOpen={showPowerUpModal} onClose={() => setShowPowerUpModal(false)} user={{ name: username }} />
+      )}
 
 
 

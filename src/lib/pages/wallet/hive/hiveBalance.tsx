@@ -4,7 +4,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import SendHiveModal from "./sendHiveModal";
 import SendHBDModal from "./sendHBDmodal";
-import useAuthUser from "lib/pages/home/api/useAuthUser";
+import useAuthUser from "lib/components/useAuthUser";
 import * as dhive from "@hiveio/dhive";
 // import WalletTransactions from "lib/pages/home/dao/components/hiveGnars/txHistory";
 import PowerUpModal from "./powerUpModal";

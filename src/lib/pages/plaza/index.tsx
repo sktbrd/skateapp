@@ -22,9 +22,9 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
-import { CommentProps } from "../Feed/types";
-import useAuthUser from "../api/useAuthUser";
-import voteOnContent from "../api/voting";
+import { CommentProps } from "../home/Feed/types";
+import useAuthUser from "../../components/useAuthUser";
+import voteOnContent from "../utils/hiveFunctions/voting";
 type User = {
   name: string;
 } | null;

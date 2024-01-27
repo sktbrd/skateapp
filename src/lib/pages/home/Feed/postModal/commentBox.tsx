@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 
 import * as Types from '../types';
-import HiveLogin from '../../api/HiveLoginModal';
+import HiveLogin from '../../../../components/HiveLoginModal';
 import { FaEthereum, FaHive } from 'react-icons/fa';
 import sendHive from 'lib/pages/utils/hiveFunctions/sendHive';
 import { Client } from "@hiveio/dhive";

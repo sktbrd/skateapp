@@ -18,7 +18,7 @@ import ReactMarkdown from "react-markdown";
 import { useDropzone } from "react-dropzone";
 import { MarkdownRenderersUpload } from "../utils/MarkdownRenderersUpload";
 import { FaImage } from "react-icons/fa";
-import useAuthUser from '../home/api/useAuthUser';
+import useAuthUser from '../../components/useAuthUser';
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { slugify } from "../utils/videoFunctions/slugify";

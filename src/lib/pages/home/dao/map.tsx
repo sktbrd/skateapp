@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import Plaza from '../plaza';
+import Plaza from '../../plaza';
 const EmbeddedMap: React.FC = () => {
   const mapSrc = "https://www.google.com/maps/d/u/1/embed?mid=1iiXzotKL-uJ3l7USddpTDvadGII&hl=en&ll=29.208380630280647%2C-100.5437214508988&z=4";
 

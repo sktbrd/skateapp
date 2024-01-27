@@ -17,8 +17,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { Client, Discussion } from "@hiveio/dhive";
-import useAuthUser from "../api/useAuthUser";
-import voteOnContent from "../api/voting";
+import useAuthUser from "../../../components/useAuthUser";
+import voteOnContent from "../../utils/hiveFunctions/voting";
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";

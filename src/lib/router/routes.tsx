@@ -6,7 +6,7 @@ import React from "react";
 import type { PathRouteProps } from "react-router-dom";
 
 import SkatehiveProposals from "lib/pages/home/dao/snapshot";
-import Plaza from "lib/pages/home/plaza";
+import Plaza from "lib/pages/plaza";
 import HiveBlog from "lib/pages/home/Feed/Feed";
 const Home = React.lazy(() => import("lib/pages/home"));
 const Wallet = React.lazy(() => import("lib/pages/wallet"));
@@ -20,7 +20,7 @@ const GnarsStats = React.lazy(() => import("lib/pages/home/dao/components/hiveGn
 const ThatsGnarly = React.lazy(() => import("lib/pages/home/Feed/thatsgnarly"));
 const PepeCaptcha = React.lazy(() => import("lib/pages/secret-spot"));
 const NewUpload = React.lazy(() => import("lib/pages/upload/newUpload"));
-const Shelf = React.lazy(() => import("lib/pages/home/videos/lbry"));
+const Shelf = React.lazy(() => import("lib/pages/secret-spot/videos/lbry"));
 const Maps = React.lazy(() => import("lib/pages/home/dao/map"));
 const Members = React.lazy(() => import("lib/pages/home/dao/components/steemskate/subscribers"));
 const GnarsDelegation = React.lazy(() => import("lib/pages/home/dao/components/ethereum/gnarsDelegation"));

@@ -29,7 +29,7 @@ const client = new dhive.Client([
   'https://api.openhive.network',
 ]);
 
-import useAuthUser from '../home/api/useAuthUser';
+import useAuthUser from '../../components/useAuthUser';
 
 import { Operation } from '@hiveio/dhive';
 

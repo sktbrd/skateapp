@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Flex, Text, Image, Link, Input } from "@chakra-ui/react";
 import { KeychainSDK } from 'keychain-sdk';
-import useAuthUser from "lib/pages/home/api/useAuthUser";
+import useAuthUser from "lib/components/useAuthUser";
 import axios from "axios";
 import getBlobDuration from 'get-blob-duration';
 

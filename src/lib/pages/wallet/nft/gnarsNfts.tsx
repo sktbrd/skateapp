@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Text, Grid, Flex, Image, VStack, Button, GridItem, Center } from "@chakra-ui/react";
+import { Box, Text, Grid, Flex, Image, VStack, Button, GridItem, Center, Badge } from "@chakra-ui/react";
 // @ts-ignore
 import { Pioneer } from "@pioneer-platform/pioneer-react";
 import NFTModal from "./nftModal";
@@ -12,8 +12,7 @@ import {
   // @ts-ignore
 } from "@pioneer-platform/pioneer-react";
 
-import SkatehiveOG from "./skatehiveOG";
-import { get } from "http";
+import axios from "axios";
 
 type NFT = {
   token: {
@@ -52,46 +51,19 @@ const GnarsNfts = () => {
   const [totalNetWorth, setTotalNetWorth] = useState<number | null>(null);
   const [selectedWallet, setSelectedWallet] = useState<string>("");
 
-  const getGnarsFloorPrice = () => {
-    const gnarsCollection = userPortfolios.find((nft) => nft.token.collection.name === "Gnars");
-
-    if (gnarsCollection) {
-      return gnarsCollection.token.collection.floorPriceEth;
-    } else {
-      return "N/A";
-    }
-  };
-
-  const getAllGnarsEstimatedValue = () => {
-    const gnarsNfts = userPortfolios.filter((nft) => nft.token.collection.name === "Gnars");
-    const totalEstimatedValue = gnarsNfts.reduce((total, nft) => total + (+nft.token.estimatedValueEth), 0);
-    return totalEstimatedValue.toFixed(3);
-  };
 
   const onStart = async function () {
     try {
       if (app && app.wallets && app.wallets.length > 0) {
         const currentAddress = app.wallets[0].wallet.accounts[0];
-
-
-
-
         const app_wallet = app.wallets[0].wallet;
-        // TODO: touch base with @highlander here to see if we can get this working
-        // const result = await app_wallet.getPublicKeys([
-        //   {
-        //     addressNList: [0x80000000 + 44, 0x80000000 + 0, 0x80000000 + 0],
-        //     curve: "secp256k1",
-        //     showDisplay: true, // Not supported by TrezorConnect or Ledger, but KeepKey should do it
-        //     coin: "Bitcoin",
-        //   },
-        // ]);
-        // console.log("Result: ", result);
+
         setSelectedWallet(app.wallets[0].type)
         setETHAddress(currentAddress);
       }
       if (ETHaddress) {
-        const portfolio = await api.GetPortfolio({ address: ETHaddress.toUpperCase() });
+        const portfolio = await axios.get(`https://pioneers.dev/api/v1/portfolio/${ETHaddress.toUpperCase()}`);
+
         if (portfolio && portfolio.data) {
           setTotalNetWorth(portfolio.data.totalNetWorth);
           setUserPortfolios(portfolio.data.nfts);
@@ -120,6 +92,21 @@ const GnarsNfts = () => {
     setSelectedNFTCollection(nft.token.collection.address || "");
   };
 
+  const getGnarsFloorPrice = () => {
+    const gnarsCollection = userPortfolios.find((nft) => nft.token.collection.name === "Gnars");
+
+    if (gnarsCollection) {
+      return gnarsCollection.token.collection.floorPriceEth;
+    } else {
+      return "N/A";
+    }
+  };
+
+  const getAllGnarsEstimatedValue = () => {
+    const gnarsNfts = userPortfolios.filter((nft) => nft.token.collection.name === "Gnars");
+    const totalEstimatedValue = gnarsNfts.reduce((total, nft) => total + (+nft.token.estimatedValueEth), 0);
+    return totalEstimatedValue.toFixed(3);
+  };
 
   return (
     <>
@@ -156,8 +143,8 @@ const GnarsNfts = () => {
             <GridItem marginTop={"10px"} paddingBottom={"10px"} pl='2' area={'main'}>
               <center>
 
-                <Text fontSize="18px" fontWeight="bold" color="white" mt="2">
-                  Total NFTs: {userPortfolios.filter((nft) => nft.token.collection.name === "Gnars").length}
+                <Text fontSize="24px" color="orange.300" fontWeight="bold" mb="2">
+                  <Badge borderRadius={"5px"} fontSize={"24px"} colorScheme="orange" marginLeft="5px">{userPortfolios.filter((nft) => nft.token.collection.name === "Gnars").length}  </Badge> x Gnars NFTs
                 </Text>
                 <Text fontSize="18px" fontWeight="bold" color="white" mt="2">
                   Floor Price: {getGnarsFloorPrice()} ETH

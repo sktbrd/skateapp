@@ -10,9 +10,10 @@ import * as dhive from "@hiveio/dhive";
 import PowerUpModal from "./powerUpModal";
 import PowerDownModal from "./powerDownModal";
 import DelegationModal from "./delegationModal";
-import { useFetcher } from "react-router-dom";
-import { FaPix } from "react-icons/fa6";
+import { FaEye, FaPix } from "react-icons/fa6";
 
+import { fetchHbdPrice, fetchConversionRate } from "lib/pages/utils/apis/coinGecko";
+import { convertVestingSharesToHivePower } from "lib/pages/utils/hiveFunctions/convertSharesToHP";
 
 const dhiveClient = new dhive.Client([
   "https://api.hive.blog",
@@ -41,88 +42,6 @@ interface User {
   json_metadata: any;
 }
 
-// send to utils.tsx
-// Create a caching object
-export const cache: { conversionRate?: number, hbdPrice?: number } = {};
-
-export function resetCache() {
-  cache.conversionRate = undefined;
-  cache.hbdPrice = undefined;
-  console.log("Cache reset");
-}
-// send to utils.tsx
-
-
-const styles = `
-  @keyframes glow {
-    0% {
-      opacity: 0.8;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-`;
-
-export async function fetchHbdPrice() {
-  try {
-    if (cache.hbdPrice !== undefined) {
-      // Use the cached value if available
-      return cache.hbdPrice;
-    }
-
-    const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hive_dollar&vs_currencies=usd");
-
-    if (response.status !== 200) {
-      // Set hbdPrice to 1.00 if the response status is not 200
-      cache.hbdPrice = 1.00;
-      return 1.00;
-    }
-
-    const data = await response.json();
-    const hbdPrice = data.hive_dollar.usd;
-
-    // Update the cache
-    cache.hbdPrice = hbdPrice;
-    return hbdPrice;
-  } catch (error) {
-    console.log("Error fetching HBD price:");
-    // Set hbdPrice to 1.00 in case of an error
-    cache.hbdPrice = 1.00;
-    return 1.00;
-  }
-};
-
-
-// send to utils.tsx
-export async function fetchConversionRate() {
-  try {
-    if (cache.conversionRate !== undefined) {
-      // Use the cached value if available
-      return cache.conversionRate;
-    }
-
-    const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hive&vs_currencies=usd");
-
-    if (response.status !== 200) {
-      // Set conversionRate to 0.35 if the response status is not 200
-      cache.conversionRate = 0.350;
-
-      return 0.350;
-    }
-
-    const data = await response.json();
-    const conversionRate = data.hive.usd;
-    // Update the cache
-    cache.conversionRate = conversionRate;
-    return conversionRate; // Return the conversion rate as a number
-  } catch (error) {
-    console.log("Error fetching conversion rate");
-    // Set conversionRate to 0.00 in case of an error
-    cache.conversionRate = 0.350;
-    return 0.350;
-  }
-};
 
 export default function HiveBalanceDisplay2() {
   const { user } = useAuthUser() as { user: User | null };
@@ -149,65 +68,26 @@ export default function HiveBalanceDisplay2() {
   const [userLocation, setUserLocation] = useState<string>("");
   const [totalHiveAvailable, setTotalHiveAvailable] = useState<number>(0);
 
-  const convertVestingSharesToHivePower = async (
-    vestingShares: string,
-    delegatedVestingShares: string,
-    receivedVestingShares: string
-  ) => {
-    const vestingSharesFloat = parseFloat(vestingShares.split(" ")[0]);
-    const delegatedVestingSharesFloat = parseFloat(delegatedVestingShares.split(" ")[0]);
-    const receivedVestingSharesFloat = parseFloat(receivedVestingShares.split(" ")[0]);
-    const availableVESTS = vestingSharesFloat - delegatedVestingSharesFloat;
-
-    const response = await fetch('https://api.hive.blog', {
-      method: 'POST',
-      body: JSON.stringify({
-        jsonrpc: '2.0',
-        method: 'condenser_api.get_dynamic_global_properties',
-        params: [],
-        id: 1,
-      }),
-      headers: { 'Content-Type': 'application/json' },
-    });
-    const result = await response.json();
-    const vestHive =
-      (parseFloat(result.result.total_vesting_fund_hive) * availableVESTS) /
-      parseFloat(result.result.total_vesting_shares);
-
-    const DelegatedToSomeoneHivePower =
-      (parseFloat(result.result.total_vesting_fund_hive) * delegatedVestingSharesFloat) /
-      parseFloat(result.result.total_vesting_shares);
-
-    const delegatedToUserInUSD = (parseFloat(result.result.total_vesting_fund_hive) * receivedVestingSharesFloat) /
-      parseFloat(result.result.total_vesting_shares);
-    const HPdelegatedToUser = (parseFloat(result.result.total_vesting_fund_hive) * receivedVestingSharesFloat) /
-      parseFloat(result.result.total_vesting_shares);
-    return {
-      hivePower: vestHive.toFixed(3),
-      DelegatedToSomeoneHivePower: DelegatedToSomeoneHivePower.toFixed(3),
-      delegatedToUserInUSD: delegatedToUserInUSD.toFixed(3),
-      HPdelegatedToUser: HPdelegatedToUser.toFixed(3),
-    };
-
-  };
-
 
 
   const onStart = async function () {
     if (user) {
       try {
+        const account = await dhiveClient.database.getAccounts([user.name ?? ""]);
+
         const [conversionRate, hbdPrice, vestingSharesData] = await Promise.all([
           fetchConversionRate(),
           fetchHbdPrice(),
           convertVestingSharesToHivePower(
-            user.vesting_shares,
-            user.delegated_vesting_shares,
-            user.received_vesting_shares
+            account[0].vesting_shares.toString(),
+            account[0].delegated_vesting_shares.toString(),
+            account[0].received_vesting_shares.toString(),
           ),
         ]);
 
-        const hiveWorth = parseFloat(user.balance.split(" ")[0]) * conversionRate;
-        setTotalHiveAvailable(hiveWorth);
+        const hiveBalance = typeof account[0].balance === 'string' ? account[0].balance.split(" ")[0] : Number(account[0].balance);
+        const hiveWorth = parseFloat(hiveBalance.toString()) * conversionRate;
+        setTotalHiveAvailable(Number(hiveWorth));
         const hivePowerWorth =
           (parseFloat(vestingSharesData.hivePower) + parseFloat(vestingSharesData.DelegatedToSomeoneHivePower)) *
           conversionRate;
@@ -215,7 +95,7 @@ export default function HiveBalanceDisplay2() {
         const delegatedToUserInUSD = parseFloat(vestingSharesData.delegatedToUserInUSD) * conversionRate;
         const savingsWorth = parseFloat(user.savings_hbd_balance.split(" ")[0]) * hbdPrice;
         const HPdelegatedToUser = parseFloat(vestingSharesData.HPdelegatedToUser)
-        const total = hiveWorth + hivePowerWorth + hbdWorth + savingsWorth + delegatedToUserInUSD;
+        const total = Number(hiveWorth) + Number(hivePowerWorth) + hbdWorth + savingsWorth + delegatedToUserInUSD;
         const total_Owned = Number(hiveWorth) + Number(savingsWorth) + Number(hbdWorth) + Number(hivePowerWorth);
         setConversionRate(conversionRate);
         setHbdBalance(user.hbd_balance);
@@ -227,7 +107,6 @@ export default function HiveBalanceDisplay2() {
         setOwnedTotal(total_Owned);
         setDelegatedToUserInUSD(`${delegatedToUserInUSD.toFixed(3).toString()} USD worth in HP`);
         setHPdelegatedToUser(`${HPdelegatedToUser.toFixed(3).toString()} HP delegated to you`);
-
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -259,8 +138,6 @@ export default function HiveBalanceDisplay2() {
     setShowModal(true);
   };
 
-  const handleLogoClick = (balanceType: string) => {
-  };
   const handleOpenPowerUpModal = () => {
     setShowPowerUpModal(true);
   };
@@ -286,6 +163,7 @@ export default function HiveBalanceDisplay2() {
       maxWidth={{ base: "100%", md: "100%" }}
       style={{ textAlign: "right" }}
       p={"4px"}
+      marginBottom={"10px"}
     >
 
       <Grid
@@ -354,7 +232,6 @@ export default function HiveBalanceDisplay2() {
 
               </Flex>
             ) : (
-
               <>
                 <Image
                   src={DEFAULT_AVATAR_URL}
@@ -366,8 +243,8 @@ export default function HiveBalanceDisplay2() {
           </Box>
         </GridItem>
 
-        <GridItem pl='2' area={'main'}>
-          <br />
+        <GridItem pl='1' area={'main'} padding={"15px"}>
+
           {userLocation === "Brazil" ? (
 
             <Button
@@ -376,7 +253,8 @@ export default function HiveBalanceDisplay2() {
               justifyContent="center"
               color="white"
               padding="10px"
-              m="8px"
+              p="5px"
+              maxH={"25px"}
               maxW="80%"
               variant="outline"
               _hover={{
@@ -395,12 +273,9 @@ export default function HiveBalanceDisplay2() {
 
           <Center>
             <VStack align="end" >
-
               <Text fontSize={"16px"} fontWeight="bold" color="orange">
                 You Own: <Badge borderRadius={"10px"} fontSize={"20px"} colorScheme="green"> ${ownedTotal.toFixed(2)}</Badge>
               </Text>
-
-
               <Text fontSize={"16px"} fontWeight="bold" color="orange" >
                 Wallet Worth:  <Badge borderRadius={"10px"} fontSize={"20px"} colorScheme="green"> ${totalWorth.toFixed(2)}</Badge>
               </Text>
@@ -408,16 +283,13 @@ export default function HiveBalanceDisplay2() {
                 Available :  <Badge borderRadius={"10px"} fontSize={"20px"} colorScheme="green"> ${totalHiveAvailable.toFixed(2)}</Badge>
               </Text>
             </VStack>
-
-
-
           </Center>
         </GridItem>
         <GridItem pl='2' area={'footer'} justifyContent={"end"} flexDirection={"row"} >
 
           <Button
             borderRadius="5px"
-            border="1px solid red"
+            border="0px solid red"
             justifyContent="center"
             color={"white"}
             padding="10px"
@@ -425,13 +297,15 @@ export default function HiveBalanceDisplay2() {
             maxW={"80%"}
             alignSelf={"end"}
             onClick={handleShowOptions}
+            paddingBottom={"30px"}
+
             variant={"outline"}
             _hover={{
               bg: "transparent",
               color: "red",
             }}
           >
-            {showOptions ? "Hide Options" : "Show Options"}
+            <FaEye /> {showOptions ? "Hide Options" : "Show Options"}
           </Button>
 
 
@@ -444,16 +318,9 @@ export default function HiveBalanceDisplay2() {
       <br />
 
       <VStack spacing={4} align="stretch">
-
-
-
-
         {showOptions && (
           <>
             <VStack>
-
-
-
               <Button
                 width="60%"
                 borderRadius="10px"
@@ -614,6 +481,7 @@ export default function HiveBalanceDisplay2() {
         setAmount={setAmount}
         hiveMemo={hiveMemo} // Make sure to pass hiveMemo here
         setHiveMemo={setHiveMemo}
+        username={user?.name || "pepe"}
       />
       <SendHBDModal
         showModal={sendHBDmodal}
@@ -624,6 +492,7 @@ export default function HiveBalanceDisplay2() {
         setAmount={setAmount}
         hiveMemo={hiveMemo} // Make sure to pass hiveMemo here
         setHiveMemo={setHiveMemo}
+        username={user?.name || "pepe"}
       />
 
       {/* <WalletTransactions wallet={user?.name || ""} /> */}

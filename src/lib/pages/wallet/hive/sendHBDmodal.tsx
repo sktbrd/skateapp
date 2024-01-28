@@ -26,6 +26,8 @@ interface SendHiveModalProps {
   setAmount: React.Dispatch<React.SetStateAction<string>>;
   hiveMemo: string;
   setHiveMemo: React.Dispatch<React.SetStateAction<string>>;
+  username: string;
+
 }
 
 const HBD_LOGO_URL = "https://i.ibb.co/C6TPhs3/HBD.png";
@@ -39,22 +41,23 @@ const SendHBDModal: React.FC<SendHiveModalProps> = ({
   setAmount,
   hiveMemo,
   setHiveMemo,
+  username,
 }) => {
 
   const handleTransfer = async () => {
     // Call sendHive with the required arguments
-    await sendHBD(amount, toAddress, hiveMemo);
+    await sendHBD(amount, toAddress, hiveMemo, username);
   };
 
   return (
     <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="md">
-      <ModalOverlay opacity={0.2}/>
+      <ModalOverlay opacity={0.2} />
       <ModalContent backgroundColor="black" border="1px dashed limegreen">
         <Box marginTop={"20px"} display="flex" justifyContent="center">
           <Image boxSize={"128px"} src={HBD_LOGO_URL}></Image>
         </Box>
         <center>
-        <ModalHeader>SEND HBD</ModalHeader>
+          <ModalHeader>SEND HBD</ModalHeader>
         </center>
 
         <ModalCloseButton />
@@ -70,11 +73,11 @@ const SendHBDModal: React.FC<SendHiveModalProps> = ({
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
-          <Input 
-            placeholder="Memo (optional)"
-            value={hiveMemo}
-            onChange={(e) => setHiveMemo(e.target.value) }
-          />
+            <Input
+              placeholder="Memo (optional)"
+              value={hiveMemo}
+              onChange={(e) => setHiveMemo(e.target.value)}
+            />
           </Box>
         </ModalBody>
         <ModalFooter>

@@ -59,7 +59,7 @@ export const Connect3Speak = () => {
     }
 
     const LOGIN_URL = `https://studio.3speak.tv/mobile/login?username=${user.name}`;
-    
+
     // returns a encoded memo which is used to login to 3speak
     const response = await axios.get(LOGIN_URL);
     const { data } = response;
@@ -94,7 +94,7 @@ export const Connect3Speak = () => {
         }
       }
     );
-    
+
   }
 
   const onStart = () => {
@@ -146,11 +146,11 @@ export const Connect3Speak = () => {
 
   return (
     <Box>
-      <Button onClick={connect} colorScheme={connected ? 'green' : 'teal'} size="sm">
+      <Button onClick={connect} bg="transparent" border={connected ? "1px dashed limegreen" : "1px dashed red"} colorScheme={connected ? 'green' : 'teal'} size="sm">
         {connected ? '3Speak Connected' : 'Connect 3Speak'}
       </Button>
     </Box>
-    
+
   )
 };
 
@@ -169,17 +169,17 @@ export const uploadTo3Speak = async (file: File, setIsUploading: Function, setVi
       filename: file.name,
       filetype: file.type
     },
-    onError: function(error: Error) {
+    onError: function (error: Error) {
       console.log("Failed because: " + error);
       setIsUploading(false);
       setIsVideoUploaded(false);
     },
-    onProgress: function(bytesUploaded: number, bytesTotal: number) {
+    onProgress: function (bytesUploaded: number, bytesTotal: number) {
       const percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
       console.log(bytesUploaded, bytesTotal, percentage + "%");
       setVideoUploadProgress(percentage);
     },
-    onSuccess: function() {
+    onSuccess: function () {
       setIsUploading(false);
       const name = upload.url?.replace('https://uploads.3speak.tv/files/', '');
       const videoInfo = {
@@ -215,15 +215,15 @@ export const uploadThumbnailTo3Speak = (file: File, setIsUploading: Function, vi
       filename: file.name,
       filetype: file.type
     },
-    onError: function(error: Error) {
+    onError: function (error: Error) {
       console.log("Failed because: " + error);
       setIsUploading(false);
     },
-    onProgress: function(bytesUploaded: number, bytesTotal: number) {
+    onProgress: function (bytesUploaded: number, bytesTotal: number) {
       const percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
       console.log(bytesUploaded, bytesTotal, percentage + "%");
     },
-    onSuccess: function() {
+    onSuccess: function () {
       setIsUploading(false);
 
       setVideoThumbnailUrl(upload.url);

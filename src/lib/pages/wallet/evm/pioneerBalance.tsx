@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, Text, Table, Td, Tr, Tbody, Flex, Image, Button, Grid, GridItem, Center, Tooltip } from '@chakra-ui/react';
+import { Box, Text, Table, Td, Tr, Tbody, Flex, Image, Button, Grid, GridItem, Center, Tooltip, Badge, Accordion, AccordionButton, AccordionItem, AccordionPanel } from '@chakra-ui/react';
 import { formatWalletAddress } from 'lib/pages/utils/formatWallet';
 import EvmSendModal2 from './evmSendModal2';
+import { ethers } from "ethers";
 
 interface TokenInfo {
   address: string;
@@ -44,7 +45,7 @@ interface PortfolioPageProps {
 }
 
 const networkDetails = [
-  { id: 1, name: 'Ethereum', logo: 'https://cryptologos.cc/logos/ethereum-eth-logo.png?v=029', color: 'blue.200' },
+  { id: 1, name: 'Ethereum', logo: '/assets/cryptologos/eth-logo.png', color: 'blue.200' },
   { id: 12, name: 'Polygon', logo: 'assets/polygon.png', color: 'purple.200' },
   { id: 8, name: 'Gnosis', logo: '/assets/gnosis.png', color: 'green.200' },
   { id: 4, name: 'Binance Smart Chain', logo: 'assets/bsc.png', color: 'yellow.200' },
@@ -66,11 +67,24 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
   const [nftvalue, setNftValue] = useState<number | null>(null);
   const [nftFormattedValue, setNftFormattedValue] = useState<number | null>(null);
   const [selectedToken, setSelectedToken] = useState<TokenInfo['token'] | null>(null);
+  const [ensAddress, setENSAddress] = useState<string | null>(null);
 
   const handleTokenClick = (token: TokenInfo['token']) => {
     setSelectedToken(token);
     console.log(token)
   };
+
+  // TODO: touch base with @highlander here to see if we can get this working
+  // const result = await app_wallet.getPublicKeys([
+  //   {
+  //     addressNList: [0x80000000 + 44, 0x80000000 + 0, 0x80000000 + 0],
+  //     curve: "secp256k1",
+  //     showDisplay: true, // Not supported by TrezorConnect or Ledger, but KeepKey should do it
+  //     coin: "Bitcoin",
+  //   },
+  // ]);
+  // console.log("Result: ", result);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,9 +94,16 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
           return;
         }
 
-        const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address}`);
+        const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address.toUpperCase()}`);
         const pioneer_ethereum_balance = await axios.get('https://pioneers.dev/api/v1/getPubkeyBalance/ethereum/' + wallet_address);
-        console.log(response)
+        // test if user address has a ENS domain name and if so, use that instead of the wallet address, use alchemy provider 
+
+        const providerUrl = "https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik";
+        const provider = new ethers.providers.JsonRpcProvider(providerUrl);
+
+        const ensResponse = await provider.lookupAddress(wallet_address)
+        setENSAddress(ensResponse);
+
 
         setEthBalance((pioneer_ethereum_balance.data).toFixed(6));
         setTotalNetWorth(response.data.totalNetWorth);
@@ -99,7 +120,9 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
       }
     };
 
-    fetchData();
+    if (wallet_address) {
+      fetchData();
+    }
   }, [wallet_address]);
 
   const [copyStatus, setCopyStatus] = useState<boolean>(false);
@@ -129,6 +152,9 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
     }
   }
     , [ethPrice, ethBalance]);
+
+
+
   return (
     <Flex flexDirection={"column"}>
       <Box
@@ -152,8 +178,9 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
               </Text>
               <Button p={0} bg={"transparent"} onClick={handleCopy} _hover={{ backgroundColor: 'blue.700', cursor: 'pointer' }}>
                 <Text color="#FFA500" fontSize="18px" marginLeft="5px">
-                  {formatWalletAddress(wallet_address)}
+                  <Badge fontSize={"24px"} >  {ensAddress ? ensAddress : formatWalletAddress(wallet_address)}</Badge>
                 </Text>
+
               </Button>
 
             </Box>
@@ -166,7 +193,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
                       Total Balance
                     </Text>
                     <Text color="#FFA500" fontSize="18px" marginLeft="5px">
-                      {totalNetWorth?.toFixed(2)} USD
+                      <Badge fontSize={"24px"} > {totalNetWorth?.toFixed(2)} USD</Badge>
                     </Text>
                   </Box>
                 </GridItem>
@@ -176,7 +203,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
                       ETH Balance
                     </Text>
                     <Text color="#FFA500" fontSize="18px" marginLeft="5px">
-                      {ethBalance} ETH
+                      <Badge fontSize={"22px"} >  {ethBalance} ETH </Badge>
                     </Text>
                   </Box>
                 </GridItem>
@@ -184,10 +211,10 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
                 <GridItem>
                   <Box>
                     <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
-                      NFTs Value
+                      NFTs Estimated
                     </Text>
                     <Text color="#FFA500" fontSize="18px" marginLeft="5px">
-                      {nftvalue?.toFixed(2)} USD
+                      <Badge fontSize={"22px"} >  {nftvalue?.toFixed(2)} USD </Badge>
                     </Text>
                   </Box>
                 </GridItem>
@@ -220,56 +247,72 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
       >
         <Table variant='unstyled'>
           <Tbody>
-            <Tr>
-              <Td>
-                <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
-                  Token
-                </Text>
-              </Td>
-              <Td>
-                <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
-                  Balance
-                </Text>
-              </Td>
-              <Td>
-                <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
-                  Value
-                </Text>
-              </Td>
-            </Tr>
-            {networkDetails.map((network) => (
-              <React.Fragment key={network.id}>
-                <Tr>
-                  <Td colSpan={4} bg={network.color} margin={"10px"} >
-                    <Center>
-                      <Text fontWeight="bold" color={"black"}>
-                        {network.name}
-                      </Text>
-                      <Image src={network.logo} alt={`${network.name} Logo`} width="20px" height="20px" marginLeft="5px" />
-                    </Center>
-                  </Td>
-                </Tr>
-                {tokens
-                  ?.filter((token) => token.networkId === network.id)
-                  .map((token, index: number) => (
-                    <Tr key={index}>
-                      <Td>
-                        <Button bg='transparent' _hover={{ backgroundColor: 'blue.700', cursor: 'pointer' }}
-                          onClick={() => handleTokenClick(token)}>
-                          <Image src={network.logo} alt={`${token.name} Logo`} width="20px" height="20px" marginRight="5px" />
-                          <Text color={network.color}>{token.symbol}</Text>
-                        </Button>
-                      </Td>
-                      <Td>
-                        <Text color={network.color}>{token.balance?.toFixed(4)}</Text>
-                      </Td>
-                      <Td>
-                        <Text color={"white"} fontSize={"20px"}>{token.balanceUSD?.toFixed(2)} USD</Text>
-                      </Td>
-                    </Tr>
-                  ))}
-              </React.Fragment>
-            ))}
+
+            <Accordion allowToggle minW="100%" defaultIndex={[0]}>
+              {networkDetails.map((network) => (
+                <AccordionItem key={network.id} border="none">
+                  <h2>
+                    <AccordionButton>
+                      <Box flex="1" textAlign="left" width="100%" bg={network.color} p={2}>
+                        <Center>
+                          <Text fontWeight="bold" color="black">
+                            {network.name}
+                          </Text>
+                          <Image src={network.logo} alt={`${network.name} Logo`} width="20px" height="20px" marginLeft="5px" />
+                        </Center>
+                      </Box>
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel>
+                    <Table variant="unstyled" width="100%">
+                      <Tbody>
+                        <Tr>
+                          <Td>
+                            <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
+                              Token
+                            </Text>
+                          </Td>
+                          <Td>
+                            <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
+                              Balance
+                            </Text>
+                          </Td>
+                          <Td>
+                            <Text color="#FFFFFF" fontSize="18px" fontWeight="bold">
+                              Value
+                            </Text>
+                          </Td>
+                        </Tr>
+                        {tokens
+                          ?.filter((token) => token.networkId === network.id)
+                          .map((token, index: number) => (
+                            <Tr key={index}>
+                              <Td>
+                                <Button
+                                  bg="transparent"
+                                  _hover={{ backgroundColor: 'blue.700', cursor: 'pointer' }}
+                                  onClick={() => handleTokenClick(token)}
+                                >
+                                  <Image src={network.logo} alt={`${token.name} Logo`} width="20px" height="20px" marginRight="5px" />
+                                  <Text color={network.color}>{token.symbol}</Text>
+                                </Button>
+                              </Td>
+                              <Td>
+                                <Text color={network.color}>{token.balance?.toFixed(4)}</Text>
+                              </Td>
+                              <Td>
+                                <Text color="white" fontSize="20px">
+                                  {token.balanceUSD?.toFixed(2)} USD
+                                </Text>
+                              </Td>
+                            </Tr>
+                          ))}
+                      </Tbody>
+                    </Table>
+                  </AccordionPanel>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </Tbody>
         </Table>
       </Box>

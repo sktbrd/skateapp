@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Grid, Image, Button } from '@chakra-ui/react';
+import { Box, Grid, Image, Button, Center } from '@chakra-ui/react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
@@ -146,21 +146,21 @@ const Captcha: React.FC<CaptchaProps> = ({ onCaptchaCompletion }) => {
     const isCorrect = isAnswerCorrect(randomTrickName);
     if (isCorrect) {
       setCaptchaPassed(true);
-  
+
       // Pass the completion status to the parent component
       onCaptchaCompletion(true);
     } else {
       setCaptchaPassed(false);
     }
   };
-  
+
 
   // Check if the user's answers for a given trick are correct
   const isAnswerCorrect = (trick: string) => {
     const correctAnswers = trickCorrectAnswers[trick];
-  
+
     if (!correctAnswers) return true;
-  
+
     for (const position in correctAnswers) {
       if (correctAnswers.hasOwnProperty(position)) {
         const image = userImagePositions[position];
@@ -169,10 +169,10 @@ const Captcha: React.FC<CaptchaProps> = ({ onCaptchaCompletion }) => {
         }
       }
     }
-  
+
     return false; // No correct image matches for any position
   };
-  
+
 
   // Render the grid of image positions
   const renderGrid = () => {
@@ -196,12 +196,12 @@ const Captcha: React.FC<CaptchaProps> = ({ onCaptchaCompletion }) => {
 
   return (
     <Box>
-        <center>
+      <Center>
         <img src="https://i.ibb.co/6ZqHYdK/image.png" ></img>
-        </center>
-      
+      </Center>
+
       <h1> Pepe wants to learn {randomTrickName}, he is goofy</h1>
-        <h1> proove that you're cool helping Pepe to land it by</h1>
+      <h1> proove that you're cool helping Pepe to land it by</h1>
       <h1> placing his foot in the right position for {randomTrickName}</h1>
       <Grid
         templateColumns="repeat(6, 1fr)"
@@ -210,21 +210,21 @@ const Captcha: React.FC<CaptchaProps> = ({ onCaptchaCompletion }) => {
       >
         {renderGrid()}
       </Grid>
-      <div style={{ justifyContent:'center', marginTop:'30px', display: 'flex', flexWrap: 'wrap' }}>
+      <div style={{ justifyContent: 'center', marginTop: '30px', display: 'flex', flexWrap: 'wrap' }}>
         {images.map((image) => (
-          <DraggableImage  key={image.id} {...image} />
+          <DraggableImage key={image.id} {...image} />
         ))}
       </div>
       <center>
 
-      {occupiedPositions >= 2 && (
-        <Button onClick={resetCaptcha}>Reset</Button>
-      )}
-      {captchaPassed === null && (
-        <Button onClick={checkAnswers}>Check Answer</Button>
+        {occupiedPositions >= 2 && (
+          <Button onClick={resetCaptcha}>Reset</Button>
+        )}
+        {captchaPassed === null && (
+          <Button _hover={{ bg: "limegreen" }} border={"1px solid limegreen"} color={"white"} m={"20px"} bg={"transparent"} onClick={checkAnswers}>Check Answer</Button>
 
-      )}
-              </center>
+        )}
+      </center>
 
       {captchaPassed !== null && captchaPassed === true && (
         // Render the form only if the captcha is passed
@@ -339,7 +339,10 @@ const UserAnswers: React.FC<UserAnswersProps> = ({ userAnswers }) => {
       <strong>User's Answers:</strong>
       <ul>
         {userAnswers.map((answer, index) => (
-          <li key={index}>{answer}</li>
+          <ul>
+            <li key={index}>{answer}</li>
+          </ul>
+
         ))}
       </ul>
     </Box>

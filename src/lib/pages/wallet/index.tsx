@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 //@ts-ignore
 import { usePioneer } from '@pioneer-platform/pioneer-react';
 import {
@@ -13,7 +13,6 @@ import {
   Center
 } from '@chakra-ui/react';
 import HiveBalanceDisplay2 from './hive/hiveBalance';
-import * as Types from './nft/types';
 import PortfolioPage from './evm/pioneerBalance';
 import NFTWallet from './nft/nftWallet';
 import SkatehiveOG from './nft/skatehiveOG';
@@ -69,6 +68,7 @@ const Wallet = () => {
             {isMobile ? (
               <Box mb={{ base: 4, md: 0 }} width={{ base: '100%', md: '100%' }}>
                 <HiveBalanceDisplay2 />
+
               </Box>
             ) : (
               <>
@@ -93,7 +93,7 @@ const Wallet = () => {
           <NFTWallet />
         </TabPanel>
       </TabPanels>
-    </Tabs>
+    </Tabs >
   );
 };
 

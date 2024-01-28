@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Flex,
   Box,
@@ -14,7 +14,7 @@ import { Client } from '@hiveio/dhive';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
-import { MarkdownRenderersComments } from './MarkdownRenderersComments';
+import { MarkdownRenderers } from 'lib/pages/utils/MarkdownRenderers';
 import { CommentProps } from '../Feed/types';
 import { CSSProperties } from 'react';
 import { FaRedo } from 'react-icons/fa';
@@ -45,13 +45,13 @@ const Chat: React.FC = () => {
 
   const client = new Client('https://api.hive.blog');
 
-  const [loadedCommentsCount, setLoadedCommentsCount] = useState(5);
+  const [loadedCommentsCount, setLoadedCommentsCount] = useState(10);
 
   const fetchComments = async () => {
     try {
       const allComments: CommentProps[] = await client.database.call("get_content_replies", [URLAuthor, URLPermlink]);
       const displayedComments = allComments.slice(-loadedCommentsCount);
-      setComments(displayedComments);
+      setComments(displayedComments.reverse());
     } catch (error) {
       console.error('Error fetching comments:', error);
     }
@@ -63,7 +63,7 @@ const Chat: React.FC = () => {
     const fetchPostData = async () => {
       try {
         const postData = await client.database.call("get_content", [URLAuthor, URLPermlink]);
-        setPost({ ...postData});
+        setPost({ ...postData });
       } catch (error) {
         console.error('Error fetching post data:', error);
       }
@@ -223,22 +223,22 @@ const Chat: React.FC = () => {
       <Button style={chatToggleButtonStyle} onClick={toggleChat}>
         {isChatVisible ? '' : <img style={{ width: '50px', height: '50px', borderRadius: '100%' }} src='https://gifdb.com/images/high/pepe-frog-meme-reading-text-nervous-sweat-3m7pw9rg9d3fyf5f.gif' alt='Chat Icon'></img>}
       </Button>
-  
+
       {isChatVisible && (
         <div ref={chatContainerRef} style={containerStyle}>
-          
+
           <div style={{ padding: '0px', borderBottom: '1px solid white', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-  
+
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <img onClick={fetchComments} style={{ cursor: 'pointer', width: '30px', height: 'auto', borderRadius: '100%' }} src='https://gifdb.com/images/high/pepe-frog-meme-reading-text-nervous-sweat-3m7pw9rg9d3fyf5f.gif' alt='Chat Icon' />
-              <p style={commentTitleStyle}>Troll Box</p>
+              <p style={commentTitleStyle}>What is happening in Plaza? </p>
             </div>
-            
+
             <FaRedo onClick={fetchComments} style={{ cursor: 'pointer' }} />
-            
+
           </div>
-          
-          <div style={{ borderRadius:'10px', overflowY: 'auto', maxHeight: 'calc(500px - 100px)' }}>
+
+          <div style={{ borderRadius: '10px', overflowY: 'auto', maxHeight: 'calc(500px - 100px)' }}>
             {isLoadingComments ? (
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
                 Loading comments...
@@ -257,23 +257,23 @@ const Chat: React.FC = () => {
                       />
                       <span>{comment.author}</span>
                     </Flex>
-  
+
                     <Box style={commentCardStyle}>
                       <VStack align="end">
                         <ReactMarkdown
                           children={comment.body}
                           rehypePlugins={[rehypeRaw]}
                           remarkPlugins={[remarkGfm]}
-                          components={MarkdownRenderersComments}
+                          components={MarkdownRenderers}
                         />
                       </VStack>
-  
+
                       <Flex justifyContent="flex-end" mt="4">
-                        <Button 
+                        <Button
                           onClick={() => setParentId(comment.id)}
-                          style={{ 
-                            border: "1px solid limegreen", 
-                            backgroundColor: "black", 
+                          style={{
+                            border: "1px solid limegreen",
+                            backgroundColor: "black",
                             fontSize: '10px',
                             padding: '0px 0px',
                             maxHeight: '15px'
@@ -288,13 +288,14 @@ const Chat: React.FC = () => {
               </Flex>
             )}
           </div>
-          
+
           <div style={{ borderTop: '1px solid white', padding: '10px' }}>
             <Button
-              style={{ 
-                backgroundColor: "black", 
+              style={{
+                backgroundColor: "transparent",
                 fontSize: '15px',
-                maxHeight: '15px'
+                maxHeight: '15px',
+                color: 'white',
               }}
               onClick={() => {
                 setLoadedCommentsCount(prevCount => prevCount + 5);
@@ -318,7 +319,7 @@ const Chat: React.FC = () => {
                     placeholder="Write anything that comes to your crooked mind..."
                   />
                   <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '5px' }}>
-                    <Button 
+                    <Button
                       fontSize="10px"
                       padding="3px 6px"
                       height="20px"

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Text, Flex, Image, VStack, HStack, Divider, Tooltip } from "@chakra-ui/react";
-import { fetchConversionRate } from 'lib/pages/wallet/hive/hiveBalance';
+
 import { VoteHistoryQuery, CurrationHistoryQuery } from './queries';
 import { BalanceDisplay } from '../steemskate/hiveStats';
+import { fetchConversionRate } from '../../../../utils/apis/coinGecko';
 
 const SQL_ENDPOINT = 'https://www.stoken.quest/sql';
 

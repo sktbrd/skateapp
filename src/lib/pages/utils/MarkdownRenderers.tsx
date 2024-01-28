@@ -1,6 +1,7 @@
 import React from 'react';
-import { Box } from '@chakra-ui/react';
-
+import { Box, Flex, Text, Image, Link, VStack, HStack, Badge } from '@chakra-ui/react';
+import axios, { AxiosResponse } from 'axios'; // Import AxiosResponse
+import { useState, useEffect } from 'react';
 type MarkdownProps = {
   node?: any;
   alt?: any;
@@ -11,7 +12,78 @@ type MarkdownProps = {
 type RendererProps = MarkdownProps & {
   children?: React.ReactNode;
   ordered?: any;
+  href?: any; // Add this line to include href in RendererProps
 };
+type FetchedDetailsObject = {
+  [key: string]: PostDetails;
+};
+type PostDetails = {
+  post_id: number;
+  author: string;
+  permlink: string;
+  category: string;
+  title: string;
+  body: string;
+  json_metadata: {
+    tags: string[];
+    users: string[];
+    image: string[];
+    links: string[];
+    app: string;
+    format: string;
+    description: string;
+  };
+  created: string;
+  updated: string;
+  depth: number;
+  children: number;
+  net_rshares: number;
+  is_paidout: boolean;
+  payout_at: string;
+  payout: number;
+  pending_payout_value: string;
+  author_payout_value: string;
+  curator_payout_value: string;
+  promoted: string;
+  replies: any[];
+  author_reputation: number;
+  stats: {
+    hide: boolean;
+    gray: boolean;
+    total_votes: number;
+    flag_weight: number;
+  };
+  url: string;
+  beneficiaries: any[];
+  max_accepted_payout: string;
+  percent_hbd: number;
+  active_votes: any[];
+  newProperty: string;
+};
+
+const getPost = async (author: string, permlink: string): Promise<PostDetails | null> => {
+  try {
+
+    const response: AxiosResponse = await axios.post('https://api.hive.blog/', {
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'bridge.get_discussion',
+      params: [author, permlink],
+    });
+
+    if (response.status === 200 && response.data.result) {
+
+      return response.data.result as PostDetails;
+    } else {
+      console.error('Failed to fetch post details:', response.status, response.data.error);
+      return null;
+    }
+  } catch (error: any) {
+    console.error('Error fetching post details:', error.message);
+    return null;
+  }
+};
+
 
 
 export const MarkdownRenderers = {
@@ -53,13 +125,98 @@ export const MarkdownRenderers = {
       </span>
     );
   },
-
-
-  // create a renderer for paragraphs <p>
-
   p: ({ children, ...props }: RendererProps) => <div {...props} style={{ color: 'white', fontSize: '18px', paddingBottom: '15px' }}>{children}</div>,
+  a: ({ children, href, ...props }: RendererProps) => {
+    try {
+      const url = new URL(href);
+      console.log(url)
+      if (url.hostname === 'www.skatehive.app' && url.pathname.startsWith('/post/')) {
+        const pathSegments = url.pathname.split('/').filter(segment => segment !== ''); // Remove empty segments
+        const author = (pathSegments[2] || '').replace(/^@/, ''); // Author is at index 2, removing '@' if present
+        const permlink = pathSegments[3] || ''; // Permlink is at index 3
+        const [fetchedDetails, setFetchedDetails] = useState<FetchedDetailsObject | null>(null);
+        useEffect(() => {
+          if (author && permlink) {
+            const fetchPostDetails = async () => {
+              const postDetailsResponse = await getPost(author, permlink);
+              if (postDetailsResponse) {
+                setFetchedDetails({ [`${author}/${permlink}`]: postDetailsResponse });
+              }
+            };
+            fetchPostDetails();
+          } else {
+            console.warn('Author or permlink is empty. Unable to fetch post details.'); // Debug log
+          }
+        }, [author, permlink]);
 
-  a: ({ children, ...props }: RendererProps) => <a {...props} style={{ color: 'orange', margin: '0px' }}>{children}</a>,
+        if (!fetchedDetails) {
+          return <Box>Loading post details...</Box>;
+        }
+
+        const fetchedPost: any = fetchedDetails[`${author}/${permlink}`];
+        console.log(fetchedPost);
+        return (
+          <Flex>
+            {/* <Box>
+              Add post thumbnail here
+            </Box> */}
+            <Box
+              border="1px solid orange"
+              borderRadius="10px"
+              padding="10px"
+              display="flex"
+              alignItems="center"
+              backgroundColor="#1E1E1E"
+              marginBottom="10px"
+            >
+              {/* Image on the left (you can customize the source based on author or use a default image) */}
+              <Image
+                src={fetchedPost[`${author}/${permlink}`].json_metadata['image'][0]}
+                alt={`${fetchedPost.author}'s avatar`}
+                width="80px"
+                height="auto"
+                borderRadius="10%"
+                margin="5px"
+              />
+
+
+              {/* Post details on the right */}
+              <VStack marginLeft={"5px"}>
+
+
+                <Link href={`https://www.skatehive.app/post${fetchedPost[`${author}/${permlink}`].url}`} color="orange">
+                  {fetchedPost[`${author}/${permlink}`].title}
+                </Link>
+                <HStack>
+
+                  <Text fontSize="16px" color="white">
+
+                    {' '} App: {' '}
+                    {fetchedPost[`${author}/${permlink}`].json_metadata['app']}
+                  </Text>
+                  <Badge border={"1px dashed limegreen"} color="limegreen" bg={"transparent"} borderRadius="5px" padding="5px">
+                    {fetchedPost[`${author}/${permlink}`].payout.toFixed(2)} USD
+                  </Badge>
+                </HStack>
+              </VStack>
+            </Box>
+          </Flex>
+        );
+      }
+    } catch (error) {
+      console.error('Error parsing SkateHive URL:', error);
+    }
+
+    // If not a SkateHive link, or if there's an error parsing the URL, render the link as usual
+    return <a {...props} href={href}>{children}</a>;
+  }
+
+
+  ,
+
+
+
+
 
   h1: ({ children, ...props }: RendererProps) => <h1 {...props} style={{ fontWeight: 'bold', color: 'white', fontSize: '28px', paddingBottom: '10px', paddingTop: "10px" }}>{children}</h1>,
   h2: ({ children, ...props }: RendererProps) => <h2 {...props} style={{ fontWeight: 'bold', color: 'white', fontSize: '26px', paddingBottom: '8px', paddingTop: "10px" }}>{children}</h2>,
@@ -80,22 +237,19 @@ export const MarkdownRenderers = {
         lineHeight: '1.5',
       }}
     >
-      <p style={{ margin: '0' }}>
-        {children}
-      </p>
+
+      {children}
+
     </div>
   ),
-
   ol: ({ ordered, children, ...props }: RendererProps) => {
     const listType = ordered ? "1" : "decimal";
     return <ol {...props} style={{ listStyleType: listType, paddingLeft: '10%' }}>{children}</ol>;
   },
-
   ul: ({ ordered, children, ...props }: RendererProps) => {
     const listType = ordered ? "1" : "decimal";
     return <ul {...props} data-ordered={listType} style={{ paddingLeft: '10%' }}>{children}</ul>;
   },
-
   sub: ({ children, ...props }: RendererProps) => (<sub {...props} style={{ color: 'gray' }}>{children}</sub>),
   hr: ({ children, ...props }: RendererProps) => <hr {...props} style={{ paddingBottom: '20px' }}>{children}</hr>,
   br: ({ children, ...props }: RendererProps) => <br {...props} style={{ paddingBottom: '20px' }}>{children}</br>,
@@ -122,8 +276,6 @@ export const MarkdownRenderers = {
       </code>
     </div>
   ),
-
-
   iframe: ({ src, ...props }: RendererProps) => (
     <Box>
 
@@ -164,15 +316,12 @@ export const MarkdownRenderers = {
       />
     </div>
   ),
-
   tbody: ({ children, ...props }: RendererProps) => (
     <tbody {...props}>{children}</tbody>
   ),
-
   tr: ({ children, ...props }: RendererProps) => (
     <tr {...props}>{children}</tr>
   ),
-
   th: ({ children, ...props }: RendererProps) => (
     <th
       {...props}
@@ -186,8 +335,6 @@ export const MarkdownRenderers = {
       {children}
     </th>
   ),
-
-
   td: ({ children, ...props }: RendererProps) => (
     <td
       {...props}
@@ -202,7 +349,6 @@ export const MarkdownRenderers = {
     </td>
 
   ),
-
   strong: ({ children, ...props }: RendererProps) => (
     <strong {...props} style={{ color: 'orange' }}>{children}</strong>
   ),

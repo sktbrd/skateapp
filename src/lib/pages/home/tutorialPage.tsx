@@ -53,7 +53,7 @@ const TerminalEffectComponent: React.FC = () => {
 
     return () => {
       // Destroy Typed instance on component unmount to prevent memory leaks
-      optionsForHeading.onComplete = () => {};
+      optionsForHeading.onComplete = () => { };
     };
   }, []);
 
@@ -73,93 +73,93 @@ const DesktopTutorial: React.FC = () => {
     <Box maxWidth="fit-content" margin="auto">
       <VStack spacing={4} justifyContent="center" alignItems="center" width="100%">
         <Image borderRadius="10px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdsr0CBSW8SIppxzyJMCoqvAfjRI0HUjBKDw&usqp=CAU" />
-        
+
         <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
-            <HStack spacing={2}>
-                <Text padding="5px"borderRadius="10px"border="1px solid white" fontSize="22px" fontWeight="bold" color="white">1st Step)</Text>
-                <Text  fontSize="22px">Download Hive Keychain for your Browser and pin it 📌</Text>
-            </HStack>
-            <HStack spacing={4} justifyContent="center">
-                <VStack padding="20px" alignItems="center" spacing={2}>
-                    <Link href="https://chrome.google.com/webstore/detail/hive-keychain/jcacnejopjdphbnjgfaaobbfafkihpep?hl=en" isExternal>
-                        <Image src="https://hive-keychain.com/img/browsers/chrome.svg" alt="Chrome" boxSize="70px" />
-                    </Link>
-                    <Text>Chrome</Text>
-                </VStack>
-                <VStack padding="20px" alignItems="center" spacing={2}>
-                    <Link href="https://addons.mozilla.org/en-US/firefox/addon/hive-keychain/" isExternal>
-                        <Image src="https://hive-keychain.com/img/browsers/firefox.svg" alt="Firefox" boxSize="70px" />
-                    </Link>
-                    <Text>Firefox</Text>
-                </VStack>
-                <VStack padding="20px" alignItems="center" spacing={2}>
-                    <Link href="https://chrome.google.com/webstore/detail/hive-keychain/jcacnejopjdphbnjgfaaobbfafkihpep?hl=en" isExternal>
-                        <Image src="https://hive-keychain.com/img/browsers/brave.svg" alt="Brave" boxSize="70px" />
-                    </Link>
-                    <Text>Brave</Text>
-                </VStack>
-            </HStack>
+          <HStack spacing={2}>
+            <Text padding="5px" borderRadius="10px" border="1px solid white" fontSize="22px" fontWeight="bold" color="white">1st Step)</Text>
+            <Text fontSize="22px">Download Hive Keychain for your Browser and pin it 📌 </Text>
+          </HStack>
+          <HStack spacing={4} justifyContent="center">
+            <VStack padding="20px" alignItems="center" spacing={2}>
+              <Link href="https://chrome.google.com/webstore/detail/hive-keychain/jcacnejopjdphbnjgfaaobbfafkihpep?hl=en" isExternal>
+                <Image src="https://hive-keychain.com/img/browsers/chrome.svg" alt="Chrome" boxSize="70px" />
+              </Link>
+              <Text>Chrome</Text>
+            </VStack>
+            <VStack padding="20px" alignItems="center" spacing={2}>
+              <Link href="https://addons.mozilla.org/en-US/firefox/addon/hive-keychain/" isExternal>
+                <Image src="https://hive-keychain.com/img/browsers/firefox.svg" alt="Firefox" boxSize="70px" />
+              </Link>
+              <Text>Firefox</Text>
+            </VStack>
+            <VStack padding="20px" alignItems="center" spacing={2}>
+              <Link href="https://chrome.google.com/webstore/detail/hive-keychain/jcacnejopjdphbnjgfaaobbfafkihpep?hl=en" isExternal>
+                <Image src="https://hive-keychain.com/img/browsers/brave.svg" alt="Brave" boxSize="70px" />
+              </Link>
+              <Text>Brave</Text>
+            </VStack>
+          </HStack>
         </Box>
 
         {/* 2nd Step */}
         <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
-            <HStack spacing={2}>
-                <Text padding="5px"borderRadius="10px"border="1px solid white" fontSize="22px" fontWeight="bold" color="white">2nd Step)</Text>
-                <Text  fontSize="xl">
-                    Get Hive Keys in Skatehive Discord Server or 
-                    {' '}
-                    <Link href='https://docs.skatehive.app/docs/Create-Wallets/hive-wallet' isExternal color="yellow">
-                        create one by yourself (hard mode)
-                    </Link>
-                </Text>
-            </HStack>
-            <VStack alignItems="center" spacing={4}>
-                <Button
-                    bg="black"
-                    color="white"
-                    fontSize="lg"
-                    fontWeight="bold"
-                    border="1px solid limegreen"
-                    padding="20px"
-                    borderWidth="2px"
-                    _hover={{
-                    bg: "limegreen",
-                    transform: "translateY(-2px)",
-                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"
-                    }}
-                    _active={{
-                    bg: "gray.800",
-                    transform: "translateY(0)",
-                    boxShadow: "none"
-                    }}
-                    transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
-                    boxShadow="0 7px 14px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08)"
-                    lineHeight="1"
-                    borderRadius="16px"
-                    leftIcon={<FaDiscord />}
-                >
-                    Join Discord
-                </Button>
-            </VStack>
+          <HStack spacing={2}>
+            <Text padding="5px" borderRadius="10px" border="1px solid white" fontSize="22px" fontWeight="bold" color="white">2nd Step)</Text>
+            <Text fontSize="xl">
+              Get Hive Keys in Skatehive Discord Server or
+              {' '}
+              <Link href='https://docs.skatehive.app/docs/Create-Wallets/hive-wallet' isExternal color="yellow">
+                create one by yourself (hard mode)
+              </Link>
+            </Text>
+          </HStack>
+          <VStack alignItems="center" spacing={4}>
+            <Button
+              bg="black"
+              color="white"
+              fontSize="lg"
+              fontWeight="bold"
+              border="1px solid limegreen"
+              padding="20px"
+              borderWidth="2px"
+              _hover={{
+                bg: "limegreen",
+                transform: "translateY(-2px)",
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"
+              }}
+              _active={{
+                bg: "gray.800",
+                transform: "translateY(0)",
+                boxShadow: "none"
+              }}
+              transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
+              boxShadow="0 7px 14px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08)"
+              lineHeight="1"
+              borderRadius="16px"
+              leftIcon={<FaDiscord />}
+            >
+              Join Discord
+            </Button>
+          </VStack>
         </Box>
 
         {/* 3rd Step */}
         <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
-            <HStack spacing={2}>
-                <Text padding="5px"borderRadius="10px"border="1px solid white" fontSize="22px" fontWeight="bold" color="white">3rd Step)</Text>
-                <Text fontSize="xl">Set up your Keychain Browser Extension adding your BACKUP key to it</Text>
-            </HStack>
-            <VStack alignItems="center" spacing={4}>
-          <Image width="auto" height="450px" src="https://hackmd.io/_uploads/ByROGywjh.png" borderRadius="20px" border="1px solid limegreen" borderWidth="2px" />
-        </VStack>
+          <HStack spacing={2}>
+            <Text padding="5px" borderRadius="10px" border="1px solid white" fontSize="22px" fontWeight="bold" color="white">3rd Step)</Text>
+            <Text fontSize="xl">Set up your Keychain Browser Extension adding your BACKUP key to it</Text>
+          </HStack>
+          <VStack alignItems="center" spacing={4}>
+            <Image width="auto" height="450px" src="https://hackmd.io/_uploads/ByROGywjh.png" borderRadius="20px" border="1px solid limegreen" borderWidth="2px" />
+          </VStack>
         </Box>
 
         {/* 4th Step */}
         <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
-            <HStack spacing={2}>
-                <Text padding="5px"borderRadius="10px"border="1px solid white" fontSize="22px" fontWeight="bold" color="white">4th Step)</Text>
-                <Text  fontSize="xl">Connect your wallet in Skatehive.App and Keep it Gnarly ⌐◨-◨ </Text>
-            </HStack>
+          <HStack spacing={2}>
+            <Text padding="5px" borderRadius="10px" border="1px solid white" fontSize="22px" fontWeight="bold" color="white">4th Step)</Text>
+            <Text fontSize="xl">Connect your wallet in Skatehive.App and Keep it Gnarly ⌐◨-◨ </Text>
+          </HStack>
 
         </Box>
       </VStack>
@@ -178,7 +178,7 @@ const MobileTutorial: React.FC = () => {
 
       <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
         <HStack spacing={2}>
-          <Text padding="5px"borderRadius="10px"border="1px solid white" fontSize="22px" fontWeight="bold" color="white">1st Step)</Text>
+          <Text padding="5px" borderRadius="10px" border="1px solid white" fontSize="22px" fontWeight="bold" color="white">1st Step)</Text>
           <Text fontSize="xl">Download Keychain in your Mobile app Store</Text>
         </HStack>
         <VStack alignItems="center" spacing={4}>
@@ -201,9 +201,9 @@ const MobileTutorial: React.FC = () => {
 
       <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
         <HStack spacing={2}>
-          <Text padding="5px"borderRadius="10px"border="1px solid white" fontSize="22px" fontWeight="bold" color="white">2nd Step)</Text>
+          <Text padding="5px" borderRadius="10px" border="1px solid white" fontSize="22px" fontWeight="bold" color="white">2nd Step)</Text>
           <Text fontSize="xl">
-            Get Hive Keys in Skatehive Discord Server or 
+            Get Hive Keys in Skatehive Discord Server or
             {' '}
             <Link href='https://docs.skatehive.app/docs/Create-Wallets/hive-wallet' isExternal color="yellow">
               create one by yourself (hard mode)
@@ -242,8 +242,8 @@ const MobileTutorial: React.FC = () => {
 
       <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
         <HStack spacing={2}>
-          <Text padding="5px"borderRadius="10px"border="1px solid white" fontSize="22px" fontWeight="bold" color="white">3rd Step)</Text>
-          <Text  fontSize="xl">Insert your BACKUP key in Hive Keychain App</Text>
+          <Text padding="5px" borderRadius="10px" border="1px solid white" fontSize="22px" fontWeight="bold" color="white">3rd Step)</Text>
+          <Text fontSize="xl">Insert your BACKUP key in Hive Keychain App</Text>
         </HStack>
         <VStack alignItems="center" spacing={4}>
           <Image width="auto" height="450px" src="https://i.ibb.co/HVYRn10/ezgif-com-gif-maker.gif" borderRadius="20px" border="1px solid limegreen" borderWidth="2px" />
@@ -252,8 +252,8 @@ const MobileTutorial: React.FC = () => {
 
       <Box borderWidth="1px" borderRadius="md" padding="10px" width="100%">
         <HStack spacing={2}>
-          <Text padding="5px"borderRadius="10px"border="1px solid white" fontSize="22px" fontWeight="bold" color="white">4th Step)</Text>
-          <Text  fontSize="xl">Enter in Hive Keychain in Browser Mode and be free</Text>
+          <Text padding="5px" borderRadius="10px" border="1px solid white" fontSize="22px" fontWeight="bold" color="white">4th Step)</Text>
+          <Text fontSize="xl">Enter in Hive Keychain in Browser Mode and be free</Text>
         </HStack>
         <VStack alignItems="center" spacing={4}>
           <Image width="auto" height="450px" src="https://i.ibb.co/3zBtmPk/browser.gif" borderRadius="20px" border="1px solid limegreen" borderWidth="2px" />

@@ -23,7 +23,7 @@ import useAuthUser from "../api/useAuthUser";
 import voteOnContent from "../api/voting";
 
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ErrorModal from "./postModal/errorModal";
 import PostModal from "./postModal/postModal";
 
@@ -115,6 +115,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Track modal visibility
   const [errorMessage, setErrorMessage] = useState<string>(""); // Track error message
   const [currentThumbnail, setCurrentThumbnail] = useState<string>(""); // Track error message
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const fetchPostEarnings = async (
     author: string,
@@ -140,7 +141,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     }
   };
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   function extractFirstLink(markdownText: string): string | null {
     const regex = /!\[.*?\]\((.*?)\)/;
@@ -252,7 +252,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
         permlink,
         observer: user?.name || "",
       });
-
+      console.log("comments", comments);
       // delete the original post from the comments object
       // its key is @username/permlink
       const originalPostKey = `${author}/${permlink}`;
@@ -271,7 +271,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
           const subComment = subComments[i];
           comments[commentKey].repliesFetched.push(comments[subComment]);
         }
-
+        console.log("comments", comments);
         // set net_votes of the comment with active_votes.length
         comments[commentKey].net_votes =
           comments[commentKey].active_votes.length;
@@ -327,8 +327,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const navigate = useNavigate();
-
   const handleVotersModalOpen = (post: any) => {
     setSelectedPostForModal(post);
     setVotersModalOpen(true);
@@ -340,12 +338,11 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   };
 
   const handleCardClick = async (post: any) => {
-    // Check if the post has images
     const images = findImagesInContent(post.body);
     setSelectedPost(post);
     const comments = await fetchComments(post.author, post.permlink);
     setComments(comments);
-    setPostUrl(post.url); // Move this line here
+    setPostUrl(post.url);
     onOpen();
   };
   const cardHoverStyles = css`
@@ -375,28 +372,22 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     }
   };
   const handleVoteClick = async (post: any) => {
-    // Check if the user is logged in before allowing them to vote
     if (!isLoggedIn()) {
-      // Handle the case where the user is not logged in, e.g., show a login prompt
       setErrorMessage("You have to login first ! Dãããã... ");
       setIsErrorModalOpen(true);
       return;
     }
 
-    // Perform the voting action
     try {
-      // You may need to retrieve the user's username and other information here
-      const username = user?.name || ""; // Replace with the actual username
-      let weight = 10000; // Replace with the desired voting weight
+      const username = user?.name || "";
+      let weight = 10000;
 
       if (isVoted(post)) {
-        weight = 0; // If the post has been voted on, set the weight to 0 to remove the vote
+        weight = 0;
       }
 
-      // Call the voteOnContent function to vote on the post
       await voteOnContent(username, post.permlink, post.author, weight);
 
-      // set loading and then rerender the component
       setIsLoadingInitial(true);
       setLoadedPosts([]);
       setDisplayedPosts(20);
@@ -404,13 +395,12 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
         fetchInitialPosts();
       }, 3000);
     } catch (error) {
-      // Handle voting error
       console.error("Error while voting:", error);
       setErrorMessage(
         "Error While Voting! May be you already voted with the same weight. Try refreshing the page!"
       );
 
-      setIsErrorModalOpen(true); // Open the error modal
+      setIsErrorModalOpen(true);
     }
   };
   const cardStyleGradient = css`
@@ -468,6 +458,8 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     // If the post has not been voted on, return an empty object
     return {
       width: "10px",
+      color: "white",
+      border: "1px solid white",
     };
   };
 
@@ -491,7 +483,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   };
 
   return (
-    <Box marginTop={"0"}>
+    <Box marginTop={"0"} padding={"8px"}>
       {isLoadingInitial ? (
         <PlaceholderLoadingBar />
       ) : (
@@ -696,6 +688,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                       border={"1px dashed black"}
                       label={<div style={{ color: "orange" }}>Wow!</div>}
                       aria-label="View Voters"
+
                     >
                       <IconButton
                         icon={<Image

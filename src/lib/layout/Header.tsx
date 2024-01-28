@@ -4,34 +4,28 @@ import {
   Flex,
   HStack,
   Text,
-  Tabs,
-  TabList,
   Tab,
   TabProps,
   useBreakpointValue,
   Image,
   Avatar,
   Modal,
-  ModalOverlay,
   Popover,
   PopoverTrigger,
   PopoverContent,
-  PopoverArrow,
   PopoverCloseButton,
   PopoverHeader,
   PopoverBody,
-
   Menu,
-
   VStack,
   MenuButton,
   MenuGroup,
   MenuList,
   MenuItem,
   Button,
-  Select,
   MenuDivider,
   Tooltip,
+  Divider,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { keyframes } from "@emotion/react";
@@ -43,25 +37,21 @@ import { Link, LinkProps as RouterLinkProps } from "react-router-dom";
 import useAuthUser from "lib/pages/home/api/useAuthUser";
 import HiveLogin from "lib/pages/home/api/HiveLoginModal";
 
-import { fetchHbdPrice } from "lib/pages/wallet/hive/hiveBalance";
-import { fetchConversionRate } from "lib/pages/wallet/hive/hiveBalance";
 
 import axios from "axios";
 //@ts-ignore
 import { usePioneer } from '@pioneer-platform/pioneer-react';
-import { MdTapAndPlay } from "react-icons/md";
-import { FaBell } from "react-icons/fa";
-import { profile } from "console";
+import { FaBell, FaSpeakap, FaUpload, FaScroll } from "react-icons/fa";
 import { FaLink } from "react-icons/fa";
 import * as dhive from "@hiveio/dhive";
 
+import { fetchConversionRate, fetchHbdPrice } from "lib/pages/utils/apis/coinGecko";
+import { color } from "framer-motion";
+import CommunityStats from "lib/pages/home/dao/communityStats";
+import CommunityTotalPayout from "lib/pages/home/dao/commmunityPayout";
+
 type LinkTabProps = TabProps & RouterLinkProps;
 
-interface User {
-  name?: string;
-  avatar?: string;
-  balance: string;
-}
 interface Notification {
   date: string;
   id: number;
@@ -81,7 +71,12 @@ const LinkTab: React.FC<LinkTabProps> = ({ to, children, ...tabProps }) => (
     <Tab {...tabProps}>{children}</Tab>
   </Link>
 );
-
+const dhiveClient = new dhive.Client([
+  'https://api.hive.blog',
+  'https://api.hivekings.com',
+  'https://anyx.io',
+  'https://api.openhive.network',
+]);
 const HeaderNew = () => {
   const { state } = usePioneer();
 
@@ -141,12 +136,6 @@ const HeaderNew = () => {
 
     const fetchAvatarAndFallback = async (authors: string[]): Promise<void> => {
       try {
-        const dhiveClient = new dhive.Client([
-          'https://api.hive.blog',
-          'https://api.hivekings.com',
-          'https://anyx.io',
-          'https://api.openhive.network',
-        ]);
 
         const dhive_profiles = await dhiveClient.database.getAccounts(authors);
         const avatarSrcMap: Record<string, string | null> = {};
@@ -213,7 +202,7 @@ const HeaderNew = () => {
                               mr={2}
                               onError={(e) => {
                                 console.error('Error loading image:', e);
-                                e.currentTarget.src = DEFAULT_AVATAR_URL; // Fallback to default avatar
+                                e.currentTarget.src = DEFAULT_AVATAR_URL;
                               }}
                             />
                           )}
@@ -226,7 +215,7 @@ const HeaderNew = () => {
 
                     <Text fontSize="sm">{extractMsgDetails(notification.msg).text}</Text>
 
-                    {/* assemble link with https://skatehive.app/post/hive-173115/{notification.url} */}
+
                     <Link
                       to={`https://skatehive.app/post/hive-173115/${notification.url}`}
                       style={{ textDecoration: 'none' }}
@@ -245,11 +234,6 @@ const HeaderNew = () => {
       </Popover>
     );
   };
-
-
-
-
-
 
   const fetchNotifications = async () => {
     try {
@@ -272,15 +256,12 @@ const HeaderNew = () => {
     }
   };
 
-
   useEffect(() => {
     if (loggedIn) {
       fetchNotifications();
     }
   }, [loggedIn, user]);
-  const handleNotificationClick = () => {
-    setNotificationModalOpen(true);
-  };
+
   const onLoad = async function () {
     try {
       if (app && app.wallets && app.wallets.length > 0 && app.wallets[0].wallet && app.wallets[0].wallet.accounts) {
@@ -301,24 +282,34 @@ const HeaderNew = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address?.toUpperCase()}`);
 
+        // Check if response.data is defined
+        if (response.data !== undefined) {
+          // Check if response.data.nfts is defined and is an array
+          if (response.data.nfts && Array.isArray(response.data.nfts)) {
+            const gnarsNFTsCount = response.data.nfts.reduce((count: any, nft: any) => {
+              if (
+                nft.token &&
+                nft.token.collection &&
+                nft.token.collection.address === "0x558bfff0d583416f7c4e380625c7865821b8e95c" &&
+                nft.token.collection.name === "Gnars"
+              ) {
+                return count + 1;
+              }
+              return count;
+            }, 0);
 
-        const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address}`);
-        const gnarsNFTsCount = response.data.nfts.reduce((count: any, nft: any) => {
-          if (
-            nft.token &&
-            nft.token.collection &&
-            nft.token.collection.address === "0x558bfff0d583416f7c4e380625c7865821b8e95c" &&
-            nft.token.collection.name === "Gnars"
-          ) {
-            return count + 1;
+            setTotalNetWorth(response.data.totalNetWorth);
+            setGnarsNFTsCount(gnarsNFTsCount);
+          } else {
+            // Handle the case where response.data.nfts is not an array or is undefined
+            console.error('Error: NFTs is not an array or is undefined');
           }
-          return count;
-        }, 0);
-
-
-        setTotalNetWorth(response.data.totalNetWorth);
-        setGnarsNFTsCount(gnarsNFTsCount);
+        } else {
+          // Handle the case where response.data is undefined
+          console.error('Error: Response data is undefined');
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -330,29 +321,13 @@ const HeaderNew = () => {
 
   useEffect(() => {
     setLoggedIn(isLoggedIn());
-    fetchConversionRate().then((rate) => {
+    fetchConversionRate().then((rate: any) => {
       setConversionRate(rate);
       // Call onStart and pass the required variables
       onStart(user, rate, loggedIn);
     });
   }, [user]);
-  const handleConnectHive = () => {
-    if (loggedIn) {
-      logout();
-    } else {
-      setModalOpen(true);
-    }
-  };
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value;
-
-    if (selectedValue === "profile") {
-      window.location.href = "/profile";
-    } else if (selectedValue === "logout") {
-      logout();
-    }
-  };
 
 
   const avatarUrl = user && user.posting_json_metadata !== ""
@@ -406,18 +381,18 @@ const HeaderNew = () => {
   const onStart = async function (user: any, conversionRate: any, loggedIn: any) {
     if (user) {
       try {
+        const account = await dhiveClient.database.getAccounts([user.name]);
         const [conversionRate, hbdPrice, vestingSharesData] = await Promise.all([
           fetchConversionRate(),
           fetchHbdPrice(),
           convertVestingSharesToHivePower(
-            user.vesting_shares,
-            user.delegated_vesting_shares,
-            user.received_vesting_shares
+            account[0].vesting_shares.toString(),
+            account[0].delegated_vesting_shares.toString(),
+            account[0].received_vesting_shares.toString()
           ),
         ]);
-
-        const hiveWorth = parseFloat(user.balance.split(" ")[0]) * conversionRate;
-
+        const hiveBalance = typeof account[0].balance === 'string' ? account[0].balance.split(" ")[0] : Number(account[0].balance);
+        const hiveWorth = parseFloat(hiveBalance.toString()) * conversionRate;
         const hivePowerWorth =
           (parseFloat(vestingSharesData.availableHivePower) + parseFloat(vestingSharesData.HPdelegatedToOthers)) *
           conversionRate;
@@ -427,7 +402,7 @@ const HeaderNew = () => {
         const savingsWorth = parseFloat(user.savings_hbd_balance.split(" ")[0]) * hbdPrice;
 
 
-        const total = hiveWorth + hivePowerWorth + hbdWorth + savingsWorth;
+        const total = Number(hiveWorth) + Number(hivePowerWorth) + hbdWorth + savingsWorth;
         const total_Owned = Number(hiveWorth) + Number(savingsWorth) + Number(hbdWorth) + Number(hivePowerWorth);
 
         setConversionRate(conversionRate);
@@ -477,9 +452,6 @@ const HeaderNew = () => {
       }
     `;
 
-  const handleTotalClick = () => {
-    alert("Total worth: " + totalWorth.toFixed(2) + " USD");
-  };
 
   return (
 
@@ -510,13 +482,37 @@ const HeaderNew = () => {
               backgroundColor={"transparent"}
             />
           </MenuButton>
-          <MenuList border="1px solid black" backgroundColor="black" color="white">
-            <Link to="https://snapshot.org/#/skatehive.eth" target="_blank" style={{ textDecoration: 'none' }}>
+          <MenuList border="1px solid limegreen" backgroundColor="black" color="white">
+            <Link to="https://skatehive.app/dao" style={{ textDecoration: 'none' }}>
               <MenuItem
                 _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
                 backgroundColor="black"
               >
-                🏛 Governance
+                🏛 DAO
+              </MenuItem>
+            </Link>
+            <Link to="https://skatehive.app/dao" style={{ textDecoration: 'none' }}>
+              <MenuItem
+                _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+                backgroundColor="black"
+              >
+                🔵 Mints
+              </MenuItem>
+            </Link>
+            <Link to="/invite" style={{ textDecoration: 'none' }}>
+              <MenuItem
+                _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+                backgroundColor="black"
+              >
+                ❤️ Invite a Friend
+              </MenuItem>
+            </Link>
+            <Link to="/QFS" style={{ textDecoration: 'none' }}>
+              <MenuItem
+                _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+                backgroundColor="black"
+              >
+                🎮 Play QFS
               </MenuItem>
             </Link>
             <Link to="https://hive.vote/dash.php?i=1&trail=steemskate" target="_blank" style={{ textDecoration: 'none' }}>
@@ -524,10 +520,10 @@ const HeaderNew = () => {
                 _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
                 backgroundColor="black"
               >
-                🔗 Curation Trail
+                🔨 Auction
               </MenuItem>
             </Link>
-            <Link to="https://docs.skatehive.app" target="_blank" style={{ textDecoration: 'none' }}>
+            <Link to="https://gnars-education.vercel.app" target="_blank" style={{ textDecoration: 'none' }}>
               <MenuItem
                 _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
                 backgroundColor="black"
@@ -554,8 +550,13 @@ const HeaderNew = () => {
             <MenuDivider />
 
             <MenuGroup title="Forks">
-              <Link to="https://crowsnight.com" target="_blank" style={{ textDecoration: 'none' }}>
-
+              <Link to="https://skatehive.app" target="_blank" style={{ textDecoration: 'none' }}>
+                <MenuItem
+                  _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+                  backgroundColor="black"
+                >
+                  🛹 Skatehive App
+                </MenuItem>
                 <MenuItem
                   _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
                   backgroundColor="black"
@@ -571,7 +572,13 @@ const HeaderNew = () => {
                 >
                   ➕ Soma Skate
                 </MenuItem>
+
               </Link>
+              <MenuItem
+                backgroundColor="black">
+                <CommunityTotalPayout communityTag="hive-173115" />
+
+              </MenuItem>
             </MenuGroup>
           </MenuList>
         </Menu>
@@ -606,11 +613,73 @@ const HeaderNew = () => {
         </Box>
 
       </Flex>
-      <Flex gap={{ base: 4, md: 8 }} padding={{ base: "6px 18px", md: "8px 20px" }} borderRadius="6px" position={{ md: "absolute" }} border="2px solid black">
-        <Button variant="link" color="white" as={Link} to="/">Home</Button>
-        <Button variant="link" color="white" as={Link} to="/upload">Upload</Button>
+      <br></br>
+      {/* {isDesktop && (
+        <Image paddingTop={"15px"} src="https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23uQ3d5BKcoYkuYWd7kZrnS396M1M6DvsMa5MowAmaVynQr67ChnARGaFstnMGeSspzwR.png" alt="Skatehive Image" />
+      )} */}
 
-        <Button variant="link" color="white" as={Link} to="/QFS">Play</Button>
+      <Flex maxW={"100%"} gap={{ base: 4, md: 8 }} padding={{ base: "6px 6px", md: "8px 20px" }} borderRadius="6px" position={{ md: "absolute" }} border="2px solid limegreen">
+        {isDesktop ? (
+          <>
+            <Button
+              variant="link"
+              color="white"
+              as={Link}
+              to="/"
+              leftIcon={isDesktop ? <FaScroll style={{ color: 'orange' }} /> : undefined}
+            >
+              Home
+            </Button>
+            <Button
+              variant="link"
+              color="white"
+              as={Link}
+              to="/upload"
+              leftIcon={isDesktop ? <FaUpload style={{ color: 'orange' }} /> : undefined}
+            >
+              Post
+            </Button>
+            <Button
+              variant="link"
+              color="white"
+              as={Link}
+              to="/plaza"
+              leftIcon={isDesktop ? <FaSpeakap style={{ color: 'orange' }} /> : undefined}
+            >
+              Plaza
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              variant="link"
+              color="white"
+              as={Link}
+              to="/plaza"
+              leftIcon={isDesktop ? <FaScroll style={{ color: 'orange' }} /> : undefined}
+            >
+              Home
+            </Button>
+            <Button
+              variant="link"
+              color="white"
+              as={Link}
+              to="/upload"
+              leftIcon={isDesktop ? <FaUpload style={{ color: 'orange' }} /> : undefined}
+            >
+              Post
+            </Button>
+            <Button
+              variant="link"
+              color="white"
+              as={Link}
+              to="/blog"
+              leftIcon={isDesktop ? <FaSpeakap style={{ color: 'orange' }} /> : undefined}
+            >
+              Mag
+            </Button>
+          </>
+        )}
         {
           // Se não tiver logado
           !loggedIn ?
@@ -628,7 +697,7 @@ const HeaderNew = () => {
                     h="20px"
                   />
                   {user?.name}
-                  <ChevronDownIcon />
+                  {isDesktop && <ChevronDownIcon />}
                 </Flex>
               </MenuButton>
               <MenuList border="1px solid limegreen" backgroundColor="black" color="white" minWidth="120px">
@@ -639,7 +708,9 @@ const HeaderNew = () => {
             </Menu>
         }
       </Flex>
-
+      {!isDesktop && (
+        <Image paddingTop={"15px"} src="https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23uQ3d5BKcoYkuYWd7kZrnS396M1M6DvsMa5MowAmaVynQr67ChnARGaFstnMGeSspzwR.png" alt="Skatehive Image" />
+      )}
 
       <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
         <HiveLogin isOpen={isModalOpen} onClose={() => setModalOpen(false)} />

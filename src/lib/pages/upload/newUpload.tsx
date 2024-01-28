@@ -87,6 +87,7 @@ const activityToPermlinkMapping = {
   surf: 'hive-141964',
   longboard: 'hive-173115',
   snowboard: 'hive-132443',
+  graffiti: 'hive-166245',
 };
 
 const activities = Object.keys(activityToPermlinkMapping); // ['skateboard', 'surf', 'longboard', 'snowboard']
@@ -117,7 +118,6 @@ const NewUpload: React.FC = () => {
   const [videoInfo, setVideoInfo] = useState<any>(null);
   const [videoFile, setVideoFile] = useState<File | null>(null); // for viewing in editor
   const [videoThumbnailUrl, setVideoThumbnailUrl] = useState<string | null>(null);
-  const parentPermlinksOptions = ['hive-173115', 'option2', 'option3', 'option4']; // Replace with your actual options
   const [selectedActivity, setSelectedActivity] = useState<string>("");
 
   const handleCheckboxChange = (activity: string) => {
@@ -138,6 +138,7 @@ const NewUpload: React.FC = () => {
     skateboard: 'hive-173115',
     surf: 'hive-141964',
     longboard: 'hive-173115',
+    graffiti: 'hive-166245',
     snowboard: 'hive-132443',
   };
 
@@ -246,8 +247,6 @@ const NewUpload: React.FC = () => {
       console.error("Error uploading file:", error);
     }
   };
-
-
 
 
   const onDropImages = async (acceptedFiles: File[]) => {
@@ -748,7 +747,7 @@ const NewUpload: React.FC = () => {
 
   return (
     <Box>
-      <Box mt={0}>
+      {/* <Box mt={0}>
 
         <VStack>
 
@@ -771,7 +770,7 @@ const NewUpload: React.FC = () => {
             First
           </Badge>
         </VStack>
-      </Box>
+      </Box> */}
       <Flex minWidth={"100%"}
         flexDirection={isMobile ? "column" : "row"}
       >
@@ -944,10 +943,10 @@ const NewUpload: React.FC = () => {
                 </Flex>
 
               </Box>
+              <Flex alignItems="center" wrap="wrap">{renderTags()}</Flex>
 
             </>
           )}
-          <Flex alignItems="center" wrap="wrap">{renderTags()}</Flex>
 
           <Button onClick={handleHiveUpload} colorScheme="teal" size="sm" marginTop={2} id="publish-button">
             Publish!

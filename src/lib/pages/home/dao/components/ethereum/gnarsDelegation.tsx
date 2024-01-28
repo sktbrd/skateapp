@@ -1,4 +1,4 @@
-import { Flex, Button, Table, Thead, Grid, Tbody, Tr, Th, Td, Text , Image, VStack, Box,HStack} from "@chakra-ui/react";
+import { Flex, Button, Table, Thead, Grid, Tbody, Tr, Th, Td, Text, Image, VStack, Box, HStack, Center } from "@chakra-ui/react";
 import { ethers } from "ethers";
 import React, { useState, useEffect } from "react";
 import UserReputation from "lib/pages/utils/hiveFunctions/usersReputation";
@@ -10,7 +10,7 @@ import { formatWalletAddress } from "lib/pages/utils/formatWallet";
 import ERC721_ABI from "./gnars_abi.json";
 import ERC1155_ABI from "./skthvOG_abi.json";
 import { KeychainSDK } from "keychain-sdk";
- 
+
 export interface WitnessVote {
   username: string;
   witness: string;
@@ -26,13 +26,13 @@ interface WalletData {
   totalSupply?: string;
   balance?: string;
   balanceOfSkthv?: string;
-  hasVotedForSkateHive?: boolean; 
+  hasVotedForSkateHive?: boolean;
   hasHiveAccount?: boolean;
 }
 interface WalletListElement {
   username: string;
   walletAddress: string;
-  hasVotedForSkateHive?: boolean; 
+  hasVotedForSkateHive?: boolean;
   hasHivePower?: string;
 }
 declare global {
@@ -78,16 +78,18 @@ const walletsList: WalletListElement[] = [
   { username: 'gnarip12345', walletAddress: '0x4355EC7423Ee3b045917092CBF8F8BFd3233da27' },
   { username: 'keepskating420', walletAddress: '0x22376c76d120BF033651c931E9Ff23f240173637' },
   { username: 'beaglexv', walletAddress: '0xfCAE6D6b1517799330DF14BeE26e2DD90C6dd200' },
-  { username: 'smithfinance', walletAddress: '0x6abaDe6569f03841a0d5233d23f175Eeeb3253c4'},
-  { username: 'howweroll', walletAddress: '0x09e938e239803c78507abd5687a97acfea1188ea'},
-  { username: 'skatehacker', walletAddress: '0x5746396dfE7025190a7775dF94b6E89310DDd238'},
-  { username: 'keepkey', walletAddress: '0x4A0A41f0278C732562E2A09008dfb0E4B9189eb3'},
-  { username: 'coletivoxv', walletAddress: '0xAf32BB3892F37c518f3841275F131384a41B9b57'},
-  { username: 'ygorpicolinoskt', walletAddress: '0x26f00f9542545B13373c94837AF15ddC97eFE0c8'},
-  { username: 'doblershiva', walletAddress: '0x0DF34E36ef3a793871442EB5a08b08adB74E7006'},
-  { username: 'paralela', walletAddress: '0x0F7318E9D1EAfe53C3bFD7EE774ce33020Cf53F3'},
-  { username: 'willdias', walletAddress: '0xDdB4938755C243a4f60a2f2f8f95dF4F894c58Cc'},
-  { username: 'pharra', walletAddress: '0x735135Ff4152b3Ae255cA708EB37D83B0A8853F8'},
+  { username: 'smithfinance', walletAddress: '0x6abaDe6569f03841a0d5233d23f175Eeeb3253c4' },
+  { username: 'howweroll', walletAddress: '0x09e938e239803c78507abd5687a97acfea1188ea' },
+  { username: 'skatehacker', walletAddress: '0x5746396dfE7025190a7775dF94b6E89310DDd238' },
+  { username: 'keepkey', walletAddress: '0x4A0A41f0278C732562E2A09008dfb0E4B9189eb3' },
+  { username: 'coletivoxv', walletAddress: '0xAf32BB3892F37c518f3841275F131384a41B9b57' },
+  { username: 'ygorpicolinoskt', walletAddress: '0x26f00f9542545B13373c94837AF15ddC97eFE0c8' },
+  { username: 'doblershiva', walletAddress: '0x0DF34E36ef3a793871442EB5a08b08adB74E7006' },
+  { username: 'paralela', walletAddress: '0x0F7318E9D1EAfe53C3bFD7EE774ce33020Cf53F3' },
+  { username: 'willdias', walletAddress: '0xDdB4938755C243a4f60a2f2f8f95dF4F894c58Cc' },
+  { username: 'pharra', walletAddress: '0x735135Ff4152b3Ae255cA708EB37D83B0A8853F8' },
+  { username: 'vladimirfestival', walletAddress: '0xc07d6ddb4330bb23d7175e069fd2c53fdac15e9e' },
+  { username: 'mlibty', walletAddress: '0x9eec0b5bd8a48047f0dcc61e98b4b92951480f98' },
 ];
 const GnarsDelegation: React.FC = () => {
   const [walletData, setWalletData] = useState<WalletData[]>([]);
@@ -112,7 +114,9 @@ const GnarsDelegation: React.FC = () => {
         const provider = new ethers.providers.JsonRpcProvider(
           "https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik"
         );
-        const contract = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
+        const gnarsContract = new ethers.Contract(gnars_contract, ERC721_ABI, provider);
+        console.log("contract", gnarsContract);
+
         const skthvProxyContract = new ethers.Contract(skthv_proxy_contract, ERC1155_ABI, provider);
         const usernames = walletsList.map((wallet) => wallet.username);
         const hasHivePower = await Promise.all(
@@ -122,41 +126,38 @@ const GnarsDelegation: React.FC = () => {
             return hivePower;
           })
         );
-        
+
         const hasVotedForSkateHive = await Promise.all(
           usernames.map(async (username) => {
             const account = await client.database.getAccounts([username]);
-            
+
             const hasVotedForSkateHive =
               account[0]?.witness_votes?.includes("skatehive") || false;
             const hasHiveAccount = !!account[0];
             const hivePower = account[0]?.vesting_shares || 0;
-        
+
             return { hasVotedForSkateHive, hasHiveAccount, hivePower };
           })
         );
-        
-        
 
-
-        const delegatedVotes = await contract.getCurrentVotes(
+        const delegatedVotes = await gnarsContract.getCurrentVotes(
           "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c"
         );
-        const totalSupply = await contract.totalSupply();
+        const totalSupply = await gnarsContract.totalSupply();
         setTotalDelegatedVotes(ethers.utils.formatUnits(delegatedVotes, 0));
 
         const updatedWalletsList: WalletData[] = await Promise.all(
           walletsList.map(async (wallet, index) => {
-            const votes = await contract.getCurrentVotes(wallet.walletAddress);
+            const votes = await gnarsContract.getCurrentVotes(wallet.walletAddress);
             const balanceOfSkthv = await skthvProxyContract.balanceOf(
               wallet.walletAddress,
               1
             );
 
             const isDelegated =
-              (await contract.delegates(wallet.walletAddress)) ===
+              (await gnarsContract.delegates(wallet.walletAddress)) ===
               "0xB4964e1ecA55Db36a94e8aeFfBFBAb48529a2f6c";
-            const balance = await contract.balanceOf(wallet.walletAddress);
+            const balance = await gnarsContract.balanceOf(wallet.walletAddress);
 
             return {
               ...wallet,
@@ -168,9 +169,9 @@ const GnarsDelegation: React.FC = () => {
               hasVotedForSkateHive: hasVotedForSkateHive[index].hasVotedForSkateHive,
               hasHiveAccount: hasVotedForSkateHive[index].hasHiveAccount,
             };
+
           })
         );
-
         const sortedWalletData = updatedWalletsList.sort(
           (a, b) => parseFloat(b.balance!) - parseFloat(a.balance!)
         );
@@ -210,39 +211,56 @@ const GnarsDelegation: React.FC = () => {
     await handleWitnessVote(wallet_username);
   };
 
+  const isMobile = window.innerWidth < 768;
+
   return (
     <VStack spacing={4} align="stretch">
-      <Grid
-        templateColumns="repeat(auto-fit, minmax(300px, 1fr))" // Adjust the column width as needed
-        gap={4}
-        justifyItems="center"
-      >
+      <Flex flexDirection={isMobile ? "column" : "row"} justifyContent="center" alignItems="center" mb={4}>
         {/* First Box */}
-        <Box textAlign="center" borderWidth="1px" borderRadius="lg" p={4}>
-          <center>
-          <Image src="https://www.gnars.wtf/images/logo.png" boxSize={28} align={"center"} />
-          </center>
-          <Text fontSize="xl" fontWeight="bold">
+        <Box textAlign="center" borderWidth="1px" p={4} width="300px" boxShadow="lg">
+          <Center>
+
+            <Image
+              src="https://www.gnars.wtf/images/logo.png"
+              boxSize={28}
+              align="center"
+              mb={2}
+            />
+          </Center>
+          <Text fontSize="2xl" fontWeight="bold" mb={2}>
             Gnars Supply
           </Text>
-          <Text color={"orange"} fontSize="xl" fontWeight="bold">
+          <Text color="orange" fontSize="lg" fontWeight="bold" mb={2}>
             {walletData[0]?.totalSupply}
           </Text>
-        </Box>
-
-        {/* Second Box */}
-        <Box textAlign="center" borderWidth="1px" borderRadius="lg" p={4}>
-        <center>
-          <Image src="assets/skatehive-logo.png" boxSize={28} align={"center"} />
-          </center>
-          <Text fontSize="xl" fontWeight="bold">
-            Skatehive Gnars 
+          <Text fontSize="md" fontWeight="bold" mb={2}>
+            Total number of existing Gnars NFTs
           </Text>
-          <Text color={"orange"} fontSize="xl" fontWeight="bold">
+        </Box>
+        {/* Second Box */}
+
+        <Box textAlign="center" borderWidth="1px" p={4} width="300px" boxShadow="lg">
+          <Center>
+
+            <Image
+              src="assets/skatehive-logo.png"
+              boxSize={28}
+              align="center"
+              mb={2}
+            />
+          </Center>
+
+          <Text fontSize="2xl" fontWeight="bold" mb={2}>
+            Skatehive Gnars
+          </Text>
+          <Text color="orange" fontSize="lg" fontWeight="bold" mb={2}>
             {totalDelegatedVotes}
           </Text>
+          <Text fontSize="md" fontWeight="bold" mb={2}>
+            Total delegated votes for SkateHive wallet for you
+          </Text>
         </Box>
-      </Grid>
+      </Flex>
 
       <Box>
         <Table variant="simple" size="md">
@@ -333,15 +351,15 @@ const GnarsDelegation: React.FC = () => {
         </Table>
       </Box>
       <HStack spacing={4} justify="center">
-      {isLoading ? (
-        <Flex justifyContent="center" alignItems="center" flexDirection={"column"}>
-          <Image
-            boxSize={"60px"}
-            src="https://64.media.tumblr.com/12da5f52c1491f392676d1d6edb9b055/870d8bca33241f31-7b/s400x600/fda9322a446d8d833f53467be19fca3811830c26.gif"
-          ></Image>
+        {isLoading ? (
+          <Flex justifyContent="center" alignItems="center" flexDirection={"column"}>
+            <Image
+              boxSize={"60px"}
+              src="https://64.media.tumblr.com/12da5f52c1491f392676d1d6edb9b055/870d8bca33241f31-7b/s400x600/fda9322a446d8d833f53467be19fca3811830c26.gif"
+            ></Image>
 
-        </Flex>
-      ) : null}
+          </Flex>
+        ) : null}
       </HStack>
     </VStack>
   );

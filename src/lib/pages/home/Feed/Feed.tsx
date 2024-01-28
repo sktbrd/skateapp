@@ -17,6 +17,7 @@ import {
   useDisclosure,
   Center,
   VStack,
+  Avatar,
 } from "@chakra-ui/react";
 import { Client, Discussion } from "@hiveio/dhive";
 import useAuthUser from "../api/useAuthUser";
@@ -606,18 +607,13 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                 >
 
                   <Link to={`profile/${post.author}`}>
-                    <Image
+                    <Avatar
                       border="0px solid black"
                       borderRadius="10px"
-                      src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
-                      width="105%"
-                      height="105%"
-                      style={{
-                        boxShadow: "0 8px 12px rgba(0, 0, 0, 0.8)", // Adding a drop shadow
-                      }}
+                      src={`https://images.ecency.com/webp/u/${post.author}/avatar/small` || "assets/loading.gif"}
+                      boxSize={"70px"}
                     />
                   </Link>
-
                   <Tooltip
                     color={"white"}
                     backgroundColor={"grey"}
@@ -721,7 +717,8 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
           </Box>
           {isLoadingMore && <PlaceholderLoadingBar />}
         </>
-      )}
+      )
+      }
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
         <ModalContent>
@@ -757,7 +754,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
           />
         </ModalContent>
       </Modal>
-    </Box>
+    </Box >
   );
 };
 

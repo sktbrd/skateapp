@@ -452,6 +452,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
         width: "10px",
         backgroundColor: "black", // Change the background color
         color: "mediumvioletred", // Change the text color
+
       };
     }
 
@@ -459,7 +460,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     return {
       width: "10px",
       color: "white",
-      border: "1px solid white",
+
     };
   };
 
@@ -644,10 +645,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                       ml={2}
                       style={{
                         fontFamily: "Londrina Solid, cursive",
-                        fontSize: `${Math.min(
-                          46,
-                          13 + post.earnings * 1.2
-                        )}px`,
+                        fontSize: "32px",
                         textShadow: "2px 2px 1px rgba(0, 0, 0, 1)",
                         transition: "background-color 0.3s ease-in-out", // Add a transition for a smoother effect
                       }}
@@ -698,7 +696,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                         color="black"
                         size="sm"
                         aria-label="Upvote"
-                        border="1px solid white"
                         borderColor="black"
                         onClick={(e) => {
                           e.stopPropagation(); // Prevent the click event from propagating

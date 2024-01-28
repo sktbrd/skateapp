@@ -708,9 +708,9 @@ const HeaderNew = () => {
             </Menu>
         }
       </Flex>
-      {!isDesktop && (
+      {/* {!isDesktop && (
         <Image paddingTop={"15px"} src="https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23uQ3d5BKcoYkuYWd7kZrnS396M1M6DvsMa5MowAmaVynQr67ChnARGaFstnMGeSspzwR.png" alt="Skatehive Image" />
-      )}
+      )} */}
 
       <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
         <HiveLogin isOpen={isModalOpen} onClose={() => setModalOpen(false)} />

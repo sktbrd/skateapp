@@ -16,7 +16,7 @@ const isMobile = window.innerWidth <= 768; // Adjust the width as needed
 const Home = () => {
   // const navigate = useNavigate();
   // const { selectedIndex, ...tabProps } = useTabs({ isLazy: true });
-  const isBigScreen = useMediaQuery("(min-width: 768px)");
+  const isBigScreen = useMediaQuery("(min-width: 768px)")
 
 
   return (
@@ -25,6 +25,7 @@ const Home = () => {
       alignItems="center"
       justifyContent="center"
     >
+
       <Tabs isFitted variant="enclosed" width="100%" color={"black"} >
         <TabList justifyContent={"center"} width="100%" color={"black"} >
           <Tab
@@ -48,7 +49,7 @@ const Home = () => {
 
             }}
           >
-            Skateboard
+            Skate
 
           </Tab>
 
@@ -62,7 +63,7 @@ const Home = () => {
 
             }}
           >
-            LongBoard
+            Long
           </Tab>
           <Tab
             color="white"
@@ -73,7 +74,7 @@ const Home = () => {
               border: '1px solid white',
             }}
           >
-            Snowboard
+            Snow
           </Tab>
           <Tab
             color="white"

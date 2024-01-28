@@ -103,8 +103,8 @@ const Home = () => {
           {/* skatehive */}
           <TabPanel>
             <HiveBlog tag='hive-141964' />
-
           </TabPanel>
+
           <TabPanel>
             <HiveBlog />
           </TabPanel>
@@ -113,15 +113,10 @@ const Home = () => {
             <HiveBlog tag='longboard' />
           </TabPanel>
           <TabPanel>
-          </TabPanel>
-          <TabPanel>
             <HiveBlog tag='hive-141964' />
-
           </TabPanel>
-
           <TabPanel>
             <HiveBlog tag='hive-149133' />
-
           </TabPanel>
         </TabPanels>
       </Tabs>

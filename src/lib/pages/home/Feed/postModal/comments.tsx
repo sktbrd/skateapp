@@ -5,8 +5,8 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize'; // Add this import
 
-import useAuthUser from '../../api/useAuthUser';
-import voteOnContent from '../../api/voting';
+import useAuthUser from '../../../../components/auth/useAuthUser';
+import voteOnContent from '../../../utils/hiveFunctions/voting';
 
 import * as Types from '../types';
 

@@ -28,13 +28,13 @@ import { Client, PrivateKey } from '@hiveio/dhive';
 import PostHeader from './postModalHeader';
 import PostFooter from './postModalFooter';
 import Comments from './comments';
-import voteOnContent from '../../api/voting';
-import useAuthUser from '../../api/useAuthUser';
+import voteOnContent from '../../../utils/hiveFunctions/voting';
+import useAuthUser from '../../../../components/auth/useAuthUser';
 import CommentBox from './commentBox';
 import * as Types from '../types';
 import { MarkdownRenderers } from '../../../utils/MarkdownRenderers';
 import { transformComplexMarkdown } from '../../../utils/transformComplexMarkdown';
-import HiveLogin from '../../api/HiveLoginModal';
+import HiveLogin from '../../../../components/auth/HiveLoginModal';
 const nodes = [
   "https://api.deathwing.me",
   "https://api.hive.blog",

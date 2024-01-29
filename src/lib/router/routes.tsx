@@ -17,7 +17,6 @@ const TutorialPage = React.lazy(() => import("lib/pages/home/tutorialPage"));
 const PostPage = React.lazy(() => import("lib/pages/postpage"));
 const QFS = React.lazy(() => import("lib/pages/qfs"));
 const GnarsStats = React.lazy(() => import("lib/pages/home/dao/components/hiveGnars/gnars"));
-const ThatsGnarly = React.lazy(() => import("lib/pages/home/Feed/thatsgnarly"));
 const PepeCaptcha = React.lazy(() => import("lib/pages/secret-spot"));
 const NewUpload = React.lazy(() => import("lib/pages/upload/newUpload"));
 const Shelf = React.lazy(() => import("lib/pages/home/videos/lbry"));
@@ -76,10 +75,6 @@ export const routes: Array<PathRouteProps> = [
   {
     path: "/gnars",
     element: <GnarsStats />,
-  },
-  {
-    path: "/thatsgnarly",
-    element: <ThatsGnarly />,
   },
   {
     path: "/secret",

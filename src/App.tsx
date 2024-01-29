@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { ChakraProvider, useColorMode } from "@chakra-ui/react";
+import { ChakraProvider, } from "@chakra-ui/react";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { PioneerProvider } from "@pioneer-platform/pioneer-react";
@@ -9,21 +8,17 @@ import Layout from "lib/layout";
 import Routings from "lib/router/Routings";
 import { theme } from "lib/styles/theme";
 
-
-
-
-
 const App = () => {
   return (
-   <PioneerProvider>
+    <PioneerProvider>
       <ChakraProvider theme={theme}>
-          <Router>
-            <Layout>
-              <Routings />
-            </Layout>
-          </Router>
+        <Router>
+          <Layout>
+            <Routings />
+          </Layout>
+        </Router>
       </ChakraProvider>
-   </PioneerProvider>
+    </PioneerProvider>
   );
 };
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Image, Text } from '@chakra-ui/react';
 import NewUpload from './newUpload';
 import Chat from '../home/chat';
-import useAuthUser from '../home/api/useAuthUser';
+import useAuthUser from '../../components/auth/useAuthUser';
 import * as dhive from "@hiveio/dhive";
 import IntroductionPost from './newbieUpload';
 

@@ -23,8 +23,8 @@ import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { CommentProps } from "../Feed/types";
-import useAuthUser from "../api/useAuthUser";
-import voteOnContent from "../api/voting";
+import useAuthUser from "../../../components/auth/useAuthUser";
+import voteOnContent from "../../utils/hiveFunctions/voting";
 type User = {
   name: string;
 } | null;

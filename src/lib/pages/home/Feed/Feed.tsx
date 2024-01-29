@@ -18,8 +18,8 @@ import {
   Avatar,
 } from "@chakra-ui/react";
 import { Client, Discussion } from "@hiveio/dhive";
-import useAuthUser from "../api/useAuthUser";
-import voteOnContent from "../api/voting";
+import useAuthUser from "../../../components/auth/useAuthUser";
+import voteOnContent from "../../utils/hiveFunctions/voting";
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";

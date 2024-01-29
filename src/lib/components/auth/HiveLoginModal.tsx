@@ -70,7 +70,7 @@ const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose }) => {
             borderRadius="lg"
           >
             <center>
-             💀 Hive Keychain Not Installed
+              💀 Hive Keychain Not Installed
               <a href="/tutorial" style={{ color: 'limegreen' }}> - Install Here ! </a>
             </center>
           </Badge>

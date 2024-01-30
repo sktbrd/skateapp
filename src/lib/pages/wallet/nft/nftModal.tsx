@@ -18,7 +18,7 @@ import { KeychainSDK, KeychainKeyTypes, Broadcast } from 'keychain-sdk';
 import * as dhive from "@hiveio/dhive";
 
 
-import useAuthUser from "lib/components/useAuthUser";
+import useAuthUser from "lib/components/auth/useAuthUser";
 
 interface NFTModalProps {
   isOpen: boolean;

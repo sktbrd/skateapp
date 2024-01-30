@@ -15,9 +15,10 @@ import {
   Text,
   Tooltip,
   useDisclosure,
+  Avatar,
 } from "@chakra-ui/react";
 import { Client, Discussion } from "@hiveio/dhive";
-import useAuthUser from "../../../components/useAuthUser";
+import useAuthUser from "../../../components/auth/useAuthUser";
 import voteOnContent from "../../utils/hiveFunctions/voting";
 
 import { useEffect, useState } from "react";
@@ -609,15 +610,12 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                     style={{ display: "flex", alignItems: "center" }}
                   >
                     <Link to={`profile/${post.author}`}>
-                      <Image
+                      <Avatar
                         border="0px solid limegreen"
                         borderRadius="10px"
                         src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
-                        width="105%"
-                        height="105%"
-                        style={{
-                          boxShadow: "0 8px 12px rgba(0, 0, 0, 0.8)", // Adding a drop shadow
-                        }}
+                        boxSize={"60px"}
+
                       />
                     </Link>
 

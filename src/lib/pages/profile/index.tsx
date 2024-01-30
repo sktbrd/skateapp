@@ -1,5 +1,5 @@
 import { Tooltip, AspectRatio, Box, Text, Image, Flex, Tabs, TabList, TabPanels, Tab, TabPanel, Button, Modal, ModalBody, ModalCloseButton, ModalOverlay, ModalContent, ModalFooter, ModalHeader, VStack } from "@chakra-ui/react";
-import useAuthUser from "../../components/useAuthUser";
+import useAuthUser from "../../components/auth/useAuthUser";
 import React, { useEffect, useState } from 'react';
 import HiveBlog from "../home/Feed/Feed";
 import BeCool from "./beCool";

@@ -1,5 +1,5 @@
 import { Flex, Text, Image, Button, Box, Table, Thead, Tbody, Tr, Th, Td, Link } from "@chakra-ui/react";
-import useAuthUser from "lib/components/useAuthUser";
+import useAuthUser from "lib/components/auth/useAuthUser";
 import { useEffect, useState } from "react";
 import {
   setStore,

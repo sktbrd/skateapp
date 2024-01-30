@@ -29,7 +29,7 @@ import { transformYouTubeContent } from '../utils/videoFunctions/videoUtils';
 import { transform3SpeakContent } from '../utils/videoFunctions/videoUtils';
 import { transformGiphyLinksToMarkdown } from '../utils/ImageUtils';
 import { transformComplexMarkdown } from '../utils/transformComplexMarkdown';
-import useAuthUser from '../../components/useAuthUser';
+import useAuthUser from '../../components/auth/useAuthUser';
 
 import Comments from '../home/Feed/postModal/comments';
 

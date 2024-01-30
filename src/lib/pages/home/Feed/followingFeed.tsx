@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { Client } from "@hiveio/dhive";
 import voteOnContent from "../../utils/hiveFunctions/voting";
-import useAuthUser from "../../../components/useAuthUser";
+import useAuthUser from "../../../components/auth/useAuthUser";
 
 import { useEffect, useState } from "react";
 import PostModal from "./postModal/postModal";

@@ -10,7 +10,7 @@ interface HiveKeychainResponse {
 // Define the Account type
 interface Account {
   name: string;
-  reward_hbd_balance: string | dhive.Asset;
+  reward_hbd_balance: string | dhive.Asset; 
   reward_hive_balance: string | dhive.Asset;
   reward_vesting_balance: string | dhive.Asset;
   reward_vesting_hive: string | dhive.Asset;
@@ -71,15 +71,15 @@ function useAuthUser(): AuthUser {
               const key = dhive.PublicKey.fromString(publicKey);
               if (key.verify(dhive.cryptoUtils.sha256(memo), sig) === true) {
                 const val2 = await dhiveClient.database.getAccounts([accountName]);
-
+            
                 const userAccount: Account = {
-                  ...val2[0],
+                    ...val2[0],
                 };
-
+            
                 setUser(userAccount);
                 localStorage.setItem("user", JSON.stringify(userAccount));
                 window.location.reload(); // Refresh the page after login
-
+                        
               }
             }
           } catch (error) {
@@ -90,7 +90,7 @@ function useAuthUser(): AuthUser {
     );
   };
 
-
+  
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");

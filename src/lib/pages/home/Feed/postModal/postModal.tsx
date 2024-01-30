@@ -29,12 +29,12 @@ import PostHeader from './postModalHeader';
 import PostFooter from './postModalFooter';
 import Comments from './comments';
 import voteOnContent from '../../../utils/hiveFunctions/voting';
-import useAuthUser from '../../../../components/useAuthUser';
+import useAuthUser from '../../../../components/auth/useAuthUser';
 import CommentBox from './commentBox';
 import * as Types from '../types';
 import { MarkdownRenderers } from '../../../utils/MarkdownRenderers';
 import { transformComplexMarkdown } from '../../../utils/transformComplexMarkdown';
-import HiveLogin from '../../../../components/HiveLoginModal';
+import HiveLogin from '../../../../components/auth/HiveLoginModal';
 const nodes = [
   "https://api.deathwing.me",
   "https://api.hive.blog",

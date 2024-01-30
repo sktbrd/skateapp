@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Flex, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box, Text } from '@chakra-ui/react';
 import voteOnContent from '../utils/hiveFunctions/voting';
-import useAuthUser from '../../components/useAuthUser';
+import useAuthUser from '../../components/auth/useAuthUser';
 import ErrorModal from '../home/Feed/postModal/errorModal';
 
 import * as Types from '../home/Feed/types';

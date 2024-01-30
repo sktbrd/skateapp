@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Text, Button, Center, Badge, VStack, Grid, GridItem, useBreakpointValue, Tooltip } from "@chakra-ui/react";
-import useAuthUser from "lib/components/useAuthUser";
+import useAuthUser from "lib/components/auth/useAuthUser";
 import * as dhive from "@hiveio/dhive";
 import UserReputation from "../utils/hiveFunctions/usersReputation";
 import { KeychainSDK } from "keychain-sdk";

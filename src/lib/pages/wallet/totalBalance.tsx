@@ -2,7 +2,7 @@ import { Image, Box, Text, HStack, Tooltip, Badge, Grid, GridItem, Center } from
 
 import { useState, useEffect } from "react";
 
-import useAuthUser from "lib/components/useAuthUser";
+import useAuthUser from "lib/components/auth/useAuthUser";
 import * as dhive from "@hiveio/dhive";
 // import WalletTransactions from "lib/pages/home/dao/components/hiveGnars/txHistory";
 

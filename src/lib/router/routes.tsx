@@ -1,5 +1,4 @@
 import Page404 from "lib/pages/404";
-import DaoStatus from "lib/pages/home/dao/DaoStatus";
 import SubscriberList from "lib/pages/home/dao/components/steemskate/subscribers";
 import UploadPage from "lib/pages/upload";
 import React from "react";
@@ -17,7 +16,6 @@ const TutorialPage = React.lazy(() => import("lib/pages/home/tutorialPage"));
 const PostPage = React.lazy(() => import("lib/pages/postpage"));
 const QFS = React.lazy(() => import("lib/pages/qfs"));
 const GnarsStats = React.lazy(() => import("lib/pages/home/dao/components/hiveGnars/gnars"));
-const ThatsGnarly = React.lazy(() => import("lib/pages/home/Feed/thatsgnarly"));
 const PepeCaptcha = React.lazy(() => import("lib/pages/secret-spot"));
 const NewUpload = React.lazy(() => import("lib/pages/upload/newUpload"));
 const Shelf = React.lazy(() => import("lib/pages/secret-spot/videos/lbry"));
@@ -40,7 +38,10 @@ export const routes: Array<PathRouteProps> = [
     path: "/wallet",
     element: <Wallet />,
   },
-  { path: "/plaza", element: <Plaza /> },
+  {
+    path: "/plaza",
+    element: <Plaza />
+  },
   {
     path: "/profile",
     element: <Profile />,
@@ -78,16 +79,8 @@ export const routes: Array<PathRouteProps> = [
     element: <GnarsStats />,
   },
   {
-    path: "/thatsgnarly",
-    element: <ThatsGnarly />,
-  },
-  {
     path: "/secret",
     element: <PepeCaptcha />,
-  },
-  {
-    path: "/newupload",
-    element: <NewUpload />,
   },
 
   {

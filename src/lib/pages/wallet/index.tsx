@@ -18,7 +18,7 @@ import NFTWallet from './nft/nftWallet';
 import SkatehiveOG from './nft/skatehiveOG';
 import GnarsNfts from './nft/gnarsNfts';
 import TotalBalances from './totalBalance';
-import useAuthUser from '../../components/useAuthUser';
+import useAuthUser from '../../components/auth/useAuthUser';
 const Wallet = () => {
   const { state } = usePioneer();
   const { app, status, pubkeyContext } = state;

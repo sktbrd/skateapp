@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Button, Flex, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box, Text } from '@chakra-ui/react';
 import voteOnContent from '../../../utils/hiveFunctions/voting';
 import { useState } from 'react';
-import HiveLogin from '../../../../components/HiveLoginModal';
+import HiveLogin from '../../../../components/auth/HiveLoginModal';
 import ErrorModal from './errorModal';
 import * as Types from '../types'
 

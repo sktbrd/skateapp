@@ -4,6 +4,7 @@ import { Box, Text, Table, Td, Tr, Tbody, Flex, Image, Button, Grid, GridItem, C
 import { formatWalletAddress } from 'lib/pages/utils/formatWallet';
 import EvmSendModal2 from './evmSendModal2';
 import { ethers } from "ethers";
+import { useNnsName } from '@nnsprotocol/resolver-wagmi'
 
 interface TokenInfo {
   address: string;
@@ -69,22 +70,22 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
   const [selectedToken, setSelectedToken] = useState<TokenInfo['token'] | null>(null);
   const [ensAddress, setENSAddress] = useState<string | null>(null);
 
+  const nns = useNnsName({
+    //@ts-ignore
+    address: `${wallet_address}`,
+  })
+
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(wallet_address);
+    } catch (error) {
+      console.error('Error copying to clipboard:', error);
+    }
+  };
   const handleTokenClick = (token: TokenInfo['token']) => {
     setSelectedToken(token);
-    console.log(token)
   };
-
-  // TODO: touch base with @highlander here to see if we can get this working
-  // const result = await app_wallet.getPublicKeys([
-  //   {
-  //     addressNList: [0x80000000 + 44, 0x80000000 + 0, 0x80000000 + 0],
-  //     curve: "secp256k1",
-  //     showDisplay: true, // Not supported by TrezorConnect or Ledger, but KeepKey should do it
-  //     coin: "Bitcoin",
-  //   },
-  // ]);
-  // console.log("Result: ", result);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -96,23 +97,19 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
 
         const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address.toUpperCase()}`);
         const pioneer_ethereum_balance = await axios.get('https://pioneers.dev/api/v1/getPubkeyBalance/ethereum/' + wallet_address);
-        // test if user address has a ENS domain name and if so, use that instead of the wallet address, use alchemy provider 
 
         const providerUrl = "https://eth-mainnet.g.alchemy.com/v2/w_vXc_ypxkmdnNaOO34pF6Ca8IkIFLik";
         const provider = new ethers.providers.JsonRpcProvider(providerUrl);
 
-        const ensResponse = await provider.lookupAddress(wallet_address)
+        const ensResponse = await provider.lookupAddress(wallet_address);
         setENSAddress(ensResponse);
-
 
         setEthBalance((pioneer_ethereum_balance.data).toFixed(6));
         setTotalNetWorth(response.data.totalNetWorth);
         setNftValue(Number(response.data.nftUsdNetWorth[wallet_address]));
         setTotalBalanceUsdTokens(response.data.totalBalanceUsdTokens);
 
-        // Sort tokens by networkId
         const sortedTokens = response.data.tokens.map((token: TokenInfo) => token.token).sort((a: any, b: any) => a.networkId - b.networkId);
-
         setTokens(sortedTokens);
         setLoading(false);
       } catch (error) {
@@ -125,36 +122,6 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
     }
   }, [wallet_address]);
 
-  const [copyStatus, setCopyStatus] = useState<boolean>(false);
-
-  function handleCopy(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    const textToCopy = formatWalletAddress(wallet_address);
-
-    navigator.clipboard
-      .writeText(textToCopy)
-      .then(() => {
-        setCopyStatus(true);
-        alert("Copied to clipboard");
-        setTimeout(() => {
-          setCopyStatus(false);
-        }, 2000);
-      })
-      .catch((error) => {
-        console.error('Error copying to clipboard:', error);
-        setCopyStatus(false);
-      });
-  }
-
-  useEffect(() => {
-    if (ethBalance !== null && ethPrice !== null) {
-      setEthBalanceInUsd(ethBalance * ethPrice);
-
-    }
-  }
-    , [ethPrice, ethBalance]);
-
-
-
   return (
     <Flex flexDirection={"column"}>
       <Box
@@ -166,7 +133,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
         background="#002240"
         minWidth={["100%", "100%", "100%", "100%"]}
       >
-        <Center> {/* Center component to horizontally center the content */}
+        <Center>
           <Box marginRight={"5%"}>
             <Image src="/assets/cryptopepe.png" alt="Swaps Logo" width="200px" borderRadius="10px" />
           </Box>
@@ -178,11 +145,9 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
               </Text>
               <Button p={0} bg={"transparent"} onClick={handleCopy} _hover={{ backgroundColor: 'blue.700', cursor: 'pointer' }}>
                 <Text color="#FFA500" fontSize="18px" marginLeft="5px">
-                  <Badge fontSize={"24px"} >  {ensAddress ? ensAddress : formatWalletAddress(wallet_address)}</Badge>
+                  <Badge fontSize={"24px"} >{nns.data || ensAddress || formatWalletAddress(wallet_address)}</Badge>
                 </Text>
-
               </Button>
-
             </Box>
 
             {!loading && (
@@ -193,7 +158,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
                       Total Balance
                     </Text>
                     <Text color="#FFA500" fontSize="18px" marginLeft="5px">
-                      <Badge fontSize={"24px"} > {totalNetWorth?.toFixed(2)} USD</Badge>
+                      <Badge fontSize={"24px"} >{totalNetWorth?.toFixed(2)} USD</Badge>
                     </Text>
                   </Box>
                 </GridItem>
@@ -203,7 +168,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
                       ETH Balance
                     </Text>
                     <Text color="#FFA500" fontSize="18px" marginLeft="5px">
-                      <Badge fontSize={"22px"} >  {ethBalance} ETH </Badge>
+                      <Badge fontSize={"22px"} >{ethBalance} ETH </Badge>
                     </Text>
                   </Box>
                 </GridItem>
@@ -214,7 +179,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
                       NFTs Estimated
                     </Text>
                     <Text color="#FFA500" fontSize="18px" marginLeft="5px">
-                      <Badge fontSize={"22px"} >  {nftvalue?.toFixed(2)} USD </Badge>
+                      <Badge fontSize={"22px"} >{nftvalue?.toFixed(2)} USD </Badge>
                     </Text>
                   </Box>
                 </GridItem>

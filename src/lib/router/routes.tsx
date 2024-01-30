@@ -1,5 +1,4 @@
 import Page404 from "lib/pages/404";
-import DaoStatus from "lib/pages/home/dao/DaoStatus";
 import SubscriberList from "lib/pages/home/dao/components/steemskate/subscribers";
 import UploadPage from "lib/pages/upload";
 import React from "react";
@@ -39,7 +38,10 @@ export const routes: Array<PathRouteProps> = [
     path: "/wallet",
     element: <Wallet />,
   },
-  { path: "/plaza", element: <Plaza /> },
+  {
+    path: "/plaza",
+    element: <Plaza />
+  },
   {
     path: "/profile",
     element: <Profile />,
@@ -79,10 +81,6 @@ export const routes: Array<PathRouteProps> = [
   {
     path: "/secret",
     element: <PepeCaptcha />,
-  },
-  {
-    path: "/newupload",
-    element: <NewUpload />,
   },
 
   {

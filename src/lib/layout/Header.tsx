@@ -350,12 +350,18 @@ const HeaderNew = () => {
 
           </MenuButton>
           <MenuList border="1px solid limegreen" backgroundColor="black" color="white">
+
             <Link to="https://skatehive.app/dao" style={{ textDecoration: 'none' }}>
+              <MenuItem
+                backgroundColor="black">
+                <CommunityTotalPayout communityTag="hive-173115" />
+
+              </MenuItem>
               <MenuItem
                 _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
                 backgroundColor="black"
               >
-                🏛 DAO
+                🏛 Proposals
               </MenuItem>
             </Link>
             <Link to="/invite" style={{ textDecoration: 'none' }}>
@@ -407,8 +413,23 @@ const HeaderNew = () => {
               </MenuItem>
             </Link>
             <MenuDivider />
+            <center>
+
+              <Image width={"200px"} src="https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23uQ3d5BKcoYkuYWd7kZrnS396M1M6DvsMa5MowAmaVynQr67ChnARGaFstnMGeSspzwR.png" alt="Skatehive Image" />
+            </center>
+
+            <MenuDivider />
 
             <MenuGroup title="Forks">
+              <Link to="https://stoken.wtf" target="_blank" style={{ textDecoration: 'none' }}>
+
+                <MenuItem
+                  _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+                  backgroundColor="black"
+                >
+                  🤘 Stoken.wtf
+                </MenuItem>
+              </Link>
               <Link to="https://crowsnight.com" target="_blank" style={{ textDecoration: 'none' }}>
 
                 <MenuItem
@@ -428,16 +449,8 @@ const HeaderNew = () => {
                 </MenuItem>
 
               </Link>
-              <MenuItem
-                backgroundColor="black">
 
-                <Image paddingLeft={"30px"} width={"200px"} src="https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23uQ3d5BKcoYkuYWd7kZrnS396M1M6DvsMa5MowAmaVynQr67ChnARGaFstnMGeSspzwR.png" alt="Skatehive Image" />
-              </MenuItem>
-              <MenuItem
-                backgroundColor="black">
-                <CommunityTotalPayout communityTag="hive-173115" />
 
-              </MenuItem>
 
             </MenuGroup>
           </MenuList>

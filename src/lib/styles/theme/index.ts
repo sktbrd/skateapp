@@ -14,28 +14,28 @@ export const theme = extendTheme({
   ...themeConfig,
   fonts: {
     heading: "Press Start 2P, sans serif", //not working
-    body: "Roboto Mono Variable, sans serif", 
+    body: "Roboto Mono Variable, sans serif",
   },
 
   components: {},
 
   styles: {
     global: (props: GlobalStyleProps) => ({
-      body: { 
+      body: {
         background: "linear-gradient(to top, #0D0D0D, #1C1C1C, #000000)",
-        color:  "white" ,
+        color: "white",
       },
       p: {
         color: "limegreen",
       },
 
-      heading:{
+      heading: {
         fontSize: "75px",
       },
 
       // Style for Webkit scrollbars
       "::-webkit-scrollbar": {
-        width: "4px",
+        width: "8px",
       },
       "::-webkit-scrollbar-track": {
         backgroundColor: "black",

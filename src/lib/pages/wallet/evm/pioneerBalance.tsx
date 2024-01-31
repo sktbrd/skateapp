@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box, Text, Table, Td, Tr, Tbody, Flex, Image, Button, Grid, GridItem, Center, Tooltip, Badge, Accordion, AccordionButton, AccordionItem, AccordionPanel } from '@chakra-ui/react';
 import { formatWalletAddress } from 'lib/pages/utils/formatWallet';
-import EvmSendModal2 from './evmSendModal2';
+import EvmSendModal from './evmSendModal';
 import { ethers } from "ethers";
 import { useNnsName } from '@nnsprotocol/resolver-wagmi'
 
@@ -282,7 +282,7 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ wallet_address }) => {
         </Table>
       </Box>
       {selectedToken && (
-        <EvmSendModal2 isOpen={!!selectedToken} onClose={() => setSelectedToken(null)} tokenInfo={selectedToken} />
+        <EvmSendModal isOpen={!!selectedToken} onClose={() => setSelectedToken(null)} tokenInfo={selectedToken} />
       )}
     </Flex>
   );

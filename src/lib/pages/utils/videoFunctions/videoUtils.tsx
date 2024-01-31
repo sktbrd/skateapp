@@ -46,3 +46,15 @@ export function transform3SpeakContent(content: string): string {
   }
   return content;
 }
+
+
+// make a regex to match links like that <iframe src="https://ipfs.skatehive.app/ipfs/QmPdsChTSXQkqu3FLJHcAjqdLCqq5bCcnC1dKwCB8oLA1S?pinataGatewayToken=nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE" allowfullscreen></iframe> and transform in videos like that <video controls muted loop> <source src="https://ipfs.skatehive.app/ipfs/QmPdsChTSXQkqu3FLJHcAjqdLCqq5bCcnC1dKwCB8oLA1S?pinataGatewayToken=nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE" type="video/mp4"></video> 
+
+export function transformIPFSContent(content: string): string {
+  const regex = /<iframe src="https:\/\/ipfs\.skatehive\.app\/ipfs\/([a-zA-Z0-9-?=&]+)"(?:(?!<\/iframe>).)*\sallowfullscreen><\/iframe>/g;
+
+  return content.replace(regex, (match, videoID) => {
+    return `<video controls muted loop> <source src="https://ipfs.skatehive.app/ipfs/${videoID}" type="video/mp4"></video>`;
+  });
+}
+

@@ -45,7 +45,7 @@ const nodes = [
 ];
 
 import { transformGiphyLinksToMarkdown } from 'lib/pages/utils/ImageUtils';
-import { transform3SpeakContent, transformYouTubeContent } from 'lib/pages/utils/videoFunctions/videoUtils';
+import { transform3SpeakContent, transformYouTubeContent, transformIPFSContent } from 'lib/pages/utils/videoFunctions/videoUtils';
 import { slugify } from 'lib/pages/utils/videoFunctions/slugify';
 import { json } from 'stream/consumers';
 import { diff_match_patch } from 'diff-match-patch';
@@ -307,6 +307,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
 
   let transformedContent = transformYouTubeContent(content);
   transformedContent = transformComplexMarkdown(transformedContent);
+  transformedContent = transformIPFSContent(transformedContent);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="3xl">

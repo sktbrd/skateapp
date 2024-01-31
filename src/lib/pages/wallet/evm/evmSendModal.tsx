@@ -10,248 +10,111 @@ interface EvmSendModalProps {
   tokenInfo: any;
 }
 
-interface MetaMaskShapeShiftMultiChainHDWalletInfo {
-  _supportsBTCInfo: boolean;
-  _supportsETHInfo: boolean;
-  // Add other properties as needed
-}
-
-interface MetaMaskShapeShiftMultiChainHDWallet {
-  accounts: string[];
-  addressCache: Map<any, any>; // You may want to specify the types more accurately
-  ethAddress: string;
-  info: MetaMaskShapeShiftMultiChainHDWalletInfo;
-  provider: any; // You may want to specify the type of the provider
-  publicKeysCache: Map<any, any>; // You may want to specify the types more accurately
-  type: string;
-  _isMetaMask: boolean;
-  // Add other properties as needed
-}
-
+// create a list o Native Blockchain coins 
+const nativeTokens = [
+  {
+    name: "Ether",
+    symbol: "ETH",
+  },
+  { name: "Matic", symbol: "MATIC" },
+  { name: "Polygon", symbol: "XDAI" },
+  { name: "Binance Coin", symbol: "BNB" },
+];
 
 const EvmSendModal: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo }) => {
-  const [amount, setAmount] = useState<string>("");
-  const [toAddress, setToAddress] = useState<string>("");
-  const [error, setError] = useState<string>("");
   const { state, dispatch } = usePioneer();
-  const { api, app } = state;
-  const [web3, setWeb3] = useState<any>(null);
-  const [address, setAddress] = useState<string>("");
-  const [chainId, setChainId] = useState<number>(1);
-  const [contract, setContract] = useState<string>("");
-  const [prescision, setPrescision] = useState(18);
-  const [txid, setTxid] = useState<string>("");
-  const [block, setBlock] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+  const {
+    api,
+    app,
+    context,
+    assetContext,
+    blockchainContext,
+    pubkeyContext,
+    status,
+  } = state;
+  const [isLoading, setIsLoading] = useState(true);
+  const [address, setAddress] = useState("");
+  const [wallet, setWallet] = useState([]);
+  const [walletOptions, setWalletOptions] = useState([]);
+  const [balance, setBalance] = useState("0.000");
+  const [tokenBalance, setTokenBalance] = useState("0.000");
+  const [amount, setAmount] = useState("0.00000000");
+  const [contract, setContract] = useState("");
+  const [selectedWallet, setSelectedWallet] = useState(null);
+  const [block, setBlock] = useState("");
+  const [isNFT, setIsNFT] = useState(false);
+  const [tokenId, setTokenId] = useState("");
+  const [icon, setIcon] = useState("https://pioneers.dev/coins/ethereum.png");
+  const [tokenName, setTokenName] = useState("");
+  const [prescision, setPrescision] = useState("");
+  const [token, setToken] = useState("");
+  const [assets, setAssets] = useState("");
+  const [blockchain, setBlockchain] = useState("");
+  const [chainId, setChainId] = useState(1);
+  const [web3, setWeb3] = useState(null);
+  const [service, setService] = useState(null);
+  const [toAddress, setToAddress] = useState("");
+  const [txid, setTxid] = useState(null);
   const [signedTx, setSignedTx] = useState(null);
-  const [walletType, setWalletType] = useState<string>("");
-  const [userWallet, setUserWallet] = useState<any>(null);
-  const [web3_provider, setWeb3Provider] = useState<any>(null);
-
-  const setContextWallet = async function (wallet: string) {
-    try {
-      console.log("setContextWallet: ", wallet);
-      // eslint-disable-next-line no-console
-      console.log("wallets: ", app.wallets);
-      const matchedWallet = app.wallets.find(
-        (w: { type: string }) => w.type === wallet
-      );
-      //console.log("matchedWallet: ", matchedWallet);
-      if (matchedWallet) {
-        const context = await app.setContext(matchedWallet.wallet);
-        console.log("result change: ", context);
-        console.log("app.context: ", app.context);
-
-        console.log(
-          "app.pubkeyContext: ",
-          app.pubkeyContext.master || app.pubkeyContext.pubkey
-        );
-        const pubkeyContext =
-          app.pubkeyContext.master || app.pubkeyContext.pubkey;
-
-        dispatch({ type: "SET_CONTEXT", payload: app.context });
-        dispatch({ type: "SET_PUBKEY_CONTEXT", payload: app.pubkeyContext });
-        // dispatch({ type: "SET_WALLET", payload: wallet });
-      } else {
-        //console.log("No wallet matched the type of the context");
-      }
-    } catch (e) {
-      console.error("header e: ", e);
-    }
-  };
+  const [loading, setLoading] = useState(null);
+  const [isTokenSelected, setIsTokenSelected] = useState(null);
+  const [error, setError] = useState(null);
+  const [data, setData] = useState(() => []);
+  const [query, setQuery] = useState("bitcoin...");
+  const [timeOut, setTimeOut] = useState(null);
+  const [showCustomNetworkForm, setShowCustomNetworkForm] = useState(false);
+  const [serviceValid, setServiceValid] = useState(true);
 
 
-  const onStart = async function () {
-    try {
-      const addressInfo = {
-        addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
-        coin: "Ethereum",
-        scriptType: "ethereum",
-        showDisplay: false,
-      };
-      console.log("ETHGETADDRESS",userWallet)
-      const txaddress = await userWallet.ethGetAddress(addressInfo);
 
-      setUserWallet(app.wallets[0].wallet);
-      setWalletType(app.wallets[0].type);
-      console.log(app.wallets[0].wallet)
-      setAddress(txaddress);
-      setChainId(tokenInfo);
-
-      let info = await api.SearchByNetworkId({ chainId: chainId });
-      if (!info.data[0]) {
-        console.error("No network found!");
-      }
-
-      let web3_provider = new Web3(new Web3.providers.HttpProvider(info.data[0].service));
-      setWeb3(web3_provider);
-      let web3_provider_instance = new Web3(new Web3.providers.HttpProvider(info.data[0].service));
-
-      setWeb3Provider(web3_provider_instance);
-
-      setAddress(address);
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   useEffect(() => {
-    setContract(tokenInfo.address);
-    onStart();
-    console.log("tokenInfo: ", tokenInfo);
-  }, [app, api]);
+    console.log(app)
+    if (app && app.wallets && app.wallets.length > 0) {
+      const currentAddress = app.wallets[0].wallet.accounts[0];
+      const app_wallet = app.wallets[0].wallet;
 
-  const handleSend = async () => {
+      setSelectedWallet(app.wallets[0].type)
+      setAddress(currentAddress);
+      setWallet(app_wallet);
+      console.log(app_wallet)
+      console.log(currentAddress)
+    }
+  }
+    , [app]);
+
+  const sendToAddress = async function (event: React.MouseEvent<HTMLButtonElement>) {
     try {
-      const web3_instance = new Web3(web3_provider);
-
-
-      if (!web3_provider) {
-        console.error('Web3 provider is not initialized');
-        return;
-      }
-  
-      if (!contract) {
-        console.error("Invalid token contract address");
-        return;
-      }
-  
-      if (!toAddress || !web3.utils.isAddress(toAddress)) {
-        console.error('Invalid or empty Ethereum address');
-        return;
-      }
-  
-      const wallet = app.wallets[0].wallet;
-      let nonce = await web3.eth.getTransactionCount(address);
-      nonce = web3.utils.toHex(nonce);
-  
-      let balance = await web3.eth.getBalance(address);
-  
-      let gasPrice = await web3.eth.getGasPrice();
-      gasPrice = web3.utils.toHex(gasPrice);
-      let gasLimit;
-
-      const amountDecimal = BigInt(Math.round(parseFloat(amount) * Math.pow(10, prescision)));
-      const amounttohex = web3.utils.toHex(amountDecimal);
-      console.log("valuePOST: ", amountDecimal);
-
-      if (contract.length > 16 && contract.indexOf("0x") >= 0) {
-        let minABI = [
-          {
-            "constant": true,
-            "inputs": [{ "name": "_owner", "type": "address" }],
-            "name": "balanceOf",
-            "outputs": [{ "name": "balance", "type": "uint256" }],
-            "type": "function"
-          },
-          {
-            "constant": true,
-            "inputs": [],
-            "name": "decimals",
-            "outputs": [{ "name": "", "type": "uint8" }],
-            "type": "function"
-          }
-        ];
-        if (!toAddress) {
-          console.error('To Address is empty or invalid');
-          return;
-        }
-        let tokenData = await web3.eth.abi.encodeFunctionCall({
-          name: 'transfer',
-          type: 'function',
-          inputs: [
-            { type: 'address', name: '_to' },
-            { type: 'uint256', name: '_value' }
-          ]
-        }, [toAddress, amountDecimal]);
-
-        const newContract = new web3.eth.Contract(minABI, contract);
-        const decimals = tokenInfo.decimals;
-        setPrescision(decimals);
-
-        try {
-          gasLimit = web3.utils.toHex(1941000);
-        } catch (e) {
-          console.error("failed to get ESTIMATE GAS: ", e);
-          gasLimit = web3.utils.toHex(30000 + 41000);
-        }
-
-        let input = {
-          addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
-          nonce,
-          gasPrice,
-          gas: gasLimit,
-          gasLimit,
-          maxFeePerGas: gasPrice,
-          maxPriorityFeePerGas: gasPrice,
-          value: amounttohex,
-          from: address,
-          to: contract,
-          data: tokenData,
-          chainId,
-        };
-
-        let isMetaMask = false;
-
-        if (walletType === "metamask") isMetaMask = true;
-
-        let responseSign;
-        if (isMetaMask) {
-          responseSign = await wallet[0].wallet.ethSendTx(input);
-          setTxid(responseSign.hash);
-        } else {
-          responseSign = await wallet[0].wallet.ethSignTx(input);
-        }
-
-        setSignedTx(responseSign.serialized);
+      if (amount && toAddress) {
+        console.log(amount);
+        console.log(toAddress);
+        console.log(tokenInfo.symbol)
+        console.log(app.wallets)
+        const pubkey = await app.pubkeys.find(
+          (pubkey: any) => pubkey.symbol === tokenInfo.symbol
+        );
+        console.log(pubkey)
+      } else {
+        // Handle the case where amount or toAddress is not provided
       }
     } catch (e) {
       console.error(e);
     }
-  };
+  }
 
-  let onBroadcast = async function () {
-    try {
-      setLoading(true);
-      const txHash = await web3.eth.sendSignedTransaction(signedTx);
-      setTxid(txHash.transactionHash);
-      setBlock(txHash.blockNumber);
-      setLoading(false);
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
-  if (!tokenInfo) return null;
+
+
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
-      <ModalContent border="1px solid limegreen" backgroundColor="black" color="white">
+      <ModalContent border="1px solid #7CC4FA" color="white" background="#002240"
+      >
         <ModalHeader>
           <Grid templateColumns="1fr auto" gap={4} alignItems="center">
             <Flex align="center">
-            <Image src={""} alt={tokenInfo.name} boxSize="100px" mr="2" />
+              <Image src={"https://i.gifer.com/origin/e0/e02ce86bcfd6d1d6c2f775afb3ec8c01_w200.gif"} alt={tokenInfo.name} boxSize="100px" mr="2" />
               <Text alignItems="center" fontSize="lg" fontWeight="bold">
                 {tokenInfo.symbol}
               </Text>
@@ -276,7 +139,7 @@ const EvmSendModal: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo 
                   onChange={(e) => setToAddress(e.target.value)}
                 />
               </FormControl>
-              <Button colorScheme="green" onClick={handleSend}>
+              <Button colorScheme="green" onClick={(event) => sendToAddress(event)}>
                 Send
               </Button>
             </VStack>
@@ -286,37 +149,37 @@ const EvmSendModal: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo 
         <ModalBody>
           <VStack spacing={4} align="left">
             <Divider />
-            <Text>
-              <strong>Token Address:</strong> {tokenInfo.address}
+            <Text color={"white"}>
+              <strong>Token Address:</strong> <Badge >{tokenInfo.address}</Badge>
             </Text>
-            <Text>
-              <strong>Contract Address:</strong> {tokenInfo.contract}
+            <Text color={"white"}>
+              <strong>Contract Address:</strong> <Badge> {tokenInfo.contract}</Badge>
             </Text>
-            <Text>
-              <strong>Total Supply:</strong> {parseFloat(tokenInfo.totalSupply).toLocaleString()} {tokenInfo.symbol}
+            <Text color={"white"}>
+              <strong>Total Supply:</strong> <Badge> {parseFloat(tokenInfo.totalSupply).toLocaleString()} {tokenInfo.symbol} </Badge>
             </Text>
-            <Text>
-              <strong>Decimals:</strong> {tokenInfo.decimals}
+            <Text color={"white"}>
+              <strong>Decimals:</strong> <Badge>{tokenInfo.decimals}</Badge>
             </Text>
-            <Text>
-              <strong>Market Cap:</strong> {tokenInfo.marketCap} USD
+            <Text color={"white"}>
+              <strong>Market Cap:</strong><Badge> {tokenInfo.marketCap} USD</Badge>
             </Text>
-            <Text>
-              <strong>Price:</strong> {tokenInfo.price} USD
+            <Text color={"white"}>
+              <strong>Price:</strong> <Badge>{tokenInfo.price} USD </Badge>
             </Text>
-            <Text>
-              <strong>Daily Volume:</strong> {tokenInfo.dailyVolume} USD
+            <Text color={"white"}>
+              <strong>Daily Volume: </strong> <Badge> {tokenInfo.dailyVolume} USD </Badge>
             </Text>
             <Divider />
-    <Flex direction="column" alignItems="center">
-      <Link href={tokenInfo.explorer} target="_blank" rel="noopener noreferrer">
-        View on Etherscan
-      </Link>
-      <Link href={tokenInfo.website} target="_blank" rel="noopener noreferrer">
-        Official Website
-      </Link>
-    </Flex>
-    <Divider />
+            <Flex direction="column" alignItems="center">
+              <Link href={tokenInfo.explorer} target="_blank" rel="noopener noreferrer">
+                View on Etherscan
+              </Link>
+              <Link href={tokenInfo.website} target="_blank" rel="noopener noreferrer">
+                Official Website
+              </Link>
+            </Flex>
+            <Divider />
             <Text>{tokenInfo.description}</Text>
             {/* Add more token information as needed */}
           </VStack>

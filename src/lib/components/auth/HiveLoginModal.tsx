@@ -96,12 +96,13 @@ const HiveLogin: React.FC<HiveLoginProps> = ({ isOpen, onClose }) => {
                 required
               />
               <Flex paddingTop="20px" justifyContent={"space-between"}>
-                <Button border="1px solid red" type="submit">
-                  Login
-                </Button>
                 <Button border="1px solid orange" type="button" onClick={handleSignUp}>
                   Help me
                 </Button>
+                <Button border="1px solid red" type="submit">
+                  Login
+                </Button>
+
               </Flex>
             </>
           )}

@@ -1,7 +1,6 @@
 import { Client } from "@hiveio/dhive";
 
 const HiveClient = new Client([
-  // Not working
   "https://api.deathwing.me",
   "https://rpc.ausbit.dev/",
   "https://api.hive.blog/",

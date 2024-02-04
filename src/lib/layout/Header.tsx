@@ -318,7 +318,6 @@ const HeaderNew = () => {
     //@ts-ignore
     address: `${wallet_address}`,
   })
-  console.log(nns);
 
   return (
 

@@ -361,7 +361,7 @@ const HeaderNew = () => {
           </MenuButton>
           <MenuList border="1px solid limegreen" backgroundColor="black" color="white">
 
-            <Link to="https://skatehive.app/dao" style={{ textDecoration: 'none' }}>
+            <Link to="/dao" style={{ textDecoration: 'none' }}>
               <MenuItem
                 backgroundColor="black">
                 <CommunityTotalPayout communityTag="hive-173115" />

@@ -6,10 +6,14 @@ import {
   getStore,
   removeStore,
   getUpdate,
+  getFullStore,
+  setFullStore
 } from "lib/pages/qfs/gamestore";
 
 // API URL
-const API = "https://www.stoken.quest/";
+const API = "https://qfs.herokuapp.com";
+// const API = "https://stoken.quest";
+// const API = "http://localhost:3000";
 
 export default function QFS() {
 
@@ -47,19 +51,19 @@ export default function QFS() {
 
   // utility functions for API
   const getLeaderboard = async () => {
-    const response = await fetch(API + "leaderboard");
+    const response = await fetch(API + "/leaderboard");
     const data = await response.json();
     setLeaderboard(data);
   };
 
   const getBestTimes = async () => {
-    const response = await fetch(API + "times");
+    const response = await fetch(API + "/times");
     const data = await response.json();
     setBestTimes(data);
   };
 
   const getRewardPool = async () => {
-    const response = await fetch(API + "rewardpool");
+    const response = await fetch(API + "/rewardpool");
     const data = await response.json();
 
     const { post } = data;
@@ -87,7 +91,7 @@ export default function QFS() {
     }
 
     // get user stats from API
-    const response = await fetch(API + "getuser/" + user?.name);
+    const response = await fetch(API + "/getuser/" + user?.name);
     const data = await response.json();
     setUserStats({
       username: data.username,
@@ -114,10 +118,38 @@ export default function QFS() {
     loadGame();
   };
 
-  // load game iframe
-  const loadGame = () => {
+  const setContent = () => {
     const game = document.querySelector("iframe");
-    game?.setAttribute("src", "QFS/index.html");
+
+    // send user stats to child iframe
+    game?.contentWindow?.postMessage({
+      name: 'setStats',
+      data: getFullStore(),
+    }, '*');
+  }
+
+  // load game iframe
+  const loadGame = () => {    
+    const game = document.querySelector("iframe");
+    game?.setAttribute("src", API + "/QFS/game");
+
+    // setContent();
+
+    // fetch message from child iframe
+    window.addEventListener("message", async (event) => {
+      // if message is to set user stats
+      if (event.data.name === "setStats") {
+        setFullStore(event.data.data);
+
+        // trigger event to check for changes in game storage
+        window.dispatchEvent(new Event('storage'));
+      }
+
+      // if message is to get user stats
+      if (event.data.name === "getStats") {
+        setContent();
+      }
+    });
   };
 
   const pushStats = async () => {
@@ -133,7 +165,7 @@ export default function QFS() {
     }
 
     // post user stats to API
-    await fetch(API + "pushscore", {
+    await fetch(API + "/pushscore", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -158,15 +190,6 @@ export default function QFS() {
   };
 
   useEffect(() => {
-    // get reward pool, leaderboard and best times on page load/user login
-    getRewardPool();
-    getLeaderboard();
-    getBestTimes();
-
-    loadUserStats();
-  }, [user]);
-
-  useEffect(() => {
     if (userStats.username !== "guest") {
       // if user is not guest, save stats to game storage
       setStore("Username", userStats.username);
@@ -179,6 +202,15 @@ export default function QFS() {
     setStore("Highscore", userStats.highscore);
     setStore("Time", userStats.time);
   }, [userStats]);
+
+  useEffect(() => {
+    // get reward pool, leaderboard and best times on page load/user login
+    getRewardPool();
+    getLeaderboard();
+    getBestTimes();
+
+    loadUserStats();
+  }, [user]);
 
   // ---------------------------------- 4 Testing ---------------------------------- Comment before commit 
 
@@ -288,7 +320,7 @@ export default function QFS() {
           fontWeight="bold"
           marginBottom={10}
         >
-          Login to save your stats!
+          Login to save your stats and compete for rewards!
         </Text>
       )}
 

@@ -45,7 +45,7 @@ const SkatehiveProposals: React.FC = () => {
   const transformIpfsUrl = (ipfsUrl: string) => {
     return ipfsUrl.replace('ipfs://', 'https://snapshot.4everland.link/ipfs/');
   };
-  const findImage = (body: string) => {
+  const findIpfsImage = (body: string) => {
     const imgRegex = /!\[.*?\]\((.*?)\)/;
     const match = body.match(imgRegex);
     const imageUrl = match ? match[1] : placeholderImage;
@@ -133,7 +133,7 @@ const SkatehiveProposals: React.FC = () => {
               </Box>
               <Box padding={"30px"} width="100%" height={'auto'} boxSize={"272px"} mx="auto">
                 <Image
-                  src={findImage(proposal.body)}
+                  src={findIpfsImage(proposal.body)}
                   alt="Thumbnail"
                   objectFit="cover"
                   borderRadius="md"

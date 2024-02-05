@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Box, Grid, Flex, Image, Button } from "@chakra-ui/react";
-//@ts-ignore
-import { Pioneer } from "@pioneer-platform/pioneer-react";
 
 import {
   usePioneer,
@@ -64,11 +62,6 @@ const PoapWallet = () => {
     , [ETHaddress]);
   return (
     <Box>
-      <center>
-        <Pioneer />
-        <p>Selected Wallet</p>
-        <p>{ETHaddress}</p>
-      </center>
 
       <Grid templateColumns={{ base: "2fr", md: "repeat(10, 1fr)" }} gap={4}>
         {userPortfolios

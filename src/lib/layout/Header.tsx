@@ -29,7 +29,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-
+import { fetchProposals, mapProposals } from "lib/pages/utils/apis/snapshotApi";
 // Emotion
 import { keyframes } from "@emotion/react";
 
@@ -38,7 +38,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Link, LinkProps as RouterLinkProps } from "react-router-dom";
 
 // Icons
-import { FaBell, FaSpeakap, FaUpload, FaScroll } from "react-icons/fa";
+import { FaBell, FaSpeakap, FaUpload, FaScroll, FaVoteYea } from "react-icons/fa";
 
 // Hive Related
 import * as dhive from "@hiveio/dhive";
@@ -56,6 +56,7 @@ import NotificationModal from "lib/components/NotificationsModal";
 import { useNnsName } from "@nnsprotocol/resolver-wagmi";
 import { useEnsAddress } from "wagmi";
 
+import { formatWalletAddress } from "lib/pages/utils/formatWallet";
 // types.ts
 export interface Notification {
   date: string;
@@ -65,7 +66,6 @@ export interface Notification {
   type: string;
   url: string;
 }
-
 
 
 const dhiveClient = new dhive.Client([
@@ -98,6 +98,18 @@ const HeaderNew = () => {
   const [isNotificationModalOpen, setNotificationModalOpen] = useState(false);
   const [notificationArray, setNotificationArray] = useState<Notification[]>([]);
   const [authorProfiles, setAuthorProfiles] = useState<Record<string, string>>({});
+  const [activeProposalsLength, setActiveProposalsLength] = useState<number>(0);
+
+
+  useEffect(() => {
+    fetchProposals().then((fetchedProposals: any) => {
+      if (fetchedProposals) {
+        const activeProposals = mapProposals(fetchedProposals);
+        console.log(activeProposals.length);
+        setActiveProposalsLength(activeProposals.length);
+      }
+    }).catch(error => console.error("Error processing proposals", error));
+  }, []);
 
 
 
@@ -189,7 +201,6 @@ const HeaderNew = () => {
       onStart(user, rate, loggedIn);
     });
   }, [user]);
-
 
 
   const avatarUrl = user && user.posting_json_metadata !== ""
@@ -350,7 +361,7 @@ const HeaderNew = () => {
           </MenuButton>
           <MenuList border="1px solid limegreen" backgroundColor="black" color="white">
 
-            <Link to="https://skatehive.app/dao" style={{ textDecoration: 'none' }}>
+            <Link to="/dao" style={{ textDecoration: 'none' }}>
               <MenuItem
                 backgroundColor="black">
                 <CommunityTotalPayout communityTag="hive-173115" />
@@ -562,6 +573,16 @@ const HeaderNew = () => {
 
             <Box >
               <HStack spacing={3} alignItems="center" m='2'>
+                <Link to="/dao" >
+                  {activeProposalsLength > 0 && (
+                    <Tooltip label={"Go Vote Bro! Its important!"} aria-label="Wallet" bg="black" borderRadius="md" border="orange 2px solid">
+                      <Button leftIcon={<FaVoteYea color="orange" />} m={1} backgroundColor="black" border="orange 2px solid" color="white" _hover={{ backgroundColor: "black" }}>
+
+                        {activeProposalsLength}
+                      </Button>
+                    </Tooltip>
+                  )}
+                </Link>
                 <Link to="/wallet" >
                   {isDesktop && (
                     <Tooltip label="Gnars Held by Connected Wallet" aria-label="Gnars" bg="black" borderRadius="md" border="yellow 2px solid">
@@ -584,10 +605,12 @@ const HeaderNew = () => {
                           boxSize={"22px"}
                           src={nns?.data?.endsWith('.eth') ? "https://seeklogo.com/images/E/ethereum-name-service-ens-logo-9190A647F5-seeklogo.com.png" : "/assets/nogglescoin.gif"}
                         />
-                        {nns?.data || wallet_address}
+                        {nns?.data || formatWalletAddress(wallet_address)}
                       </Button>
                     </Tooltip>
                   )}
+
+
                 </Link>
 
               </HStack>

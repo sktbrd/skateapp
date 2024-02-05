@@ -96,3 +96,12 @@ export const getUpdate = () => {
 
   return parseInt(update) === 1 ? true : false;
 };
+
+export const getFullStore = () => {
+  const game = localStorage.getItem('QuestForStoken.0.game.sav');
+  return game;
+};
+
+export const setFullStore = (game: string) => {
+  localStorage.setItem('QuestForStoken.0.game.sav', game);
+};

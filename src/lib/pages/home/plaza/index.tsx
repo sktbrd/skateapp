@@ -25,6 +25,10 @@ import remarkGfm from "remark-gfm";
 import { CommentProps } from "../Feed/types";
 import useAuthUser from "../../../components/auth/useAuthUser";
 import voteOnContent from "../../utils/hiveFunctions/voting";
+
+import CommentBox from "../Feed/postModal/commentBox";
+import Comments from "../Feed/postModal/comments";
+
 type User = {
   name: string;
 } | null;
@@ -45,9 +49,7 @@ const Plaza: React.FC = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const [isLoadingComments, setIsLoadingComments] = useState(false);
   const [isPostingComment, setIsPostingComment] = useState(false);
-  const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(
-    null
-  );
+  const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(null);
   const [payout, setPayout] = useState(0);
   const user = useAuthUser();
   const metadata = JSON.parse(user.user?.json_metadata || "{}");
@@ -65,6 +67,7 @@ const Plaza: React.FC = () => {
         "get_content_replies",
         [URLAuthor, URLPermlink]
       );
+
       setComments(allComments.reverse());
       // console.log(allComments);
 
@@ -95,54 +98,85 @@ const Plaza: React.FC = () => {
     fetchPostData();
     fetchComments();
   }, []);
-  const getCommentsArray = (
-    comments: any,
-    author: string,
-    permlink: string
-  ): CommentProps[] => {
-    const originalPostKey = `${URLAuthor}/${URLPermlink}`;
-    for (const commentKey in comments) {
-      const comment = comments[commentKey];
-      const subComments = comment.replies;
 
-      // add a repliesFetched property to the comment
-      comments[commentKey].repliesFetched = [];
+  const fetchReplies = async (comment: CommentProps) => {
+    // if (comment.children === 0) return;
+    try {
+      let replies = await client.call("bridge", "get_discussion", {
+        author: comment.author,
+        permlink: comment.permlink,
+        observer: username,
+      });
 
-      // add the sub comments to the repliesFetched property of this comment
-      for (let i = 0; i < subComments.length; i++) {
-        const subComment = subComments[i];
-        if (subComment && subComment in comments) {
-          const subCommentObject = comments[subComment];
-          comments[commentKey].repliesFetched.push(subCommentObject);
+      const originalCommentKey = `${comment.author}/${comment.permlink}`;
+      delete replies[originalCommentKey];
+
+      for (const replyKey in replies) {
+        const reply = replies[replyKey];
+        const subReplies = reply.replies;
+
+        // add a repliesFetched property to the reply
+        replies[replyKey].repliesFetched = [];
+
+        // add the sub replies to the repliesFetched property of this reply
+        for (let i = 0; i < subReplies.length; i++) {
+          const subReply = subReplies[i];
+          if (subReply && subReply in replies) {
+            const subReplyObject = replies[subReply];
+            replies[replyKey].repliesFetched.push(subReplyObject);
+          }
+        }
+
+        // set net_votes of the reply with active_votes.length
+        replies[replyKey].net_votes = replies[replyKey].active_votes.length;
+      }
+
+      const repliesArray = [];
+
+      // add the replies to the repliesArray
+      for (const replyKey in replies) {
+        const reply = replies[replyKey];
+
+        // push the reply to the replies array only if it's a reply to the original comment
+        if (
+          reply.parent_author === comment.author &&
+          reply.parent_permlink === comment.permlink
+        ) {
+          repliesArray.push(replies[replyKey]);
         }
       }
-      // console.log(comments[commentKey].repliesFetched);
 
-      // set net_votes of the comment with active_votes.length
-      comments[commentKey].net_votes = comments[commentKey].active_votes.length;
+      // set the repliesFetched property of the comment
+      comment.repliesFetched = repliesArray as CommentProps[];
+
+      // set showCommentBox
+      comment.showCommentBox = true;
+
+      // update the comments array
+      const updatedComments = comments.map((c) => {
+        if (c.id === comment.id) {
+          return comment;
+        }
+        return c;
+      });
+
+      // set the updated comments array
+      setComments(updatedComments);
     }
-
-    const commentsArray: CommentProps[] = [];
-
-    // add the comments to the commentsArray
-    for (const commentKey in comments) {
-      const comment = comments[commentKey];
-
-      // push the comment to the comments array only if it's a reply to the original post
-      if (
-        comment.parent_author === author &&
-        comment.parent_permlink === permlink
-      ) {
-        commentsArray.push(comments[commentKey]);
-      }
+    catch (error) {
+      console.error("Error fetching replies:", error);
     }
-    // console.log("ARRAYC:", commentsArray);
-    return commentsArray;
+  }
+
+  const hideCommentBox = (comment: CommentProps) => () => {
+    // const updatedComments = comments.map((c) => {
+    //   if (c.id === comment.id) {
+    //     return { ...c, showCommentBox: false };
+    //   }
+    //   return c;
+    // });
+    // setComments(updatedComments);
   };
-
-  useEffect(() => {
-    getCommentsArray(comments, URLAuthor, URLPermlink);
-  }, [comments]);
 
   const handlePostComment = async () => {
     if (!window.hive_keychain) {
@@ -556,7 +590,29 @@ const Plaza: React.FC = () => {
                       components={MarkdownRenderers}
                     />
 
-                    <Flex justifyContent="flex-end" mt="4">
+                    <Flex justifyContent="space-between" mt="4">
+                      <Button
+                        onClick={() => fetchReplies(comment)}
+                        leftIcon={
+                          <div
+                            style={{ display: "flex", alignItems: "center" }}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                              <path d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M4.5 5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1z"/>
+                            </svg>
+                          </div>
+                        }
+                        style={{
+                          border: "1px solid limegreen",
+                          backgroundColor: "black",
+                          fontSize: "16px",
+                          color: "limegreen",
+                          padding: "3px 6px",
+                        }}
+                      >
+                        {comment.children}
+                      </Button>
+                      
                       <Button
                         onClick={() => handleVote(comment)}
                         leftIcon={
@@ -582,6 +638,36 @@ const Plaza: React.FC = () => {
                       ></Button>
                     </Flex>
                   </Box>
+
+                  {comment.showCommentBox && (comment.showCommentBox || (comment.repliesFetched && comment.repliesFetched.length > 0)) &&
+                    (
+                      <Box 
+                        style={{
+                          border: "1px solid limegreen",
+                          borderRadius: "20px",
+                          marginBottom:"20px"
+                        }}
+                      >
+                        {comment.showCommentBox && (
+                          <CommentBox
+                            user={user.user}
+                            parentAuthor={comment.author}
+                            parentPermlink={comment.permlink}
+                            onCommentPosted={hideCommentBox(comment)}
+                          />
+                        )}
+
+                        {comment.repliesFetched && comment.repliesFetched.length > 0 && (                    
+                          <Comments 
+                          comments={comment.repliesFetched as CommentProps[]} 
+                          blockedUser="hivebuzz"
+                          commentPosted={false}
+                          permlink={comment.permlink}
+                          />
+                        )}
+                      </Box>
+                    )
+                  }
                 </Box>
               ))}
             </InfiniteScroll>

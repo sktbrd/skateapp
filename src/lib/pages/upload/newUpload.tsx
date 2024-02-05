@@ -99,11 +99,34 @@ const NewUpload: React.FC = () => {
   const [videoUploadProgress, setVideoUploadProgress] = useState(0);
   const [videoInfo, setVideoInfo] = useState<any>(null);
   const [videoFile, setVideoFile] = useState<File | null>(null); // for viewing in editor
+  const [videoComponent, setVideoComponent] = useState<JSX.Element | null>(null);
   const [videoThumbnailUrl, setVideoThumbnailUrl] = useState<string | null>(null);
 
   useEffect(() => {
     setTags(defaultTags);
   }, []);
+
+  useEffect(() => {
+    // set video file
+    if (videoFile) {
+      const video = URL.createObjectURL(videoFile);
+      const videoComponent = (
+        <video
+          controls
+          style={{
+            width: "auto",
+            height: "auto",
+            maxWidth: "100%",
+            maxHeight: "600px",
+          }}
+          id="main-video"
+        >
+          <source src={video} type="video/mp4" />
+        </video>
+      );
+      setVideoComponent(videoComponent);     
+    }
+  }, [videoFile]);
 
   const handleMarkdownChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdownText(event.target.value);
@@ -884,23 +907,8 @@ const NewUpload: React.FC = () => {
               >
                 Set Video Thumbnail
               </Button>
-              <video
-                src={videoFile ? URL.createObjectURL(videoFile) : ''}
+              {/* <video
                 controls
-                onLoadedData={async () => {
-                  // when the video is ready to play, focus on it
-
-                  // current focused element
-                  const focused = document.activeElement as HTMLElement;
-
-                  // focus on the video
-                  // this is needed to capture the frame without manually playing the video
-                  const video = document.getElementById("main-video") as HTMLVideoElement;
-                  video?.focus();
-
-                  // now focus on the previous element
-                  focused?.focus();
-                }}
                 style={{
                   width: "auto",
                   height: "auto",
@@ -908,7 +916,8 @@ const NewUpload: React.FC = () => {
                   maxHeight: "600px",
                 }}
                 id="main-video"
-              />
+              /> */}
+              {videoComponent}
             </Box>
           ) : ''}
           <ReactMarkdown

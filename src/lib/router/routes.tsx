@@ -7,6 +7,8 @@ import type { PathRouteProps } from "react-router-dom";
 import SkatehiveProposals from "lib/pages/home/dao/snapshot";
 import Plaza from "lib/pages/home/plaza";
 import HiveBlog from "lib/pages/home/Feed/Feed";
+import CheckDelegation from "lib/pages/home/dao/components/ethereum/delegationChecker";
+import WalletVotesInfo from "lib/pages/home/dao/components/ethereum/delegationChecker";
 const Home = React.lazy(() => import("lib/pages/home"));
 const Wallet = React.lazy(() => import("lib/pages/wallet"));
 const Profile = React.lazy(() => import("lib/pages/profile"));
@@ -24,6 +26,8 @@ const Members = React.lazy(() => import("lib/pages/home/dao/components/steemskat
 const GnarsDelegation = React.lazy(() => import("lib/pages/home/dao/components/ethereum/gnarsDelegation"));
 const GnarsHolders = React.lazy(() => import("lib/pages/home/dao/components/ethereum/gnarsDelegation2"));
 const AccountCreation = React.lazy(() => import("lib/pages/secret-spot/AccountCreation"));
+const delegationChecker = React.lazy(() => import("lib/pages/home/dao/components/ethereum/delegationChecker"));
+
 export const routes: Array<PathRouteProps> = [
   {
     path: "/",
@@ -114,6 +118,14 @@ export const routes: Array<PathRouteProps> = [
   {
     path: "/blog",
     element: <HiveBlog />,
+  },
+  {
+    path: "/checker",
+    element: <WalletVotesInfo />,
+  },
+  {
+    path: "*",
+    element: <Page404 />,
   },
 ];
 

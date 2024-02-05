@@ -3,6 +3,7 @@ import { Box, Text, Flex, Image, VStack, HStack, Divider, Tooltip, Button } from
 // @ts-ignore
 import { usePioneer } from "@pioneer-platform/pioneer-react";
 import { Link as ChakraLink } from "@chakra-ui/react";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import axios from 'axios';
 
@@ -37,6 +38,11 @@ const EthereumStats = () => {
   const [currentHolders, setCurrentHolders] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [pioneerBalance, setPioneerBalance] = useState<string | null>(null);
+  const [isDetailsVisible, setIsDetailsVisible] = useState(false);
+
+  const toggleDetailsVisibility = () => {
+    setIsDetailsVisible(!isDetailsVisible);
+  };
 
   //TODO: send to utils 
   async function readGnarsContract() {
@@ -161,7 +167,6 @@ const EthereumStats = () => {
   }, [app]);
 
 
-
   const handleCopyClick = () => {
     // Create a temporary input element to copy the wallet address
     const tempInput = document.createElement("input");
@@ -180,18 +185,23 @@ const EthereumStats = () => {
     alert("Skatehive Delegation Wallet Copied to clipboard");
   };
   const totalWorthof2wallets = multisigETHBalance !== null && pioneerBalance !== null && ethPrice !== null
-    ? (((multisigETHBalance) * ethPrice) + parseFloat(pioneerBalance)).toFixed(2) + ' USD'
+    ? "$" + ((multisigETHBalance * ethPrice) + parseFloat(pioneerBalance)).toFixed(2)
     : 'Loading...';
 
+  const detailsMaxHeight = "1000px"; // This should be adjusted based on your content
 
 
   return (
     <Box
-      border="2px solid #7CC4FA"
       borderRadius="12px"
+      border="2px solid #7CC4FA"
       padding="10px"
-      margin="0px"
       minWidth={['50%']}
+      transition="max-height 0.5s ease-in-out"
+      style={{
+        overflow: 'hidden',
+        maxHeight: isDetailsVisible ? detailsMaxHeight : '200px', // Adjust the collapsed max-height based on the non-collapsible content's height
+      }}
     >
       <VStack spacing={4} align="stretch">
 
@@ -214,73 +224,88 @@ const EthereumStats = () => {
         </Flex>
 
         <Flex alignItems="center" justifyContent="center">
-          <Text fontSize={"2xl"} fontWeight="bold" color="#7CC4FA">
-            Total Worth: <Text style={{ fontSize: '48px' }}>{totalWorthof2wallets}</Text>
-          </Text>
+          <Text fontSize={"48px"} fontWeight="bold" color="#7CC4FA" >{totalWorthof2wallets}</Text>
+
+
+          <Button
+            bg={"transparent"}
+            color={"white"}
+            _hover={{ bg: "transparent" }}
+            onClick={toggleDetailsVisibility}>
+            {isDetailsVisible ? <FaEyeSlash /> : <FaEye />}
+          </Button>
         </Flex>
-        <HStack spacing={4} align="stretch">
-          <BalanceDisplay
-            labelTooltip="Balance of the multisig wallet in ETH"
-            balanceTooltip="Transactions in our treasury are triggered by proposals on Snapshot"
-            label="Multisig Balance"
-            balance={`${multisigETHBalance?.toFixed(3)} ETH`} />
-          <BalanceDisplay
-            labelTooltip="skatehive.eth"
-            labelLink='https://app.zerion.io/0xb4964e1eca55db36a94e8aeffbfbab48529a2f6c/overview?name=skatehive.eth'
-            label="Hot Wallet"
-            balance={typeof pioneerBalance === 'number' ? `${(pioneerBalance as number).toFixed(2)} USD` : (pioneerBalance !== null && pioneerBalance !== undefined ? "Loading..." : "")} />
 
-        </HStack>
-        <HStack spacing={4} align="stretch">
-          <BalanceDisplay
-            labelTooltip="How much ETH in USD we have in the Gnosis Safe multisig Contract"
-            balanceTooltip="Click in the link to see the Gnosis Safe"
-            labelLink='https://app.safe.global/settings/setup?safe=eth:0x5501838d869B125EFd90daCf45cDFAC4ea192c12'
-            label="ETH/USD Multisig"
-            balance={usdWorthOfMultisigBalance !== null ? usdWorthOfMultisigBalance : 'FUUUCK...'} />
-          <BalanceDisplay
-            labelTooltip="Donate to Skatehive using Giveth"
-            balanceTooltip="P2P for free and get crypto back for your donations"
-            labelLink='https://giveth.io/es/project/skatehive-skateboarding-community'
-            label="Donate"
-            balance={"on giveth"} />
-        </HStack>
-        <HStack margin="10px" borderRadius="10px" border="1px dashed #7CC4FA" justifyContent="center" padding="10px">
-          <Image
-            src="https://www.gnars.wtf/images/logo.png"
-            alt="Avatar"
-            width="20px"
-            height="20px"
-          />
-          <Tooltip bg="black" color="white" borderRadius="10px" border="1px dashed limegreen" label="Voting Power of Skatehive Community on Gnars, tokens delegated by the community. Click to delegate.">
-            <ChakraLink
-              target='_blank'
-              href="https://etherscan.io/token/0x558BFFF0D583416f7C4e380625c7865821b8E95C#writeContract#F3"
-              color="white"
-              fontSize="16px"
-              onClick={handleCopyClick}
-              style={{ cursor: "pointer" }}
-            >
-              Delegate Your Gnars Here | Current Votes: {currentVotes}
-            </ChakraLink>
-          </Tooltip>
-        </HStack>
-        <Tooltip bg="black" color="white" borderRadius="10px" border="1px dashed limegreen" label="Mint Page for Skatehive OG NFT. Click to Mint.">
 
-          <HStack margin="10px" borderRadius="10px" border="1px dashed #7CC4FA" justifyContent="center" padding="10px">
-            <Image
-              src="https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75"
-              alt="Avatar"
-              width="20px"
-              height="20px"
-            />
-            <ChakraLink target="_blank" href="https://zora.co/collect/eth:0x3ded025e441730e26ab28803353e4471669a3065/1" color="white" fontSize="16px">
-              Skatehive OG: 37
-            </ChakraLink>
-          </HStack>
-        </Tooltip>
+        {isDetailsVisible && (
+          <>
+
+            <HStack spacing={4} align="stretch">
+              <BalanceDisplay
+                labelTooltip="Balance of the multisig wallet in ETH"
+                balanceTooltip="Transactions in our treasury are triggered by proposals on Snapshot"
+                label="Multisig Balance"
+                balance={`${multisigETHBalance?.toFixed(3)} ETH`} />
+              <BalanceDisplay
+                labelTooltip="skatehive.eth"
+                labelLink='https://app.zerion.io/0xb4964e1eca55db36a94e8aeffbfbab48529a2f6c/overview?name=skatehive.eth'
+                label="Hot Wallet"
+                balance={typeof pioneerBalance === 'number' ? `${(pioneerBalance as number).toFixed(2)} USD` : (pioneerBalance !== null && pioneerBalance !== undefined ? "Loading..." : "")} />
+
+            </HStack>
+            <HStack spacing={4} align="stretch">
+              <BalanceDisplay
+                labelTooltip="How much ETH in USD we have in the Gnosis Safe multisig Contract"
+                balanceTooltip="Click in the link to see the Gnosis Safe"
+                labelLink='https://app.safe.global/settings/setup?safe=eth:0x5501838d869B125EFd90daCf45cDFAC4ea192c12'
+                label="ETH/USD Multisig"
+                balance={usdWorthOfMultisigBalance !== null ? usdWorthOfMultisigBalance : 'FUUUCK...'} />
+              <BalanceDisplay
+                labelTooltip="Donate to Skatehive using Giveth"
+                balanceTooltip="P2P for free and get crypto back for your donations"
+                labelLink='https://giveth.io/es/project/skatehive-skateboarding-community'
+                label="Donate"
+                balance={"on giveth"} />
+            </HStack>
+            <HStack margin="10px" borderRadius="10px" border="1px dashed #7CC4FA" justifyContent="center" padding="10px">
+              <Image
+                src="https://www.gnars.wtf/images/logo.png"
+                alt="Avatar"
+                width="20px"
+                height="20px"
+              />
+              <Tooltip bg="black" color="white" borderRadius="10px" border="1px dashed limegreen" label="Voting Power of Skatehive Community on Gnars, tokens delegated by the community. Click to delegate.">
+                <ChakraLink
+                  target='_blank'
+                  href="https://etherscan.io/token/0x558BFFF0D583416f7C4e380625c7865821b8E95C#writeContract#F3"
+                  color="white"
+                  fontSize="16px"
+                  onClick={handleCopyClick}
+                  style={{ cursor: "pointer" }}
+                >
+                  Delegate Your Gnars Here | Current Votes: {currentVotes}
+                </ChakraLink>
+              </Tooltip>
+            </HStack>
+            <Tooltip bg="black" color="white" borderRadius="10px" border="1px dashed limegreen" label="Mint Page for Skatehive OG NFT. Click to Mint.">
+
+              <HStack margin="10px" borderRadius="10px" border="1px dashed #7CC4FA" justifyContent="center" padding="10px">
+                <Image
+                  src="https://remote-image.decentralized-content.com/image?url=https%3A%2F%2Fipfs.decentralized-content.com%2Fipfs%2Fbafkreidxxr42k6sff4ppctl4l3xvh52rf2m7vzdrjmyqhoijveevwafkau&w=3840&q=75"
+                  alt="Avatar"
+                  width="20px"
+                  height="20px"
+                />
+                <ChakraLink target="_blank" href="https://zora.co/collect/eth:0x3ded025e441730e26ab28803353e4471669a3065/1" color="white" fontSize="16px">
+                  Skatehive OG: 37
+                </ChakraLink>
+              </HStack>
+            </Tooltip>
+          </>
+        )}
       </VStack>
     </Box>
+
   );
 };
 

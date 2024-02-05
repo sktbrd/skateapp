@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { Box, Text, Flex, VStack, Image, Button, Skeleton, Badge, HStack, useBreakpointValue, useMediaQuery, SimpleGrid } from '@chakra-ui/react';
+import { Box, Text, Flex, VStack, Image, Button, Skeleton, Badge, HStack, useBreakpointValue } from '@chakra-ui/react';
 import DaoStatus from './DaoStatus';
 import { proposalsQuery } from './queries';
 import { Proposal } from './types';
@@ -45,7 +45,7 @@ const SkatehiveProposals: React.FC = () => {
   const transformIpfsUrl = (ipfsUrl: string) => {
     return ipfsUrl.replace('ipfs://', 'https://snapshot.4everland.link/ipfs/');
   };
-  const findImage = (body: string) => {
+  const findIpfsImage = (body: string) => {
     const imgRegex = /!\[.*?\]\((.*?)\)/;
     const match = body.match(imgRegex);
     const imageUrl = match ? match[1] : placeholderImage;
@@ -97,19 +97,21 @@ const SkatehiveProposals: React.FC = () => {
       fetchProposals();
     }
   }, []);
-  const [isMobile] = useMediaQuery('(max-width: 768px)');
   const borderColor = '1px solid white';
 
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
   return (
-    <Flex flexDirection="column" >
+    <Flex flexDirection="column" mx={isMobile ? 0 : 20}
+    >
       <DaoStatus />
       <Flex justify="center">
         <Text border={borderColor} borderRadius="10px" padding="8px" fontSize="2xl" color="white">
-          Governance
+          Proposals
         </Text>
       </Flex>
 
-      <SimpleGrid mx="auto" maxWidth="100%" columns={{ base: 1, md: 2 }} spacing={3} mt={3}>
+      <VStack mx="auto" maxWidth="100%" spacing={3} mt={3}>
         {loadingProposals ? (
           Array.from({ length: 10 }).map((_, index) => (
             <Flex key={index} direction="column">
@@ -118,100 +120,76 @@ const SkatehiveProposals: React.FC = () => {
           ))
         ) : (
           proposals.map((proposal) => (
-            <Flex key={proposal.id} borderWidth={1} borderRadius="md" border="1px solid white" p={4} direction="column" backgroundColor="black" boxShadow="md" opacity={proposal.state === 'closed' ? 0.7 : 1}>
-              <Box minWidth="100%" mb={2} minHeight="50px" >
-                <Text
-                  padding="5px"
-                  color="white"
-                  onClick={() => handleOpenModal({ body: proposal.body, title: proposal.title })}
-                  cursor="pointer"
-                  fontSize={'30px'}
-                  fontStyle={'bold'}
-                >
-                  {proposal.title}
-                </Text>
-              </Box>
-              <Box padding={"30px"} width="100%" height={'auto'} boxSize={"272px"} mx="auto">
+            <Flex
+              key={proposal.id}
+              borderWidth={1}
+              borderRadius="md"
+              border={proposal.state === 'active' ? "1px solid gold" : (proposal.state === 'closed' ? "1px solid grey" : "1px solid white")}
+              boxShadow={proposal.state === 'active' ? "0 0 10px gold" : (proposal.state === 'closed' ? "0 0 5px grey" : "0 0 5px white")}
+              p={4}
+              direction={isMobile ? "column" : "row"}
+              backgroundColor="black"
+              opacity={proposal.state === 'closed' ? 0.7 : 1}
+              alignItems="center"
+              minW="100%"
+            >
+              <Box minWidth="100px" minHeight="100px" mr={isMobile ? 0 : 4} mb={isMobile ? 4 : 0}>
                 <Image
-                  src={findImage(proposal.body)}
+                  src={findIpfsImage(proposal.body)}
                   alt="Thumbnail"
                   objectFit="cover"
                   borderRadius="md"
                   border={borderColor}
-                  aspectRatio={1}
+                  boxSize="100px"
                   onError={(e) => {
                     e.currentTarget.src = placeholderImage;
                   }}
                 />
               </Box>
 
-              <VStack paddingLeft="5px" align="start" width="100%">
-
-                <HStack alignContent="center" mb={2}>
-                  <Badge
-                    variant="subtle"
-                    colorScheme={proposal.state === 'closed' ? 'red' : 'green'}
+              <VStack align="start" flex="1" spacing={2}>
+                <Text
+                  color="white"
+                  fontSize={'20px'}
+                  fontWeight={'bold'}
+                >
+                  {proposal.title}
+                </Text>
+                {/* add eth and nns resolver to author */}
+                <Text color="white">Author: {proposal.author.slice(0, 6)}...{proposal.author.slice(-4)}</Text>
+                {proposal.summary && (
+                  <Text
+                    color="aqua"
+                    borderRadius="10px"
+                    border="1px solid white"
                   >
-                    {proposal.state === 'closed' ? 'Closed' : 'Active'}
-                  </Badge>
-                  <Text color="white">Autor: {proposal.author.slice(0, 6)}...{proposal.author.slice(-4)}</Text>
-                </HStack>
-                {loadingSummaries ? (
-                  <Skeleton height="20px" width="100%" mt={2} />
-                ) : (
-                  <Box minHeight="20px"> {/* Altura mínima ajustada para garantir consistência */}
-                    <Text
-                      padding="5px"
-                      color="aqua"
-                      borderRadius="10px"
-                      border="1px solid white"
-                      cursor="pointer"
-                      onClick={() => handleOpenModal({ body: proposal.body, title: proposal.title })}
-                      mt={2}
-                    >
-                      🤖 GPT-Summary: {proposal.summary}
-                    </Text>
-                  </Box>
+                    🤖 GPT-Summary: {proposal.summary}
+                  </Text>
                 )}
-              </VStack>
-              <Flex borderRadius="10px" flexDirection="row" justifyContent="space-between" mt={4} minHeight="50px"> {/* Altura mínima ajustada para garantir consistência */}
-                <Flex flexDirection="row" justifyContent="center" width="100%">
+                <Flex direction="row" wrap="wrap" justifyContent="right" mt={4}>
                   {proposal.choices.sort().reverse().map((choice, index) => (
                     <Button
                       key={index}
-                      color="white"
-                      backgroundColor="black"
-                      border="1px solid orange"
-                      mr={2}
-                      mb={2}
-                      borderRadius="md"
-                      onClick={() => {
-                        if (proposal.state === 'closed') {
-                          alert("Votação encerrada. Você está atrasado para votar!");
-                        } else {
-                          window.open(
-                            `https://snapshot.org/#/skatehive.eth/proposal/${proposal.id}`,
-                            '_blank'
-                          );
-                        }
-                      }}
-                      textTransform="uppercase"
+                      colorScheme={proposal.state === 'active' ? 'green' : 'gray'}
+                      isDisabled={proposal.state !== 'active'}
+                      size="sm"
+                      m={1}
                     >
                       {choice}
                     </Button>
-
                   ))}
                 </Flex>
-              </Flex>
+              </VStack>
             </Flex>
-
           ))
         )}
+      </VStack>
 
-      </SimpleGrid>
       <ProposalModal isOpen={isModalOpen} onClose={handleCloseModal} proposalContent={modalContent} proposalTitle={modalTitle} />
     </Flex>
   );
+
+
 };
 
 export default SkatehiveProposals;

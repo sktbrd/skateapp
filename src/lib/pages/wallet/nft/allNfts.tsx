@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Box, Text, Grid, Flex, Image, VStack, Button } from "@chakra-ui/react";
 // @ts-ignore
-import { Pioneer } from "@pioneer-platform/pioneer-react";
 import { formatWalletAddress } from "lib/pages/utils/formatWallet";
 //@ts-ignore
 import { usePioneer } from "@pioneer-platform/pioneer-react";
-
+import { FaEye } from "react-icons/fa";
 type NFT = {
   token: {
     medias: {
@@ -63,16 +62,15 @@ const AllNfts = () => {
 
   return (
     <Box>
-      <center>
-        <Pioneer />
-        <p> Selected Wallet</p>
-        <p>{ETHaddress}</p>
-      </center>
+
+
+
 
       {/* Toggle button for showing/hiding POAP NFTs */}
-      <Button onClick={() => setShowPOAP((prev) => !prev)} marginTop="1rem">
-        {showPOAP ? "Hide POAP NFTs" : "Show POAP NFTs"}
+      <Button onClick={() => setShowPOAP((prev) => !prev)} m="1rem" leftIcon={<FaEye />}>
+        {showPOAP ? "Hide POAPs" : "Show POAPs"}
       </Button>
+      <br />
 
       <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={4}>
         {filteredUserPortfolios.map((nft, index) => (

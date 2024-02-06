@@ -334,13 +334,14 @@ const HeaderNew = () => {
 
     <Flex as="header" direction="row" justifyContent="space-between" alignItems="center" p={2} m={2} mb={4}>
       <Flex justifyContent="space-between" borderRadius="6px" border="2px solid limegreen" minW={"100%"}>
-        <Menu>
+        <Menu >
           <MenuButton
             as={Button}
             backgroundColor="black"
             color="limegreen"
             size="l"
             padding={2}
+            _hover={{ backgroundColor: 'black', color: 'limegreen' }}
           >
 
             <Image
@@ -348,6 +349,7 @@ const HeaderNew = () => {
               alt="Dropdown Image"
               backgroundColor={"black"}
               boxSize="48px" // Adjust the size as needed
+
               css={{
                 animation: `${glow} 2s infinite alternate , ${moveUpAndDown} 3s infinite`,
                 "&:hover": {
@@ -404,6 +406,14 @@ const HeaderNew = () => {
                 backgroundColor="black"
               >
                 📖 Docs
+              </MenuItem>
+            </Link>
+            <Link to="/map" style={{ textDecoration: 'none' }}>
+              <MenuItem
+                _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+                backgroundColor="black"
+              >
+                🗺️ SpotBook
               </MenuItem>
             </Link>
             <Link to="/secret" style={{ textDecoration: 'none' }}>

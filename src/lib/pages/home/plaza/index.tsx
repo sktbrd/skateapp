@@ -33,13 +33,12 @@ type User = {
   name: string;
 } | null;
 
-const Plaza: React.FC = () => {
-  const pathname = window.location.pathname;
-  const parts = pathname.split("/");
-  const URLAuthor = "skatehacker";
-  const URLPermlink = "test-advance-mode-post";
-  // for testing purposes
-  // const URLPermlink = "testing-skatehive-ipfs-gateway"
+interface PlazaProps {
+  URLPermlink: string;
+  URLAuthor: string;
+}
+
+const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "test-advance-mode-post", URLAuthor = "skatehacker" }) => {
   const client = HiveClient;
   const [post, setPost] = useState<any | null>(null);
   const [comments, setComments] = useState<CommentProps[]>([]);
@@ -486,7 +485,7 @@ const Plaza: React.FC = () => {
               onClick={handlePostComment}
               disabled={isPostingComment}
             >
-              {isPostingComment ? <Spinner size="sm" /> : "🗣 Say it"}
+              {isPostingComment ? <Spinner size="sm" /> : "🗣 Post"}
             </Button>
           </Box>
           {commentContent.length > 1 && (
@@ -598,7 +597,7 @@ const Plaza: React.FC = () => {
                             style={{ display: "flex", alignItems: "center" }}
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                              <path d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M4.5 5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1z"/>
+                              <path d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M4.5 5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1z" />
                             </svg>
                           </div>
                         }
@@ -612,7 +611,7 @@ const Plaza: React.FC = () => {
                       >
                         {comment.children}
                       </Button>
-                      
+
                       <Button
                         onClick={() => handleVote(comment)}
                         leftIcon={
@@ -641,11 +640,11 @@ const Plaza: React.FC = () => {
 
                   {comment.showCommentBox && (comment.showCommentBox || (comment.repliesFetched && comment.repliesFetched.length > 0)) &&
                     (
-                      <Box 
+                      <Box
                         style={{
                           border: "1px solid limegreen",
                           borderRadius: "20px",
-                          marginBottom:"20px"
+                          marginBottom: "20px"
                         }}
                       >
                         {comment.showCommentBox && (
@@ -657,12 +656,12 @@ const Plaza: React.FC = () => {
                           />
                         )}
 
-                        {comment.repliesFetched && comment.repliesFetched.length > 0 && (                    
-                          <Comments 
-                          comments={comment.repliesFetched as CommentProps[]} 
-                          blockedUser="hivebuzz"
-                          commentPosted={false}
-                          permlink={comment.permlink}
+                        {comment.repliesFetched && comment.repliesFetched.length > 0 && (
+                          <Comments
+                            comments={comment.repliesFetched as CommentProps[]}
+                            blockedUser="hivebuzz"
+                            commentPosted={false}
+                            permlink={comment.permlink}
                           />
                         )}
                       </Box>

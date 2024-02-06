@@ -15,7 +15,7 @@ const Home = () => {
 
   return (
     <Flex direction="column">
-      {isMobile ? <Plaza /> : <HiveBlog />}
+      {isMobile ? <Plaza URLPermlink="test-advance-mode-post" URLAuthor="skatehacker" compWidth="60%" /> : <HiveBlog />}
       <Chat />
     </Flex>
   );

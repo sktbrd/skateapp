@@ -36,9 +36,10 @@ type User = {
 interface PlazaProps {
   URLPermlink: string;
   URLAuthor: string;
+  compWidth: string;
 }
 
-const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "test-advance-mode-post", URLAuthor = "skatehacker" }) => {
+const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "test-advance-mode-post", URLAuthor = "skatehacker", compWidth = "60%" }) => {
   const client = HiveClient;
   const [post, setPost] = useState<any | null>(null);
   const [comments, setComments] = useState<CommentProps[]>([]);
@@ -381,7 +382,7 @@ const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "test-advance-mode-post", U
         style={{
           borderRadius: "10px",
           overflowY: "auto",
-          maxWidth: isMobile ? "100%" : "60%",
+          width: isMobile ? "100%" : compWidth,
         }}
       >
         <Flex flexDirection="column" justifyContent="space-between">

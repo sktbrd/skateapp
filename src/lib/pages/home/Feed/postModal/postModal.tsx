@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-
+import OpenAI from 'openai';
 import {
   Modal,
   ModalOverlay,
@@ -52,6 +52,7 @@ import { diff_match_patch } from 'diff-match-patch';
 import { FaPencil } from 'react-icons/fa6';
 import { FaShare, FaEye } from 'react-icons/fa';
 import { FaXTwitter } from "react-icons/fa6";
+import { get } from 'http';
 
 const PostModal: React.FC<Types.PostModalProps> = ({
   isOpen,
@@ -82,6 +83,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   const [selectedThumbnail, setSelectedThumbnail] = useState<string | null>(null);
   const [postImages, setPostImages] = useState<string[]>([]);
   const [originalThumb, setOriginalThumb] = useState<string | null>(null);
+  const [loadingSummaries, setLoadingSummaries] = useState<boolean>(true);
 
 
   const extractImagesFromContent = (content: string): string[] => {
@@ -211,7 +213,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   };
 
   const generatePostUrl = () => {
-    return `${window.location.origin}/post${postUrl}`;
+    return `https://skatehive.app/post${postUrl}`;
   };
 
 
@@ -281,27 +283,54 @@ const PostModal: React.FC<Types.PostModalProps> = ({
     }
   };
 
-  const handleShareWarpCast = () => {
-    try {
-      const postPageUrl = generatePostUrl();
-      // apen a new tab https://warpcast.com/~/compose?text= + postPageUrl
-      window.open('https://warpcast.com/~/compose?text=' + "I am shredding on my last SkateHive post, check it out: " + postPageUrl, '_blank');
+  // -------- AI STUFF ----------------
+  const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY || '',
+    dangerouslyAllowBrowser: true,
+  });
 
+  const [tweetSummary, setTweetSummary] = useState('Skateboard is Cool');
+
+  const getSummary = async (body: string) => {
+    const prompt = `Summarize this content into a tweet-friendly sentence in up to 70 caracters. Exclude emojis and special characters that might conflict with URLs. Omit any 'Support Skatehive' sections. dont use emojis Content, dont use hashtags, ignore links: ${body}`;
+    const response = await openai.chat.completions.create({
+      messages: [{ role: 'user', content: prompt }],
+      model: 'gpt-3.5-turbo',
+    });
+    const summary = response.choices[0]?.message?.content || 'Check my new Post on Skatehive';
+    const encodedSummary = encodeURIComponent(summary);
+    return encodedSummary;
+  };
+
+  const handleShareWarpCast = async () => {
+    try {
+      const postPageUrl = encodeURI(generatePostUrl());
+      const summary = await getSummary(content);
+      setTweetSummary(summary);
+      const warptext = `${summary} ${postPageUrl}`;
+
+      window.open(`https://warpcast.com/~/compose?text=${warptext}`, '_blank');
     }
     catch (error) {
       console.error('Failed to share in WarpCast:', error);
     }
   }
 
-  const handleShareTwitter = () => {
+  const handleShareTwitter = async () => {
     try {
-      const postPageUrl = generatePostUrl();
-      // apen a new tab https://warpcast.com/~/compose?text= + postPageUrl
-      window.open('https://twitter.com/intent/tweet?text=' + "I am shredding on my last SkateHive post, check it out: " + postPageUrl, '_blank');
+      const postPageUrl = encodeURI(generatePostUrl());
+      console.log(postPageUrl);
+      const summary = await getSummary(content);
+      setTweetSummary(summary);
+      // assemble text + url in just one string 
+      const tweetText = `${summary} ${postPageUrl}`;
+      window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, '_blank');
+
+      // Add a line here
 
     }
     catch (error) {
-      console.error('Failed to share in WarpCast:', error);
+      console.error('Failed to share in Twitter:', error);
     }
   }
 

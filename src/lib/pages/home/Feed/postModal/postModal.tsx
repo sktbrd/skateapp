@@ -341,22 +341,22 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="3xl">
       <ModalOverlay style={{ background: 'rgba(0, 0, 0, 0.8)' }} />
-      <ModalContent backgroundColor={'black'} boxShadow="0px 0px 10px 5px rgba(128,128,128,0.1)">
+      <ModalContent backgroundColor={'black'} boxShadow="0px 0px 6px 0.5px limegreen">
         <ModalHeader>
           <PostHeader title={title} author={author} avatarUrl={avatarUrl} postUrl={postUrl} permlink={permlink} onClose={onClose} />
           <HStack justifyContent="space-between">
 
-            <Button leftIcon={<FaShare />} color="white" bg="black" border="1px solid orange" margin="15px" display={{ base: 'none', md: 'flex' }} onClick={handleCopyPostLink}>
+            <Button _hover={{ backgroundColor: 'black', color: 'limegreen' }} leftIcon={<FaShare />} color="white" bg="black" border="1px solid limegreen" margin="15px" display={{ base: 'none', md: 'flex' }} onClick={handleCopyPostLink}>
               {postLinkCopied ? 'Link Copied!' : 'Share Post'}
             </Button>
-            <Button leftIcon={<img src="/assets/warpcast.png" alt="WarpCast" style={{ width: '20px', marginRight: '5px' }} />} color="white" bg="black" border="1px solid orange" margin="15px" display={{ base: 'none', md: 'flex' }} onClick={handleShareWarpCast}>
+            <Button _hover={{ backgroundColor: 'purple', color: 'white' }} leftIcon={<img src="/assets/warpcast.png" alt="WarpCast" style={{ width: '20px', marginRight: '5px' }} />} color="white" bg="black" border="2px solid purple" margin="15px" display={{ base: 'none', md: 'flex' }} onClick={handleShareWarpCast}>
               {postLinkCopied ? 'Share it' : 'WarpCast'}
             </Button>
-            <Button leftIcon={<FaXTwitter />} color="white" bg="black" border="1px solid orange" margin="15px" display={{ base: 'none', md: 'flex' }} onClick={handleShareTwitter}>
+            <Button _hover={{ backgroundColor: 'white', color: 'black' }} leftIcon={<FaXTwitter />} color="white" bg="black" border="1px solid white" margin="15px" display={{ base: 'none', md: 'flex' }} onClick={handleShareTwitter}>
               {postLinkCopied ? 'Share it!' : 'Twitter'}
             </Button>
             <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
-              <Button leftIcon={<FaEye />} color="white" bg="black" margin="15px" border="1px solid orange">
+              <Button _hover={{ backgroundColor: 'black', color: 'limegreen' }} leftIcon={<FaEye />} color="white" bg="black" margin="15px" border="1px solid limegreen">
                 View Page
               </Button>
             </Link>

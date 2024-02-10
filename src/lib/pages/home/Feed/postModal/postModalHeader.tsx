@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 
 function slugify(text: string) {
   return text
-      .toString()
-      .toLowerCase()
-      .replace(/\s+/g, '-')           // Replace spaces with -
-      .replace(/[^\w\-]+/g, '')       // Remove all non-word characters
-      .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-      .replace(/^-+/, '')             // Trim - from start of text
-      .replace(/-+$/, '');            // Trim - from end of text
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, '-')           // Replace spaces with -
+    .replace(/[^\w\-]+/g, '')       // Remove all non-word characters
+    .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+    .replace(/^-+/, '')             // Trim - from start of text
+    .replace(/-+$/, '');            // Trim - from end of text
 }
 
 const PostHeader: React.FC<Types.PostHeaderProps> = ({ title, author, avatarUrl, permlink, postUrl, onClose }) => {
@@ -19,7 +19,7 @@ const PostHeader: React.FC<Types.PostHeaderProps> = ({ title, author, avatarUrl,
 
   return (
     <Flex justifyContent="center" alignItems="center">
-      <Box display="flex" alignItems="center">
+      <Box display="flex" alignItems="center" mt={8}>
         <Link to={`/profile/${author}`}>
           <Box borderRadius="full" border="1px solid limegreen" display="flex" alignItems="center" p="4">
             <Image boxSize="2rem" borderRadius="full" src={avatarUrl} alt={author} mr="4" />
@@ -32,11 +32,11 @@ const PostHeader: React.FC<Types.PostHeaderProps> = ({ title, author, avatarUrl,
           {title}
         </Heading>
       </Box>
-      <a href={peakdUrl} target="_blank" rel="noopener noreferrer">
+      {/* <a href={peakdUrl} target="_blank" rel="noopener noreferrer">
         <Image src="https://i.ibb.co/VpC46P5/image.png" boxSize="1.5rem" ml="4" />
-      </a>
-      <ModalCloseButton onClick={onClose} />
-    </Flex>  
+      </a> */}
+      <ModalCloseButton onClick={onClose} color="white" _hover={{ bg: 'limegreen' }} _active={{ bg: 'gray.700' }} />
+    </Flex>
   );
 }
 

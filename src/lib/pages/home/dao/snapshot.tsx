@@ -132,6 +132,7 @@ const SkatehiveProposals: React.FC = () => {
               opacity={proposal.state === 'closed' ? 0.7 : 1}
               alignItems="center"
               minW="100%"
+              onClick={() => handleOpenModal({ body: proposal.body, title: proposal.title })}
             >
               <Box minWidth="100px" minHeight="100px" mr={isMobile ? 0 : 4} mb={isMobile ? 4 : 0}>
                 <Image

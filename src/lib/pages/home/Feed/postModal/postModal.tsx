@@ -212,10 +212,6 @@ const PostModal: React.FC<Types.PostModalProps> = ({
     setIsEditing(true);
   };
 
-  const generatePostUrl = () => {
-    return `https://skatehive.app/post${postUrl}`;
-  };
-
 
   //  ---------------------------------------Voting Button -------------------------------
 
@@ -259,14 +255,10 @@ const PostModal: React.FC<Types.PostModalProps> = ({
     comments,
     postUrl,
   };
-  const handleViewFullPost = (event: any) => {
-    event.stopPropagation(); // Prevent event from bubbling up to the parent
-    console.log(window.location.protocol + '//' + postUrl);
-
-  };
+  const generatePostUrl = () => {
+    return `https://skatehive.app/post${postUrl}`;
+  }
   const cleanUrl = generatePostUrl().replace(window.location.origin, '');
-
-  const postLink = window.location.protocol + '//' + postUrl;
   const [postLinkCopied, setPostLinkCopied] = useState(false);
 
   const handleCopyPostLink = () => {
@@ -326,8 +318,6 @@ const PostModal: React.FC<Types.PostModalProps> = ({
       const tweetText = `${summary} ${postPageUrl}`;
       window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, '_blank');
 
-      // Add a line here
-
     }
     catch (error) {
       console.error('Failed to share in Twitter:', error);
@@ -355,11 +345,11 @@ const PostModal: React.FC<Types.PostModalProps> = ({
             <Button _hover={{ backgroundColor: 'white', color: 'black' }} leftIcon={<FaXTwitter />} color="white" bg="black" border="1px solid white" margin="15px" display={{ base: 'none', md: 'flex' }} onClick={handleShareTwitter}>
               {postLinkCopied ? 'Share it!' : 'Twitter'}
             </Button>
-            <Link to={{ pathname: cleanUrl, state: { post: postData } } as any}>
+            <a href={generatePostUrl()}>
               <Button _hover={{ backgroundColor: 'black', color: 'limegreen' }} leftIcon={<FaEye />} color="white" bg="black" margin="15px" border="1px solid limegreen">
                 View Page
               </Button>
-            </Link>
+            </a>
           </HStack>
         </ModalHeader>
 

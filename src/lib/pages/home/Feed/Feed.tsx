@@ -16,6 +16,7 @@ import {
   Tooltip,
   useDisclosure,
   Avatar,
+  Switch,
 } from "@chakra-ui/react";
 import { Client, Discussion } from "@hiveio/dhive";
 import useAuthUser from "../../../components/auth/useAuthUser";
@@ -31,7 +32,7 @@ import * as Types from "./types";
 
 import { MdArrowUpward } from "react-icons/md";
 import EarningsModal from "./postModal/earningsModal";
-
+import { DiscussionQueryCategory } from "@hiveio/dhive";
 interface ErrorModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -66,7 +67,7 @@ const randomSentences = [
   "Who was Gnartoshi Shredamoto?",
   "We have secret sections here, can you find?",
 ];
-const SPECIAL_TAG = "crowsnight666";
+
 
 const PlaceholderLoadingBar = () => {
   const randomIndex = Math.floor(Math.random() * randomSentences.length);
@@ -85,7 +86,7 @@ const PlaceholderLoadingBar = () => {
 };
 
 const HiveBlog: React.FC<Types.HiveBlogProps> = ({
-  queryType = "created",
+  // queryType = "created",
   tag = process.env.COMMUNITY || "hive-173115",
 }) => {
   const [loadedPosts, setLoadedPosts] = useState<any[]>([]);
@@ -110,6 +111,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   const [errorMessage, setErrorMessage] = useState<string>(""); // Track error message
   const [currentThumbnail, setCurrentThumbnail] = useState<string>(""); // Track error message
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [queryType, setQueryType] = useState<DiscussionQueryCategory>('trending'); // Default to "created"
 
   const fetchPostEarnings = async (
     author: string,
@@ -229,8 +231,8 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   };
 
   useEffect(() => {
-    fetchInitialPosts(); // Fetch initial posts when the component mounts
-  }, [currentTag]);
+    fetchInitialPosts(); // Fetch initial posts when the component mounts or queryType changes
+  }, [queryType]);
 
   const loadMorePosts = () => {
     fetchPosts(); // Fetch more posts when "Load More" is clicked
@@ -491,6 +493,25 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
             onClose={() => setIsErrorModalOpen(false)}
             errorMessage={errorMessage}
           />
+          <Box display="flex" justifyContent="left" marginBottom="20px" marginLeft={"20px"} >
+            <Switch
+              size='sm'
+              colorScheme="teal"
+              isChecked={queryType === "trending"}
+              onChange={() => {
+                const newQueryType = queryType === "created" ? "trending" : "created";
+                setQueryType(newQueryType);
+                setLoadedPosts([]);
+                setDisplayedPosts(20);
+                setIsLoadingInitial(true);
+                setTimeout(() => {
+                  fetchInitialPosts();
+                }, 3000);
+              }}
+            >
+              {queryType === "created" ? "Hot" : "Most Recent"}
+            </Switch>
+          </Box>
 
           <Box
             display="grid"
@@ -731,7 +752,8 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
           </Box>
           {isLoadingMore && <PlaceholderLoadingBar />}
         </>
-      )}
+      )
+      }
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
         <ModalContent>
@@ -767,7 +789,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
           />
         </ModalContent>
       </Modal>
-    </Box>
+    </Box >
   );
 };
 

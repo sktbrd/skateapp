@@ -33,11 +33,8 @@ import * as Types from "./types";
 import { MdArrowUpward } from "react-icons/md";
 import EarningsModal from "./postModal/earningsModal";
 import { DiscussionQueryCategory } from "@hiveio/dhive";
-interface ErrorModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  errorMessage: string;
-}
+import truncateTitle from "lib/pages/utils/truncateTitle";
+
 
 const nodes = [
   "https://api.deathwing.me",
@@ -75,12 +72,13 @@ const PlaceholderLoadingBar = () => {
 
   return (
     <center>
+      <Text marginBottom={"12px"} >{randomSentence}</Text>
+
       <Image
         borderRadius={"20px"}
         boxSize="100%"
         src="/assets/pepenation.gif"
       />
-      {/* <Text>{randomSentence}</Text> */}
     </center>
   );
 };
@@ -98,9 +96,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   const [nodeIndex, setNodeIndex] = useState(0);
   const [comments, setComments] = useState<Types.CommentProps[]>([]);
   const [isVotersModalOpen, setVotersModalOpen] = useState(false);
-  const [selectedPostForModal, setSelectedPostForModal] = useState<any | null>(
-    null
-  );
+  const [selectedPostForModal, setSelectedPostForModal] = useState<any | null>(null);
   const [postUrl, setPostUrl] = useState<string | null>(null);
   const [displayedPosts, setDisplayedPosts] = useState<number>(20);
   const [postsToLoadInitially] = useState<number>(20); // Number of posts to load initially
@@ -109,7 +105,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   const [hasVotedWitness, setHasVotedWitness] = useState<boolean>(false); // Step 4
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Track modal visibility
   const [errorMessage, setErrorMessage] = useState<string>(""); // Track error message
-  const [currentThumbnail, setCurrentThumbnail] = useState<string>(""); // Track error message
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [queryType, setQueryType] = useState<DiscussionQueryCategory>('trending'); // Default to "created"
 
@@ -356,17 +351,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     }
   `;
 
-  const truncateTitle = (title: any, maxCharacters = 60) => {
-    // full caps for title of post
-    title = title.toUpperCase();
-
-    if (title.length <= maxCharacters) {
-      return title;
-    } else {
-      const truncatedTitle = title.substring(0, maxCharacters - 3) + "...";
-      return truncatedTitle;
-    }
-  };
   const handleVoteClick = async (post: any) => {
     if (!isLoggedIn()) {
       setErrorMessage("You have to login first ! Dãããã... ");
@@ -399,9 +383,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
       setIsErrorModalOpen(true);
     }
   };
-  const cardStyleGradient = css`
-    background-color: "linear-gradient(to top, #0D0D0D, #1C1C1C, #000000)";
-  `;
 
   const isVoted = (post: any) => {
     // check for user in active_votes
@@ -493,7 +474,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
             onClose={() => setIsErrorModalOpen(false)}
             errorMessage={errorMessage}
           />
-          <Box display="flex" justifyContent="left" marginBottom="20px" marginLeft={"20px"} >
+          <Box display="flex" justifyContent="right" marginRight={"20px"} marginBottom={'5px'}>
             <Switch
               size='sm'
               colorScheme="teal"
@@ -509,7 +490,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                 }, 3000);
               }}
             >
-              {queryType === "created" ? "Hot" : "Most Recent"}
+              {queryType === "created" ? "Trending" : "Most Recent"}
             </Switch>
           </Box>
 

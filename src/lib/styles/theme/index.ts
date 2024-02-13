@@ -1,20 +1,18 @@
 import { extendTheme } from "@chakra-ui/react";
 
-import '@fontsource-variable/roboto-mono';
-import '@fontsource/press-start-2p';
+import '@fontsource/share-tech-mono';
 
 type GlobalStyleProps = { colorMode: "light" | "dark" };
 
 const themeConfig = {
-
   useSystemColorMode: false,
 };
 
 export const theme = extendTheme({
   ...themeConfig,
   fonts: {
-    heading: "Press Start 2P, sans serif", //not working
-    body: "Roboto Mono Variable, sans serif",
+    heading: "Share Tech Mono, monospace",
+    body: "Share Tech Mono, monospace",
   },
 
   components: {},

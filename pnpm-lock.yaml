@@ -41,6 +41,9 @@ dependencies:
   '@fontsource-variable/roboto-mono':
     specifier: ^5.0.13
     version: 5.0.17
+  '@fontsource-variable/space-grotesk':
+    specifier: ^5.0.16
+    version: 5.0.16
   '@fontsource/creepster':
     specifier: ^5.0.8
     version: 5.0.8
@@ -54,8 +57,11 @@ dependencies:
     specifier: ^5.0.11
     version: 5.0.18
   '@fontsource/press-start-2p':
-    specifier: ^5.0.14
+    specifier: ^5.0.18
     version: 5.0.18
+  '@fontsource/share-tech-mono':
+    specifier: ^5.0.8
+    version: 5.0.8
   '@hiveio/dhive':
     specifier: ^1.2.7
     version: 1.2.8
@@ -4601,6 +4607,10 @@ packages:
     resolution: {integrity: sha512-+FyoiEmO2r/kiwPnsPtATK2ROMgNwCnVSvvs+K38GMLIgLSSk4cNqU3GCqJDMSvAPHMYd0gFPGKStFh+yLqd9Q==}
     dev: false
 
+  /@fontsource-variable/space-grotesk@5.0.16:
+    resolution: {integrity: sha512-pFM2xRqXX5ac9d6XqMgF3o1AhJpzi89Y66MTrW36xiXdEHciGkKx1XeXMW0LEwZGTe36tkopKRfmnFg5KMSDgw==}
+    dev: false
+
   /@fontsource/creepster@5.0.8:
     resolution: {integrity: sha512-ufLV3H2y2ER2bjeu/nyJTcs6hBCId56j9oCN/hxrLEGen1zcOb0rzh+GFzDUr5OcXd3KCg5wNLA8Y68aq8/9LA==}
     dev: false
@@ -4623,6 +4633,10 @@ packages:
 
   /@fontsource/press-start-2p@5.0.18:
     resolution: {integrity: sha512-6ILWQdS1+qowlQiJYKhlmoUwAd3cHBnPRaO0QtRsSfCxoLqEqDZ0QpdcpokNBHWn4DYy75ZkVB8Sjk630ZwnUg==}
+    dev: false
+
+  /@fontsource/share-tech-mono@5.0.8:
+    resolution: {integrity: sha512-TswltQj0p+pprBRgSHW6W0JOL7kPGBSuwensgpKjGY1+5HYTXg0xihN1uFPt4HsieeJbw7ldoHimogmjyrIemw==}
     dev: false
 
   /@googlemaps/js-api-loader@1.16.2:
@@ -7584,8 +7598,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@shapeshiftoss/hdwallet-core@1.53.1:
-    resolution: {integrity: sha512-+0Ji0KO55YwQ8k6Ms29auIJHdqsqIDwLopxPjvYKlBBPHmll90G01ByIR7MOwWsNKibkThVTJdpB/Pc5XAZXFg==}
+  /@shapeshiftoss/hdwallet-core@1.53.3:
+    resolution: {integrity: sha512-ePR3aF4iGyLW05v/ZN3uNqvnQFERbmBMTEewrQ7BthcldOug3nVOQtIR5UHjjqjf8zU0Iwi2EGkD+bxsCxy4oA==}
     dependencies:
       '@shapeshiftoss/proto-tx-builder': 0.8.0
       eip-712: 1.0.0
@@ -21561,7 +21575,7 @@ packages:
       '@bithighlander/bitcoin-cash-js-lib': 5.2.1
       '@pioneer-platform/loggerdog': 8.1.31(@types/node@15.14.9)
       '@pioneer-platform/pioneer-coins': 8.1.90(@types/node@15.14.9)
-      '@shapeshiftoss/hdwallet-core': 1.53.1
+      '@shapeshiftoss/hdwallet-core': 1.53.3
       '@types/node': 15.14.9
       bip39: 3.1.0
       codeclimate-test-reporter: 0.5.1

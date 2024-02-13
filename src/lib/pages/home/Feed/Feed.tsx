@@ -530,7 +530,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                       size="lg"
                       style={{
                         textShadow: "0 0 20px rgba(0, 255, 0, 0.7)", // Apply a green glow behind the text
-                        fontStyle: "", // Make the text italic
+
                       }}
                     >
                       {post.author}
@@ -647,7 +647,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                         size="s"
                         ml={2}
                         style={{
-                          fontFamily: "Helvetica",
+
                           fontSize: `${Math.min(
                             46,
                             13 + post.earnings * 1.2
@@ -666,7 +666,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                         </span>
                         {post.earnings.toFixed(2)}
 
-                        <img //spinning stoken coin
+                        {/* <img //spinning stoken coin
                           src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
                           alt="spinning stoken coin"
                           style={{
@@ -682,7 +682,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                             marginLeft: "7px",
                             marginBottom: "2px",
                           }}
-                        />
+                        /> */}
                       </Button>
                     </Tooltip>
                   </Text>

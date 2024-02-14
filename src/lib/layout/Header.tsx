@@ -333,7 +333,7 @@ const HeaderNew = () => {
   return (
 
     <Flex as="header" direction="row" justifyContent="space-between" alignItems="center" p={2} m={2} mb={4}>
-      <Flex justifyContent="space-between" borderRadius="6px" border="2px solid limegreen" minW={"100%"}>
+      <Flex justifyContent="space-between" borderRadius="6px" border="2px solid #134a2f" minW={"100%"}>
         <Menu >
           <MenuButton
             as={Button}
@@ -487,7 +487,7 @@ const HeaderNew = () => {
                 leftIcon={isDesktop ? <FaScroll style={{ color: 'orange' }} /> : undefined}
                 m={"20px"}
               >
-                Home
+                Mag
               </Button>
               <Button
                 variant="link"
@@ -524,7 +524,7 @@ const HeaderNew = () => {
                 m={"10px"}
 
               >
-                Home
+                Plaza
               </Button>
               <Button
                 variant="link"

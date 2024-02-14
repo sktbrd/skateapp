@@ -17,6 +17,7 @@ import {
   useDisclosure,
   Avatar,
   Switch,
+  ButtonGroup
 } from "@chakra-ui/react";
 import { Client, Discussion } from "@hiveio/dhive";
 import useAuthUser from "../../../components/auth/useAuthUser";
@@ -474,25 +475,26 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
             onClose={() => setIsErrorModalOpen(false)}
             errorMessage={errorMessage}
           />
+
+
+
           <Box display="flex" justifyContent="right" marginRight={"20px"} marginBottom={'5px'}>
-            <Switch
-              size='sm'
-              colorScheme="teal"
-              isChecked={queryType === "trending"}
-              onChange={() => {
-                const newQueryType = queryType === "created" ? "trending" : "created";
-                setQueryType(newQueryType);
-                setLoadedPosts([]);
-                setDisplayedPosts(20);
-                setIsLoadingInitial(true);
-                setTimeout(() => {
-                  fetchInitialPosts();
-                }, 3000);
-              }}
-            >
-              {queryType === "created" ? "Trending" : "Most Recent"}
-            </Switch>
+            <ButtonGroup size="sm" isAttached variant="outline" colorScheme="teal">
+              <Button
+                onClick={() => setQueryType("created")}
+                isActive={queryType === "created"}
+              >
+                Most Recent
+              </Button>
+              <Button
+                onClick={() => setQueryType("trending")}
+                isActive={queryType === "trending"}
+              >
+                Trending
+              </Button>
+            </ButtonGroup>
           </Box>
+
 
           <Box
             display="grid"
@@ -542,7 +544,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                   <Image
                     key={post.id}
                     objectFit={"cover"}
-                    border="1px solid limegreen"
+                    border="1px solid #134a2f"
                     borderRadius="10px"
                     src={post.thumbnail || defaultThumbnail}
                     alt="Post Thumbnail"

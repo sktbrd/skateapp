@@ -129,7 +129,6 @@ export const MarkdownRenderers = {
   a: ({ children, href, ...props }: RendererProps) => {
     try {
       const url = new URL(href);
-      console.log(url)
       if (url.hostname === 'www.skatehive.app' && url.pathname.startsWith('/post/')) {
         const pathSegments = url.pathname.split('/').filter(segment => segment !== ''); // Remove empty segments
         const author = (pathSegments[2] || '').replace(/^@/, ''); // Author is at index 2, removing '@' if present

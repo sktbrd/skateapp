@@ -35,7 +35,8 @@ import { transform3SpeakContent } from "../utils/videoFunctions/videoUtils";
 import { transformGiphyLinksToMarkdown } from '../utils/ImageUtils';
 import { transformComplexMarkdown } from '../utils/transformComplexMarkdown';
 import { extractImageUrls } from "../utils/ImageUtils";
-
+// import react confetti 
+import Confetti from 'react-confetti';
 import {
   get3SpeakAuthStatus,
   Connect3Speak,
@@ -101,6 +102,8 @@ const NewUpload: React.FC = () => {
   const [videoFile, setVideoFile] = useState<File | null>(null); // for viewing in editor
   const [videoComponent, setVideoComponent] = useState<JSX.Element | null>(null);
   const [videoThumbnailUrl, setVideoThumbnailUrl] = useState<string | null>(null);
+  const [confetti, setConfetti] = useState(false);
+
 
   useEffect(() => {
     setTags(defaultTags);
@@ -124,7 +127,7 @@ const NewUpload: React.FC = () => {
           <source src={video} type="video/mp4" />
         </video>
       );
-      setVideoComponent(videoComponent);     
+      setVideoComponent(videoComponent);
     }
   }, [videoFile]);
 
@@ -529,12 +532,13 @@ const NewUpload: React.FC = () => {
             //   window.alert('Video successfully published on 3Speak!');
             // }
 
-            // reload the page
-            // wait 5 seconds and the reload the page
-            setTimeout(() => {
-              window.location.reload();
-            }, 5000);
+            // trigger react confetti 
+            setConfetti(true);
 
+            // wait 5 seconds and send the user home
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 5000);
             if (isVideoUploaded) {
               window.alert('Video successfully published on 3Speak! It will be available soon!');
             }
@@ -712,6 +716,8 @@ const NewUpload: React.FC = () => {
           </Badge>
         </VStack>
       </Box> */}
+      {confetti && <Confetti />}
+
       <Flex minWidth={"100%"}
         flexDirection={isMobile ? "column" : "row"}
       >

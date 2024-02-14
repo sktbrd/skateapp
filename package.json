@@ -73,6 +73,7 @@
     "pnpm": "^8.6.12",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
+    "react-confetti": "^6.1.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",

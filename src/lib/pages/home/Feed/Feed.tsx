@@ -477,7 +477,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
 
 
           <Box display="flex" justifyContent="right" marginRight={"20px"} marginBottom={'5px'}>
-            <ButtonGroup size="sm" isAttached variant="outline" colorScheme="teal">
+            <ButtonGroup size="sm" isAttached variant="outline" colorScheme="green">
               <Button
                 onClick={() => setQueryType("created")}
                 isActive={queryType === "created"}
@@ -527,7 +527,8 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                     <Heading
                       color="white"
                       paddingTop={"10px"}
-                      size="lg"
+                      fontSize="28px"
+                      marginTop={"15px"}
                       style={{
                         textShadow: "0 0 20px rgba(0, 255, 0, 0.7)", // Apply a green glow behind the text
 
@@ -565,17 +566,17 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                     minHeight="100%"
                     style={{
                       //style of the speech bubble
-                      backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23tGLtmE5K6ovFdVS4tYwA5yfJ4S3vnByzcg7BshwvCN1r5Jbmz8NmNm9CUKBm91FVFqT.png')`,
+                      // backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/23tGLtmE5K6ovFdVS4tYwA5yfJ4S3vnByzcg7BshwvCN1r5Jbmz8NmNm9CUKBm91FVFqT.png')`,
                       backgroundSize: "100% 100%", // stretches the speech bubble as big as the div and dynamically changes
                       backgroundPosition: "center",
                       backgroundRepeat: "no-repeat",
                       marginBottom: "-40px", // makes the speech bubble extend beyond the div
-                      paddingBottom: "40px", // for some reason it needs this part too?
+                      paddingBottom: "30px", // for some reason it needs this part too?
                     }}
                   >
                     <Text
                       fontWeight="semibold"
-                      color="orange"
+                      color="grey"
                       paddingLeft="5px"
                       paddingTop="10px"
                       paddingRight="5px"
@@ -660,7 +661,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                         }}
                       >
                         <span
-                          style={{ fontFamily: "serif", color: "chartreuse" }}
+                          style={{ color: "" }}
                         >
                           $
                         </span>
@@ -705,7 +706,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                         backgroundColor="black"
                         color="white"
                         size="sm"
-                        borderRadius="50%"
+                        borderRadius="40%"
                         aria-label="Upvote"
                         border="1px"
                         borderColor="limegreen"

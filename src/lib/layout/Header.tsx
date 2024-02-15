@@ -596,20 +596,20 @@ const HeaderNew = () => {
                 <Link to="/wallet" >
                   {isDesktop && (
                     <Tooltip label="Gnars Held by Connected Wallet" aria-label="Gnars" bg="black" borderRadius="md" border="yellow 2px solid">
-                      <Button m={1} backgroundColor="black" border="yellow 2px solid" color="yellow" _hover={{ backgroundColor: "black" }}>
+                      <Button m={1} backgroundColor="black" color="yellow" _hover={{ backgroundColor: "black" }}>
                         <Image marginRight={"10px"} boxSize={"22px"} src="https://www.gnars.wtf/images/logo.png"></Image> {gnarsNFTsCount} <Text color="white" style={{ marginLeft: '5px' }}>Gnars</Text>
                       </Button>
                     </Tooltip>
                   )}
                   <Tooltip label="Hive Wallet Tokens in USD" aria-label="Wallet" bg="black" borderRadius="md" border="red 2px solid">
-                    <Button m={1} backgroundColor="black" border="red 2px solid" color="white" _hover={{ backgroundColor: "black" }}>
+                    <Button m={1} backgroundColor="black" color="white" _hover={{ backgroundColor: "black" }}>
                       <Image marginRight={"10px"} boxSize={"22px"} src="https://cryptologos.cc/logos/hive-blockchain-hive-logo.png?v=026" />
                       {totalWorth.toFixed(2)} <Text color="limegreen" style={{ marginLeft: '5px' }}>USD</Text>
                     </Button>
                   </Tooltip>
                   {wallet_address && (
-                    <Tooltip label={"ETH address"} aria-label="Wallet" bg="black" borderRadius="md" border="blue 2px solid">
-                      <Button m={1} backgroundColor="black" border="blue 2px solid" color="white" _hover={{ backgroundColor: "black" }}>
+                    <Tooltip label={"ETH address"} aria-label="Wallet" bg="black" borderRadius="md" border=" #7CC4FA 2px solid">
+                      <Button m={1} backgroundColor="black" color="white" _hover={{ backgroundColor: "black" }}>
                         <Image
                           marginRight={"10px"}
                           boxSize={"22px"}

@@ -1,7 +1,6 @@
 import { Tooltip, AspectRatio, Box, Text, Image, Flex, Tabs, TabList, TabPanels, Tab, TabPanel, Button, Modal, ModalBody, ModalCloseButton, ModalOverlay, ModalContent, ModalFooter, ModalHeader, VStack } from "@chakra-ui/react";
 import useAuthUser from "../../components/auth/useAuthUser";
 import React, { useEffect, useState } from 'react';
-import HiveBlog from "../home/Feed/Feed";
 import BeCool from "./beCool";
 import HiveBalanceDisplay2 from "../wallet/hive/hiveBalance";
 import { TbWorld } from "react-icons/tb";
@@ -13,6 +12,7 @@ import { FaEthereum } from 'react-icons/fa';  // Import Ethereum logo
 import ReactMarkdown from "react-markdown";
 import { MarkdownRenderers } from "../utils/MarkdownRenderers";
 import { Client } from "@hiveio/dhive";
+import AuthorHiveBlog from "../home/Feed/AuthorHiveBlog";
 
 
 interface User {
@@ -242,7 +242,7 @@ export default function ProfilePage() {
         </TabList>
         <TabPanels>
           <TabPanel>
-            {user && <HiveBlog tag={user.name} queryType="blog" />}
+            {user && <AuthorHiveBlog tag={user.name} queryType="blog" />}
           </TabPanel>
           <TabPanel>
             <UserAbout user={user} />

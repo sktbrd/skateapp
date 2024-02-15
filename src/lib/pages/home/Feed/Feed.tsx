@@ -244,8 +244,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
         permlink,
         observer: user?.name || "",
       });
-      console.log("comments", comments);
-      // delete the original post from the comments object
+      // delete (the original post from the comments object
       // its key is @username/permlink
       const originalPostKey = `${author}/${permlink}`;
       delete comments[originalPostKey];
@@ -263,7 +262,6 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
           const subComment = subComments[i];
           comments[commentKey].repliesFetched.push(comments[subComment]);
         }
-        console.log("comments", comments);
         // set net_votes of the comment with active_votes.length
         comments[commentKey].net_votes =
           comments[commentKey].active_votes.length;

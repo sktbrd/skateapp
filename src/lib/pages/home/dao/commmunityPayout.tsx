@@ -30,7 +30,7 @@ const CommunityTotalPayout: React.FC<{ communityTag: string }> = ({ communityTag
         setTotalHBDPayout(totalPayoutNumber);
         setLoading(false);
       } catch (error: any) {
-        setTotalHBDPayout(49400.00);
+        setTotalHBDPayout(59400.00);
         setLoading(false);
       }
     };

@@ -366,10 +366,10 @@ const NewUpload: React.FC = () => {
       return;
     }
 
-    // if (!thumbnailUrl) {
-    //   alert("Please select a thumbnail for your post...");
-    //   return;
-    // }
+    if (!thumbnailUrl) {
+      alert("Please select a thumbnail for your post...");
+      return;
+    }
 
     if (!tags.length) {
       alert("Please enter some tags for your post...");
@@ -503,7 +503,7 @@ const NewUpload: React.FC = () => {
           'comment',
           {
             parent_author: '',
-            // parent_permlink: 'testing70',
+            // parent_permlink: 'testing78',
             parent_permlink: process.env.COMMUNITY || 'hive-173115',
             author: username,
             permlink: videoPermlink ? videoPermlink : permlink, // Use the video permlink if video is uploaded on 3Speak

@@ -38,7 +38,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Link, LinkProps as RouterLinkProps } from "react-router-dom";
 
 // Icons
-import { FaBell, FaSpeakap, FaUpload, FaScroll, FaVoteYea } from "react-icons/fa";
+import { FaPlus, FaSpeakap, FaUpload, FaScroll, FaVoteYea } from "react-icons/fa";
 
 // Hive Related
 import * as dhive from "@hiveio/dhive";
@@ -162,9 +162,7 @@ const HeaderNew = () => {
       try {
         const response = await axios.get(`https://pioneers.dev/api/v1/portfolio/${wallet_address?.toUpperCase()}`);
 
-        // Check if response.data is defined
         if (response.data !== undefined) {
-          // Check if response.data.nfts is defined and is an array
           if (response.data.nfts) {
             const gnarsNFTsCount = response.data.nfts.reduce((count: any, nft: any) => {
               if (
@@ -181,7 +179,6 @@ const HeaderNew = () => {
             setGnarsNFTsCount(gnarsNFTsCount);
           }
         } else {
-          // Handle the case where response.data is undefined
           console.error('Error: Response data is undefined');
         }
       } catch (error) {
@@ -197,7 +194,6 @@ const HeaderNew = () => {
     setLoggedIn(isLoggedIn());
     fetchConversionRate().then((rate: any) => {
       setConversionRate(rate);
-      // Call onStart and pass the required variables
       onStart(user, rate, loggedIn);
     });
   }, [user]);
@@ -479,27 +475,52 @@ const HeaderNew = () => {
 
           {isDesktop ? (
             <>
+              <Menu>
+                <MenuButton
+                  _hover={{ textDecoration: "underline" }} fontWeight="bold"
+                  as={Button}
+                  leftIcon={isDesktop ? <FaPlus style={{ color: 'orange' }} /> : undefined}
+                  variant="link"
+                  color={"white"}
+
+                >
+                  Post
+                </MenuButton>
+                <MenuList border="1px solid limegreen" backgroundColor="black" color="white" minWidth="120px">
+                  <Tooltip
+                    label="Quick posts like instagram/twitter shit. "
+                    bg="black"
+                    border="1px solid limegreen"
+                  >
+                    <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} as={RouterLink} to="/plaza"> in Plaza</MenuItem>
+                  </Tooltip>
+                  <Tooltip
+                    label="Long Form posts like magazine articles"
+                    bg="black"
+                    border="1px solid limegreen"
+                  >
+                    <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} as={RouterLink} to="/upload"> in Mag </MenuItem>
+                  </Tooltip>
+                  <Tooltip
+                    label="Be rewarded for contributing with our spots map"
+                    bg="black"
+                    border="1px solid limegreen"
+                  >
+                    <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} as={RouterLink} to="/map"> in SpotsMap</MenuItem>
+                  </Tooltip>
+                </MenuList>
+              </Menu>
               <Button
                 variant="link"
                 color="white"
                 as={Link}
                 to="/"
                 leftIcon={isDesktop ? <FaScroll style={{ color: 'orange' }} /> : undefined}
-                m={"20px"}
+                marginLeft={"20px"}
               >
                 Mag
               </Button>
-              <Button
-                variant="link"
-                color="white"
-                as={Link}
-                to="/upload"
-                leftIcon={isDesktop ? <FaUpload style={{ color: 'orange' }} /> : undefined}
-                m={"20px"}
 
-              >
-                Post
-              </Button>
               <Button
                 variant="link"
                 color="white"
@@ -526,17 +547,42 @@ const HeaderNew = () => {
               >
                 Plaza
               </Button>
-              <Button
-                variant="link"
-                color="white"
-                as={Link}
-                to="/upload"
-                leftIcon={isDesktop ? <FaUpload style={{ color: 'orange' }} /> : undefined}
-                m={"10px"}
 
-              >
-                Post
-              </Button>
+              <Menu>
+                <MenuButton
+                  _hover={{ textDecoration: "underline" }} fontWeight="bold"
+                  as={Button}
+                  leftIcon={isDesktop ? <FaPlus style={{ color: 'orange' }} /> : undefined}
+                  variant="link"
+                  color={"white"}
+
+                >
+                  Post
+                </MenuButton>
+                <MenuList border="1px solid limegreen" backgroundColor="black" color="white" minWidth="120px">
+                  <Tooltip
+                    label="Quick posts like instagram or twitter."
+                    bg="black"
+                    border="1px solid limegreen"
+                  >
+                    <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} as={RouterLink} to="/plaza"> in Plaza</MenuItem>
+                  </Tooltip>
+                  <Tooltip
+                    label="Long Form posts like magazine articles"
+                    bg="black"
+                    border="1px solid limegreen"
+                  >
+                    <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} as={RouterLink} to="/upload"> in Mag </MenuItem>
+                  </Tooltip>
+                  <Tooltip
+                    label="Be rewarded for contributing with our spots map"
+                    bg="black"
+                    border="1px solid limegreen"
+                  >
+                    <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} as={RouterLink} to="/map"> in SpotsMap</MenuItem>
+                  </Tooltip>
+                </MenuList>
+              </Menu>
               <Button
                 variant="link"
                 color="white"

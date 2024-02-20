@@ -87,7 +87,6 @@ const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "test-advance-mode-post", U
         URLAuthor,
         URLPermlink,
       ]);
-      console.log(postData);
       setPost({ ...postData });
     } catch (error) {
       console.error("Error fetching post data:", error);

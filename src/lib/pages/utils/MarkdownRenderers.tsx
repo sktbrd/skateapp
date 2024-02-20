@@ -70,7 +70,7 @@ const getPost = async (author: string, permlink: string): Promise<PostDetails | 
       method: 'bridge.get_discussion',
       params: [author, permlink],
     });
-
+    console.log(response);
     if (response.status === 200 && response.data.result) {
 
       return response.data.result as PostDetails;
@@ -129,7 +129,8 @@ export const MarkdownRenderers = {
   a: ({ children, href, ...props }: RendererProps) => {
     try {
       const url = new URL(href);
-      if (url.hostname === 'www.skatehive.app' && url.pathname.startsWith('/post/')) {
+      console.log(url);
+      if (url.pathname.startsWith('/post/hive-173115')) {
         const pathSegments = url.pathname.split('/').filter(segment => segment !== ''); // Remove empty segments
         const author = (pathSegments[2] || '').replace(/^@/, ''); // Author is at index 2, removing '@' if present
         const permlink = pathSegments[3] || ''; // Permlink is at index 3
@@ -207,7 +208,7 @@ export const MarkdownRenderers = {
     }
 
     // If not a SkateHive link, or if there's an error parsing the URL, render the link as usual
-    return <a {...props} href={href}>{children}</a>;
+    return <a {...props} href={href} style={{ color: 'orange' }}>{children}</a>;
   }
 
 

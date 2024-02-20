@@ -336,7 +336,6 @@ const NewUpload: React.FC = () => {
         alignItems="center"
         onClick={() => {
           setThumbnailUrl(imageUrl);
-          console.log("Selected Thumbnail:", imageUrl); // Log selected thumbnail URL
         }}
         style={imageUrl === thumbnailUrl ? selectedThumbnailStyle : {}}
       >
@@ -403,7 +402,6 @@ const NewUpload: React.FC = () => {
     // set video info on 3Speak if video is uploaded
     if (isVideoUploaded) {
       const videoInstance = await setVideoInfoOn3Speak(videoInfo);
-      console.log("Video instance:", videoInstance);
 
       // at this point the video is uploaded on 3Speak
       // get the hive post permlink from the video instance and use it to create the hive post
@@ -431,7 +429,6 @@ const NewUpload: React.FC = () => {
       };
 
       const updatedVideoInstance = await setVideoInfoOn3Speak(updateObject, true); // true means update
-      console.log("Updated video instance:", updatedVideoInstance);
 
       // update the markdown text with the video URL and thumbnail URL
       const videoMarkdown = `<center>\n\n[![](${newThumbnailURL})](${videoURL})\n\n</center>\n`;
@@ -659,7 +656,6 @@ const NewUpload: React.FC = () => {
       alert(`Beneficiary ${searchUsername} already exists or percentage is zero.`);
     }
 
-    console.log("Search username:", searchUsername);
   };
   const handleBeneficiaryPercentageChange = (index: number, newPercentage: number) => {
     const updatedBeneficiaries = [...beneficiaries];

@@ -63,16 +63,13 @@ type PostDetails = {
 
 const getPost = async (author: string, permlink: string): Promise<PostDetails | null> => {
   try {
-
     const response: AxiosResponse = await axios.post('https://api.hive.blog/', {
       jsonrpc: '2.0',
       id: 1,
       method: 'bridge.get_discussion',
       params: [author, permlink],
     });
-    console.log(response);
     if (response.status === 200 && response.data.result) {
-
       return response.data.result as PostDetails;
     } else {
       console.error('Failed to fetch post details:', response.status, response.data.error);
@@ -83,8 +80,6 @@ const getPost = async (author: string, permlink: string): Promise<PostDetails | 
     return null;
   }
 };
-
-
 
 export const MarkdownRenderers = {
   img: ({ alt, src, title, ...props }: RendererProps) => {
@@ -129,11 +124,10 @@ export const MarkdownRenderers = {
   a: ({ children, href, ...props }: RendererProps) => {
     try {
       const url = new URL(href);
-      console.log(url);
       if (url.pathname.startsWith('/post/hive-173115')) {
-        const pathSegments = url.pathname.split('/').filter(segment => segment !== ''); // Remove empty segments
-        const author = (pathSegments[2] || '').replace(/^@/, ''); // Author is at index 2, removing '@' if present
-        const permlink = pathSegments[3] || ''; // Permlink is at index 3
+        const pathSegments = url.pathname.split('/').filter(segment => segment !== '');
+        const author = (pathSegments[2] || '').replace(/^@/, '');
+        const permlink = pathSegments[3] || '';
         const [fetchedDetails, setFetchedDetails] = useState<FetchedDetailsObject | null>(null);
         useEffect(() => {
           if (author && permlink) {
@@ -145,7 +139,7 @@ export const MarkdownRenderers = {
             };
             fetchPostDetails();
           } else {
-            console.warn('Author or permlink is empty. Unable to fetch post details.'); // Debug log
+            console.warn('Author or permlink is empty. Unable to fetch post details.');
           }
         }, [author, permlink]);
 
@@ -154,12 +148,9 @@ export const MarkdownRenderers = {
         }
 
         const fetchedPost: any = fetchedDetails[`${author}/${permlink}`];
-        console.log(fetchedPost);
         return (
           <Flex>
-            {/* <Box>
-              Add post thumbnail here
-            </Box> */}
+
             <Box
               border="1px solid orange"
               borderRadius="10px"
@@ -169,7 +160,6 @@ export const MarkdownRenderers = {
               backgroundColor="#1E1E1E"
               marginBottom="10px"
             >
-              {/* Image on the left (you can customize the source based on author or use a default image) */}
               <Image
                 src={fetchedPost[`${author}/${permlink}`].json_metadata['image'][0]}
                 alt={`${fetchedPost.author}'s avatar`}
@@ -178,19 +168,12 @@ export const MarkdownRenderers = {
                 borderRadius="10%"
                 margin="5px"
               />
-
-
-              {/* Post details on the right */}
               <VStack marginLeft={"5px"}>
-
-
                 <Link href={`https://www.skatehive.app/post${fetchedPost[`${author}/${permlink}`].url}`} color="orange">
                   {fetchedPost[`${author}/${permlink}`].title}
                 </Link>
                 <HStack>
-
                   <Text fontSize="16px" color="white">
-
                     {' '} App: {' '}
                     {fetchedPost[`${author}/${permlink}`].json_metadata['app']}
                   </Text>

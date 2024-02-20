@@ -105,7 +105,6 @@ const HeaderNew = () => {
     fetchProposals().then((fetchedProposals: any) => {
       if (fetchedProposals) {
         const activeProposals = mapProposals(fetchedProposals);
-        console.log(activeProposals.length);
         setActiveProposalsLength(activeProposals.length);
       }
     }).catch(error => console.error("Error processing proposals", error));

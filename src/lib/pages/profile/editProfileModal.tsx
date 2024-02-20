@@ -22,10 +22,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
   const [about, setAbout] = useState<string>(user.profile?.about || '');
   const [avatarUrl, setAvatarUrl] = useState<string>(user.profile?.profile_image || '');
   const [coverImageUrl, setCoverImageUrl] = useState<string>(user.profile?.cover_image || '');
-  console.log(user)
   const current_extensions = user?.json_metadata;
 
-  console.log(current_extensions)
   const [extensions, setExtensions] = useState<any>(
     (() => {
       try {
@@ -189,7 +187,6 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
         if (response.ok) {
           const data = await response.json();
           const ipfsUrl = `https://ipfs.skatehive.app/ipfs/${data.IpfsHash}?pinataGatewayToken=nxHSFa1jQsiF7IHeXWH-gXCY3LDLlZ7Run3aZXZc8DRCfQz4J4a94z9DmVftXyFE`;
-          console.log(ipfsUrl);
           return ipfsUrl;
         } else {
           const errorData = await response.json();

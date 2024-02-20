@@ -23,7 +23,7 @@ export interface CommentProps {
   id: string; // Add this field to store the unique identifier of the comment
   replies: CommentProps[];
   children?: number;
-  repliesFetched?: any []; // for child comments
+  repliesFetched?: any[]; // for child comments
   showCommentBox?: boolean;
   limit: number;
   blockedUser: string;
@@ -58,6 +58,8 @@ export interface PostHeaderProps {
   postUrl: string;
   permlink: string;
   onClose: () => void;
+  content: string;
+  date: string;
 }
 
 export interface PostModalProps {
@@ -75,6 +77,7 @@ export interface PostModalProps {
   json_metadata: any;
   images: string[];
   thumbnail: string;
+  createdAt: string;
 
 }
 

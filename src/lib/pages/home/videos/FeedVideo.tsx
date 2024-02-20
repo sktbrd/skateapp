@@ -148,6 +148,7 @@ const HiveVideos: React.FC = () => {
               json_metadata={selectedPost.json_metadata}
               images={[]}
               thumbnail=''
+              createdAt={selectedPost.created}
             />
           )}
         </ModalContent>

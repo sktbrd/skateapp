@@ -16,6 +16,12 @@ import {
   Box,
   VStack,
   Tooltip,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Image,
+
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
@@ -49,8 +55,8 @@ import { transform3SpeakContent, transformYouTubeContent, transformIPFSContent }
 import { slugify } from 'lib/pages/utils/videoFunctions/slugify';
 import { json } from 'stream/consumers';
 import { diff_match_patch } from 'diff-match-patch';
-import { FaPencil } from 'react-icons/fa6';
-import { FaShare, FaEye } from 'react-icons/fa';
+import { FaO, FaPencil } from 'react-icons/fa6';
+import { FaShare, FaEye, FaCopy } from 'react-icons/fa';
 import { FaXTwitter } from "react-icons/fa6";
 import { get } from 'http';
 
@@ -68,6 +74,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
   json_metadata,
   images,
   thumbnail,
+  createdAt,
 }) => {
 
   const avatarUrl = `https://images.ecency.com/webp/u/${author}/avatar/small`;
@@ -246,116 +253,28 @@ const PostModal: React.FC<Types.PostModalProps> = ({
 
   const navigate = useNavigate();
 
-  const postData = {
-    title,
-    content,
-    author,
-    permlink,
-    weight,
-    comments,
-    postUrl,
-  };
-  const generatePostUrl = () => {
-    return `https://skatehive.app/post${postUrl}`;
-  }
-  const cleanUrl = generatePostUrl().replace(window.location.origin, '');
-  const [postLinkCopied, setPostLinkCopied] = useState(false);
+  // const postData = {
+  //   title,
+  //   content,
+  //   author,
+  //   permlink,
+  //   weight,
+  //   comments,
+  //   postUrl,
+  // };
 
-  const handleCopyPostLink = () => {
-    try {
-      const postPageUrl = generatePostUrl();
-      navigator.clipboard.writeText(postPageUrl);
-      setPostLinkCopied(true);
-      //wait 3 seconds
-      setTimeout(() => {
-        setPostLinkCopied(false);
-      }, 3000);
-    } catch (error) {
-      console.error('Failed to copy the link:', error);
-    }
-  };
-
-  // -------- AI STUFF ----------------
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY || '',
-    dangerouslyAllowBrowser: true,
-  });
-
-  const [tweetSummary, setTweetSummary] = useState('Skateboard is Cool');
-
-  const getSummary = async (body: string) => {
-    const prompt = `Summarize this content into a tweet-friendly sentence in up to 70 caracters. Exclude emojis and special characters that might conflict with URLs. Omit any 'Support Skatehive' sections. dont use emojis Content, dont use hashtags, ignore links: ${body}`;
-    const response = await openai.chat.completions.create({
-      messages: [{ role: 'user', content: prompt }],
-      model: 'gpt-3.5-turbo',
-    });
-    const summary = response.choices[0]?.message?.content || 'Check my new Post on Skatehive';
-    const encodedSummary = encodeURIComponent(summary);
-    return encodedSummary;
-  };
-
-  const handleShareWarpCast = async () => {
-    try {
-      const postPageUrl = encodeURI(generatePostUrl());
-      const summary = await getSummary(content);
-      setTweetSummary(summary);
-      const warptext = `${summary} ${postPageUrl}`;
-
-      window.open(`https://warpcast.com/~/compose?text=${warptext}`, '_blank');
-    }
-    catch (error) {
-      console.error('Failed to share in WarpCast:', error);
-    }
-  }
-
-  const handleShareTwitter = async () => {
-    try {
-      const postPageUrl = encodeURI(generatePostUrl());
-      console.log(postPageUrl);
-      const summary = await getSummary(content);
-      setTweetSummary(summary);
-      // assemble text + url in just one string 
-      const tweetText = `${summary} ${postPageUrl}`;
-      window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, '_blank');
-
-    }
-    catch (error) {
-      console.error('Failed to share in Twitter:', error);
-    }
-  }
 
   let transformedContent = transformYouTubeContent(content);
   transformedContent = transformComplexMarkdown(transformedContent);
   transformedContent = transformIPFSContent(transformedContent);
-
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="3xl">
-      <ModalOverlay style={{ background: 'rgba(0, 0, 0, 0.8)' }} />
-      <ModalContent backgroundColor={'black'} boxShadow="0px 0px 6px 0.5px limegreen">
+      <ModalContent backgroundColor={'black'} boxShadow="0px 0px 6px 0.5px white">
         <ModalHeader>
-          <PostHeader title={title} author={author} avatarUrl={avatarUrl} postUrl={postUrl} permlink={permlink} onClose={onClose} />
-          <HStack justifyContent="space-between">
-
-            <Button _hover={{ backgroundColor: 'black', color: 'limegreen' }} leftIcon={<FaShare />} color="white" bg="black" border="1px solid limegreen" margin="15px" display={{ base: 'none', md: 'flex' }} onClick={handleCopyPostLink}>
-              {postLinkCopied ? 'Link Copied!' : 'Share Post'}
-            </Button>
-            <Button _hover={{ backgroundColor: 'purple', color: 'white' }} leftIcon={<img src="/assets/warpcast.png" alt="WarpCast" style={{ width: '20px', marginRight: '5px' }} />} color="white" bg="black" border="2px solid purple" margin="15px" display={{ base: 'none', md: 'flex' }} onClick={handleShareWarpCast}>
-              {postLinkCopied ? 'Share it' : 'WarpCast'}
-            </Button>
-            <Button _hover={{ backgroundColor: 'white', color: 'black' }} leftIcon={<FaXTwitter />} color="white" bg="black" border="1px solid white" margin="15px" display={{ base: 'none', md: 'flex' }} onClick={handleShareTwitter}>
-              {postLinkCopied ? 'Share it!' : 'Twitter'}
-            </Button>
-            <a href={generatePostUrl()}>
-              <Button _hover={{ backgroundColor: 'black', color: 'limegreen' }} leftIcon={<FaEye />} color="white" bg="black" margin="15px" border="1px solid limegreen">
-                View Page
-              </Button>
-            </a>
-          </HStack>
+          <PostHeader title={title} author={author} avatarUrl={avatarUrl} postUrl={postUrl} permlink={permlink} content={content} onClose={onClose} date={createdAt} />
         </ModalHeader>
-
         {isUserLoggedIn && user.name === author && !isEditing && (
           <Flex marginRight={"40px"} justifyContent="flex-end" marginTop={3}>
-
             <Button
               id="editButton"
               onClick={handleEditClick}
@@ -367,12 +286,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
               Edit
             </Button>
           </Flex>
-
         )}
-
-        <Flex marginLeft={"20px"} justifyContent="flex-start" marginTop={3}>
-          {/* Add any content here if needed */}
-        </Flex>
 
         {isEditing ? (
           <center>
@@ -414,8 +328,8 @@ const PostModal: React.FC<Types.PostModalProps> = ({
               ) : null}
             </Flex>
           </Flex>
-        )}
-
+        )
+        }
         <ModalBody ref={modalContainerRef}>
           {isEditing ? (
             <VStack>
@@ -435,7 +349,6 @@ const PostModal: React.FC<Types.PostModalProps> = ({
                 components={MarkdownRenderers}
                 rehypePlugins={[rehypeRaw]}
                 remarkPlugins={[remarkGfm]}
-
               >
                 {(transformedContent)}
               </ReactMarkdown>
@@ -456,11 +369,7 @@ const PostModal: React.FC<Types.PostModalProps> = ({
             </Flex>
           )}
         </ModalBody>
-
         <Comments comments={comments} commentPosted={commentPosted} blockedUser={"hivebuzz"} permlink='' />
-
-
-
         {isUserLoggedIn ? (
           <div>
             <CommentBox
@@ -477,20 +386,13 @@ const PostModal: React.FC<Types.PostModalProps> = ({
               Login to Comment | Vote
             </Button>
           </center>
-        )}
+        )
+        }
 
         <HiveLogin isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
-      </ModalContent>
-    </Modal>
+      </ModalContent >
+    </Modal >
   );
-
-
-
-
-
-
 };
-
-
 
 export default PostModal;

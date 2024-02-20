@@ -69,7 +69,6 @@ const EvmSendModal: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo 
 
 
   useEffect(() => {
-    console.log(app)
     if (app && app.wallets && app.wallets.length > 0) {
       const currentAddress = app.wallets[0].wallet.accounts[0];
       const app_wallet = app.wallets[0].wallet;
@@ -77,8 +76,7 @@ const EvmSendModal: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo 
       setSelectedWallet(app.wallets[0].type)
       setAddress(currentAddress);
       setWallet(app_wallet);
-      console.log(app_wallet)
-      console.log(currentAddress)
+
     }
   }
     , [app]);
@@ -86,14 +84,10 @@ const EvmSendModal: React.FC<EvmSendModalProps> = ({ isOpen, onClose, tokenInfo 
   const sendToAddress = async function (event: React.MouseEvent<HTMLButtonElement>) {
     try {
       if (amount && toAddress) {
-        console.log(amount);
-        console.log(toAddress);
-        console.log(tokenInfo.symbol)
-        console.log(app.wallets)
+
         const pubkey = await app.pubkeys.find(
           (pubkey: any) => pubkey.symbol === tokenInfo.symbol
         );
-        console.log(pubkey)
       } else {
         // Handle the case where amount or toAddress is not provided
       }

@@ -30,7 +30,6 @@ export const fetchProposals = async () => {
 // map the fetched proposals to check which ones are active
 export const mapProposals = (proposals: any) => {
     const activeProposals = proposals.filter((proposal: any) => proposal.state === 'active');
-    console.log(activeProposals);
     return activeProposals;
 
 };

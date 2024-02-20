@@ -122,8 +122,7 @@ function AccountCreation() {
     const keys = getPrivateKeys(desiredUsername, masterPassword);
     setKeys(keys);
 
-    console.log(masterPassword);
-    console.log(keys);
+
 
     // create download text
     let text = `Username: ${desiredUsername}\n\n`;
@@ -161,7 +160,6 @@ function AccountCreation() {
           },
         ];
 
-        console.log(createAccountOperation);
 
         ops.push(createAccountOperation);
 
@@ -172,9 +170,7 @@ function AccountCreation() {
           method: KeychainKeyTypes.active,
         };
 
-        console.log(formParamsAsObject);
         const broadcast = await keychain.broadcast(formParamsAsObject);
-        console.log(broadcast);
       } else {
         console.log('no user');
       }

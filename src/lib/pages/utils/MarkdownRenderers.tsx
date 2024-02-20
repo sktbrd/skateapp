@@ -295,7 +295,7 @@ export const MarkdownRenderers = {
       <video
         {...props}
         src={src}
-        style={{ borderRadius: '10px', marginBottom: '20px', border: '2px yellow solid', minWidth: '60%', minHeight: '40%' }}
+        style={{ borderRadius: '10px', marginBottom: '20px', border: '2px grey solid', minWidth: '60%', minHeight: '40%' }}
       />
     </div>
   ),

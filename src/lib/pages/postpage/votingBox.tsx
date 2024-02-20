@@ -33,7 +33,6 @@ const VotingBox: React.FC<Types.PostFooterProps> = ({ onClose, author, permlink,
 
     try {
       await voteOnContent(user.user.name, permlink, author, sliderValue);
-      console.log("Voting successful!");
       // handle the vote result here
       userVote.isVoted = true;
       userVote.percent = sliderValue;

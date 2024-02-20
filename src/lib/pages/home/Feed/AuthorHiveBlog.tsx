@@ -734,6 +734,7 @@ const AuthorHiveBlog: React.FC<Types.HiveBlogProps> = ({
                         json_metadata={selectedPost?.json_metadata}
                         images={selectedPost?.images}
                         thumbnail={selectedPost?.thumbnail}
+                        createdAt={selectedPost?.created}
                     />
                 </ModalContent>
             </Modal>

@@ -126,7 +126,6 @@ export const Connect3Speak = () => {
       }).then((response) => {
 
         const { data } = response;
-        console.log(data);
 
       }).catch((error) => {
         // if jwt is invalid, then set connected to false
@@ -176,7 +175,6 @@ export const uploadTo3Speak = async (file: File, setIsUploading: Function, setVi
     },
     onProgress: function (bytesUploaded: number, bytesTotal: number) {
       const percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
-      console.log(bytesUploaded, bytesTotal, percentage + "%");
       setVideoUploadProgress(percentage);
     },
     onSuccess: function () {
@@ -191,7 +189,6 @@ export const uploadTo3Speak = async (file: File, setIsUploading: Function, setVi
         'owner': localStorage.getItem("3SpeakUser"),
       }
 
-      console.log(videoInfo);
 
       setVideoInfo(videoInfo);
       setIsVideoUploaded(true);

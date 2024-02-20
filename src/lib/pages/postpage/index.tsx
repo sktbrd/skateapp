@@ -60,7 +60,6 @@ const PostPage: React.FC = () => {
         transformedBody = transformComplexMarkdown(transformedBody);
 
         setPost({ ...postData, body: transformedBody });
-        console.log(post)
 
       } catch (error) {
         console.error('Error fetching post data:', error);
@@ -137,7 +136,6 @@ const PostPage: React.FC = () => {
         percent: percentage,
       };
 
-      console.log(vote, post.permlink)
 
       return vote;
     }

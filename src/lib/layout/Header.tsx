@@ -490,6 +490,8 @@ const HeaderNew = () => {
                     label="Quick posts like instagram/twitter shit. "
                     bg="black"
                     border="1px solid limegreen"
+                    placement='right-end'
+
                   >
                     <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} as={RouterLink} to="/plaza"> in Plaza</MenuItem>
                   </Tooltip>
@@ -497,6 +499,7 @@ const HeaderNew = () => {
                     label="Long Form posts like magazine articles"
                     bg="black"
                     border="1px solid limegreen"
+                    placement='right-end'
                   >
                     <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} as={RouterLink} to="/upload"> in Mag </MenuItem>
                   </Tooltip>
@@ -504,6 +507,7 @@ const HeaderNew = () => {
                     label="Be rewarded for contributing with our spots map"
                     bg="black"
                     border="1px solid limegreen"
+                    placement='right-end'
                   >
                     <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} as={RouterLink} to="/map"> in SpotsMap</MenuItem>
                   </Tooltip>

@@ -175,6 +175,7 @@ const SkatehiveProposals: React.FC = () => {
                       isDisabled={proposal.state !== 'active'}
                       size="sm"
                       m={1}
+                      onClick={() => window.open(`https://snapshot.org/#/skatehive.eth/proposal/${proposal.id}`)}
                     >
                       {choice}
                     </Button>

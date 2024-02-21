@@ -159,6 +159,7 @@ export const MarkdownRenderers = {
               alignItems="center"
               backgroundColor="#1E1E1E"
               marginBottom="10px"
+              minW={"100%"}
             >
               <Image
                 src={fetchedPost[`${author}/${permlink}`].json_metadata['image'][0]}

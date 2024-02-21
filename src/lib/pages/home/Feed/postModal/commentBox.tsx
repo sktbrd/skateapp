@@ -27,6 +27,12 @@ import sendHive from 'lib/pages/utils/hiveFunctions/sendHive';
 import { Client } from "@hiveio/dhive";
 import e from 'cors';
 import EditProfileModal from 'lib/pages/profile/editProfileModal';
+import { Grid } from '@giphy/react-components'
+import { GiphyFetch } from '@giphy/js-fetch-api'
+import { debounce } from 'lodash';
+import { IGif } from '@giphy/js-types'
+import { Spinner } from '@chakra-ui/react';
+
 
 const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, parentPermlink, onCommentPosted }) => {
   const [commentContent, setCommentContent] = useState('');
@@ -241,7 +247,64 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
     });
   };
 
+  const [isGiphyModalOpen, setGiphyModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('skateboard funny');
+  const [selectedGif, setSelectedGif] = useState(null);
+  const [gifs, setGifs] = useState<IGif[]>([]); // Correctly type the gifs state
+  const [isLoading, setIsLoading] = useState(false);
+  const gf = new GiphyFetch('qXGQXTPKyNJByTFZpW7Kb0tEFeB90faV')
+  const fetchGifs = (offset: number) => gf.trending({ offset, limit: 10 })
+  useEffect(() => {
+    // This useEffect should fetch GIFs either trending or based on searchTerm
+    const fetch = async () => {
+      const { data } = searchTerm
+        ? await gf.search(searchTerm, { limit: 10 })
+        : await gf.trending({ limit: 10 });
+      setGifs(data); // Set the fetched GIFs to state
+    };
 
+    fetch();
+  }, [searchTerm]);
+  const onGifSelect = (gif: any, e: any) => {
+    e.preventDefault();
+    const gifUrl = gif.images.downsized_medium.url; // Adjust according to the GIF object structure
+    setSelectedGif(gif);
+    setCommentContent((prevContent) => `${prevContent} ![](${gifUrl})`);
+    setGiphyModalOpen(false); // Close the modal after selection
+  };
+
+  const handleSearchTermChange = (value: string) => {
+    setTimeout(() => {
+      setSearchTerm(value);
+    }, 5000);
+    setIsLoading(false);
+  };
+  const GiphyModal = () => {
+    // Modal content with Input for searchTerm
+    // Use the Grid component with a corrected fetchGifs prop
+    return (
+      <Modal isOpen={isGiphyModalOpen} onClose={() => setGiphyModalOpen(false)}>
+        <ModalContent bg={"black"}>
+          <ModalHeader>Search GIPHY</ModalHeader>
+          <ModalCloseButton />
+          <Input
+            placeholder="Type to search..."
+            onChange={(e) => {
+              setIsLoading(true);
+              handleSearchTermChange(e.target.value);
+            }} // Directly set the searchTerm
+          />
+          {isLoading && <Spinner />}
+          <Grid
+            width={450}
+            columns={3}
+            fetchGifs={(offset) => gf.search(searchTerm, { offset, limit: 10 })} // Correctly use fetchGifs
+            onGifClick={onGifSelect}
+          />
+        </ModalContent>
+      </Modal>
+    );
+  };
   return (
     <Box margin={"10px"} borderRadius={"10px"} border="1px solid white" padding="10px" mt="20px">
       <Textarea
@@ -251,6 +314,11 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
       />
       <HStack justifyContent={"space-between"}>
         <HStack justifyContent={"space-between"}>
+
+          <Button mt="10px" color={"white"} bg={"transparent"} border={"1px solid white"} onClick={() => setGiphyModalOpen(true)}>Add GIF</Button>
+          <GiphyModal />
+
+
           <Menu>
             <MenuButton color={"white"} bg={"black"} as={Button} leftIcon={<Image boxSize={"38px"} src="/assets/pepelove.png" />} border="1px solid white" mt="10px">
               Tip
@@ -269,6 +337,7 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
         <Button border="1px solid white" mt="10px" onClick={handleCommentSubmit}>
           Submit Comment
         </Button>
+
       </HStack>
 
       {sendHiveTipModal()}

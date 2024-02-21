@@ -120,7 +120,7 @@ export const MarkdownRenderers = {
       </span>
     );
   },
-  p: ({ children, ...props }: RendererProps) => <div {...props} style={{ color: 'white', fontSize: '18px', paddingBottom: '15px' }}>{children}</div>,
+  p: ({ children, ...props }: RendererProps) => <p {...props} style={{ color: 'white', fontSize: '18px', paddingBottom: '15px' }}>{children}</p>,
   a: ({ children, href, ...props }: RendererProps) => {
     try {
       const url = new URL(href);
@@ -192,15 +192,7 @@ export const MarkdownRenderers = {
 
     // If not a SkateHive link, or if there's an error parsing the URL, render the link as usual
     return <a {...props} href={href} style={{ color: 'orange' }}>{children}</a>;
-  }
-
-
-  ,
-
-
-
-
-
+  },
   h1: ({ children, ...props }: RendererProps) => <h1 {...props} style={{ fontWeight: 'bold', color: 'white', fontSize: '28px', paddingBottom: '10px', paddingTop: "10px" }}>{children}</h1>,
   h2: ({ children, ...props }: RendererProps) => <h2 {...props} style={{ fontWeight: 'bold', color: 'white', fontSize: '26px', paddingBottom: '8px', paddingTop: "10px" }}>{children}</h2>,
   h3: ({ children, ...props }: RendererProps) => <h3 {...props} style={{ fontWeight: 'bold', color: 'white', fontSize: '24px', paddingBottom: '6px', paddingTop: "12px" }}>{children}</h3>,

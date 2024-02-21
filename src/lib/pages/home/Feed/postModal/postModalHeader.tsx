@@ -35,10 +35,7 @@ function slugify(text: string) {
 
 const PostHeader: React.FC<Types.PostHeaderProps> = ({ title, author, avatarUrl, permlink, postUrl, onClose, content, date }) => {
   const peakdUrl = `https://peakd.com${postUrl}`;
-  const generatePostUrl = () => {
-    return `https://skatehive.app/post${postUrl}`;
-  }
-  const cleanUrl = generatePostUrl().replace(window.location.origin, '');
+
   const [postLinkCopied, setPostLinkCopied] = useState(false);
 
 
@@ -62,6 +59,10 @@ const PostHeader: React.FC<Types.PostHeaderProps> = ({ title, author, avatarUrl,
       </>
     );
   };
+  const generatePostUrl = () => {
+    return `https://skatehive.app/post${postUrl}`;
+  }
+  const cleanUrl = generatePostUrl().replace(window.location.origin, '');
   const handleCopyPostLink = () => {
     try {
       const postPageUrl = generatePostUrl();

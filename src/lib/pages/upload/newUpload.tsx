@@ -46,6 +46,9 @@ import {
   setAsPublishedOn3Speak,
 } from "./3speak";
 
+import SocialModal from "./socialModal";
+
+
 const PINATA_API_KEY = process.env.PINATA_API_KEY;
 const PINATA_API_SECRET = process.env.PINATA_API_SECRET;
 const PINATA_GATEWAY_TOKEN = process.env.PINATA_GATEWAY_TOKEN;
@@ -103,6 +106,7 @@ const NewUpload: React.FC = () => {
   const [videoComponent, setVideoComponent] = useState<JSX.Element | null>(null);
   const [videoThumbnailUrl, setVideoThumbnailUrl] = useState<string | null>(null);
   const [confetti, setConfetti] = useState(false);
+  const [isSocialModalOpen, setIsSocialModalOpen] = useState<boolean>(false);
 
 
   useEffect(() => {
@@ -500,7 +504,7 @@ const NewUpload: React.FC = () => {
           'comment',
           {
             parent_author: '',
-            // parent_permlink: 'testing78',
+            // parent_permlink: 'testing798',
             parent_permlink: process.env.COMMUNITY || 'hive-173115',
             author: username,
             permlink: videoPermlink ? videoPermlink : permlink, // Use the video permlink if video is uploaded on 3Speak
@@ -531,11 +535,11 @@ const NewUpload: React.FC = () => {
 
             // trigger react confetti 
             setConfetti(true);
-
+            setIsSocialModalOpen(true);
             // wait 5 seconds and send the user home
-            setTimeout(() => {
-              window.location.href = '/';
-            }, 5000);
+            // setTimeout(() => {
+            //   window.location.href = '/';
+            // }, 5000);
             if (isVideoUploaded) {
               window.alert('Video successfully published on 3Speak! It will be available soon!');
             }
@@ -685,6 +689,9 @@ const NewUpload: React.FC = () => {
   const toggleAdvancedOptions = () => {
     setShowAdvancedOptions((prevShow) => !prevShow);
   };
+  const handleCloseSocialModal = () => {
+    setIsSocialModalOpen(false);
+  };
 
   return (
     <Box>
@@ -713,6 +720,9 @@ const NewUpload: React.FC = () => {
         </VStack>
       </Box> */}
       {confetti && <Confetti />}
+      {isSocialModalOpen && (
+        <SocialModal isOpen={isSocialModalOpen} onClose={handleCloseSocialModal} postUrl={postLink} content={markdownText} />
+      )}
 
       <Flex minWidth={"100%"}
         flexDirection={isMobile ? "column" : "row"}

@@ -13,6 +13,11 @@ import {
   Text,
   Image,
   useToast,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+
 } from '@chakra-ui/react';
 
 import * as Types from '../types';
@@ -236,6 +241,7 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
     });
   };
 
+
   return (
     <Box margin={"10px"} borderRadius={"10px"} border="1px solid white" padding="10px" mt="20px">
       <Textarea
@@ -244,21 +250,22 @@ const CommentBox: React.FC<Types.CommentBoxProps> = ({ user, parentAuthor, paren
         placeholder="Write your comment here..."
       />
       <HStack justifyContent={"space-between"}>
-        <Flex>
-          <Button
-            leftIcon={<FaHive color='red' />}
-            border="1px solid white"
-            mt="10px"
-            onClick={handleHiveTipClick}
-          >Tip</Button>
-          <Button
-            leftIcon={<FaEthereum color='blue' />}
-            border="1px solid white"
-            mt="10px"
-            marginLeft="10px"
-            onClick={handleEthereumTipClick}
-          >Tip</Button>
-        </Flex>
+        <HStack justifyContent={"space-between"}>
+          <Menu>
+            <MenuButton color={"white"} bg={"black"} as={Button} leftIcon={<Image boxSize={"38px"} src="/assets/pepelove.png" />} border="1px solid white" mt="10px">
+              Tip
+            </MenuButton>
+            <MenuList bg={"black"}>
+              <MenuItem as={Button} leftIcon={<FaEthereum color='#7CC4FA' />} bg={"black"} onClick={handleEthereumTipClick} _hover={{ bg: 'white', color: 'black' }}>
+                Ethereum Tip
+              </MenuItem>
+              <MenuItem as={Button} leftIcon={<FaHive color='red' />} bg={"black"} onClick={handleHiveTipClick} _hover={{ bg: 'white', color: 'black' }}>
+
+                Hive Tip
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </HStack>
         <Button border="1px solid white" mt="10px" onClick={handleCommentSubmit}>
           Submit Comment
         </Button>

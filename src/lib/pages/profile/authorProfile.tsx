@@ -140,7 +140,7 @@ export default function AuthorProfilePage() {
           setIsFollowing(result.follows);
         });
     }
-  }, [user, authorName]);
+  }, [authorName]);
 
   const handleFollow = async () => {
     if (!user.isLoggedIn()) {

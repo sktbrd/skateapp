@@ -29,8 +29,6 @@ import voteOnContent from "../../utils/hiveFunctions/voting";
 import CommentBox from "../Feed/postModal/commentBox";
 import Comments from "../Feed/postModal/comments";
 import { MarkdownRenderersPlaza } from "lib/pages/utils/MarkdownRenderersPlaza";
-import sanitize from 'rehype-sanitize';
-
 
 type User = {
   name: string;
@@ -585,11 +583,9 @@ const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "test-advance-mode-post", U
                       </Tooltip>
                     </HStack>
                     <Divider />
-
-
                     <ReactMarkdown
                       children={comment.body}
-                      rehypePlugins={[rehypeRaw, sanitize]}
+                      rehypePlugins={[rehypeRaw]}
                       remarkPlugins={[remarkGfm]}
                       components={MarkdownRenderersPlaza}
                     />

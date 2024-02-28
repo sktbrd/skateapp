@@ -17,7 +17,8 @@ import {
   useDisclosure,
   Avatar,
   Switch,
-  ButtonGroup
+  ButtonGroup,
+  HStack
 } from "@chakra-ui/react";
 import { Client, Discussion } from "@hiveio/dhive";
 import useAuthUser from "../../../components/auth/useAuthUser";
@@ -35,6 +36,7 @@ import { MdArrowUpward } from "react-icons/md";
 import EarningsModal from "./postModal/earningsModal";
 import { DiscussionQueryCategory } from "@hiveio/dhive";
 import truncateTitle from "lib/pages/utils/truncateTitle";
+import { IoDiamond } from "react-icons/io5";
 
 
 const nodes = [
@@ -152,12 +154,16 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   function getPostDataFromPosts(posts: Discussion[]) {
     return posts.map((post) => {
       const metadata = JSON.parse(post.json_metadata);
+      const app = metadata.app; // Extract the app field
       const thumbnail =
-        metadata.thumbnail || extractFirstLink(post.body) || defaultThumbnail;
+        metadata.image && metadata.image.length > 0
+          ? metadata.image[0]
+          : extractFirstLink(post.body) || defaultThumbnail;
 
-      return { ...post, thumbnail, earnings: 0 };
+      return { ...post, thumbnail, earnings: 0, app }; // Include the app in the return object
     });
   }
+
 
   const fetchPosts = async () => {
     setIsLoadingMore(true); // Set loading state when "Load More" is clicked
@@ -532,21 +538,25 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                     borderRadius="10px"
                     justifyContent="center" /* Center the content horizontally */
                     alignItems="center"
+                    position="relative"
+                    marginTop={"20px"}
                   >
-                    <Heading
-                      color="white"
-                      paddingTop={"10px"}
-                      fontSize="28px"
-                      marginTop={"15px"}
-                      style={{
-                        textShadow: "0 0 20px rgba(0, 255, 0, 0.7)", // Apply a green glow behind the text
-
-                      }}
-                    >
+                    <Heading color="white" fontSize="28px" style={{ textShadow: "0 0 20px rgba(0, 255, 0, 0.7)" }}>
                       {post.author}
                     </Heading>
+
+                    {post.app === "Skatehive App" || post.app === "skatehive" ?
+                      <Box position="absolute" right="0" display="flex" alignItems="center" paddingRight={"10px"}>
+                        <Tooltip label="This post was created with the Skatehive app. This guys knows stuff" placement="right-start" bg={"black"} borderRadius={'10px'} border={'1px dashed gold'}>
+                          <Box display="inline-flex" alignItems="center">
+                            <IoDiamond size={'30px'} color="black" style={{ filter: 'drop-shadow(0 0 1px gold) drop-shadow(0 0 1px gold)' }} />
+                          </Box>
+                        </Tooltip>
+                      </Box>
+                      : null}
                   </Flex>
                 </CardHeader>
+
 
                 <Box padding="20px" marginBottom={"10px"} height="200px">
                   <Image

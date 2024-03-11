@@ -156,350 +156,360 @@ export default function HiveBalanceDisplay2() {
   };
 
   return (
-    <Box
-      borderRadius="12px"
-      border="2px solid red"
-      padding="0px"
-      maxWidth={{ base: "100%", md: "100%" }}
-      style={{ textAlign: "right" }}
-      p={"4px"}
-      marginBottom={"10px"}
-    >
+    <>
+      <Box
+        borderRadius="12px"
+        border="2px solid red"
+        padding="0px"
+        maxWidth={{ base: "100%", md: "100%" }}
+        style={{ textAlign: "right" }}
+        p={"4px"}
+        marginBottom={"10px"}
+      >
 
-      <Grid
-        templateAreas={`"header header"
+        <Grid
+          templateAreas={`"header header"
                       "nav main"
                       "nav footer"`}
-        gridTemplateRows={'50px 1fr 30px'}
-        gridTemplateColumns={'150px 1fr'}
-        height={{ base: '300px', md: '200px' }} // Responsive height
-        gap='1'
-        color='blackAlpha.700'
-        fontWeight='bold'
-      >
-        <GridItem pl='4' bg='red.300' area={'header'} borderRadius={"10px"}>
+          gridTemplateRows={'50px 1fr 30px'}
+          gridTemplateColumns={'150px 1fr'}
+          height={{ base: '300px', md: '200px' }} // Responsive height
+          gap='1'
+          color='blackAlpha.700'
+          fontWeight='bold'
+        >
+          <GridItem pl='4' bg='red.300' area={'header'} borderRadius={"10px"}>
 
-          <Center>
+            <Center>
 
-            <HStack spacing={4} justifyContent="flex-end">
-              <Image
-                src={HIVE_LOGO_URL}
-                alt="Hive Logo"
-                width="40px"
-                height="40px"
-              />
-              {user ? (
-                <Text fontSize="32px" color="black">
-                  {user.name}
-                </Text>
-              ) : (
-                <Text fontSize="32px" color="black">
-                  Login to See your Balance
-                </Text>
-              )}
-
-            </HStack>
-          </Center>
-
-          <br />
-
-        </GridItem>
-
-
-
-        <GridItem pl='2' area={'nav'}>
-          <br />
-
-          <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-          >
-
-            {user ? (
-              <Flex>
-                <VStack>
-                  <Image
-                    src={profileImage}
-                    alt="profile avatar"
-                    borderRadius="20px"
-                    border="2px solid limegreen"
-                    boxSize={"120px"}
-                    objectFit={"cover"}
-                  />
-
-                </VStack>
-
-              </Flex>
-            ) : (
-              <>
+              <HStack spacing={4} justifyContent="flex-end">
                 <Image
-                  src={DEFAULT_AVATAR_URL}
-                  alt="pepito"
-                  borderRadius="20px"
+                  src={HIVE_LOGO_URL}
+                  alt="Hive Logo"
+                  width="40px"
+                  height="40px"
                 />
-              </>
+                {user ? (
+                  <Text fontSize="32px" color="black">
+                    {user.name}
+                  </Text>
+                ) : (
+                  <Text fontSize="32px" color="black">
+                    Login to See your Balance
+                  </Text>
+                )}
+
+              </HStack>
+            </Center>
+
+            <br />
+
+          </GridItem>
+
+
+
+          <GridItem pl='2' area={'nav'}>
+            <br />
+
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+            >
+
+              {user ? (
+                <Flex>
+                  <VStack>
+                    <Image
+                      src={profileImage}
+                      alt="profile avatar"
+                      borderRadius="20px"
+                      border="2px solid limegreen"
+                      boxSize={"120px"}
+                      objectFit={"cover"}
+                    />
+
+                  </VStack>
+
+                </Flex>
+              ) : (
+                <>
+                  <Image
+                    src={DEFAULT_AVATAR_URL}
+                    alt="pepito"
+                    borderRadius="20px"
+                  />
+                </>
+              )}
+            </Box>
+          </GridItem>
+
+          <GridItem pl='1' area={'main'} padding={"15px"}>
+
+            {userLocation === "Brazil" ? (
+
+              <Button
+                borderRadius="5px"
+                border="1px solid red"
+                justifyContent="center"
+                color="white"
+                padding="10px"
+                p="5px"
+                maxH={"25px"}
+                maxW="80%"
+                variant="outline"
+                _hover={{
+                  bg: "transparent",
+                  color: "green.200",
+                }}
+                onClick={() => alert("Em breve! Por enquanto tente crowsnight.com")}
+              >
+                <span style={{ marginRight: '5px' }}>Pix</span>
+                <FaPix color="teal" size={20} />
+              </Button>
+
+            ) : (
+              <Box></Box>
             )}
-          </Box>
-        </GridItem>
 
-        <GridItem pl='1' area={'main'} padding={"15px"}>
-
-          {userLocation === "Brazil" ? (
+            <Center>
+              <VStack align="end" >
+                <Text fontSize={"16px"} fontWeight="bold" color="orange">
+                  You Own: <Badge borderRadius={"10px"} fontSize={"20px"} colorScheme="green"> ${ownedTotal.toFixed(2)}</Badge>
+                </Text>
+                <Text fontSize={"16px"} fontWeight="bold" color="orange" >
+                  Wallet Worth:  <Badge borderRadius={"10px"} fontSize={"20px"} colorScheme="green"> ${totalWorth.toFixed(2)}</Badge>
+                </Text>
+                <Text fontSize={"16px"} fontWeight="bold" color="orange" >
+                  Available :  <Badge borderRadius={"10px"} fontSize={"20px"} colorScheme="green"> ${totalHiveAvailable.toFixed(2)}</Badge>
+                </Text>
+              </VStack>
+            </Center>
+          </GridItem>
+          <GridItem pl='2' area={'footer'} justifyContent={"end"} flexDirection={"row"} >
 
             <Button
               borderRadius="5px"
-              border="1px solid red"
+              border="0px solid red"
               justifyContent="center"
-              color="white"
+              color={"white"}
               padding="10px"
-              p="5px"
-              maxH={"25px"}
-              maxW="80%"
-              variant="outline"
+              m={"8px"}
+              maxW={"80%"}
+              alignSelf={"end"}
+              onClick={handleShowOptions}
+              paddingBottom={"30px"}
+
+              variant={"outline"}
               _hover={{
                 bg: "transparent",
-                color: "green.200",
+                color: "red",
               }}
-              onClick={() => alert("Em breve! Por enquanto tente crowsnight.com")}
             >
-              <span style={{ marginRight: '5px' }}>Pix</span>
-              <FaPix color="teal" size={20} />
+              <FaEye /> {showOptions ? "Hide Options" : "Show Options"}
             </Button>
 
-          ) : (
-            <Box></Box>
+
+          </GridItem>
+
+
+        </Grid >
+
+        <br />
+        <br />
+
+        <VStack spacing={4} align="stretch">
+          {showOptions && (
+            <>
+              <VStack>
+                <Button
+                  width="60%"
+                  borderRadius="10px"
+                  border="1px solid yellow"
+                  justifyContent="center"
+                  bg={"black"}
+                  color={"white"}
+                  _hover={{ bg: "green.200" }}
+                  onClick={handleOpenPowerUpModal}
+                >
+                  🔺 Power Up
+                </Button>
+                <Button
+                  width="60%"
+                  borderRadius="10px"
+                  border="1px solid yellow"
+                  justifyContent="center"
+                  bg={"black"}
+                  color={"white"}
+                  _hover={{ bg: "red.400" }}
+                  onClick={handleOpenPowerDownModal}
+                >
+                  🔻 Power Down
+                </Button>
+
+              </VStack>
+              <>
+
+                <HStack spacing={4} align="stretch">
+                  <BalanceDisplay
+                    label="Hive"
+                    balance={hiveBalance}
+                    labelTooltip="Native Token of Hive Blockchain"
+                    balanceTooltip="Hive tokens are like digital coins on the Hive blockchain, and they have different uses. You can vote on stuff, get premium features, and help with the network and decision-making by staking them. They also reward content makers, keep users engaged, and you can trade them elsewhere. They basically keep Hive running, adding value and community vibes. 🛹🚀"
+                  ></BalanceDisplay>
+                  <BalanceDisplay
+                    label="Hive Power"
+                    balance={hivePower}
+                    labelTooltip="Hive Power signifies influence, voting, and status within Hive blockchain. 🚀🤝"
+                    balanceTooltip="Hive Power represents a user's influence and engagement within the Hive blockchain. It's like your reputation and impact score on the platform. When you ´power up Hive tokens by converting liquid Hive into Hive Power, you increase your ability to vote on content and participate in network governance. This boosts your say in decision-making and supports the Hive ecosystem's stability and decentralization. It's like investing in your standing and community involvement on Hive. 🚀🤝s"
+                  />
+
+                </HStack>
+                <HStack spacing={4} align="stretch">
+                  <BalanceDisplay
+                    label="Dollar Savings"
+                    balance={savingsBalance}
+                    labelTooltip="Hive Savings are like a savings account for your HBD tokens. 🚀🤝"
+                    balanceTooltip="Picture it like planting some Hive coins, but in this case, they're Hive Backed Dollars (HBD), kind of like specialized cannabis strains. You nurture them over time, and they steadily grow. With a 20% increase each year, it's like cultivating a thriving HBD garden. You're investing your time and care, and eventually, you'll have a bountiful harvest of HBD, just like some potent homegrown herb. So, you're tending to your HBD crop, man, and it's growing just as nicely as your favorite buds. 🌱💵🚀"
+                  />
+                  <BalanceDisplay
+                    label="Hive Dollar"
+                    balance={hbdBalance}
+                    labelTooltip="Hive Backed Dollar (HBD) is a stablecoin pegged to the US Dollar"
+                    balanceTooltip="Hive Backed Dollars (HBD) are a stablecoin on the Hive blockchain designed to maintain a value close to one United States dollar. They are backed by Hive cryptocurrency held in a collateralized debt position. HBD provides users with a stable and reliable digital currency for transactions, making it a practical choice for everyday use within the Hive ecosystem."
+                    labelLink='https://giveth.io/es/project/skatehive-skateboarding-community'
+
+                  />
+                </HStack>
+                <BalanceDisplay
+                  label="Delegated to You"
+                  balance={HPdelegatedToUser}
+                  labelTooltip="How much HivePower People is delegating to You 🚀🤝"
+
+                ></BalanceDisplay>
+
+                <Tooltip
+                  bg="black"
+                  color="white"
+                  borderRadius="10px"
+                  border="1px dashed limegreen"
+                  label="Buy hive using other crypto"
+                >
+                  <HStack
+                    margin="10px"
+                    borderRadius="10px"
+                    border="1px dashed orange"
+                    justifyContent="center"
+                    padding="10px"
+                  >
+                    <Image
+                      src="https://images.ecency.com/u/hive-173115/avatar/large"
+                      alt="Avatar"
+                      width="20px"
+                      height="20px"
+                    />
+                    <ChakraLink target="_blank" href="https://simpleswap.io/customer-account/signup?referral=DI8ePMnCsK" fontSize="16px">Buy HIVE </ChakraLink>
+                  </HStack>
+                </Tooltip>
+
+                <Tooltip
+                  bg="black"
+                  color="white"
+                  borderRadius="10px"
+                  border="1px dashed limegreen"
+                  label="Dont! power up!"
+                >
+                  <HStack
+                    margin="10px"
+                    borderRadius="10px"
+                    border="1px dashed orange"
+                    justifyContent="center"
+                    padding="10px"
+                  >
+                    <Image
+                      src="https://images.ecency.com/u/hive-173115/avatar/large"
+                      alt="Avatar"
+                      width="20px"
+                      height="20px"
+                    />
+                    <ChakraLink target="_blank" href="https://simpleswap.io/customer-account/signup?referral=DI8ePMnCsK" fontSize="16px">Sell Hive  </ChakraLink>
+                  </HStack>
+                </Tooltip>
+                <Button
+                  margin="10px"
+                  borderRadius="10px"
+                  border="1px dashed yellow"
+                  justifyContent="center"
+                  padding="10px" onClick={handleOpenModal}>
+                  SEND HIVE
+                </Button>
+                <Button
+                  margin="10px"
+                  borderRadius="10px"
+                  border="1px dashed yellow"
+                  justifyContent="center"
+                  padding="10px" onClick={handleOpenSendHBDModal}>
+                  SEND HBD
+                </Button>
+                <Button
+                  margin="10px"
+                  borderRadius="10px"
+                  border="1px dashed yellow"
+                  justifyContent="center"
+                  padding="10px"
+                  onClick={handleOpenDelegationModal}
+                >
+                  👑 Delegate Hive Power to SkateHive 👑
+                </Button>
+                <Divider />
+                <Text fontSize={"18px"} fontWeight="bold" color="white">
+                  Hive Price: <Badge variant='outline' fontSize={"24px"} colorScheme="red"> ${conversionRate.toFixed(3)}</Badge>
+                </Text>
+                <Divider />
+              </>
+            </>
           )}
 
-          <Center>
-            <VStack align="end" >
-              <Text fontSize={"16px"} fontWeight="bold" color="orange">
-                You Own: <Badge borderRadius={"10px"} fontSize={"20px"} colorScheme="green"> ${ownedTotal.toFixed(2)}</Badge>
-              </Text>
-              <Text fontSize={"16px"} fontWeight="bold" color="orange" >
-                Wallet Worth:  <Badge borderRadius={"10px"} fontSize={"20px"} colorScheme="green"> ${totalWorth.toFixed(2)}</Badge>
-              </Text>
-              <Text fontSize={"16px"} fontWeight="bold" color="orange" >
-                Available :  <Badge borderRadius={"10px"} fontSize={"20px"} colorScheme="green"> ${totalHiveAvailable.toFixed(2)}</Badge>
-              </Text>
-            </VStack>
-          </Center>
-        </GridItem>
-        <GridItem pl='2' area={'footer'} justifyContent={"end"} flexDirection={"row"} >
-
-          <Button
-            borderRadius="5px"
-            border="0px solid red"
-            justifyContent="center"
-            color={"white"}
-            padding="10px"
-            m={"8px"}
-            maxW={"80%"}
-            alignSelf={"end"}
-            onClick={handleShowOptions}
-            paddingBottom={"30px"}
-
-            variant={"outline"}
-            _hover={{
-              bg: "transparent",
-              color: "red",
-            }}
-          >
-            <FaEye /> {showOptions ? "Hide Options" : "Show Options"}
-          </Button>
+        </VStack>
 
 
-        </GridItem>
+        <SendHiveModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          toAddress={toAddress}
+          setToAddress={setToAddress}
+          amount={amount}
+          setAmount={setAmount}
+          hiveMemo={hiveMemo} // Make sure to pass hiveMemo here
+          setHiveMemo={setHiveMemo}
+          username={user?.name || "pepe"}
+        />
+        <SendHBDModal
+          showModal={sendHBDmodal}
+          setShowModal={setSendHBDmodal}
+          toAddress={toAddress}
+          setToAddress={setToAddress}
+          amount={amount}
+          setAmount={setAmount}
+          hiveMemo={hiveMemo} // Make sure to pass hiveMemo here
+          setHiveMemo={setHiveMemo}
+          username={user?.name || "pepe"}
+        />
 
-
-      </Grid >
-
-      <br />
-      <br />
-
-      <VStack spacing={4} align="stretch">
-        {showOptions && (
-          <>
-            <VStack>
-              <Button
-                width="60%"
-                borderRadius="10px"
-                border="1px solid yellow"
-                justifyContent="center"
-                bg={"black"}
-                color={"white"}
-                _hover={{ bg: "green.200" }}
-                onClick={handleOpenPowerUpModal}
-              >
-                🔺 Power Up
-              </Button>
-              <Button
-                width="60%"
-                borderRadius="10px"
-                border="1px solid yellow"
-                justifyContent="center"
-                bg={"black"}
-                color={"white"}
-                _hover={{ bg: "red.400" }}
-                onClick={handleOpenPowerDownModal}
-              >
-                🔻 Power Down
-              </Button>
-
-            </VStack>
-            <>
-
-              <HStack spacing={4} align="stretch">
-                <BalanceDisplay
-                  label="Hive"
-                  balance={hiveBalance}
-                  labelTooltip="Native Token of Hive Blockchain"
-                  balanceTooltip="Hive tokens are like digital coins on the Hive blockchain, and they have different uses. You can vote on stuff, get premium features, and help with the network and decision-making by staking them. They also reward content makers, keep users engaged, and you can trade them elsewhere. They basically keep Hive running, adding value and community vibes. 🛹🚀"
-                ></BalanceDisplay>
-                <BalanceDisplay
-                  label="Hive Power"
-                  balance={hivePower}
-                  labelTooltip="Hive Power signifies influence, voting, and status within Hive blockchain. 🚀🤝"
-                  balanceTooltip="Hive Power represents a user's influence and engagement within the Hive blockchain. It's like your reputation and impact score on the platform. When you ´power up Hive tokens by converting liquid Hive into Hive Power, you increase your ability to vote on content and participate in network governance. This boosts your say in decision-making and supports the Hive ecosystem's stability and decentralization. It's like investing in your standing and community involvement on Hive. 🚀🤝s"
-                />
-
-              </HStack>
-              <HStack spacing={4} align="stretch">
-                <BalanceDisplay
-                  label="Dollar Savings"
-                  balance={savingsBalance}
-                  labelTooltip="Hive Savings are like a savings account for your HBD tokens. 🚀🤝"
-                  balanceTooltip="Picture it like planting some Hive coins, but in this case, they're Hive Backed Dollars (HBD), kind of like specialized cannabis strains. You nurture them over time, and they steadily grow. With a 20% increase each year, it's like cultivating a thriving HBD garden. You're investing your time and care, and eventually, you'll have a bountiful harvest of HBD, just like some potent homegrown herb. So, you're tending to your HBD crop, man, and it's growing just as nicely as your favorite buds. 🌱💵🚀"
-                />
-                <BalanceDisplay
-                  label="Hive Dollar"
-                  balance={hbdBalance}
-                  labelTooltip="Hive Backed Dollar (HBD) is a stablecoin pegged to the US Dollar"
-                  balanceTooltip="Hive Backed Dollars (HBD) are a stablecoin on the Hive blockchain designed to maintain a value close to one United States dollar. They are backed by Hive cryptocurrency held in a collateralized debt position. HBD provides users with a stable and reliable digital currency for transactions, making it a practical choice for everyday use within the Hive ecosystem."
-                  labelLink='https://giveth.io/es/project/skatehive-skateboarding-community'
-
-                />
-              </HStack>
-              <BalanceDisplay
-                label="Delegated to You"
-                balance={HPdelegatedToUser}
-                labelTooltip="How much HivePower People is delegating to You 🚀🤝"
-
-              ></BalanceDisplay>
-
-              <Tooltip
-                bg="black"
-                color="white"
-                borderRadius="10px"
-                border="1px dashed limegreen"
-                label="Buy hive using other crypto"
-              >
-                <HStack
-                  margin="10px"
-                  borderRadius="10px"
-                  border="1px dashed orange"
-                  justifyContent="center"
-                  padding="10px"
-                >
-                  <Image
-                    src="https://images.ecency.com/u/hive-173115/avatar/large"
-                    alt="Avatar"
-                    width="20px"
-                    height="20px"
-                  />
-                  <ChakraLink target="_blank" href="https://simpleswap.io/customer-account/signup?referral=DI8ePMnCsK" fontSize="16px">Buy HIVE </ChakraLink>
-                </HStack>
-              </Tooltip>
-
-              <Tooltip
-                bg="black"
-                color="white"
-                borderRadius="10px"
-                border="1px dashed limegreen"
-                label="Dont! power up!"
-              >
-                <HStack
-                  margin="10px"
-                  borderRadius="10px"
-                  border="1px dashed orange"
-                  justifyContent="center"
-                  padding="10px"
-                >
-                  <Image
-                    src="https://images.ecency.com/u/hive-173115/avatar/large"
-                    alt="Avatar"
-                    width="20px"
-                    height="20px"
-                  />
-                  <ChakraLink target="_blank" href="https://simpleswap.io/customer-account/signup?referral=DI8ePMnCsK" fontSize="16px">Sell Hive  </ChakraLink>
-                </HStack>
-              </Tooltip>
-              <Button
-                margin="10px"
-                borderRadius="10px"
-                border="1px dashed yellow"
-                justifyContent="center"
-                padding="10px" onClick={handleOpenModal}>
-                SEND HIVE
-              </Button>
-              <Button
-                margin="10px"
-                borderRadius="10px"
-                border="1px dashed yellow"
-                justifyContent="center"
-                padding="10px" onClick={handleOpenSendHBDModal}>
-                SEND HBD
-              </Button>
-              <Button
-                margin="10px"
-                borderRadius="10px"
-                border="1px dashed yellow"
-                justifyContent="center"
-                padding="10px"
-                onClick={handleOpenDelegationModal}
-              >
-                👑 Delegate Hive Power to SkateHive 👑
-              </Button>
-              <Divider />
-              <Text fontSize={"18px"} fontWeight="bold" color="white">
-                Hive Price: <Badge variant='outline' fontSize={"24px"} colorScheme="red"> ${conversionRate.toFixed(3)}</Badge>
-              </Text>
-              <Divider />
-            </>
-          </>
-        )}
-
-      </VStack>
-
-
-      <SendHiveModal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        toAddress={toAddress}
-        setToAddress={setToAddress}
-        amount={amount}
-        setAmount={setAmount}
-        hiveMemo={hiveMemo} // Make sure to pass hiveMemo here
-        setHiveMemo={setHiveMemo}
-        username={user?.name || "pepe"}
-      />
-      <SendHBDModal
-        showModal={sendHBDmodal}
-        setShowModal={setSendHBDmodal}
-        toAddress={toAddress}
-        setToAddress={setToAddress}
-        amount={amount}
-        setAmount={setAmount}
-        hiveMemo={hiveMemo} // Make sure to pass hiveMemo here
-        setHiveMemo={setHiveMemo}
-        username={user?.name || "pepe"}
-      />
-
-      {/* <WalletTransactions wallet={user?.name || ""} /> */}
-      <PowerUpModal isOpen={showPowerUpModal} onClose={() => setShowPowerUpModal(false)} user={user} />
-      <PowerDownModal isOpen={showPowerDownModal} onClose={() => setShowPowerDownModal(false)} user={user} />
-      <DelegationModal isOpen={showDelegationModal} onClose={() => setShowDelegationModal(false)} user={user} />
-    </Box >
+        {/* <WalletTransactions wallet={user?.name || ""} /> */}
+        <PowerUpModal isOpen={showPowerUpModal} onClose={() => setShowPowerUpModal(false)} user={user} />
+        <PowerDownModal isOpen={showPowerDownModal} onClose={() => setShowPowerDownModal(false)} user={user} />
+        <DelegationModal isOpen={showDelegationModal} onClose={() => setShowDelegationModal(false)} user={user} />
+      </Box >
+      <Box
+        marginTop={1}
+        marginBottom={3}
+        border={"1px solid red"}
+        borderRadius={"30px"}
+      >
+        <iframe id="simpleswap-frame" name="SimpleSwap Widget" width="100%" height="392px" src="https://simpleswap.io/widget/58bfafad-acc3-429d-a279-5d31b4f4f84e" ></iframe>
+      </Box>
+    </>
   );
 
 };

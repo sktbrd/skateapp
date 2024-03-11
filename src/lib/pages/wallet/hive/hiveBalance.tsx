@@ -507,7 +507,7 @@ export default function HiveBalanceDisplay2() {
         border={"1px solid red"}
         borderRadius={"30px"}
       >
-        <iframe id="simpleswap-frame" name="SimpleSwap Widget" width="100%" height="392px" src="https://simpleswap.io/widget/df29d743-6c03-4c7e-a745-4a0bfd19c656" frameborder="0"></iframe>      </Box>
+        <iframe id="simpleswap-frame" name="SimpleSwap Widget" width="100%" height="392px" src="https://simpleswap.io/widget/df29d743-6c03-4c7e-a745-4a0bfd19c656" ></iframe>      </Box>
     </>
   );
 

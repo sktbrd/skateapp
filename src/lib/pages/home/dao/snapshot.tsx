@@ -105,11 +105,22 @@ const SkatehiveProposals: React.FC = () => {
     <Flex flexDirection="column" mx={isMobile ? 0 : 20}
     >
       <DaoStatus />
-      <Flex justify="center">
-        <Text border={borderColor} borderRadius="10px" padding="8px" fontSize="2xl" color="white">
-          Proposals
-        </Text>
-      </Flex>
+      <HStack>
+
+        <Flex justifyContent="space-between" width="100%">
+          <Text border={borderColor} borderRadius="10px" padding="8px" fontSize="2xl" color="white">
+            Proposals
+          </Text>
+
+          <Button
+            colorScheme="green"
+            onClick={() => window.location.href = '/newProposal'}
+          >
+            Create a Proposal
+          </Button>
+        </Flex>
+
+      </HStack>
 
       <VStack mx="auto" maxWidth="100%" spacing={3} mt={3}>
         {loadingProposals ? (
@@ -188,7 +199,7 @@ const SkatehiveProposals: React.FC = () => {
       </VStack>
 
       <ProposalModal isOpen={isModalOpen} onClose={handleCloseModal} proposalContent={modalContent} proposalTitle={modalTitle} />
-    </Flex>
+    </Flex >
   );
 
 

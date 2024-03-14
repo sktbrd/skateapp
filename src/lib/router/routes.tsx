@@ -28,6 +28,8 @@ const GnarsHolders = React.lazy(() => import("lib/pages/home/dao/components/ethe
 const AccountCreation = React.lazy(() => import("lib/pages/secret-spot/AccountCreation"));
 const delegationChecker = React.lazy(() => import("lib/pages/home/dao/components/ethereum/delegationChecker"));
 const SwapComponent = React.lazy(() => import("lib/pages/swap"));
+const ProposalPage = React.lazy(() => import("lib/pages/home/dao/newProposalPage"));
+
 export const routes: Array<PathRouteProps> = [
   {
     path: "/",
@@ -130,6 +132,10 @@ export const routes: Array<PathRouteProps> = [
   {
     path: "/swap",
     element: <SwapComponent />,
+  },
+  {
+    path: "/newProposal",
+    element: <ProposalPage />,
   }
 ];
 

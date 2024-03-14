@@ -506,6 +506,7 @@ export default function HiveBalanceDisplay2() {
         marginBottom={3}
         border={"1px solid red"}
         borderRadius={"30px"}
+        backgroundColor={"black"}
       >
         <iframe id="simpleswap-frame" name="SimpleSwap Widget" width="100%" height="392px" src="https://simpleswap.io/widget/df29d743-6c03-4c7e-a745-4a0bfd19c656" ></iframe>      </Box>
     </>

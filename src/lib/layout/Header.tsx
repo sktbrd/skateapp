@@ -634,7 +634,7 @@ const HeaderNew = () => {
               <HStack spacing={3} alignItems="center" m='2'>
                 <Link to="/dao" >
                   {activeProposalsLength > 0 && (
-                    <Tooltip label={"Go Vote Bro! Its important!"} aria-label="Wallet" bg="black" borderRadius="md" border="orange 2px solid">
+                    <Tooltip label={"Go Vote Bro! Its important!"} color={"white"} aria-label="Wallet" bg="black" borderRadius="md" border="orange 2px solid">
                       <Button leftIcon={<FaVoteYea color="orange" />} m={1} backgroundColor="black" border="orange 2px solid" color="white" _hover={{ backgroundColor: "black" }}>
 
                         {activeProposalsLength}
@@ -644,20 +644,20 @@ const HeaderNew = () => {
                 </Link>
                 <Link to="/wallet" >
                   {isDesktop && (
-                    <Tooltip label="Gnars Held by Connected Wallet" aria-label="Gnars" bg="black" borderRadius="md" border="yellow 2px solid">
+                    <Tooltip label="Gnars Held by Connected Wallet" color={"white"} aria-label="Gnars" bg="black" borderRadius="md" border="yellow 2px solid">
                       <Button m={1} backgroundColor="black" color="yellow" _hover={{ backgroundColor: "black" }}>
                         <Image marginRight={"10px"} boxSize={"22px"} src="https://www.gnars.wtf/images/logo.png"></Image> {gnarsNFTsCount} <Text color="white" style={{ marginLeft: '5px' }}>Gnars</Text>
                       </Button>
                     </Tooltip>
                   )}
-                  <Tooltip label="Hive Wallet Tokens in USD" aria-label="Wallet" bg="black" borderRadius="md" border="red 2px solid">
+                  <Tooltip label="Hive Wallet Tokens in USD" color={"white"} aria-label="Wallet" bg="black" borderRadius="md" border="red 2px solid">
                     <Button m={1} backgroundColor="black" color="white" _hover={{ backgroundColor: "black" }}>
                       <Image marginRight={"10px"} boxSize={"22px"} src="https://cryptologos.cc/logos/hive-blockchain-hive-logo.png?v=026" />
                       {totalWorth.toFixed(2)} <Text color="limegreen" style={{ marginLeft: '5px' }}>USD</Text>
                     </Button>
                   </Tooltip>
                   {wallet_address && (
-                    <Tooltip label={"ETH address"} aria-label="Wallet" bg="black" borderRadius="md" border=" #7CC4FA 2px solid">
+                    <Tooltip label={"ETH address"} color={"white"} aria-label="Wallet" bg="black" borderRadius="md" border=" #7CC4FA 2px solid">
                       <Button m={1} backgroundColor="black" color="white" _hover={{ backgroundColor: "black" }}>
                         <Image
                           marginRight={"10px"}

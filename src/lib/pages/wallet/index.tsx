@@ -22,7 +22,7 @@ import useAuthUser from '../../components/auth/useAuthUser';
 const Wallet = () => {
   const { state } = usePioneer();
   const { app, status, pubkeyContext } = state;
-  const [ETHaddress, setETHAddress] = useState<string>(''); // Make sure ETHaddress is a string
+  const [ETHaddress, setETHAddress] = useState<string>(''); 
   const [loading, setLoading] = useState(true);
   const user = useAuthUser();
 

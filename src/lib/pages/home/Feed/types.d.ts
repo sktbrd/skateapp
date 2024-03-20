@@ -31,7 +31,7 @@ export interface CommentProps {
   payout: number;
   total_payout_value: number;
   pending_payout_value: number;
-
+  active_votes: any[];
 }
 
 export interface CommentsProps {

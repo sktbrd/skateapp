@@ -292,8 +292,27 @@ const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "test-advance-mode-post", U
   };
 
   const isMobile = window.innerWidth < 768;
+  const [userVoted, setUserVoted] = useState(false);
+
+  const didUserVoted = async () => {
+    console.log(comments)
+    const userVoted = comments.some((comment) => {
+      console.log(comment.active_votes)
+      return comment.active_votes.some((vote) => vote.voter === username);
+    });
+    setUserVoted(userVoted);
+    console.log("User voted:", userVoted);
+  }
+
+  useEffect(() => {
+    console.log("Comments:", comments);
+    didUserVoted();
+  }
+    , [comments]);
+
 
   const handleVote = async (comment: CommentProps) => {
+    console.log("Voting on comment:", comment.active_votes);
     if (!user || !user?.user?.name) {
       console.error("Username is missing");
       return;
@@ -616,22 +635,43 @@ const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "test-advance-mode-post", U
                       <Button
                         onClick={() => handleVote(comment)}
                         leftIcon={
-                          <div
-                            style={{ display: "flex", alignItems: "center" }}
-                          >
+                          <div style={{ display: "flex", alignItems: "center" }}>
                             <img
-                              src="https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless"
+                              src={
+                                comment.active_votes.some((vote) => vote.voter === username)
+                                  ? "https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless"
+                                  : "https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless"
+                              }
                               alt="Image Alt Text"
-                              style={{ width: "20px", marginRight: "5px" }}
+                              style={
+                                comment.active_votes.some((vote) => vote.voter === username)
+                                  ? {}
+                                  : { filter: "grayscale(100%)" }
+                              }
                             />
-                            <div style={{ color: "orange" }}> Fuck Yeah!</div>
+                            <div
+                              style={{
+                                color: comment.active_votes.some((vote) => vote.voter === username)
+                                  ? "orange"
+                                  : "white",
+                              }}
+
+                            >
+
+                              {" "}
+                              Fuck Yeah!
+                            </div>
                           </div>
                         }
                         style={{
                           border: "1px solid limegreen",
-                          backgroundColor: "black",
+                          backgroundColor: comment.active_votes.some((vote) => vote.voter === username)
+                            ? "black"
+                            : "black",
                           fontSize: "12px",
-                          color: "limegreen",
+                          color: comment.active_votes.some((vote) => vote.voter === username)
+                            ? "limegreen"
+                            : "black",
                           padding: "3px 6px",
                           marginLeft: "8px",
                         }}

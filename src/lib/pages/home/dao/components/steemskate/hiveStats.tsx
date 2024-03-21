@@ -195,7 +195,7 @@ const HiveStats: React.FC<HiveStatsProps> = ({ wallet }) => {
                       width="20px"
                       height="20px"
                     />
-                    <ChakraLink target="_blank" href="https://hive.vote/dash.php?i=1&trail=steemskate" fontSize="16px">Vote Trail: 37  </ChakraLink>
+                    <ChakraLink target="_blank" href="https://hive.vote/dash.php?i=1&trail=steemskate" fontSize="16px">Vote Trail: 40  </ChakraLink>
                   </HStack>
                 </Tooltip>
               </>

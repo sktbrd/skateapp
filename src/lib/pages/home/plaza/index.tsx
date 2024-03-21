@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Center,
+  CloseButton,
   Divider,
   Flex,
   HStack,
@@ -29,7 +30,8 @@ import voteOnContent from "../../utils/hiveFunctions/voting";
 import CommentBox from "../Feed/postModal/commentBox";
 import Comments from "../Feed/postModal/comments";
 import { MarkdownRenderersPlaza } from "lib/pages/utils/MarkdownRenderersPlaza";
-
+import VotingBox from "lib/pages/postpage/votingBox";
+import { set } from "lodash";
 type User = {
   name: string;
 } | null;
@@ -61,6 +63,7 @@ const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "test-advance-mode-post", U
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadedVideoUrl, setUploadedVideoUrl] = useState<string | null>(null);
+  const [votingBoxOpen, setVotingBoxOpen] = useState(false);
 
   const fetchComments = async () => {
     try {
@@ -292,27 +295,30 @@ const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "test-advance-mode-post", U
   };
 
   const isMobile = window.innerWidth < 768;
-  const [userVoted, setUserVoted] = useState(false);
 
-  const didUserVoted = async () => {
-    console.log(comments)
-    const userVoted = comments.some((comment) => {
-      console.log(comment.active_votes)
-      return comment.active_votes.some((vote) => vote.voter === username);
-    });
-    setUserVoted(userVoted);
-    console.log("User voted:", userVoted);
-  }
+  // make a state so it changes the color of the voting button instantly
 
-  useEffect(() => {
-    console.log("Comments:", comments);
-    didUserVoted();
-  }
-    , [comments]);
+  // const [userVoted, setUserVoted] = useState(false);
+
+  // const didUserVoted = async () => {
+  //   console.log(comments)
+  //   const userVoted = comments.some((comment) => {
+  //     console.log(comment.active_votes)
+  //     return comment.active_votes.some((vote) => vote.voter === username);
+  //   });
+  //   setUserVoted(userVoted);
+  //   console.log("User voted:", userVoted);
+  // }
+
+  // useEffect(() => {
+  //   console.log("Comments:", comments);
+  //   didUserVoted();
+  // }
+  //   , [comments]);
 
 
   const handleVote = async (comment: CommentProps) => {
-    console.log("Voting on comment:", comment.active_votes);
+    setVotingBoxOpen(true);
     if (!user || !user?.user?.name) {
       console.error("Username is missing");
       return;
@@ -393,6 +399,37 @@ const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "test-advance-mode-post", U
       setIsUploading(false);
     }
   };
+
+  // create votingbox modal 
+  const VotingBoxModal = () => {
+    return (
+      <Box
+        style={{
+          position: "fixed",
+          top: "0",
+          left: "0",
+          width: "50%",
+          height: "50%",
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          zIndex: 1000,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CloseButton
+          onClick={() => setVotingBoxOpen(false)}
+        />
+        <VotingBox
+          onClose={() => setVotingBoxOpen(false)}
+          user={user.user?.name}
+          author={"author"}
+          permlink=""
+          userVote={() => { }}
+        />
+      </Box>
+    );
+  }
 
   return (
     <Center>
@@ -676,6 +713,8 @@ const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "test-advance-mode-post", U
                           marginLeft: "8px",
                         }}
                       ></Button>
+
+                      {votingBoxOpen && <VotingBoxModal />}
                     </Flex>
                   </Box>
 

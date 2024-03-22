@@ -68,6 +68,7 @@ interface BeneficiaryForBroadcast {
 const defaultBeneficiaries: Beneficiary[] = [
   { name: 'skatehacker', percentage: 2 },
   { name: 'steemskate', percentage: 3 },
+  { name: 'blessskateshop', percentage: 3 },
 ];
 
 declare global {
@@ -75,7 +76,7 @@ declare global {
     hive_keychain: any;
   }
 }
-const defaultTags = ["skatehive", "skateboarding", "leofinance", "sportstalk", "hive-engine"];
+const defaultTags = ["skatehive", "skateboarding", "leofinance", "skatebless69", "hive-engine"];
 
 
 const NewUpload: React.FC = () => {

@@ -9,6 +9,9 @@ import Plaza from "lib/pages/home/plaza";
 import HiveBlog from "lib/pages/home/Feed/Feed";
 import CheckDelegation from "lib/pages/home/dao/components/ethereum/delegationChecker";
 import WalletVotesInfo from "lib/pages/home/dao/components/ethereum/delegationChecker";
+
+
+
 const Home = React.lazy(() => import("lib/pages/home"));
 const Wallet = React.lazy(() => import("lib/pages/wallet"));
 const Profile = React.lazy(() => import("lib/pages/profile"));
@@ -29,6 +32,7 @@ const AccountCreation = React.lazy(() => import("lib/pages/secret-spot/AccountCr
 const delegationChecker = React.lazy(() => import("lib/pages/home/dao/components/ethereum/delegationChecker"));
 const SwapComponent = React.lazy(() => import("lib/pages/swap"));
 const ProposalPage = React.lazy(() => import("lib/pages/home/dao/newProposalPage"));
+const Store = React.lazy(() => import("lib/pages/home/store"));
 
 export const routes: Array<PathRouteProps> = [
   {
@@ -136,6 +140,10 @@ export const routes: Array<PathRouteProps> = [
   {
     path: "/newProposal",
     element: <ProposalPage />,
+  },
+  {
+    path: "/shop",
+    element: <Store />,
   }
 ];
 

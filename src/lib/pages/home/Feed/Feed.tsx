@@ -58,6 +58,7 @@ const randomSentences = [
 ];
 
 
+
 const PlaceholderLoadingBar = () => {
   const randomIndex = Math.floor(Math.random() * randomSentences.length);
   const randomSentence = randomSentences[randomIndex];

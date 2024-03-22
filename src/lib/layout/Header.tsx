@@ -557,7 +557,7 @@ const HeaderNew = () => {
                 variant="link"
                 color="white"
                 as={Link}
-                to="/plaza"
+                to="/shop"
                 leftIcon={isDesktop ? <FaStore style={{ color: 'orange' }} /> : undefined}
                 m={"20px"}
 
@@ -594,7 +594,7 @@ const HeaderNew = () => {
                 variant="link"
                 color="white"
                 as={Link}
-                to="/plaza"
+                to="/shop"
                 leftIcon={isDesktop ? <FaScroll style={{ color: 'orange' }} /> : undefined}
                 m={"10px"}
 

@@ -6,7 +6,7 @@ const Meta = () => {
   return (
     <Helmet>
       <title>{APP_NAME}</title>
-      <meta name="description" content="Skateboarders App" />
+      <meta name="description" content="Bless Community" />
 
       <meta name="application-name" content={APP_NAME} />
       <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -19,13 +19,13 @@ const Meta = () => {
       {/* Open Graph Meta Tags */}
       <meta property="og:title" content={APP_NAME} />
       <meta property="og:description" content="Skateboarders App" />
-      <meta property="og:image" content="https://i.ibb.co/3R7cvdZ/image.png" />
-      <meta property="og:url" content="https://skatehive.app" />    
+      <meta property="og:image" content="https://images.ecency.com/webp/u/blessskateshop/avatar/small" />
+      <meta property="og:url" content="https://bless.skatehive.app" />
       <meta property="og:type" content="website" />
-      <meta property="twitter:image" content="https://i.ibb.co/3R7cvdZ/image.png"/>
-      <meta property="twitter:description" content="The Portal to web3 skateboarding"></meta>
+      <meta property="twitter:image" content="https://images.ecency.com/webp/u/blessskateshop/avatar/small" />
+      <meta property="twitter:description" content="Bless SkateShop on Chain"></meta>
 
-      <link rel="shortcut icon" href="https://images.hive.blog/u/hive-173115/avatar" />
+      <link rel="shortcut icon" href="https://images.ecency.com/webp/u/blessskateshop/avatar/small" />
       <link rel="manifest" href="./manifest.json" />
     </Helmet>
   );

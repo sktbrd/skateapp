@@ -96,8 +96,8 @@ const PlaceholderLoadingBar = () => {
 };
 
 const HiveBlog: React.FC<Types.HiveBlogProps> = ({
-  // queryType = "created",
-  tag = process.env.COMMUNITY || "hive-173115",
+  // queryType = "blog",
+  tag = process.env.COMMUNITY || "blessskateshop",
 }) => {
   const [loadedPosts, setLoadedPosts] = useState<any[]>([]);
   const [currentTag, setTag] = useState(tag);
@@ -118,7 +118,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Track modal visibility
   const [errorMessage, setErrorMessage] = useState<string>(""); // Track error message
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [queryType, setQueryType] = useState<DiscussionQueryCategory>('trending'); // Default to "created"
+  const [queryType, setQueryType] = useState<DiscussionQueryCategory>('created'); // Default to "created"
 
   const fetchPostEarnings = async (
     author: string,
@@ -144,6 +144,39 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     }
   };
 
+
+
+  const [brl, setBrl] = useState(0);
+
+  const convertUSDtoBRL = async () => {
+    try {
+      const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=usd&vs_currencies=brl');
+      if (response.status !== 200) {
+        console.log(`Looks like there was a problem. Status Code: ${response.status}`);
+        setBrl(5);
+        return brl;
+      }
+      else {
+        const data = await response.json();
+        console.log("DATA:", data)
+        const brl_value = data.usd.brl;
+        setBrl(brl_value);
+        console.log("BRL", brl);
+        return brl_value;
+      }
+
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  }
+
+  useEffect(() => {
+    convertUSDtoBRL();
+    console.log("BRL:", brl)
+
+  }
+    , [brl])
 
   function extractFirstLink(markdownText: string): string | null {
     const regex = /!\[.*?\]\((.*?)\)/;
@@ -441,8 +474,8 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
     if (isVoted(post)) {
       return {
         width: "10px",
-        background: "linear-gradient(180deg, darkgreen, black)", // Change the background color
-        color: "limegreen", // Change the text color
+        background: "linear-gradient(180deg, white, black)", // Change the background color
+        color: "white", // Change the text color
 
       };
     }
@@ -517,7 +550,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
             {loadedPosts.map((post) => (
               <Card
                 //border="1px"
-                //borderColor="limegreen"
+                border="1px solid white"
                 bg="linear-gradient(to top,  black, #070807, black)"
                 key={post.permlink}
                 maxW="md"
@@ -526,7 +559,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                 cursor="pointer"
                 css={cardStyles} /* Apply the cardStyles CSS */
                 style={{
-                  backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EoiK3LBjuqLaVD9nZEAP6So8j7LFhq9G5S68GSkB99WbwHQs37pXjXpfu5BECdazJh6.png`, // Replace 'your-image-url.jpg' with your image URL
+                  // backgroundImage: `url('https://images.hive.blog/0x0/https://files.peakd.com/file/peakd-hive/web-gnar/EoiK3LBjuqLaVD9nZEAP6So8j7LFhq9G5S68GSkB99WbwHQs37pXjXpfu5BECdazJh6.png`, // Replace 'your-image-url.jpg' with your image URL
                   backgroundSize: "100% auto",
                   backgroundPosition: "center top",
                   backgroundRepeat: "no-repeat",
@@ -633,7 +666,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                   >
                     <Link to={`profile/${post.author}`}>
                       <Avatar
-                        border="0px solid limegreen"
+                        border="0px solid white"
                         borderRadius="10px"
                         src={`https://images.ecency.com/webp/u/${post.author}/avatar/small`}
                         boxSize={"60px"}
@@ -680,12 +713,15 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                         }}
                       >
                         <span
-                          style={{ color: "" }}
+                          style={{ color: "white" }}
                         >
-                          $
+                          R$
                         </span>
-                        {post.earnings.toFixed(2)}
-
+                        <span
+                          style={{ color: "white" }}
+                        >
+                          {(post.earnings * brl).toFixed(2)}
+                        </span>
                         {/* <img //spinning stoken coin
                           src="https://i.ibb.co/16vCTVT/coin-mental-33px.gif"
                           alt="spinning stoken coin"
@@ -710,7 +746,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                   <Box marginLeft="auto">
                     <Tooltip
                       backgroundColor={"black"}
-                      border={"1px dashed limegreen"}
+                      border={"1px dashed white"}
                       label={
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                           <img src="https://cdn.discordapp.com/emojis/1060351346416554136.gif?size=240&quality=lossless" alt="Image Alt Text" style={{ width: '20px', marginRight: '5px' }} />
@@ -728,7 +764,7 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                         borderRadius="40%"
                         aria-label="Upvote"
                         border="1px"
-                        borderColor="limegreen"
+                        borderColor="white"
                         onClick={(e) => {
                           e.stopPropagation(); // Prevent the click event from propagating
                           handleVoteClick(post);

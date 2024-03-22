@@ -38,7 +38,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Link, LinkProps as RouterLinkProps } from "react-router-dom";
 
 // Icons
-import { FaPlus, FaSpeakap, FaUpload, FaScroll, FaVoteYea } from "react-icons/fa";
+import { FaPlus, FaSpeakap, FaUpload, FaScroll, FaVoteYea, FaStore } from "react-icons/fa";
 
 // Hive Related
 import * as dhive from "@hiveio/dhive";
@@ -328,7 +328,7 @@ const HeaderNew = () => {
   return (
 
     <Flex as="header" direction="row" justifyContent="space-between" alignItems="center" p={2} m={2} mb={4}>
-      <Flex justifyContent="space-between" borderRadius="6px" border="2px solid #134a2f" minW={"100%"}>
+      <Flex justifyContent="space-between" borderRadius="6px" border="2px solid white" minW={"100%"}>
         <Menu >
           <MenuButton
             as={Button}
@@ -340,7 +340,7 @@ const HeaderNew = () => {
           >
 
             <Image
-              src="/assets/skatehive.jpeg"
+              src="https://images.ecency.com/DQmUj1W7H6H2xxKzoZAnYG5G4iMwSSe19GNJZSf9DgHGXDi/cbb028ba_4d49_42b6_bd62_e0245c4ed79b.jpeg"
               alt="Dropdown Image"
               backgroundColor={"black"}
               boxSize="48px" // Adjust the size as needed
@@ -368,7 +368,7 @@ const HeaderNew = () => {
                 _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
                 backgroundColor="black"
               >
-                🏛 Proposals
+                🏛 Loja
               </MenuItem>
             </Link>
             <Link to="/invite" style={{ textDecoration: 'none' }}>
@@ -376,7 +376,7 @@ const HeaderNew = () => {
                 _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
                 backgroundColor="black"
               >
-                ❤️ Invite a Friend
+                ❤️ Convide um Amigo
               </MenuItem>
             </Link>
             <Link to="/QFS" style={{ textDecoration: 'none' }}>
@@ -523,7 +523,17 @@ const HeaderNew = () => {
               >
                 Mag
               </Button>
+              <Button
+                variant="link"
+                color="white"
+                as={Link}
+                to="/plaza"
+                leftIcon={isDesktop ? <FaStore style={{ color: 'orange' }} /> : undefined}
+                m={"20px"}
 
+              >
+                Loja
+              </Button>
               <Button
                 variant="link"
                 color="white"
@@ -549,6 +559,17 @@ const HeaderNew = () => {
 
               >
                 Plaza
+              </Button>
+              <Button
+                variant="link"
+                color="white"
+                as={Link}
+                to="/plaza"
+                leftIcon={isDesktop ? <FaScroll style={{ color: 'orange' }} /> : undefined}
+                m={"10px"}
+
+              >
+                Loja
               </Button>
 
               <Menu>

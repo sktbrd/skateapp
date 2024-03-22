@@ -18,7 +18,7 @@ const Meta = () => {
 
       {/* Open Graph Meta Tags */}
       <meta property="og:title" content={APP_NAME} />
-      <meta property="og:description" content="Skateboarders App" />
+      <meta property="og:description" content="Bless SkateShop onChain" />
       <meta property="og:image" content="https://images.ecency.com/webp/u/blessskateshop/avatar/small" />
       <meta property="og:url" content="https://bless.skatehive.app" />
       <meta property="og:type" content="website" />

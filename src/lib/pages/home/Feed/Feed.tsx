@@ -69,7 +69,7 @@ const PlaceholderLoadingBar = () => {
       <Image
         borderRadius={"20px"}
         boxSize="100%"
-        src="https://cdn.dribbble.com/users/921277/screenshots/13742829/media/585c0fa10c1caa6b87a6d32cab3ccd9c.gif"
+        src="https://cdn.dribbble.com/users/921277/screenshots/13742845/media/84789c64b424f0af6bd043bcd010a009.gif"
       />
     </center>
   );
@@ -558,15 +558,15 @@ const HiveBlog: React.FC<Types.HiveBlogProps> = ({
                       {post.author}
                     </Heading>
 
-                    {post.app === "Skatehive App" || post.app === "skatehive" ?
+                    {/* {post.app === "Skatehive App" || post.app === "skatehive" ?
                       <Box position="absolute" right="0" display="flex" alignItems="center" paddingRight={"10px"}>
                         <Tooltip label="This post was created with the Skatehive app. This guys knows stuff" placement="right-start" bg={"black"} borderRadius={'10px'} border={'1px dashed gold'}>
                           <Box display="inline-flex" alignItems="center">
-                            <IoDiamond size={'30px'} color="black" style={{ filter: 'drop-shadow(0 0 1px gold) drop-shadow(0 0 1px gold)' }} />
+                            <IoDiamond size={'30px'} color="black" style={{ filter: 'drop-shadow(0 0 1px gold) drop-shadow(0 0 1px white)' }} />
                           </Box>
                         </Tooltip>
                       </Box>
-                      : null}
+                      : null} */}
                   </Flex>
                 </CardHeader>
 

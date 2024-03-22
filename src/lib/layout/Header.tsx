@@ -324,7 +324,37 @@ const HeaderNew = () => {
     //@ts-ignore
     address: `${wallet_address}`,
   })
+  const [brl, setBrl] = useState(0);
 
+  const convertUSDtoBRL = async () => {
+    try {
+      const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=usd&vs_currencies=brl');
+      if (response.status !== 200) {
+        console.log(`Looks like there was a problem. Status Code: ${response.status}`);
+        setBrl(5);
+        return brl;
+      }
+      else {
+        const data = await response.json();
+        console.log("DATA:", data)
+        const brl_value = data.usd.brl;
+        setBrl(brl_value);
+        console.log("BRL", brl);
+        return brl_value;
+      }
+
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  }
+
+  useEffect(() => {
+    convertUSDtoBRL();
+    console.log("BRL:", brl)
+
+  }
+    , [brl])
   return (
 
     <Flex as="header" direction="row" justifyContent="space-between" alignItems="center" p={2} m={2} mb={4}>
@@ -674,7 +704,7 @@ const HeaderNew = () => {
                   <Tooltip label="Hive Wallet Tokens in USD" color={"white"} aria-label="Wallet" bg="black" borderRadius="md" border="red 2px solid">
                     <Button m={1} backgroundColor="black" color="white" _hover={{ backgroundColor: "black" }}>
                       <Image marginRight={"10px"} boxSize={"22px"} src="https://cryptologos.cc/logos/hive-blockchain-hive-logo.png?v=026" />
-                      {totalWorth.toFixed(2)} <Text color="limegreen" style={{ marginLeft: '5px' }}>USD</Text>
+                      {(totalWorth * brl).toFixed(2)} <Text color="limegreen" style={{ marginLeft: '5px' }}>BRL</Text>
                     </Button>
                   </Tooltip>
                   {wallet_address && (

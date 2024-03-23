@@ -714,7 +714,7 @@ const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "test-advance-mode-post", U
                         }}
                       ></Button>
 
-                      {votingBoxOpen && <VotingBoxModal />}
+                      {/* {votingBoxOpen && <VotingBoxModal />} */}
                     </Flex>
                   </Box>
 

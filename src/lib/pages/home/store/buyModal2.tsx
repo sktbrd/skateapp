@@ -210,7 +210,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
 
 
             <Input
-              placeholder="13 🩸 trevosa"
+              placeholder=""
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               readOnly

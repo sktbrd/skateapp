@@ -653,7 +653,7 @@ const HeaderNew = () => {
           )}
           {!loggedIn ?
             <Button variant="link" color="white" m={"20px"}
-              onClick={() => setModalOpen(true)}>Log In</Button> :
+              onClick={() => setModalOpen(true)}>Entrar</Button> :
             <Menu>
               <MenuButton _hover={{ textDecoration: "underline" }} fontWeight="medium">
                 <Flex alignItems={"center"} gap={2}>

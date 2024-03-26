@@ -77,7 +77,7 @@ const Store: React.FC = () => {
                 />
                 <Image
                   boxSize={10}
-                  src='/assets/crlogo.ico'
+                  src='/assets/lojabless/blesslogo.png'
                   style={{
                     position: 'absolute',
                     bottom: '10px',

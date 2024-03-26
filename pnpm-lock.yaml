@@ -3076,7 +3076,7 @@ packages:
   /@cosmjs/amino@0.29.3:
     resolution: {integrity: sha512-BFz1++ERerIggiFc7iGHhGe1CeV3rCv8BvkoBQTBN/ZwzHOaKvqQj8smDlRGlQxX3HWlTwgiLN2A+OB5yX4ZRw==}
     dependencies:
-      '@cosmjs/crypto': 0.29.4
+      '@cosmjs/crypto': 0.29.5
       '@cosmjs/encoding': 0.29.5
       '@cosmjs/math': 0.29.5
       '@cosmjs/utils': 0.29.5
@@ -3285,7 +3285,7 @@ packages:
     resolution: {integrity: sha512-Ai3l9THjMOrLJ4Ebn1Dgptwg6W5ZIRJqtnJjijHhGwTVC1WT0WdYU3aMZ7+PwubcA/cA1rH4ZTK7jrfYbra63g==}
     dependencies:
       '@cosmjs/amino': 0.29.5
-      '@cosmjs/crypto': 0.29.4
+      '@cosmjs/crypto': 0.29.5
       '@cosmjs/encoding': 0.29.5
       '@cosmjs/math': 0.29.5
       '@cosmjs/utils': 0.29.5
@@ -4138,7 +4138,7 @@ packages:
     dependencies:
       '@ethersproject/abi': 5.7.0
       '@ethersproject/abstract-provider': 5.7.0
-      '@ethersproject/abstract-signer': 5.4.1
+      '@ethersproject/abstract-signer': 5.7.0
       '@ethersproject/address': 5.4.0
       '@ethersproject/bignumber': 5.4.1
       '@ethersproject/bytes': 5.4.0
@@ -4166,7 +4166,7 @@ packages:
   /@ethersproject/hash@5.4.0:
     resolution: {integrity: sha512-xymAM9tmikKgbktOCjW60Z5sdouiIIurkZUr9oW5NOex5uwxrbsYG09kb5bMcNjlVeJD3yPivTNzViIs1GCbqA==}
     dependencies:
-      '@ethersproject/abstract-signer': 5.4.1
+      '@ethersproject/abstract-signer': 5.7.0
       '@ethersproject/address': 5.4.0
       '@ethersproject/bignumber': 5.4.1
       '@ethersproject/bytes': 5.4.0
@@ -4193,7 +4193,7 @@ packages:
   /@ethersproject/hdnode@5.4.0:
     resolution: {integrity: sha512-pKxdS0KAaeVGfZPp1KOiDLB0jba11tG6OP1u11QnYfb7pXn6IZx0xceqWRr6ygke8+Kw74IpOoSi7/DwANhy8Q==}
     dependencies:
-      '@ethersproject/abstract-signer': 5.4.1
+      '@ethersproject/abstract-signer': 5.7.0
       '@ethersproject/basex': 5.4.0
       '@ethersproject/bignumber': 5.4.1
       '@ethersproject/bytes': 5.4.0
@@ -4227,7 +4227,7 @@ packages:
   /@ethersproject/json-wallets@5.4.0:
     resolution: {integrity: sha512-igWcu3fx4aiczrzEHwG1xJZo9l1cFfQOWzTqwRw/xcvxTk58q4f9M7cjh51EKphMHvrJtcezJ1gf1q1AUOfEQQ==}
     dependencies:
-      '@ethersproject/abstract-signer': 5.4.1
+      '@ethersproject/abstract-signer': 5.7.0
       '@ethersproject/address': 5.4.0
       '@ethersproject/bytes': 5.4.0
       '@ethersproject/hdnode': 5.4.0
@@ -4324,7 +4324,7 @@ packages:
     resolution: {integrity: sha512-VURwkaWPoUj7jq9NheNDT5Iyy64Qcyf6BOFDwVdHsmLmX/5prNjFrgSX3GHPE4z1BRrVerDxe2yayvXKFm/NNg==}
     dependencies:
       '@ethersproject/abstract-provider': 5.7.0
-      '@ethersproject/abstract-signer': 5.4.1
+      '@ethersproject/abstract-signer': 5.7.0
       '@ethersproject/address': 5.4.0
       '@ethersproject/basex': 5.4.0
       '@ethersproject/bignumber': 5.4.1
@@ -4526,7 +4526,7 @@ packages:
     resolution: {integrity: sha512-wU29majLjM6AjCjpat21mPPviG+EpK7wY1+jzKD0fg3ui5fgedf2zEu1RDgpfIMsfn8fJHJuzM4zXZ2+hSHaSQ==}
     dependencies:
       '@ethersproject/abstract-provider': 5.7.0
-      '@ethersproject/abstract-signer': 5.4.1
+      '@ethersproject/abstract-signer': 5.7.0
       '@ethersproject/address': 5.4.0
       '@ethersproject/bignumber': 5.4.1
       '@ethersproject/bytes': 5.4.0
@@ -6067,6 +6067,18 @@ packages:
     dependencies:
       os: 0.1.2
       ts-node: 10.9.2(@types/node@20.10.4)(typescript@5.3.3)
+      typescript: 5.3.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+    dev: false
+
+  /@pioneer-platform/loggerdog@8.3.1(@types/node@15.14.9):
+    resolution: {integrity: sha512-0JTucwEb1nG+MrPBRaIEdj9ptzjKatphh75/Zc3rJ19qJI9gUUZVx6PgjMYIF9cdi0saqytz291WRgge7qOW5g==}
+    dependencies:
+      os: 0.1.2
+      ts-node: 10.9.2(@types/node@15.14.9)(typescript@5.3.3)
       typescript: 5.3.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -21136,7 +21148,7 @@ packages:
   /signed-varint@2.0.1:
     resolution: {integrity: sha512-abgDPg1106vuZZOvw7cFwdCABddfJRz5akcCcchzTbhyhYnsG31y4AlZEgp315T7W3nQq5P4xeOm186ZiPVFzw==}
     dependencies:
-      varint: 5.0.0
+      varint: 5.0.2
     dev: false
 
   /simple-concat@1.0.1:
@@ -21872,7 +21884,7 @@ packages:
     resolution: {integrity: sha512-LCSNdJ8vCCzQvXoV4s0WPeeqn2tjUuqlWTFvr9mL4ko1WnENfIy5uX+b/80QbT7lVzZqPSIBTMWYgdGXyA9S0Q==}
     dependencies:
       '@bithighlander/bitcoin-cash-js-lib': 5.2.1
-      '@pioneer-platform/loggerdog': 8.1.31(@types/node@15.14.9)
+      '@pioneer-platform/loggerdog': 8.3.1(@types/node@15.14.9)
       '@pioneer-platform/pioneer-coins': 8.1.90(@types/node@15.14.9)
       '@shapeshiftoss/hdwallet-core': 1.52.14
       '@types/node': 15.14.9

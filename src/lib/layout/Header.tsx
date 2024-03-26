@@ -513,7 +513,7 @@ const HeaderNew = () => {
                   color={"white"}
 
                 >
-                  Post
+                  Postar
                 </MenuButton>
                 <MenuList border="1px solid limegreen" backgroundColor="black" color="white" minWidth="120px">
                   <Tooltip
@@ -551,7 +551,7 @@ const HeaderNew = () => {
                 leftIcon={isDesktop ? <FaScroll style={{ color: 'orange' }} /> : undefined}
                 marginLeft={"20px"}
               >
-                Mag
+                Posts
               </Button>
               <Button
                 variant="link"
@@ -562,7 +562,7 @@ const HeaderNew = () => {
                 m={"20px"}
 
               >
-                Loja
+                Loja Bless
               </Button>
               <Button
                 variant="link"
@@ -573,7 +573,7 @@ const HeaderNew = () => {
                 m={"20px"}
 
               >
-                Plaza
+                Praça
               </Button>
             </>
           ) : (
@@ -653,7 +653,7 @@ const HeaderNew = () => {
           )}
           {!loggedIn ?
             <Button variant="link" color="white" m={"20px"}
-              onClick={() => setModalOpen(true)}>Log In</Button> :
+              onClick={() => setModalOpen(true)}>Entrar</Button> :
             <Menu>
               <MenuButton _hover={{ textDecoration: "underline" }} fontWeight="medium">
                 <Flex alignItems={"center"} gap={2}>

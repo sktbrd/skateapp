@@ -46,7 +46,7 @@ export const routes: Array<PathRouteProps> = [
   },
   {
     path: "/plaza",
-    element: <Plaza URLPermlink="test-advance-mode-post" URLAuthor="skatehacker" compWidth="60%" />
+    element: <Plaza URLPermlink="the-weekly-stoken-54" URLAuthor="skatehive" compWidth="60%" />
   },
   {
     path: "/profile",

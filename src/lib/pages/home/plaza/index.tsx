@@ -31,7 +31,6 @@ import CommentBox from "../Feed/postModal/commentBox";
 import Comments from "../Feed/postModal/comments";
 import { MarkdownRenderersPlaza } from "lib/pages/utils/MarkdownRenderersPlaza";
 import VotingBox from "lib/pages/postpage/votingBox";
-import { set } from "lodash";
 type User = {
   name: string;
 } | null;
@@ -42,7 +41,7 @@ interface PlazaProps {
   compWidth: string;
 }
 
-const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "test-advance-mode-post", URLAuthor = "skatehacker", compWidth = "60%" }) => {
+const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "the-weekly-stoken-54", URLAuthor = "skatehive", compWidth = "60%" }) => {
   const client = HiveClient;
   const [post, setPost] = useState<any | null>(null);
   const [comments, setComments] = useState<CommentProps[]>([]);
@@ -178,7 +177,7 @@ const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "test-advance-mode-post", U
     //   }
     //   return c;
     // });
-    // setComments(updatedComments);
+    // setComments(updatedComments)
   };
 
   const handlePostComment = async () => {
@@ -714,7 +713,7 @@ const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "test-advance-mode-post", U
                         }}
                       ></Button>
 
-                      {/* {votingBoxOpen && <VotingBoxModal />} */}
+                      {/* {votingBoxOpen && <VotingBoxModal />}   */}
                     </Flex>
                   </Box>
 
@@ -745,6 +744,7 @@ const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "test-advance-mode-post", U
                           />
                         )}
                       </Box>
+
                     )
                   }
                 </Box>

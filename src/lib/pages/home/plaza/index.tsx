@@ -41,7 +41,7 @@ interface PlazaProps {
   compWidth: string;
 }
 
-const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "the-weekly-stoken-54", URLAuthor = "skatehive", compWidth = "60%" }) => {
+const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "the-weekly-stoken-55", URLAuthor = "skatehive", compWidth = "60%" }) => {
   const client = HiveClient;
   const [post, setPost] = useState<any | null>(null);
   const [comments, setComments] = useState<CommentProps[]>([]);

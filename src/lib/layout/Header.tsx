@@ -464,6 +464,16 @@ const HeaderNew = () => {
                 </MenuItem>
 
               </Link>
+              <Link to="https://bless.skatehive.app" target="_blank" style={{ textDecoration: 'none' }}>
+
+                <MenuItem
+                  _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+                  backgroundColor="black"
+                >
+                  🛒 Bless SkateShop
+                </MenuItem>
+
+              </Link>
 
 
 

@@ -30,8 +30,8 @@ const Store: React.FC = () => {
   return (
     <>
       <center>
-        <Text fontSize={"48px"} color={"#b4d701"} >
-          LOJA
+        <Text fontSize={"48px"} color={"green"} >
+          LOJA BLESS
         </Text>
       </center>
 
@@ -50,7 +50,7 @@ const Store: React.FC = () => {
             style={{ filter: 'initial' }}
             bg='black'
           >
-            <RouterLink to={card.url || '/'}>
+            <RouterLink to={card.url || ''}>
               <div
                 style={{
                   width: '100%',
@@ -94,11 +94,11 @@ const Store: React.FC = () => {
                 <Flex alignItems="center">
                   <Image
                     boxSize={10}
-                    src='/assets/crlogo.ico'
+                    src='/assets/lojabless/blesslogo.png'
                   />
                   <ChakraLink
                     as={RouterLink}
-                    to={card.url || '/'}
+                    to={card.url || ''}
                     fontSize="sm"
                     fontWeight="bold"
                     marginLeft={'8px'}

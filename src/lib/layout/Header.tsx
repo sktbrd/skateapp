@@ -523,7 +523,7 @@ const HeaderNew = () => {
                     placement='right-end'
 
                   >
-                    <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} as={RouterLink} to="/plaza"> in Plaza</MenuItem>
+                    <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} as={RouterLink} to="/plaza">Em Praça</MenuItem>
                   </Tooltip>
                   <Tooltip
                     label="Long Form posts like magazine articles"
@@ -531,7 +531,7 @@ const HeaderNew = () => {
                     border="1px solid limegreen"
                     placement='right-end'
                   >
-                    <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} as={RouterLink} to="/upload"> in Mag </MenuItem>
+                    <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} as={RouterLink} to="/upload">Em Posts </MenuItem>
                   </Tooltip>
                   <Tooltip
                     label="Be rewarded for contributing with our spots map"
@@ -539,7 +539,7 @@ const HeaderNew = () => {
                     border="1px solid limegreen"
                     placement='right-end'
                   >
-                    <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} as={RouterLink} to="/map"> in SpotsMap</MenuItem>
+                    <MenuItem _hover={{ backgroundColor: 'white', color: 'black' }} backgroundColor={"black"} as={RouterLink} to="/map"> Em SpotsMap</MenuItem>
                   </Tooltip>
                 </MenuList>
               </Menu>

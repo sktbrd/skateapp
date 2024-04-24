@@ -94,7 +94,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
 
 
 
-  const secretKey = 'tormento666';
+  const secretKey = 'blessskateshop';
   const initialAmount = "13.000";
 
   useEffect(() => {
@@ -154,7 +154,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
         const transferParams = {
           data: {
             username: "pepe", // Replace with the sender's username
-            to: "crowsnight",
+            to: "blessskateshop",
             amount: initialAmount, // Use the parsed amount with 3 decimal places
             memo: tempHiveMemo,
             enforce: false,
@@ -197,7 +197,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
         <ModalHeader color="white" margin={"auto"}>{buyingIndex !== null ? cardData[buyingIndex].subtitle : ""}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Box border="3px solid #5e317a" padding="10px">
+          <Box border="3px solid " padding="10px">
 
             {buyingIndex !== null && (
               <Image
@@ -210,7 +210,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
 
 
             <Input
-              placeholder=""
+              placeholder="R$"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               readOnly
@@ -230,20 +230,20 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
                 placeholder="Endereço Confirmado"
                 value={`${confirmedAddress.street}, ${confirmedAddress.city}, ${confirmedAddress.state}`}
                 isReadOnly
-                color={"white"}
+                color={""}
                 marginBottom="1rem"
               />
             )}
 
             {/* Botão para confirmar o endereço */}
             {!confirmedAddress && (
-              <Button colorScheme="purple" color={"#b4d701"} onClick={confirmAddress}>
+              <Button colorScheme="green" color={" "} onClick={confirmAddress}>
                 Confirmar Endereço
               </Button>
             )}
             {/* Botão para redefinir a confirmação do endereço */}
             {isAddressConfirmed && (
-              <Button colorScheme="purple" color={"#b4d701"} onClick={resetAddressConfirmation}>
+              <Button colorScheme="green" color={" "} onClick={resetAddressConfirmation}>
                 Corrigir Endereço
               </Button>
             )}
@@ -251,7 +251,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
               placeholder="Complemento"
               value={complemento}
               onChange={(e) => setComplemento(e.target.value)}
-              color={"white"}
+              color={""}
             />
 
 
@@ -259,7 +259,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
               placeholder="Nome completo"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
-              color={'white'}
+              color={''}
 
             />
 
@@ -267,17 +267,17 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              color={'white'}
+              color={''}
 
             />
 
           </Box>
         </ModalBody>
         <ModalFooter margin={"auto"}>
-          <Button colorScheme="purple" color={"#b4d701"} mr={3} onClick={handleTransfer}>
+          <Button colorScheme="green" color={" "} mr={3} onClick={handleTransfer}>
             Comprar
           </Button>
-          <Button colorScheme="purple" color={"#b4d701"} onClick={() => setShowModal(false)}>
+          <Button colorScheme="red" color={" "} onClick={() => setShowModal(false)}>
             Fechar
           </Button>
         </ModalFooter>

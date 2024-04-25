@@ -167,7 +167,7 @@ const HeaderNew = () => {
               if (
                 nft.token &&
                 nft.token.collection &&
-                nft.token.collection.address === "0x558bfff0d583416f7c4e380625c7865821b8e95c" &&
+                nft.token.collection.address === "0x880fb3cf5c6cc2d7dfc13a993e839a9411200c17" &&
                 nft.token.collection.name === "Gnars"
               ) {
                 return count + 1;

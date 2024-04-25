@@ -250,6 +250,11 @@ const Plaza: React.FC<PlazaProps> = ({ URLPermlink = "the-weekly-stoken-55", URL
       "posting",
       async (response: any) => {
         await loadUpdatedComments(username, postCreationTimestamp);
+        await fetchComments();
+      // Limpe o conteúdo do comentário após a submissão
+      setCommentContent("");
+      // Defina isPostingComment como false para permitir que o usuário poste outro comentário
+      setIsPostingComment(false);
       }
     );
   };

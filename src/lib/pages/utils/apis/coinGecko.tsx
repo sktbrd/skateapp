@@ -23,7 +23,7 @@ export async function fetchHbdPrice() {
         }
 
         const response = await fetch(
-            "https://api.coingecko.com/api/v3/simple/price?ids=hive_dollar&vs_currencies=usd"
+            "https://api.coingecko.com/api/v3/simple/price?ids=hive_dollar&vs_currencies=brl"
         );
 
         if (response.status !== 200) {
@@ -53,7 +53,7 @@ export async function fetchConversionRate() {
         }
 
         const response = await fetch(
-            "https://api.coingecko.com/api/v3/simple/price?ids=hive&vs_currencies=usd"
+            "https://api.coingecko.com/api/v3/simple/price?ids=hive&vs_currencies=brl"
         );
 
         if (response.status !== 200) {

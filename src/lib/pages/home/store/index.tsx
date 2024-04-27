@@ -2,6 +2,7 @@ import React from 'react';
 import { Flex, Box, Grid, Image, Text, VStack, Link as ChakraLink, Button } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useState } from 'react';
+import { useMemo } from 'react';
 import BuyModal from './buyModal2';
 import { color } from 'framer-motion';
 import cardData from './cardData';
@@ -16,15 +17,18 @@ const Store: React.FC = () => {
   const [hiveMemo, setHiveMemo] = useState("");
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
-
+  const [endereco, setEndereco] = useState(""); // Adicionando estado para 'endereco'
+  const [preco, setPreco] = useState("")
   const handleOpenModal = () => {
     setShowModal(true);
     console.log(showModal)
   };
   const handleBuy = (index: number) => {
     setBuyingIndex(index);
+    setPreco(String(cardData[index]?.preco))
     handleOpenModal();
     console.log(`Compra do item ${index + 1}`);
+    console.log(cardData[index].preco)
   }
 
   return (
@@ -126,6 +130,9 @@ const Store: React.FC = () => {
               setEmail={setEmail}
               buyingIndex={buyingIndex}
               cardData={cardData}
+              preco={preco}
+              endereco={endereco} // Passando estado 'endereco' para o componente
+              setEndereco={setEndereco} // Passando função para atualizar 'endereco'
             />
 
           </Box>

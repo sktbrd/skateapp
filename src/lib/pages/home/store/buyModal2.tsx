@@ -26,6 +26,7 @@ interface Card {
   url?: string;
   hoverImageUrl?: string;
   price?: string;
+  preco?: string;
 }
 
 
@@ -44,7 +45,9 @@ interface SendHiveModalProps {
   setHiveMemo: React.Dispatch<React.SetStateAction<string>>;
   buyingIndex: number | null;
   cardData: Card[];
-
+  endereco: string;
+  setEndereco: React.Dispatch<React.SetStateAction<string>>;
+  preco: string;
 }
 
 const BuyModal: React.FC<SendHiveModalProps> = ({
@@ -60,14 +63,16 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
   setHiveMemo,
   buyingIndex,
   cardData,
-
+  endereco,
+  setEndereco,
+  preco,
 
 }) => {
 
   const [cep, setCep] = useState("");
   const [complemento, setComplemento] = useState("");
-
-
+  const [selectedCardPreco, setSelectedCardPreco] = useState<string | undefined>('');
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string | undefined>('');
   const [address, setAddress] = useState({
     street: "",
     city: "",
@@ -82,6 +87,12 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
 
   const [isAddressConfirmed, setIsAddressConfirmed] = useState(false);
 
+  useEffect(() => {
+    if (buyingIndex !== null) {
+      setSelectedCardPreco(cardData[buyingIndex]?.preco || '');
+    }
+  }, [buyingIndex, cardData]);
+
   const confirmAddress = () => {
     setConfirmedAddress(address);
     setIsAddressConfirmed(true);
@@ -95,7 +106,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
 
 
   const secretKey = 'blessskateshop';
-  const initialAmount = "13.000";
+  const initialAmount = "";
 
   useEffect(() => {
     console.log("HiveMEMO:", hiveMemo);
@@ -113,9 +124,11 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
     try {
 
       // Parse the amount to a float with 3 decimal places
-      const parsedAmount = parseFloat(amount).toFixed(3);
+      const parsedAmount = parseFloat(amount);
+      console.log (preco);
       const selectedCard = buyingIndex !== null ? cardData[buyingIndex] : null;
-
+      
+      const selectedCardPreco= selectedCard?.preco || '';
       function criarHiveMemo(email: string, endereco: string, card: Card, address: any): string {
         // Combine os valores de e-mail e endereço em uma única string
         const hivememo: string = `E-mail: ${email} | Nome: ${nome} | Nome da Meia: ${card.subtitle}| Logradouro: ${address.street} | Cidade: ${address.city} | Estado: ${address.state}| Complemento: ${complemento}`;
@@ -155,7 +168,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
           data: {
             username: "pepe", // Replace with the sender's username
             to: "blessskateshop",
-            amount: initialAmount, // Use the parsed amount with 3 decimal places
+            amount: preco, // Use the parsed amount with 3 decimal places
             memo: tempHiveMemo,
             enforce: false,
             currency: "HBD",
@@ -187,7 +200,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
     }
   };
 
-
+  const displayAmount = parseFloat(selectedCardPreco || '0').toFixed(2);
 
 
   return (
@@ -210,7 +223,7 @@ const BuyModal: React.FC<SendHiveModalProps> = ({
 
 
             <Input
-              placeholder="R$"
+              placeholder={` ${displayAmount || ''} HBD`}
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               readOnly

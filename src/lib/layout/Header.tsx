@@ -436,6 +436,15 @@ const HeaderNew = () => {
             <MenuDivider />
 
             <MenuGroup title="Forks">
+              <Link to="https://beta.skatehive.app/" target="_blank" style={{ textDecoration: 'none' }}>
+
+                <MenuItem
+                  _hover={{ backgroundColor: 'white', color: 'black' }} // Invert colors on hover
+                  backgroundColor="black"
+                >
+                  🛹 Skatehive 2.0 (test)
+                </MenuItem>
+              </Link>
               <Link to="https://stoken.wtf" target="_blank" style={{ textDecoration: 'none' }}>
 
                 <MenuItem

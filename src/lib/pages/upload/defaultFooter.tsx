@@ -3,9 +3,9 @@ import React from 'react';
 export const defaultFooter: string = `
 
 ---
-<marquee style="background-color: black" > 
+<marquee  > 
 
-<h1 style={{ color: 'black' }}>Wanna support Skatehive?</h1>
+<h1>Wanna support Skatehive?</h1>
 
 </marquee>  
 
